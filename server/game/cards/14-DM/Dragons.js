@@ -12,7 +12,7 @@ class Dragons extends Card {
                 cardCondition: (card) => card.hasTrait('dragon'),
                 gameAction: ability.actions.returnToDeck({ shuffle: true })
             },
-            effect: 'shuffle {1} into their deck'
+            effect: 'shuffle {0} into their deck'
         });
     }
 }

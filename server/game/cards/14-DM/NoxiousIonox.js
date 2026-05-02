@@ -13,7 +13,7 @@ class NoxiousIonox extends Card {
                 controller: 'opponent',
                 gameAction: ability.actions.destroy()
             },
-            effect: 'destroy {1}'
+            effect: 'destroy {0}'
         });
     }
 }

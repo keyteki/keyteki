@@ -16,7 +16,7 @@ class Caspart extends Card {
                 cardCondition: (card, context) => card !== context.source,
                 gameAction: ability.actions.exhaust()
             },
-            effect: 'exhaust {1}'
+            effect: 'exhaust {0}'
         });
     }
 }

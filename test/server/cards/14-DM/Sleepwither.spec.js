@@ -21,6 +21,8 @@ describe('Sleepwither', function () {
             expect(this.caspart.location).toBe('discard');
             // 0 + 2
             expect(this.player1.amber).toBe(2);
+            const logs = this.getChatLogs(10);
+            expect(logs).toContain('player1 uses Sleepwither to destroy Caspart');
             expect(this.player1).isReadyToTakeAction();
         });
 

@@ -12,7 +12,7 @@ class SpherularGem extends Card {
                         .reduce((total, player) => total + player.getForgedKeys(), 0)
                 }))
             },
-            effect: 'destroy {1}, gaining amber equal to the number of forged keys'
+            effect: 'destroy {0}, gaining amber equal to the number of forged keys'
         });
     }
 }

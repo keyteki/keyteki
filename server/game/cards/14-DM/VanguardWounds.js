@@ -16,7 +16,7 @@ class VanguardWounds extends Card {
                     context.preThenEvent.destroyEvent.resolved,
                 gameAction: ability.actions.draw()
             },
-            effect: 'deal 3 damage to {1}'
+            effect: 'deal 3 damage to {0}'
         });
     }
 }

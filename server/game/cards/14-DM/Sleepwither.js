@@ -13,7 +13,7 @@ class Sleepwither extends Card {
             then: {
                 gameAction: ability.actions.gainAmber({ amount: 2 })
             },
-            effect: 'destroy {1}'
+            effect: 'destroy {0}'
         });
     }
 }

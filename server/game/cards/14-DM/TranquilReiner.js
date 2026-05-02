@@ -20,7 +20,7 @@ class TranquilReiner extends Card {
             then: {
                 gameAction: ability.actions.gainAmber({ amount: 3 })
             },
-            effect: 'ready {1}'
+            effect: 'ready {0}'
         });
     }
 }

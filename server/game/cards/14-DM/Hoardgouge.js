@@ -9,7 +9,7 @@ class Hoardgouge extends Card {
                 cardType: 'creature',
                 controller: 'opponent'
             },
-            effect: 'gain 1 amber and deal 3 damage to {1}',
+            effect: 'gain 1 amber and deal 3 damage to {0}',
             gameAction: [
                 ability.actions.gainAmber(),
                 ability.actions.dealDamage((context) => ({

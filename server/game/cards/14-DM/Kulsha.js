@@ -27,7 +27,7 @@ class Kulsha extends GiganticCard {
                 controller: 'any',
                 gameAction: ability.actions.exhaust()
             },
-            effect: 'exhaust {1}'
+            effect: 'exhaust {0}'
         });
     }
 }

@@ -13,7 +13,7 @@ class ZartooTheSwift extends Card {
                     ability.actions.use()
                 ])
             },
-            effect: 'ready and use {1}'
+            effect: 'ready and use {0}'
         });
     }
 }
