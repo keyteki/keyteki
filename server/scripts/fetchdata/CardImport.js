@@ -137,7 +137,13 @@ class CardImport {
             'j43g3r-v',
             'titanic-bumblebird',
             'ascendant-hester',
-            'horizon-saber'
+            'horizon-saber',
+            'the-golden-queen',
+            'gigantor',
+            'monster-zero',
+            'kulsha',
+            'zomok',
+            'hydrogan'
         ];
         const skipMkdir = {};
 
