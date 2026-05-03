@@ -548,7 +548,11 @@ this.action({
 
 ### preThenEvents for Multiple Targets
 
-> **Auto-args inside a `then` block:** when a `then` block has its own `message` + `messageArgs`, the framework auto-prepends `[context.player, context.source, context.target]` as `{0}`, `{1}`, `{2}`. Your `messageArgs` array starts at `{3}`. So a message like `'{0} uses {1} to exalt {2} with {3} amber'` should pass `messageArgs: (context) => [sum]` (NOT `[target, sum]` — the target is already at `{2}`). Adding `target` again at `{3}` is a common bug that compiles and runs but produces wrong output.
+> **Auto-args inside a `then` block:** the framework auto-prepends `[context.player, context.source, context.target]` as `{0}`, `{1}`, `{2}`. Inside the `then` callback, `context.target` is the **then's own target** (from `then.target` or `then.gameAction`'s target). It is **not** the outer ability's target.
+>
+> -   If the `then` block has its own `target:` (or its `gameAction` resolves a target), `{2}` is correct and `messageArgs` starts at `{3}`.
+> -   If the `then` block borrows the outer ability's target (e.g. via `then: (preThenContext) => ({...})` and `preThenContext.target`), `context.target` will be `null`/`undefined` in the then. In that case, **do not use `{2}`** — explicitly pass `preThenContext.target` in `messageArgs` and reference it as `{3}`.
+> -   Common bug: passing both — `message: '... {2}'` plus `messageArgs: [preThenContext.target, sum]` — which produces a blank target slot and a stray name.
 
 When a `then` effect follows an action that affected multiple targets, use `preThenEvents` to get all the event results:
 
