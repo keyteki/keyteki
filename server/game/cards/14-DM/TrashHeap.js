@@ -8,43 +8,31 @@ class TrashHeap extends Card {
                 target: player ? player.hand.filter((card) => card.type === 'creature') : []
             }));
 
-        this.play({
-            gameAction: ability.actions.sequential([
-                ability.actions.destroy((context) => ({
-                    target: context.game.creaturesInPlay
-                })),
-                ability.actions.reveal((context) => ({
-                    target: context.player.hand,
-                    chatMessage: true
-                })),
-                ability.actions.reveal((context) => ({
-                    target: context.player.opponent ? context.player.opponent.hand : [],
-                    chatMessage: true
-                })),
-                ability.actions.conditional((context) => ({
-                    condition: !!context.player.opponent,
-                    trueGameAction: context.player.optionSettings.orderForcedAbilities
-                        ? ability.actions.chooseAction({
-                              activePromptTitle:
-                                  'Choose which player discards their revealed creatures first',
-                              choices: {
-                                  Me: [
-                                      playerDiscard(context.player),
-                                      playerDiscard(context.player.opponent)
-                                  ],
-                                  Opponent: [
-                                      playerDiscard(context.player.opponent),
-                                      playerDiscard(context.player)
-                                  ]
-                              }
-                          })
-                        : ability.actions.sequential([
-                              playerDiscard(context.player),
-                              playerDiscard(context.player.opponent)
-                          ]),
-                    falseGameAction: playerDiscard(context.player)
-                }))
-            ]),
+        const discardStep = (preThenContext) => ({
+            alwaysTriggers: true,
+            gameAction: ability.actions.conditional(() => ({
+                condition: !!preThenContext.player.opponent,
+                trueGameAction: preThenContext.player.optionSettings.orderForcedAbilities
+                    ? ability.actions.chooseAction({
+                          activePromptTitle:
+                              'Choose which player discards their revealed creatures first',
+                          choices: {
+                              Me: [
+                                  playerDiscard(preThenContext.player),
+                                  playerDiscard(preThenContext.player.opponent)
+                              ],
+                              Opponent: [
+                                  playerDiscard(preThenContext.player.opponent),
+                                  playerDiscard(preThenContext.player)
+                              ]
+                          }
+                      })
+                    : ability.actions.sequential([
+                          playerDiscard(preThenContext.player),
+                          playerDiscard(preThenContext.player.opponent)
+                      ]),
+                falseGameAction: playerDiscard(preThenContext.player)
+            })),
             then: {
                 alwaysTriggers: true,
                 gameAction: ability.actions.draw((context) => ({
@@ -52,6 +40,46 @@ class TrashHeap extends Card {
                     refill: true
                 })),
                 message: '{0} uses {1} to have each player refill their hand'
+            }
+        });
+
+        this.play({
+            effect:
+                "destroy each creature, reveal each player's hand, " +
+                'and discard each revealed creature',
+            gameAction: ability.actions.destroy((context) => ({
+                target: context.game.creaturesInPlay
+            })),
+            then: {
+                alwaysTriggers: true,
+                gameAction: ability.actions.reveal((context) => ({
+                    target: context.player.hand
+                })),
+                message: '{0} reveals {3}',
+                messageArgs: (context) => [
+                    context.player.hand.length ? context.player.hand : 'nothing'
+                ],
+                then: (preThenContext) => {
+                    const opp = preThenContext.player.opponent;
+                    if (!opp) {
+                        return discardStep(preThenContext);
+                    }
+                    if (opp.hand.length === 0) {
+                        return {
+                            alwaysTriggers: true,
+                            message: '{3} reveals nothing',
+                            messageArgs: () => [opp],
+                            then: discardStep
+                        };
+                    }
+                    return {
+                        alwaysTriggers: true,
+                        gameAction: ability.actions.reveal({ target: opp.hand }),
+                        message: '{3} reveals {4}',
+                        messageArgs: () => [opp, opp.hand],
+                        then: discardStep
+                    };
+                }
             }
         });
     }

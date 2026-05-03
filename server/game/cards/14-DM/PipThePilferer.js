@@ -11,7 +11,15 @@ class PipThePilferer extends Card {
                 trueGameAction: ability.actions.steal({ amount: 2 }),
                 falseGameAction: ability.actions.capture({ amount: 2, target: context.source })
             })),
-            effect: 'steal or capture 2 amber'
+            effect: '{1}',
+            effectArgs: (context) => {
+                const opp = context.player.opponent;
+                if (opp && opp.getForgedKeys() > context.player.getForgedKeys()) {
+                    const amount = Math.min(2, opp.amber);
+                    return [`steal ${amount} amber`];
+                }
+                return ['capture 2 amber'];
+            }
         });
     }
 }
