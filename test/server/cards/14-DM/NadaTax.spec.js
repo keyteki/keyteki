@@ -1,4 +1,4 @@
-describe('NadaTax', function () {
+describe('Nada Tax', function () {
     describe("Nada Tax's ability", function () {
         it('makes opponent lose 1 amber per bonus icon on discarded card', function () {
             this.setupTest({

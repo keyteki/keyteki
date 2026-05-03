@@ -60,8 +60,9 @@ describe('Emperor Memrox', function () {
             expect(this.emperorMemrox.hasKeyword('invulnerable')).toBe(true);
             this.player1.fightWith(this.emperorMemrox, this.troll);
             expect(this.emperorMemrox.location).toBe('play area');
-            expect(this.emperorMemrox.tokens.damage || 0).toBe(0);
-            expect(this.troll.tokens.damage).toBe(this.emperorMemrox.power);
+            expect(this.emperorMemrox.damage).toBe(0);
+            expect(this.troll.damage).toBe(this.emperorMemrox.power);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -81,6 +82,7 @@ describe('Emperor Memrox', function () {
         it('is not invulnerable when not in the center of an even battleline', function () {
             expect(this.emperorMemrox.isInCenter()).toBe(false);
             expect(this.emperorMemrox.hasKeyword('invulnerable')).toBe(false);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

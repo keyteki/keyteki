@@ -27,7 +27,7 @@ describe('Vanguard Wounds', function () {
             this.player1.play(this.vanguardWounds);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('play area');
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.player1.hand.length).toBe(handBefore - 1);
             expect(this.player1).isReadyToTakeAction();
         });

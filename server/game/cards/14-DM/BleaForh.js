@@ -15,9 +15,8 @@ class BleaForh extends Card {
                     (context.preThenEvents || []).some(
                         (event) => !event.cancelled && event.amount > 0
                     ),
-                message: '{0} uses {1} to exalt {3} with {4} amber',
+                message: '{0} uses {1} to exalt {2} with {3} amber',
                 messageArgs: (context) => [
-                    preThenContext.target,
                     (context.preThenEvents || []).reduce(
                         (sum, event) => sum + (event.cancelled ? 0 : event.amount || 0),
                         0

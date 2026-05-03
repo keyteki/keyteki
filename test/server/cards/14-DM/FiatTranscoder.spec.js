@@ -1,4 +1,4 @@
-describe('FiatTranscoder', function () {
+describe('Fiat Transcoder', function () {
     describe("Fiat Transcoder's ability", function () {
         beforeEach(function () {
             this.setupTest({

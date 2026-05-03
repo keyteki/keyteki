@@ -22,7 +22,7 @@ describe('Snapper Dyn', function () {
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.umbra);
             this.player1.clickCard(this.umbra);
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
             expect(this.umbra.location).toBe('discard');
             this.player2.clickPrompt('brobnar');
             expect(this.player2).isReadyToTakeAction();
@@ -30,8 +30,8 @@ describe('Snapper Dyn', function () {
 
         it('does nothing if not exhausted', function () {
             this.player1.endTurn();
-            expect(this.troll.tokens.damage).toBeUndefined();
-            expect(this.umbra.tokens.damage).toBeUndefined();
+            expect(this.troll.damage).toBe(0);
+            expect(this.umbra.damage).toBe(0);
             this.player2.clickPrompt('brobnar');
             expect(this.player2).isReadyToTakeAction();
         });

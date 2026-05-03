@@ -246,6 +246,29 @@ this.whileAttached({
 });
 ```
 
+#### `context.source` inside a gained ability
+
+When an ability is granted via `ability.effects.gainAbility(...)` (whether from `whileAttached`, `persistentEffect`, or anywhere else), `context.source` inside that gained ability's callbacks resolves to **the card that has the gained ability** (the receiver), not the card that granted it.
+
+```javascript
+// Bypass Burglar — neighbors gain "Action: Steal 1A. Deal 1 damage to this creature."
+// Inside the dealDamage callback, context.source is the neighbor, not Bypass Burglar.
+this.persistentEffect({
+    condition: () => this.exhausted,
+    match: (card, context) => context.source.neighbors.includes(card),
+    effect: ability.effects.gainAbility('action', {
+        gameAction: ability.actions.sequential([
+            ability.actions.steal(),
+            ability.actions.dealDamage((context) => ({
+                target: context.source // the neighbor that took the action
+            }))
+        ])
+    })
+});
+```
+
+If you need a stable reference to the granting card, capture it in a closure (e.g. `const source = this;`) before the gained ability is constructed.
+
 ### reaction()
 
 Generic triggered abilities with custom trigger conditions. Use when `play()`, `reap()`, `fight()`, or `destroyed()` don't fit.

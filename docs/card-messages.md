@@ -30,6 +30,7 @@ This document describes how to add descriptive log messages to card abilities. G
     -   [Multi-part Message Building](#multi-part-message-building)
 -   [Best Practices](#best-practices)
 -   [Quick Reference](#quick-reference)
+-   [Choosing the Right Level: default vs `effect` vs `message`](#choosing-the-right-level-default-vs-effect-vs-message)
 -   [Using `target`](#using-target)
 -   [Locales](#locales)
 
@@ -547,6 +548,8 @@ this.action({
 
 ### preThenEvents for Multiple Targets
 
+> **Auto-args inside a `then` block:** when a `then` block has its own `message` + `messageArgs`, the framework auto-prepends `[context.player, context.source, context.target]` as `{0}`, `{1}`, `{2}`. Your `messageArgs` array starts at `{3}`. So a message like `'{0} uses {1} to exalt {2} with {3} amber'` should pass `messageArgs: (context) => [sum]` (NOT `[target, sum]` — the target is already at `{2}`). Adding `target` again at `{3}` is a common bug that compiles and runs but produces wrong output.
+
 When a `then` effect follows an action that affected multiple targets, use `preThenEvents` to get all the event results:
 
 ```javascript
@@ -817,6 +820,27 @@ this.then((preThenContext) => ({
 }));
 ```
 
+## Choosing the Right Level: default vs `effect` vs `message`
+
+Cards can be silent (default game-action message), use `effect`, or use a fully custom `message`. Pick the *least specific* option that produces a correct, readable log line.
+
+1. **Prefer the default game-action message.** Many `ability.actions.*` actions emit a sensible log automatically. If the default reads correctly, omit `effect`/`message` entirely.
+
+   ```javascript
+   // Default: "{player} uses {card} to capture 2 amber"
+   this.play({ gameAction: ability.actions.capture({ amount: 2 }) });
+   ```
+
+2. **Use `effect` when the wording diverges from the default**, when no game action emits a message (e.g. multiple sequential actions, conditional effects), or when the action's default wording doesn't reflect what actually happened (e.g. amount capped by a resource).
+
+   ```javascript
+   effect: 'ready and fight with {0}';
+   ```
+
+3. **Use `message` (with `messageArgs`) only when** the prefix `{player} uses {card} to ...` is wrong, or you're inside a `then` block (where `effect` isn't available), or you need full control over placeholders.
+
+The same rule applies to prompt titles (see [`activePromptTitle`](#using-target)) — prefer the default-generated prompt and only override when necessary.
+
 ## Best Practices
 
 -   **Show actual values, not descriptions** - Instead of "lose half their amber", show "lose 3 amber".
@@ -849,17 +873,38 @@ this.then((preThenContext) => ({
 
 ## Using `target`
 
-When using `target` for selection, set `activePromptTitle`:
+`target` selections produce a default prompt title based on the card type and game action (e.g. "Choose a creature"). **Prefer the default.** Only set `activePromptTitle` when the default wording is genuinely ambiguous or unhelpful — for example, when the same ability prompts the player twice and each prompt needs a distinct phrase, or when the prompt is for a non-obvious choice.
+
+When you do need to override, **prefer an existing localization string** that conveys enough information (e.g. `'Choose a creature'`, `'Choose a card to archive'`, `'Choose a card'`) over a very specific new string. Search [`public/locales/en.json`](../public/locales/en.json) for the wording you want before writing a new one.
+
+Every new `activePromptTitle` requires a new localization string in every locale file, so add one only when nothing existing fits.
 
 ```javascript
-// With activePromptTitle - shows "Select a creature to destroy"
+// PREFER (default prompt — no activePromptTitle needed):
 this.play({
     target: {
-        activePromptTitle: 'Select a creature to destroy',
         cardType: 'creature',
         gameAction: ability.actions.destroy()
     },
     effect: 'destroy {0}'
+});
+```
+
+```javascript
+// OK to override when there are sequential prompts that need to be distinguished:
+this.play({
+    targets: {
+        first: {
+            activePromptTitle: 'Choose a creature to heal',
+            cardType: 'creature',
+            gameAction: ability.actions.heal({ amount: 2 })
+        },
+        second: {
+            activePromptTitle: 'Choose a creature to damage',
+            cardType: 'creature',
+            gameAction: ability.actions.dealDamage({ amount: 1 })
+        }
+    }
 });
 ```
 

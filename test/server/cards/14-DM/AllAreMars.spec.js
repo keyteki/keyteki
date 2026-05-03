@@ -12,7 +12,7 @@ describe('All Are Mars', function () {
             });
         });
 
-        it('readies and uses a friendly creature', function () {
+        it('readies and uses an exhausted friendly creature', function () {
             this.donorVox.exhaust();
             this.player1.useAction(this.allAreMars);
             expect(this.player1).toBeAbleToSelect(this.johnSmyth);
@@ -23,6 +23,7 @@ describe('All Are Mars', function () {
             this.player1.clickPrompt('Reap with this creature');
             expect(this.johnSmyth.exhausted).toBe(false);
             expect(this.donorVox.exhausted).toBe(true);
+            expect(this.allAreMars.exhausted).toBe(true);
             expect(this.player1.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });

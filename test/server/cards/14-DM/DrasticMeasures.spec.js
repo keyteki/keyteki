@@ -1,4 +1,4 @@
-describe('DrasticMeasures', function () {
+describe('Drastic Measures', function () {
     describe("Drastic Measures's ability", function () {
         beforeEach(function () {
             this.setupTest({

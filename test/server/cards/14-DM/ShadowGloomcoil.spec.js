@@ -12,8 +12,8 @@ describe('Shadow Gloomcoil', function () {
 
         it('deals 1 to each friendly creature after a friendly creature is used', function () {
             this.player1.reap(this.caspart);
-            expect(this.shadowGloomcoil.tokens.damage).toBe(1);
-            expect(this.caspart.tokens.damage).toBe(1);
+            expect(this.shadowGloomcoil.damage).toBe(1);
+            expect(this.caspart.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
     });

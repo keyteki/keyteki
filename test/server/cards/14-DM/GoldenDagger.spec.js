@@ -1,4 +1,4 @@
-describe('GoldenDagger', function () {
+describe('Golden Dagger', function () {
     describe("Golden Dagger's ability", function () {
         beforeEach(function () {
             this.setupTest({

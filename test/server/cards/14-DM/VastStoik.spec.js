@@ -1,4 +1,4 @@
-describe('VastStoik', function () {
+describe('Vast Stoik', function () {
     describe("Vast Stoik's ability", function () {
         beforeEach(function () {
             this.setupTest({
