@@ -31,7 +31,7 @@ const CardHoverPreview = ({ card, position }) => {
             style={{ left: `${left}px`, top: `${top}px` }}
         >
             <div className='w-72'>
-                <CardImage card={Object.assign({}, card)} />
+                <CardImage card={Object.assign({}, card, { location: 'zoom' })} />
             </div>
         </div>,
         document.body
