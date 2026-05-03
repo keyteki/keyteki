@@ -159,33 +159,54 @@ class GameServer {
      * @param {Error} e
      */
     handleError(game, e) {
-        logger.error(e);
-
-        let gameState = game.getState();
-        let debugData = {};
-
-        if (e.message.includes('Maximum call stack')) {
-            debugData.badSerializaton = detectBinary(gameState);
-        } else {
-            debugData.game = gameState;
-            debugData.game.players = undefined;
-
-            debugData.messages = game.getPlainTextLog();
-            debugData.game.messages = undefined;
-
-            for (const player of game.getPlayers()) {
-                debugData[player.name] = player.getState(player);
-            }
+        if (game.errorHandling) {
+            logger.error('Error during error handling, suppressing to avoid loop:', e);
+            return;
         }
 
-        Sentry.withScope((scope) => {
-            scope.setExtra('extra', debugData);
-            Sentry.captureException(e);
-        });
-        if (game) {
-            game.addMessage(
-                'A Server error has occurred processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.'
-            );
+        game.errorHandling = true;
+
+        try {
+            logger.error(e);
+
+            let debugData = /** @type {Record<string, any>} */ ({});
+
+            try {
+                let gameState = game.getState();
+
+                if (e.message.includes('Maximum call stack')) {
+                    debugData.badSerializaton = detectBinary(gameState);
+                } else {
+                    debugData.game = gameState;
+                    debugData.game.players = undefined;
+
+                    debugData.messages = game.getPlainTextLog();
+                    debugData.game.messages = undefined;
+
+                    for (const player of game.getPlayers()) {
+                        debugData[player.name] = player.getState(player);
+                    }
+                }
+            } catch (diagnosticError) {
+                logger.error('Failed to collect diagnostic data:', diagnosticError);
+            }
+
+            Sentry.withScope((scope) => {
+                scope.setExtra('extra', debugData);
+                Sentry.captureException(e);
+            });
+
+            try {
+                if (game) {
+                    game.addMessage(
+                        'A Server error has occurred processing your game state, apologies.  Your game may now be in an inconsistent state, or you may be able to continue.  The error has been logged.'
+                    );
+                }
+            } catch (messageError) {
+                logger.error('Failed to add error message to game:', messageError);
+            }
+        } finally {
+            game.errorHandling = false;
         }
     }
 
@@ -232,7 +253,11 @@ class GameServer {
         } catch (e) {
             this.handleError(game, e);
 
-            this.sendGameState(game);
+            try {
+                this.sendGameState(game);
+            } catch (sendError) {
+                logger.error('Failed to send game state after error:', sendError);
+            }
         }
     }
 
