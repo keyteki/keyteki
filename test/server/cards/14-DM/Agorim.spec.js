@@ -24,7 +24,9 @@ describe('Agorim', function () {
         it('does not grant power when not in center', function () {
             this.player1.moveCard(this.caspart, 'discard');
             expect(this.agorim.isInCenter()).toBe(false);
+            expect(this.agorim.power).toBe(this.agorim.powerPrinted);
             expect(this.noxiousIonox.power).toBe(this.noxiousIonox.powerPrinted);
+            expect(this.troll.power).toBe(this.troll.powerPrinted);
             expect(this.player1).isReadyToTakeAction();
         });
     });

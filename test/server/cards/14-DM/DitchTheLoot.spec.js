@@ -16,10 +16,14 @@ describe('Ditch the Loot', function () {
 
         it('moves all amber from one creature to another', function () {
             this.player1.play(this.ditchTheLoot);
+            expect(this.player1).toBeAbleToSelect(this.urchin);
+            expect(this.player1).toBeAbleToSelect(this.hobnobber);
+            expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.urchin);
             this.player1.clickCard(this.hobnobber);
             expect(this.urchin.amber).toBe(0);
             expect(this.hobnobber.amber).toBe(3);
+            expect(this.troll.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -28,6 +32,7 @@ describe('Ditch the Loot', function () {
             this.player1.clickCard(this.urchin);
             this.player1.clickCard(this.troll);
             expect(this.urchin.amber).toBe(0);
+            expect(this.hobnobber.amber).toBe(0);
             expect(this.troll.amber).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });

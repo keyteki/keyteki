@@ -1,4 +1,4 @@
-describe('CaughtYouNapping', function () {
+describe('Caught You Napping', function () {
     describe("Caught You Napping's ability", function () {
         beforeEach(function () {
             this.setupTest({

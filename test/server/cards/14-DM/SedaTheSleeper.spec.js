@@ -41,7 +41,7 @@ describe('Seda the Sleeper', function () {
 
         it('captures 6 on play', function () {
             this.player1.play(this.sedaTheSleeper);
-            expect(this.sedaTheSleeper.tokens.amber).toBe(6);
+            expect(this.sedaTheSleeper.amber).toBe(6);
             expect(this.player2.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });

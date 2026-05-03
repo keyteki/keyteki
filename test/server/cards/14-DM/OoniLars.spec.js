@@ -1,4 +1,4 @@
-describe('OoniLars', function () {
+describe('Ooni Lars', function () {
     describe("Ooni-Lars's ability", function () {
         beforeEach(function () {
             this.setupTest({

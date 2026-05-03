@@ -22,7 +22,7 @@ describe('Malforge', function () {
 
         it('deals 2 to Malforge at the end of the controller turn', function () {
             this.player1.endTurn();
-            expect(this.malforge.tokens.damage).toBe(2);
+            expect(this.malforge.damage).toBe(2);
             this.player2.clickPrompt('shadows');
             expect(this.player2).isReadyToTakeAction();
         });
@@ -30,10 +30,10 @@ describe('Malforge', function () {
         it('does not deal damage at the end of the opponent turn', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
-            const damageBefore = this.malforge.tokens.damage;
+            const damageBefore = this.malforge.damage;
             this.player2.endTurn();
             this.player1.clickPrompt('skyborn');
-            expect(this.malforge.tokens.damage).toBe(damageBefore);
+            expect(this.malforge.damage).toBe(damageBefore);
             expect(this.player1).isReadyToTakeAction();
         });
     });
