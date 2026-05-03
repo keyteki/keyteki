@@ -757,6 +757,9 @@ export const buildCard = async (
     canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
     canvas.setWidth(displayWidth * internalRenderScale);
     canvas.setHeight(displayHeight * internalRenderScale);
+    const canvasElement = canvas.getElement();
+    canvasElement.style.width = `${displayWidth}px`;
+    canvasElement.style.height = `${displayHeight}px`;
     canvas.setZoom(displayScale * internalRenderScale);
 
     const cardImage = new fabric.Image(
