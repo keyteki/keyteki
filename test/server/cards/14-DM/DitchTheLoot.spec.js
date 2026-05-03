@@ -38,7 +38,6 @@ describe('Ditch the Loot', function () {
         });
 
         it('can target creatures with no amber on them', function () {
-            this.urchin.amber = 0;
             this.player1.play(this.ditchTheLoot);
             expect(this.player1).toBeAbleToSelect(this.urchin);
             expect(this.player1).toBeAbleToSelect(this.hobnobber);
