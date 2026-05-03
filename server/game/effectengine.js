@@ -148,7 +148,7 @@ class EffectEngine {
 
         for (const source of sourcesToDiscard) {
             this.game.addMessage(
-                '{0} is removed from play and placed in its owner’s discard pile to resolve an infinite loop',
+                "{0} is removed from play and placed in its owner's discard pile to resolve an infinite loop",
                 source
             );
             source.owner.moveCard(source, 'discard');
