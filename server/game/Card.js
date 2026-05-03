@@ -296,7 +296,8 @@ class Card extends EffectSource {
                 title: 'Hazardous',
                 printedAbility: false,
                 when: {
-                    onFight: (event, context) => event.card === context.source
+                    onFight: (event, context) =>
+                        event.card === context.source && !event.attacker.ignores('hazardous')
                 },
                 gameAction: ability.actions.dealDamage((context) => ({
                     amount: context.source.getKeywordValue('hazardous'),
@@ -363,14 +364,18 @@ class Card extends EffectSource {
         );
 
         // Invulnerable
+        const ignoresInvulnerable = (context, effectContext, event) => {
+            const source = (event && event.damageSource) || (context && context.source) || null;
+            return !(source && source.ignores && source.ignores('invulnerable'));
+        };
         this.abilities.keywordPersistentEffects.push(
             this.persistentEffect({
                 condition: () => !!this.getKeywordValue('invulnerable'),
                 printedAbility: false,
                 match: this,
                 effect: [
-                    ability.effects.cardCannot('damage'),
-                    ability.effects.cardCannot('destroy'),
+                    ability.effects.cardCannot('damage', ignoresInvulnerable),
+                    ability.effects.cardCannot('destroy', ignoresInvulnerable),
                     ability.effects.cardCannot('sacrifice')
                 ]
             })
