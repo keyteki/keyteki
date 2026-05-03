@@ -3,8 +3,7 @@ const EventRegistrar = require('../../eventregistrar.js');
 
 class LuisCompere extends Card {
     // Elusive.
-    // At the end of your opponent's turn, if they drew 2 or more cards
-    // during their "draw cards" step, steal 2A.
+    // At the end of your opponent's turn, if they drew 2 or more cards during their "draw cards" step, steal 2A.
     setupCardAbilities(ability) {
         this.opponentDrawStepCount = 0;
         this.inOpponentDrawStep = false;
@@ -62,6 +61,6 @@ class LuisCompere extends Card {
     }
 }
 
-LuisCompere.id = 'luis-compere';
+LuisCompere.id = 'luis-compère';
 
 module.exports = LuisCompere;

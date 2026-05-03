@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class NowAndLater extends Card {
-    // Play: Return a creature to its owner's hand and archive a card. If you
-    // are overwhelmed, repeat the preceding effect.
+    // Play: Return a creature to its owner's hand and archive a card. If you are overwhelmed, repeat the preceding effect.
     setupCardAbilities(ability) {
         this.play({
             target: {

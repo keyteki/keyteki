@@ -1,9 +1,8 @@
 const Card = require('../../Card.js');
 
 class ConradFisique extends Card {
-    // Enhance.
-    // Play: You may move each +1 power counter from a creature to another
-    // creature.
+    // Enhance amber power power.
+    // Play: You may move each +1 power counter from a creature to another creature.
     setupCardAbilities(ability) {
         this.play({
             optional: true,

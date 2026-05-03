@@ -1,7 +1,8 @@
 const Card = require('../../Card.js');
 
 class Sparkscheme extends Card {
-    // Entrench. After an enemy creature reaps, if Sparkscheme is exhausted, draw a card.
+    // Entrench.
+    // After an enemy creature reaps, if Sparkscheme is exhausted, draw a card.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

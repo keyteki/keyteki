@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class ReduceReuse extends Card {
-    // Play: If you are haunted, deal 5 to a creature. Otherwise, return a
-    // creature to its owner's hand.
+    // Play: If you are haunted, deal 5 damage to a creature. Otherwise, return a creature to its owner's hand.
     setupCardAbilities(ability) {
         this.play({
             preferActionPromptMessage: true,

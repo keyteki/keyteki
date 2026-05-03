@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class HammerSmythe extends Card {
-    // After Reap: Deal 2 to a creature. If this damage destroys that
-    // creature, give a friendly creature two +1 power counters.
+    // After Reap: Deal 2 damage to a creature. If this damage destroys that creature, give a friendly creature two +1 power counters.
     setupCardAbilities(ability) {
         this.reap({
             target: {

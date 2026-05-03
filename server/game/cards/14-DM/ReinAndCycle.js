@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class ReinAndCycle extends Card {
-    // Play: Pay your opponent 1 amber. If you do, take control of an enemy creature or artifact.
+    // Play: Pay your opponent 1A. If you do, take control of an enemy creature or artifact.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.transferAmber((context) => ({

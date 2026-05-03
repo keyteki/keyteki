@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class PipThePilferer extends Card {
-    // Play: If your opponent has more forged keys than you, steal 2. Otherwise, capture 2.
+    // Play: If your opponent has more forged keys than you, steal 2A. Otherwise, capture 2A.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.conditional((context) => ({

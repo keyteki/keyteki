@@ -1,10 +1,8 @@
 const Card = require('../../Card.js');
 
 class VarghastsVengeance extends Card {
-    // Omni: Name a card. Until the start of your next turn, cards with that
-    // name cannot be played or used. Gain 2 chains.
-    // Scrap: Purge a card from your opponent's discard pile. Your opponent
-    // shuffles their discard pile into their deck.
+    // Omni: Name a card. Until the start of your next turn, cards with that name cannot be played or used. Gain 2 chains.
+    // Scrap: Purge a card from your opponent's discard pile. Your opponent shuffles their discard pile into their deck.
     setupCardAbilities(ability) {
         this.omni({
             target: {

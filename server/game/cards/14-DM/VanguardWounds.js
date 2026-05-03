@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class VanguardWounds extends Card {
-    // Play: Deal 3 to a creature. If this damage destroys that creature, draw a card.
+    // Play: Deal 3 damage to a creature. If this damage destroys that creature, draw a card.
     setupCardAbilities(ability) {
         this.play({
             target: {

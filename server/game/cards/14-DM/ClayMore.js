@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ClayMore extends Card {
+    // Enhance damage damage.
     // Destroyed: Deal 2 damage to each enemy flank creature.
     setupCardAbilities(ability) {
         this.destroyed({

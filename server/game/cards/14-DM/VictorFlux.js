@@ -1,9 +1,7 @@
 const Card = require('../../Card.js');
 
 class VictorFlux extends Card {
-    // After Reap: Purge a card from your discard pile. If you do, until
-    // the start of your next turn, your opponent cannot play cards of
-    // the purged card's type.
+    // After Reap: Purge a card from your discard pile. If you do, until the start of your next turn, your opponent cannot play cards of the purged card's type.
     setupCardAbilities(ability) {
         this.reap({
             target: {

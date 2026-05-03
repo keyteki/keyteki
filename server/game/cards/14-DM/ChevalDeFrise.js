@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ChevalDeFrise extends Card {
+    // Enhance shadows shadows.
     // Each friendly Shadows creature gains hazardous 2.
     setupCardAbilities(ability) {
         this.persistentEffect({

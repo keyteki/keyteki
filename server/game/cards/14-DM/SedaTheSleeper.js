@@ -2,8 +2,8 @@ const Card = require('../../Card.js');
 
 class SedaTheSleeper extends Card {
     // While Seda the Sleeper is exhausted and on a flank, it gains invulnerable.
-    // After you ready Seda the Sleeper, you may deal 2 to it. If you do, exhaust it.
-    // Play: Capture 6.
+    // After you ready Seda the Sleeper, you may deal 2 damage to it. If you do, exhaust it.
+    // Play: Capture 6A.
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: (context) => context.source.exhausted && context.source.isOnFlank(),

@@ -4,7 +4,7 @@ describe('Luis Compere', function () {
             this.setupTest({
                 player1: {
                     house: 'shadows',
-                    inPlay: ['luis-compere']
+                    inPlay: ['luis-compère']
                 },
                 player2: {
                     amber: 5
@@ -67,7 +67,7 @@ describe('Luis Compere', function () {
         });
 
         it('can resolve Luis Compere first, then Malifi Dragon', function () {
-            this.player2.clickCard(this.luisCompere);
+            this.player2.clickCard(this.luisCompère);
             this.player1.clickPrompt('shadows');
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(3);

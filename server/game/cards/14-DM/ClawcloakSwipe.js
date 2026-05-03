@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class ClawcloakSwipe extends Card {
-    // Play: If you are overwhelmed, choose a friendly creature.
-    // For each creature your opponent controls in excess of you, the chosen creature captures 1.
+    // Play: If you are overwhelmed, choose a friendly creature. For each creature your opponent controls in excess of you, the chosen creature captures 1A.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => context.player.isOverwhelmed(),

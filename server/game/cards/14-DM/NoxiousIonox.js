@@ -1,7 +1,8 @@
 const Card = require('../../Card.js');
 
 class NoxiousIonox extends Card {
-    // Entrench. At the start of your turn, if Noxious Ionox is exhausted, destroy an enemy creature.
+    // Entrench.
+    // At the start of your turn, if Noxious Ionox is exhausted, destroy an enemy creature.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

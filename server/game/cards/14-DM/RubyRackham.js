@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class RubyRackham extends Card {
-    // After Fight: If a red key is forged, deal 4 to each enemy flank
-    // creature. Otherwise, deal 1 to each enemy flank creature.
+    // After Fight: If a red key is forged, deal 4 damage to each enemy flank creature. Otherwise, deal 1 damage to each enemy flank creature.
     setupCardAbilities(ability) {
         this.fight({
             gameAction: ability.actions.dealDamage((context) => ({

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class SpherularGem extends Card {
-    // Action: Destroy Spherular Gem. If you do, gain X equal to the number of forged keys.
+    // Action: Destroy Spherular Gem. If you do, gain amber equal to the number of forged keys.
     setupCardAbilities(ability) {
         this.action({
             gameAction: ability.actions.destroy((context) => ({ target: context.source })),

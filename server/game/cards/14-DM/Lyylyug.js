@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class Lyylyug extends Card {
+    // Elusive.
     // After Reap: The least powerful enemy creature captures 1A from its own side.
     setupCardAbilities(ability) {
         this.reap({

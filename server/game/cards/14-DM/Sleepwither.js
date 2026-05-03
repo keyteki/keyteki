@@ -1,7 +1,8 @@
 const Card = require('../../Card.js');
 
 class Sleepwither extends Card {
-    // Enhance. Play: Destroy an Ouboros creature. If you do, gain 2.
+    // Enhance ouboros ouboros.
+    // Play: Destroy an Ouboros creature. If you do, gain 2A.
     setupCardAbilities(ability) {
         this.play({
             target: {
@@ -13,7 +14,7 @@ class Sleepwither extends Card {
             then: {
                 gameAction: ability.actions.gainAmber({ amount: 2 })
             },
-            effect: 'destroy {0}'
+            effect: 'destroy {0} and gain 2 amber'
         });
     }
 }

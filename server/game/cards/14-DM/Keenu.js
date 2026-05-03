@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class Keenu extends Card {
-    // Play: Choose an enemy creature with no +1 power counters on it.
-    // Exhaust that creature and each of its neighbors.
+    // Enhance draw power power.
+    // Play: Choose an enemy creature with no +1 power counters on it. Exhaust that creature and each of its neighbors.
     setupCardAbilities(ability) {
         this.play({
             target: {

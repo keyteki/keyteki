@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class OoniLars extends Card {
-    // After Reap: You may pay your opponent 1A. If you do, your opponent's
-    // keys cost +4 during their next turn.
+    // After Reap: You may pay your opponent 1A. If you do, your opponent's keys cost +4A during their next turn.
     setupCardAbilities(ability) {
         this.reap({
             optional: true,

@@ -2,8 +2,7 @@ const Card = require('../../Card.js');
 
 class VastStoik extends Card {
     // Taunt.
-    // After Fight: Move 1A from a creature to the common supply. If you do,
-    // draw a card.
+    // After Fight: Move 1A from a creature to the common supply. If you do, draw a card.
     setupCardAbilities(ability) {
         this.fight({
             target: {

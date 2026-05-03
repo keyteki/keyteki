@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class UjkyytrPrime extends Card {
-    // After Fight/After Reap: If you are overwhelmed, stun an enemy creature and each of
-    // its neighbors. Otherwise, stun a creature.
+    // After Fight/After Reap: If you are overwhelmed, stun an enemy creature and each of its neighbors. Otherwise, stun a creature.
     setupCardAbilities(ability) {
         this.fight({
             reap: true,

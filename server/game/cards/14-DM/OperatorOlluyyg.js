@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class OperatorOlluyyg extends Card {
     // Entrench.
-    // While Operator Olluyyg is exhausted, your opponent's keys cost +3A more to forge.
+    // While Operator Olluyyg is exhausted, your opponent's keys cost +3A.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'opponent',

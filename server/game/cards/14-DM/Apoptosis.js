@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class Apoptosis extends Card {
-    // Play: Purge a card from your discard pile. If you do, a friendly
-    // creature captures 2.
+    // Play: Purge a card from your discard pile. If you do, a friendly creature captures 2A.
     setupCardAbilities(ability) {
         this.play({
             target: {

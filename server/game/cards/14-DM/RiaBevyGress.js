@@ -1,9 +1,8 @@
 const Card = require('../../Card.js');
 
 class RiaBevyGress extends Card {
-    // Enhance.
-    // After Fight/After Reap: If you are overwhelmed, capture 1 for each +1 power counter on
-    // friendly creatures. Otherwise, capture 1.
+    // Enhance power power power.
+    // After Fight/After Reap: If you are overwhelmed, capture 1A for each +1 power counter on friendly creatures. Otherwise, capture 1A.
     setupCardAbilities(ability) {
         this.fight({
             reap: true,

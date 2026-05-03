@@ -2,8 +2,7 @@ const Card = require('../../Card.js');
 
 class Malina extends Card {
     // Entrench.
-    // While Malina is exhausted, your opponent cannot play creatures more powerful than
-    // the most powerful creature in play.
+    // While Malina is exhausted, your opponent cannot play creatures more powerful than the most powerful creature in play.
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: () => this.exhausted,

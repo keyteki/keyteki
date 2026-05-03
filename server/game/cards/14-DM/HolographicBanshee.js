@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class HolographicBanshee extends Card {
+    // Enhance geistoid geistoid.
     // Each friendly Geistoid creature gains versatile.
     setupCardAbilities(ability) {
         this.persistentEffect({

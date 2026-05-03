@@ -1,10 +1,7 @@
 const Card = require('../../Card.js');
 
 class ForgedCurrency extends Card {
-    // Play: Move each +1 power counter and each A from friendly creatures
-    // to the common supply. Forge a key at +6 current cost, reduced by 1
-    // for the total number of +1 power counters and A moved to the common
-    // supply this way (to a minimum of 6).
+    // Play: Move each +1 power counter and each amber from friendly creatures to the common supply. Forge a key at +6A current cost, reduced by 1A for the total number of +1 power counters and amber moved to the common supply this way (to a minimum of 6A).
     setupCardAbilities(ability) {
         this.play({
             effect: 'move {1} +1 power {2} and {3} amber from friendly creatures to the common supply',

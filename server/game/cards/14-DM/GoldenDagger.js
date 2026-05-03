@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class GoldenDagger extends Card {
-    // After Reap: Deal 3D to a creature. If this damage destroys that
-    // creature, its owner gains 1A.
+    // After Reap: Deal 3 damage to a creature. If this damage destroys that creature, its owner gains 1A.
     setupCardAbilities(ability) {
         this.reap({
             target: {

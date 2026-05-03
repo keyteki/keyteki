@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class Klyyhnug extends Card {
-    // After Reap: You may remove each +1 power counter from a creature.
-    // If you do, archive a card.
+    // Enhance damage power power.
+    // After Reap: You may remove each +1 power counter from a creature. If one or more counters are removed this way, archive a card.
     setupCardAbilities(ability) {
         this.reap({
             target: {

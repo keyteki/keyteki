@@ -2,8 +2,7 @@ const Card = require('../../Card.js');
 const { DiscardCardAction } = require('../../GameActions/index.js');
 
 class KeyDrain extends Card {
-    // Play: You may discard any number of cards from your hand. Forge a key at +9A current
-    // cost, reduced by 1 for each card discarded this way.
+    // Play: You may discard any number of cards from your hand. Then, forge a key at +9A current cost, reduced by 1A for each card discarded this way.
     setupCardAbilities(ability) {
         this.play({
             effect: 'forge a key, reduced by 1A for each card discarded',

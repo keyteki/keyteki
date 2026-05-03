@@ -2,8 +2,7 @@ const Card = require('../../Card.js');
 
 class Waspscream extends Card {
     // Entrench. Poison.
-    // At the start of your turn, if Waspscream is exhausted, take control of
-    // an enemy creature.
+    // At the start of your turn, if Waspscream is exhausted, take control of an enemy creature.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

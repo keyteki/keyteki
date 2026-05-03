@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class Dreamcall extends Card {
-    // Play: Exhaust a creature. For each copy of Dreamcall in your discard pile,
-    // exhaust another creature and draw a card.
+    // Play: Exhaust a creature. For each copy of Dreamcall in your discard pile, exhaust another creature and draw a card.
     setupCardAbilities(ability) {
         this.play({
             target: {

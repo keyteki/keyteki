@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class ExeldonYash extends Card {
-    // After Reap: Capture 2A. You may discard a card. If you do, move 1A from
-    // Exeldon Yash to your pool.
+    // After Reap: Capture 2A. You may discard a card. If you do, move 1A from Exeldon Yash to your pool.
     setupCardAbilities(ability) {
         this.reap({
             gameAction: ability.actions.capture({ amount: 2 }),

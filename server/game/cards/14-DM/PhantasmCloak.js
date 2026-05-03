@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class PhantasmCloak extends Card {
-    // This creature gains, "After Reap: If you are haunted, gain 2."
+    // This creature gains, "After Reap: If you are haunted, gain 2A."
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.gainAbility('reap', {

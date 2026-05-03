@@ -1,7 +1,8 @@
 const Card = require('../../Card.js');
 
 class Caspart extends Card {
-    // Entrench. At the end of your turn, if Caspart is exhausted, exhaust 2 other creatures.
+    // Entrench.
+    // At the end of your turn, if Caspart is exhausted, exhaust 2 other creatures.
     setupCardAbilities(ability) {
         this.interrupt({
             when: {

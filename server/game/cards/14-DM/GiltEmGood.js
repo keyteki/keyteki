@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class GiltEmGood extends Card {
-    // Play: Each friendly flank creature captures 1. If a yellow key is
-    // forged, repeat the preceding effect.
+    // Play: Each friendly flank creature captures 1A. If a yellow key is forged, repeat the preceding effect.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.capture((context) => ({

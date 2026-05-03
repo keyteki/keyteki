@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class DitchTheLoot extends Card {
+    // Enhance capture capture capture.
     // Play: Move all amber from one creature to another creature.
     setupCardAbilities(ability) {
         this.play({
