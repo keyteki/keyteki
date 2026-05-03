@@ -54,7 +54,7 @@ describe('Luis Compere', function () {
             this.setupTest({
                 player1: {
                     house: 'shadows',
-                    inPlay: ['luis-compere']
+                    inPlay: ['luis-compère']
                 },
                 player2: {
                     amber: 3,
@@ -89,7 +89,7 @@ describe('Luis Compere', function () {
                 player1: {
                     house: 'shadows',
                     inPlay: [
-                        'luis-compere',
+                        'luis-compère',
                         'ven-omawk',
                         'ven-omawk',
                         'ven-omawk',
@@ -123,7 +123,7 @@ describe('Luis Compere', function () {
             this.setupTest({
                 player1: {
                     house: 'shadows',
-                    inPlay: ['luis-compere']
+                    inPlay: ['luis-compère']
                 },
                 player2: {
                     amber: 5,
