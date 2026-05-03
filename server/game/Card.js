@@ -364,7 +364,7 @@ class Card extends EffectSource {
         );
 
         // Invulnerable
-        const ignoresInvulnerable = (context, effectContext, event) => {
+        const invulnerabilityApplies = (_context, _effectContext, event) => {
             const source =
                 (event && event.damageSource) ||
                 (event && event.damageEvent && event.damageEvent.damageSource) ||
@@ -377,8 +377,8 @@ class Card extends EffectSource {
                 printedAbility: false,
                 match: this,
                 effect: [
-                    ability.effects.cardCannot('damage', ignoresInvulnerable),
-                    ability.effects.cardCannot('destroy', ignoresInvulnerable),
+                    ability.effects.cardCannot('damage', invulnerabilityApplies),
+                    ability.effects.cardCannot('destroy', invulnerabilityApplies),
                     ability.effects.cardCannot('sacrifice')
                 ]
             })
