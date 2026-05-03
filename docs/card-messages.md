@@ -28,6 +28,8 @@ This document describes how to add descriptive log messages to card abilities. G
     -   [Static messageArgs Values](#static-messageargs-values)
     -   [Computed Effects with Multiple Branches](#computed-effects-with-multiple-branches)
     -   [Multi-part Message Building](#multi-part-message-building)
+    -   [Per-Branch Narration with `alwaysTriggers` Thens](#per-branch-narration-with-alwaystriggers-thens)
+    -   [Narrating No-Op Branches with a Literal String](#narrating-no-op-branches-with-a-literal-string)
 -   [Best Practices](#best-practices)
 -   [Quick Reference](#quick-reference)
 -   [Choosing the Right Level: default vs `effect` vs `message`](#choosing-the-right-level-default-vs-effect-vs-message)
@@ -824,22 +826,109 @@ this.then((preThenContext) => ({
 }));
 ```
 
+### Per-Branch Narration with `alwaysTriggers` Thens
+
+When an ability has two or more branches (e.g. an "if overwhelmed... otherwise..." action) and the default game-action messages don't read well together, suppress the outer message with `preferActionPromptMessage: true` and emit a single per-branch line from a `then` block. A `then` node with `alwaysTriggers: true` and only `message`/`messageArgs` (no `gameAction`) just narrates without performing any action.
+
+```javascript
+// Card: "Fight: If Janky Jimmy is overwhelmed, the creature it fought captures 1A from its
+// own side. Otherwise, capture 1A."
+// Output (overwhelmed): "{player} uses Janky Jimmy to make {enemy creature} capture 1 amber from its own side"
+// Output (otherwise):    "{player} uses Janky Jimmy to capture 1 amber"
+this.interrupt({
+    when: { onFight: (event, context) => event.attacker === context.source },
+    preferActionPromptMessage: true,
+    gameAction: ability.actions.conditional((context) => ({
+        condition: context.player.isOverwhelmed(),
+        trueGameAction: ability.actions.capture({
+            /* enemy creature captures from own side */
+        }),
+        falseGameAction: ability.actions.capture({ amount: 1 })
+    })),
+    then: (preThenContext) => ({
+        alwaysTriggers: true,
+        condition: () => !preThenContext.player.isOverwhelmed(),
+        message: '{0} uses {1} to capture 1 amber'
+    })
+});
+```
+
+For two branches that each need their own line, return a different `then` shape per branch:
+
+```javascript
+// Cold Ropes: overwhelmed -> bottom of owner's deck; otherwise -> move to a flank and exhaust.
+this.action({
+    target: {
+        cardType: 'creature',
+        controller: 'opponent',
+        preferActionPromptMessage: true,
+        gameAction: ability.actions.conditional((context) => ({
+            condition: context.player.isOverwhelmed(),
+            trueGameAction: ability.actions.moveCard({
+                /* deck bottom */
+            }),
+            falseGameAction: ability.actions.moveToFlank()
+        }))
+    },
+    then: (preThenContext) =>
+        preThenContext.player.isOverwhelmed()
+            ? {
+                  alwaysTriggers: true,
+                  message: "{0} uses {1} to put {3} on the bottom of {4}'s deck",
+                  messageArgs: () => [preThenContext.target, preThenContext.target.owner]
+              }
+            : {
+                  alwaysTriggers: true,
+                  gameAction: ability.actions.exhaust({ target: preThenContext.target }),
+                  message: '{0} uses {1} to move {3} to the {4} flank and exhaust it',
+                  messageArgs: () => {
+                      const t = preThenContext.target;
+                      const side = t.controller.cardsInPlay.indexOf(t) === 0 ? 'left' : 'right';
+                      return [t, side];
+                  }
+              }
+});
+```
+
+Notes:
+
+-   `messageArgs` in a `then` block start at `{3}` because the framework auto-prepends `[player, source, target]` as `{0}`/`{1}`/`{2}`.
+-   Pass a `Player` value (e.g. `target.owner`) as a `messageArgs` slot so the log renders the player token correctly — never embed the name into a string.
+
+### Narrating No-Op Branches with a Literal String
+
+When one branch of a multi-branch action does nothing (e.g. a player with an empty hand has no card to reveal), still narrate the outcome by passing a literal placeholder string in `messageArgs`. This keeps the log balanced across players without requiring two different message templates.
+
+```javascript
+// Trash Heap: each player reveals their hand and discards revealed creatures.
+// If a player's hand is empty, log "{player} reveals nothing" instead of skipping the line.
+then: (preThenContext) => ({
+    alwaysTriggers: true,
+    message: '{0} uses {1} to make {3} reveal {4}',
+    messageArgs: () => {
+        const player = preThenContext.player;
+        const hand = player.hand;
+        return hand.length === 0 ? [player, 'nothing'] : [player, hand];
+    }
+});
+```
+
 ## Choosing the Right Level: default vs `effect` vs `message`
 
-Cards can be silent (default game-action message), use `effect`, or use a fully custom `message`. Pick the *least specific* option that produces a correct, readable log line.
+Cards can be silent (default game-action message), use `effect`, or use a fully custom `message`. Pick the _least specific_ option that produces a correct, readable log line.
 
 1. **Prefer the default game-action message.** Many `ability.actions.*` actions emit a sensible log automatically. If the default reads correctly, omit `effect`/`message` entirely.
 
-   ```javascript
-   // Default: "{player} uses {card} to capture 2 amber"
-   this.play({ gameAction: ability.actions.capture({ amount: 2 }) });
-   ```
+    ```javascript
+    // Default: "{player} uses {card} to capture 2 amber"
+    this.play({ gameAction: ability.actions.capture({ amount: 2 }) });
+    ```
 
 2. **Use `effect` when the wording diverges from the default**, when no game action emits a message (e.g. multiple sequential actions, conditional effects), or when the action's default wording doesn't reflect what actually happened (e.g. amount capped by a resource).
 
-   ```javascript
-   effect: 'ready and fight with {0}';
-   ```
+    ```javascript
+    effect: 'ready and fight with {0}';
+    ```
 
 3. **Use `message` (with `messageArgs`) only when** the prefix `{player} uses {card} to ...` is wrong, or you're inside a `then` block (where `effect` isn't available), or you need full control over placeholders.
 

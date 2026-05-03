@@ -11,14 +11,23 @@ class HannibalsMark extends Card {
                 gameAction: [
                     ability.actions.cardLastingEffect((context) => ({
                         duration: 'lastingEffect',
-                        effect: [
-                            ability.effects.takeControl(context.player),
-                            ability.effects.changeHouse('skyborn')
-                        ]
+                        effect: ability.effects.takeControl(context.player)
                     })),
                     ability.actions.addPowerCounter({ amount: 3 })
                 ]
-            }
+            },
+            then: (context) => ({
+                alwaysTriggers: true,
+                gameAction: ability.actions.cardLastingEffect({
+                    target: context.target,
+                    condition: () => context.target.controller === context.player,
+                    until: {
+                        onCardLeavesPlay: (event) => event.card === context.source
+                    },
+                    effect: ability.effects.changeHouse('skyborn')
+                })
+            }),
+            effect: "take control of {0}, give it three +1 power counters, and make it Skyborn while it's under their control"
         });
     }
 }

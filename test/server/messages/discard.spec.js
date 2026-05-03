@@ -224,4 +224,32 @@ describe('Discard Messages', function () {
             ]);
         });
     });
+
+    describe('discard top of deck', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    hand: ['brine-reckoning'],
+                    deck: ['urchin', 'urchin', 'urchin', 'urchin', 'urchin', 'urchin']
+                },
+                player2: {
+                    deck: ['troll', 'troll', 'troll', 'troll', 'troll', 'troll']
+                }
+            });
+            this.player1.player.deck = this.player1.player.deck.filter((c) => c.name === 'Urchin');
+            this.player2.player.deck = this.player2.player.deck.filter((c) => c.name === 'Troll');
+        });
+
+        it("logs the cards discarded and which player's deck they came from", function () {
+            this.player1.play(this.brineReckoning);
+            expect(this.player1).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Brine Reckoning',
+                "player1 gains an amber due to Brine Reckoning's bonus icon",
+                "player1 uses Brine Reckoning to discard Urchin, Urchin, Urchin, Urchin, and Urchin from the top of player1's deck",
+                "player1 uses Brine Reckoning to discard Troll, Troll, Troll, Troll, and Troll from the top of player2's deck"
+            ]);
+        });
+    });
 });

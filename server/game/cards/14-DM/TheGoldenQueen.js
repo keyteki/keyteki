@@ -23,6 +23,7 @@ class TheGoldenQueen extends GiganticCard {
 
         this.fight({
             reap: true,
+            preferActionPromptMessage: true,
             gameAction: ability.actions.chooseAction((context) => {
                 if (!context.player.opponent) {
                     return { choices: { Me: [playerDiscard(context)] } };

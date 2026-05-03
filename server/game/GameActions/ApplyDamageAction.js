@@ -49,7 +49,10 @@ class ApplyDamageAction extends CardGameAction {
                         event.fightEvent &&
                         event.damageType === 'card effect' &&
                         event.damageSource &&
-                        event.damageSource.getKeywordValue('poison')))
+                        event.damageSource.getKeywordValue('poison') &&
+                        !(
+                            event.fightEvent.attacker === event.card && event.card.ignores('poison')
+                        )))
             ) {
                 event.destroyEvent = context.game.actions
                     .destroy({ damageEvent: event })
