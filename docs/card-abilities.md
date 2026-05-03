@@ -267,8 +267,6 @@ this.persistentEffect({
 });
 ```
 
-If you need a stable reference to the granting card, capture it in a closure (e.g. `const source = this;`) before the gained ability is constructed.
-
 ### reaction()
 
 Generic triggered abilities with custom trigger conditions. Use when `play()`, `reap()`, `fight()`, or `destroyed()` don't fit.
