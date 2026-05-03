@@ -1,5 +1,5 @@
-describe('Luis Compere', function () {
-    describe("Luis Compere's ability", function () {
+describe('Luis Compère', function () {
+    describe("Luis Compère's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -49,7 +49,7 @@ describe('Luis Compere', function () {
         });
     });
 
-    describe('Luis Compere ordering with other end-of-turn interrupts', function () {
+    describe('Luis Compère ordering with other end-of-turn interrupts', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -66,7 +66,7 @@ describe('Luis Compere', function () {
             this.player2.endTurn();
         });
 
-        it('can resolve Luis Compere first, then Malifi Dragon', function () {
+        it('can resolve Luis Compère first, then Malifi Dragon', function () {
             this.player2.clickCard(this.luisCompère);
             this.player1.clickPrompt('shadows');
             expect(this.player1.amber).toBe(2);
@@ -74,7 +74,7 @@ describe('Luis Compere', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('can resolve Malifi Dragon first, then Luis Compere', function () {
+        it('can resolve Malifi Dragon first, then Luis Compère', function () {
             this.player2.clickCard(this.malifiDragon);
             this.player1.clickPrompt('shadows');
             expect(this.player1.amber).toBe(2);
@@ -83,7 +83,7 @@ describe('Luis Compere', function () {
         });
     });
 
-    describe('Luis Compere with scrap-induced draws', function () {
+    describe('Luis Compère with scrap-induced draws', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -118,7 +118,7 @@ describe('Luis Compere', function () {
         });
     });
 
-    describe('Luis Compere with Punctuated Equilibrium', function () {
+    describe('Luis Compère with Punctuated Equilibrium', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
