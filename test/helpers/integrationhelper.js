@@ -1,5 +1,28 @@
 const _ = require('underscore');
 
+// Fail tests if Node emits a circular-dependency warning during module load.
+// These warnings ("Accessing non-existent property 'X' of module exports
+// inside circular dependency") indicate a require cycle that can cause subtle
+// runtime bugs (e.g. `instanceof` checks failing because a class hasn't
+// finished loading).  Surfacing them as test failures keeps the require graph
+// honest.
+//
+// Vitest reloads this setup file for every test file in a worker, so guard
+// against installing the listener (and busting MaxListeners) more than once.
+const __circularDepGuard = '__keyteki.circularDepWarningGuard';
+if (!process[__circularDepGuard]) {
+    process[__circularDepGuard] = true;
+    process.on('warning', (warning) => {
+        if (
+            warning &&
+            typeof warning.message === 'string' &&
+            warning.message.includes('inside circular dependency')
+        ) {
+            throw new Error(`Circular require detected during module load: ${warning.message}`);
+        }
+    });
+}
+
 require('./objectformatters.js');
 
 const DeckBuilder = require('./deckbuilder.js');
