@@ -18,8 +18,8 @@ describe('Ruby Rackham', function () {
             expect(this.rubyRackham.location).toBe('play area');
             expect(this.murmook.location).toBe('discard');
             // After murmook dies, krump (was center) is left flank, troll stays right flank
-            expect(this.krump.tokens.damage).toBe(1);
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.krump.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
     });
@@ -43,8 +43,8 @@ describe('Ruby Rackham', function () {
             expect(this.rubyRackham.location).toBe('play area');
             expect(this.murmook.location).toBe('discard');
             // krump (6p) takes 4, troll (8p) takes 4
-            expect(this.krump.tokens.damage).toBe(4);
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.krump.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
             expect(this.player1).isReadyToTakeAction();
         });
     });

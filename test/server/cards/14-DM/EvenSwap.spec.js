@@ -1,4 +1,4 @@
-describe('EvenSwap', function () {
+describe('Even Swap', function () {
     describe("Even Swap's ability with 2 creatures on each side", function () {
         beforeEach(function () {
             this.setupTest({

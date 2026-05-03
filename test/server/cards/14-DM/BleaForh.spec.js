@@ -1,5 +1,5 @@
-describe('BleaForh', function () {
-    describe("Blea-Forh's ability", function () {
+describe('Bleă-Fŏrh', function () {
+    describe("Bleă-Fŏrh's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {

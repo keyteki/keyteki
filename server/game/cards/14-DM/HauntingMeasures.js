@@ -22,8 +22,7 @@ class HauntingMeasures extends Card {
                         location: 'discard'
                     })
                 },
-                message: '{0} uses {1} to return {3} to hand',
-                messageArgs: (context) => [context.target]
+                message: '{0} uses {1} to return {2} to hand'
             }
         });
     }

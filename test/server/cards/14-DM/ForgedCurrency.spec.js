@@ -1,4 +1,4 @@
-describe('ForgedCurrency', function () {
+describe('Forged Currency', function () {
     describe("Forged Currency's ability", function () {
         beforeEach(function () {
             this.setupTest({

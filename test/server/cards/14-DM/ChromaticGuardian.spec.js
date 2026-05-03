@@ -1,4 +1,4 @@
-describe('ChromaticGuardian', function () {
+describe('Chromatic Guardian', function () {
     describe("Chromatic Guardian's ability", function () {
         it('destroys an enemy creature when overwhelmed', function () {
             this.setupTest({

@@ -25,8 +25,7 @@ class ChlorodozeVapor extends Card {
                     controller: 'any',
                     gameAction: ability.actions.exhaust()
                 },
-                message: '{0} uses {1} to exhaust {3}',
-                messageArgs: (context) => [context.target]
+                message: '{0} uses {1} to exhaust {2}'
             }
         });
     }

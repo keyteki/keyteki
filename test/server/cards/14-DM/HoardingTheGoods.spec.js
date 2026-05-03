@@ -18,16 +18,16 @@ describe('Hoarding the Goods', function () {
             this.caspart.exhaust();
             this.noxiousIonox.exhaust();
             this.player1.play(this.hoardingTheGoods);
-            expect(this.caspart.tokens.amber).toBe(1);
-            expect(this.noxiousIonox.tokens.amber).toBe(1);
-            expect(this.sparkscheme.tokens.amber).toBeUndefined();
+            expect(this.caspart.amber).toBe(1);
+            expect(this.noxiousIonox.amber).toBe(1);
+            expect(this.sparkscheme.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing when no creatures exhausted', function () {
             this.player1.play(this.hoardingTheGoods);
-            expect(this.caspart.tokens.amber).toBeUndefined();
+            expect(this.caspart.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

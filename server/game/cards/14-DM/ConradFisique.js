@@ -16,15 +16,13 @@ class ConradFisique extends Card {
                     cardType: 'creature',
                     cardCondition: (card, context) => card !== context.targets.source,
                     gameAction: ability.actions.addPowerCounter((context) => ({
-                        amount: context.targets.source
-                            ? context.targets.source.tokens.power || 0
-                            : 0
+                        amount: context.targets.source ? context.targets.source.powerCounters : 0
                     }))
                 }
             },
             effect: 'move {1} +1 power {2} from {3}{4}',
             effectArgs: (context) => {
-                const amount = (context.targets.source && context.targets.source.tokens.power) || 0;
+                const amount = context.targets.source ? context.targets.source.powerCounters : 0;
                 return [
                     amount,
                     amount === 1 ? 'counter' : 'counters',

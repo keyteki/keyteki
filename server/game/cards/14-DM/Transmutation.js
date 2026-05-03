@@ -14,9 +14,9 @@ class Transmutation extends Card {
                     optional: true,
                     cardType: 'creature',
                     controller: 'self',
-                    cardCondition: (card) => card.tokens.power > 0,
+                    cardCondition: (card) => card.powerCounters > 0,
                     gameAction: ability.actions.removePowerCounter((context) => ({
-                        amount: context.target ? context.target.tokens.power : 0,
+                        amount: context.target ? context.target.powerCounters : 0,
                         upTo: true
                     }))
                 },

@@ -9,7 +9,7 @@ class RiaBevyGress extends Card {
             gameAction: ability.actions.capture((context) => ({
                 amount: context.player.isOverwhelmed()
                     ? context.player.creaturesInPlay.reduce(
-                          (total, card) => total + (card.tokens.power || 0),
+                          (total, card) => total + card.powerCounters,
                           0
                       )
                     : 1,

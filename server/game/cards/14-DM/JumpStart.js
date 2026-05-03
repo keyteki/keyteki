@@ -27,8 +27,7 @@ class JumpStart extends Card {
                         ability.actions.use()
                     ])
                 },
-                message: '{0} uses {1} to repeat the preceding effect and ready and use {3}',
-                messageArgs: (context) => [context.target]
+                message: '{0} uses {1} to repeat the preceding effect and ready and use {2}'
             }
         });
     }
