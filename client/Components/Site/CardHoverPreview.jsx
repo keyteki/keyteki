@@ -30,7 +30,7 @@ const CardHoverPreview = ({ card, position }) => {
             className='pointer-events-none fixed z-[1200]'
             style={{ left: `${left}px`, top: `${top}px` }}
         >
-            <div className='card-hover-preview w-72'>
+            <div className='w-72 [&>canvas]:!block [&>canvas]:!h-auto [&>canvas]:!w-full [&>canvas]:!max-w-full [&>img]:!block [&>img]:!h-auto [&>img]:!w-full [&>img]:!max-w-full'>
                 <CardImage card={Object.assign({}, card, { location: 'zoom' })} />
             </div>
         </div>,
