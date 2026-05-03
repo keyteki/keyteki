@@ -1,9 +1,7 @@
 const Card = require('../../Card.js');
 
 class HannibalsMark extends Card {
-    // Play: Take control of an enemy flank creature and give it three +1
-    // power counters. While under your control, it belongs to house
-    // Skyborn. (Instead of its original house.)
+    // Play: Take control of an enemy flank creature and give it three +1 power counters. While under your control, it belongs to house Skyborn. (Instead of its original house.)
     setupCardAbilities(ability) {
         this.play({
             target: {

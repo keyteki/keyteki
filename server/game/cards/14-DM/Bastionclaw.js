@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Bastionclaw extends Card {
-    // Your keys cost -1 for each forged key your opponent has.
+    // Your keys cost –1A for each forged key your opponent has.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'self',

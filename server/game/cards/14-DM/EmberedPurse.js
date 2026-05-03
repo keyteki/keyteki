@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class EmberedPurse extends Card {
-    // Play: Steal 1 for each ready Skyborn creature in play.
+    // Play: Steal 1A for each ready Skyborn creature in play.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.steal((context) => ({

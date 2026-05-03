@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class BlankCheck extends Card {
-    // Play: Each player shuffles their archives and discard pile into their deck.
-    // Discard the top 5 cards of your opponent's deck. Play the top card of their deck as if it were yours.
+    // Play: Each player shuffles their archives and discard pile into their deck. Discard the top 5 cards of your opponent's deck. Play the top card of their deck as if it were yours.
     setupCardAbilities(ability) {
         const playerShuffle = (context) =>
             ability.actions.returnToDeck({

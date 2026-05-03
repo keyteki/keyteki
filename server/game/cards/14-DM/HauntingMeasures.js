@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class HauntingMeasures extends Card {
-    // Play: Discard the top 6 cards of your deck. You may put a non-Geistoid
-    // card discarded this way into your hand.
+    // Play: Discard the top 6 cards of your deck. You may put a non-Geistoid card discarded this way into your hand.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.discard((context) => ({

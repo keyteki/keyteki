@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Hoardgouge extends Card {
-    // This creature gains, "After Fight/After Reap: If you are overwhelmed, gain 1 and deal 3 to an enemy creature."
+    // This creature gains, "After Fight/After Reap: If you are overwhelmed, gain 1A and deal 3 damage to an enemy creature."
     setupCardAbilities(ability) {
         const grantedAbility = {
             condition: (context) => context.player.isOverwhelmed(),

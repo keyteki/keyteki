@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class ChlorodozeVapor extends Card {
-    // Play: Deal 3 to each creature. For each creature destroyed this way, exhaust a creature.
+    // Play: Deal 3 damage to each creature. For each creature destroyed this way, exhaust a creature.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.dealDamage((context) => ({

@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class GildedBurden extends Card {
-    // Play: For each forged key your opponent has, an enemy creature captures 2 from its own side.
+    // Play: For each forged key your opponent has, an enemy creature captures 2A from its own side.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class Malforge extends Card {
     // Treachery. Versatile.
     // You cannot forge keys.
-    // At the end of your turn, deal 2 to Malforge.
+    // At the end of your turn, deal 2 damage to Malforge.
     setupCardAbilities(ability) {
         this.persistentEffect({
             effect: ability.effects.playerCannot('forge')

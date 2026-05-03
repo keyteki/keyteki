@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class ReplacementTarg extends Card {
     // Deploy.
-    // Play: Put a neighboring non-Soldier creature into its owner's hand. If you do, the most powerful friendly creature captures 2.
+    // Play: Put a neighboring non-Soldier creature into its owner's hand. If you do, the most powerful friendly creature captures 2A.
     setupCardAbilities(ability) {
         this.play({
             target: {

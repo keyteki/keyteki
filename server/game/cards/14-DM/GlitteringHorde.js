@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class GlitteringHorde extends Card {
-    // Play: For each color represented among forged keys, steal 1.
+    // Play: For each color represented among forged keys, steal 1A.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.steal((context) => {

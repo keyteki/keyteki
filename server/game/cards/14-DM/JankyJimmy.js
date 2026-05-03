@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class JankyJimmy extends Card {
-    // After Fight: If you are overwhelmed, an enemy creature captures 1
-    // from its own side. Otherwise, capture 1.
+    // After Fight: If you are overwhelmed, an enemy creature captures 1A from its own side. Otherwise, capture 1A.
     setupCardAbilities(ability) {
         this.fight({
             gameAction: ability.actions.conditional((context) => ({

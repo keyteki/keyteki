@@ -6,8 +6,7 @@ class DozeWing extends Card {
         this.play({
             gameAction: ability.actions.exhaust((context) => ({
                 target: context.game.creaturesInPlay.filter((card) => !card.hasTrait('dragon'))
-            })),
-            effect: 'exhaust each non-Dragon creature'
+            }))
         });
     }
 }

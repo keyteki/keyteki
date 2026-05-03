@@ -1,9 +1,7 @@
 const Card = require('../../Card.js');
 
 class ColdRopes extends Card {
-    // Play: If you are overwhelmed, put an enemy creature on the bottom of
-    // its owner's deck. Otherwise, move an enemy creature to a flank of its
-    // controller's battleline and exhaust it.
+    // Play: If you are overwhelmed, put an enemy creature on the bottom of its owner's deck. Otherwise, move an enemy creature to a flank of its controller's battleline and exhaust it.
     setupCardAbilities(ability) {
         this.play({
             target: {

@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class OutOfIdeas extends Card {
-    // Play: Shuffle Out of Ideas and the top card of your discard pile
-    // into their owner's deck.
+    // Play: Shuffle Out of Ideas and the top card of your discard pile into their owner's deck.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.returnToDeck((context) => ({

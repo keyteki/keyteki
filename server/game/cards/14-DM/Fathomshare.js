@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class Fathomshare extends Card {
-    // Play: Capture half of your opponent's amber (rounding down),
-    // distributed among any number of friendly creatures.
+    // Play: Capture half of your opponent's amber (rounding down), distributed among any number of friendly creatures.
     setupCardAbilities(ability) {
         this.play({
             effect: 'capture {1} amber from {2}, distributed among friendly creatures',

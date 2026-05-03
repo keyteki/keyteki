@@ -2,8 +2,7 @@ const Card = require('../../Card.js');
 const _ = require('underscore');
 
 class TechnoShade extends Card {
-    // After Fight/After Reap: Your opponent shuffles a random card
-    // from their hand into their deck.
+    // After Fight/After Reap: Your opponent shuffles a random card from their hand into their deck.
     setupCardAbilities(ability) {
         this.reap({
             fight: true,

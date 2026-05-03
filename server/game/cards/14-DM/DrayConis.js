@@ -1,7 +1,8 @@
 const Card = require('../../Card.js');
 
 class DrayConis extends Card {
-    // Entrench. At the start of your turn, if Dray Conis is exhausted, destroy each creature.
+    // Entrench.
+    // At the start of your turn, if Dray Conis is exhausted, destroy each creature.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

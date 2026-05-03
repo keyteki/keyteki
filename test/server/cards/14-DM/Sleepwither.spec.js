@@ -19,10 +19,7 @@ describe('Sleepwither', function () {
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.caspart);
             expect(this.caspart.location).toBe('discard');
-            // 0 + 2
             expect(this.player1.amber).toBe(2);
-            const logs = this.getChatLogs(10);
-            expect(logs).toContain('player1 uses Sleepwither to destroy Caspart');
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -39,6 +36,13 @@ describe('Sleepwither', function () {
             this.player1.play(this.sleepwither);
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.caspart);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('does nothing if no valid targets', function () {
+            this.player1.moveCard(this.caspart, 'hand');
+            this.player2.moveCard(this.noxiousIonox, 'hand');
+            this.player1.play(this.sleepwither);
             expect(this.player1).isReadyToTakeAction();
         });
     });

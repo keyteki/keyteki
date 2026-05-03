@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class Hemogrith extends Card {
-    // Play: If there are no enemy exhausted creatures, your opponent loses 2.
+    // Play: If there are no enemy exhausted creatures, your opponent loses 2A.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) =>

@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class SnapperDyn extends Card {
-    // Entrench. At the end of your turn, if Snapper Dyn is exhausted,
-    // deal 1 to an enemy creature for each amber in your opponent's pool.
+    // Entrench.
+    // At the end of your turn, if Snapper Dyn is exhausted, deal 1 damage to an enemy creature for each amber in your opponent's pool.
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
@@ -13,7 +13,7 @@ class SnapperDyn extends Card {
                 controller: 'opponent',
                 numSteps: context.player.opponent ? context.player.opponent.amber : 0
             })),
-            effect: 'deal 1 damage to an enemy creature for each amber in their opponent\u2019s pool'
+            effect: "deal 1 damage to an enemy creature for each amber in their opponent's pool"
         });
     }
 }

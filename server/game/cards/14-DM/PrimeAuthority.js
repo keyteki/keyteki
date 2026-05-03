@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class PrimeAuthority extends Card {
-    // Play: Ready or exhaust a creature. If there are more exhausted friendly creatures
-    // than exhausted enemy creatures, gain 2.
+    // Play: Ready or exhaust a creature. If there are more exhausted friendly creatures than exhausted enemy creatures, gain 2A.
     setupCardAbilities(ability) {
         this.play({
             targets: {

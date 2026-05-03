@@ -1,6 +1,7 @@
 const Card = require('../../Card.js');
 
 class ColtSleven extends Card {
+    // Enhance damage power power.
     // Play: For each +1 power counter on each creature, deal 1 damage to a creature.
     setupCardAbilities(ability) {
         this.play({

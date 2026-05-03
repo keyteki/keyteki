@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class BleaForh extends Card {
-    // After Fight: Heal up to 2 damage from a creature. For each damage
-    // healed this way, exalt that creature.
+    // After Fight: Heal up to 2 damage from a creature. For each damage healed this way, exalt that creature.
     setupCardAbilities(ability) {
         this.fight({
             target: {

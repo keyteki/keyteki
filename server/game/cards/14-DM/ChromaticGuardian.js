@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class ChromaticGuardian extends Card {
-    // After Fight/After Reap: If you are overwhelmed, destroy an enemy
-    // creature. Otherwise, destroy an enemy artifact.
+    // After Fight/After Reap: If you are overwhelmed, destroy an enemy creature. Otherwise, destroy an enemy artifact.
     setupCardAbilities(ability) {
         this.reap({
             fight: true,

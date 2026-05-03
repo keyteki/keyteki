@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class EvenSwap extends Card {
-    // Play: Give control of two friendly creatures to your opponent, one at a
-    // time. If you do, take control of two enemy creatures, one at a time.
+    // Play: Give control of two friendly creatures to your opponent, one at a time. If you do, take control of two enemy creatures, one at a time.
     setupCardAbilities(ability) {
         const giveTarget = () => ({
             mode: 'exactly',

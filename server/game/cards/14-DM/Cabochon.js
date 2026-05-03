@@ -2,8 +2,7 @@ const Card = require('../../Card.js');
 
 class Cabochon extends Card {
     // Entrench.
-    // At the start of your turn, if Cabochon is exhausted, gain 1 for each
-    // friendly Skyborn flank creature.
+    // At the start of your turn, if Cabochon is exhausted, gain 1A for each friendly Skyborn flank creature.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

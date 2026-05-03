@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class OlSwitcheroo extends Card {
-    // Play: A friendly creature captures 1. Give control of that creature
-    // to your opponent.
+    // Enhance capture capture.
+    // Play: A friendly creature captures 1A. Give control of that creature to your opponent.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

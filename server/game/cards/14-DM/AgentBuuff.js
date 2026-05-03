@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class AgentBuuff extends Card {
-    // After Reap: If you are overwhelmed, give a friendly creature three +1 power counters.
-    // Otherwise, give each friendly creature a +1 power counter.
+    // After Reap: If you are overwhelmed, give a friendly creature three +1 power counters. Otherwise, give each friendly creature a +1 power counter.
     setupCardAbilities(ability) {
         this.reap({
             alwaysTriggers: true,

@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class Recyclops extends Card {
-    // After Reap: Discard a card. If you do, give a creature two +1
-    // power counters.
+    // Enhance discard power power.
+    // After Reap: Discard a card. If you do, give a creature two +1 power counters.
     setupCardAbilities(ability) {
         this.reap({
             preferActionPromptMessage: true,

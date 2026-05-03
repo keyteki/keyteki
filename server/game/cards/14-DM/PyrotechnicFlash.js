@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class PyrotechnicFlash extends Card {
-    // Play: Deal 2 damage to a creature, with 1 splash. If this damage destroys 2 or more creatures, steal 1A.
+    // Play: Deal 2 damage to a creature, with 1 damage splash. If this damage destroys 2 or more creatures, steal 1A.
     setupCardAbilities(ability) {
         this.play({
             target: {

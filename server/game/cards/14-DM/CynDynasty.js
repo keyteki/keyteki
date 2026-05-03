@@ -1,8 +1,8 @@
 const Card = require('../../Card.js');
 
 class CynDynasty extends Card {
-    // Keys cost +2.
-    // After your opponent forges a key, gain 2, draw 4 cards, and destroy Cyn Dynasty.
+    // Keys cost +2A.
+    // After your opponent forges a key, gain 2A, draw 4 cards, and destroy Cyn Dynasty.
     setupCardAbilities(ability) {
         this.persistentEffect({
             targetController: 'any',

@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class NadaTax extends Card {
-    // Play: Your opponent discards a random card from their hand. For each
-    // bonus icon on the discarded card, they lose 1A.
+    // Play: Your opponent discards a random card from their hand. For each bonus icon on the discarded card, they lose 1A.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

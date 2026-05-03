@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class SpikeyGoeff extends Card {
     // Taunt.
     // If you are overwhelmed, Spikey Goeff gains hazardous 2.
-    // Scrap: Deal 2 to a creature.
+    // Scrap: Deal 2 damage to a creature.
     setupCardAbilities(ability) {
         this.persistentEffect({
             condition: (context) => context.source.controller.isOverwhelmed(),

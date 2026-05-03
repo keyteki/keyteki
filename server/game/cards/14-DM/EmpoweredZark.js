@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class EmpoweredZark extends Card {
-    // After Fight: Empowered Zark captures 2A. If there are 3 or more A on Empowered Zark,
-    // you may move 3A from Empowered Zark to the common supply and ready each non-Agent Mars creature.
+    // After Fight: Capture 2A. If there are 3A or more on Empowered Zark, you may move 3A from it to the common supply and ready each non-Agent Mars creature.
     setupCardAbilities(ability) {
         this.fight({
             gameAction: ability.actions.capture({ amount: 2 }),

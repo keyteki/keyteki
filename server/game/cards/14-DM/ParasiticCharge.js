@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class ParasiticCharge extends Card {
-    // Play: Forge a key at +8 current cost, reduced by 1 for each amber in your opponent's pool.
-    // If you do, purge Parasitic Charge.
+    // Play: Forge a key at +8A current cost, reduced by 1A for each amber in your opponent's pool. If you do, purge Parasitic Charge.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.forgeKey((context) => ({

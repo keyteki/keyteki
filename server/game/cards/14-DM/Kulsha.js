@@ -2,7 +2,7 @@ const GiganticCard = require('../../GiganticCard.js');
 
 class Kulsha extends GiganticCard {
     // (Play only with the other half of Kulsha.)
-    // Your opponent's keys cost +2 for each forged key they have.
+    // Your opponent's keys cost +2A for each forged key they have.
     // After Fight/After Reap: Exhaust up to 3 creatures.
     constructor(owner, cardData) {
         super(owner, cardData);

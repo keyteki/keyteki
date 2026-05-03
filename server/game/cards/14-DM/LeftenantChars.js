@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class LeftenantChars extends Card {
-    // After Fight: If you are overwhelmed, steal 2. Otherwise capture 1.
+    // After Fight: If you are overwhelmed, steal 2A. Otherwise capture 1A.
     setupCardAbilities(ability) {
         this.fight({
             gameAction: ability.actions.conditional((context) => ({

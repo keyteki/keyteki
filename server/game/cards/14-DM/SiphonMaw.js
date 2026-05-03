@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class SiphonMaw extends Card {
-    // After Fight/After Reap: Discard the top card of a player's deck.
-    // For each bonus icon on the discarded card, your opponent loses 1.
+    // After Fight/After Reap: Discard the top card of a player's deck. For each bonus icon on the discarded card, your opponent loses 1A.
     setupCardAbilities(ability) {
         this.fight({
             reap: true,

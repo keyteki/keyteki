@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class KeepTheChange extends Card {
-    // Play: Pay your opponent up to 6A. For each A paid this way, draw a card.
+    // Play: Pay your opponent up to 6A. For each amber paid this way, draw a card.
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,

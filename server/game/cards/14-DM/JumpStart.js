@@ -1,8 +1,7 @@
 const Card = require('../../Card.js');
 
 class JumpStart extends Card {
-    // Play: Ready and use a friendly flank creature. If you are
-    // overwhelmed, repeat the preceding effect.
+    // Play: Ready and use a friendly flank creature. If you are overwhelmed, repeat the preceding effect.
     setupCardAbilities(ability) {
         this.play({
             target: {

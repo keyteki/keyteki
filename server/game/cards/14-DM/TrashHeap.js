@@ -1,9 +1,7 @@
 const Card = require('../../Card.js');
 
 class TrashHeap extends Card {
-    // Play: Destroy each creature. Each player reveals their hand and
-    // discards each creature revealed this way. Each player refills their
-    // hand as if it were their "draw cards" step.
+    // Play: Destroy each creature. Each player reveals their hand and discards each creature revealed this way. Each player refills their hand as if it were their "draw cards" step.
     setupCardAbilities(ability) {
         const playerDiscard = (player) =>
             ability.actions.discard(() => ({

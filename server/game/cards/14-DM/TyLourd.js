@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class TyLourd extends Card {
-    // After your opponent discards a card from their hand, gain 1.
+    // After your opponent discards a card from their hand, gain 1A.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

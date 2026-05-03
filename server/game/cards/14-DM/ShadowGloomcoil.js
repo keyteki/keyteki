@@ -2,7 +2,7 @@ const Card = require('../../Card.js');
 
 class ShadowGloomcoil extends Card {
     // Treachery. Versatile.
-    // After a friendly creature is used, deal 1 to each friendly creature.
+    // After a friendly creature is used, deal 1 damage to each friendly creature.
     setupCardAbilities(ability) {
         this.reaction({
             when: {

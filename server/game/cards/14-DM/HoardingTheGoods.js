@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class HoardingTheGoods extends Card {
-    // Play: Each friendly exhausted creature captures 1.
+    // Play: Each friendly exhausted creature captures 1A.
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.capture((context) => ({
