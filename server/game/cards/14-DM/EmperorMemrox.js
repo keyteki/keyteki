@@ -10,19 +10,21 @@ class EmperorMemrox extends Card {
         });
 
         this.reap({
-            gameAction: ability.actions.sequential([
-                ability.actions.archive({
-                    promptForSelect: {
-                        location: 'hand',
-                        controller: 'self'
-                    }
-                }),
-                ability.actions.gainAmber((context) => ({
+            gameAction: ability.actions.archive({
+                promptForSelect: {
+                    location: 'hand',
+                    controller: 'self'
+                }
+            }),
+            effect: 'archive a card',
+            then: () => ({
+                alwaysTriggers: true,
+                gameAction: ability.actions.gainAmber((context) => ({
                     amount: context.player.archives.length
-                }))
-            ]),
-            effect: 'archive a card and gain {1} amber',
-            effectArgs: (context) => [context.player.archives.length]
+                })),
+                message: '{0} uses {1} to gain {3} amber',
+                messageArgs: (context) => [context.player.archives.length]
+            })
         });
     }
 }
