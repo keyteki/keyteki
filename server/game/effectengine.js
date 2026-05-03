@@ -81,13 +81,84 @@ class EffectEngine {
             (stateChanged, effect) => effect.checkCondition(stateChanged),
             stateChanged
         );
+        // Record a snapshot of each effect's current target set so we can detect
+        // persistent effects whose target set is oscillating between passes
+        // (the signature of an infinite loop between two card abilities).
+        this.recordTargetSnapshots();
         if (loops === 10) {
-            throw new Error('EffectEngine.checkEffects looped 10 times');
+            // Per the rules, an infinite loop is resolved by removing the
+            // affected card from play to its owner's discard pile (it is not
+            // considered destroyed). Detect the oscillating effect(s) and
+            // discard their source(s) to settle game state.
+            const removed = this.resolveInfiniteLoop();
+            if (!removed) {
+                throw new Error('EffectEngine.checkEffects looped 10 times');
+            }
+            this.newEffect = true;
+            return true;
         } else {
             this.checkEffects(stateChanged, loops + 1);
         }
 
         return stateChanged;
+    }
+
+    recordTargetSnapshots() {
+        for (const effect of this.effects) {
+            if (effect.duration !== 'persistentEffect') {
+                continue;
+            }
+            const snapshot = effect.targets
+                .map((t) => (t && t.uuid) || '')
+                .sort()
+                .join('|');
+            if (!effect._targetHistory) {
+                effect._targetHistory = [];
+            }
+            effect._targetHistory.push(snapshot);
+            if (effect._targetHistory.length > 4) {
+                effect._targetHistory.shift();
+            }
+        }
+    }
+
+    resolveInfiniteLoop() {
+        // An effect is "oscillating" if its target set in the last 4 passes
+        // alternates between two distinct states (A, B, A, B).
+        const oscillating = this.effects.filter((effect) => {
+            const history = effect._targetHistory;
+            if (!history || history.length < 4) {
+                return false;
+            }
+            const [a, b, c, d] = history.slice(-4);
+            return a !== b && a === c && b === d;
+        });
+
+        const sourcesToDiscard = new Set();
+        for (const effect of oscillating) {
+            const source = effect.source;
+            if (source && source.location === 'play area' && source.owner) {
+                sourcesToDiscard.add(source);
+            }
+        }
+
+        if (sourcesToDiscard.size === 0) {
+            return false;
+        }
+
+        for (const source of sourcesToDiscard) {
+            this.game.addMessage(
+                '{0} is removed from play and placed in its owner’s discard pile to resolve an infinite loop',
+                source
+            );
+            source.owner.moveCard(source, 'discard');
+        }
+
+        // Reset history so subsequent checks start fresh.
+        for (const effect of this.effects) {
+            effect._targetHistory = [];
+        }
+        return true;
     }
 
     onPhaseEnd() {
