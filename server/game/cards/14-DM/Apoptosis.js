@@ -11,6 +11,7 @@ class Apoptosis extends Card {
                 gameAction: ability.actions.purge()
             },
             then: {
+                message: '{0} uses {1} to capture 2 amber onto {2}',
                 target: {
                     cardType: 'creature',
                     controller: 'self',
