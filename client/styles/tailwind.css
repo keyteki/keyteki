@@ -390,6 +390,14 @@ pre {
   height: auto;
 }
 
+.card-hover-preview > img,
+.card-hover-preview > canvas {
+  display: block;
+  width: 100% !important;
+  height: auto !important;
+  max-width: 100% !important;
+}
+
 .enhanced-card {
   color: #4f779b;
 }
