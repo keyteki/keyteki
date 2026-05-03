@@ -28,9 +28,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
     const enhancementSignature = Array.isArray(card?.enhancements)
         ? card.enhancements.join('|')
         : '';
-    const [imageSrc, setImageSrc] = useState('');
-    const renderScale =
-        typeof window !== 'undefined' && (window.devicePixelRatio || 1) < 1.5 ? 2 : 1;
+    const [imageSrc, setImageSrc] = useState(null);
     const cardId = card?.id;
     const cardLocation = card?.location;
     const modifiedPower = card?.modifiedPower;
@@ -118,7 +116,6 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                     size,
                     halfSize,
                     showAccolades,
-                    renderScale,
                     url: localizedImageUrl
                 });
             } catch {
@@ -167,7 +164,6 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
         size,
         halfSize,
         showAccolades,
-        renderScale,
         localizedImageUrl,
         i18n.language
     ]);
@@ -177,6 +173,9 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
     }
 
     if (!shouldRenderCanvas) {
+        if (!imageSrc) {
+            return <div className='block h-full w-full' />;
+        }
         return (
             <img
                 src={imageSrc}

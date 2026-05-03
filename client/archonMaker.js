@@ -1,7 +1,7 @@
 import * as fabricModule from 'fabric';
+import QRCode from 'qrcode';
 
 const fabric = fabricModule.fabric ?? fabricModule.default ?? fabricModule;
-import QRCode from 'qrcode';
 
 import { Constants } from './constants';
 
@@ -716,7 +716,6 @@ export const buildCard = async (
         modifiedPower,
         tokens = {},
         showAccolades = true,
-        renderScale = 1,
         ...card
     }
 ) => {
@@ -744,20 +743,15 @@ export const buildCard = async (
 
     const width = 300;
     const height = halfSize ? 262.5 : 420;
-    const sizeMultiplier = getCardSizeMultiplier(size);
-    const isZoomCard = card.location === 'zoom';
-    const displayWidth = isZoomCard
-        ? width * sizeMultiplier
-        : (halfSize ? 75 : defaultCardWidth) * sizeMultiplier;
-    const displayHeight = displayWidth * (height / width);
-    const displayScale = displayWidth / width;
-    const internalRenderScale = Math.max(1, Number(renderScale) || 1);
 
+    // Render at native source resolution so all overlaid assets (enhancement
+    // pips, tokens, etc.) are composited at their authored pixel density.
+    // We only set the backing store; the canvas element's CSS size is
+    // controlled by its parent layout (e.g. Tailwind h-full w-full), which
+    // lets the browser perform a single high-quality downscale at paint time.
     canvas.setZoom(1);
     canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
-    canvas.setWidth(displayWidth * internalRenderScale);
-    canvas.setHeight(displayHeight * internalRenderScale);
-    canvas.setZoom(displayScale * internalRenderScale);
+    canvas.setDimensions({ width, height }, { backstoreOnly: true });
 
     const cardImage = new fabric.Image(
         DeckCards[halfSize ? 'halfSize' : 'cards'][image].toCanvasElement(),
