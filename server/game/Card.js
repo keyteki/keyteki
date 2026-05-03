@@ -365,7 +365,10 @@ class Card extends EffectSource {
 
         // Invulnerable
         const ignoresInvulnerable = (context, effectContext, event) => {
-            const source = (event && event.damageSource) || (context && context.source) || null;
+            const source =
+                (event && event.damageSource) ||
+                (event && event.damageEvent && event.damageEvent.damageSource) ||
+                null;
             return !(source && source.ignores && source.ignores('invulnerable'));
         };
         this.abilities.keywordPersistentEffects.push(

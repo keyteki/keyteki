@@ -47,6 +47,18 @@ describe('Zomok', function () {
             this.player1.clickCard(this.emperorMemrox);
             expect(this.emperorMemrox.tokens.damage).toBe(2);
         });
+
+        it('can destroy an invulnerable creature with lethal after-fight damage', function () {
+            expect(this.emperorMemrox.hasKeyword('invulnerable')).toBe(true);
+            this.player1.player.keys.red = true;
+            this.player1.player.keys.blue = true;
+            this.player2.player.keys.red = true;
+            this.player1.fightWith(this.zomok, this.urchin);
+            this.player1.clickCard(this.emperorMemrox);
+            this.player1.clickCard(this.emperorMemrox);
+            this.player1.clickCard(this.emperorMemrox);
+            expect(this.emperorMemrox.location).toBe('discard');
+        });
     });
 
     describe("Zomok's after-fight ability", function () {
