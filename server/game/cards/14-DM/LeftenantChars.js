@@ -8,7 +8,11 @@ class LeftenantChars extends Card {
                 condition: context.player.isOverwhelmed(),
                 trueGameAction: ability.actions.steal({ amount: 2 }),
                 falseGameAction: ability.actions.capture({ amount: 1 })
-            }))
+            })),
+            effect: '{1}',
+            effectArgs: (context) => [
+                context.player.isOverwhelmed() ? 'steal 2 amber' : 'capture 1 amber'
+            ]
         });
     }
 }

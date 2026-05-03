@@ -17,6 +17,7 @@ class BlankCheck extends Card {
                 target: context.player.opponent.archives.concat(context.player.opponent.discard)
             });
         this.play({
+            effect: 'have each player shuffle their archives and discard pile into their deck',
             gameAction: ability.actions.conditional((context) => ({
                 condition: !!context.player.opponent,
                 trueGameAction: context.player.optionSettings.orderForcedAbilities

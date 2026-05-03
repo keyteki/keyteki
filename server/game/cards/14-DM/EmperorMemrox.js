@@ -20,7 +20,9 @@ class EmperorMemrox extends Card {
                 ability.actions.gainAmber((context) => ({
                     amount: context.player.archives.length
                 }))
-            ])
+            ]),
+            effect: 'archive a card and gain {1} amber',
+            effectArgs: (context) => [context.player.archives.length]
         });
     }
 }

@@ -11,7 +11,8 @@ class AuthorizedRequisitions extends Card {
             },
             then: {
                 alwaysTriggers: true,
-                gameAction: ability.actions.draw()
+                gameAction: ability.actions.draw(),
+                message: '{0} uses {1} to draw a card'
             }
         });
     }

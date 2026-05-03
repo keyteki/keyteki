@@ -17,6 +17,23 @@ class UjkyytrPrime extends Card {
                     }),
                     falseGameAction: ability.actions.stun({ target: context.target })
                 }))
+            },
+            effect: '{1}',
+            effectArgs: (context) => {
+                const t = context.target;
+                if (!context.player.isOverwhelmed()) {
+                    return [`stun ${t.name}`];
+                }
+                const neighbors = t.neighbors;
+                if (neighbors.length === 0) {
+                    return [`stun ${t.name}`];
+                }
+                if (neighbors.length === 1) {
+                    return [`stun ${t.name} and its neighbor ${neighbors[0].name}`];
+                }
+                return [
+                    `stun ${t.name} and its neighbors ${neighbors[0].name} and ${neighbors[1].name}`
+                ];
             }
         });
     }
