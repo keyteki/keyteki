@@ -30,7 +30,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
         : '';
     const [imageSrc, setImageSrc] = useState('');
     const renderScale =
-        typeof window !== 'undefined' && (window.devicePixelRatio || 1) < 1.5 ? 2 : 1;
+        typeof window === 'undefined' ? 1 : Math.min(2, Math.max(1, window.devicePixelRatio || 1));
     const cardId = card?.id;
     const cardLocation = card?.location;
     const modifiedPower = card?.modifiedPower;
