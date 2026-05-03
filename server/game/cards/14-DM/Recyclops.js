@@ -5,6 +5,7 @@ class Recyclops extends Card {
     // power counters.
     setupCardAbilities(ability) {
         this.reap({
+            preferActionPromptMessage: true,
             target: {
                 location: 'hand',
                 controller: 'self',
@@ -14,7 +15,8 @@ class Recyclops extends Card {
                 target: {
                     cardType: 'creature',
                     gameAction: ability.actions.addPowerCounter({ amount: 2 })
-                }
+                },
+                message: '{0} uses {1} to give two +1 power counters to {2}'
             }
         });
     }
