@@ -11,15 +11,7 @@ class ColtSleven extends Card {
                     (sum, card) => sum + card.powerCounters,
                     0
                 )
-            })),
-            effect: 'deal 1 damage to a creature {1} time{2}',
-            effectArgs: (context) => {
-                const total = context.game.creaturesInPlay.reduce(
-                    (sum, card) => sum + card.powerCounters,
-                    0
-                );
-                return [total, total === 1 ? '' : 's'];
-            }
+            }))
         });
     }
 }

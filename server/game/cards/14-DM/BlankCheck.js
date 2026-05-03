@@ -40,8 +40,9 @@ class BlankCheck extends Card {
                 gameAction: ability.actions.conditional((context) => ({
                     condition: !!context.player.opponent,
                     trueGameAction: ability.actions.sequential([
-                        ability.actions.discard((context) => ({
-                            target: context.player.opponent.deck.slice(0, 5)
+                        ability.actions.discardTopOfDeck((context) => ({
+                            target: context.player.opponent,
+                            amount: 5
                         })),
                         ability.actions.playCard((context) => ({
                             revealOnIllegalTarget: true,

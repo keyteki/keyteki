@@ -157,7 +157,10 @@ class ResolveBonusIconsAction extends CardGameAction {
                         onSelect: (player, card) => {
                             context.game.actions
                                 .addPowerCounter({ amount: 1 })
-                                .resolve(card, context.game.getFrameworkContext(player));
+                                .resolve(
+                                    card,
+                                    this.bonusIconContext(context, event.card, icon, player)
+                                );
                             context.game.addMessage(
                                 "{0} adds a +1 power counter to {1} due to {2}'s bonus icon",
                                 player,
