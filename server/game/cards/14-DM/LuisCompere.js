@@ -62,6 +62,6 @@ class LuisCompere extends Card {
     }
 }
 
-LuisCompere.id = 'luis-compere';
+LuisCompere.id = 'luis-compère';
 
 module.exports = LuisCompere;
