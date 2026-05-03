@@ -365,11 +365,18 @@ class Card extends EffectSource {
 
         // Invulnerable
         const invulnerabilityApplies = (_context, _effectContext, event) => {
-            const source =
-                (event && event.damageSource) ||
-                (event && event.damageEvent && event.damageEvent.damageSource) ||
-                null;
-            return !(source && source.ignores && source.ignores('invulnerable'));
+            const damageEvent = (event && event.damageEvent) || event;
+            const source = damageEvent && damageEvent.damageSource;
+            if (!source || !source.ignores || !source.ignores('invulnerable')) {
+                return true;
+            }
+            // In a fight, only the attacker's `ignores` bypasses invulnerable;
+            // the defender dealing fight damage back does not bypass it.
+            const fightEvent = damageEvent && damageEvent.fightEvent;
+            if (fightEvent && fightEvent.attacker !== source) {
+                return true;
+            }
+            return false;
         };
         this.abilities.keywordPersistentEffects.push(
             this.persistentEffect({
