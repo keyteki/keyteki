@@ -104,6 +104,7 @@ const NewGame = ({
                         as: values.as,
                         cc: values.cc,
                         cota: values.cota,
+                        dm: values.dm,
                         disc: values.disc,
                         dt: values.dt,
                         gr: values.gr,
@@ -175,7 +176,8 @@ const NewGame = ({
                                 !formProps.values.vm2024 &&
                                 !formProps.values.vm2025 &&
                                 !formProps.values.pv &&
-                                !formProps.values.cc
+                                !formProps.values.cc &&
+                                !formProps.values.dm
                             ) {
                                 formProps.setFieldError(
                                     'gameFormat',
