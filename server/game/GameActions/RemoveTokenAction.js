@@ -63,7 +63,7 @@ class RemoveTokenAction extends CardGameAction {
                                 tokenLabel = 'amber';
                             } else if (this.type === 'power') {
                                 tokenLabel =
-                                    event.amount === 1 ? 'power counter' : 'power counters';
+                                    event.amount === 1 ? '+1 power counter' : '+1 power counters';
                             } else {
                                 tokenLabel = event.amount === 1 ? this.type : `${this.type}s`;
                             }
