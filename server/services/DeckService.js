@@ -1288,9 +1288,11 @@ class DeckService {
         let anomalies = {
             'ecto-charge': { anomalySet: 600, house: 'geistoid' },
             ignitus: { anomalySet: 939, house: 'ouboros' },
+            'lateral-shift': { anomalySet: 453, house: 'unfathomable' },
             'near-future-lens': { anomalySet: 600, house: 'staralliance' },
             'nizak-the-forgotten': { anomalySet: 453, house: 'ouboros' },
             'orb-of-wonder': { anomalySet: 453, house: 'sanctum' },
+            timequake: { anomalySet: 453, house: 'ouboros' },
             'the-grim-reaper': { anomalySet: 453, house: 'geistoid' },
             'the-red-baron': { anomalySet: 453, house: 'skyborn' },
             valoocanth: { anomalySet: 453, house: 'unfathomable' }
