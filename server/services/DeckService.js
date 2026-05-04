@@ -1291,7 +1291,10 @@ class DeckService {
             ignitus: { anomalySets: [918, 939], house: 'ouboros' },
             'lateral-shift': { anomalySets: [452, 453, 600, 886], house: 'unfathomable' },
             'near-future-lens': { anomalySets: [600], house: 'staralliance' },
-            'nizak-the-forgotten': { anomalySets: [452, 453, 600, 886, 939], house: 'ouboros' },
+            'nizak-the-forgotten': {
+                anomalySets: [452, 453, 600, 886, 918, 939],
+                house: 'ouboros'
+            },
             'orb-of-wonder': { anomalySets: [453], house: 'sanctum' },
             'the-grim-reaper': { anomalySets: [453], house: 'geistoid' },
             'the-red-baron': { anomalySets: [453], house: 'skyborn' },
