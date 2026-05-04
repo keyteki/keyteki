@@ -1,10 +1,10 @@
+import * as fabricModule from 'fabric';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import * as fabricModule from 'fabric';
+import { buildCard, houselessCards } from '../../archonMaker';
 
 const fabric = fabricModule.fabric ?? fabricModule.default ?? fabricModule;
-import { buildCard } from '../../archonMaker';
 
 /**
  * @typedef CardImageProps
@@ -74,6 +74,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
     const shouldRenderCanvas =
         Boolean(card?.maverick) ||
         Boolean(card?.anomaly) ||
+        (card?.id && houselessCards.includes(card.id)) ||
         (Array.isArray(card?.enhancements) && card.enhancements.length > 0) ||
         card?.location === 'play area' ||
         card?.location === 'zoom';
