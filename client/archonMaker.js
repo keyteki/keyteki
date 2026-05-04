@@ -114,7 +114,7 @@ const skybeasts = [
 ];
 
 // The MV API doesn't provide proper per-house images for these cards.
-const houselessCards = [
+export const houselessCards = [
     'build-your-champion',
     'digging-up-the-monster',
     'tomes-gigantica',
