@@ -31,4 +31,32 @@ describe('Hoarding the Goods', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('Hoarding the Goods with limited opponent amber', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'ouboros',
+                    amber: 0,
+                    hand: ['hoarding-the-goods'],
+                    inPlay: ['caspart', 'noxious-ionox', 'sparkscheme']
+                },
+                player2: {
+                    amber: 1
+                }
+            });
+        });
+
+        it('does nothing when opponent has no amber', function () {
+            this.player2.player.amber = 0;
+            this.caspart.exhaust();
+            this.noxiousIonox.exhaust();
+            this.player1.play(this.hoardingTheGoods);
+            expect(this.caspart.amber).toBe(0);
+            expect(this.noxiousIonox.amber).toBe(0);
+            const logs = this.getChatLogs(10);
+            expect(logs).toContain('player1 plays Hoarding the Goods');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

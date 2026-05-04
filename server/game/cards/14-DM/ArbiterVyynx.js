@@ -11,6 +11,7 @@ class ArbiterVyynx extends Card {
                 gameAction: ability.actions.destroy()
             },
             then: {
+                message: '{0} uses {1} to take control of {2}',
                 target: {
                     cardType: 'creature',
                     controller: 'opponent',

@@ -5,7 +5,7 @@ class KeyDrain extends Card {
     // Play: You may discard any number of cards from your hand. Then, forge a key at +9A current cost, reduced by 1A for each card discarded this way.
     setupCardAbilities(ability) {
         this.play({
-            effect: 'forge a key, reduced by 1 amber for each card discarded',
+            preferActionPromptMessage: true,
             target: {
                 controller: 'self',
                 mode: 'unlimited',

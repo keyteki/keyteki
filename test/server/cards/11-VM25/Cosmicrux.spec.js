@@ -40,4 +40,29 @@ describe('Cosmicrux', function () {
             expect(this.charette.damage).toBe(0);
         });
     });
+
+    describe('Cosmicrux deals all of its ready damage simultaneously', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    inPlay: ['cosmicrux', 'urchin', 'old-egad', 'umbra']
+                },
+                player2: {}
+            });
+            this.oldEgad.armorUsed = this.oldEgad.armor;
+        });
+
+        it('destroys Old Egad and urchin simultaneously', function () {
+            this.urchin.exhaust();
+            this.oldEgad.exhaust();
+            this.umbra.exhaust();
+            this.player1.endTurn();
+            expect(this.urchin.location).toBe('discard');
+            expect(this.oldEgad.location).toBe('discard');
+            expect(this.umbra.location).toBe('play area');
+            expect(this.umbra.damage).toBe(1);
+            expect(this.umbra.warded).toBe(true);
+        });
+    });
 });

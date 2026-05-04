@@ -1,6 +1,6 @@
-const GiganticCard = require('../../GiganticCard.js');
+const Hydrogan = require('./Hydrogan.js');
 
-class Hydrogan2 extends GiganticCard {
+class Hydrogan2 extends Hydrogan {
     // (Play only with the other half of Hydrogan.)
     // Play: Put each other creature faceup under Hydrogan.
     // After Fight/After Reap: Put a creature from under Hydrogan into play under your control.

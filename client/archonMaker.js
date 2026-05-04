@@ -1110,6 +1110,7 @@ const getCountersForCard = (card) => {
         'enrage',
         'stun',
         'awakening',
+        'corrosion',
         'depth',
         'disruption',
         'doom',

@@ -10,12 +10,18 @@ class Klyyhnug extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.removePowerCounter({ all: true })
             },
+            effect: 'remove {1} +1 power {2} from {0}',
+            effectArgs: (context) => {
+                const amount = context.target ? context.target.powerCounters : 0;
+                return [amount, amount === 1 ? 'counter' : 'counters'];
+            },
             then: {
                 target: {
                     location: 'hand',
                     controller: 'self',
                     gameAction: ability.actions.archive()
-                }
+                },
+                message: '{0} uses {1} to archive a card'
             }
         });
     }
