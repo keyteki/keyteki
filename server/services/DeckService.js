@@ -1296,7 +1296,7 @@ class DeckService {
             'the-grim-reaper': { anomalySets: [453], house: 'geistoid' },
             'the-red-baron': { anomalySets: [453], house: 'skyborn' },
             'thermal-depletion': { anomalySets: [918, 939], house: 'ouboros' },
-            timequake: { anomalySets: [452, 453, 600, 886, 939], house: 'ouboros' },
+            timequake: { anomalySets: [452, 453, 600, 886, 918, 939], house: 'ouboros' },
             valoocanth: { anomalySets: [453], house: 'unfathomable' }
         };
 
