@@ -1286,16 +1286,16 @@ class DeckService {
         };
 
         let anomalies = {
-            'ecto-charge': { anomalySet: 600, house: 'geistoid' },
-            ignitus: { anomalySet: 939, house: 'ouboros' },
-            'lateral-shift': { anomalySet: 453, house: 'unfathomable' },
-            'near-future-lens': { anomalySet: 600, house: 'staralliance' },
-            'nizak-the-forgotten': { anomalySet: 453, house: 'ouboros' },
-            'orb-of-wonder': { anomalySet: 453, house: 'sanctum' },
-            timequake: { anomalySet: 453, house: 'ouboros' },
-            'the-grim-reaper': { anomalySet: 453, house: 'geistoid' },
-            'the-red-baron': { anomalySet: 453, house: 'skyborn' },
-            valoocanth: { anomalySet: 453, house: 'unfathomable' }
+            'ecto-charge': { anomalySets: [600], house: 'geistoid' },
+            ignitus: { anomalySets: [939], house: 'ouboros' },
+            'lateral-shift': { anomalySets: [452, 453, 600, 886], house: 'unfathomable' },
+            'near-future-lens': { anomalySets: [600], house: 'staralliance' },
+            'nizak-the-forgotten': { anomalySets: [452, 453, 600, 886, 939], house: 'ouboros' },
+            'orb-of-wonder': { anomalySets: [453], house: 'sanctum' },
+            timequake: { anomalySets: [452, 453, 600, 886, 939], house: 'ouboros' },
+            'the-grim-reaper': { anomalySets: [453], house: 'geistoid' },
+            'the-red-baron': { anomalySets: [453], house: 'skyborn' },
+            valoocanth: { anomalySets: [453], house: 'unfathomable' }
         };
 
         let deckCards = deckResponse._linked.cards;
@@ -1388,7 +1388,7 @@ class DeckService {
                 retCard.image = `${retCard.id}-${retCard.house}`;
             }
 
-            if (anomalies[id] && anomalies[id].anomalySet !== card.expansion) {
+            if (anomalies[id] && !anomalies[id].anomalySets.includes(card.expansion)) {
                 // Former anomaly cards use their printed house in regular sets.
                 delete retCard.anomaly;
                 retCard.house = anomalies[id].house;
