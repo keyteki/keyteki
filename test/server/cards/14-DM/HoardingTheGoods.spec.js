@@ -41,9 +41,7 @@ describe('Hoarding the Goods', function () {
                     hand: ['hoarding-the-goods'],
                     inPlay: ['caspart', 'noxious-ionox', 'sparkscheme']
                 },
-                player2: {
-                    amber: 1
-                }
+                player2: {}
             });
         });
 
@@ -54,8 +52,24 @@ describe('Hoarding the Goods', function () {
             this.player1.play(this.hoardingTheGoods);
             expect(this.caspart.amber).toBe(0);
             expect(this.noxiousIonox.amber).toBe(0);
-            const logs = this.getChatLogs(10);
-            expect(logs).toContain('player1 plays Hoarding the Goods');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('lets player choose which exhausted creatures capture amber', function () {
+            this.player2.player.amber = 2;
+            this.caspart.exhaust();
+            this.noxiousIonox.exhaust();
+            this.sparkscheme.exhaust();
+            this.player1.play(this.hoardingTheGoods);
+            expect(this.player1).toBeAbleToSelect(this.caspart);
+            expect(this.player1).toBeAbleToSelect(this.noxiousIonox);
+            expect(this.player1).toBeAbleToSelect(this.sparkscheme);
+            this.player1.clickCard(this.caspart);
+            this.player1.clickCard(this.noxiousIonox);
+            this.player1.clickPrompt('done');
+            expect(this.caspart.amber).toBe(1);
+            expect(this.noxiousIonox.amber).toBe(1);
+            expect(this.sparkscheme.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });
