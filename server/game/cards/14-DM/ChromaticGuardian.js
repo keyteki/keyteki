@@ -5,18 +5,23 @@ class ChromaticGuardian extends Card {
     setupCardAbilities(ability) {
         this.reap({
             fight: true,
+            preferActionPromptMessage: true,
             gameAction: ability.actions.conditional((context) => ({
                 condition: context.player.isOverwhelmed(),
                 trueGameAction: ability.actions.destroy({
                     promptForSelect: {
                         cardType: 'creature',
-                        controller: 'opponent'
+                        controller: 'opponent',
+                        message: '{0} uses {1} to destroy {2}',
+                        messageArgs: (cards) => [context.player, context.source, cards]
                     }
                 }),
                 falseGameAction: ability.actions.destroy({
                     promptForSelect: {
                         cardType: 'artifact',
-                        controller: 'opponent'
+                        controller: 'opponent',
+                        message: '{0} uses {1} to destroy {2}',
+                        messageArgs: (cards) => [context.player, context.source, cards]
                     }
                 })
             }))

@@ -20,7 +20,13 @@ class AgentBuuff extends Card {
                     target: context.player.creaturesInPlay,
                     amount: 1
                 })
-            }))
+            })),
+            effect: '{1}',
+            effectArgs: (context) => [
+                context.player.isOverwhelmed()
+                    ? `give ${context.target.name} three +1 power counters`
+                    : 'give each friendly creature a +1 power counter'
+            ]
         });
     }
 }

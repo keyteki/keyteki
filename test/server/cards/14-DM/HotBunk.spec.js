@@ -1,4 +1,4 @@
-describe('HotBunk', function () {
+describe('Hot Bunk', function () {
     describe("Hot Bunk's ability", function () {
         beforeEach(function () {
             this.setupTest({

@@ -28,6 +28,8 @@ class ReadyPhase extends Phase {
 
         this.game.promptForSelect(player, {
             activePromptTitle: 'Select entrenched creatures to ready',
+            source: 'Entrench',
+            controls: [],
             mode: 'unlimited',
             cardType: 'creature',
             controller: 'self',

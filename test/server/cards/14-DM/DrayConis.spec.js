@@ -32,7 +32,9 @@ describe('Dray Conis', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('ouboros');
             expect(this.drayConis.location).toBe('play area');
+            expect(this.caspart.location).toBe('play area');
             expect(this.troll.location).toBe('play area');
+            expect(this.bumpsy.location).toBe('play area');
             expect(this.player1).isReadyToTakeAction();
         });
     });

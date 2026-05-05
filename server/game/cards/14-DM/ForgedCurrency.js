@@ -7,13 +7,10 @@ class ForgedCurrency extends Card {
             effect: 'move {1} +1 power {2} and {3} amber from friendly creatures to the common supply',
             effectArgs: (context) => {
                 const power = context.player.creaturesInPlay.reduce(
-                    (sum, c) => sum + (c.tokens.power || 0),
+                    (sum, c) => sum + c.powerCounters,
                     0
                 );
-                const amber = context.player.creaturesInPlay.reduce(
-                    (sum, c) => sum + (c.tokens.amber || 0),
-                    0
-                );
+                const amber = context.player.creaturesInPlay.reduce((sum, c) => sum + c.amber, 0);
                 return [power, power === 1 ? 'counter' : 'counters', amber];
             },
             gameAction: ability.actions.jointAction([

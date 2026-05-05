@@ -242,4 +242,61 @@ describe('De-Animator', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('De-Animator with Blossom Drake', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['de-animator']
+                },
+                player2: {
+                    inPlay: ['blossom-drake', 'troll']
+                }
+            });
+        });
+
+        // De-Animator mineralizing itself loops: De-Animator's own persistent
+        // effect is what makes it an artifact, but Blossom Drake then blanks
+        // it, suppressing that very effect — which restores it, etc.
+        it('removes De-Animator from play when it mineralizes itself', function () {
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.deAnimator);
+            while (
+                this.player1.currentPrompt() &&
+                this.player1.currentPrompt().menuTitle ===
+                    'Which flank do you want to move this creature to?'
+            ) {
+                this.player1.clickPrompt('Left');
+            }
+            expect(this.deAnimator.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        // De-Animator changes Blossom Drake's type to artifact,
+        // which causes Blossom Drake's persistent effect to blank itself, which
+        // removes the blank, which restores it, etc.
+        it('removes Blossom Drake from play when De-Animator mineralizes it', function () {
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.blossomDrake);
+            expect(this.blossomDrake.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        // Mineralizing another creature in the presence of Blossom Drake does
+        // not loop: De-Animator's effect on the mineralized card persists even
+        // after Blossom Drake blanks it, which only suppresses the card's
+        // own abilities. The blanked card is an artifact but lacks the granted
+        // "Action: Destroy" ability.
+        it('does not loop when mineralizing a non-Blossom-Drake creature', function () {
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.troll);
+            expect(this.troll.location).toBe('play area');
+            expect(this.troll.type).toBe('artifact');
+            expect(this.troll.isBlank()).toBe(true);
+            expect(this.troll.actions).toEqual([]);
+            expect(this.blossomDrake.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

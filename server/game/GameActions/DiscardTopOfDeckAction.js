@@ -9,10 +9,10 @@ class DiscardTopOfDeckAction extends PlayerAction {
     setup() {
         super.setup();
         this.name = 'discard-top-of-deck';
-        this.effectMsg =
-            'discard ' +
-            (this.amount === 1 ? 'a card' : this.amount + ' cards') +
-            " from the top of {0}'s deck";
+        const player = this.target[0];
+        const cards = player ? player.deck.slice(0, Math.min(this.amount, player.deck.length)) : [];
+        this.effectMsg = "discard {1} from the top of {0}'s deck";
+        this.effectArgs = [cards.length > 0 ? cards : 'nothing'];
     }
 
     canAffect(player, context) {

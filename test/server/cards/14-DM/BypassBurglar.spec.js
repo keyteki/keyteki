@@ -1,4 +1,4 @@
-describe('BypassBurglar', function () {
+describe('Bypass Burglar', function () {
     describe("Bypass Burglar's ability", function () {
         beforeEach(function () {
             this.setupTest({
@@ -12,21 +12,26 @@ describe('BypassBurglar', function () {
             });
         });
 
-        it('grants steal/self-damage action to neighbors when exhausted', function () {
+        it('grants steal/self-damage action to left neighbor when exhausted', function () {
             this.player1.reap(this.bypassBurglar);
             this.player1.useAction(this.exeldonYash);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
             expect(this.exeldonYash.damage).toBe(1);
+            expect(this.bypassBurglar.damage).toBe(0);
+            expect(this.krisperRuld.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('right neighbor also gains the action', function () {
+        it('grants steal/self-damage action to right neighbor when exhausted', function () {
             this.player1.reap(this.bypassBurglar);
             this.player1.useAction(this.krisperRuld);
             expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(2);
             expect(this.krisperRuld.damage).toBe(0);
             expect(this.krisperRuld.armor).toBe(0);
+            expect(this.bypassBurglar.damage).toBe(0);
+            expect(this.exeldonYash.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 

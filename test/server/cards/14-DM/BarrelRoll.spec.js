@@ -28,9 +28,8 @@ describe('Barrel Roll', function () {
             this.player1.clickPrompt('Right');
             expect(this.krump.exhausted).toBe(true);
             expect(this.krump.isOnFlank()).toBe(true);
-            expect(
-                this.player2.player.cardsInPlay[this.player2.player.cardsInPlay.length - 1]
-            ).toBe(this.krump);
+            expect(this.troll.location).toBe('play area');
+            expect(this.bumpsy.location).toBe('play area');
             expect(this.player1).isReadyToTakeAction();
         });
     });

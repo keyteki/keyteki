@@ -4,7 +4,6 @@ class ProductiveTrash extends Card {
     // Play: You may discard a non-Mars card. If you do, a friendly creature captures 1A for each bonus icon on the discarded card.
     setupCardAbilities(ability) {
         this.play({
-            effect: 'discard a non-Mars card and capture amber for each bonus icon',
             target: {
                 optional: true,
                 location: 'hand',
@@ -12,6 +11,8 @@ class ProductiveTrash extends Card {
                 cardCondition: (card) => !card.hasHouse('mars'),
                 gameAction: ability.actions.discard()
             },
+            effect: 'discard {0} and capture {1} amber',
+            effectArgs: (context) => [context.target ? context.target.bonusIcons.length : 0],
             then: (preThenContext) => ({
                 alwaysTriggers: true,
                 gameAction: ability.actions.sequentialForEach(() => ({

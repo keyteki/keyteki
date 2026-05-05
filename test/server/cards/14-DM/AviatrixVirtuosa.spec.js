@@ -17,7 +17,9 @@ describe('Aviatrix Virtuosa', function () {
             // Place Aviatrix on the right flank.
             this.player1.play(this.aviatrixVirtuosa);
             // Player1 battleline: bosun-creen (left), flip-stallard (center), aviatrix (right)
+            expect(this.bosunCreen.exhausted).toBe(false);
             expect(this.flipStallard.exhausted).toBe(true);
+            expect(this.aviatrixVirtuosa.exhausted).toBe(true);
             // Player2 battleline: troll (left), krump (center), bumpsy (right)
             expect(this.troll.exhausted).toBe(false);
             expect(this.krump.exhausted).toBe(true);

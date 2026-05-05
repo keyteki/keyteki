@@ -1,4 +1,4 @@
-describe('DapperChapeau', function () {
+describe('Dapper Chapeau', function () {
     describe("Dapper Chapeau's ability", function () {
         beforeEach(function () {
             this.setupTest({

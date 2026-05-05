@@ -23,8 +23,8 @@ describe('Gilded Burden', function () {
             expect(this.player1).not.toBeAbleToSelect(this.gildedBurden);
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.bumpsy);
-            expect(this.troll.tokens.amber).toBe(2);
-            expect(this.bumpsy.tokens.amber).toBe(2);
+            expect(this.troll.amber).toBe(2);
+            expect(this.bumpsy.amber).toBe(2);
             expect(this.player2.amber).toBe(1);
             const logs = this.getChatLogs(10);
             expect(logs).toContain('player1 uses Gilded Burden to have Troll capture 2 amber');
@@ -39,8 +39,8 @@ describe('Gilded Burden', function () {
             this.player1.play(this.gildedBurden);
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.bumpsy);
-            expect(this.troll.tokens.amber).toBe(2);
-            expect(this.bumpsy.tokens.amber).toBe(1);
+            expect(this.troll.amber).toBe(2);
+            expect(this.bumpsy.amber).toBe(1);
             expect(this.player2.amber).toBe(0);
             const logs = this.getChatLogs(10);
             expect(logs).toContain('player1 uses Gilded Burden to have Troll capture 2 amber');
@@ -54,7 +54,7 @@ describe('Gilded Burden', function () {
             this.player1.play(this.gildedBurden);
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.amber).toBe(4);
+            expect(this.troll.amber).toBe(4);
             expect(this.player2.amber).toBe(1);
             const logs = this.getChatLogs(10);
             expect(logs).toContain('player1 uses Gilded Burden to have Troll capture 4 amber');
@@ -63,7 +63,7 @@ describe('Gilded Burden', function () {
 
         it('does nothing when opp has 0 forged keys', function () {
             this.player1.play(this.gildedBurden);
-            expect(this.troll.tokens.amber).toBeUndefined();
+            expect(this.troll.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

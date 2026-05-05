@@ -1,5 +1,5 @@
-describe('AuthorizedRequisitions', function () {
-    describe("Authorized Requisitions's ability", function () {
+describe('Authorized Requisitions', function () {
+    describe("Authorized Requisitions' ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {

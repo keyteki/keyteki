@@ -9,6 +9,7 @@ class AllocateDamageAction extends GameAction {
         this.numSteps = 0;
         this.splash = 0;
         this.controller = 'any';
+        this.defersMessage = true;
     }
 
     preEventHandler(context) {
@@ -38,6 +39,13 @@ class AllocateDamageAction extends GameAction {
                                     context.game.actions
                                         .dealDamage({ amount: amount })
                                         .getEvent(card, context)
+                                );
+                                context.game.addMessage(
+                                    '{0} uses {1} to deal {2} damage to {3}',
+                                    context.player,
+                                    context.source,
+                                    amount,
+                                    card
                                 );
                             }
                         }

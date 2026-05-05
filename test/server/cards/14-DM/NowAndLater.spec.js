@@ -1,4 +1,4 @@
-describe('NowAndLater', function () {
+describe('Now And Later', function () {
     describe("Now and Later's ability", function () {
         it('returns an enemy creature to hand and archives a card', function () {
             this.setupTest({
