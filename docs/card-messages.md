@@ -93,6 +93,21 @@ The values map to placeholders as follows:
 -   `{2}` - Second value in effectArgs array
 -   `{3}`, `{4}`, etc. - Continue in order
 
+> **Guard against undefined `context.target`.** Unlike `gameAction` factories — which the framework only invokes when there is a legal target — `effectArgs` is evaluated unconditionally to produce the chat message, even when no target was chosen (optional targets, no legal targets in play, etc.). Dereferencing `context.target.X` directly will crash with `TypeError: Cannot read properties of undefined`. Use optional chaining and a sensible fallback so the args array shape stays stable:
+>
+> ```javascript
+> // Bad - crashes when target is undefined
+> effectArgs: (context) => [context.target.amber];
+>
+> // Good - returns [0] when target is undefined
+> effectArgs: (context) => [context.target?.amber ?? 0];
+>
+> // Good - returns [[]] when target is undefined (array placeholders)
+> effectArgs: (context) => [context.target?.neighbors.concat(context.target) ?? []];
+> ```
+>
+> Pick the fallback to match the placeholder's role: `?? 0` for numeric/`.length` slots, `?? []` for array slots, omit entirely for slots that just print a card/player name (`undefined` renders fine there).
+
 ```javascript
 // Output: "{player1} uses Effervescent Principle to gain 1 chain and make {player1} lose 3 amber and {player2} lose 2 amber"
 this.play({
@@ -372,7 +387,7 @@ this.reap({
     }))
   },
   effect: 'move all {2} amber from {0} to their pool and give control of {0} to {1}',
-  effectArgs: (context) =} [context.player.opponent, context.target.tokens.amber || 0]
+  effectArgs: (context) =} [context.player.opponent, context.target?.amber ?? 0]
   // ...
 });
 ```
