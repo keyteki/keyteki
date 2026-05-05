@@ -1150,7 +1150,7 @@ class DeckService {
 
         try {
             const result = await db.query(
-                `SELECT COUNT(*) AS "TotalCount", 
+                `SELECT COUNT(*) AS "TotalCount",
                         COUNT(*) FILTER (WHERE "UserId" = $1) AS "OwnedCount"
                  FROM "Decks"
                  WHERE "Id" = ANY($2)`,
@@ -1286,15 +1286,20 @@ class DeckService {
         };
 
         let anomalies = {
+            cosmicrux: { anomalySets: [918, 939], house: 'ouboros' },
             'ecto-charge': { anomalySets: [600], house: 'geistoid' },
-            ignitus: { anomalySets: [939], house: 'ouboros' },
+            ignitus: { anomalySets: [918, 939], house: 'ouboros' },
             'lateral-shift': { anomalySets: [452, 453, 600, 886], house: 'unfathomable' },
             'near-future-lens': { anomalySets: [600], house: 'staralliance' },
-            'nizak-the-forgotten': { anomalySets: [452, 453, 600, 886, 939], house: 'ouboros' },
+            'nizak-the-forgotten': {
+                anomalySets: [452, 453, 600, 886, 918, 939],
+                house: 'ouboros'
+            },
             'orb-of-wonder': { anomalySets: [453], house: 'sanctum' },
-            timequake: { anomalySets: [452, 453, 600, 886, 939], house: 'ouboros' },
             'the-grim-reaper': { anomalySets: [453], house: 'geistoid' },
             'the-red-baron': { anomalySets: [453], house: 'skyborn' },
+            'thermal-depletion': { anomalySets: [918, 939], house: 'ouboros' },
+            timequake: { anomalySets: [452, 453, 600, 886, 918, 939], house: 'ouboros' },
             valoocanth: { anomalySets: [453], house: 'unfathomable' }
         };
 

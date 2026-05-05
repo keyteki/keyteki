@@ -32,4 +32,27 @@ describe('Sparkscheme', function () {
             expect(this.player2).isReadyToTakeAction();
         });
     });
+
+    describe("Reaping into opponent's Pied Viper", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    inPlay: ['sparkscheme', 'bumpsy']
+                },
+                player2: {
+                    inPlay: ['pied-viper']
+                }
+            });
+        });
+
+        it('does not draw a card', function () {
+            const before = this.player1.hand.length;
+            this.player1.reap(this.bumpsy);
+            this.player1.clickPrompt('Right');
+            expect(this.bumpsy.controller).toBe(this.player2.player);
+            expect(this.player1.hand.length).toBe(before);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

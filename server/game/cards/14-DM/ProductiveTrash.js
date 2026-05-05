@@ -4,6 +4,7 @@ class ProductiveTrash extends Card {
     // Play: You may discard a non-Mars card. If you do, a friendly creature captures 1A for each bonus icon on the discarded card.
     setupCardAbilities(ability) {
         this.play({
+            preferActionPromptMessage: true,
             target: {
                 optional: true,
                 location: 'hand',
@@ -11,20 +12,46 @@ class ProductiveTrash extends Card {
                 cardCondition: (card) => !card.hasHouse('mars'),
                 gameAction: ability.actions.discard()
             },
-            effect: 'discard {0} and capture {1} amber',
-            effectArgs: (context) => [context.target ? context.target.bonusIcons.length : 0],
-            then: (preThenContext) => ({
-                alwaysTriggers: true,
-                gameAction: ability.actions.sequentialForEach(() => ({
-                    num: preThenContext.target ? preThenContext.target.bonusIcons.length : 0,
-                    action: ability.actions.capture({
-                        promptForSelect: {
-                            cardType: 'creature',
-                            controller: 'self'
+            then: (preThenContext) => {
+                if (!preThenContext.target) {
+                    return { alwaysTriggers: true };
+                }
+
+                const captures = new Map();
+                const captureAction = ability.actions.capture({
+                    promptForSelect: {
+                        cardType: 'creature',
+                        controller: 'self',
+                        onSelect: (_, card) => {
+                            captureAction.setTarget(card);
+                            captures.set(card, (captures.get(card) || 0) + 1);
+                            return true;
+                        }
+                    }
+                });
+
+                return {
+                    alwaysTriggers: true,
+                    gameAction: ability.actions.sequentialForEach(() => ({
+                        num: preThenContext.target.bonusIcons.length,
+                        action: captureAction
+                    })),
+                    then: () => ({
+                        alwaysTriggers: true,
+                        handler: (thenContext) => {
+                            for (const [card, amount] of captures) {
+                                thenContext.game.addMessage(
+                                    '{0} uses {1} to capture {2} amber on {3}',
+                                    thenContext.player,
+                                    thenContext.source,
+                                    amount,
+                                    card
+                                );
+                            }
                         }
                     })
-                }))
-            })
+                };
+            }
         });
     }
 }
