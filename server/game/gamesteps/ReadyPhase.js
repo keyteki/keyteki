@@ -18,8 +18,15 @@ class ReadyPhase extends Phase {
     promptForEntrenched() {
         this.entrenchedToReady = new Set();
         const player = this.game.activePlayer;
+        const context = this.game.getFrameworkContext(player);
+        if (!player.checkRestrictions('ready', context)) {
+            return;
+        }
         const entrenchedCreatures = player.creaturesInPlay.filter(
-            (card) => card.exhausted && card.hasKeyword('entrench')
+            (card) =>
+                card.exhausted &&
+                card.hasKeyword('entrench') &&
+                card.checkRestrictions('ready', context)
         );
 
         if (entrenchedCreatures.length === 0) {

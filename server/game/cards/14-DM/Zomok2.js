@@ -1,6 +1,6 @@
-const GiganticCard = require('../../GiganticCard.js');
+const Zomok = require('./Zomok.js');
 
-class Zomok2 extends GiganticCard {
+class Zomok2 extends Zomok {
     // (Play only with the other half of Zomok.)
     // While Zomok is attacking, ignore taunt, elusive, poison, hazardous, and invulnerable.
     // After Fight: Deal 2 damage to a creature for each forged key.

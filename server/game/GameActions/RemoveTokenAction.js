@@ -58,12 +58,22 @@ class RemoveTokenAction extends CardGameAction {
                         choices: Array.from(Array(event.amount + 1), (x, i) => i.toString()),
                         choiceHandler: (choice) => {
                             event.amount = parseInt(choice);
+                            let tokenLabel;
+                            if (this.type === 'amber') {
+                                tokenLabel = 'amber';
+                            } else if (this.type === 'power') {
+                                tokenLabel =
+                                    event.amount === 1 ? '+1 power counter' : '+1 power counters';
+                            } else {
+                                tokenLabel = event.amount === 1 ? this.type : `${this.type}s`;
+                            }
                             context.game.addMessage(
-                                "{0} removes {1} tokens {2} using {3}'s ability",
+                                '{0} uses {1} to remove {2} {3} from {4}',
                                 context.player,
-                                event.card,
+                                context.source,
                                 choice,
-                                context.source
+                                tokenLabel,
+                                event.card
                             );
                             card.removeToken(event.type, event.amount);
                         }

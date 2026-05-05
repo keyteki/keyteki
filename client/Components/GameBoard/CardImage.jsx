@@ -39,6 +39,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
     const amberTokens = tokens.amber;
     const armorTokens = tokens.armor;
     const awakeningTokens = tokens.awakening;
+    const corrosionTokens = tokens.corrosion;
     const damageTokens = tokens.damage;
     const depthTokens = tokens.depth;
     const disruptionTokens = tokens.disruption;
@@ -136,6 +137,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
         amberTokens,
         armorTokens,
         awakeningTokens,
+        corrosionTokens,
         damageTokens,
         depthTokens,
         disruptionTokens,

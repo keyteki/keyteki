@@ -122,6 +122,8 @@ class CardImport {
                 'odd-clawde': true
             },
             928: {
+                cosmicrux: true,
+                'thermal-depletion': true,
                 ignitus: true,
                 'nizak-the-forgotten': true,
                 'lateral-shift': true,
