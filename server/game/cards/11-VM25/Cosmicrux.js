@@ -10,11 +10,9 @@ class Cosmicrux extends Card {
             autoResolve: true,
             gameAction: ability.actions.changeEvent((context) => ({
                 event: context.event,
-                processEvent: (event, innerContext) => {
+                processEvent: (event) => {
                     event.addChildEvent(
-                        ability.actions
-                            .dealDamage({ amount: 1 })
-                            .getEvent(event.card, innerContext.game.getFrameworkContext())
+                        ability.actions.dealDamage({ amount: 1 }).getEvent(event.card, context)
                     );
                 }
             }))
