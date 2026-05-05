@@ -16,7 +16,7 @@ class CacophonousRiot extends Card {
                 ])
             },
             effect: 'ready and enrage {1}',
-            effectArgs: (context) => [context.target.neighbors.concat(context.target)]
+            effectArgs: (context) => [context.target?.neighbors.concat(context.target) ?? []]
         });
     }
 }

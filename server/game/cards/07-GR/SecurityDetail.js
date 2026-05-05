@@ -12,7 +12,7 @@ class SecurityDetail extends Card {
                 }))
             },
             effect: 'capture 1 amber onto {1}',
-            effectArgs: (context) => [context.target.neighbors.concat(context.target)]
+            effectArgs: (context) => [context.target?.neighbors.concat(context.target) ?? []]
         });
     }
 }
