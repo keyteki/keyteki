@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Concentric rings (matches the style of doom/growth/glory/etc.):
+       1. outer white ring   (radius ~85, edge of disk)
+       2. black ring         (radius ~80)
+       3. darker fill ring   (radius ~75)
+       4. main fill disk     (radius  65)
+  -->
+  <circle cx="100" cy="100" r="85" fill="#ffffff"/>
+  <circle cx="100" cy="100" r="80" fill="#000000"/>
+  <circle cx="100" cy="100" r="75" fill="#8a3f17"/>
+  <circle cx="100" cy="100" r="65" fill="#c45c24"/>
+
+  <!-- Tipped Erlenmeyer flask (fits inside the inner disk).
+       Drawn upright in flask-local coordinates, then rotated ~110° clockwise
+       so the opening points down-right. -->
+  <g transform="translate(88 96) rotate(110) scale(0.82)"
+     fill="#5a240a" stroke="#5a240a" stroke-linejoin="round" stroke-linecap="round" stroke-width="1.5">
+    <!-- Body (cone) + neck + foot silhouette -->
+    <path d="
+      M -32 46
+      L  32 46
+      L  32 40
+      L  29 40
+      L   9 -14
+      L   9 -36
+      L  12 -42
+      L -12 -42
+      L  -9 -36
+      L  -9 -14
+      L -29 40
+      L -32 40
+      Z"/>
+    <!-- Rim collar -->
+    <rect x="-13" y="-46" width="26" height="5" rx="1.5"/>
+  </g>
+
+  <!-- Falling drop below the flask opening (lower-right) -->
+  <g fill="#5a240a">
+    <path d="
+      M 128 116
+      C 125 124 120 132 120 139
+      C 120 146 125 149 128 149
+      C 131 149 136 146 136 139
+      C 136 132 131 124 128 116 Z"/>
+    <ellipse cx="126" cy="140" rx="1.8" ry="3" fill="#c45c24"/>
+  </g>
+</svg>

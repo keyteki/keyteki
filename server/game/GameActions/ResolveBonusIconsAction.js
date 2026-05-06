@@ -147,6 +147,31 @@ class ResolveBonusIconsAction extends CardGameAction {
                     });
                 }
                 break;
+            case 'power':
+                if (context.game.creaturesInPlay.length > 0) {
+                    context.game.promptForSelect(context.game.activePlayer, {
+                        activePromptTitle:
+                            'Choose a creature to add a +1 power counter to due to bonus icon',
+                        source: event.card,
+                        cardType: 'creature',
+                        onSelect: (player, card) => {
+                            context.game.actions
+                                .addPowerCounter({ amount: 1 })
+                                .resolve(
+                                    card,
+                                    this.bonusIconContext(context, event.card, icon, player)
+                                );
+                            context.game.addMessage(
+                                "{0} adds a +1 power counter to {1} due to {2}'s bonus icon",
+                                player,
+                                card,
+                                event.card
+                            );
+                            return true;
+                        }
+                    });
+                }
+                break;
             case 'token':
                 if (context.player.tokenCard) {
                     context.game.actions

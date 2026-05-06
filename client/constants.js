@@ -17,6 +17,7 @@ export const Constants = {
         'geistoid',
         'logos',
         'mars',
+        'ouboros',
         'redemption',
         'sanctum',
         'saurian',
@@ -33,6 +34,7 @@ export const Constants = {
         'Geistoid',
         'Logos',
         'Mars',
+        'Ouboros',
         'Redemption',
         'Sanctum',
         'Saurian',
@@ -162,6 +164,13 @@ export const Constants = {
             tideRequired: false,
             tokenRequired: false,
             prophecySupported: false
+        },
+        {
+            value: '928',
+            label: 'DM',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
         }
     ],
     CardTypes: [
@@ -189,7 +198,8 @@ export const Constants = {
         capture: imageUrl('enhancements/capture.png'),
         draw: imageUrl('enhancements/draw.png'),
         damage: imageUrl('enhancements/damage.png'),
-        discard: imageUrl('enhancements/discard.png')
+        discard: imageUrl('enhancements/discard.png'),
+        power: imageUrl('enhancements/power.png')
     },
     TideImages: {
         neutral: imageUrl('tide/tide-neutral.png'),

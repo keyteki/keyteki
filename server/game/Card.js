@@ -296,7 +296,8 @@ class Card extends EffectSource {
                 title: 'Hazardous',
                 printedAbility: false,
                 when: {
-                    onFight: (event, context) => event.card === context.source
+                    onFight: (event, context) =>
+                        event.card === context.source && !event.attacker.ignores('hazardous')
                 },
                 gameAction: ability.actions.dealDamage((context) => ({
                     amount: context.source.getKeywordValue('hazardous'),
@@ -363,14 +364,28 @@ class Card extends EffectSource {
         );
 
         // Invulnerable
+        const invulnerabilityApplies = (_context, _effectContext, event) => {
+            const damageEvent = (event && event.damageEvent) || event;
+            const source = damageEvent && damageEvent.damageSource;
+            if (!source || !source.ignores || !source.ignores('invulnerable')) {
+                return true;
+            }
+            // In a fight, only the attacker's `ignores` bypasses invulnerable;
+            // the defender dealing fight damage back does not bypass it.
+            const fightEvent = damageEvent && damageEvent.fightEvent;
+            if (fightEvent && fightEvent.attacker !== source) {
+                return true;
+            }
+            return false;
+        };
         this.abilities.keywordPersistentEffects.push(
             this.persistentEffect({
                 condition: () => !!this.getKeywordValue('invulnerable'),
                 printedAbility: false,
                 match: this,
                 effect: [
-                    ability.effects.cardCannot('damage'),
-                    ability.effects.cardCannot('destroy'),
+                    ability.effects.cardCannot('damage', invulnerabilityApplies),
+                    ability.effects.cardCannot('destroy', invulnerabilityApplies),
                     ability.effects.cardCannot('sacrifice')
                 ]
             })
