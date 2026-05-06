@@ -1,4 +1,4 @@
-import { Button } from '@heroui/react';
+import { Button, Tooltip } from '@heroui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Panel from '../Site/Panel';
@@ -109,6 +109,19 @@ const ActivePlayerPrompt = (props) => {
         for (const button of props.buttons) {
             const originalButtonText = localizedText(button.card, button.text, button.values);
             const buttonText = originalButtonText == null ? '' : String(originalButtonText);
+            let tooltipText;
+            if (button.tooltip && typeof button.tooltip === 'object') {
+                const source = { name: button.tooltip.values?.card, locale: button.tooltip.locale };
+                const values = {
+                    ...button.tooltip.values,
+                    title: t(button.tooltip.values?.title)
+                };
+                tooltipText = localizedText(source, button.tooltip.text, values);
+            } else if (button.tooltip) {
+                tooltipText = localizedText(button.card, button.tooltip, button.values);
+            } else {
+                tooltipText = buttonText;
+            }
             const normalizedButtonText = buttonText.trim().toLowerCase();
             const isCancel =
                 normalizedButtonText === 'cancel' ||
@@ -123,12 +136,13 @@ const ActivePlayerPrompt = (props) => {
                 ? 'w-full justify-center whitespace-nowrap text-sm capitalize !px-2 !py-1.5'
                 : 'w-full justify-center whitespace-nowrap text-sm capitalize !px-2 !py-1.5';
 
-            let option = (
+            const hasTooltip = Boolean(tooltipText) && tooltipText !== buttonText;
+
+            const buttonElement = (
                 <Button
                     variant={buttonVariant}
                     key={button.command + buttonIndex.toString()}
                     className={buttonClass}
-                    title={buttonText}
                     onPress={() =>
                         onButtonClick(button.command, button.arg, button.uuid, button.method)
                     }
@@ -157,6 +171,15 @@ const ActivePlayerPrompt = (props) => {
                         </span>
                     )}
                 </Button>
+            );
+
+            const option = hasTooltip ? (
+                <Tooltip key={button.command + buttonIndex.toString()} delay={200} closeDelay={0}>
+                    {buttonElement}
+                    <Tooltip.Content placement='left'>{tooltipText}</Tooltip.Content>
+                </Tooltip>
+            ) : (
+                buttonElement
             );
 
             buttonIndex++;

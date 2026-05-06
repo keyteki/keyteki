@@ -1146,12 +1146,13 @@ class Card extends EffectSource {
         let choices = legalActions.map((action) => {
             // Include source in tooltip when there are multiple action abilities
             if (legalActions.length > 1) {
-                const sourceName = action.grantedBy ? action.grantedBy.name : this.name;
+                const sourceCard = action.grantedBy || this;
                 return {
                     text: action.title,
                     tooltip: {
-                        text: '{{title}} (from {{source}})',
-                        values: { title: action.title, source: sourceName }
+                        text: '{{title}} (from {{card}})',
+                        values: { title: action.title, card: sourceCard.name },
+                        locale: sourceCard.locale
                     }
                 };
             }

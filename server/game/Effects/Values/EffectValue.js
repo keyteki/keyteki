@@ -12,7 +12,7 @@ class EffectValue {
     }
 
     // eslint-disable-next-line no-unused-vars
-    apply(target, state, context) {}
+    apply(target, state) {}
 
     // eslint-disable-next-line no-unused-vars
     unapply(target, state) {}
