@@ -298,6 +298,10 @@ class DeckService {
             dbExpansions.push(918);
         }
 
+        if (expansions.dm) {
+            dbExpansions.push(928);
+        }
+
         let deck;
         let expansionStr = dbExpansions.join(',');
         try {
@@ -1146,7 +1150,7 @@ class DeckService {
 
         try {
             const result = await db.query(
-                `SELECT COUNT(*) AS "TotalCount", 
+                `SELECT COUNT(*) AS "TotalCount",
                         COUNT(*) FILTER (WHERE "UserId" = $1) AS "OwnedCount"
                  FROM "Decks"
                  WHERE "Id" = ANY($2)`,
@@ -1282,12 +1286,21 @@ class DeckService {
         };
 
         let anomalies = {
-            'ecto-charge': { anomalySet: 600, house: 'geistoid' },
-            'near-future-lens': { anomalySet: 600, house: 'staralliance' },
-            'orb-of-wonder': { anomalySet: 453, house: 'sanctum' },
-            'the-grim-reaper': { anomalySet: 453, house: 'geistoid' },
-            'the-red-baron': { anomalySet: 453, house: 'skyborn' },
-            valoocanth: { anomalySet: 453, house: 'unfathomable' }
+            cosmicrux: { anomalySets: [918, 939], house: 'ouboros' },
+            'ecto-charge': { anomalySets: [600], house: 'geistoid' },
+            ignitus: { anomalySets: [918, 939], house: 'ouboros' },
+            'lateral-shift': { anomalySets: [452, 453, 600, 886], house: 'unfathomable' },
+            'near-future-lens': { anomalySets: [600], house: 'staralliance' },
+            'nizak-the-forgotten': {
+                anomalySets: [452, 453, 600, 886, 918, 939],
+                house: 'ouboros'
+            },
+            'orb-of-wonder': { anomalySets: [453], house: 'sanctum' },
+            'the-grim-reaper': { anomalySets: [453], house: 'geistoid' },
+            'the-red-baron': { anomalySets: [453], house: 'skyborn' },
+            'thermal-depletion': { anomalySets: [918, 939], house: 'ouboros' },
+            timequake: { anomalySets: [452, 453, 600, 886, 918, 939], house: 'ouboros' },
+            valoocanth: { anomalySets: [453], house: 'unfathomable' }
         };
 
         let deckCards = deckResponse._linked.cards;
@@ -1380,8 +1393,9 @@ class DeckService {
                 retCard.image = `${retCard.id}-${retCard.house}`;
             }
 
-            if (anomalies[id] && anomalies[id].anomalySet !== card.expansion) {
-                // anomaly cards' real house
+            if (anomalies[id] && !anomalies[id].anomalySets.includes(card.expansion)) {
+                // Former anomaly cards use their printed house in regular sets.
+                delete retCard.anomaly;
                 retCard.house = anomalies[id].house;
                 retCard.image = `${retCard.id}-${retCard.house}`;
             }

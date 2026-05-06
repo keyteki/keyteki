@@ -47,4 +47,48 @@ describe('Damage Messages', function () {
             ]);
         });
     });
+
+    describe('allocated damage', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    hand: ['colt-sleven'],
+                    inPlay: ['urchin']
+                },
+                player2: {
+                    inPlay: ['troll', 'krump']
+                }
+            });
+        });
+
+        it('logs each creature damaged when distributing allocated damage', function () {
+            this.urchin.powerCounters = 3;
+            this.player1.play(this.coltSleven);
+            this.player1.clickCard(this.troll);
+            this.player1.clickCard(this.krump);
+            this.player1.clickCard(this.urchin);
+            expect(this.player1).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Colt Sleven',
+                'player1 uses Colt Sleven to deal 1 damage to Troll',
+                'player1 uses Colt Sleven to deal 1 damage to Krump',
+                'player1 uses Colt Sleven to deal 1 damage to Urchin'
+            ]);
+        });
+
+        it('aggregates allocations targeting the same creature into one message', function () {
+            this.urchin.powerCounters = 3;
+            this.player1.play(this.coltSleven);
+            this.player1.clickCard(this.troll);
+            this.player1.clickCard(this.troll);
+            this.player1.clickCard(this.krump);
+            expect(this.player1).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Colt Sleven',
+                'player1 uses Colt Sleven to deal 2 damage to Troll',
+                'player1 uses Colt Sleven to deal 1 damage to Krump'
+            ]);
+        });
+    });
 });

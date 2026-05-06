@@ -1,10 +1,10 @@
+import * as fabricModule from 'fabric';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
-import * as fabricModule from 'fabric';
+import { buildCard, houselessCards } from '../../archonMaker';
 
 const fabric = fabricModule.fabric ?? fabricModule.default ?? fabricModule;
-import { buildCard } from '../../archonMaker';
 
 /**
  * @typedef CardImageProps
@@ -28,9 +28,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
     const enhancementSignature = Array.isArray(card?.enhancements)
         ? card.enhancements.join('|')
         : '';
-    const [imageSrc, setImageSrc] = useState('');
-    const renderScale =
-        typeof window === 'undefined' ? 1 : Math.min(2, Math.max(1, window.devicePixelRatio || 1));
+    const [imageSrc, setImageSrc] = useState(null);
     const cardId = card?.id;
     const cardLocation = card?.location;
     const modifiedPower = card?.modifiedPower;
@@ -41,6 +39,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
     const amberTokens = tokens.amber;
     const armorTokens = tokens.armor;
     const awakeningTokens = tokens.awakening;
+    const corrosionTokens = tokens.corrosion;
     const damageTokens = tokens.damage;
     const depthTokens = tokens.depth;
     const disruptionTokens = tokens.disruption;
@@ -76,6 +75,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
     const shouldRenderCanvas =
         Boolean(card?.maverick) ||
         Boolean(card?.anomaly) ||
+        (card?.id && houselessCards.includes(card.id)) ||
         (Array.isArray(card?.enhancements) && card.enhancements.length > 0) ||
         card?.location === 'play area' ||
         card?.location === 'zoom';
@@ -118,7 +118,6 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                     size,
                     halfSize,
                     showAccolades,
-                    renderScale,
                     url: localizedImageUrl
                 });
             } catch {
@@ -138,6 +137,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
         amberTokens,
         armorTokens,
         awakeningTokens,
+        corrosionTokens,
         damageTokens,
         depthTokens,
         disruptionTokens,
@@ -167,7 +167,6 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
         size,
         halfSize,
         showAccolades,
-        renderScale,
         localizedImageUrl,
         i18n.language
     ]);
@@ -177,6 +176,9 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
     }
 
     if (!shouldRenderCanvas) {
+        if (!imageSrc) {
+            return <div className='block h-full w-full' />;
+        }
         return (
             <img
                 src={imageSrc}
