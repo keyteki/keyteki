@@ -1,7 +1,6 @@
 /*eslint no-console:0 */
 
 const fs = require('fs');
-const mkdirp = require('mkdirp');
 const path = require('path');
 
 const CardService = require('../../services/CardService');
@@ -233,8 +232,8 @@ class CardImport {
                 `${path.sep}cards${path.sep}halfSize${path.sep}`
             );
 
-            mkdirp(imageLangDir);
-            mkdirp(halfSizeImageDir);
+            fs.mkdirSync(imageLangDir, { recursive: true });
+            fs.mkdirSync(halfSizeImageDir, { recursive: true });
             skipMkdir[language] = imageLangDir;
         } else {
             imageLangDir = skipMkdir[language];

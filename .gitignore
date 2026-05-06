@@ -2,7 +2,7 @@ bower_components
 node_modules
 public/*
 !public/banner
-dist
+dist*
 typings
 coverage
 *.log
@@ -23,3 +23,7 @@ server/game/generatedcards
 
 # Sentry Config File
 .env.sentry-build-plugin
+
+bin/
+obj/
+.env.development

@@ -44,23 +44,125 @@ export const Constants = {
     ],
     Locales: ['de', 'en', 'es', 'fr', 'it', 'ko', 'pt', 'pl', 'th', 'zhhans', 'zhhant'],
     Expansions: [
-        { value: '341', label: 'CotA', tideRequired: false },
-        { value: '435', label: 'AoA', tideRequired: false },
-        { value: '452', label: 'WC', tideRequired: false },
-        { value: '479', label: 'MM', tideRequired: false },
-        { value: '496', label: 'DT', tideRequired: true },
-        { value: '600', label: 'WoE', tideRequired: false },
-        { value: '601', label: 'UC2022', tideRequired: false },
-        { value: '609', label: 'VM2023', tideRequired: false },
-        { value: '700', label: 'GR', tideRequired: false },
-        { value: '737', label: 'VM2024', tideRequired: false },
-        { value: '800', label: 'AS', tideRequired: false },
-        { value: '855', label: 'ToC', tideRequired: false },
-        { value: '874', label: 'MoMu', tideRequired: false },
-        { value: '907', label: 'DISC', tideRequired: false },
-        { value: '939', label: 'VM2025', tideRequired: false },
-        { value: '886', label: 'PV', tideRequired: false },
-        { value: '918', label: 'CC', tideRequired: false }
+        {
+            value: '341',
+            label: 'CotA',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            value: '435',
+            label: 'AoA',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            value: '452',
+            label: 'WC',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            value: '479',
+            label: 'MM',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            value: '496',
+            label: 'DT',
+            tideRequired: true,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            value: '600',
+            label: 'WoE',
+            tideRequired: false,
+            tokenRequired: true,
+            prophecySupported: false
+        },
+        {
+            value: '601',
+            label: 'UC2022',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            value: '609',
+            label: 'VM2023',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            value: '700',
+            label: 'GR',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            value: '737',
+            label: 'VM2024',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            value: '800',
+            label: 'AS',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            value: '855',
+            label: 'ToC',
+            tideRequired: false,
+            tokenRequired: true,
+            prophecySupported: false
+        },
+        {
+            value: '874',
+            label: 'MoMu',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            value: '907',
+            label: 'DISC',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            value: '939',
+            label: 'VM2025',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            value: '886',
+            label: 'PV',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: true
+        },
+        {
+            value: '918',
+            label: 'CC',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        }
     ],
     CardTypes: [
         'action',

@@ -3,13 +3,14 @@ import { useTranslation } from 'react-i18next';
 import Droppable from './Droppable';
 import SquishableCardPanel from './SquishableCardPanel';
 
-import './PlayerRow.scss';
-
 const PlayerRow = ({
     cardBack,
     cardSize,
+    hasActiveHouse,
     hand,
     isMe,
+    isSpectating,
+    isActivePlayer,
     manualMode,
     onCardClick,
     onDragDrop,
@@ -42,11 +43,14 @@ const PlayerRow = ({
             source='hand'
             title={t('Hand')}
             cardSize={cardSize}
+            hasActiveHouse={hasActiveHouse}
+            isMe={isMe}
+            isSpectating={isSpectating}
         />
     );
 
     return isMe ? (
-        <div className='player-home-row-container pt-1'>
+        <div className={`player-home-row-container pt-1${isActivePlayer ? '' : ' inactive-turn'}`}>
             <Droppable onDragDrop={onDragDrop} source='hand' manualMode={manualMode}>
                 {handToRender}
             </Droppable>

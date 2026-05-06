@@ -1,20 +1,16 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
-import { Form, Button, Row, Col } from 'react-bootstrap';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { Button, Input } from '@heroui/react';
 
 import Panel from '../Site/Panel';
-import AlertPanel from '../Site/AlertPanel';
 import GameOptions from './GameOptions';
 import GameFormats from './GameFormats';
 import GameTypes from './GameTypes';
-import { getStandardControlProps } from '../../util.jsx';
 import { lobbyActions } from '../../redux/slices/lobbySlice';
 import { lobbySendMessage } from '../../redux/socketActions';
-
-import './NewGame.scss';
 
 const GameNameMaxLength = 64;
 
@@ -44,6 +40,7 @@ const NewGame = ({
     onClosed
 }) => {
     const lobbySocket = useSelector((state) => state.lobby.socket);
+    const currentGameId = useSelector((state) => state.lobby.currentGame?.id);
     const username = useSelector((state) => state.account.user?.username);
     const { t } = useTranslation();
     const dispatch = useDispatch();
@@ -68,6 +65,7 @@ const NewGame = ({
     const initialValues = {
         name: `${username}'s game`,
         password: '',
+        requirePassword: false,
         allowSpectators: true,
         gameFormat: 'normal',
         gameType: defaultGameType || 'casual',
@@ -89,33 +87,43 @@ const NewGame = ({
     }
 
     return (
-        <Panel title={t(quickJoin ? 'Quick Join' : 'New game')}>
+        <Panel
+            className='border-border/70 !bg-surface'
+            title={t(quickJoin ? 'Quick Join' : 'New game')}
+            titleClass='text-base font-semibold tracking-wide'
+        >
             <Formik
                 validationSchema={schema}
                 onSubmit={(values) => {
+                    const baseValues = {
+                        ...values,
+                        password: values.requirePassword ? values.password : ''
+                    };
+                    const expansions = {
+                        aoa: values.aoa,
+                        as: values.as,
+                        cc: values.cc,
+                        cota: values.cota,
+                        disc: values.disc,
+                        dt: values.dt,
+                        gr: values.gr,
+                        mm: values.mm,
+                        momu: values.momu,
+                        pv: values.pv,
+                        toc: values.toc,
+                        vm2023: values.vm2023,
+                        vm2024: values.vm2024,
+                        vm2025: values.vm2025,
+                        wc: values.wc,
+                        woe: values.woe
+                    };
+
                     if (tournament) {
-                        for (let match of matches) {
+                        for (const match of matches) {
                             dispatch(
                                 lobbySendMessage('newgame', {
-                                    ...values,
-                                    expansions: {
-                                        aoa: values.aoa,
-                                        cota: values.cota,
-                                        wc: values.wc,
-                                        mm: values.mm,
-                                        dt: values.dt,
-                                        woe: values.woe,
-                                        gr: values.gr,
-                                        as: values.as,
-                                        toc: values.toc,
-                                        momu: values.momu,
-                                        disc: values.disc,
-                                        vm2023: values.vm2023,
-                                        vm2024: values.vm2024,
-                                        vm2025: values.vm2025,
-                                        pv: values.pv,
-                                        cc: values.cc
-                                    },
+                                    ...baseValues,
+                                    expansions,
                                     name: `${getParticipantName(
                                         match.player1_id
                                     )} vs ${getParticipantName(match.player2_id)}`,
@@ -127,35 +135,28 @@ const NewGame = ({
                             onClosed(true);
                         }
                     } else {
-                        values.expansions = {
-                            aoa: values.aoa,
-                            cota: values.cota,
-                            wc: values.wc,
-                            mm: values.mm,
-                            dt: values.dt,
-                            woe: values.woe,
-                            gr: values.gr,
-                            as: values.as,
-                            toc: values.toc,
-                            momu: values.momu,
-                            disc: values.disc,
-                            vm2023: values.vm2023,
-                            vm2024: values.vm2024,
-                            vm2025: values.vm2025,
-                            pv: values.pv,
-                            cc: values.cc
-                        };
-                        values.quickJoin = quickJoin;
-
-                        dispatch(lobbySendMessage('newgame', values));
+                        dispatch(
+                            lobbySendMessage('newgame', {
+                                ...baseValues,
+                                expansions,
+                                quickJoin
+                            })
+                        );
                     }
                 }}
                 initialValues={initialValues}
             >
                 {(formProps) => (
-                    <Form
+                    <form
+                        className='[--accent:color-mix(in_oklab,var(--brand)_90%,white)]'
                         onSubmit={(event) => {
                             event.preventDefault();
+                            const wrapper = document.querySelector('.wrapper');
+                            if (wrapper && typeof wrapper.scrollTo === 'function') {
+                                wrapper.scrollTo({ top: 0, behavior: 'smooth' });
+                            } else {
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                            }
 
                             if (
                                 formProps.values.gameFormat === 'sealed' &&
@@ -188,58 +189,83 @@ const NewGame = ({
                         }}
                     >
                         {quickJoin && (
-                            <AlertPanel
-                                type='info'
-                                message={t(
-                                    "Select the type of game you'd like to play and either you'll join the next one available, or one will be created for you with default options."
-                                )}
-                            />
+                            <div className='rounded-md border border-border/45 bg-surface-secondary/32 px-3 py-1.5 text-xs text-muted'>
+                                <Trans>
+                                    Choose a game mode and type. We&apos;ll match you to an open
+                                    game or create one with default options.
+                                </Trans>
+                            </div>
                         )}
+
                         {!quickJoin && (
                             <>
                                 {!tournament && (
-                                    <Row>
-                                        <Form.Group as={Col} lg='8' controlId='formGridGameName'>
-                                            <Form.Label>{t('Name')}</Form.Label>
-                                            <Form.Label className='float-right'>
+                                    <div className='max-w-xl'>
+                                        <div className='mb-1 flex items-center justify-between'>
+                                            <label
+                                                htmlFor='name'
+                                                className='block text-sm text-foreground/90'
+                                            >
+                                                {t('Name')}
+                                            </label>
+                                            <span className='text-xs text-muted'>
                                                 {GameNameMaxLength - formProps.values.name.length}
-                                            </Form.Label>
-                                            <Form.Control
-                                                type='text'
-                                                placeholder={t('Game Name')}
-                                                maxLength={GameNameMaxLength}
-                                                {...getStandardControlProps(formProps, 'name')}
-                                            />
-                                            <Form.Control.Feedback type='invalid'>
+                                            </span>
+                                        </div>
+                                        <Input
+                                            className='w-full [&_[data-slot="input"]]:!text-foreground [&_[data-slot="input"]]:placeholder:!text-foreground/52 [&_[data-slot="input-wrapper"]]:!border [&_[data-slot="input-wrapper"]]:!border-black/20 [&_[data-slot="input-wrapper"]]:!bg-white [&_[data-slot="input-wrapper"]]:!shadow-[inset_0_1px_2px_rgba(15,23,42,0.06)]'
+                                            id='name'
+                                            name='name'
+                                            type='text'
+                                            placeholder={t('Game Name')}
+                                            maxLength={GameNameMaxLength}
+                                            value={formProps.values.name}
+                                            onBlur={formProps.handleBlur}
+                                            onChange={formProps.handleChange}
+                                        />
+                                        {formProps.touched.name && formProps.errors.name ? (
+                                            <div className='mt-1 text-xs text-red-300'>
                                                 {formProps.errors.name}
-                                            </Form.Control.Feedback>
-                                        </Form.Group>
-                                    </Row>
+                                            </div>
+                                        ) : null}
+                                    </div>
                                 )}
-                                <GameOptions formProps={formProps} />
+
+                                <div className='mt-3'>
+                                    <GameOptions
+                                        formProps={formProps}
+                                        gameLink={
+                                            currentGameId
+                                                ? `${window.location.protocol}//${window.location.host}/play?gameId=${currentGameId}`
+                                                : undefined
+                                        }
+                                    />
+                                </div>
                             </>
                         )}
-                        <GameFormats formProps={formProps} />
-                        {!tournament && <GameTypes formProps={formProps} />}
-                        {!quickJoin && (
-                            <Row>
-                                <Form.Group as={Col} sm={8}>
-                                    <Form.Label>{t('Password')}</Form.Label>
-                                    <Form.Control
-                                        type='password'
-                                        placeholder={t('Enter a password')}
-                                        {...getStandardControlProps(formProps, 'password')}
-                                    />
-                                </Form.Group>
-                            </Row>
+
+                        <div
+                            className={
+                                quickJoin
+                                    ? 'mt-7 border-t-2 border-border/75 pt-5'
+                                    : 'mt-6 border-t-2 border-border/75 pt-5'
+                            }
+                        >
+                            <GameFormats formProps={formProps} />
+                        </div>
+                        {!tournament && (
+                            <div className={quickJoin ? 'mt-4' : ''}>
+                                <GameTypes formProps={formProps} />
+                            </div>
                         )}
-                        <div className='text-center newgame-buttons'>
-                            <Button variant='success' type='submit'>
-                                <Trans>Start</Trans>
+
+                        <div className='mt-6 flex justify-center gap-2 border-t border-border/55 pt-4'>
+                            <Button variant='primary' type='submit'>
+                                {quickJoin ? <Trans>Find game</Trans> : <Trans>Start</Trans>}
                             </Button>
                             <Button
-                                variant='primary'
-                                onClick={() => {
+                                variant='tertiary'
+                                onPress={() => {
                                     dispatch(lobbyActions.cancelNewGame());
                                     if (onClosed) {
                                         onClosed(false);
@@ -249,7 +275,7 @@ const NewGame = ({
                                 <Trans>Cancel</Trans>
                             </Button>
                         </div>
-                    </Form>
+                    </form>
                 )}
             </Formik>
         </Panel>

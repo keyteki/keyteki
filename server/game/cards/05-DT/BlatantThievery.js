@@ -10,7 +10,7 @@ class BlatantThievery extends Card {
                 gameAction: ability.actions.enrage()
             },
             effect: 'enrage {1} and move all {2} amber from {1} to their pool',
-            effectArgs: (context) => [context.target, context.target.amber],
+            effectArgs: (context) => [context.target, context.target?.amber ?? 0],
             then: {
                 alwaysTriggers: true,
                 gameAction: ability.actions.removeAmber((context) => ({

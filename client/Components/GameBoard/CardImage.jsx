@@ -1,12 +1,10 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import * as fabricModule from 'fabric';
 
 const fabric = fabricModule.fabric ?? fabricModule.default ?? fabricModule;
 import { buildCard } from '../../archonMaker';
-
-import './CardImage.scss';
 
 /**
  * @typedef CardImageProps
@@ -27,6 +25,64 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
             : true;
     const fabricRef = useRef(null);
     const renderIdRef = useRef(0);
+    const enhancementSignature = Array.isArray(card?.enhancements)
+        ? card.enhancements.join('|')
+        : '';
+    const [imageSrc, setImageSrc] = useState('');
+    const renderScale =
+        typeof window === 'undefined' ? 1 : Math.min(2, Math.max(1, window.devicePixelRatio || 1));
+    const cardId = card?.id;
+    const cardLocation = card?.location;
+    const modifiedPower = card?.modifiedPower;
+    const pseudoDamage = card?.pseudoDamage;
+    const wardBroken = card?.wardBroken;
+    const facedown = card?.facedown;
+    const tokens = card?.tokens || {};
+    const amberTokens = tokens.amber;
+    const armorTokens = tokens.armor;
+    const awakeningTokens = tokens.awakening;
+    const damageTokens = tokens.damage;
+    const depthTokens = tokens.depth;
+    const disruptionTokens = tokens.disruption;
+    const doomTokens = tokens.doom;
+    const enrageTokens = tokens.enrage;
+    const fuseTokens = tokens.fuse;
+    const gloryTokens = tokens.glory;
+    const growthTokens = tokens.growth;
+    const ignoranceTokens = tokens.ignorance;
+    const knowledgeTokens = tokens.knowledge;
+    const mutationTokens = tokens.mutation;
+    const powerTokens = tokens.power;
+    const schemeTokens = tokens.scheme;
+    const timeTokens = tokens.time;
+    const wardTokens = tokens.ward;
+    const warrantTokens = tokens.warrant;
+    const yeaTokens = tokens.yea;
+    const nayTokens = tokens.nay;
+    const wisdomTokens = tokens.wisdom;
+    const hatchTokens = tokens.hatch;
+    const paintTokens = tokens.paint;
+    const tradeTokens = tokens.trade;
+    const stunTokens = tokens.stun;
+    const imageExtension = halfSize ? 'jpg' : 'png';
+    const languageSegment = i18n.language === 'en' ? '' : `${i18n.language}/`;
+    const imageName = card?.image ? card.image.replace(/\*/g, '_') : '';
+    const localizedImageUrl = `/img/cards/${
+        halfSize ? 'halfSize/' : ''
+    }${languageSegment}${imageName}.${imageExtension}`;
+    const englishImageUrl = `/img/cards/${
+        halfSize ? 'halfSize/' : ''
+    }${imageName}.${imageExtension}`;
+    const shouldRenderCanvas =
+        Boolean(card?.maverick) ||
+        Boolean(card?.anomaly) ||
+        (Array.isArray(card?.enhancements) && card.enhancements.length > 0) ||
+        card?.location === 'play area' ||
+        card?.location === 'zoom';
+
+    useEffect(() => {
+        setImageSrc(localizedImageUrl);
+    }, [localizedImageUrl]);
     const setCanvasRef = useCallback((node) => {
         if (!node) {
             if (fabricRef.current) {
@@ -55,10 +111,6 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
         const renderId = ++renderIdRef.current;
         canvas.clear();
 
-        const url = `/img/cards/${halfSize ? 'halfSize/' : ''}${
-            i18n.language === 'en' ? '' : i18n.language
-        }/${card.image.replace(/\*/g, '_')}.${halfSize ? 'jpg' : 'png'}`;
-
         (async () => {
             try {
                 await buildCard(canvas, {
@@ -66,7 +118,8 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                     size,
                     halfSize,
                     showAccolades,
-                    url
+                    renderScale,
+                    url: localizedImageUrl
                 });
             } catch {
                 // ignore
@@ -77,46 +130,79 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
             }
         })();
     }, [
-        card?.id,
-        card?.location,
-        card?.modifiedPower,
-        card?.tokens && card.tokens.amber,
-        card?.tokens && card.tokens.armor,
-        card?.tokens && card.tokens.awakening,
-        card?.tokens && card.tokens.damage,
-        card?.tokens && card.tokens.depth,
-        card?.tokens && card.tokens.disruption,
-        card?.tokens && card.tokens.doom,
-        card?.tokens && card.tokens.enrage,
-        card?.tokens && card.tokens.fuse,
-        card?.tokens && card.tokens.glory,
-        card?.tokens && card.tokens.growth,
-        card?.tokens && card.tokens.ignorance,
-        card?.tokens && card.tokens.knowledge,
-        card?.tokens && card.tokens.mutation,
-        card?.tokens && card.tokens.power,
-        card?.tokens && card.tokens.scheme,
-        card?.tokens && card.tokens.time,
-        card?.tokens && card.tokens.ward,
-        card?.tokens && card.tokens.warrant,
-        card?.tokens && card.tokens.yea,
-        card?.tokens && card.tokens.nay,
-        card?.tokens && card.tokens.wisdom,
-        card?.tokens && card.tokens.hatch,
-        card?.tokens && card.tokens.paint,
-        card?.tokens && card.tokens.trade,
-        card?.tokens && card.tokens.stun,
-        card?.pseudoDamage,
-        card?.wardBroken,
-        card?.facedown,
+        card,
+        cardId,
+        enhancementSignature,
+        cardLocation,
+        modifiedPower,
+        amberTokens,
+        armorTokens,
+        awakeningTokens,
+        damageTokens,
+        depthTokens,
+        disruptionTokens,
+        doomTokens,
+        enrageTokens,
+        fuseTokens,
+        gloryTokens,
+        growthTokens,
+        ignoranceTokens,
+        knowledgeTokens,
+        mutationTokens,
+        powerTokens,
+        schemeTokens,
+        timeTokens,
+        wardTokens,
+        warrantTokens,
+        yeaTokens,
+        nayTokens,
+        wisdomTokens,
+        hatchTokens,
+        paintTokens,
+        tradeTokens,
+        stunTokens,
+        pseudoDamage,
+        wardBroken,
+        facedown,
         size,
         halfSize,
         showAccolades,
+        renderScale,
+        localizedImageUrl,
         i18n.language
     ]);
 
     if (card?.facedown) {
         return cardBack || <div />;
+    }
+
+    if (!shouldRenderCanvas) {
+        return (
+            <img
+                src={imageSrc}
+                onError={() => {
+                    if (imageSrc !== englishImageUrl) {
+                        setImageSrc(englishImageUrl);
+                    }
+                }}
+                onMouseOver={
+                    onMouseOver
+                        ? () =>
+                              onMouseOver({
+                                  image: (
+                                      <CardImage
+                                          card={{ ...card, location: 'zoom' }}
+                                          cardBack={cardBack}
+                                      />
+                                  ),
+                                  size: 'normal'
+                              })
+                        : undefined
+                }
+                onMouseOut={onMouseOut}
+                className='block h-full w-full'
+            />
+        );
     }
 
     return (
@@ -136,7 +222,7 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
                     : null
             }
             onMouseOut={onMouseOut}
-            className='h-100 w-100'
+            className='block h-full w-full'
             ref={setCanvasRef}
         />
     );

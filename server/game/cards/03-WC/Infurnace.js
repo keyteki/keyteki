@@ -20,7 +20,7 @@ class Infurnace extends Card {
                     mode: 'upTo',
                     numCards: 2,
                     cardCondition: (card, context) =>
-                        context.selects.select.choice === 'Mine'
+                        !!context.selects.select && context.selects.select.choice === 'Mine'
                             ? card.owner === context.player
                             : card.owner === context.player.opponent,
                     location: 'discard',

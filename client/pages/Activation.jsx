@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
+import { toast } from '@heroui/react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import AlertPanel from '../Components/Site/AlertPanel';
-import { useActivateAccountMutation } from '../redux/api';
-import { useTranslation } from 'react-i18next';
-import { Col } from 'react-bootstrap';
 import ApiStatus from '../Components/Site/ApiStatus';
+import { useActivateAccountMutation } from '../redux/api';
 
 const Activation = ({ id, token }) => {
     const { t } = useTranslation();
@@ -14,13 +14,11 @@ const Activation = ({ id, token }) => {
 
     useEffect(() => {
         if (activateState.isSuccess) {
-            const timeoutId = setTimeout(() => {
-                activateState.reset();
-                navigate('/login');
-            }, 3000);
-            return () => clearTimeout(timeoutId);
+            toast.success(t('Your account has been activated.'));
+            activateState.reset();
+            navigate('/login');
         }
-    }, [activateState, navigate]);
+    }, [activateState, navigate, t]);
 
     const apiState = activateState.isUninitialized
         ? null
@@ -28,11 +26,10 @@ const Activation = ({ id, token }) => {
               loading: activateState.isLoading,
               success: activateState.isSuccess,
               message: activateState.isSuccess
-                  ? t(
-                        'Your account has been activated.  You will shortly be redirected to the login page.'
-                    )
+                  ? t('Your account has been activated.')
                   : activateState.error?.data?.message
           };
+
     useEffect(() => {
         if (id && token) {
             activateAccount({ id, token });
@@ -51,10 +48,8 @@ const Activation = ({ id, token }) => {
     }
 
     return (
-        <div>
-            <Col sm={{ span: 6, offset: 3 }}>
-                <ApiStatus state={apiState} onClose={() => activateState.reset()} />
-            </Col>
+        <div className='mx-auto w-full max-w-3xl'>
+            <ApiStatus state={apiState} onClose={() => activateState.reset()} />
         </div>
     );
 };

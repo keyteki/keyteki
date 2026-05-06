@@ -7,7 +7,7 @@ const Privacy = () => {
     const { t } = useTranslation();
 
     return (
-        <div className='col-xs-12 full-height'>
+        <div className='min-h-full w-full'>
             <Panel title={t('Privacy Policy')}>
                 <h3>
                     <Trans>Background</Trans>
