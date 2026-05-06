@@ -103,6 +103,24 @@ describe('main phase', function () {
             expect(this.regrowth.location).toBe('discard');
         });
 
+        it('should allow reselecting a different hand card without pressing cancel first', function () {
+            this.regrowth = this.player1.clickCard('regrowth');
+            expect(this.player1).toHavePrompt('Regrowth');
+            expect(this.player1).toHavePromptButton('Cancel');
+
+            this.huntingWitch = this.player1.clickCard('hunting-witch');
+            expect(this.player1).toHavePrompt('Hunting Witch');
+            expect(this.player1).toHavePromptButton('Play this creature');
+
+            this.player1.clickPrompt('Play this creature');
+            expect(this.player1).toHavePrompt('Which flank do you want to place this creature on?');
+            this.player1.clickPrompt('Right');
+
+            expect(this.huntingWitch.location).toBe('play area');
+            expect(this.regrowth.location).toBe('hand');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
         it('should resolve the action if the player plays an action', function () {
             this.regrowth = this.player1.clickCard('regrowth');
             this.player1.clickPrompt('Play this action');

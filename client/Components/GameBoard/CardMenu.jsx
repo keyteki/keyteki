@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
 
-import './CardMenu.scss';
-
 const CardMenu = (props) => {
     const { t } = useTranslation();
     const [submenu, setSubmenu] = useState('main');

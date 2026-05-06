@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Two-rounded-squares silhouette with white halo + "+1" centered.
+       Everything is scaled to ~70% of the original powerui geometry so the
+       diamond corners stay inside the 32×32 canvas. -->
+
+  <!-- White halo -->
+  <g fill="#FFFFFF" stroke="none">
+    <rect x="5.5" y="5.5" width="21.0" height="21.0" rx="2.4" ry="2.4" transform="rotate(45 16 16)"/>
+    <rect x="6.9" y="6.9" width="18.2" height="18.2" rx="1.05" ry="1.05"/>
+  </g>
+
+  <!-- Red body -->
+  <g fill="#B82424" stroke="none">
+    <rect x="7.6" y="7.6" width="16.8" height="16.8" rx="1.8" ry="1.8" transform="rotate(45 16 16)"/>
+    <rect x="9.0" y="9.0" width="14.0" height="14.0" rx="0.5" ry="0.5"/>
+  </g>
+
+  <!-- "+1" : drawn manually so the plus is chunky and the 1 is taller. -->
+  <g fill="#FFFFFF" stroke="none">
+    <!-- "+" centered at (13.0, 16.0) -->
+    <rect x="10.4" y="15.05" width="5.2" height="1.9" rx="0.3" ry="0.3"/>
+    <rect x="12.05" y="13.4" width="1.9" height="5.2" rx="0.3" ry="0.3"/>
+    <!-- "1" : hand-drawn, vertical stem with a small top flag. -->
+    <!-- Stem -->
+    <rect x="18.55" y="10.7" width="2.1" height="10.5" rx="0.3" ry="0.3"/>
+    <!-- Top flag (short angled stub, overlapping the stem to avoid a seam) -->
+    <polygon points="18.7,10.7 18.7,13.0 16.7,14.1 16.7,12.0"/>
+  </g>
+</svg>

@@ -75,6 +75,7 @@ class Game extends EventEmitter {
         this.savedGameId = details.savedGameId;
         this.showHand = details.showHand;
         this.started = false;
+        this.errorHandling = false;
         this.swap = details.swap;
         this.timeLimit = new TimeLimit(this);
         this.useGameTimeLimit = details.useGameTimeLimit;
@@ -329,6 +330,30 @@ class Game extends EventEmitter {
         let card = this.findAnyCardInAnyList(cardId);
 
         if (!card) {
+            return;
+        }
+
+        const currentPrompt = player.currentPrompt();
+        const menuTitleText =
+            typeof currentPrompt?.menuTitle === 'string'
+                ? currentPrompt.menuTitle
+                : currentPrompt?.menuTitle?.text;
+        const canReselectHandCard =
+            card.location === 'hand' &&
+            currentPrompt &&
+            typeof menuTitleText === 'string' &&
+            menuTitleText.startsWith('Play ') &&
+            Array.isArray(currentPrompt.buttons) &&
+            currentPrompt.buttons.some((button) => button.text === 'Cancel') &&
+            currentPrompt.promptTitle &&
+            currentPrompt.promptTitle !== card.name;
+
+        if (canReselectHandCard) {
+            // If a "Play/Discard/Cancel" style hand prompt is open, allow direct
+            // reselection by dismissing it and handling the newly clicked card.
+            this.pipeline.cancelStep();
+            this.pipeline.continue();
+            this.pipeline.handleCardClicked(player, card);
             return;
         }
 
@@ -1383,6 +1408,10 @@ class Game extends EventEmitter {
     playerKeys(player) {
         const length = Object.values(player.keys).filter((forged) => forged).length;
         return length === 1 ? '1 key' : `${length} keys`;
+    }
+
+    isKeyForged(color) {
+        return this.getPlayers().some((player) => player.keys[color]);
     }
 
     get cardsInPlay() {

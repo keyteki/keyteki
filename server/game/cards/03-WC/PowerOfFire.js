@@ -17,17 +17,28 @@ class PowerOfFire extends Card {
                     context.preThenEvents &&
                     context.preThenEvents.every((event) => !event.cancelled),
                 message: '{0} uses {1} to cause each player to lose {3} amber',
-                messageArgs: (context) => [
-                    Math.floor(context.preThenEvents[0].clone.modifiedPower / 2)
-                ],
+                messageArgs: (context) => {
+                    const power =
+                        context.preThenEvents.length > 0 && context.preThenEvents[0].clone
+                            ? context.preThenEvents[0].clone.modifiedPower
+                            : 0;
+                    return [Math.floor(power / 2)];
+                },
                 gameAction: [
-                    ability.actions.loseAmber((context) => ({
-                        amount: Math.floor(context.preThenEvents[0].clone.modifiedPower / 2)
-                    })),
-                    ability.actions.loseAmber((context) => ({
-                        target: context.player,
-                        amount: Math.floor(context.preThenEvents[0].clone.modifiedPower / 2)
-                    }))
+                    ability.actions.loseAmber((context) => {
+                        const power =
+                            context.preThenEvents.length > 0 && context.preThenEvents[0].clone
+                                ? context.preThenEvents[0].clone.modifiedPower
+                                : 0;
+                        return { amount: Math.floor(power / 2) };
+                    }),
+                    ability.actions.loseAmber((context) => {
+                        const power =
+                            context.preThenEvents.length > 0 && context.preThenEvents[0].clone
+                                ? context.preThenEvents[0].clone.modifiedPower
+                                : 0;
+                        return { target: context.player, amount: Math.floor(power / 2) };
+                    })
                 ]
             }
         });

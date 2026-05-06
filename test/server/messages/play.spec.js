@@ -53,10 +53,7 @@ describe('Play Messages', function () {
         it('should log correct message when playing an artifact', function () {
             this.player1.play(this.libraryOfBabble);
             expect(this.player1).isReadyToTakeAction();
-            expect(this).toHaveAllChatMessagesBe([
-                'player1 plays Library of Babble',
-                'player1 plays Library of Babble'
-            ]);
+            expect(this).toHaveAllChatMessagesBe(['player1 plays Library of Babble']);
         });
     });
 
@@ -144,7 +141,6 @@ describe('Play Messages', function () {
             this.player1.play(this.ceaseforge);
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
-                'player1 plays Ceaseforge',
                 'player1 plays Ceaseforge',
                 "player1 gains an amber due to Ceaseforge's bonus icon",
                 'player1 uses Ceaseforge to place 2 time on Ceaseforge'
