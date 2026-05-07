@@ -1,6 +1,7 @@
 {
     "navbar.language": "Ngôn ngữ:",
     "decksummary.toverify": "Bộ bài này đã được đánh dấu cần chứng thực. Xin hãy gửi mail hình ảnh bộ bài của bạn kèm một tờ giấy ghi tên đăng nhập của bạn tới",
+    "{{title}} (from {{card}})": "{{title}} (từ {{card}})",
     "Actions": "Hành động",
     "Archives": "Kho lưu trữ",
     "Artifacts": "Bảo vật",

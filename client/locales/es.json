@@ -1,6 +1,7 @@
 {
     "navbar.language": "Idioma:",
     "decksummary.toverify": "Este mazo ha sido marcado como pendiente de verificación. Por favor, envía por email una foto de la lista con tu nombre de usuario escrito en un papel a",
+    "{{title}} (from {{card}})": "{{title}} (de {{card}})",
     "Actions": "Acciones",
     "Archives": "Archivos",
     "Artifacts": "Artefactos",

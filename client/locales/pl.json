@@ -1,6 +1,7 @@
 {
     "navbar.language": "Język:",
     "decksummary.toverify": "Ta talia wymaga potwierdzenia. Wyślij e-maila z listą kart i ksywką na adres",
+    "{{title}} (from {{card}})": "{{title}} (z {{card}})",
     "Actions": "Akcje",
     "Archives": "Archiwum",
     "Artifacts": "Artefakty",

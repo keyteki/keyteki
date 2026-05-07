@@ -1,6 +1,7 @@
 {
     "navbar.language": "Sprache:",
     "decksummary.toverify": "Dieses Deck wurde automatisch zur Überprüfung markiert. Schreibe deinen Nutzernamen auf ein Stück Papier und sende bitte ein Foto davon und der Deckliste als E-Mail an",
+    "{{title}} (from {{card}})": "{{title}} (von {{card}})",
     "Actions": "Aktionen",
     "Archives": "Archive",
     "Artifacts": "Artefakte",

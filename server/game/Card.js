@@ -1158,7 +1158,21 @@ class Card extends EffectSource {
             }
         }
 
-        let choices = legalActions.map((action) => action.title);
+        let choices = legalActions.map((action) => {
+            // Include source in tooltip when there are multiple action abilities
+            if (legalActions.length > 1) {
+                const sourceCard = action.grantedBy || this;
+                return {
+                    text: action.title,
+                    tooltip: {
+                        text: '{{title}} (from {{card}})',
+                        values: { title: action.title, card: sourceCard.name },
+                        locale: sourceCard.locale
+                    }
+                };
+            }
+            return action.title;
+        });
         let handlers = legalActions.map((action) => () => {
             let context = action.createContext(player);
             context.ignoreHouse = ignoreHouse;

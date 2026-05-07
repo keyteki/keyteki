@@ -1,6 +1,7 @@
 {
     "navbar.language": "Lingua:",
     "decksummary.toverify": "Questo mazzo è stato contrassegnato come richiedente verifica. Invia per e-mail una foto della lista del mazzo con il tuo nome utente scritto su un pezzo di carta a",
+    "{{title}} (from {{card}})": "{{title}} (da {{card}})",
     "Actions": "Azioni",
     "Archives": "Archivi",
     "Artifacts": "Artefatti",

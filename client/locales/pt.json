@@ -1,6 +1,7 @@
 {
     "navbar.language": "Idioma:",
     "decksummary.toverify": "Esse deck foi marcado como pendente de verificação. Por favor, envie um email com a foto da lista de cartas do deck com o nome do seu usuário escrito em um pedaço de papel para",
+    "{{title}} (from {{card}})": "{{title}} (de {{card}})",
     "Actions": "Ações",
     "Archives": "Arquivo",
     "Artifacts": "Artefatos",

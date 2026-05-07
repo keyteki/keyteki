@@ -1,6 +1,7 @@
 {
     "navbar.language": "语言:",
     "decksummary.toverify": "此牌组已标记为需要认证，请透过邮件寄出牌组牌表卡与账号用户名的合照以供认证",
+    "{{title}} (from {{card}})": "{{title}}（来自{{card}}）",
     "Actions": "行动",
     "Archives": "存档",
     "Artifacts": "神器",

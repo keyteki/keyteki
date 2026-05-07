@@ -1,6 +1,7 @@
 {
     "navbar.language": "Language:",
     "decksummary.toverify": "This deck has been flagged as requiring verification. Please email a photo of the decklist with your username written on a piece of paper to",
+    "{{title}} (from {{card}})": "{{title}} (from {{card}})",
     "Actions": "Actions",
     "Archives": "Archives",
     "Artifacts": "Artifacts",
