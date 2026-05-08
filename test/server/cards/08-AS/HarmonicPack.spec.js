@@ -162,7 +162,7 @@ describe('Harmonic Pack', function () {
         });
     });
 
-    describe('Harmonic Pack when revealed card cannot be discarded (Memrox the Red)', function () {
+    describe('Harmonic Pack when revealed card cannot be discarded', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {

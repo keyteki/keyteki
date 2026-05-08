@@ -59,6 +59,28 @@ describe('Cosmicrux', function () {
         });
     });
 
+    describe('Cosmicrux readies before its damage applies', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    inPlay: ['cosmicrux', 'troll', 'physaloha']
+                },
+                player2: {}
+            });
+        });
+
+        it('readies an undamaged creature, then Cosmicrux deals damage to it', function () {
+            this.troll.exhaust();
+            this.player1.endTurn();
+            expect(this.troll.exhausted).toBe(false);
+            expect(this.troll.damage).toBe(1);
+            expect(this.player1);
+            this.player2.clickPrompt('untamed');
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
+
     describe('Cosmicrux + The Chosen One', function () {
         beforeEach(function () {
             this.setupTest({
