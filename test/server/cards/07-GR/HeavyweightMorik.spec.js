@@ -21,7 +21,7 @@ describe('Heavyweight Morik', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('brobnar');
             this.player1.fightWith(this.heavyweightMorik, this.flaxia);
-            expect(this.oldBruno.tokens.damage).toBe(2);
+            expect(this.oldBruno.damage).toBe(2);
             expect(this.flaxia.location).toBe('discard');
             expect(this.dustPixie.location).toBe('discard');
         });
@@ -40,9 +40,9 @@ describe('Heavyweight Morik', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.heavyweightMorik);
             this.player1.clickCard(this.troll);
-            expect(this.flaxia.tokens.damage).toBe(2);
-            expect(this.troll.tokens.damage).toBe(2);
-            expect(this.oldBruno.tokens.damage).toBe(undefined);
+            expect(this.flaxia.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
+            expect(this.oldBruno.damage).toBe(0);
             expect(this.dustPixie.location).toBe('play area');
             expect(this.player1).isReadyToTakeAction();
         });

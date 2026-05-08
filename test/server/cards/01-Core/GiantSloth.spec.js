@@ -19,7 +19,7 @@ describe('Giant Sloth', function () {
             this.player1.clickPrompt('Discard this card');
             this.player1.clickCard(this.giantSloth);
             expect(this.player1).toHavePromptButton('Reap with this creature');
-            expect(this.player1).not.toHavePrompt('Choose a card to play, discard or use');
+            expect(this.player1).not.isReadyToTakeAction();
             this.player1.useAction(this.giantSloth);
             expect(this.player1.amber).toBe(3);
             expect(this.player1).isReadyToTakeAction();

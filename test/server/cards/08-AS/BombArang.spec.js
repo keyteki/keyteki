@@ -21,12 +21,12 @@ describe('Bomb-Arang', function () {
             expect(this.player1).toBeAbleToSelect(this.pelf);
             expect(this.player1).not.toBeAbleToSelect(this.huntingWitch);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.pelf);
             expect(this.player1).toBeAbleToSelect(this.huntingWitch);
             this.player1.clickCard(this.huntingWitch);
-            expect(this.huntingWitch.tokens.damage).toBe(1);
+            expect(this.huntingWitch.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -43,8 +43,8 @@ describe('Bomb-Arang', function () {
             this.player1.clickCard(this.pelf);
             this.player1.clickCard(this.huntingWitch);
             expect(this.pelf.location).toBe('play area');
-            expect(this.pelf.tokens.damage).toBe(undefined);
-            expect(this.huntingWitch.tokens.damage).toBe(1);
+            expect(this.pelf.damage).toBe(0);
+            expect(this.huntingWitch.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
     });

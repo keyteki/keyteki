@@ -56,7 +56,7 @@ describe('Giltspine Netcaster Evil Twin', function () {
 
                 it('should select opponent creature', function () {
                     this.player1.clickCard(this.gub);
-                    expect(this.dewFaerie.tokens.damage).toBe(1);
+                    expect(this.dewFaerie.damage).toBe(1);
                     expect(this.gub.location).toBe('discard');
                 });
             });

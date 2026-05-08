@@ -20,7 +20,7 @@ describe('Mighty Javelin', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
             expect(this.mightyJavelin.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
             expect(this.player1).isReadyToTakeAction();
         });
     });

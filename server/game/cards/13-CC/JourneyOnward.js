@@ -17,8 +17,7 @@ class JourneyOnward extends Card {
                     ability.actions.fight()
                 ])
             },
-            effect:
-                'give {0} an After Fight ability for the remainder of the turn, ready it, and fight with it'
+            effect: 'give {0} an After Fight ability for the remainder of the turn, ready it, and fight with it'
         });
     }
 }

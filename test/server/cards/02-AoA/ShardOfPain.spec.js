@@ -30,8 +30,8 @@ describe('Shard of Pain', function () {
             this.player1.clickCard(this.mother);
             this.player1.clickCard(this.dextre);
 
-            expect(this.mother.tokens.damage).toBe(2);
-            expect(this.dextre.tokens.damage).toBe(1);
+            expect(this.mother.damage).toBe(2);
+            expect(this.dextre.damage).toBe(1);
         });
 
         it('should work properly when Remote Accessed', function () {
@@ -46,7 +46,7 @@ describe('Shard of Pain', function () {
             expect(this.player2).toBeAbleToSelect(this.shooler);
             this.player2.clickCard(this.shooler);
             this.player2.clickCard(this.shooler);
-            expect(this.shooler.tokens.damage).toBe(2);
+            expect(this.shooler.damage).toBe(2);
         });
 
         it('should work properly when Borrowed', function () {
@@ -61,7 +61,7 @@ describe('Shard of Pain', function () {
             expect(this.player2).toBeAbleToSelect(this.shooler);
             this.player2.clickCard(this.shooler);
             this.player2.clickCard(this.shooler);
-            expect(this.shooler.tokens.damage).toBe(2);
+            expect(this.shooler.damage).toBe(2);
         });
 
         describe('when there are no enemy creatures in play', function () {

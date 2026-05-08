@@ -13,8 +13,8 @@ describe('Stir-Crazy', function () {
                     inPlay: ['batdrone', 'mother', 'zorg', 'helper-bot']
                 }
             });
-            this.nexus.exhausted = true;
-            this.mother.exhausted = true;
+            this.nexus.exhaust();
+            this.mother.exhaust();
         });
 
         it('should cause ready creatures to capture 1', function () {
@@ -42,8 +42,8 @@ describe('Stir-Crazy', function () {
             this.player1.clickCard(this.batdrone);
             this.player1.clickCard(this.helperBot);
             this.player1.clickPrompt('Done');
-            expect(this.batdrone.tokens.amber).toBe(1);
-            expect(this.helperBot.tokens.amber).toBe(1);
+            expect(this.batdrone.amber).toBe(1);
+            expect(this.helperBot.amber).toBe(1);
             expect(this.seabringerKekoa.amber).toBe(0);
             expect(this.nexus.amber).toBe(0);
             expect(this.mother.amber).toBe(0);

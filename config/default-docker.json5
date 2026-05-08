@@ -1,0 +1,12 @@
+{
+    // Development/Docker environment overrides
+    // This file is loaded when NODE_ENV=local-docker
+
+    dbHost: 'postgres',
+    dbPort: 5432,
+    redisUrl: 'redis://redis:6379/',
+
+    gameNode: {
+        host: 'localhost'
+    }
+}

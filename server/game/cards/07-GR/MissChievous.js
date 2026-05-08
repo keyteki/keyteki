@@ -8,8 +8,7 @@ class MissChievous extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardPlayed: (event, context) =>
-                    context.player === event.player &&
+                onCardEntersPlay: (event, context) =>
                     event.card.type === 'creature' &&
                     event.card.hasHouse('geistoid') &&
                     event.card.controller === context.player

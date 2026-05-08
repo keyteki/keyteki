@@ -24,9 +24,9 @@ describe('Hapsis', function () {
             let handSize = this.player1.hand.length;
             this.player1.fightWith(this.hapsis, this.chronus);
             expect(this.chronus.location).toBe('discard');
-            expect(this.hapsis.tokens.damage).toBe(3);
+            expect(this.hapsis.damage).toBe(3);
             expect(this.player1.hand.length).toBe(handSize + 1);
-            expect(this.hapsis.hasToken('ward')).toBe(true);
+            expect(this.hapsis.warded).toBe(true);
         });
 
         it('should draw a card and ward when it is attacked and the attacker is destroyed', function () {
@@ -35,8 +35,8 @@ describe('Hapsis', function () {
             let handSize = this.player1.hand.length;
             this.player2.fightWith(this.chronus, this.hapsis);
             expect(this.chronus.location).toBe('discard');
-            expect(this.hapsis.tokens.damage).toBe(3);
-            expect(this.hapsis.hasToken('ward')).toBe(true);
+            expect(this.hapsis.damage).toBe(3);
+            expect(this.hapsis.warded).toBe(true);
             expect(this.player1.hand.length).toBe(handSize + 1);
         });
 
@@ -45,10 +45,10 @@ describe('Hapsis', function () {
             let handSize = this.player1.hand.length;
             this.player1.fightWith(this.hapsis, this.zenzizenzizenzic);
             expect(this.zenzizenzizenzic.location).toBe('play area');
-            expect(this.zenzizenzizenzic.tokens.damage).toBe(3);
-            expect(this.hapsis.tokens.damage).toBe(4);
+            expect(this.zenzizenzizenzic.damage).toBe(3);
+            expect(this.hapsis.damage).toBe(4);
             expect(this.player1.hand.length).toBe(handSize);
-            expect(this.hapsis.hasToken('ward')).toBe(false);
+            expect(this.hapsis.warded).toBe(false);
         });
 
         it('should not draw a card when it does not kill a creature due to ward', function () {
@@ -57,19 +57,19 @@ describe('Hapsis', function () {
             let handSize = this.player1.hand.length;
             this.player1.fightWith(this.hapsis, this.chronus);
             expect(this.chronus.location).toBe('play area');
-            expect(this.chronus.tokens.damage).toBeUndefined();
-            expect(this.hapsis.tokens.damage).toBe(3);
+            expect(this.chronus.damage).toBe(0);
+            expect(this.hapsis.damage).toBe(3);
             expect(this.player1.hand.length).toBe(handSize);
-            expect(this.hapsis.hasToken('ward')).toBe(false);
+            expect(this.hapsis.warded).toBe(false);
         });
 
         it('should not draw a card when it kills by assault', function () {
             let handSize = this.player1.hand.length;
             this.player1.fightWith(this.hapsis, this.eyegor);
             expect(this.eyegor.location).toBe('discard');
-            expect(this.hapsis.tokens.damage).toBeUndefined();
+            expect(this.hapsis.damage).toBe(0);
             expect(this.player1.hand.length).toBe(handSize);
-            expect(this.hapsis.hasToken('ward')).toBe(false);
+            expect(this.hapsis.warded).toBe(false);
         });
 
         it('should not draw a card when it kills by fight effects', function () {
@@ -90,9 +90,9 @@ describe('Hapsis', function () {
             this.player1.clickPrompt('Deal 2 damage');
             this.player1.clickCard(this.zenzizenzizenzic);
             expect(this.zenzizenzizenzic.location).toBe('discard');
-            expect(this.hapsis.tokens.damage).toBe(4);
+            expect(this.hapsis.damage).toBe(4);
             expect(this.player1.hand.length).toBe(handSize);
-            expect(this.hapsis.hasToken('ward')).toBe(false);
+            expect(this.hapsis.warded).toBe(false);
         });
 
         it('should happen after destroyed effects', function () {
@@ -101,9 +101,9 @@ describe('Hapsis', function () {
             this.player1.fightWith(this.hapsis, this.darkMinion);
             expect(this.player1).isReadyToTakeAction();
             expect(this.darkMinion.location).toBe('discard');
-            expect(this.hapsis.tokens.damage).toBe(2);
+            expect(this.hapsis.damage).toBe(2);
             expect(this.player1.hand.length).toBe(handSize + 1);
-            expect(this.hapsis.hasToken('ward')).toBe(true);
+            expect(this.hapsis.warded).toBe(true);
         });
 
         it('should be destroyed when fighting harbinger', function () {
@@ -125,9 +125,9 @@ describe('Hapsis', function () {
             let handSize = this.player1.hand.length;
             this.player1.fightWith(this.hapsis, this.eyegor);
             expect(this.eyegor.location).toBe('discard');
-            expect(this.hapsis.tokens.damage).toBe(2);
+            expect(this.hapsis.damage).toBe(2);
             expect(this.player1.hand.length).toBe(handSize + 1);
-            expect(this.hapsis.hasToken('ward')).toBe(false);
+            expect(this.hapsis.warded).toBe(false);
             expect(this.player1).isReadyToTakeAction();
         });
     });

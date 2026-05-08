@@ -6,12 +6,29 @@ class DrawAction extends PlayerAction {
         this.amount = 1;
         this.refill = false;
         this.bonus = false;
+        this.effectMsg = null;
     }
 
     setup() {
         super.setup();
         this.name = 'draw';
-        this.effectMsg = 'draw ' + this.amount + ' card' + (this.amount > 1 ? 's' : '');
+        this.customEffectMsg = this.effectMsg;
+        // Default effectMsg set here, may be updated in update() based on target
+        this.effectMsg = `draw ${this.amount} card${this.amount > 1 ? 's' : ''}`;
+    }
+
+    update(context) {
+        this.effectMsg = null;
+        super.update(context);
+        // After target is set, update effectMsg based on whether target is opponent
+        if (!this.customEffectMsg && this.target.length > 0) {
+            const isOpponent = this.target.some((t) => t !== context.player);
+            if (isOpponent) {
+                this.effectMsg = `make {0} draw ${this.amount} card${this.amount > 1 ? 's' : ''}`;
+            }
+        } else if (this.customEffectMsg) {
+            this.effectMsg = this.customEffectMsg;
+        }
     }
 
     canAffect(player, context) {
@@ -48,24 +65,18 @@ class DrawAction extends PlayerAction {
                 context: context
             },
             (event) => {
-                if (!this.bonus && event.amount > 0) {
-                    context.game.addMessage(
-                        '{0} draws {1} card{2}{3}',
-                        player,
-                        amount,
-                        amount > 1 ? 's' : '',
-                        refill ? ` to their maximum of ${player.maxHandSize}` : ''
-                    );
-                }
-
                 if (event.amount > 0) {
-                    event.player.drawCardsToHand(amount);
+                    const logDraw = !this.bonus;
+                    const refillSuffix = refill
+                        ? ` to refill their hand to ${player.hand.length + amount} cards`
+                        : '';
+                    event.player.drawCardsToHand(amount, { logDraw, refillSuffix });
                 }
 
                 if (shedChains) {
                     event.player.modifyChains(-1);
                     context.game.addMessage(
-                        "{0}'s chains are reduced by 1 to {1}",
+                        '{0} sheds 1 chain to {1} chains',
                         event.player,
                         event.player.chains
                     );

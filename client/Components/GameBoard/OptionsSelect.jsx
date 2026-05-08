@@ -1,76 +1,69 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { Button, ListBox, Select } from '@heroui/react';
 
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
-class OptionsSelect extends React.Component {
-    constructor(props) {
-        super(props);
+const OptionsSelect = (props) => {
+    const { t } = useTranslation();
+    const [selectedOption, setSelectedOption] = useState(null);
 
-        this.state = {
-            selectedOption: null,
-            prevOptions: null
-        };
-
-        this.onChange = this.onChange.bind(this);
-        this.onDoneClicked = this.onDoneClicked.bind(this);
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        if (props.options !== state.prevOptions) {
-            return {
-                selectedOption:
-                    props.options && props.options.length > 0 ? '' + props.options[0].arg : -1,
-                prevOptions: props.options
-            };
-        }
-
-        return null;
-    }
-
-    onChange(event) {
-        this.setState({ selectedOption: event.target.value });
-    }
-
-    onDoneClicked(event) {
-        event.preventDefault();
-
-        if (this.props.onOptionSelected) {
-            this.props.onOptionSelected(this.state.selectedOption);
-        }
-    }
-
-    render() {
-        return (
-            <div>
-                <select className='form-control' onChange={this.onChange}>
-                    {this.props.options.map((option) => (
-                        <option
-                            key={option.value}
-                            selected={this.state.selectedOption === '' + option.arg}
-                            value={option.arg}
-                        >
-                            {option.text}
-                        </option>
-                    ))}
-                </select>
-                <button
-                    className='btn btn-default prompt-button btn-stretch option-button'
-                    onClick={this.onDoneClicked}
-                >
-                    {this.props.t('Done')}
-                </button>
-            </div>
+    useEffect(() => {
+        setSelectedOption(
+            props.options && props.options.length > 0 ? `${props.options[0].arg}` : -1
         );
-    }
-}
+    }, [props.options]);
+
+    const onDoneClicked = () => {
+        if (props.onOptionSelected) {
+            props.onOptionSelected(selectedOption);
+        }
+    };
+
+    const options = props.options || [];
+
+    return (
+        <div className='space-y-2'>
+            <Select
+                aria-label={t('Options')}
+                className='w-full'
+                value={selectedOption ?? '-1'}
+                onChange={(value) => setSelectedOption(String(value))}
+            >
+                <Select.Trigger>
+                    <Select.Value />
+                    <Select.Indicator />
+                </Select.Trigger>
+                <Select.Popover>
+                    <ListBox>
+                        {options.map((option) => (
+                            <ListBox.Item
+                                key={`${option.arg}`}
+                                id={`${option.arg}`}
+                                textValue={option.text}
+                            >
+                                {option.text}
+                                <ListBox.ItemIndicator />
+                            </ListBox.Item>
+                        ))}
+                    </ListBox>
+                </Select.Popover>
+            </Select>
+            <Button
+                variant='primary'
+                className='w-full justify-center !px-3 !py-2.5'
+                onPress={onDoneClicked}
+            >
+                {t('Done')}
+            </Button>
+        </div>
+    );
+};
 
 OptionsSelect.displayName = 'OptionsSelect';
 OptionsSelect.propTypes = {
-    i18n: PropTypes.object,
     onOptionSelected: PropTypes.func,
-    options: PropTypes.array,
-    t: PropTypes.func
+    options: PropTypes.array
 };
 
-export default withTranslation()(OptionsSelect);
+export default OptionsSelect;

@@ -58,7 +58,7 @@ describe('Edict of Nerotaurus', function () {
 
         it('should allow another reap after an omni', function () {
             this.player1.reap(this.scylla);
-            this.player1.useAction(this.saurianEgg, true);
+            this.player1.useOmni(this.saurianEgg);
             this.player1.clickPrompt('Right');
             this.player1.clickPrompt('Right');
             this.player1.reap(this.cornicenOctavia);
@@ -133,16 +133,16 @@ describe('Edict of Nerotaurus', function () {
             this.player1.play(this.brillixPonder);
             this.player1.play(this.daughter);
             this.player1.play(this.strangeGizmo);
-            this.brillixPonder.tokens.ward = 1;
-            this.daughter.tokens.ward = 1;
+            this.brillixPonder.ward();
+            this.daughter.ward();
             this.player1.endTurn();
             this.player2.clickPrompt('saurian');
             this.player2.play(this.grammaticusThrax);
-            this.grammaticusThrax.tokens.ward = 1;
+            this.grammaticusThrax.ward();
             this.player2.endTurn();
 
             // Strange Gizmo causes Jargogle to play Edict of Nerotaurus after forging a key
-            this.player1.clickPrompt('red');
+            this.player1.forgeKey('Red');
             this.player1.clickCard(this.jargogle1); // Edict of Nerotaurus
             this.player1.clickCard(this.jargogle2); // Ghosthawk deploys right of Brillix Ponder
             this.player1.clickPrompt('deploy right');
@@ -178,10 +178,8 @@ describe('Edict of Nerotaurus', function () {
                     inPlay: ['urchin', 'dodger', 'mack-the-knife']
                 }
             });
-            this.blossomDrake.maverick = 'saurian';
-            this.blossomDrake.printedHouse = 'saurian';
-            this.botBookton.maverick = 'saurian';
-            this.botBookton.printedHouse = 'saurian';
+            this.player1.makeMaverick(this.blossomDrake, 'saurian');
+            this.player1.makeMaverick(this.botBookton, 'saurian');
         });
 
         it('should not track reap/fight before coming into play', function () {
@@ -295,16 +293,16 @@ describe('Edict of Nerotaurus', function () {
             this.player1.play(this.brillixPonder);
             this.player1.play(this.daughter);
             this.player1.play(this.strangeGizmo);
-            this.brillixPonder.tokens.ward = 1;
-            this.daughter.tokens.ward = 1;
+            this.brillixPonder.ward();
+            this.daughter.ward();
             this.player1.endTurn();
             this.player2.clickPrompt('saurian');
             this.player2.play(this.grammaticusThrax);
-            this.grammaticusThrax.tokens.ward = 1;
+            this.grammaticusThrax.ward();
             this.player2.endTurn();
 
             // Strange Gizmo causes Jargogle to play Edict of Nerotaurus after forging a key
-            this.player1.clickPrompt('red');
+            this.player1.forgeKey('Red');
             this.player1.clickCard(this.jargogle1); // Edict of Nerotaurus
             this.player1.clickCard(this.jargogle2); // Ghosthawk deploys right of Brillix Ponder
             this.player1.clickPrompt('deploy right');

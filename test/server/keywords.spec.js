@@ -118,10 +118,10 @@ describe('keywords', function () {
             this.player1.fightWith(this.blypyp, this.xenosBloodshadow);
             expect(this.blypyp.location).toBe('discard');
             expect(this.xenosBloodshadow.location).toBe('play area');
-            expect(this.xenosBloodshadow.tokens.damage).toBeUndefined();
+            expect(this.xenosBloodshadow.damage).toBe(0);
             expect(this.xenosBloodshadow.elusiveUsed).toBe(true);
             this.player1.fightWith(this.chuffApe, this.xenosBloodshadow);
-            expect(this.chuffApe.tokens.armor).toBeUndefined();
+            expect(this.chuffApe.armor).toBe(0);
             expect(this.chuffApe.warded).toBe(false);
             expect(this.chuffApe.location).toBe('play area');
             expect(this.xenosBloodshadow.location).toBe('discard');
@@ -155,14 +155,14 @@ describe('keywords', function () {
             this.player1.fightWith(this.snufflegator, this.mightyTiger);
             expect(this.mightyTiger.location).toBe('discard');
             expect(this.snufflegator.location).toBe('play area');
-            expect(this.snufflegator.hasToken('damage')).toBe(false);
+            expect(this.snufflegator.damage).toBe(0);
         });
 
         it("Skirmish shouldn't stop Hazardous", function () {
             this.player1.fightWith(this.snufflegator, this.briarGrubbling);
             expect(this.briarGrubbling.location).toBe('play area');
             expect(this.snufflegator.location).toBe('discard');
-            expect(this.briarGrubbling.hasToken('damage')).toBe(false);
+            expect(this.briarGrubbling.damage).toBe(0);
         });
 
         it('Skirmish should work with poison', function () {
@@ -170,15 +170,15 @@ describe('keywords', function () {
             this.player1.fightWith(this.inkaTheSpider, this.mightyTiger);
             expect(this.mightyTiger.location).toBe('discard');
             expect(this.inkaTheSpider.location).toBe('play area');
-            expect(this.inkaTheSpider.hasToken('damage')).toBe(false);
+            expect(this.inkaTheSpider.damage).toBe(0);
         });
 
         it('Elusive should result in both creatures taking no damage', function () {
             this.player1.fightWith(this.inkaTheSpider, this.urchin);
             expect(this.urchin.location).toBe('play area');
             expect(this.inkaTheSpider.location).toBe('play area');
-            expect(this.urchin.hasToken('damage')).toBe(false);
-            expect(this.inkaTheSpider.hasToken('damage')).toBe(false);
+            expect(this.urchin.damage).toBe(0);
+            expect(this.inkaTheSpider.damage).toBe(0);
         });
 
         it("Elusive shouldn't stop damage on the second attack", function () {
@@ -186,7 +186,7 @@ describe('keywords', function () {
             this.player1.fightWith(this.snufflegator, this.urchin);
             expect(this.urchin.location).toBe('discard');
             expect(this.snufflegator.location).toBe('play area');
-            expect(this.snufflegator.hasToken('damage')).toBe(false);
+            expect(this.snufflegator.damage).toBe(0);
         });
 
         it("Elusive shouldn't stop Assault", function () {
@@ -194,7 +194,7 @@ describe('keywords', function () {
             expect(this.ancientBear.exhausted).toBe(true);
             expect(this.urchin.location).toBe('discard');
             expect(this.ancientBear.location).toBe('play area');
-            expect(this.ancientBear.hasToken('damage')).toBe(false);
+            expect(this.ancientBear.damage).toBe(0);
         });
 
         it('Elusive should work with Hazardous', function () {
@@ -243,25 +243,25 @@ describe('keywords', function () {
         it('should deal damage to neighbors', function () {
             this.player1.fightWith(this.croggTheClumsy, this.lollopTheTitanic);
             expect(this.croggTheClumsy.location).toBe('play area');
-            expect(this.lollopTheTitanic.tokens.damage).toBe(7);
-            expect(this.alaka.tokens.damage).toBe(2);
-            expect(this.megaAlaka.tokens.damage).toBe(2);
+            expect(this.lollopTheTitanic.damage).toBe(7);
+            expect(this.alaka.damage).toBe(2);
+            expect(this.megaAlaka.damage).toBe(2);
         });
 
         it('should be considered damage from source and not hit Ardent Hero', function () {
             this.player1.fightWith(this.croggTheClumsy, this.pitlord);
             expect(this.croggTheClumsy.location).toBe('discard');
-            expect(this.pitlord.tokens.damage).toBe(7);
-            expect(this.ardentHero.tokens.damage).toBeUndefined();
-            expect(this.megaAlaka.tokens.damage).toBe(2);
+            expect(this.pitlord.damage).toBe(7);
+            expect(this.ardentHero.damage).toBe(0);
+            expect(this.megaAlaka.damage).toBe(2);
         });
 
         it('should hit Drecker if 2 away', function () {
             this.player1.fightWith(this.croggTheClumsy, this.lollopTheTitanic);
-            expect(this.drecker.tokens.damage).toBe(2);
-            expect(this.alaka.tokens.damage).toBe(2);
-            expect(this.lollopTheTitanic.tokens.damage).toBe(7);
-            expect(this.megaAlaka.tokens.damage).toBe(2);
+            expect(this.drecker.damage).toBe(2);
+            expect(this.alaka.damage).toBe(2);
+            expect(this.lollopTheTitanic.damage).toBe(7);
+            expect(this.megaAlaka.damage).toBe(2);
         });
     });
 });

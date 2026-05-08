@@ -15,7 +15,7 @@ describe('Niffle Ape', function () {
         it('should allow attacking through taunt, and should avoid elusive', function () {
             this.player1.fightWith(this.niffleApe, this.urchin);
             expect(this.urchin.location).toBe('discard');
-            expect(this.niffleApe.tokens.damage).toBe(1);
+            expect(this.niffleApe.damage).toBe(1);
         });
     });
 });

@@ -20,7 +20,7 @@ describe('Archlegate Valeria', function () {
             expect(this.player1).toBeAbleToSelect(this.krump);
             expect(this.player1).toBeAbleToSelect(this.dustPixie);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.amber).toBe(1);
+            expect(this.krump.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -34,7 +34,7 @@ describe('Archlegate Valeria', function () {
             expect(this.player1).toBeAbleToSelect(this.krump);
             expect(this.player1).toBeAbleToSelect(this.dustPixie);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.amber).toBe(2);
+            expect(this.krump.amber).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
     });

@@ -55,21 +55,21 @@ function buildTestTemplate(cardName) {
         });
 
         it('creature token', function () {
-            expect(this.mookling.tokens.power).toBeUndefined();
+            expect(this.mookling.power).toBe(0);
             this.mookling.addToken('power');
-            expect(this.mookling.tokens.power).toBe(1);
-            
-            expect(this.mookling.tokens.damage).toBeUndefined();
+            expect(this.mookling.power).toBe(1);
+
+            expect(this.mookling.damage).toBe(0);
             this.mookling.addToken('damage');
-            expect(this.mookling.tokens.damage).toBe(1);
-            
-            expect(this.mookling.tokens.amber).toBeUndefined();
+            expect(this.mookling.damage).toBe(1);
+
+            expect(this.mookling.amber).toBe(0);
             this.mookling.addToken('amber');
-            expect(this.mookling.tokens.amber).toBe(1);
+            expect(this.mookling.amber).toBe(1);
         });
 
         it('creature amber test', function () {
-            this.urchin.tokens.amber = 1;
+            this.urchin.amber = 1;
         });
 
         it('location tests', function () {

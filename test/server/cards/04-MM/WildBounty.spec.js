@@ -73,7 +73,7 @@ describe('Wild Bounty', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(6);
             expect(this.player1.player.hand.length).toBe(5);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.player2.amber).toBe(2);
         });
 

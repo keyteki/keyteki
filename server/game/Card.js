@@ -72,8 +72,8 @@ class Card extends EffectSource {
         this.clonedNeighbors = null;
         this.clonedPurgedCards = null;
 
-        this.printedPower = cardData.power;
-        this.printedArmor = cardData.armor;
+        this.powerPrinted = cardData.power;
+        this.armorPrinted = cardData.armor;
         this.armorUsed = 0;
         this.exhausted = false;
         this.moribund = false;
@@ -296,7 +296,8 @@ class Card extends EffectSource {
                 title: 'Hazardous',
                 printedAbility: false,
                 when: {
-                    onFight: (event, context) => event.card === context.source
+                    onFight: (event, context) =>
+                        event.card === context.source && !event.attacker.ignores('hazardous')
                 },
                 gameAction: ability.actions.dealDamage((context) => ({
                     amount: context.source.getKeywordValue('hazardous'),
@@ -336,15 +337,18 @@ class Card extends EffectSource {
                     onCardDestroyed: (event, context) =>
                         event.card === context.source &&
                         event.card.type === 'creature' &&
-                        context.source.warded,
+                        context.source.warded &&
+                        !event.isRedirected,
                     onCardPurged: (event, context) =>
                         event.card === context.source &&
                         event.card.type === 'creature' &&
-                        context.source.warded,
+                        context.source.warded &&
+                        !event.isRedirected,
                     onCardLeavesPlay: (event, context) =>
                         event.card === context.source &&
                         event.card.type === 'creature' &&
-                        context.source.warded
+                        context.source.warded &&
+                        !event.isRedirected
                 },
                 autoResolve: true,
                 effect: 'remove its ward token',
@@ -360,14 +364,29 @@ class Card extends EffectSource {
         );
 
         // Invulnerable
+        const invulnerabilityApplies = (_context, _effectContext, event) => {
+            const damageEvent = (event && event.damageEvent) || event;
+            const source = damageEvent && damageEvent.damageSource;
+            if (!source || !source.ignores || !source.ignores('invulnerable')) {
+                return true;
+            }
+            // In a fight, only the attacker's `ignores` bypasses invulnerable;
+            // the defender dealing fight damage back does not bypass it.
+            const fightEvent = damageEvent && damageEvent.fightEvent;
+            if (fightEvent && fightEvent.attacker !== source) {
+                return true;
+            }
+            return false;
+        };
         this.abilities.keywordPersistentEffects.push(
             this.persistentEffect({
                 condition: () => !!this.getKeywordValue('invulnerable'),
                 printedAbility: false,
                 match: this,
                 effect: [
-                    ability.effects.cardCannot('damage'),
-                    ability.effects.cardCannot('destroy')
+                    ability.effects.cardCannot('damage', invulnerabilityApplies),
+                    ability.effects.cardCannot('destroy', invulnerabilityApplies),
+                    ability.effects.cardCannot('sacrifice')
                 ]
             })
         );
@@ -687,7 +706,7 @@ class Card extends EffectSource {
     onLeavesPlay() {
         if (this.type === 'creature' && this.hasToken('amber') && this.controller.opponent) {
             this.game.actions
-                .gainAmber({ amount: this.tokens.amber })
+                .gainAmber({ amount: this.amber })
                 .resolve(this.controller.opponent, this.game.getFrameworkContext());
         }
 
@@ -868,6 +887,11 @@ class Card extends EffectSource {
         this.tokens[type] += number;
     }
 
+    setToken(type, number) {
+        this.tokens[type] = number;
+        this.game?.checkGameState(true);
+    }
+
     hasToken(type) {
         return !!this.tokens[type];
     }
@@ -927,9 +951,20 @@ class Card extends EffectSource {
             return 0;
         }
 
+        // For gigantic creatures with a composed part, get keywords from the bottom card
+        // This allows the top half to share keywords with the bottom half when in play
+        let baseValue = 0;
+        if (this.gigantic && this.composedPart) {
+            let copyEffect = this.mostRecentEffect('copyCard');
+            let baseKeywords = copyEffect
+                ? copyEffect.printedKeywords
+                : this.getBottomCard().printedKeywords;
+            baseValue = baseKeywords[keyword] || 0;
+        }
+
         return this.getEffects('addKeyword').reduce(
             (total, keywords) => total + (keywords[keyword] ? keywords[keyword] : 0),
-            0
+            baseValue
         );
     }
 
@@ -950,28 +985,18 @@ class Card extends EffectSource {
         clone.parent = this.parent;
         clone.clonedNeighbors = this.neighbors;
         clone.traits = this.getTraits();
-        clone.modifiedPower = this.getPower();
+        clone.modifiedPower = this.power;
         return clone;
     }
 
     get power() {
-        return this.getPower();
-    }
-
-    getPower(printed = false) {
-        const printedPower = this.getBottomCard().printedPower;
-
-        if (printed) {
-            return printedPower;
-        }
-
         if (this.anyEffect('setPower')) {
             return this.mostRecentEffect('setPower');
         }
 
         const copyEffect = this.mostRecentEffect('copyCard');
 
-        const basePower = copyEffect ? copyEffect.printedPower : printedPower;
+        const basePower = copyEffect ? copyEffect.powerPrinted : this.getBottomCard().powerPrinted;
         return (
             basePower +
             this.sumEffects('modifyPower') +
@@ -979,23 +1004,21 @@ class Card extends EffectSource {
         );
     }
 
-    get armor() {
-        return this.getArmor();
+    get powerForPlayRestriction() {
+        return this.power;
     }
 
-    getArmor(printed = false) {
-        const printedArmor = this.getBottomCard().printedArmor;
+    get armor() {
+        return this.hasToken('armor') ? this.tokens.armor : 0;
+    }
 
-        if (printed) {
-            return printedArmor;
-        }
-
+    get armorTotal() {
         if (this.anyEffect('setArmor')) {
             return this.mostRecentEffect('setArmor');
         }
 
         const copyEffect = this.mostRecentEffect('copyCard');
-        const baseArmor = copyEffect ? copyEffect.printedArmor : printedArmor;
+        const baseArmor = copyEffect ? copyEffect.armorPrinted : this.getBottomCard().armorPrinted;
         return baseArmor + this.sumEffects('modifyArmor');
     }
 
@@ -1004,7 +1027,23 @@ class Card extends EffectSource {
     }
 
     set amber(amber) {
-        this.tokens.amber = amber;
+        this.setToken('amber', amber);
+    }
+
+    get damage() {
+        return this.hasToken('damage') ? this.tokens.damage : 0;
+    }
+
+    set damage(damage) {
+        this.setToken('damage', damage);
+    }
+
+    get powerCounters() {
+        return this.hasToken('power') ? this.tokens.power : 0;
+    }
+
+    set powerCounters(power) {
+        this.setToken('power', power);
     }
 
     get enraged() {
@@ -1119,7 +1158,21 @@ class Card extends EffectSource {
             }
         }
 
-        let choices = legalActions.map((action) => action.title);
+        let choices = legalActions.map((action) => {
+            // Include source in tooltip when there are multiple action abilities
+            if (legalActions.length > 1) {
+                const sourceCard = action.grantedBy || this;
+                return {
+                    text: action.title,
+                    tooltip: {
+                        text: '{{title}} (from {{card}})',
+                        values: { title: action.title, card: sourceCard.name },
+                        locale: sourceCard.locale
+                    }
+                };
+            }
+            return action.title;
+        });
         let handlers = legalActions.map((action) => () => {
             let context = action.createContext(player);
             context.ignoreHouse = ignoreHouse;
@@ -1150,10 +1203,9 @@ class Card extends EffectSource {
             context.ignoreHouse = ignoreHouse;
             return !action.meetsRequirements(context, []);
         });
-        let canFight =
-            actions.findIndex((action) => action.title === 'Fight with this creature') >= 0;
+        let canFight = actions.findIndex((action) => action.fight) >= 0;
         if (this.getEffects('mustFightIfAble').length > 0 && canFight) {
-            actions = actions.filter((action) => action.title === 'Fight with this creature');
+            actions = actions.filter((action) => action.fight);
         }
         return actions;
     }
@@ -1387,9 +1439,9 @@ class Card extends EffectSource {
             printedHouse: tokenCardOrThis.printedHouse,
             maverick: tokenCardOrThis.maverick,
             cardPrintedAmber: tokenCardOrThis.cardPrintedAmber,
-            printedPower: tokenCardOrThis.printedPower,
-            printedArmor: tokenCardOrThis.printedArmor,
-            modifiedPower: this.getPower(),
+            powerPrinted: tokenCardOrThis.powerPrinted,
+            armorPrinted: tokenCardOrThis.armorPrinted,
+            modifiedPower: this.power,
             stunned: this.stunned,
             taunt: this.getType() === 'creature' && !!this.getKeywordValue('taunt'),
             tokens: this.tokens,
@@ -1417,8 +1469,8 @@ class Card extends EffectSource {
                 printedHouse: this.printedHouse,
                 maverick: this.maverick,
                 cardPrintedAmber: this.cardPrintedAmber,
-                printedPower: this.printedPower,
-                printedArmor: this.printedArmor,
+                powerPrinted: this.powerPrinted,
+                armorPrinted: this.armorPrinted,
                 type: this.printedType,
                 gigantic: this.gigantic,
                 uuid: this.uuid

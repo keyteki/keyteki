@@ -46,8 +46,8 @@ describe('Tendrils of Pain', function () {
                     expect(this.chotaHazri.location).toBe('play area');
                     expect(this.huntingWitch.location).toBe('discard');
                     expect(this.mightyTiger.warded).toBe(false);
-                    expect(this.mightyTiger.tokens.damage).toBe(undefined);
-                    expect(this.troll.tokens.damage).toBe(4);
+                    expect(this.mightyTiger.damage).toBe(0);
+                    expect(this.troll.damage).toBe(4);
                 });
             });
 
@@ -63,8 +63,8 @@ describe('Tendrils of Pain', function () {
                     expect(this.chotaHazri.location).toBe('play area');
                     expect(this.huntingWitch.location).toBe('discard');
                     expect(this.mightyTiger.warded).toBe(false);
-                    expect(this.mightyTiger.tokens.damage).toBe(undefined);
-                    expect(this.troll.tokens.damage).toBe(4);
+                    expect(this.mightyTiger.damage).toBe(0);
+                    expect(this.troll.damage).toBe(4);
                 });
             });
         });
@@ -91,11 +91,11 @@ describe('Tendrils of Pain', function () {
                     expect(this.huntingWitch.location).toBe('play area');
                     expect(this.mightyTiger.warded).toBe(false);
                     expect(this.helperBot.warded).toBe(false);
-                    expect(this.mightyTiger.tokens.damage).toBe(undefined);
-                    expect(this.helperBot.tokens.damage).toBe(undefined);
-                    expect(this.troll.tokens.damage).toBe(1);
-                    expect(this.chotaHazri.tokens.damage).toBe(undefined);
-                    expect(this.huntingWitch.tokens.damage).toBe(1);
+                    expect(this.mightyTiger.damage).toBe(0);
+                    expect(this.helperBot.damage).toBe(0);
+                    expect(this.troll.damage).toBe(1);
+                    expect(this.chotaHazri.damage).toBe(0);
+                    expect(this.huntingWitch.damage).toBe(1);
                 });
             });
         });

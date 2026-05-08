@@ -10,7 +10,7 @@ describe('Gauntlet of Command', function () {
                     inPlay: ['ember-imp']
                 }
             });
-            this.dextre.exhausted = true;
+            this.dextre.exhaust();
         });
 
         it('should ready and fight with a friendly creature', function () {
@@ -34,7 +34,7 @@ describe('Gauntlet of Command', function () {
                 },
                 player2: {}
             });
-            this.dextre.exhausted = true;
+            this.dextre.exhaust();
         });
 
         it('should ready a friendly creature', function () {

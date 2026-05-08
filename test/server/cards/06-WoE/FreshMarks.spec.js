@@ -19,10 +19,10 @@ describe('FreshMarks', function () {
             this.player1.moveCard(this.flaxia, 'hand');
             this.player1.moveCard(this.bubbles, 'hand');
 
-            expect(this.gub.tokens.amber).toBeUndefined();
-            expect(this.krump.tokens.amber).toBeUndefined();
-            expect(this.alaka.tokens.amber).toBeUndefined();
-            expect(this.brammo.tokens.amber).toBeUndefined();
+            expect(this.gub.amber).toBe(0);
+            expect(this.krump.amber).toBe(0);
+            expect(this.alaka.amber).toBe(0);
+            expect(this.brammo.amber).toBe(0);
 
             this.player1.play(this.freshMarks);
             expect(this.player1).not.toBeAbleToSelect(this.gub);
@@ -30,19 +30,19 @@ describe('FreshMarks', function () {
             expect(this.player1).not.toBeAbleToSelect(this.alaka);
             expect(this.player1).not.toBeAbleToSelect(this.brammo);
 
-            expect(this.gub.tokens.amber).toBeUndefined();
-            expect(this.krump.tokens.amber).toBeUndefined();
-            expect(this.alaka.tokens.amber).toBeUndefined();
-            expect(this.brammo.tokens.amber).toBeUndefined();
+            expect(this.gub.amber).toBe(0);
+            expect(this.krump.amber).toBe(0);
+            expect(this.alaka.amber).toBe(0);
+            expect(this.brammo.amber).toBe(0);
 
             this.player1.endTurn();
         });
 
         it('should exalt 3 enemy cretures if a friendly is destroyed', function () {
-            expect(this.gub.tokens.amber).toBeUndefined();
-            expect(this.krump.tokens.amber).toBeUndefined();
-            expect(this.alaka.tokens.amber).toBeUndefined();
-            expect(this.brammo.tokens.amber).toBeUndefined();
+            expect(this.gub.amber).toBe(0);
+            expect(this.krump.amber).toBe(0);
+            expect(this.alaka.amber).toBe(0);
+            expect(this.brammo.amber).toBe(0);
 
             this.player1.play(this.freshMarks);
 
@@ -52,10 +52,10 @@ describe('FreshMarks', function () {
             this.player1.clickCard(this.krump);
             this.player1.clickPrompt('Done');
 
-            expect(this.gub.tokens.amber).toBe(1);
-            expect(this.krump.tokens.amber).toBe(1);
-            expect(this.alaka.tokens.amber).toBe(1);
-            expect(this.brammo.tokens.amber).toBeUndefined();
+            expect(this.gub.amber).toBe(1);
+            expect(this.krump.amber).toBe(1);
+            expect(this.alaka.amber).toBe(1);
+            expect(this.brammo.amber).toBe(0);
             expect(this.flaxia.location).toBe('discard');
 
             this.player1.endTurn();

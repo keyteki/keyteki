@@ -1,25 +1,23 @@
 /*eslint no-console:0 */
 const fs = require('fs');
-const request = require('request');
-const fabric = require('fabric').fabric;
+const { fabric } = require('fabric');
 const path = require('path');
 const KeyForgeHalfSizeBuild = require('./KeyForgeHalfSizeBuild');
 
 class KeyforgeImageSource {
-    fetchImage(card, imageUrl, imagePath) {
-        return new Promise((resolve) => {
-            let file = fs.createWriteStream(imagePath);
-            request({ url: imageUrl, encoding: null })
-                .pipe(file)
-                .on('finish', () => {
-                    console.log('Downloaded image for ' + card.name + ' from ' + imageUrl);
-                    resolve();
-                })
-                .on('error', (err) => {
-                    console.log(`Error converting image for ${card.name}: ${err}`);
-                    resolve();
-                });
-        });
+    async fetchImage(card, imageUrl, imagePath) {
+        try {
+            const response = await fetch(imageUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status} ${response.statusText}`);
+            }
+
+            const buffer = Buffer.from(await response.arrayBuffer());
+            await fs.promises.writeFile(imagePath, buffer);
+            console.log('Downloaded image for ' + card.name + ' from ' + imageUrl);
+        } catch (err) {
+            console.log(`Error converting image for ${card.name}: ${err}`);
+        }
     }
 
     getHalfSizeBuilder() {
@@ -29,6 +27,7 @@ class KeyforgeImageSource {
     async buildGigantics(card, language, imageLangDir, imgPath) {
         console.log(`Built gigantic image for ${card.id} in ${language}`);
         const canvas = new fabric.StaticCanvas();
+        canvas.renderOnAddRemove = false;
         canvas.setDimensions({ width: 300, height: 420 });
         const bottom = await this.loadImage(path.join(imageLangDir, card + '.png'));
         const top = await this.loadImage(path.join(imageLangDir, card + '2.png'));
@@ -50,9 +49,7 @@ class KeyforgeImageSource {
 
     loadImage(imgPath) {
         return new Promise((resolve) => {
-            fabric.Image.fromURL(`file://${imgPath}`, (image) => {
-                resolve(image);
-            });
+            fabric.Image.fromURL(`file://${imgPath}`, (image) => resolve(image));
         });
     }
 }

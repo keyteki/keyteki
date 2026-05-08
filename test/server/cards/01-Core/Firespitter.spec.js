@@ -15,8 +15,8 @@ describe('Firespitter', function () {
         it('should deal 1 damage to all enemies before the fight', function () {
             this.player1.fightWith(this.firespitter, this.urchin);
             expect(this.urchin.location).toBe('discard');
-            expect(this.snufflegator.tokens.damage).toBe(1);
-            expect(this.silvertooth.tokens.damage).toBe(1);
+            expect(this.snufflegator.damage).toBe(1);
+            expect(this.silvertooth.damage).toBe(1);
         });
     });
 });

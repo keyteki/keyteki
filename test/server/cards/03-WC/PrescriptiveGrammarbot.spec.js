@@ -21,7 +21,7 @@ describe('Prescriptive Grammarbot', function () {
             expect(this.player1).toBeAbleToSelect(this.nexus);
             expect(this.player1).toBeAbleToSelect(this.umbra);
             this.player1.clickCard(this.nexus);
-            expect(this.nexus.tokens.enrage).toBe(1);
+            expect(this.nexus.enraged).toBe(true);
         });
     });
     describe('Cant escape its own Reap ability', function () {
@@ -42,7 +42,7 @@ describe('Prescriptive Grammarbot', function () {
             expect(this.player1).toHavePrompt('Prescriptive Grammarbot');
             expect(this.player1).toBeAbleToSelect(this.prescriptiveGrammarbot);
             this.player1.clickCard(this.prescriptiveGrammarbot);
-            expect(this.prescriptiveGrammarbot.tokens.enrage).toBe(1);
+            expect(this.prescriptiveGrammarbot.enraged).toBe(true);
         });
     });
 });

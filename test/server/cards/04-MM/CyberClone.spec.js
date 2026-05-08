@@ -83,11 +83,11 @@ describe('Cyber-Clone', function () {
         });
 
         it('should prevent purge with ward, but still gain its power and armor', function () {
-            this.groupthinkTank.tokens.ward = 1;
+            this.groupthinkTank.ward();
             this.player1.play(this.cyberClone);
             this.player1.clickCard(this.groupthinkTank);
             expect(this.groupthinkTank.location).toBe('play area');
-            expect(this.groupthinkTank.tokens.ward).toBeUndefined();
+            expect(this.groupthinkTank.warded).toBe(false);
             expect(this.cyberClone.power).toBe(4);
             expect(this.cyberClone.armor).toBe(3);
             expect(this.cyberClone.getTraits().length).toBe(3);

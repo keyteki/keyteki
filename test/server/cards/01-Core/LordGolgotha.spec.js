@@ -14,16 +14,16 @@ describe('Lord Golgotha', function () {
 
         it('should deal 3 damage to neighbors of the creature it fights', function () {
             this.player1.fightWith(this.lordGolgotha, this.krump);
-            expect(this.troll.tokens.damage).toBe(3);
-            expect(this.bumpsy.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
+            expect(this.bumpsy.damage).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('should deal 3 damage to single neighbor when fighting a flank', function () {
             this.player1.fightWith(this.lordGolgotha, this.troll);
-            expect(this.troll.tokens.damage).toBe(5);
-            expect(this.krump.tokens.damage).toBe(3);
-            expect(this.bumpsy.tokens.damage).toBeUndefined();
+            expect(this.troll.damage).toBe(5);
+            expect(this.krump.damage).toBe(3);
+            expect(this.bumpsy.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

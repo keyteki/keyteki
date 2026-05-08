@@ -146,9 +146,10 @@ class DealDamageAction extends CardGameAction {
 
             if (
                 !damageDealtEvent.ignoreArmor &&
-                damageDealtEvent.card.armor > damageDealtEvent.card.armorUsed
+                damageDealtEvent.card.armorTotal > damageDealtEvent.card.armorUsed
             ) {
-                let currentArmor = damageDealtEvent.card.armor - damageDealtEvent.card.armorUsed;
+                let currentArmor =
+                    damageDealtEvent.card.armorTotal - damageDealtEvent.card.armorUsed;
 
                 if (damageDealtEvent.amount <= currentArmor) {
                     armorUsed = damageDealtEvent.amount;

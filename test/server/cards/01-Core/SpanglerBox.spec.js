@@ -12,7 +12,7 @@ describe('Spangler Box', function () {
                         'timetraveller',
                         'dysania'
                     ],
-                    hand: ['spangler-box', 'remote-access']
+                    hand: ['spangler-box', 'remote-access', 'poltergeist']
                 },
                 player2: {
                     amber: 1,
@@ -47,7 +47,7 @@ describe('Spangler Box', function () {
         });
 
         it('should not purge warded creatures and remain under owner control', function () {
-            this.silvertooth.tokens.ward = 1;
+            this.silvertooth.ward();
             this.player1.useAction(this.spanglerBox);
             expect(this.player1).toHavePrompt('Spangler Box');
             expect(this.player1).toBeAbleToSelect(this.docBookton);
@@ -55,7 +55,7 @@ describe('Spangler Box', function () {
             expect(this.player1).toBeAbleToSelect(this.stealerOfSouls);
             this.player1.clickCard(this.silvertooth);
             expect(this.silvertooth.location).toBe('play area');
-            expect(this.silvertooth.tokens.ward).toBeUndefined();
+            expect(this.silvertooth.warded).toBe(false);
             expect(this.spanglerBox.controller).toBe(this.player1.player);
             expect(this.player1.player.cardsInPlay).toContain(this.spanglerBox);
             expect(this.spanglerBox.exhausted).toBe(true);
@@ -114,7 +114,7 @@ describe('Spangler Box', function () {
             expect(this.silvertooth.location).toBe('purged');
             expect(this.stealerOfSouls.location).toBe('purged');
             expect(this.lamindra.location).toBe('purged');
-            this.player2.useAction(this.gormOfOmm, true);
+            this.player2.useOmni(this.gormOfOmm);
             this.player2.clickCard(this.spanglerBox);
             expect(this.spanglerBox.location).toBe('discard');
 
@@ -131,7 +131,7 @@ describe('Spangler Box', function () {
             expect(this.stealerOfSouls.location).toBe('play area');
             expect(this.player2.player.cardsInPlay).toContain(this.stealerOfSouls);
             expect(this.stealerOfSouls.exhausted).toBe(true);
-            expect(this.stealerOfSouls.hasToken('damage')).toBe(false);
+            expect(this.stealerOfSouls.damage).toBe(0);
 
             expect(this.player2).toBeAbleToSelect(this.silvertooth);
             expect(this.player2).not.toBeAbleToSelect(this.stealerOfSouls);
@@ -148,14 +148,63 @@ describe('Spangler Box', function () {
             expect(this.player2).toHavePrompt('Lamindra');
             expect(this.player2).toHavePromptButton('Left');
             expect(this.player2).toHavePromptButton('Right');
-            expect(this.player2).not.toHavePromptButton('Deploy Left');
-            expect(this.player2).not.toHavePromptButton('Deploy Right');
-            this.player2.clickPrompt('Left');
+            expect(this.player2).toHavePromptButton('Deploy Left');
+            expect(this.player2).toHavePromptButton('Deploy Right');
+            this.player2.clickPrompt('Deploy Right');
+            this.player2.clickCard(this.dextre);
             expect(this.lamindra.location).toBe('play area');
             expect(this.player1.player.cardsInPlay).toContain(this.lamindra);
-            expect(this.lamindra.hasToken('amber')).toBe(false);
+            expect(this.lamindra.amber).toBe(0);
             expect(this.lamindra.exhausted).toBe(true);
             expect(this.docBookton.location).toBe('purged');
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('should return purged creatures to play when destroyed by Poltergeist', function () {
+            // Player1 purges Silvertooth
+            this.player1.useAction(this.spanglerBox);
+            this.player1.clickCard(this.silvertooth);
+
+            // Player2 purges Doc Bookton
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.spanglerBox.ready();
+            this.player2.useAction(this.spanglerBox);
+            this.player2.clickCard(this.docBookton);
+            this.player2.endTurn();
+
+            // Player1 plays Poltergeist
+            this.player1.clickPrompt('dis');
+            this.player1.play(this.poltergeist);
+            this.spanglerBox.ready();
+            this.player1.clickCard(this.spanglerBox);
+
+            // Poltergeist uses Spangler Box
+            expect(this.player1).toHavePrompt('Spangler Box');
+            expect(this.player1).toBeAbleToSelect(this.stealerOfSouls);
+            this.player1.clickCard(this.stealerOfSouls);
+
+            // Spangler Box is destroyed
+            expect(this.spanglerBox.location).toBe('discard');
+
+            // All three purged creatures should be put back into play
+            expect(this.player1).toBeAbleToSelect(this.silvertooth);
+            expect(this.player1).toBeAbleToSelect(this.docBookton);
+            expect(this.player1).toBeAbleToSelect(this.stealerOfSouls);
+
+            this.player1.clickCard(this.silvertooth);
+            this.player1.clickPrompt('Left');
+            expect(this.silvertooth.location).toBe('play area');
+
+            this.player1.clickCard(this.docBookton);
+            this.player1.clickPrompt('Left');
+            expect(this.docBookton.location).toBe('play area');
+
+            this.player1.clickCard(this.stealerOfSouls);
+            this.player1.clickPrompt('Left');
+            expect(this.stealerOfSouls.location).toBe('play area');
+
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

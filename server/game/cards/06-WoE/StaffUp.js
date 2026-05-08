@@ -28,8 +28,7 @@ class StaffUp extends Card {
                     context.event.amount !== 1 ? 's' : ''
                 ]
             }),
-            effect:
-                'make token creatures when amber would be added to their pool for the remainder of the turn'
+            effect: 'make token creatures when amber would be added to their pool for the remainder of the turn'
         });
     }
 }

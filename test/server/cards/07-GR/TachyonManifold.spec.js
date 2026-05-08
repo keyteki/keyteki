@@ -31,7 +31,7 @@ describe('Tachyon Manifold', function () {
             // Use Tachyon Manifold twice
             this.player1.useAction(this.tachyonManifold);
             this.player1.moveCard(this.tachyonManifold, 'play area');
-            this.tachyonManifold.exhausted = false;
+            this.tachyonManifold.ready();
             this.player1.useAction(this.tachyonManifold);
             this.player1.endTurn();
 

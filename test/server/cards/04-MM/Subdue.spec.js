@@ -23,7 +23,7 @@ describe('Subdue', function () {
             this.player1.play(this.subdue);
             this.player1.clickCard(this.dodger);
             expect(this.dodger.location).toBe('play area');
-            expect(this.dodger.tokens.damage).toBe(1);
+            expect(this.dodger.damage).toBe(1);
             expect(this.dodger.stunned).toBe(true);
         });
     });

@@ -2,7 +2,7 @@ const _ = require('underscore');
 
 const cards = require('../../../server/game/cards');
 const AbilityDsl = require('../../../server/game/abilitydsl');
-const localeEn = require('../../../public/locales/en.json');
+const localeEn = require('../../../client/locales/en.json');
 
 const card = {
     hasHouse: () => true,
@@ -13,7 +13,8 @@ const card = {
     tokens: {},
     hasToken: () => false,
     isInCenter: () => true,
-    isToken: () => false
+    isToken: () => false,
+    bonusIcons: []
 };
 card.neighbors.push(card);
 card.neighbors.push(card);
@@ -32,7 +33,8 @@ const player = {
     isTideLow: () => false,
     isHaunted: () => true,
     keys: { red: true, blue: true, yellow: true },
-    getDiscardSlice: () => []
+    getDiscardSlice: () => [],
+    isOverwhelmed: () => false
 };
 player.opponent = player;
 card.controller = player;
@@ -44,7 +46,8 @@ const mockContext = {
         creaturesInPlay: [],
         cardsInPlay: [],
         activePlayer: player,
-        getFrameworkContext: () => {}
+        getFrameworkContext: () => {},
+        getPlayers: () => [player]
     },
     house: {},
     source: card,
@@ -135,17 +138,18 @@ function expectLocalizedPrompt(args) {
 
 describe('All Cards:', function () {
     beforeEach(function () {
-        this.gameSpy = jasmine.createSpyObj('game', [
-            'on',
-            'removeListener',
-            'addPower',
-            'addMessage',
-            'addEffect',
-            'getPlayers'
-        ]);
-        this.gameSpy.getPlayers.and.returnValue([]);
-        this.playerSpy = jasmine.createSpyObj('player', ['registerAbilityMax']);
-        this.playerSpy.game = this.gameSpy;
+        this.gameSpy = {
+            on: vi.fn(),
+            removeListener: vi.fn(),
+            addPower: vi.fn(),
+            addMessage: vi.fn(),
+            addEffect: vi.fn(),
+            getPlayers: vi.fn().mockReturnValue([])
+        };
+        this.playerSpy = {
+            registerAbilityMax: vi.fn(),
+            game: this.gameSpy
+        };
     });
 
     _.each(cards, (cardClass) => {
@@ -159,9 +163,9 @@ describe('All Cards:', function () {
         describe("Actions for '" + cardClass.name + "'", function () {
             beforeEach(function () {
                 this.card = new cardClass(this.playerSpy, { id: 'id' });
-                this.actionSpy = spyOn(this.card, 'action');
+                this.actionSpy = vi.spyOn(this.card, 'action');
                 this.card.setupCardAbilities(AbilityDsl);
-                this.calls = _.flatten(this.actionSpy.calls.allArgs());
+                this.calls = _.flatten(this.actionSpy.mock.calls);
             });
 
             it('should have an string effect or a gameAction (either on the ability or one of its targets', function () {
@@ -254,15 +258,11 @@ describe('All Cards:', function () {
         describe("Reactions and Interrupts for '" + cardClass.name + "'", function () {
             beforeEach(function () {
                 this.card = new cardClass(this.playerSpy, { id: 'id' });
-                //this.forcedReactionSpy = spyOn(this.card, 'forcedReaction');
-                this.reactionSpy = spyOn(this.card, 'reaction');
-                //this.forcedInterruptSpy = spyOn(this.card, 'forcedInterrupt');
-                this.interruptSpy = spyOn(this.card, 'interrupt');
+                this.reactionSpy = vi.spyOn(this.card, 'reaction');
+                this.interruptSpy = vi.spyOn(this.card, 'interrupt');
                 this.card.setupCardAbilities(AbilityDsl);
-                //this.calls = this.forcedReactionSpy.calls.allArgs();
-                this.calls = this.reactionSpy.calls.allArgs();
-                this.calls = this.calls.concat(this.interruptSpy.calls.allArgs());
-                this.calls = _.flatten(this.calls);
+                this.calls = _.flatten(this.reactionSpy.mock.calls);
+                this.calls = this.calls.concat(_.flatten(this.interruptSpy.mock.calls));
             });
 
             it('should have an string effect or a gameAction (either on the ability or one of its targets', function () {

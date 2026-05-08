@@ -21,10 +21,10 @@ describe('Envoy of Ekwirrĕ', function () {
             expect(this.player1.player.cardsInPlay[2]).toBe(this.umbra);
 
             // Load up the creatures.
-            this.troll.tokens.amber = 5;
-            this.troll.tokens.damage = 3;
-            this.envoyOfEkwirrĕ.tokens.amber = 2;
-            this.envoyOfEkwirrĕ.tokens.damage = 1;
+            this.troll.amber = 5;
+            this.troll.damage = 3;
+            this.envoyOfEkwirrĕ.amber = 2;
+            this.envoyOfEkwirrĕ.damage = 1;
 
             // trigger the action
             this.player1.reap(this.envoyOfEkwirrĕ);
@@ -35,24 +35,24 @@ describe('Envoy of Ekwirrĕ', function () {
             expect(this.player1.player.cardsInPlay[2]).toBe(this.umbra);
 
             // Tokens have swapped.
-            expect(this.troll.tokens.amber).toBe(2);
-            expect(this.troll.tokens.damage).toBe(1);
-            expect(this.envoyOfEkwirrĕ.tokens.amber).toBe(5);
-            expect(this.envoyOfEkwirrĕ.tokens.damage).toBe(3);
+            expect(this.troll.amber).toBe(2);
+            expect(this.troll.damage).toBe(1);
+            expect(this.envoyOfEkwirrĕ.amber).toBe(5);
+            expect(this.envoyOfEkwirrĕ.damage).toBe(3);
         });
 
         it('should kill the swapped creature if there is too much damage', function () {
-            this.troll.tokens.amber = 5;
-            this.troll.tokens.damage = 6;
-            this.envoyOfEkwirrĕ.tokens.amber = 2;
-            this.envoyOfEkwirrĕ.tokens.damage = 1;
+            this.troll.amber = 5;
+            this.troll.damage = 6;
+            this.envoyOfEkwirrĕ.amber = 2;
+            this.envoyOfEkwirrĕ.damage = 1;
 
             this.player1.reap(this.envoyOfEkwirrĕ);
             this.player1.clickCard(this.troll);
 
             expect(this.envoyOfEkwirrĕ.location).toBe('discard');
-            expect(this.troll.tokens.amber).toBe(2);
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.troll.amber).toBe(2);
+            expect(this.troll.damage).toBe(1);
             expect(this.player2.amber).toBe(6);
         });
 
@@ -73,7 +73,7 @@ describe('Envoy of Ekwirrĕ', function () {
             this.player1.clickCard(this.troll);
 
             expect(this.troll.tokens.growth).toBe(4);
-            expect(this.envoyOfEkwirrĕ.tokens.ward).toBe(1);
+            expect(this.envoyOfEkwirrĕ.warded).toBe(true);
             expect(this.envoyOfEkwirrĕ.tokens.doom).toBe(1);
         });
 

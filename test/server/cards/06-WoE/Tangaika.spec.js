@@ -52,7 +52,7 @@ describe('Tangaika', function () {
 
             this.player1.fightWith(this.tangaika, this.batdrone);
             expect(this.player1.amber).toBe(4);
-            expect(this.kelifiDragon.tokens.damage).toBe(5);
+            expect(this.kelifiDragon.damage).toBe(5);
         });
     });
 });

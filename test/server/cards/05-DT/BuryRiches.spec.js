@@ -14,10 +14,10 @@ describe('Bury Riches', function () {
                 }
             });
 
-            this.senatorShrix.tokens.amber = 3;
-            this.saurianEgg.tokens.amber = 1;
-            this.murkens.tokens.amber = 1;
-            this.lamindra.tokens.amber = 2;
+            this.senatorShrix.amber = 3;
+            this.saurianEgg.amber = 1;
+            this.murkens.amber = 1;
+            this.lamindra.amber = 2;
         });
 
         it('should raise the tide if it is neutral', function () {

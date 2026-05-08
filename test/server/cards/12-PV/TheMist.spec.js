@@ -13,7 +13,7 @@ describe('The Mist', function () {
         });
 
         it('should destroy itself and give all creatures the Mutant trait', function () {
-            this.player1.useAction(this.theMist, true);
+            this.player1.useOmni(this.theMist);
             expect(this.theMist.location).toBe('discard');
             expect(this.emberImp.hasTrait('mutant')).toBe(true);
             expect(this.yurk.hasTrait('mutant')).toBe(true);
@@ -23,7 +23,7 @@ describe('The Mist', function () {
         });
 
         it('should last until end of turn', function () {
-            this.player1.useAction(this.theMist, true);
+            this.player1.useOmni(this.theMist);
             expect(this.emberImp.hasTrait('mutant')).toBe(true);
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');

@@ -39,9 +39,7 @@ class ReapGameAction extends CardGameAction {
         return super.createEvent(EVENTS.unnamedEvent, { card, context }, () => {
             let newContext;
             if (card.stunned) {
-                let removeStunAction = card
-                    .getActions()
-                    .find((action) => action.title === "Remove this creature's stun");
+                let removeStunAction = card.getActions().find((action) => action.unstun);
                 newContext = removeStunAction.createContext(context.player);
             } else {
                 let reapAction = card.getReapAction();

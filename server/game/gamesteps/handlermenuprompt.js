@@ -71,6 +71,10 @@ class HandlerMenuPrompt extends UiPrompt {
             })
         );
 
+        if (this.game.manualMode) {
+            buttons = buttons.concat({ text: 'Cancel Prompt', arg: 'cancel' });
+        }
+
         return {
             menuTitle: this.properties.activePromptTitle || 'Select one',
             buttons: buttons,
@@ -112,7 +116,34 @@ class HandlerMenuPrompt extends UiPrompt {
         return { menuTitle: this.properties.waitingPromptTitle || 'Waiting for opponent' };
     }
 
+    onCardClicked(player, card) {
+        if (!this.properties.cards || !this.properties.cardHandler) {
+            return false;
+        }
+
+        // When a Gigantic creature is targeted it is considered a single
+        // composed card. When it goes to the discard it then separates into two
+        // halves, but the original ability is still targeting the composed
+        // card. For abilities that continue to target the Gigantic creature
+        // after it has separated in the discard we need to allow the player to
+        // click on a separated half to select it. eg Brutal Consequences
+        const matchingCard = this.properties.cards.find(
+            (c) => c === card || c.composedPart === card
+        );
+        if (matchingCard) {
+            this.properties.cardHandler(matchingCard);
+            return true;
+        }
+
+        return false;
+    }
+
     menuCommand(player, arg) {
+        if (arg === 'cancel') {
+            this.complete();
+            return true;
+        }
+
         if (_.isString(arg)) {
             let card = _.find(this.properties.cards, (card) => card.uuid === arg);
             if (card && this.properties.cardHandler) {

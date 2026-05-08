@@ -39,7 +39,7 @@ describe('Disruption Field', function () {
             this.disruptionField.tokens.disruption = 3;
             this.player1.playUpgrade(this.disruptionField, this.doctorDriscoll);
             this.player1.fightWith(this.doctorDriscoll, this.troll);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.doctorDriscoll.location).toBe('discard');
             expect(this.disruptionField.location).toBe('discard');
             expect(this.disruptionField.tokens.disruption).toBeUndefined();

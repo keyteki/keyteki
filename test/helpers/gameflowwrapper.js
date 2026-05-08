@@ -4,14 +4,13 @@ const Settings = require('../../server/settings.js');
 
 class GameFlowWrapper {
     constructor(cards) {
-        var gameRouter = jasmine.createSpyObj('gameRouter', [
-            'gameWon',
-            'playerLeft',
-            'handleError'
-        ]);
-        gameRouter.handleError.and.callFake((game, error) => {
-            throw error;
-        });
+        var gameRouter = {
+            gameWon: vi.fn(),
+            playerLeft: vi.fn(),
+            handleError: vi.fn().mockImplementation((game, error) => {
+                throw error;
+            })
+        };
         var details = {
             name: "player1's game",
             id: 12345,
@@ -65,6 +64,7 @@ class GameFlowWrapper {
         }
 
         this.game.activePlayer = this.player1.player;
+        this.game.firstPlayer = this.player1.player;
         this.player1.clickPrompt('Start the Game');
         this.player2.clickPrompt('Start the Game');
     }

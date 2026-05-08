@@ -22,7 +22,7 @@ describe('Wikolia', function () {
             it('opponent should forge a key paying 8A', function () {
                 this.player2.amber = 8;
                 this.player1.endTurn();
-                this.player2.clickPrompt('red');
+                this.player2.forgeKey('Red');
                 expect(this.player2.amber).toBe(0);
             });
 
@@ -37,7 +37,7 @@ describe('Wikolia', function () {
                 it('should forge a key paying 8A', function () {
                     this.player2.amber = 6;
                     this.player1.endTurn();
-                    this.player2.clickPrompt('red');
+                    this.player2.forgeKey('Red');
                     expect(this.player2.amber).toBe(0);
                 });
             });
@@ -59,8 +59,7 @@ describe('Wikolia', function () {
                     hand: []
                 }
             });
-            this.tachyonManifold.maverick = 'unfathomable';
-            this.tachyonManifold.printedHouse = 'unfathomable';
+            this.player1.makeMaverick(this.tachyonManifold, 'unfathomable');
             this.player1.useAction(this.tachyonManifold);
         });
 

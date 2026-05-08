@@ -24,11 +24,16 @@ const TypeaheadLookup = (props) => {
         <div>
             <Typeahead
                 labelKey={'label'}
+                id={props.id || 'typeahead-lookup'}
                 options={props.values}
                 dropup
                 onChange={(selectedValues) => setSelectedValue(selectedValues[0])}
             />
-            <button type='button' onClick={handleDoneClick} className='btn btn-primary'>
+            <button
+                type='button'
+                onClick={handleDoneClick}
+                className='rounded-md border border-border/70 bg-surface-secondary/55 px-3 py-1.5 text-sm text-foreground transition hover:bg-surface-secondary/75'
+            >
                 <Trans>Done</Trans>
             </button>
         </div>

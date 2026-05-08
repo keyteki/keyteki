@@ -58,9 +58,9 @@ describe('Pile of Skulls', function () {
             this.player1.clickCard(this.overlordGreking);
 
             expect(this.player2.amber).toBe(0);
-            expect(this.krump.tokens.amber).toBe(1);
-            expect(this.bumpsy.tokens.amber).toBe(1);
-            expect(this.overlordGreking.tokens.amber).toBe(1);
+            expect(this.krump.amber).toBe(1);
+            expect(this.bumpsy.amber).toBe(1);
+            expect(this.overlordGreking.amber).toBe(1);
         });
 
         it('should allow the same creature to capture mutliple amber', function () {
@@ -97,8 +97,8 @@ describe('Pile of Skulls', function () {
             this.player1.clickCard(this.bumpsy);
 
             expect(this.player2.amber).toBe(0);
-            expect(this.krump.tokens.amber).toBe(1);
-            expect(this.bumpsy.tokens.amber).toBe(2);
+            expect(this.krump.amber).toBe(1);
+            expect(this.bumpsy.amber).toBe(2);
         });
     });
 });

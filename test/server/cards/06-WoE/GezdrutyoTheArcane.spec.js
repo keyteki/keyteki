@@ -98,4 +98,63 @@ describe('Gĕzdrutyŏ the Arcane', function () {
             expect(this.scholar.isToken()).toBe(true);
         });
     });
+
+    describe("Gĕzdrutyŏ the Arcane's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'ekwidon',
+                    token: 'scholar',
+                    inPlay: ['gĕzdrutyŏ-the-arcane']
+                },
+                player2: {
+                    token: 'warrior',
+                    inPlay: ['iron-heidy'],
+                    hand: ['requisition-writ']
+                }
+            });
+        });
+
+        it("should flip into owner's token creature when opponent has token creature", function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('ekwidon');
+            this.player2.playUpgrade(this.requisitionWrit, this.ironHeidy);
+            this.player2.reap(this.ironHeidy);
+            this.player2.clickCard(this.gĕzdrutyŏTheArcane);
+            this.player2.clickPrompt('Right');
+            this.player2.useAction(this.gĕzdrutyŏTheArcane);
+            expect(this.gĕzdrutyŏTheArcane.isToken()).toBe(true);
+            expect(this.gĕzdrutyŏTheArcane.name).toBe('Scholar');
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
+
+    describe("Gĕzdrutyŏ the Arcane's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'ekwidon',
+                    token: 'scholar',
+                    inPlay: ['gĕzdrutyŏ-the-arcane']
+                },
+                player2: {
+                    inPlay: ['iron-heidy'],
+                    hand: ['requisition-writ']
+                }
+            });
+        });
+
+        it("should flip into owner's token creature when opponent does not have token creature", function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('ekwidon');
+            this.player2.playUpgrade(this.requisitionWrit, this.ironHeidy);
+            this.player2.reap(this.ironHeidy);
+            this.player2.clickCard(this.gĕzdrutyŏTheArcane);
+            this.player2.clickPrompt('Right');
+            this.player2.useAction(this.gĕzdrutyŏTheArcane);
+            expect(this.gĕzdrutyŏTheArcane.isToken()).toBe(true);
+            expect(this.gĕzdrutyŏTheArcane.name).toBe('Scholar');
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
 });

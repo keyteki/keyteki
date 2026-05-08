@@ -21,7 +21,7 @@ describe('Honors Keysis', function () {
             });
 
             it('should forge paying 6 +7 -1A', function () {
-                this.player1.clickPrompt('red');
+                this.player1.forgeKey('Red');
                 expect(this.player1.amber).toBe(1); // ambers gained by itself
                 expect(this.honorsKeysis.location).toBe('purged');
             });
@@ -38,7 +38,7 @@ describe('Honors Keysis', function () {
             });
 
             it('should forge paying  6 +7 -5A', function () {
-                this.player1.clickPrompt('red');
+                this.player1.forgeKey('Red');
                 expect(this.player1.amber).toBe(3); // ambers gained by itself and other cards
                 expect(this.honorsKeysis.location).toBe('purged');
             });

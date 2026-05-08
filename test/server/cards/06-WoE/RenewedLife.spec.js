@@ -17,7 +17,7 @@ describe('Renewed Life', function () {
         });
 
         it('should make a token for each damage healed from the target creature', function () {
-            this.troll.tokens.damage = 4;
+            this.troll.damage = 4;
             this.player1.play(this.renewedLife);
             expect(this.player1).toHavePrompt('Renewed Life');
             expect(this.player1).toBeAbleToSelect(this.troll);

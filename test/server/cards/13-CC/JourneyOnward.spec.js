@@ -16,7 +16,7 @@ describe('Journey Onward', function () {
         });
 
         it('should target a friendly Skyborn creature and give it After Fight ability', function () {
-            this.aeroOFore.exhausted = true;
+            this.aeroOFore.exhaust();
             this.player1.play(this.journeyOnward);
             expect(this.player1).toBeAbleToSelect(this.aeroOFore);
             expect(this.player1).toBeAbleToSelect(this.buxBastian);

@@ -22,7 +22,7 @@ describe('Braindart', function () {
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.gub);
             expect(this.gub.enraged).toBe(true);
-            expect(this.gub.tokens.amber).toBe(1);
+            expect(this.gub.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
         });
     });

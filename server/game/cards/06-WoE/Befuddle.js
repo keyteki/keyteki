@@ -14,17 +14,8 @@ class Befuddle extends Card {
             effectAlert: true,
             gameAction: ability.actions.duringOpponentNextTurn((context) => ({
                 targetController: 'opponent',
-                effect: ability.effects.playerCannot(
-                    'play',
-                    (sourceContext) =>
-                        // When an in-play source plays another card, for
-                        // some reason the play restriction is still
-                        // checked on that card, even though it's already
-                        // in play.  So ignore those restriction checks
-                        // for cards already in play.
-                        sourceContext.source.location !== 'play area' &&
-                        // A card can't be played if it has any house that's not the called house.
-                        sourceContext.source.hasHouseThatIsNot(context.house)
+                effect: ability.effects.playerCannot('play', (sourceContext) =>
+                    sourceContext.source.hasHouseThatIsNot(context.house)
                 )
             }))
         });

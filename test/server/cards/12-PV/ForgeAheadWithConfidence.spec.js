@@ -24,7 +24,7 @@ describe('Forge Ahead With Confidence', function () {
         it('should fulfill when opponent forges a key', function () {
             this.player1.activateProphecy(this.forgeAheadWithConfidence, this.parasiticArachnoid);
             this.player1.endTurn();
-            this.player2.clickPrompt('Red');
+            this.player2.forgeKey('Red');
             expect(this.player2).toBeAbleToSelect(this.witchOfTheEye);
             expect(this.player2).not.toBeAbleToSelect(this.mushroomMan);
             this.player2.clickCard(this.witchOfTheEye);
@@ -40,7 +40,7 @@ describe('Forge Ahead With Confidence', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();
-            this.player1.clickPrompt('Red');
+            this.player1.forgeKey('Red');
             expect(this.parasiticArachnoid.location).toBe('under');
             expect(this.player1).toHavePrompt('Choose which house you want to activate this turn');
         });
@@ -57,7 +57,7 @@ describe('Forge Ahead With Confidence', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.snufflegator);
-            this.player2.clickPrompt('Red');
+            this.player2.forgeKey('Red');
             expect(this.player1.getForgedKeys()).toBe(1);
             expect(this.parasiticArachnoid.location).toBe('under');
             expect(this.player2).isReadyToTakeAction();

@@ -15,10 +15,10 @@ describe('Eldest Batchminder', function () {
 
         it('should give 2 power counters to each other mars creature at the end of the turn', function () {
             this.player1.endTurn();
-            expect(this.blypyp.getPower()).toBe(4);
-            expect(this.troll.getPower()).toBe(8);
-            expect(this.eldestBatchminder.getPower()).toBe(3);
-            expect(this.mindwarper.getPower()).toBe(4);
+            expect(this.blypyp.power).toBe(4);
+            expect(this.troll.power).toBe(8);
+            expect(this.eldestBatchminder.power).toBe(3);
+            expect(this.mindwarper.power).toBe(4);
             this.player2.clickPrompt('mars');
         });
     });

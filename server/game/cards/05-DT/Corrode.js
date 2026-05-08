@@ -23,7 +23,7 @@ class Corrode extends Card {
                     return (
                         c.type === 'artifact' ||
                         c.upgrades?.length > 0 ||
-                        (c.type === 'creature' && c.armor > 0)
+                        (c.type === 'creature' && c.armorTotal > 0)
                     );
                 }),
             effect: 'destroy {1}',
@@ -54,7 +54,7 @@ class Corrode extends Card {
                 'Destroy a creature with armor': {
                     dependsOn: 'action',
                     activePromptTitle: 'Choose a creature with armor',
-                    cardCondition: (card) => card.type === 'creature' && card.armor > 0,
+                    cardCondition: (card) => card.type === 'creature' && card.armorTotal > 0,
                     controller: 'any',
                     gameAction: ability.actions.destroy()
                 }

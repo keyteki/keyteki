@@ -50,7 +50,7 @@ describe('Stratosmack', function () {
         });
 
         it('should not make a token when not killing a warded creature', function () {
-            this.batdrone.tokens.ward = 1;
+            this.batdrone.ward();
             this.player1.play(this.stratosmack);
             expect(this.player1).toBeAbleToSelect(this.pelf);
             expect(this.player1).toBeAbleToSelect(this.grumpus);

@@ -17,17 +17,17 @@ describe('Essence Entangler', function () {
         it('can modify creature power', function () {
             this.player1.playUpgrade(this.essenceEntangler, this.senatorShrix);
             expect(this.senatorShrix.power).toBe(4);
-            this.senatorShrix.tokens.amber = 3;
+            this.senatorShrix.amber = 3;
             this.player1.reap(this.cpoZytar);
             expect(this.senatorShrix.power).toBe(1);
-            this.senatorShrix.tokens.amber = 5;
+            this.senatorShrix.amber = 5;
             this.player1.reap(this.awayTeam);
             expect(this.senatorShrix.location).toBe('discard');
             expect(this.player1.amber).toBe(9);
         });
 
         it('can move an amber on scrap', function () {
-            this.charette.tokens.amber = 2;
+            this.charette.amber = 2;
             this.player1.scrap(this.essenceEntangler);
             this.player1.clickCard(this.charette);
             this.player1.clickCard(this.senatorShrix);

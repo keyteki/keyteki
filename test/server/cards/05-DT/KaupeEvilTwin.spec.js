@@ -91,6 +91,27 @@ describe('Kaupe Evil Twin', function () {
         });
     });
 
+    describe("Kaupe Evil Twin's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['kaupe-evil-twin'],
+                    hand: ['wild-wormhole', 'dextre']
+                },
+                player2: {}
+            });
+        });
+
+        it('should not stop wild wormhole from playing non-actions', function () {
+            this.player1.moveCard(this.dextre, 'deck');
+            this.player1.play(this.wildWormhole);
+            this.player1.clickPrompt('Right');
+            expect(this.dextre.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
     describe("Kaupe Evil Twin's reap ability", function () {
         beforeEach(function () {
             this.setupTest({
@@ -153,8 +174,8 @@ describe('Kaupe Evil Twin', function () {
                 });
 
                 it('should deal 2 * number of discard cards', function () {
-                    expect(this.gladiodontus.tokens.damage).toBe(6);
-                    expect(this.troll.tokens.damage).toBe(2);
+                    expect(this.gladiodontus.damage).toBe(6);
+                    expect(this.troll.damage).toBe(2);
                     this.player1.endTurn();
                 });
             });
@@ -236,8 +257,8 @@ describe('Kaupe Evil Twin', function () {
                 });
 
                 it('should deal 2 * number of discard cards', function () {
-                    expect(this.gladiodontus.tokens.damage).toBe(4);
-                    expect(this.troll.tokens.damage).toBe(2);
+                    expect(this.gladiodontus.damage).toBe(4);
+                    expect(this.troll.damage).toBe(2);
                     expect(this.lamindra.location).toBe('discard');
                     this.player1.endTurn();
                 });

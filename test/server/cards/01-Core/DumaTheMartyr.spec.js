@@ -19,19 +19,19 @@ describe('Duma The Martyr', function () {
                 }
             });
 
-            this.dumaTheMartyr.tokens.damage = 2;
-            this.sequis.tokens.damage = 1;
-            this.ladyMaxena.tokens.damage = 1;
-            this.veemosLightbringer.tokens.damage = 2;
+            this.dumaTheMartyr.damage = 2;
+            this.sequis.damage = 1;
+            this.ladyMaxena.damage = 1;
+            this.veemosLightbringer.damage = 2;
         });
 
         it('should heal others if destroyed during fight', function () {
             this.player1.fightWith(this.dumaTheMartyr, this.zorg);
             expect(this.dumaTheMartyr.location).toBe('discard');
-            expect(this.zorg.tokens.damage).toBe(3);
-            expect(this.sequis.tokens.damage).toBeUndefined();
-            expect(this.ladyMaxena.tokens.damage).toBeUndefined();
-            expect(this.veemosLightbringer.tokens.damage).toBeUndefined();
+            expect(this.zorg.damage).toBe(3);
+            expect(this.sequis.damage).toBe(0);
+            expect(this.ladyMaxena.damage).toBe(0);
+            expect(this.veemosLightbringer.damage).toBe(0);
             expect(this.player1.player.hand.length).toBe(3);
         });
 
@@ -40,10 +40,10 @@ describe('Duma The Martyr', function () {
             this.player2.clickPrompt('mars');
             this.player2.fightWith(this.zorg, this.dumaTheMartyr);
             expect(this.dumaTheMartyr.location).toBe('discard');
-            expect(this.zorg.tokens.damage).toBe(3);
-            expect(this.sequis.tokens.damage).toBeUndefined();
-            expect(this.ladyMaxena.tokens.damage).toBeUndefined();
-            expect(this.veemosLightbringer.tokens.damage).toBeUndefined();
+            expect(this.zorg.damage).toBe(3);
+            expect(this.sequis.damage).toBe(0);
+            expect(this.ladyMaxena.damage).toBe(0);
+            expect(this.veemosLightbringer.damage).toBe(0);
             expect(this.player1.player.hand.length).toBe(8);
         });
 
@@ -54,10 +54,10 @@ describe('Duma The Martyr', function () {
             expect(this.player2).isReadyToTakeAction();
             expect(this.dumaTheMartyr.location).toBe('discard');
             expect(this.theGreyRider.location).toBe('discard');
-            expect(this.sequis.tokens.damage).toBeUndefined();
-            expect(this.ladyMaxena.tokens.damage).toBeUndefined();
-            expect(this.collectorWorm.tokens.armor).toBe(2);
-            expect(this.zorg.tokens.damage).toBe(3);
+            expect(this.sequis.damage).toBe(0);
+            expect(this.ladyMaxena.damage).toBe(0);
+            expect(this.collectorWorm.armor).toBe(2);
+            expect(this.zorg.damage).toBe(3);
             expect(this.player1.player.hand.length).toBe(8);
         });
     });

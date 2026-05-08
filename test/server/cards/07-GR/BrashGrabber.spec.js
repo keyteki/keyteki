@@ -12,9 +12,9 @@ describe('Brash Grabber', function () {
                     inPlay: ['batdrone', 'daughter', 'chronus']
                 }
             });
-            this.gub.tokens.amber = 1;
-            this.batdrone.tokens.amber = 2;
-            this.daughter.tokens.amber = 2;
+            this.gub.amber = 1;
+            this.batdrone.amber = 2;
+            this.daughter.amber = 2;
         });
 
         it('enters enraged when not haunted', function () {
@@ -44,8 +44,8 @@ describe('Brash Grabber', function () {
             expect(this.player1).not.toBeAbleToSelect(this.chronus);
             this.player1.clickCard(this.batdrone);
             expect(this.player1.amber).toBe(1);
-            expect(this.batdrone.tokens.amber).toBe(1);
-            expect(this.daughter.tokens.amber).toBe(2);
+            expect(this.batdrone.amber).toBe(1);
+            expect(this.daughter.amber).toBe(2);
         });
     });
 });

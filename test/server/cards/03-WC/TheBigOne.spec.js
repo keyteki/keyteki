@@ -56,7 +56,8 @@ describe('TheBigOne(WC)', function () {
             expect(this.urchin.location).toBe('play area');
             this.player1.playCreature('troll');
             expect(this).toHaveRecentChatMessage(
-                'The Big One has 10 fuse counters and destroys all creatures and artifacts'
+                'The Big One has 10 fuse counters and destroys all creatures and artifacts',
+                15
             );
             expect(theBigOne.location).toBe('discard');
             expect(this.nexus.location).toBe('discard');

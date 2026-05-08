@@ -18,22 +18,22 @@ describe('Root Access', function () {
             this.player2.moveCard(this.anger, 'deck bottom');
             this.player1.play(this.rootAccess);
             expect(this.anger.location).toBe('discard');
-            expect(this.pelf.tokens.damage).toBe(2);
-            expect(this.batdrone.tokens.damage).toBe(undefined);
-            expect(this.skullbackCrab.tokens.damage).toBe(undefined);
-            expect(this.urchin.tokens.damage).toBe(undefined);
-            expect(this.groke.tokens.damage).toBe(undefined);
+            expect(this.pelf.damage).toBe(2);
+            expect(this.batdrone.damage).toBe(0);
+            expect(this.skullbackCrab.damage).toBe(0);
+            expect(this.urchin.damage).toBe(0);
+            expect(this.groke.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing if deck is empty', function () {
             this.player2.player.deck = [];
             this.player1.play(this.rootAccess);
-            expect(this.pelf.tokens.damage).toBe(undefined);
-            expect(this.batdrone.tokens.damage).toBe(undefined);
-            expect(this.skullbackCrab.tokens.damage).toBe(undefined);
-            expect(this.urchin.tokens.damage).toBe(undefined);
-            expect(this.groke.tokens.damage).toBe(undefined);
+            expect(this.pelf.damage).toBe(0);
+            expect(this.batdrone.damage).toBe(0);
+            expect(this.skullbackCrab.damage).toBe(0);
+            expect(this.urchin.damage).toBe(0);
+            expect(this.groke.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

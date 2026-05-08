@@ -20,7 +20,7 @@ describe('Dame Margaret', function () {
             this.player1.reap(this.dameMargaret); // force state update
             expect(this.dameMargaret.armor).toBe(2);
             this.player2.player.keys = { blue: false, red: true, yellow: true };
-            this.dameMargaret.exhausted = false;
+            this.dameMargaret.ready();
             this.player1.reap(this.dameMargaret); // force state update
             expect(this.dameMargaret.armor).toBe(4);
             expect(this.dustPixie.armor).toBe(0);

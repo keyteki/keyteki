@@ -11,12 +11,12 @@ describe('Scalawag Finn', function () {
                 }
             });
 
-            this.scalawagFinn.tokens.damage = 5;
+            this.scalawagFinn.damage = 5;
         });
 
         it('should heal 3 damage on fight', function () {
             this.player1.fightWith(this.scalawagFinn, this.lamindra);
-            expect(this.scalawagFinn.tokens.damage).toBe(2);
+            expect(this.scalawagFinn.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
     });

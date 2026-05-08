@@ -18,11 +18,11 @@ describe('Katerina the Summoner', function () {
 
         it('should capture one amber on play or reap', function () {
             this.player1.play(this.katerinaTheSummoner);
-            expect(this.katerinaTheSummoner.tokens.amber).toBe(1);
+            expect(this.katerinaTheSummoner.amber).toBe(1);
             expect(this.player2.amber).toBe(6);
             this.katerinaTheSummoner.ready();
             this.player1.reap(this.katerinaTheSummoner);
-            expect(this.katerinaTheSummoner.tokens.amber).toBe(2);
+            expect(this.katerinaTheSummoner.amber).toBe(2);
             expect(this.player2.amber).toBe(5);
             this.player1.endTurn();
         });

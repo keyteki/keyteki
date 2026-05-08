@@ -6,6 +6,7 @@ const moment = require('moment');
 const _ = require('underscore');
 const sendgrid = require('@sendgrid/mail');
 const fs = require('fs');
+const path = require('path');
 const { fabric } = require('fabric');
 
 const logger = require('../log.js');
@@ -105,16 +106,39 @@ function validatePassword(password) {
     return undefined;
 }
 
-function writeFile(path, data, opts = 'utf8') {
-    return new Promise((resolve, reject) => {
-        fs.writeFile(path, data, opts, (err) => {
-            if (err) {
-                return reject(err);
-            }
+function sanitizePathSegment(input) {
+    return String(input || '').replace(/[^A-Za-z0-9_-]/g, '');
+}
 
-            resolve();
-        });
-    });
+function buildPngPath(baseDir, name) {
+    const safeName = sanitizePathSegment(name);
+    if (!safeName) {
+        throw new Error('Invalid file name');
+    }
+
+    const resolvedBase = path.resolve(baseDir);
+    const resolvedFile = path.resolve(resolvedBase, `${safeName}.png`);
+
+    if (!resolvedFile.startsWith(resolvedBase + path.sep)) {
+        throw new Error('Invalid file path');
+    }
+
+    return resolvedFile;
+}
+
+function removePng(baseDir, name) {
+    if (!name) {
+        return;
+    }
+
+    try {
+        const resolvedPath = buildPngPath(baseDir, name);
+        if (fs.existsSync(resolvedPath)) {
+            fs.unlinkSync(resolvedPath);
+        }
+    } catch (err) {
+        logger.warn(`Failed to resolve file path for ${name}`, err);
+    }
 }
 
 async function getRandomAvatar(user) {
@@ -122,14 +146,14 @@ async function getRandomAvatar(user) {
     let md5Hash = crypto.createHash('md5').update(stringToHash).digest('hex');
     let avatar = await util.httpRequest(
         `https://www.gravatar.com/avatar/${md5Hash}?d=identicon&s=24`,
-        { encoding: null }
+        { encoding: null, allowedHosts: ['www.gravatar.com'] }
     );
 
     if (!fs.existsSync('public/img/avatar')) {
         fs.mkdirSync('public/img/avatar/');
     }
 
-    await writeFile(`public/img/avatar/${user.username}.png`, avatar, 'binary');
+    await fs.promises.writeFile(buildPngPath('public/img/avatar', user.username), avatar);
 }
 
 function processImage(image, width, height) {
@@ -140,8 +164,8 @@ function processImage(image, width, height) {
         fabric.Image.fromURL(
             'data:image/png;base64,' + image,
             (img) => {
-                if (img.getElement() == null) {
-                    reject('Error occured in fabric');
+                if (!img || img.getElement() == null) {
+                    reject(new Error('Error occurred in fabric'));
                 } else {
                     img.scaleToWidth(width)
                         .scaleToHeight(height)
@@ -164,9 +188,7 @@ function processImage(image, width, height) {
 async function processAvatar(newUser, user) {
     let hash = crypto.randomBytes(16).toString('hex');
 
-    if (fs.existsSync(`public/img/avatar/${user.settings.avatar}.png`)) {
-        fs.unlinkSync(`public/img/avatar/${user.settings.avatar}.png`);
-    }
+    removePng('public/img/avatar', user.settings.avatar);
 
     let canvas;
     try {
@@ -176,9 +198,9 @@ async function processAvatar(newUser, user) {
         return null;
     }
 
-    let fileName = `${user.username}-${hash}`;
+    let fileName = `${sanitizePathSegment(user.username)}-${hash}`;
     const stream = canvas.createPNGStream();
-    const out = fs.createWriteStream(`public/img/avatar/${fileName}.png`);
+    const out = fs.createWriteStream(buildPngPath('public/img/avatar', fileName));
     stream.on('data', (chunk) => {
         out.write(chunk);
     });
@@ -189,9 +211,7 @@ async function processAvatar(newUser, user) {
 async function processCustomBackground(newUser, user) {
     let hash = crypto.randomBytes(16).toString('hex');
 
-    if (fs.existsSync(`public/img/bgs/${user.settings.customBackground}.png`)) {
-        fs.unlinkSync(`public/img/bgs/${user.settings.customBackground}.png`);
-    }
+    removePng('public/img/bgs', user.settings.customBackground);
 
     if (!fs.existsSync('public/img/bgs')) {
         fs.mkdirSync('public/img/bgs/');
@@ -205,9 +225,9 @@ async function processCustomBackground(newUser, user) {
         return null;
     }
 
-    let fileName = `${user.username}-${hash}`;
+    let fileName = `${sanitizePathSegment(user.username)}-${hash}`;
     const stream = canvas.createPNGStream();
-    const out = fs.createWriteStream(`public/img/bgs/${fileName}.png`);
+    const out = fs.createWriteStream(buildPngPath('public/img/bgs', fileName));
     stream.on('data', (chunk) => {
         out.write(chunk);
     });
@@ -235,44 +255,36 @@ module.exports.init = function (server, options) {
 
     server.post(
         '/api/account/register',
-        wrapAsync(async (req, res, next) => {
+        wrapAsync(async (req, res) => {
             let message = validateUserName(req.body.username);
             if (message) {
-                res.send({ success: false, message: message });
-
-                return next();
+                return res.send({ success: false, message: message });
             }
 
             message = validateEmail(req.body.email);
             if (message) {
-                res.send({ success: false, message: message });
-                return next();
+                return res.send({ success: false, message: message });
             }
 
             message = validatePassword(req.body.password);
             if (message) {
-                res.send({ success: false, message: message });
-                return next();
+                return res.send({ success: false, message: message });
             }
 
             let user = await userService.doesEmailExist(req.body.email);
             if (user) {
-                res.send({
+                return res.send({
                     success: false,
                     message: 'An account with that email already exists, please use another'
                 });
-
-                return next();
             }
 
             user = await userService.doesUserExist(req.body.username);
             if (user) {
-                res.send({
+                return res.send({
                     success: false,
                     message: 'An account with that name already exists, please choose another'
                 });
-
-                return next();
             }
 
             let emailBlockKey = configService.getValueForSection('lobby', 'emailBlockKey');
@@ -283,7 +295,8 @@ module.exports.init = function (server, options) {
                 let domain = req.body.email.substring(req.body.email.lastIndexOf('@') + 1);
                 try {
                     let response = await util.httpRequest(
-                        `http://check.block-disposable-email.com/easyapi/json/${emailBlockKey}/${domain}`
+                        `http://check.block-disposable-email.com/easyapi/json/${emailBlockKey}/${domain}`,
+                        { allowedHosts: ['check.block-disposable-email.com'] }
                     );
                     let answer = JSON.parse(response);
 
@@ -295,13 +308,11 @@ module.exports.init = function (server, options) {
                         logger.warn(
                             `Blocking ${domain} from registering the account ${req.body.username}`
                         );
-                        res.send({
+                        return res.send({
                             success: false,
                             message:
                                 'One time use email services are not permitted on this site.  Please use a real email address'
                         });
-
-                        return next();
                     }
                 } catch (err) {
                     logger.warn(`Could not valid email address ${domain}`, err);
@@ -404,7 +415,7 @@ module.exports.init = function (server, options) {
 
     server.post(
         '/api/account/activate',
-        wrapAsync(async (req, res, next) => {
+        wrapAsync(async (req, res) => {
             if (!req.body.id || !req.body.token) {
                 return res.send({ success: false, message: 'Invalid parameters' });
             }
@@ -415,37 +426,31 @@ module.exports.init = function (server, options) {
 
             let user = await userService.getUserById(req.body.id);
             if (!user) {
-                res.send({
+                return res.send({
                     success: false,
                     message:
-                        'An error occured activating your account, check the url you have entered and try again.'
+                        'An error occurred activating your account, check the url you have entered and try again.'
                 });
-
-                return next();
             }
 
             if (!user.activationToken) {
                 logger.error('Got unexpected activate request for user %s', user.username);
 
-                res.send({
+                return res.send({
                     success: false,
                     message:
-                        'An error occured activating your account, check the url you have entered and try again.'
+                        'An error occurred activating your account, check the url you have entered and try again.'
                 });
-
-                return next();
             }
 
             let now = moment().utc();
             if (user.activationTokenExpiry < now) {
-                res.send({
+                logger.error('Token expired for %s', user.username);
+
+                return res.send({
                     success: false,
                     message: 'The activation token you have provided has expired.'
                 });
-
-                logger.error('Token expired for %s', user.username);
-
-                return next();
             }
 
             let hmac = crypto.createHmac(
@@ -459,13 +464,11 @@ module.exports.init = function (server, options) {
             if (resetToken !== req.body.token) {
                 logger.error('Invalid activation token for %s: %s', user.username, req.body.token);
 
-                res.send({
+                return res.send({
                     success: false,
                     message:
-                        'An error occured activating your account, check the url you have entered and try again.'
+                        'An error occurred activating your account, check the url you have entered and try again.'
                 });
-
-                return next();
             }
 
             try {
@@ -473,13 +476,11 @@ module.exports.init = function (server, options) {
             } catch (error) {
                 logger.error('Error activating', error);
 
-                res.send({
+                return res.send({
                     success: false,
                     message:
-                        'An error occured activating your account, check the url you have entered and try again.'
+                        'An error occurred activating your account, check the url you have entered and try again.'
                 });
-
-                return next();
             }
 
             res.send({ success: true });
@@ -552,7 +553,8 @@ module.exports.init = function (server, options) {
 
             if (isSupporter !== req.user.permissions.isSupporter) {
                 if (!req.user.permissions.keepsSupporterWithNoPatreon) {
-                    userDetails.permissions.isSupporter = req.user.permissions.isSupporter = isSupporter;
+                    userDetails.permissions.isSupporter = req.user.permissions.isSupporter =
+                        isSupporter;
                     await userService.setSupporterStatus(user.id, isSupporter);
                 }
             }
@@ -563,17 +565,13 @@ module.exports.init = function (server, options) {
 
     server.post(
         '/api/account/login',
-        wrapAsync(async (req, res, next) => {
+        wrapAsync(async (req, res) => {
             if (!req.body.username) {
-                res.send({ success: false, message: 'Username must be specified' });
-
-                return next();
+                return res.send({ success: false, message: 'Username must be specified' });
             }
 
             if (!req.body.password) {
-                res.send({ success: false, message: 'Password must be specified' });
-
-                return next();
+                return res.send({ success: false, message: 'Password must be specified' });
             }
 
             let user = await userService.getFullUserByUsername(req.body.username);
@@ -639,50 +637,38 @@ module.exports.init = function (server, options) {
 
     server.post(
         '/api/account/token',
-        wrapAsync(async (req, res, next) => {
+        wrapAsync(async (req, res) => {
             if (!req.body.token) {
-                res.send({ success: false, message: 'Refresh token must be specified' });
-
-                return next();
+                return res.send({ success: false, message: 'Refresh token must be specified' });
             }
 
             let token = req.body.token;
 
             let user = await userService.getFullUserByUsername(token.username);
             if (!user) {
-                res.send({ success: false, message: 'Invalid refresh token' });
-
-                return next();
+                return res.send({ success: false, message: 'Invalid refresh token' });
             }
 
             if (user.username !== token.username) {
                 logger.error(
                     `Username ${user.username} did not match token username ${token.username}`
                 );
-                res.send({ success: false, message: 'Invalid refresh token' });
-
-                return next();
+                return res.send({ success: false, message: 'Invalid refresh token' });
             }
 
             let refreshToken = user.tokens.find((t) => {
                 return t.id === token.id;
             });
             if (!refreshToken) {
-                res.send({ success: false, message: 'Invalid refresh token' });
-
-                return next();
+                return res.send({ success: false, message: 'Invalid refresh token' });
             }
 
             if (!userService.verifyRefreshToken(user.username, refreshToken)) {
-                res.send({ success: false, message: 'Invalid refresh token' });
-
-                return next();
+                return res.send({ success: false, message: 'Invalid refresh token' });
             }
 
             if (user.disabled) {
-                res.send({ success: false, message: 'Invalid refresh token' });
-
-                return next();
+                return res.send({ success: false, message: 'Invalid refresh token' });
             }
 
             let userObj = user.getWireSafeDetails();
@@ -704,7 +690,7 @@ module.exports.init = function (server, options) {
 
     server.post(
         '/api/account/password-reset-finish',
-        wrapAsync(async (req, res, next) => {
+        wrapAsync(async (req, res) => {
             let resetUser;
 
             if (!req.body.id || !req.body.token || !req.body.newPassword) {
@@ -713,37 +699,31 @@ module.exports.init = function (server, options) {
 
             let user = await userService.getUserById(req.body.id);
             if (!user) {
-                res.send({
+                return res.send({
                     success: false,
                     message:
-                        'An error occured resetting your password, check the url you have entered and try again.'
+                        'An error occurred resetting your password, check the url you have entered and try again.'
                 });
-
-                return next();
             }
 
             if (!user.resetToken) {
                 logger.error('Got unexpected reset request for user %s', user.username);
 
-                res.send({
+                return res.send({
                     success: false,
                     message:
-                        'An error occured resetting your password, check the url you have entered and try again.'
+                        'An error occurred resetting your password, check the url you have entered and try again.'
                 });
-
-                return next();
             }
 
             let now = moment().utc();
             if (user.tokenExpires < now) {
-                res.send({
+                logger.error('Token expired for %s', user.username);
+
+                return res.send({
                     success: false,
                     message: 'The reset token you have provided has expired.'
                 });
-
-                logger.error('Token expired for %s', user.username);
-
-                return next();
             }
 
             let hmac = crypto.createHmac(
@@ -767,13 +747,11 @@ module.exports.init = function (server, options) {
             if (resetToken !== req.body.token) {
                 logger.error(`Invalid reset token for ${user.username}: ${req.body.token}`);
 
-                res.send({
+                return res.send({
                     success: false,
                     message:
-                        'An error occured resetting your password, check the url you have entered and try again.'
+                        'An error occurred resetting your password, check the url you have entered and try again.'
                 });
-
-                return next();
             }
 
             resetUser = user;
@@ -791,11 +769,15 @@ module.exports.init = function (server, options) {
         wrapAsync(async (req, res) => {
             let resetToken;
 
-            let response = await util.httpRequest(
-                `https://www.google.com/recaptcha/api/siteverify?secret=${configService.getValue(
-                    'captchaKey'
-                )}&response=${req.body.captcha}`
-            );
+            let response = await util.httpRequest('https://hcaptcha.com/siteverify', {
+                method: 'POST',
+                allowedHosts: ['hcaptcha.com'],
+                form: {
+                    secret: configService.getValue('captchaKey'),
+                    response: req.body.captcha,
+                    remoteip: req.ip
+                }
+            });
             let answer = JSON.parse(response);
 
             if (!answer.success) {
@@ -855,8 +837,9 @@ module.exports.init = function (server, options) {
     server.put(
         '/api/account/:username',
         passport.authenticate('jwt', { session: false }),
-        wrapAsync(async (req, res, next) => {
+        wrapAsync(async (req, res) => {
             let userToSet = req.body.data;
+            let message;
 
             if (req.user.username !== req.params.username) {
                 return res.status(403).send({ message: 'Unauthorized' });
@@ -867,15 +850,23 @@ module.exports.init = function (server, options) {
                 return res.status(404).send({ message: 'Not found' });
             }
 
+            message = validateUserName(userToSet.username);
+            if (message) {
+                return res.send({ success: false, message: message });
+            }
+
+            message = validateEmail(userToSet.email);
+            if (message) {
+                return res.send({ success: false, message: message });
+            }
+
             if (user.username !== userToSet.username) {
                 let userTest = await userService.doesUserExist(userToSet.username);
                 if (userTest) {
-                    res.send({
+                    return res.send({
                         success: false,
                         message: 'An account with that name already exists, please choose another'
                     });
-
-                    return next();
                 }
             }
 
@@ -1106,6 +1097,47 @@ module.exports.init = function (server, options) {
     );
 
     server.post(
+        '/api/account/:username/delete',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async (req, res) => {
+            let user = await checkAuth(req, res);
+            if (!user) {
+                return;
+            }
+
+            if (!req.body.password) {
+                return res.send({ success: false, message: 'Password must be specified' });
+            }
+
+            let isValidPassword;
+            try {
+                isValidPassword = await verifyPassword(req.body.password, user.password);
+            } catch (err) {
+                logger.error(err);
+                return res.send({
+                    success: false,
+                    message:
+                        'There was an error validating your login details.  Please try again later'
+                });
+            }
+
+            if (!isValidPassword) {
+                return res.send({ success: false, message: 'Invalid username/password' });
+            }
+
+            const oldAvatar = user.settings && user.settings.avatar;
+            const oldCustomBackground = user.settings && user.settings.customBackground;
+
+            await userService.anonymizeUser(user);
+
+            removePng('public/img/avatar', oldAvatar);
+            removePng('public/img/bgs', oldCustomBackground);
+
+            return res.send({ success: true });
+        })
+    );
+
+    server.post(
         '/api/account/linkPatreon',
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async (req, res) => {
@@ -1126,7 +1158,7 @@ module.exports.init = function (server, options) {
                 return res.send({
                     success: false,
                     message:
-                        'An error occured syncing your patreon account.  Please try again later.'
+                        'An error occurred syncing your patreon account.  Please try again later.'
                 });
             }
 
@@ -1166,7 +1198,7 @@ module.exports.init = function (server, options) {
                 return res.send({
                     success: false,
                     message:
-                        'An error occured unlinking your patreon account.  Please try again later.'
+                        'An error occurred unlinking your patreon account.  Please try again later.'
                 });
             }
 

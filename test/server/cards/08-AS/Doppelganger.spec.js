@@ -28,9 +28,9 @@ describe('Doppelganger', function () {
             this.player1.clickCard(this.umbra);
             this.player1.clickPrompt('geistoid');
             this.player1.fightWith(this.doppelganger, this.troll);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.doppelganger.location).toBe('play area');
-            expect(this.doppelganger.tokens.damage).toBe(undefined);
+            expect(this.doppelganger.damage).toBe(0);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
             this.player1.endTurn();
@@ -42,7 +42,7 @@ describe('Doppelganger', function () {
             this.player1.clickPrompt('geistoid');
             this.player1.fightWith(this.doppelganger, this.troll);
             expect(this.doppelganger.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(6);
+            expect(this.troll.damage).toBe(6);
         });
 
         it('should gain a static ability at the beginning of the turn', function () {

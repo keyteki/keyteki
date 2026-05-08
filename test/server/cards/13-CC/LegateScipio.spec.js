@@ -16,24 +16,24 @@ describe('Legate Scipio', function () {
         it('should exalt all Saurian creatures when played', function () {
             this.player1.playCreature(this.legateScipio);
             this.player1.clickCard(this.legateScipio);
-            expect(this.legateScipio.tokens.amber).toBe(1);
-            expect(this.charette.tokens.amber).toBeUndefined();
-            expect(this.gub.tokens.amber).toBeUndefined();
-            expect(this.troll.tokens.amber).toBeUndefined();
-            expect(this.lamindra.tokens.amber).toBeUndefined();
-            expect(this.tricerianLegionary.tokens.amber).toBe(1);
+            expect(this.legateScipio.amber).toBe(1);
+            expect(this.charette.amber).toBe(0);
+            expect(this.gub.amber).toBe(0);
+            expect(this.troll.amber).toBe(0);
+            expect(this.lamindra.amber).toBe(0);
+            expect(this.tricerianLegionary.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('should be optional', function () {
             this.player1.play(this.legateScipio);
             this.player1.clickPrompt('Done');
-            expect(this.legateScipio.tokens.amber).toBeUndefined();
-            expect(this.charette.tokens.amber).toBeUndefined();
-            expect(this.gub.tokens.amber).toBeUndefined();
-            expect(this.troll.tokens.amber).toBeUndefined();
-            expect(this.lamindra.tokens.amber).toBeUndefined();
-            expect(this.tricerianLegionary.tokens.amber).toBeUndefined();
+            expect(this.legateScipio.amber).toBe(0);
+            expect(this.charette.amber).toBe(0);
+            expect(this.gub.amber).toBe(0);
+            expect(this.troll.amber).toBe(0);
+            expect(this.lamindra.amber).toBe(0);
+            expect(this.tricerianLegionary.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

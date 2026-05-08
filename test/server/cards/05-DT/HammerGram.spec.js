@@ -21,7 +21,7 @@ describe('Hammer-gram', function () {
             expect(this.player1).toBeAbleToSelect(this.bulwark);
             expect(this.player1).toBeAbleToSelect(this.armsmasterMolina);
             this.player1.clickCard(this.bulwark);
-            expect(this.bulwark.tokens.damage).toBe(1);
+            expect(this.bulwark.damage).toBe(1);
             expect(this.bulwark.stunned).toBe(true);
         });
     });

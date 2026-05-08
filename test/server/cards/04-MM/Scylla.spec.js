@@ -25,14 +25,14 @@ describe('Scylla', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.reap(this.brammo);
             expect(this.player2.amber).toBe(4);
-            expect(this.brammo.tokens.damage).toBe(3);
+            expect(this.brammo.damage).toBe(3);
         });
 
         it('should not cause 4 damage to enemy creatures after they fight', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.brammo, this.lamindra);
-            expect(this.brammo.tokens.damage).toBeUndefined();
+            expect(this.brammo.damage).toBe(0);
         });
     });
 });

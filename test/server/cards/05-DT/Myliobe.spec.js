@@ -20,10 +20,10 @@ describe('Myliobe', function () {
 
         it('before fight enrages neighbors of creatures it fights', function () {
             this.player1.fightWith(this.myliobe, this.brammo);
-            expect(this.nexus.tokens.enrage).toBe(1);
-            expect(this.brammo.tokens.enrage).toBe(1);
-            expect(this.mugwump.tokens.enrage).toBe(1);
-            expect(this.dustPixie.tokens.enrage).toBeUndefined();
+            expect(this.nexus.enraged).toBe(true);
+            expect(this.brammo.enraged).toBe(true);
+            expect(this.mugwump.enraged).toBe(true);
+            expect(this.dustPixie.enraged).toBe(false);
         });
     });
 });

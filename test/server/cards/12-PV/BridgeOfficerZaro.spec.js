@@ -13,9 +13,9 @@ describe('Bridge Officer Zaro', function () {
                 }
             });
 
-            this.medicIngram.exhausted = true;
-            this.cpoZytar.exhausted = true;
-            this.emberImp.exhausted = true;
+            this.medicIngram.exhaust();
+            this.cpoZytar.exhaust();
+            this.emberImp.exhaust();
         });
 
         it('should capture 3 amber and ready a friendly non-Alien creature after fight', function () {

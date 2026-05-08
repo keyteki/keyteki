@@ -28,8 +28,8 @@ describe('Darklamp', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('unfathomable');
             this.player2.fightWith(this.thingFromTheDeep, this.charette);
-            expect(this.thingFromTheDeep.tokens.damage).toBe(undefined);
-            expect(this.charette.tokens.damage).toBe(undefined);
+            expect(this.thingFromTheDeep.damage).toBe(0);
+            expect(this.charette.damage).toBe(0);
             expect(this.charette.location).toBe('play area');
             expect(this.player2).isReadyToTakeAction();
         });
@@ -39,7 +39,7 @@ describe('Darklamp', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('unfathomable');
             this.player2.fightWith(this.thingFromTheDeep, this.echofly);
-            expect(this.thingFromTheDeep.tokens.damage).toBe(2);
+            expect(this.thingFromTheDeep.damage).toBe(2);
             expect(this.echofly.location).toBe('discard');
             expect(this.player2).isReadyToTakeAction();
         });
@@ -48,7 +48,7 @@ describe('Darklamp', function () {
             this.thingFromTheDeep.amber = 1;
             this.player1.playCreature(this.darklamp);
             this.player1.fightWith(this.echofly, this.thingFromTheDeep);
-            expect(this.thingFromTheDeep.tokens.damage).toBe(2);
+            expect(this.thingFromTheDeep.damage).toBe(2);
             expect(this.echofly.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });

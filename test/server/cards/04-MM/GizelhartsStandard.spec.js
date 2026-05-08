@@ -21,7 +21,7 @@ describe("Gizelhart's Standard", function () {
             expect(this.player1).not.toBeAbleToSelect(this.collectorWorm);
             expect(this.player1).not.toBeAbleToSelect(this.angwish);
             this.player1.clickCard(this.motherNorthelle);
-            expect(this.motherNorthelle.tokens.amber).toBe(1);
+            expect(this.motherNorthelle.amber).toBe(1);
             expect(this.motherNorthelle.armor).toBe(1);
         });
     });

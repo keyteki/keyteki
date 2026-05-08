@@ -24,17 +24,17 @@ describe('Poke', function () {
             this.player1.play(this.poke);
             this.player1.clickCard(this.shooler);
             expect(this.shooler.location).toBe('play area');
-            expect(this.shooler.tokens.damage).toBe(1);
+            expect(this.shooler.damage).toBe(1);
             expect(this.player1.player.hand.length).toBe(0);
         });
 
         it('should not draw a card if it destroyes Shadow Self', function () {
-            this.shadowSelf.tokens.damage = 8;
+            this.shadowSelf.damage = 8;
             this.player1.play(this.poke);
             this.player1.clickCard(this.urchin);
             expect(this.shadowSelf.location).toBe('discard');
             expect(this.urchin.location).toBe('play area');
-            expect(this.urchin.tokens.damage).toBeUndefined();
+            expect(this.urchin.damage).toBe(0);
             expect(this.player1.player.hand.length).toBe(0);
         });
     });

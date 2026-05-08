@@ -36,7 +36,7 @@ describe('Bryozoarch', function () {
             expect(this.player2).isReadyToTakeAction();
         });
 
-        xit('should not return actions via Torvus', function () {
+        it.skip('should not return actions via Torvus', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('unfathomable');
             this.player2.endTurn();
@@ -74,7 +74,7 @@ describe('Bryozoarch', function () {
 
         it('should resolve bonus icons before replacing the event', function () {
             this.labwork.enhancements = ['damage'];
-            this.bryozoarch.tokens.damage = 5;
+            this.bryozoarch.damage = 5;
             this.player1.play(this.labwork);
             this.player1.clickCard(this.bryozoarch);
             this.player1.clickCard(this.tribute);

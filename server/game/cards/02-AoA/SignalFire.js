@@ -17,7 +17,7 @@ class SignalFire extends Card {
                             (context) =>
                                 context.source.type === 'creature' &&
                                 context.source.hasHouse('brobnar') &&
-                                context.ability.title !== 'Fight with this creature'
+                                !context.ability.fight
                         ),
                         ability.effects.cardCannot('reap', (context) =>
                             context.source.hasHouse('brobnar')

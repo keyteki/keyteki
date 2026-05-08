@@ -36,7 +36,7 @@ describe('Discombobulator', function () {
             this.player2.play(this.dextre);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
-            expect(this.dextre.tokens.amber).toBe(1);
+            expect(this.dextre.amber).toBe(1);
         });
     });
 });

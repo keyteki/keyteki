@@ -13,8 +13,8 @@ describe('Boss Zarek', function () {
                 }
             });
 
-            this.senatorShrix.tokens.amber = 1;
-            this.dextre.tokens.amber = 1;
+            this.senatorShrix.amber = 1;
+            this.dextre.amber = 1;
         });
 
         it('should give elusive keyword to all friendly creatures with amber', function () {

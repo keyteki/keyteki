@@ -23,7 +23,7 @@ describe('Harmonic Pack', function () {
             expect(this.player1).toHavePrompt("Which player's archives");
             this.player1.clickPrompt("Opponent's");
             expect(this.brikkNastee.location).toBe('discard');
-            expect(this.crimTorchtooth.tokens.damage).toBe(5);
+            expect(this.crimTorchtooth.damage).toBe(5);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -32,7 +32,7 @@ describe('Harmonic Pack', function () {
             this.player1.clickCard(this.crimTorchtooth);
             this.player1.clickPrompt('Mine');
             expect(this.brikkNastee.location).toBe('archives');
-            expect(this.crimTorchtooth.tokens.damage).toBe(2);
+            expect(this.crimTorchtooth.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 

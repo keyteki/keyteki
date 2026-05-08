@@ -26,43 +26,43 @@ describe('Ardent Hero', function () {
 
         it('should not take damage from creature with power equal to 5', function () {
             this.player1.fightWith(this.ancientBear, this.ardentHero);
-            expect(this.ancientBear.tokens.damage).toBe(4);
+            expect(this.ancientBear.damage).toBe(4);
             expect(this.ardentHero.location).toBe('play area');
-            expect(this.ardentHero.tokens.damage).toBeUndefined();
+            expect(this.ardentHero.damage).toBe(0);
         });
 
         it('should not take damage from creature with power >= 5', function () {
             this.player1.fightWith(this.tantadlin, this.ardentHero);
-            expect(this.tantadlin.tokens.damage).toBe(4);
+            expect(this.tantadlin.damage).toBe(4);
             expect(this.ardentHero.location).toBe('play area');
-            expect(this.ardentHero.tokens.damage).toBeUndefined();
+            expect(this.ardentHero.damage).toBe(0);
         });
 
         it('should not take damage from mutant creatures', function () {
             this.player1.fightWith(this.pismire, this.ardentHero);
             expect(this.pismire.location).toBe('discard');
             expect(this.ardentHero.location).toBe('play area');
-            expect(this.ardentHero.tokens.damage).toBeUndefined();
+            expect(this.ardentHero.damage).toBe(0);
         });
 
         it('should take damage from non-mutant, < 5 power creatures', function () {
             this.player1.fightWith(this.brambleLynx, this.ardentHero);
             expect(this.brambleLynx.location).toBe('play area');
-            expect(this.brambleLynx.tokens.damage).toBeUndefined();
-            expect(this.ardentHero.tokens.damage).toBe(3);
+            expect(this.brambleLynx.damage).toBe(0);
+            expect(this.ardentHero.damage).toBe(3);
         });
 
         it('should take damage from bonus icon of creatures', function () {
             this.player1.play(this.sacroBeast);
             this.player1.clickCard(this.ardentHero);
-            expect(this.ardentHero.tokens.damage).toBe(1);
+            expect(this.ardentHero.damage).toBe(1);
         });
 
         it('should not take damage from play effect of >5 power creature', function () {
             this.player1.play(this.lupoTheScarred);
             this.player1.clickCard(this.ardentHero);
             expect(this.ardentHero.location).toBe('play area');
-            expect(this.ardentHero.tokens.damage).toBeUndefined();
+            expect(this.ardentHero.damage).toBe(0);
         });
 
         it('should not take damage from play effect of mutant creature', function () {
@@ -70,16 +70,16 @@ describe('Ardent Hero', function () {
             this.player1.clickCard(this.dinoBeast);
             this.player1.clickCard(this.ardentHero);
             expect(this.ardentHero.location).toBe('play area');
-            expect(this.ardentHero.tokens.damage).toBeUndefined();
+            expect(this.ardentHero.damage).toBe(0);
         });
 
         it('should not take damage when fighting against a >=5 creature', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('sanctum');
             this.player2.fightWith(this.ardentHero, this.ancientBear);
-            expect(this.ancientBear.tokens.damage).toBe(4);
+            expect(this.ancientBear.damage).toBe(4);
             expect(this.ardentHero.location).toBe('play area');
-            expect(this.ardentHero.tokens.damage).toBeUndefined();
+            expect(this.ardentHero.damage).toBe(0);
         });
 
         it('should take damage when fighting against a <5 creature', function () {
@@ -87,7 +87,7 @@ describe('Ardent Hero', function () {
             this.player2.clickPrompt('sanctum');
             this.player2.fightWith(this.ardentHero, this.brambleLynx);
             expect(this.brambleLynx.location).toBe('discard');
-            expect(this.ardentHero.tokens.damage).toBe(3);
+            expect(this.ardentHero.damage).toBe(3);
         });
     });
 
@@ -117,9 +117,9 @@ describe('Ardent Hero', function () {
             this.player1.clickCard(this.championAnaphiel);
             this.player1.clickCard(this.championAnaphiel);
             this.player1.clickCard(this.championAnaphiel);
-            expect(this.ardentHero.tokens.damage).toBe(2);
-            expect(this.championAnaphiel.tokens.damage).toBe(2);
-            expect(this.shooler.tokens.damage).toBe(3);
+            expect(this.ardentHero.damage).toBe(2);
+            expect(this.championAnaphiel.damage).toBe(2);
+            expect(this.shooler.damage).toBe(3);
         });
 
         it('should not take damage from effect of >5 power creature', function () {
@@ -131,23 +131,23 @@ describe('Ardent Hero', function () {
             expect(this.player1).toBeAbleToSelect(this.ardentHero);
             this.player1.clickCard(this.ardentHero);
             expect(this.ardentHero.location).toBe('play area');
-            expect(this.ardentHero.tokens.damage).toBeUndefined();
+            expect(this.ardentHero.damage).toBe(0);
         });
 
         it('should not take before fight damage from >5 power creature', function () {
             this.player1.fightWith(this.cowfyne, this.championAnaphiel);
             expect(this.cowfyne.location).toBe('discard');
             expect(this.ardentHero.location).toBe('play area');
-            expect(this.ardentHero.tokens.damage).toBeUndefined();
-            expect(this.championAnaphiel.tokens.damage).toBe(4);
-            expect(this.shooler.tokens.damage).toBe(2);
+            expect(this.ardentHero.damage).toBe(0);
+            expect(this.championAnaphiel.damage).toBe(4);
+            expect(this.shooler.damage).toBe(2);
         });
 
         it('should take before fight damage from <5 power creature', function () {
             this.player1.fightWith(this.bingleBangbang, this.championAnaphiel);
             expect(this.bingleBangbang.location).toBe('discard');
             expect(this.ardentHero.location).toBe('discard');
-            expect(this.championAnaphiel.tokens.damage).toBe(1);
+            expect(this.championAnaphiel.damage).toBe(1);
             expect(this.shooler.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
@@ -159,8 +159,8 @@ describe('Ardent Hero', function () {
             this.player1.clickCard(this.ardentHero);
             expect(this.borrNit.location).toBe('discard');
             expect(this.ardentHero.location).toBe('play area');
-            expect(this.ardentHero.tokens.damage).toBeUndefined();
-            expect(this.mogghunter.tokens.damage).toBe(3);
+            expect(this.ardentHero.damage).toBe(0);
+            expect(this.mogghunter.damage).toBe(3);
         });
     });
 });

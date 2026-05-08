@@ -20,13 +20,13 @@ describe('Safe Place', function () {
 
         it('should place an amber on Safe Place when used', function () {
             expect(this.player1.amber).toBe(4);
-            expect(this.safePlace.tokens.amber).toBe(1);
+            expect(this.safePlace.amber).toBe(1);
         });
 
         describe('and exactly enough amber is present to forge a key', function () {
             beforeEach(function () {
                 this.player1.amber = 5;
-                this.safePlace.tokens.amber = 1;
+                this.safePlace.amber = 1;
                 this.player1.endTurn();
                 this.player2.clickPrompt('brobnar');
                 this.player2.endTurn();
@@ -38,14 +38,14 @@ describe('Safe Place', function () {
             });
 
             it('should remove all amber from safe place', function () {
-                expect(this.safePlace.hasToken('amber')).toBe(false);
+                expect(this.safePlace.amber).toBe(0);
             });
         });
 
         describe('and more than enough amber is present to forge a key', function () {
             beforeEach(function () {
                 this.player1.amber = 5;
-                this.safePlace.tokens.amber = 3;
+                this.safePlace.amber = 3;
                 this.player1.endTurn();
                 this.player2.clickPrompt('brobnar');
                 this.player2.endTurn();
@@ -53,7 +53,7 @@ describe('Safe Place', function () {
 
             it('should prompt how much amber to use', function () {
                 expect(this.player1).toHavePrompt(
-                    'How much amber do you want to use from Safe Place?'
+                    'How much amber do you want to spend from Safe Place?'
                 );
             });
 
@@ -68,7 +68,7 @@ describe('Safe Place', function () {
                 });
 
                 it('should remove the selected amber from safe place', function () {
-                    expect(this.safePlace.tokens.amber).toBe(2);
+                    expect(this.safePlace.amber).toBe(2);
                 });
             });
         });
@@ -78,13 +78,17 @@ describe('Safe Place', function () {
             this.player1.play(otherSafePlace);
 
             this.player1.amber = 3;
-            otherSafePlace.tokens.amber = 2;
-            this.safePlace.tokens.amber = 1;
+            otherSafePlace.amber = 2;
+            this.safePlace.amber = 1;
 
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
 
+            // With 3 pool + 2 on otherSafePlace + 1 on safePlace = 6, automatic selection happens
+            // since min == max for each source. No prompts needed after selecting the card.
+            this.player1.clickCard(otherSafePlace);
+            this.player1.clickCard(this.safePlace);
             this.player1.forgeKey('Red');
         });
     });

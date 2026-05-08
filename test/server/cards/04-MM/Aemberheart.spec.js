@@ -1,0 +1,29 @@
+describe('Amberheart', function () {
+    describe("Amberheart's Play ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    inPlay: ['æmberheart', 'bulwark', 'bull-wark']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+        });
+
+        it('should exalt, ward and fully heal a friendly creature', function () {
+            this.bulwark.damage = 2;
+
+            this.player1.useAction(this.æmberheart);
+            expect(this.player1).toBeAbleToSelect(this.bulwark);
+            expect(this.player1).toBeAbleToSelect(this.bullWark);
+            expect(this.player1).not.toBeAbleToSelect(this.troll);
+
+            this.player1.clickCard(this.bulwark);
+            expect(this.bulwark.damage).toBe(0);
+            expect(this.bulwark.warded).toBe(true);
+            expect(this.bulwark.amber).toBe(1);
+        });
+    });
+});

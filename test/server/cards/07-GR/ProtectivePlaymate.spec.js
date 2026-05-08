@@ -21,8 +21,8 @@ describe('Protective Playmate', function () {
             expect(this.protectivePlaymate.power).toBe(3);
             this.player2.fightWith(this.thingFromTheDeep, this.protectivePlaymate);
             expect(this.protectivePlaymate.location).toBe('play area');
-            expect(this.protectivePlaymate.tokens.damage).toBe(undefined);
-            expect(this.thingFromTheDeep.tokens.damage).toBe(undefined);
+            expect(this.protectivePlaymate.damage).toBe(0);
+            expect(this.thingFromTheDeep.damage).toBe(0);
         });
 
         it('gains +6 power when haunted (but no elusive)', function () {
@@ -33,7 +33,7 @@ describe('Protective Playmate', function () {
             this.player2.clickPrompt('unfathomable');
             this.player2.fightWith(this.thingFromTheDeep, this.protectivePlaymate);
             expect(this.protectivePlaymate.location).toBe('discard');
-            expect(this.thingFromTheDeep.tokens.damage).toBe(9);
+            expect(this.thingFromTheDeep.damage).toBe(9);
         });
     });
 });

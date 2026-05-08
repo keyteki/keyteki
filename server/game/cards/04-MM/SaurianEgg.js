@@ -46,7 +46,11 @@ class SaurianEgg extends Card {
                         return {
                             forEach: forEachCards,
                             action: ability.actions.sequential([
-                                ability.actions.putIntoPlay(),
+                                ability.actions.putIntoPlay({
+                                    numPlayAllowances: context.preThenEvents
+                                        ? context.preThenEvents.length
+                                        : 0
+                                }),
                                 ability.actions.ready(),
                                 ability.actions.addPowerCounter({ amount: 3 })
                             ])

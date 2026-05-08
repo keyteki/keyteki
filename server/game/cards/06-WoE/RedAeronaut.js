@@ -8,8 +8,7 @@ class RedAeronaut extends Card {
     // of the turn.
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                'search their deck and discard for a Nautilixian and put it into play, and shuffle their deck',
+            effect: 'search their deck and discard for a Nautilixian and put it into play, and shuffle their deck',
             target: {
                 controller: 'self',
                 location: ['discard', 'deck'],

@@ -98,7 +98,7 @@ describe('Barter and Games', function () {
         it('should work with opponent cards in your archive', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('mars');
-            this.sandwyrm.tokens.damage = 1;
+            this.sandwyrm.damage = 1;
             this.player2.moveCard(this.suspendedAnimation, 'hand');
             this.player2.play(this.suspendedAnimation);
             this.player2.clickCard(this.sandwyrm);

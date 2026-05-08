@@ -10,9 +10,7 @@ class HorsemanOfWar extends Card {
                     ability.effects.canUse((card) => card.type === 'creature'),
                     ability.effects.cardCannot(
                         'useAction',
-                        (context) =>
-                            context.source.type === 'creature' &&
-                            context.ability.title !== 'Fight with this creature'
+                        (context) => context.source.type === 'creature' && !context.ability.fight
                     ),
                     ability.effects.cardCannot('reap')
                 ]

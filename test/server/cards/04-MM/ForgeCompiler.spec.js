@@ -18,9 +18,9 @@ describe('Forge Compiler', function () {
             this.player2.forgeKey('Red');
 
             expect(this.forgeCompiler.location).toBe('discard');
-            expect(this.stealerOfSouls.tokens.ward).toBe(1);
+            expect(this.stealerOfSouls.warded).toBe(true);
             expect(this.stealerOfSouls.location).toBe('play area');
-            expect(this.batdrone.tokens.ward).toBe(undefined);
+            expect(this.batdrone.warded).toBe(false);
         });
     });
 });

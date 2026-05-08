@@ -18,7 +18,7 @@ describe('Key Abduction', function () {
                     inPlay: ['zorg']
                 }
             });
-            this.zorg.tokens.damage = 3;
+            this.zorg.damage = 3;
         });
 
         it('should return creatures to hand and not prompt to forge when the player has insufficient amber', function () {

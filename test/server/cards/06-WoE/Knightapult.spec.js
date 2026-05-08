@@ -70,8 +70,7 @@ describe('Knightapult', function () {
             });
 
             it('should ready token creatures created by playing artifacts', function () {
-                this.exoShellSystem.maverick = 'sanctum';
-                this.exoShellSystem.printedHouse = 'sanctum';
+                this.player1.makeMaverick(this.exoShellSystem, 'sanctum');
                 this.player1.clickCard(this.exoShellSystem);
                 this.player1.clickPrompt('Play this artifact');
                 this.player1.clickPrompt('Left');
@@ -239,7 +238,7 @@ describe('Knightapult', function () {
                 this.player1.clickPrompt('sanctum');
 
                 this.player1.useAction(this.knightapult);
-                this.player1.useAction(this.trojanSauropod, true);
+                this.player1.useOmni(this.trojanSauropod);
             });
 
             it('should not give deploy to incoming enemy creatures', function () {
@@ -288,7 +287,7 @@ describe('Knightapult', function () {
                     }
                 });
 
-                this.kamalani.tokens.damage = 2;
+                this.kamalani.damage = 2;
                 this.player1.useAction(this.knightapult);
                 this.player1.play(this.hammerGram);
                 this.player1.clickCard(this.kamalani);

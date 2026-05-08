@@ -4,8 +4,7 @@ class Hecatomb extends Card {
     // Play: Destroy each Dis creature. Each player gains 1A for each creature they controlled that was destroyed this way.
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                'destroy {1} and make each player gain 1 amber for each controlled creature that was destroyed this way',
+            effect: 'destroy {1} and make each player gain 1 amber for each controlled creature that was destroyed this way',
             effectArgs: (context) => [
                 context.game.creaturesInPlay.filter((card) => card.hasHouse('dis'))
             ],

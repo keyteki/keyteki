@@ -17,10 +17,10 @@ describe('Photon Blast', function () {
         it('should do 2 damage with 1 splash', function () {
             this.player1.play(this.photonBlast);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
-            expect(this.bumpsy.tokens.damage).toBe(1);
-            expect(this.huntingWitch.tokens.damage).toBe(1);
-            expect(this.urchin.tokens.damage).toBe(undefined);
+            expect(this.troll.damage).toBe(2);
+            expect(this.bumpsy.damage).toBe(1);
+            expect(this.huntingWitch.damage).toBe(1);
+            expect(this.urchin.damage).toBe(0);
             expect(this.urchin.location).toBe('play area');
             expect(this.player1.player.creaturesInPlay.length).toBe(2);
         });
@@ -29,7 +29,7 @@ describe('Photon Blast', function () {
             this.player1.play(this.photonBlast);
             this.player1.clickCard(this.urchin);
             this.player1.clickPrompt('Right');
-            expect(this.huntingWitch.tokens.damage).toBe(1);
+            expect(this.huntingWitch.damage).toBe(1);
             expect(this.urchin.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
         });
@@ -38,7 +38,7 @@ describe('Photon Blast', function () {
             this.player1.play(this.photonBlast);
             this.player1.clickCard(this.huntingWitch);
             this.player1.clickPrompt('Right');
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
             expect(this.urchin.location).toBe('discard');
             expect(this.huntingWitch.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
@@ -48,8 +48,8 @@ describe('Photon Blast', function () {
             this.player1.play(this.photonBlast);
             this.player1.clickCard(this.bumpsy);
             this.player1.clickPrompt('Right');
-            expect(this.bumpsy.tokens.damage).toBe(2);
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.bumpsy.damage).toBe(2);
+            expect(this.troll.damage).toBe(1);
             expect(this.dustPixie.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(3);
         });

@@ -64,7 +64,7 @@ describe('Horizon Saber', function () {
             this.player1.playCreature(this.horizonSaber);
             this.player1.clickCard(this.poke);
             this.player1.clickPrompt('Done');
-            this.horizonSaber.exhausted = false;
+            this.horizonSaber.ready();
             let shuffled = [];
             this.player1.player.game.on(
                 'onDeckShuffled',
@@ -88,7 +88,7 @@ describe('Horizon Saber', function () {
             this.player1.playCreature(this.horizonSaber);
             this.player1.clickCard(this.poke);
             this.player1.clickPrompt('Done');
-            this.horizonSaber.exhausted = false;
+            this.horizonSaber.ready();
             let shuffled = [];
             this.player1.player.game.on(
                 'onDeckShuffled',

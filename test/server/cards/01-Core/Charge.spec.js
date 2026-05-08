@@ -26,8 +26,8 @@ describe('Charge!', function () {
             this.player1.clickCard(this.troll);
             this.player1.play(this.barristerJoya);
             this.player1.clickCard(this.ogopogo);
-            expect(this.troll.tokens.damage).toBe(2);
-            expect(this.ogopogo.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
+            expect(this.ogopogo.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
     });

@@ -80,7 +80,6 @@ describe('The Sting', function () {
             this.player1.play(this.keyCharge);
             this.player1.clickPrompt('Yes');
             this.player1.forgeKey('Red');
-            this.player1.clickPrompt('Autoresolve');
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(12);
             expect(this.player1.player.keys.red).toBe(true);
@@ -140,6 +139,59 @@ describe('The Sting', function () {
             expect(this.player1.player.keys.red).toBe(true);
             expect(this.player1.player.keys.blue).toBe(false);
             expect(this.player1.player.keys.yellow).toBe(false);
+        });
+    });
+
+    describe('The Sting with Strange Gizmo', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    inPlay: ['the-sting']
+                },
+                player2: {
+                    amber: 6,
+                    inPlay: ['strange-gizmo']
+                }
+            });
+        });
+
+        it('should not give a prompt to choose between The Sting and Strange Gizmo', function () {
+            this.player1.endTurn();
+            this.player2.forgeKey('Red');
+            expect(this.player1).not.toHavePrompt('Choose an ability to resolve:');
+            this.player2.clickPrompt('logos');
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
+
+    describe('The Sting with Ethereal Adaptor', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 5,
+                    house: 'geistoid',
+                    inPlay: ['troll'],
+                    hand: ['ethereal-adaptor']
+                },
+                player2: {
+                    inPlay: ['the-sting']
+                }
+            });
+
+            this.player1.playUpgrade(this.etherealAdaptor, this.troll);
+            this.troll.amber = 3;
+        });
+
+        it('should receive aember spent from outside of the pool', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.endTurn();
+            this.player1.clickPrompt(3);
+            this.player1.forgeKey('red');
+            expect(this.player1.amber).toBe(2);
+            expect(this.troll.amber).toBe(0);
+            expect(this.player2.amber).toBe(6);
         });
     });
 });

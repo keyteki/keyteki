@@ -19,7 +19,7 @@ describe('The Corpulent Collector', function () {
 
             it('capture all A and do damage', function () {
                 expect(this.theCorpulentCollector.amber).toBe(6);
-                expect(this.theCorpulentCollector.tokens.damage).toBe(6);
+                expect(this.theCorpulentCollector.damage).toBe(6);
             });
         });
 

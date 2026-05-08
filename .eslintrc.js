@@ -6,30 +6,23 @@ module.exports = {
         browser: true
     },
     parserOptions: {
-        ecmaVersion: 11
+        ecmaVersion: 11,
+        sourceType: 'module',
+        ecmaFeatures: {
+            jsx: true
+        }
     },
-    parser: 'babel-eslint',
     plugins: ['react', 'prettier'],
     extends: [
         'eslint:recommended',
         'plugin:react-hooks/recommended',
         'plugin:react/recommended',
-        'plugin:prettier/recommended',
-        'plugin:jest/recommended'
+        'plugin:prettier/recommended'
     ],
     rules: { 'react/prop-types': 'off' },
     settings: {
         react: {
             version: 'detect'
         }
-    },
-    overrides: [
-        {
-            files: ['*.test.js'],
-            env: {
-                jasmine: true
-            },
-            plugins: ['jest']
-        }
-    ]
+    }
 };

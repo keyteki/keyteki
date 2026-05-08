@@ -14,7 +14,7 @@ describe('Offering to Kiligog', function () {
         });
 
         it('should destroy a friendly creature and pick same one to put underneath', function () {
-            this.player1.useAction(this.offeringToKiligog, true);
+            this.player1.useOmni(this.offeringToKiligog);
             this.player1.clickCard(this.pelf);
             expect(this.player1).not.toBeAbleToSelect(this.skullbackCrab);
             this.player1.clickCard(this.pelf);
@@ -24,7 +24,7 @@ describe('Offering to Kiligog', function () {
 
         it('should destroy a friendly creature and pick a different once to put underneath', function () {
             this.player1.fightWith(this.skullbackCrab, this.troll);
-            this.player1.useAction(this.offeringToKiligog, true);
+            this.player1.useOmni(this.offeringToKiligog);
             this.player1.clickCard(this.pelf);
             this.player1.clickCard(this.skullbackCrab);
             expect(this.offeringToKiligog.childCards).toContain(this.skullbackCrab);
@@ -33,7 +33,7 @@ describe('Offering to Kiligog', function () {
         });
 
         it('should place cards out as tokens', function () {
-            this.player1.useAction(this.offeringToKiligog, true);
+            this.player1.useOmni(this.offeringToKiligog);
             this.player1.clickCard(this.pelf);
             this.player1.clickCard(this.pelf);
 
@@ -42,7 +42,7 @@ describe('Offering to Kiligog', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('unfathomable');
 
-            this.player1.useAction(this.offeringToKiligog, true);
+            this.player1.useOmni(this.offeringToKiligog);
             this.player1.clickCard(this.skullbackCrab);
             this.player1.clickCard(this.skullbackCrab);
 
@@ -65,7 +65,7 @@ describe('Offering to Kiligog', function () {
         });
 
         it('should fizzle with no more friendly creatures', function () {
-            this.player1.useAction(this.offeringToKiligog, true);
+            this.player1.useOmni(this.offeringToKiligog);
             this.player1.clickCard(this.pelf);
             this.player1.clickCard(this.pelf);
 
@@ -74,7 +74,7 @@ describe('Offering to Kiligog', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('unfathomable');
 
-            this.player1.useAction(this.offeringToKiligog, true);
+            this.player1.useOmni(this.offeringToKiligog);
             this.player1.clickCard(this.skullbackCrab);
             this.player1.clickCard(this.skullbackCrab);
 
@@ -83,7 +83,7 @@ describe('Offering to Kiligog', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('unfathomable');
 
-            this.player1.useAction(this.offeringToKiligog, true);
+            this.player1.useOmni(this.offeringToKiligog);
             expect(this.player1).isReadyToTakeAction();
         });
     });

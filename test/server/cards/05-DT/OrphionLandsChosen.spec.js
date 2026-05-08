@@ -18,7 +18,7 @@ describe('OrphionLandsChosen', function () {
             });
 
             it('should not gain armor', function () {
-                expect(this.orphionLandSChosen.tokens.armor).toBeUndefined();
+                expect(this.orphionLandSChosen.armor).toBe(0);
             });
 
             describe('and reaps', function () {
@@ -39,7 +39,7 @@ describe('OrphionLandsChosen', function () {
             });
 
             it('should gain 3 armor', function () {
-                expect(this.orphionLandSChosen.tokens.armor).toBe(3);
+                expect(this.orphionLandSChosen.armor).toBe(3);
             });
 
             describe('and reaps', function () {

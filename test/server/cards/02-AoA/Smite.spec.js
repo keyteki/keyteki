@@ -21,8 +21,8 @@ describe('Smite', function () {
             expect(this.player1).toBeAbleToSelect(this.mightyTiger);
             this.player1.clickCard(this.mightyTiger);
             expect(this.mightyTiger.location).toBe('discard');
-            expect(this.murmook.tokens.damage).toBe(2);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.murmook.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
         });
 
         it("should remove creature's stun", function () {
@@ -42,7 +42,7 @@ describe('Smite', function () {
             expect(this.helperBot.stunned).toBe(false);
             expect(this.player1).not.toHavePrompt('Helper Bot');
             expect(this.helperBot.location).toBe('play area');
-            expect(this.helperBot.hasToken('damage')).toBe(false);
+            expect(this.helperBot.damage).toBe(0);
         });
     });
 
@@ -69,8 +69,8 @@ describe('Smite', function () {
             expect(this.player1).toBeAbleToSelect(this.dumaTheMartyr);
             this.player1.clickCard(this.dumaTheMartyr);
             expect(this.dumaTheMartyr.location).toBe('discard');
-            expect(this.murmook.tokens.damage).toBe(2);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.murmook.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
         });
     });
 
@@ -96,8 +96,8 @@ describe('Smite', function () {
             expect(this.shadowSelf.location).toBe('discard');
             expect(this.dodger.location).toBe('play area');
             expect(this.skullion.location).toBe('play area');
-            expect(this.dodger.tokens.damage).toBeUndefined();
-            expect(this.skullion.tokens.damage).toBeUndefined();
+            expect(this.dodger.damage).toBe(0);
+            expect(this.skullion.damage).toBe(0);
             this.player1.endTurn();
         });
 
@@ -113,10 +113,86 @@ describe('Smite', function () {
             expect(this.urchin.location).toBe('play area');
             expect(this.dodger.location).toBe('play area');
             expect(this.shooler.location).toBe('play area');
-            expect(this.urchin.tokens.damage).toBeUndefined();
-            expect(this.dodger.tokens.damage).toBeUndefined();
-            expect(this.shooler.tokens.damage).toBeUndefined();
+            expect(this.urchin.damage).toBe(0);
+            expect(this.dodger.damage).toBe(0);
+            expect(this.shooler.damage).toBe(0);
             this.player1.endTurn();
+        });
+    });
+
+    describe('Smite with before fight abilities', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    hand: ['smite'],
+                    inPlay: ['lord-golgotha']
+                },
+                player2: {
+                    inPlay: ['prescriptive-grammarbot', 'daughter', 'infomorph']
+                }
+            });
+        });
+
+        it('should target neighbors of attacked creature', function () {
+            this.player1.play(this.smite);
+            this.player1.clickCard(this.lordGolgotha);
+
+            // Fight Infomorph
+            this.player1.clickCard(this.infomorph);
+
+            // Golgotha's before fight ability kills Daughter
+            expect(this.daughter.location).toBe('discard');
+
+            // Fight destroys Infomorph
+            expect(this.infomorph.location).toBe('discard');
+
+            // Smite deals 2 damage to creatures who were Infomorph's neighbors
+            // immediately before it left play
+            expect(this.prescriptiveGrammarbot.damage).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Smite with after fight abilities', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    hand: ['smite', 'bigger-guns-for-everyone'],
+                    inPlay: ['impzilla']
+                },
+                player2: {
+                    inPlay: ['flaxia', 'murmook', 'troll', 'mighty-tiger']
+                }
+            });
+            this.player1.makeMaverick(this.biggerGunsForEveryone, 'sanctum');
+        });
+
+        it('should target neighbors of attacked creature', function () {
+            this.player1.playUpgrade(this.biggerGunsForEveryone, this.impzilla);
+            this.player1.play(this.smite);
+            this.player1.clickCard(this.impzilla);
+
+            // Fight Troll
+            this.player1.clickCard(this.troll);
+
+            // Bigger Guns deals 5 damage to murmook
+            expect(this.player1).toHavePrompt('Triggered Abilities');
+            expect(this.player1).toHavePromptButton('Bigger Guns for Everyone');
+            expect(this.player1).toHavePromptButton('Impzilla');
+            this.player1.clickPrompt(this.biggerGunsForEveryone.name);
+            this.player1.clickCard(this.murmook);
+            expect(this.murmook.location).toBe('discard');
+
+            // Impzilla's ability destroys Troll
+            this.player1.clickCard(this.troll);
+            expect(this.troll.location).toBe('discard');
+
+            // Smite deals 2 damage to Troll's neighbors immediately before it left play
+            expect(this.flaxia.damage).toBe(2);
+            expect(this.mightyTiger.damage).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

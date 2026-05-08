@@ -15,8 +15,7 @@ describe('Titanarpon', function () {
                 }
             });
 
-            this.titanarpon.printedHouse = 'dis';
-            this.titanarpon.maverick = 'dis';
+            this.player1.makeMaverick(this.titanarpon, 'dis');
         });
 
         it('should allow first creature played to come in ready', function () {

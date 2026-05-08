@@ -23,7 +23,7 @@ describe('Brain Eater', function () {
             let handSize = this.player1.hand.length;
             this.player1.fightWith(this.brainEater, this.chronus);
             expect(this.chronus.location).toBe('discard');
-            expect(this.brainEater.tokens.damage).toBe(3);
+            expect(this.brainEater.damage).toBe(3);
             expect(this.player1.hand.length).toBe(handSize + 1);
         });
 
@@ -33,7 +33,7 @@ describe('Brain Eater', function () {
             let handSize = this.player1.hand.length;
             this.player2.fightWith(this.chronus, this.brainEater);
             expect(this.chronus.location).toBe('discard');
-            expect(this.brainEater.tokens.damage).toBe(3);
+            expect(this.brainEater.damage).toBe(3);
             expect(this.player1.hand.length).toBe(handSize + 1);
         });
 
@@ -42,8 +42,8 @@ describe('Brain Eater', function () {
             let handSize = this.player1.hand.length;
             this.player1.fightWith(this.brainEater, this.groupthinkTank);
             expect(this.groupthinkTank.location).toBe('play area');
-            expect(this.groupthinkTank.tokens.damage).toBe(3);
-            expect(this.brainEater.tokens.damage).toBe(4);
+            expect(this.groupthinkTank.damage).toBe(3);
+            expect(this.brainEater.damage).toBe(4);
             expect(this.player1.hand.length).toBe(handSize);
         });
 
@@ -53,8 +53,8 @@ describe('Brain Eater', function () {
             let handSize = this.player1.hand.length;
             this.player1.fightWith(this.brainEater, this.chronus);
             expect(this.chronus.location).toBe('play area');
-            expect(this.chronus.tokens.damage).toBeUndefined();
-            expect(this.brainEater.tokens.damage).toBe(3);
+            expect(this.chronus.damage).toBe(0);
+            expect(this.brainEater.damage).toBe(3);
             expect(this.player1.hand.length).toBe(handSize);
         });
 
@@ -62,7 +62,7 @@ describe('Brain Eater', function () {
             let handSize = this.player1.hand.length;
             this.player1.fightWith(this.brainEater, this.eyegor);
             expect(this.eyegor.location).toBe('discard');
-            expect(this.brainEater.tokens.damage).toBeUndefined();
+            expect(this.brainEater.damage).toBe(0);
             expect(this.player1.hand.length).toBe(handSize);
         });
 
@@ -84,7 +84,7 @@ describe('Brain Eater', function () {
             this.player1.clickPrompt('Deal 2 damage');
             this.player1.clickCard(this.groupthinkTank);
             expect(this.groupthinkTank.location).toBe('discard');
-            expect(this.brainEater.tokens.damage).toBe(4);
+            expect(this.brainEater.damage).toBe(4);
             expect(this.player1.hand.length).toBe(handSize);
         });
 
@@ -94,7 +94,7 @@ describe('Brain Eater', function () {
             this.player1.fightWith(this.brainEater, this.darkMinion);
             expect(this.player1).isReadyToTakeAction();
             expect(this.darkMinion.location).toBe('discard');
-            expect(this.brainEater.tokens.damage).toBe(2);
+            expect(this.brainEater.damage).toBe(2);
             expect(this.player1.hand.length).toBe(handSize + 1);
         });
 

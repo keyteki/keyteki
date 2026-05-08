@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "target": "ES2017",
+        "lib": ["ES2017", "DOM", "DOM.Iterable"],
+        "module": "ESNext",
+        "moduleResolution": "Node",
+        "jsx": "react",
+        "allowJs": true,
+        "checkJs": false,
+        "noEmit": true,
+        "isolatedModules": true,
+        "baseUrl": ".",
+        "paths": {
+            "assets/*": ["assets/*"]
+        },
+        "types": ["vite/client"],
+        "resolveJsonModule": true,
+        "skipLibCheck": true
+    },
+    "include": ["**/*.js", "**/*.jsx", "**/*.ts", "**/*.tsx", "**/*.d.ts"],
+    "exclude": ["node_modules", "dist"]
+}

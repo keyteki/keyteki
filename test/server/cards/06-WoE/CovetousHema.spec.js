@@ -17,7 +17,7 @@ describe('Covetous Hema', function () {
         it('should gain elusive when not on a flank', function () {
             this.player1.play(this.covetousHema, true);
             expect(this.player2.amber).toBe(1);
-            expect(this.covetousHema.tokens.amber).toBe(3);
+            expect(this.covetousHema.amber).toBe(3);
             expect(this.covetousHema.getKeywordValue('elusive')).toBe(0);
             this.player1.play(this.kaupe, true);
             expect(this.covetousHema.getKeywordValue('elusive')).toBe(1);

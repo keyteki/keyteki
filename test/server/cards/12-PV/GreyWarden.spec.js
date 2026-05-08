@@ -15,8 +15,8 @@ describe('Grey Warden', function () {
         });
 
         it('should ready a neighboring Sanctum creature after fight', function () {
-            this.almsmaster.exhausted = true;
-            this.emberImp.exhausted = true;
+            this.almsmaster.exhaust();
+            this.emberImp.exhaust();
             this.player1.fightWith(this.greyWarden, this.urchin);
             expect(this.player1).toBeAbleToSelect(this.almsmaster);
             expect(this.player1).not.toBeAbleToSelect(this.emberImp);
@@ -27,8 +27,8 @@ describe('Grey Warden', function () {
         });
 
         it('should ready a neighboring Sanctum creature after fight', function () {
-            this.almsmaster.exhausted = true;
-            this.emberImp.exhausted = true;
+            this.almsmaster.exhaust();
+            this.emberImp.exhaust();
             this.player1.reap(this.greyWarden);
             expect(this.player1).toBeAbleToSelect(this.almsmaster);
             expect(this.player1).not.toBeAbleToSelect(this.emberImp);

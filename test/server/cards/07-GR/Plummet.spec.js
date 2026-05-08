@@ -16,6 +16,7 @@ describe('Plummet', function () {
 
         it('discards hand', function () {
             this.player1.play(this.plummet);
+            this.player1.clickPrompt('Autoresolve');
             expect(this.player1.player.hand.length).toBe(0);
             expect(this.shoppingSpree.location).toBe('discard');
             expect(this.pressGang.location).toBe('discard');
@@ -24,9 +25,10 @@ describe('Plummet', function () {
 
         it('deals 2 damage to all creatures', function () {
             this.player1.play(this.plummet);
-            expect(this.groke.tokens.damage).toBe(2);
-            expect(this.cpoZytar.tokens.damage).toBe(1);
-            expect(this.troll.tokens.damage).toBe(2);
+            this.player1.clickPrompt('Autoresolve');
+            expect(this.groke.damage).toBe(2);
+            expect(this.cpoZytar.damage).toBe(1);
+            expect(this.troll.damage).toBe(2);
             expect(this.batdrone.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
@@ -34,10 +36,10 @@ describe('Plummet', function () {
         it('deals 1 damage to all creatures', function () {
             this.player1.play(this.pressGang);
             this.player1.play(this.plummet);
-            expect(this.groke.tokens.damage).toBe(1);
-            expect(this.cpoZytar.tokens.damage).toBe(undefined);
-            expect(this.troll.tokens.damage).toBe(1);
-            expect(this.batdrone.tokens.damage).toBe(1);
+            expect(this.groke.damage).toBe(1);
+            expect(this.cpoZytar.damage).toBe(0);
+            expect(this.troll.damage).toBe(1);
+            expect(this.batdrone.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -45,10 +47,10 @@ describe('Plummet', function () {
             this.player1.moveCard(this.shoppingSpree, 'discard');
             this.player1.play(this.pressGang);
             this.player1.play(this.plummet);
-            expect(this.groke.tokens.damage).toBe(undefined);
-            expect(this.cpoZytar.tokens.damage).toBe(undefined);
-            expect(this.troll.tokens.damage).toBe(undefined);
-            expect(this.batdrone.tokens.damage).toBe(undefined);
+            expect(this.groke.damage).toBe(0);
+            expect(this.cpoZytar.damage).toBe(0);
+            expect(this.troll.damage).toBe(0);
+            expect(this.batdrone.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

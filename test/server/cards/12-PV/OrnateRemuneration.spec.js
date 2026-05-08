@@ -16,8 +16,8 @@ describe('Ornate Remuneration', function () {
         });
 
         it('should move amber from friendly creatures to pool', function () {
-            this.raidingKnight.tokens.amber = 2;
-            this.almsmaster.tokens.amber = 1;
+            this.raidingKnight.amber = 2;
+            this.almsmaster.amber = 1;
             this.player1.play(this.ornateRemuneration);
             this.player1.clickPrompt('Move amber');
             expect(this.player1).toBeAbleToSelect(this.raidingKnight);

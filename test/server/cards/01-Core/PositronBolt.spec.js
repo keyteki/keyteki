@@ -41,7 +41,7 @@ describe('Positron Bolt', function () {
             expect(this.player1).toBeAbleToSelect(this.titanMechanic);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
     });
@@ -69,8 +69,8 @@ describe('Positron Bolt', function () {
             expect(this.player1).toBeAbleToSelect(this.krump);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(3);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(3);
+            expect(this.krump.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
     });
@@ -101,11 +101,11 @@ describe('Positron Bolt', function () {
             expect(this.player1).not.toBeAbleToSelect(this.krump);
             expect(this.player1).not.toBeAbleToSelect(this.redlock);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(3);
-            expect(this.groggins.tokens.damage).toBe(2);
-            expect(this.krump.tokens.damage).toBe(1);
-            expect(this.redlock.tokens.damage).toBeUndefined();
-            expect(this.lamindra.tokens.damage).toBeUndefined();
+            expect(this.troll.damage).toBe(3);
+            expect(this.groggins.damage).toBe(2);
+            expect(this.krump.damage).toBe(1);
+            expect(this.redlock.damage).toBe(0);
+            expect(this.lamindra.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -128,11 +128,11 @@ describe('Positron Bolt', function () {
             expect(this.player1).not.toBeAbleToSelect(this.groggins);
             expect(this.player1).not.toBeAbleToSelect(this.redlock);
             this.player1.clickCard(this.troll);
-            expect(this.groggins.tokens.damage).toBe(3);
-            expect(this.troll.tokens.damage).toBe(2);
-            expect(this.krump.tokens.damage).toBeUndefined();
-            expect(this.redlock.tokens.damage).toBeUndefined();
-            expect(this.lamindra.tokens.damage).toBeUndefined();
+            expect(this.groggins.damage).toBe(3);
+            expect(this.troll.damage).toBe(2);
+            expect(this.krump.damage).toBe(0);
+            expect(this.redlock.damage).toBe(0);
+            expect(this.lamindra.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -155,11 +155,11 @@ describe('Positron Bolt', function () {
             expect(this.player1).not.toBeAbleToSelect(this.groggins);
             expect(this.player1).not.toBeAbleToSelect(this.redlock);
             this.player1.clickCard(this.krump);
-            expect(this.groggins.tokens.damage).toBe(3);
-            expect(this.krump.tokens.damage).toBe(2);
-            expect(this.redlock.tokens.damage).toBe(1);
-            expect(this.troll.tokens.damage).toBeUndefined();
-            expect(this.lamindra.tokens.damage).toBeUndefined();
+            expect(this.groggins.damage).toBe(3);
+            expect(this.krump.damage).toBe(2);
+            expect(this.redlock.damage).toBe(1);
+            expect(this.troll.damage).toBe(0);
+            expect(this.lamindra.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

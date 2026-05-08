@@ -52,7 +52,7 @@ describe('Ascendant Hester', function () {
 
         it('should capture 1 on each other friendly creature on fight', function () {
             this.player1.playCreature(this.ascendantHester);
-            this.ascendantHester.exhausted = false;
+            this.ascendantHester.ready();
             this.player1.fightWith(this.ascendantHester, this.lamindra);
             expect(this.raidingKnight.amber).toBe(3);
             expect(this.scrivenerFavian.amber).toBe(2);

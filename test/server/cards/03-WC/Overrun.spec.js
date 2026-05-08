@@ -57,16 +57,15 @@ describe('Overrun', function () {
             expect(this.silvertooth.location).toBe('play area');
             expect(this.umbra.location).toBe('play area');
             expect(this.badPenny.location).toBe('play area');
-            expect(this.silvertooth.tokens.ward).toBeUndefined();
-            expect(this.badPenny.tokens.ward).toBeUndefined();
-            expect(this.umbra.tokens.ward).toBeUndefined();
+            expect(this.silvertooth.warded).toBe(false);
+            expect(this.badPenny.warded).toBe(false);
+            expect(this.umbra.warded).toBe(false);
             this.player1.play(this.overrun);
             expect(this.player2.amber).toBe(5);
         });
 
         it('should cause the opponent to lose 2A for creatures that have changed control and die in a fight this turn', function () {
-            this.exile.maverick = 'brobnar';
-            this.exile.printedHouse = 'brobnar';
+            this.player1.makeMaverick(this.exile, 'brobnar');
             this.player1.play(this.exile);
             this.player1.clickCard(this.wardrummer);
             this.player1.clickPrompt('Left');

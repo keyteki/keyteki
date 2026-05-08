@@ -20,34 +20,34 @@ describe('Bilgum Avalanche', function () {
             this.player1.play(this.keyCharge);
             this.player1.clickPrompt('Yes');
             this.player1.forgeKey('red');
-            expect(this.mother.tokens.damage).toBe(2);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.mother.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
         });
 
         it('should not affect friendly creatures', function () {
             this.player1.play(this.keyCharge);
             this.player1.clickPrompt('Yes');
             this.player1.forgeKey('red');
-            expect(this.bilgumAvalanche.tokens.damage).toBeUndefined();
-            expect(this.snufflegator.tokens.damage).toBeUndefined();
+            expect(this.bilgumAvalanche.damage).toBe(0);
+            expect(this.snufflegator.damage).toBe(0);
         });
 
         it('should not trigger when opponent forges a key', function () {
             this.player1.endTurn();
             this.player2.forgeKey('red');
-            expect(this.mother.tokens.damage).toBeUndefined();
-            expect(this.troll.tokens.damage).toBeUndefined();
+            expect(this.mother.damage).toBe(0);
+            expect(this.troll.damage).toBe(0);
         });
 
         it('should trigger for each key forged in the same turn', function () {
             this.player1.play(this.keyCharge);
             this.player1.clickPrompt('Yes');
             this.player1.forgeKey('red');
-            expect(this.mother.tokens.damage).toBe(2);
+            expect(this.mother.damage).toBe(2);
             this.player1.play(this.chotaHazri);
             this.player1.clickPrompt('Yes');
             this.player1.forgeKey('blue');
-            expect(this.mother.tokens.damage).toBe(4);
+            expect(this.mother.damage).toBe(4);
         });
     });
 });

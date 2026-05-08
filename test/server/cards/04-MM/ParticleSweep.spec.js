@@ -24,7 +24,7 @@ describe('particle-sweep', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.dysania);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
         });
 
         it('should do destroy to mutant', function () {

@@ -19,11 +19,11 @@ describe('Concussive Transfer', function () {
             this.player1.play(this.concussiveTransfer);
             this.player1.clickCard(this.troll);
             // 6 damage was out there, all healed now.
-            expect(this.troll.tokens.damage).toBe(undefined);
-            expect(this.foozle.tokens.damage).toBe(undefined);
-            expect(this.cpoZytar.tokens.damage).toBe(undefined);
-            expect(this.huntingWitch.tokens.damage).toBe(undefined);
-            expect(this.flaxia.tokens.damage).toBe(undefined);
+            expect(this.troll.damage).toBe(0);
+            expect(this.foozle.damage).toBe(0);
+            expect(this.cpoZytar.damage).toBe(0);
+            expect(this.huntingWitch.damage).toBe(0);
+            expect(this.flaxia.damage).toBe(0);
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.troll);
@@ -31,11 +31,11 @@ describe('Concussive Transfer', function () {
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.cpoZytar);
             expect(this.player1).isReadyToTakeAction();
-            expect(this.troll.tokens.damage).toBe(5);
-            expect(this.foozle.tokens.damage).toBe(undefined);
-            expect(this.cpoZytar.tokens.damage).toBe(1);
-            expect(this.huntingWitch.tokens.damage).toBe(undefined);
-            expect(this.flaxia.tokens.damage).toBe(undefined);
+            expect(this.troll.damage).toBe(5);
+            expect(this.foozle.damage).toBe(0);
+            expect(this.cpoZytar.damage).toBe(1);
+            expect(this.huntingWitch.damage).toBe(0);
+            expect(this.flaxia.damage).toBe(0);
         });
     });
 });

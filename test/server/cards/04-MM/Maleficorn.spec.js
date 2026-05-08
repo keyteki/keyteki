@@ -33,14 +33,14 @@ describe('Maleficorn', function () {
             expect(this.player1).toBeAbleToSelect(this.alaka);
             expect(this.player1).toBeAbleToSelect(this.groggins);
             this.player1.clickCard(this.alaka);
-            expect(this.alaka.tokens.damage).toBe(2);
+            expect(this.alaka.damage).toBe(2);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.maleficorn);
             expect(this.player1).toBeAbleToSelect(this.brammo);
             expect(this.player1).toBeAbleToSelect(this.alaka);
             expect(this.player1).toBeAbleToSelect(this.groggins);
             this.player1.clickCard(this.groggins);
-            expect(this.groggins.tokens.damage).toBe(2);
+            expect(this.groggins.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -54,14 +54,14 @@ describe('Maleficorn', function () {
             expect(this.player1).toBeAbleToSelect(this.alaka);
             expect(this.player1).toBeAbleToSelect(this.groggins);
             this.player1.clickCard(this.alaka);
-            expect(this.alaka.tokens.damage).toBe(2);
+            expect(this.alaka.damage).toBe(2);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.maleficorn);
             expect(this.player1).toBeAbleToSelect(this.brammo);
             expect(this.player1).toBeAbleToSelect(this.alaka);
             expect(this.player1).toBeAbleToSelect(this.groggins);
             this.player1.clickCard(this.brammo);
-            expect(this.brammo.tokens.damage).toBeUndefined();
+            expect(this.brammo.damage).toBe(0);
             expect(this.brammo.armorUsed).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
@@ -76,7 +76,7 @@ describe('Maleficorn', function () {
             expect(this.player1).toBeAbleToSelect(this.alaka);
             expect(this.player1).toBeAbleToSelect(this.groggins);
             this.player1.clickCard(this.brammo);
-            expect(this.brammo.tokens.damage).toBeUndefined();
+            expect(this.brammo.damage).toBe(0);
             expect(this.brammo.armorUsed).toBe(1);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.maleficorn);
@@ -84,7 +84,7 @@ describe('Maleficorn', function () {
             expect(this.player1).toBeAbleToSelect(this.alaka);
             expect(this.player1).toBeAbleToSelect(this.groggins);
             this.player1.clickCard(this.brammo);
-            expect(this.brammo.tokens.damage).toBe(2);
+            expect(this.brammo.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -98,14 +98,14 @@ describe('Maleficorn', function () {
             expect(this.player1).toBeAbleToSelect(this.alaka);
             expect(this.player1).toBeAbleToSelect(this.groggins);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.maleficorn);
             expect(this.player1).toBeAbleToSelect(this.brammo);
             expect(this.player1).toBeAbleToSelect(this.alaka);
             expect(this.player1).toBeAbleToSelect(this.groggins);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -117,7 +117,7 @@ describe('Maleficorn', function () {
             expect(this.player1).toBeAbleToSelect(this.alaka);
             expect(this.player1).toBeAbleToSelect(this.groggins);
             this.player1.clickCard(this.brammo);
-            expect(this.brammo.tokens.damage).toBe(2);
+            expect(this.brammo.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -132,7 +132,7 @@ describe('Maleficorn', function () {
             expect(this.player2).toBeAbleToSelect(this.alaka);
             expect(this.player2).toBeAbleToSelect(this.groggins);
             this.player2.clickCard(this.alaka);
-            expect(this.alaka.tokens.damage).toBe(2);
+            expect(this.alaka.damage).toBe(2);
             expect(this.player2).isReadyToTakeAction();
         });
 
@@ -147,7 +147,7 @@ describe('Maleficorn', function () {
             expect(this.player2).toBeAbleToSelect(this.alaka);
             expect(this.player2).toBeAbleToSelect(this.groggins);
             this.player2.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
             expect(this.player2).isReadyToTakeAction();
         });
     });

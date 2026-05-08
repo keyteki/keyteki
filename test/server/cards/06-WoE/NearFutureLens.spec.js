@@ -44,7 +44,7 @@ describe('Near-Future Lens', function () {
             this.player1.clickPrompt('untamed');
 
             // All cards in the deck are Anger.
-            this.player1.useAction(this.nearFutureLens, true);
+            this.player1.useOmni(this.nearFutureLens);
             this.player1.clickCard(this.pelf);
             this.player1.clickCard(this.shooler);
             expect(this.player2.amber).toBe(0);
@@ -80,7 +80,7 @@ describe('Near-Future Lens', function () {
                 'player1 uses Near-Future Lens to reveal Blood of Titans'
             );
             this.nearFutureLens.ready();
-            this.player1.useAction(this.nearFutureLens, true);
+            this.player1.useOmni(this.nearFutureLens);
             this.player1.clickCard(this.shooler);
             expect(this).toHaveRecentChatMessage('player1 uses Near-Future Lens to reveal Pelf', 2);
         });
@@ -93,7 +93,7 @@ describe('Near-Future Lens', function () {
                 'player1 uses Near-Future Lens to reveal Curse of Cowardice'
             );
             this.nearFutureLens.ready();
-            this.player1.useAction(this.nearFutureLens, true);
+            this.player1.useOmni(this.nearFutureLens);
             expect(this).toHaveRecentChatMessage('player1 uses Near-Future Lens to reveal Pelf');
         });
 

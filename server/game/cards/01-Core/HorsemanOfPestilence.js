@@ -6,7 +6,10 @@ class HorsemanOfPestilence extends Card {
         this.play({
             fight: true,
             reap: true,
-            effect: 'deal 1 damage to all non-Horseman creatures',
+            effect: 'deal 1 damage to all non-Horseman creatures ({1})',
+            effectArgs: (context) => [
+                context.game.creaturesInPlay.filter((card) => !card.hasTrait('horseman'))
+            ],
             gameAction: ability.actions.dealDamage((context) => ({
                 amount: 1,
                 target: context.game.creaturesInPlay.filter((card) => !card.hasTrait('horseman'))

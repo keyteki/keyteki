@@ -46,7 +46,7 @@ describe('Mothership Support', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.bumpsy);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
             expect(this.mindwarper.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });

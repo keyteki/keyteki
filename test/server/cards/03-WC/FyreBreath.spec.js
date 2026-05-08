@@ -22,8 +22,8 @@ describe('FyreBreath(WC)', function () {
 
             expect(this.troll.location).toBe('discard');
             expect(this.firespitter.location).toBe('play area');
-            expect(this.firespitter.tokens.damage).toBe(7);
-            expect(this.valdr.tokens.damage).toBe(3);
+            expect(this.firespitter.damage).toBe(7);
+            expect(this.valdr.damage).toBe(3);
             expect(this.nexus.location).toBe('discard');
         });
     });

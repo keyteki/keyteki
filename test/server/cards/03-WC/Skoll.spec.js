@@ -16,7 +16,7 @@ describe('Sköll', function () {
             this.player1.fightWith(this.sköll, this.nexus);
             this.player1.clickCard(this.troll);
             expect(this.nexus.location).toBe('discard');
-            expect(this.troll.tokens.power).toBe(1);
+            expect(this.troll.powerCounters).toBe(1);
             this.player1.endTurn();
         });
 
@@ -24,7 +24,7 @@ describe('Sköll', function () {
             this.player1.fightWith(this.sköll, this.valdr);
             expect(this.valdr.location).toBe('discard');
             expect(this.sköll.location).toBe('discard');
-            expect(this.troll.tokens.power).toBe(undefined);
+            expect(this.troll.powerCounters).toBe(0);
             this.player1.endTurn();
         });
     });

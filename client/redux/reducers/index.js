@@ -1,30 +1,24 @@
 import { combineReducers } from 'redux';
-import navigation from './navigation';
-import auth from './auth';
-import cards from './cards';
-import games from './games';
-import challonge from './challonge';
-import news from './news';
-import api from './api';
-import admin from './admin';
-import user from './user';
-import account from './account';
-import lobby from './lobby';
-import { reducer as toastrReducer } from 'react-redux-toastr';
+import auth from '../slices/authSlice';
+import cards from '../slices/cardsSlice';
+import games from '../slices/gamesSlice';
+import challonge from '../slices/challongeSlice';
+import admin from '../slices/adminSlice';
+import user from '../slices/userSlice';
+import account from '../slices/accountSlice';
+import lobby from '../slices/lobbySlice';
+import { api as rtkApi } from '../api';
 
 const rootReducer = combineReducers({
-    navigation,
     auth,
     cards,
     games,
-    news,
     challonge,
-    toastr: toastrReducer,
-    api,
     admin,
     user,
     account,
-    lobby
+    lobby,
+    [rtkApi.reducerPath]: rtkApi.reducer
 });
 
 export default rootReducer;

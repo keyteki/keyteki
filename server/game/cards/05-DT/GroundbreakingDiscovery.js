@@ -7,8 +7,12 @@ class GroundbreakingDiscovery extends Card {
             condition: (context) =>
                 context.player.creaturesInPlay.some((card) => card.name === 'Dr. Verokter') &&
                 context.player.cardsInPlay.some((card) => card.name === 'Rooftop Laboratory') &&
-                context.player.creaturesInPlay.some((card) =>
-                    card.upgrades.some((upgrade) => upgrade.name === 'Reckless Experimentation')
+                context.game.creaturesInPlay.some((card) =>
+                    card.upgrades.some(
+                        (upgrade) =>
+                            upgrade.name === 'Reckless Experimentation' &&
+                            upgrade.controller === context.player
+                    )
                 ),
             gameAction: ability.actions.sequential([
                 ability.actions.destroy((context) => ({

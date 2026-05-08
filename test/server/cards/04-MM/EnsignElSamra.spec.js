@@ -51,7 +51,7 @@ describe('Ensign El-Samra', function () {
             expect(this.virtuousWorks.location).toBe('hand');
             expect(this.player1.amber).toBe(4);
             expect(this.player1.player.hand.length).toBe(3);
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
         });
     });
 });

@@ -25,14 +25,26 @@ describe('Squallmaster', function () {
                 this.player1.clickPrompt('unfathomable');
             });
 
-            it('should discard a random card on reap', function () {
+            it('should prompt for discard order on reap', function () {
                 this.player1.reap(this.squallmaster);
+                expect(this.player1).toHavePrompt('Choose which player discards first');
+                this.player1.clickPrompt('Me');
                 expect(this.crushingDeep.location).toBe('discard');
                 expect(this.cloneHome.location).toBe('discard');
             });
 
-            it('should discard a random card on fight', function () {
+            it('should allow choosing opponent first on reap', function () {
+                this.player1.reap(this.squallmaster);
+                expect(this.player1).toHavePrompt('Choose which player discards first');
+                this.player1.clickPrompt('Opponent');
+                expect(this.crushingDeep.location).toBe('discard');
+                expect(this.cloneHome.location).toBe('discard');
+            });
+
+            it('should prompt for discard order on fight', function () {
                 this.player1.fightWith(this.squallmaster, this.mindwarper);
+                expect(this.player1).toHavePrompt('Choose which player discards first');
+                this.player1.clickPrompt('Me');
                 expect(this.crushingDeep.location).toBe('discard');
                 expect(this.cloneHome.location).toBe('discard');
             });

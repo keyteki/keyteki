@@ -11,7 +11,7 @@ describe('Plan 10', function () {
                 player2: {
                     amber: 1,
                     token: 'priest',
-                    hand: ['magda-the-rat'],
+                    hand: ['magda-the-rat', 'boosted-b4-rry', 'boosted-b4-rry2'],
                     inPlay: ['priest:ritual-of-balance', 'umbra', 'ironyx-rebel']
                 }
             });
@@ -97,11 +97,31 @@ describe('Plan 10', function () {
             expect(this.player2.player.hand).toContain(this.umbra);
         });
 
-        it('is destroyed if no creatures go under it', function () {
+        it('is destroyed at end of turn if no creatures go under it', function () {
             this.player1.play(this.warOfTheWorlds);
             this.player1.play(this.plan10);
+            expect(this.plan10.location).toBe('play area');
             this.player1.endTurn();
             expect(this.plan10.location).toBe('discard');
+        });
+
+        it('returns only one gigantic half at a time', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.playCreature(this.boostedB4Rry);
+            expect(this.boostedB4Rry.location).toBe('play area');
+            this.player2.clickPrompt('Play archived card');
+            this.player2.endTurn();
+            this.player1.clickPrompt('mars');
+            this.player1.play(this.plan10);
+            expect(this.plan10.childCards).toContain(this.boostedB4Rry);
+            expect(this.plan10.childCards).toContain(this.boostedB4Rry2);
+            this.player1.endTurn();
+            this.player1.clickCard(this.boostedB4Rry);
+            expect(this.plan10.childCards).not.toContain(this.boostedB4Rry);
+            expect(this.plan10.childCards).toContain(this.boostedB4Rry2);
+            expect(this.boostedB4Rry.location).toBe('hand');
+            expect(this.boostedB4Rry2.location).toBe('under');
         });
     });
 });

@@ -21,9 +21,9 @@ describe('Kerwollop', function () {
             expect(this.lamindra.location).toBe('discard');
             expect(this.mooncurser.location).toBe('play area');
             expect(this.mooncurser.warded).toBe(false);
-            expect(this.dextre.tokens.damage).toBe(1);
-            expect(this.archimedes.tokens.damage).toBe(1);
-            expect(this.armsmasterMolina.tokens.damage).toBe(1);
+            expect(this.dextre.damage).toBe(1);
+            expect(this.archimedes.damage).toBe(1);
+            expect(this.armsmasterMolina.damage).toBe(1);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
         });

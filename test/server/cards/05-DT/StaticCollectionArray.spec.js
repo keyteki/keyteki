@@ -30,7 +30,7 @@ describe('StaticCollectionArray', function () {
             it('should forge a key paying 6A + 1', function () {
                 this.player1.play(this.keyCharge);
                 this.player1.clickPrompt('Yes');
-                this.player1.clickPrompt('red');
+                this.player1.forgeKey('Red');
                 expect(this.player1.amber).toBe(1);
             });
         });
@@ -43,7 +43,7 @@ describe('StaticCollectionArray', function () {
             it('should forge a key paying 5A + 1', function () {
                 this.player1.play(this.keyCharge);
                 this.player1.clickPrompt('Yes');
-                this.player1.clickPrompt('red');
+                this.player1.forgeKey('Red');
                 expect(this.player1.amber).toBe(2);
             });
 
@@ -51,7 +51,7 @@ describe('StaticCollectionArray', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('brobnar');
                 this.player2.fightWith(this.troll, this.keyfrog);
-                this.player2.clickPrompt('red');
+                this.player2.forgeKey('Red');
                 expect(this.player1.amber).toBe(3);
             });
 
@@ -59,7 +59,7 @@ describe('StaticCollectionArray', function () {
                 beforeEach(function () {
                     this.player2.amber = 6;
                     this.player1.endTurn();
-                    this.player2.clickPrompt('red');
+                    this.player2.forgeKey('Red');
                 });
 
                 it('should forge a key paying 6A', function () {
@@ -76,7 +76,7 @@ describe('StaticCollectionArray', function () {
             it('should forge a key paying 7A + 1', function () {
                 this.player1.play(this.keyCharge);
                 this.player1.clickPrompt('Yes');
-                this.player1.clickPrompt('red');
+                this.player1.forgeKey('Red');
                 expect(this.player1.amber).toBe(0);
             });
 
@@ -84,7 +84,7 @@ describe('StaticCollectionArray', function () {
                 this.player1.endTurn();
                 this.player2.clickPrompt('brobnar');
                 this.player2.fightWith(this.troll, this.keyfrog);
-                this.player2.clickPrompt('red');
+                this.player2.forgeKey('Red');
                 expect(this.player1.amber).toBe(1);
             });
 
@@ -92,7 +92,7 @@ describe('StaticCollectionArray', function () {
                 beforeEach(function () {
                     this.player2.amber = 6;
                     this.player1.endTurn();
-                    this.player2.clickPrompt('red');
+                    this.player2.forgeKey('Red');
                 });
 
                 it('should forge a key paying 6A', function () {

@@ -41,7 +41,7 @@ describe('Neotechnic Gopher', function () {
 
         it('should discard a card when reaping', function () {
             this.player1.moveCard(this.neotechnicGopher, 'play area');
-            this.neotechnicGopher.exhausted = false;
+            this.neotechnicGopher.ready();
             this.player1.reap(this.neotechnicGopher);
             expect(this.player1).toHavePrompt('Choose a card to discard');
             this.player1.clickCard(this.flaxia);

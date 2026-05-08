@@ -23,7 +23,7 @@ describe('Brawling Grounds', function () {
         });
 
         it('causes opponent to discard at random when creature is destroyed', function () {
-            this.player1.useAction(this.brawlingGrounds, true);
+            this.player1.useOmni(this.brawlingGrounds);
             this.player1.fightWith(this.troll, this.flaxia);
             expect(this.player2.player.hand.length).toBe(0);
             expect(this.fullMoon.location).toBe('discard');
@@ -31,7 +31,7 @@ describe('Brawling Grounds', function () {
         });
 
         it('causes self to discard at random when creature is destroyed', function () {
-            this.player1.useAction(this.brawlingGrounds, true);
+            this.player1.useOmni(this.brawlingGrounds);
             this.player1.fightWith(this.grumpus, this.flaxia);
             this.player1.clickPrompt('Autoresolve');
             expect(this.grumpus.location).toBe('discard');

@@ -34,7 +34,7 @@ describe('Missile Officer Myers', function () {
 
             this.player1.clickCard(this.medicIngram);
             this.player1.clickCard(this.missileOfficerMyers);
-            expect(this.missileOfficerMyers.tokens.ward).toBe(1);
+            expect(this.missileOfficerMyers.warded).toBe(true);
         });
 
         it('allow a card from the non-active house to be played on scrap', function () {
@@ -52,6 +52,43 @@ describe('Missile Officer Myers', function () {
             expect(this.player1).isReadyToTakeAction();
 
             this.player1.clickCard(this.legerdemain);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe("Missile Officer Myer's ability with Shopping Spree", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 1,
+                    house: 'ekwidon',
+                    hand: [
+                        'missile-officer-myers',
+                        'cpo-zytar',
+                        'shopping-spree',
+                        'legerdemain',
+                        'cxo-taber'
+                    ],
+                    inPlay: ['shĭsnyasĭ-buggy']
+                },
+                player2: {}
+            });
+        });
+
+        it('can resolve scrap with drawn cards', function () {
+            this.player1.moveCard(this.legerdemain, 'deck');
+            this.player1.moveCard(this.cxoTaber, 'deck');
+
+            this.player1.play(this.shoppingSpree);
+            this.player1.clickCard(this.missileOfficerMyers);
+            expect(this.player1).isReadyToTakeAction();
+
+            expect(this.legerdemain.location).toBe('hand');
+            expect(this.cxoTaber.location).toBe('hand');
+            expect(this.player1).toBeAbleToPlay(this.legerdemain);
+            expect(this.player1).toBeAbleToPlay(this.cxoTaber);
+            this.player1.play(this.legerdemain);
+            this.player1.play(this.cxoTaber);
             expect(this.player1).isReadyToTakeAction();
         });
     });

@@ -27,7 +27,7 @@ describe('Mimic Gel', function () {
         });
 
         it('should not allow Mimic Gel to be played if there are no creatures in play', function () {
-            this.player1.useAction(this.keyToDis, true);
+            this.player1.useOmni(this.keyToDis);
             expect(this.batdrone.location).toBe('discard');
             expect(this.panpacaAnga.location).toBe('discard');
             expect(this.flaxia.location).toBe('discard');
@@ -38,7 +38,7 @@ describe('Mimic Gel', function () {
         });
 
         it('should not stop non mimic gel cards from being played', function () {
-            this.player1.useAction(this.keyToDis, true);
+            this.player1.useOmni(this.keyToDis);
             this.player1.clickCard(this.dextre);
 
             expect(this.player1).toHavePromptButton('Play this creature');
@@ -67,12 +67,13 @@ describe('Mimic Gel', function () {
             expect(this.mimicGel.hasHouse('logos')).toBe(true);
             expect(this.mimicGel.hasHouse('untamed')).toBe(false);
             expect(this.mimicGel.power).toBe(5);
-            expect(this.mimicGel.name).toBe('Panpaca, Anga');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Panpaca, Anga');
             expect(this.batdrone.power).toBe(4);
             expect(this.titanGuardian.power).toBe(7);
+            expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should allow copying creatures with alpha keyword', function () {
+        it('should be able to copy creatures with alpha keyword', function () {
             expect(this.mimicGel.hasTrait('shapeshifter')).toBe(true);
             this.player1.clickCard(this.mimicGel);
             this.player1.clickPrompt('Play this creature');
@@ -85,9 +86,10 @@ describe('Mimic Gel', function () {
             expect(this.mimicGel.hasHouse('logos')).toBe(true);
             expect(this.mimicGel.hasHouse('untamed')).toBe(false);
             expect(this.mimicGel.power).toBe(1);
-            expect(this.mimicGel.name).toBe('Bumblebird');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Bumblebird');
             expect(this.batdrone.power).toBe(2);
             expect(this.tantadlin.power).toBe(11);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should copy omega keyword and end turn', function () {
@@ -104,7 +106,7 @@ describe('Mimic Gel', function () {
             expect(this.mimicGel.hasHouse('untamed')).toBe(false);
             expect(this.mimicGel.getKeywordValue('omega')).toBe(1);
             expect(this.mimicGel.power).toBe(1);
-            expect(this.mimicGel.name).toBe('Duskwitch');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Duskwitch');
             expect(this.mimicGel.exhausted).toBe(false);
             expect(this.player2).toHavePrompt('Choose which house you want to activate this turn');
         });
@@ -119,12 +121,13 @@ describe('Mimic Gel', function () {
             expect(this.mimicGel.armor).toBe(0);
             expect(this.mimicGel.getKeywordValue('elusive')).toBe(1);
             expect(this.mimicGel.getKeywordValue('hazardous')).toBe(6);
-            expect(this.mimicGel.name).toBe('Xenos Bloodshadow');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Xenos Bloodshadow');
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.troll, this.mimicGel);
-            expect(this.troll.tokens.damage).toBe(6);
-            expect(this.mimicGel.tokens.damage).toBeUndefined();
+            expect(this.troll.damage).toBe(6);
+            expect(this.mimicGel.damage).toBe(0);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should copy taunt keyword', function () {
@@ -140,7 +143,7 @@ describe('Mimic Gel', function () {
             expect(this.mimicGel.getKeywordValue('taunt')).toBe(1);
             expect(this.mimicGel.power).toBe(5);
             expect(this.mimicGel.armor).toBe(1);
-            expect(this.mimicGel.name).toBe('Titan Guardian');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Titan Guardian');
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.clickCard('flaxia');
@@ -149,6 +152,9 @@ describe('Mimic Gel', function () {
             expect(this.player2).toBeAbleToSelect(this.titanGuardian);
             expect(this.player2).not.toBeAbleToSelect(this.batdrone);
             expect(this.player2).not.toBeAbleToSelect(this.tantadlin);
+            this.player2.clickCard(this.mimicGel);
+            expect(this.mimicGel.location).toBe('discard');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should copy deploy keyword', function () {
@@ -171,7 +177,8 @@ describe('Mimic Gel', function () {
             expect(this.tantadlin.getKeywordValue('elusive')).toBe(1);
             expect(this.mimicGel.power).toBe(1);
             expect(this.mimicGel.armor).toBe(0);
-            expect(this.mimicGel.name).toBe('Lamindra');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Lamindra');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -214,9 +221,10 @@ describe('Mimic Gel', function () {
 
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should allow copying another owned mimic gel', function () {
+        it('should allow copying another friendly Mimic Gel', function () {
             this.player1.clickCard(this.mimicGel1);
             this.player1.clickPrompt('Play this creature');
             this.player1.clickCard(this.dustPixie);
@@ -229,9 +237,10 @@ describe('Mimic Gel', function () {
 
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
 
-        it("should allow copying opponent's mimic gel", function () {
+        it("should allow copying opponent's Mimic Gel", function () {
             this.player1.clickCard(this.mimicGel1);
             this.player1.clickPrompt('Play this creature');
             this.player1.clickCard(this.dustPixie);
@@ -249,6 +258,7 @@ describe('Mimic Gel', function () {
 
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should cascade the effects', function () {
@@ -278,6 +288,7 @@ describe('Mimic Gel', function () {
             this.player2.fightWith(this.mimicGel3, this.tezmal);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(3);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
@@ -295,14 +306,13 @@ describe('Mimic Gel', function () {
             });
         });
 
-        it('should allow copying gigantic if played bottom part', function () {
+        it('should allow copying gigantic if played bottom half', function () {
             this.player1.play(this.niffleKong);
             this.player1.clickPrompt('Done');
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
 
-            this.player2.clickCard(this.mimicGel);
-            this.player2.clickPrompt('Play this creature');
+            this.player2.playCreature(this.mimicGel);
             this.player2.clickCard(this.niffleKong);
             this.player2.clickPrompt('Left');
 
@@ -312,15 +322,15 @@ describe('Mimic Gel', function () {
             expect(this.mimicGel.armor).toBe(2);
             expect(this.mimicGel.hasTrait('mutant')).toBe(true);
             expect(this.mimicGel.hasTrait('niffle')).toBe(true);
+            expect(this.player2).isReadyToTakeAction();
         });
 
-        it('should allow copying gigantic if played top part', function () {
+        it('should allow copying gigantic if played top half', function () {
             this.player1.play(this.niffleKong2);
             this.player1.clickPrompt('Done');
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
-            this.player2.clickCard(this.mimicGel);
-            this.player2.clickPrompt('Play this creature');
+            this.player2.playCreature(this.mimicGel);
             this.player2.clickCard(this.niffleKong2);
             this.player2.clickPrompt('Left');
             this.player2.clickPrompt('Done');
@@ -329,15 +339,15 @@ describe('Mimic Gel', function () {
             expect(this.mimicGel.armor).toBe(2);
             expect(this.mimicGel.hasTrait('mutant')).toBe(true);
             expect(this.mimicGel.hasTrait('niffle')).toBe(true);
+            expect(this.player2).isReadyToTakeAction();
         });
 
-        it('should continue to copy effect even after gigantic is destroyed (bottom part first)', function () {
+        it('should continue to copy effect even after gigantic is destroyed (bottom half first)', function () {
             this.player1.play(this.niffleKong);
             this.player1.clickPrompt('Done');
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
-            this.player2.clickCard(this.mimicGel);
-            this.player2.clickPrompt('Play this creature');
+            this.player2.playCreature(this.mimicGel);
             this.player2.clickCard(this.niffleKong);
             this.player2.clickPrompt('Left');
             this.player2.clickPrompt('Done');
@@ -359,15 +369,15 @@ describe('Mimic Gel', function () {
             expect(this.niffleKong.location).toBe('discard');
             expect(this.niffleKong2.location).toBe('discard');
             expect(this.helperBot.location).toBe('discard');
+            expect(this.player2).isReadyToTakeAction();
         });
 
-        it('should continue to copy effect even after gigantic is destroyed (top part first)', function () {
+        it('should continue to copy effect even after gigantic is destroyed (top half first)', function () {
             this.player1.play(this.niffleKong2);
             this.player1.clickPrompt('Done');
             this.player1.endTurn();
             this.player2.clickPrompt('logos');
-            this.player2.clickCard(this.mimicGel);
-            this.player2.clickPrompt('Play this creature');
+            this.player2.playCreature(this.mimicGel);
             this.player2.clickCard(this.niffleKong2);
             this.player2.clickPrompt('Left');
             this.player2.clickPrompt('Done');
@@ -389,6 +399,7 @@ describe('Mimic Gel', function () {
             expect(this.niffleKong.location).toBe('discard');
             expect(this.niffleKong2.location).toBe('discard');
             expect(this.helperBot.location).toBe('discard');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
@@ -405,7 +416,7 @@ describe('Mimic Gel', function () {
                 }
             });
 
-            this.daughter.tokens.amber = 5;
+            this.daughter.amber = 5;
 
             this.player1.clickCard(this.mimicGel);
             this.player1.clickPrompt('Play this creature');
@@ -415,7 +426,7 @@ describe('Mimic Gel', function () {
             this.player2.clickPrompt('untamed');
         });
 
-        it('MG maintain the effect when Praefectus Ludo is returned to deck', function () {
+        it('should maintain the effect when Praefectus Ludo is returned to deck', function () {
             this.player2.play(this.lostInTheWoods);
             this.player2.clickCard(this.praefectusLudo);
             this.player2.clickCard(this.hapsis);
@@ -426,9 +437,10 @@ describe('Mimic Gel', function () {
             expect(this.mimicGel.location).toBe('play area');
             expect(this.daughter.location).toBe('discard');
             expect(this.player2.amber).toBe(2);
+            expect(this.player2).isReadyToTakeAction();
         });
 
-        it('MG should stop effect when Praefectus Ludo and Mimic Gel are returned to deck', function () {
+        it('should should stop effect when Praefectus Ludo and Mimic Gel are returned to deck', function () {
             this.player2.play(this.lostInTheWoods);
             this.player2.clickCard(this.praefectusLudo);
             this.player2.clickCard(this.mimicGel);
@@ -439,6 +451,7 @@ describe('Mimic Gel', function () {
             expect(this.hapsis.location).toBe('play area');
             expect(this.daughter.location).toBe('discard');
             expect(this.player2.amber).toBe(7);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
@@ -460,23 +473,25 @@ describe('Mimic Gel', function () {
             this.player1.clickPrompt('Play this creature');
             this.player1.clickCard(this.sequis);
             this.player1.clickPrompt('Left');
-            this.mimicGel.exhausted = false;
+            this.mimicGel.ready();
         });
 
-        it('MG should capture 1A after reap', function () {
+        it('should should capture 1A after reap', function () {
             this.player1.reap(this.mimicGel);
             expect(this.mimicGel.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
         });
 
-        it('MG should lose its gained ability after leaving play', function () {
+        it('should should lose its gained ability after leaving play', function () {
             this.player1.moveCard(this.mimicGel, 'hand');
-            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.useOmni(this.creedOfNurture);
             this.player1.clickCard(this.mimicGel);
             this.player1.clickCard(this.daughter);
             this.player1.reap(this.daughter);
             expect(this.daughter.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -498,18 +513,19 @@ describe('Mimic Gel', function () {
             this.player1.clickPrompt('Play this creature');
             this.player1.clickCard(this.bordanTheRedeemed);
             this.player1.clickPrompt('Left');
-            this.mimicGel.exhausted = false;
+            this.mimicGel.ready();
         });
 
-        it('MG should capture 1A after reap', function () {
+        it('should should capture 1A after reap', function () {
             this.player1.useAction(this.mimicGel);
             expect(this.mimicGel.amber).toBe(2);
             expect(this.player2.amber).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
-        it('MG should lose its gained ability after leaving play', function () {
+        it('should should lose its gained ability after leaving play', function () {
             this.player1.moveCard(this.mimicGel, 'hand');
-            this.player1.useAction(this.creedOfNurture, true);
+            this.player1.useOmni(this.creedOfNurture);
             this.player1.clickCard(this.mimicGel);
             this.player1.clickCard(this.daughter);
             this.player1.clickCard(this.daughter);
@@ -548,7 +564,7 @@ describe('Mimic Gel', function () {
             this.player2.clickPrompt('untamed');
         });
 
-        it('MG maintain the effect when Long Fingers and MG1 are returned to deck', function () {
+        it('should maintain the effect when Long Fingers and Mimic Gel 1 are returned to deck', function () {
             this.player2.play(this.lostInTheWoods);
             this.player2.clickCard(this.mimicGel1);
             this.player2.clickCard(this.johnnyLongfingers);
@@ -566,7 +582,7 @@ describe('Mimic Gel', function () {
         });
     });
 
-    describe("Ardent Hero's effect and Mimic Gel", function () {
+    describe('Mimic Gel with Ardent Hero', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -589,20 +605,22 @@ describe('Mimic Gel', function () {
             this.player2.clickPrompt('sanctum');
             this.player2.fightWith(this.championAnaphiel, this.mimicGel);
             expect(this.mimicGel.location).toBe('play area');
-            expect(this.mimicGel.tokens.damage).toBeUndefined();
-            expect(this.championAnaphiel.tokens.damage).toBe(3);
+            expect(this.mimicGel.damage).toBe(0);
+            expect(this.championAnaphiel.damage).toBe(3);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should not take damage from other cards when attacking >5 power creature', function () {
-            this.mimicGel.exhausted = false;
+            this.mimicGel.ready();
             this.player1.fightWith(this.mimicGel, this.championAnaphiel);
             expect(this.mimicGel.location).toBe('play area');
-            expect(this.mimicGel.tokens.damage).toBeUndefined();
-            expect(this.championAnaphiel.tokens.damage).toBe(3);
+            expect(this.mimicGel.damage).toBe(0);
+            expect(this.championAnaphiel.damage).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
-    describe("Silvertooth's effect and Mimic Gel", function () {
+    describe('Mimic Gel with Silvertooth', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -622,10 +640,11 @@ describe('Mimic Gel', function () {
 
         it('should enter play ready', function () {
             expect(this.mimicGel.exhausted).toBe(false);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
-    describe("Ether Spider's effect and Mimic Gel", function () {
+    describe('Mimic Gel with Ether Spider', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -663,10 +682,11 @@ describe('Mimic Gel', function () {
             expect(this.etherSpider.amber).toBe(2);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(4);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
-    describe("Stilt Kin's effect and Mimic Gel", function () {
+    describe('Mimic Gel with Stilt Kin', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -691,6 +711,7 @@ describe('Mimic Gel', function () {
             this.player1.clickCard(this.huntingWitch);
             expect(this.stiltKin.exhausted).toBe(true);
             expect(this.huntingWitch.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should ready and fight when copying Stilt and a giant is played next to him', function () {
@@ -706,10 +727,11 @@ describe('Mimic Gel', function () {
             this.player1.clickCard(this.huntingWitch);
             expect(this.mimicGel.exhausted).toBe(true);
             expect(this.huntingWitch.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
-    describe("Scowly Caper's effect and Mimic Gel", function () {
+    describe('Mimic Gel with Scowly Caper', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -730,16 +752,15 @@ describe('Mimic Gel', function () {
         });
 
         it('should enter play under opponent control', function () {
-            this.player2.clickCard(this.mimicGel);
-            this.player2.clickPrompt('Play this creature');
+            this.player2.playCreature(this.mimicGel);
             this.player2.clickCard(this.scowlyCaper);
             this.player2.clickPrompt('Left');
             expect(this.mimicGel.controller).toBe(this.player1.player);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should be used as belonging to any house', function () {
-            this.player2.clickCard(this.mimicGel);
-            this.player2.clickPrompt('Play this creature');
+            this.player2.playCreature(this.mimicGel);
             this.player2.clickCard(this.scowlyCaper);
             this.player2.clickPrompt('Left');
             this.player2.endTurn();
@@ -753,6 +774,99 @@ describe('Mimic Gel', function () {
             expect(this.player1.amber).toBe(2);
             this.player1.endTurn();
             this.player1.clickCard(this.stiltKin);
+            this.player2.clickPrompt('logos');
+            expect(this.stiltKin.location).toBe('discard');
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
+
+    describe('Mimic Gel with Gĕzdrutyŏ the Arcane', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['mimic-gel']
+                },
+                player2: {
+                    token: 'blorb',
+                    inPlay: ['gĕzdrutyŏ-the-arcane']
+                }
+            });
+        });
+
+        it('should not become a token creature if flipped with no token creature reference card', function () {
+            expect(this.player2.amber).toBe(0);
+            this.player1.playCreature(this.mimicGel);
+            this.player1.clickCard(this.gĕzdrutyŏTheArcane);
+            this.mimicGel.amber = 3; // Should be discarded bc when flipped it is no longer a creature
+            this.mimicGel.ward(); // Should be ignored bc when flipped it is no longer a creature
+            this.mimicGel.ready();
+            this.player1.useAction(this.mimicGel);
+            expect(this.mimicGel.location).toBe('discard');
+            expect(this.player2.amber).toBe(0); // Does not get captured amber
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Mimic Gel with Gĕzdrutyŏ the Arcane', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    token: 'alpha-gamma',
+                    house: 'logos',
+                    hand: ['mimic-gel']
+                },
+                player2: {
+                    token: 'blorb',
+                    inPlay: ['gĕzdrutyŏ-the-arcane']
+                }
+            });
+        });
+
+        it('should become a token creature if flipped with a token creature reference card', function () {
+            this.player1.playCreature(this.mimicGel);
+            this.player1.clickCard(this.gĕzdrutyŏTheArcane);
+            this.mimicGel.ready();
+            this.player1.useAction(this.mimicGel);
+            expect(this.mimicGel.isToken()).toBe(true);
+            expect(this.mimicGel.name).toBe('Alpha-Gamma');
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Mimic Gel with alpha creatures', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['batdrone'],
+                    hand: ['mimic-gel', 'phase-shift']
+                },
+                player2: {
+                    inPlay: ['bumblebird', 'troll']
+                }
+            });
+        });
+
+        it('should be able to copy alpha creature as first play', function () {
+            this.player1.clickCard(this.mimicGel);
+            this.player1.clickPrompt('Play this creature');
+            expect(this.player1).toBeAbleToSelect(this.bumblebird);
+            this.player1.clickCard(this.bumblebird);
+            this.player1.clickPrompt('Left');
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Bumblebird');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should be able to select alpha creature and return to deck when not first play', function () {
+            this.player1.reap(this.batdrone);
+            this.player1.playCreature(this.mimicGel);
+            expect(this.player1).toBeAbleToSelect(this.bumblebird);
+            this.player1.clickCard(this.bumblebird);
+            expect(this.mimicGel.location).toBe('hand');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

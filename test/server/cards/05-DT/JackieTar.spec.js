@@ -20,7 +20,7 @@ describe('Jackie Tar', function () {
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).toBeAbleToSelect(this.jackieTar);
                 this.player1.clickCard(this.troll);
-                expect(this.troll.tokens.damage).toBe(1);
+                expect(this.troll.damage).toBe(1);
             });
         });
 
@@ -34,7 +34,7 @@ describe('Jackie Tar', function () {
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).toBeAbleToSelect(this.jackieTar);
                 this.player1.clickCard(this.troll);
-                expect(this.troll.tokens.damage).toBe(1);
+                expect(this.troll.damage).toBe(1);
             });
         });
 
@@ -48,7 +48,7 @@ describe('Jackie Tar', function () {
                 expect(this.player1).toBeAbleToSelect(this.troll);
                 expect(this.player1).toBeAbleToSelect(this.jackieTar);
                 this.player1.clickCard(this.troll);
-                expect(this.troll.tokens.damage).toBe(6);
+                expect(this.troll.damage).toBe(6);
             });
         });
     });

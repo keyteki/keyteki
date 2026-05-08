@@ -28,7 +28,7 @@ describe('Broken Axe Outpost', function () {
             this.player1.clickCard(this.kelifiDragon);
             expect(this.bumpsy.location).toBe('deck');
             expect(this.player1.player.deck[bottom]).toBe(this.bumpsy);
-            expect(this.kelifiDragon.tokens.damage).toBe(6);
+            expect(this.kelifiDragon.damage).toBe(6);
         });
 
         it('should fizzle with no creatures in play', function () {

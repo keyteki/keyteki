@@ -55,12 +55,11 @@ jobs:
                   helm upgrade --install game-node ./infrastructure/node \
                     --set namespace=$NAMESPACE \
                     --set replicaCount=$REPLICAS \
+                    --set updatePartition=$REPLICAS \
                     --set environment=$ENV_SUBDOMAIN \
                     --set deployTime=$DEPLOY_TIME \
                     -f /tmp/node-secrets.yaml \
                     -n $NAMESPACE
-
-                  rm /tmp/node-secrets.yaml
 
                   echo "Starting graceful rollout..."
 
@@ -103,6 +102,21 @@ jobs:
                       sleep 10
                     done
                   done
+
+                  echo "Updating old pods to new version..."
+                  helm upgrade --install game-node ./infrastructure/node \
+                    --set namespace=$NAMESPACE \
+                    --set replicaCount=$NEW_REPLICAS \
+                    --set updatePartition=0 \
+                    --set environment=$ENV_SUBDOMAIN \
+                    --set deployTime=$DEPLOY_TIME \
+                    -f /tmp/node-secrets.yaml \
+                    -n $NAMESPACE
+
+                  echo "Waiting for rollout to complete..."
+                  kubectl rollout status statefulset/node -n $NAMESPACE --timeout=30m
+
+                  rm /tmp/node-secrets.yaml
 
                   echo "Scaling back down to $REPLICAS replicas..."
                   kubectl scale statefulset node -n $NAMESPACE --replicas=$REPLICAS

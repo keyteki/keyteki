@@ -36,7 +36,7 @@ describe('Molluscaller', function () {
             this.player1.clickCard(this.batdrone);
             expect(this.strangeShell2.exhausted).toBe(true);
             expect(this.strangeShell2.armorUsed).toBe(2);
-            expect(this.strangeShell2.tokens.damage).toBeUndefined();
+            expect(this.strangeShell2.damage).toBe(0);
         });
     });
 });

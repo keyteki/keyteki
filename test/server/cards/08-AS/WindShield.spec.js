@@ -27,7 +27,7 @@ describe('Wind Shield', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.brikkNastee, this.glylyxWeaponsmith);
-            expect(this.brikkNastee.tokens.damage).toBe(undefined);
+            expect(this.brikkNastee.damage).toBe(0);
         });
     });
 });

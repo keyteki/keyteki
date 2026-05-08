@@ -59,11 +59,11 @@ describe('Replay Pod', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.play(this.rantAndRive);
             expect(this.player2.amber).toBe(1);
-            expect(this.etherSpider.tokens.amber).toBe(1);
+            expect(this.etherSpider.amber).toBe(1);
             this.player2.fightWith(this.earthshaker, this.etherSpider);
             expect(this.replayPod.childCards).toContain(this.etherSpider);
             expect(this.player2.amber).toBe(2);
-            expect(this.etherSpider.tokens.amber).toBe(undefined);
+            expect(this.etherSpider.amber).toBe(0);
         });
 
         it('should let user choose which replay pod to use', function () {

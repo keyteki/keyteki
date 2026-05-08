@@ -17,7 +17,7 @@ describe('Flash Freeze', function () {
             this.player1.play(this.flashFreeze);
 
             this.player1.play(this.sleepWithTheFishes);
-            //This prompt doesn't appear because sleep with the fishes is has no targets at this point and isn't considered a valid trigger to choose.
+            this.player1.clickPrompt('Flash Freeze');
             expect(this.player1).not.toBeAbleToSelect(this.horridSynan);
             expect(this.player1).toBeAbleToSelect(this.keyfrog);
             expect(this.player1).toBeAbleToSelect(this.professorTerato);
@@ -35,11 +35,11 @@ describe('Flash Freeze', function () {
             expect(this.professorTerato.exhausted).toBe(true);
         });
 
-        xit('can exhaust after playing an action', function () {
+        it('can choose the order of resolving Flash Freeze and other actions', function () {
             this.player1.play(this.flashFreeze);
 
             this.player1.play(this.sleepWithTheFishes);
-            //this.player1.clickPrompt('Sleep with the Fishes');
+            this.player1.clickPrompt('Sleep with the Fishes');
             expect(this.player1).not.toBeAbleToSelect(this.horridSynan);
             expect(this.player1).toBeAbleToSelect(this.keyfrog);
             expect(this.player1).toBeAbleToSelect(this.professorTerato);

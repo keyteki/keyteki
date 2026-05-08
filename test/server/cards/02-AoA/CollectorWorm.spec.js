@@ -25,7 +25,7 @@ describe('Collector Worm', function () {
             expect(this.player1.archives.length).toBe(1);
             expect(this.player2.archives.length).toBe(0);
 
-            expect(this.collectorWorm.hasToken('damage')).toBe(false);
+            expect(this.collectorWorm.damage).toBe(0);
 
             expect(this.player2.player.cardsInPlay).not.toContain(this.mother);
             expect(this.mother.location).toBe('archives');
@@ -40,7 +40,7 @@ describe('Collector Worm', function () {
             expect(this.player1.archives.length).toBe(0);
             expect(this.player2.archives.length).toBe(0);
 
-            expect(this.collectorWorm.hasToken('damage')).toBe(false);
+            expect(this.collectorWorm.damage).toBe(0);
 
             expect(this.player2.player.cardsInPlay).not.toContain(this.helperBot);
             expect(this.helperBot.location).toBe('discard');
@@ -57,7 +57,7 @@ describe('Collector Worm', function () {
 
             expect(this.collectorWorm.location).toBe('discard');
 
-            expect(this.troll.hasToken('damage')).toBe(true);
+            expect(this.troll.damage).toBe(2);
             expect(this.troll.location).not.toBe('archives');
         });
     });

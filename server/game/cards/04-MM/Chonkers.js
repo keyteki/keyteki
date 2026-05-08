@@ -12,7 +12,7 @@ class Chonkers extends Card {
             },
             gameAction: [
                 ability.actions.addPowerCounter((context) => ({
-                    amount: context.source.tokens.power
+                    amount: context.source.powerCounters
                 }))
             ]
         });

@@ -25,7 +25,7 @@ describe('Mooncurser', function () {
             expect(this.mooncurser.hasKeyword('poison')).toBe(true);
             this.player1.fightWith(this.mooncurser, this.ancientBear);
             expect(this.ancientBear.location).toBe('discard');
-            expect(this.mooncurser.hasToken('damage')).toBe(false);
+            expect(this.mooncurser.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

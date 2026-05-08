@@ -91,7 +91,7 @@ describe('Corner the Market', function () {
             this.player2.clickCard(this.ornarSkullface);
             expect(this.player2).toBeAbleToSelect(this.troll);
             this.player2.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.player2).toHavePrompt('Archive?');
             expect(this.player2).toHavePromptCardButton(this.ornarSkullface);
             expect(this.player2).toHavePromptButton('Discard');
@@ -110,7 +110,7 @@ describe('Corner the Market', function () {
             this.player2.clickCard(this.ornarSkullface);
             expect(this.player2).toBeAbleToSelect(this.troll);
             this.player2.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.player2).toHavePrompt('Archive?');
             expect(this.player2).toHavePromptCardButton(this.ornarSkullface);
             expect(this.player2).toHavePromptButton('Discard');

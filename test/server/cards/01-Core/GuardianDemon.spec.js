@@ -15,8 +15,8 @@ describe('Guardian Demon', function () {
 
         it('should move damage when played and fighting', function () {
             this.player1.fightWith(this.theTerror, this.sequis);
-            expect(this.theTerror.tokens.damage).toBe(4);
-            expect(this.sequis.tokens.damage).toBe(3);
+            expect(this.theTerror.damage).toBe(4);
+            expect(this.sequis.damage).toBe(3);
             this.player1.play(this.guardianDemon);
             expect(this.player1).toHavePrompt('Guardian Demon');
             expect(this.player1).toBeAbleToSelect(this.theTerror);
@@ -40,7 +40,7 @@ describe('Guardian Demon', function () {
             expect(this.player1).toBeAbleToSelect(this.emberImp);
             expect(this.player1).toBeAbleToSelect(this.commanderRemiel);
             this.player1.clickCard(this.emberImp);
-            expect(this.theTerror.tokens.damage).toBe(2);
+            expect(this.theTerror.damage).toBe(2);
             expect(this.emberImp.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
             this.player1.play(this.poltergeist);
@@ -51,7 +51,7 @@ describe('Guardian Demon', function () {
             expect(this.player1).toHavePrompt('Choose a creature to attack');
             this.player1.clickCard(this.commanderRemiel);
             expect(this.commanderRemiel.location).toBe('discard');
-            expect(this.guardianDemon.tokens.damage).toBe(3);
+            expect(this.guardianDemon.damage).toBe(3);
             expect(this.player1).toHavePrompt('Guardian Demon');
             expect(this.player1).toBeAbleToSelect(this.theTerror);
             expect(this.player1).toBeAbleToSelect(this.sequis);
@@ -71,7 +71,7 @@ describe('Guardian Demon', function () {
             expect(this.player1).not.toBeAbleToSelect(this.emberImp);
             expect(this.player1).not.toBeAbleToSelect(this.commanderRemiel);
             this.player1.clickCard(this.sequis);
-            expect(this.guardianDemon.tokens.damage).toBe(1);
+            expect(this.guardianDemon.damage).toBe(1);
             expect(this.sequis.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
@@ -83,7 +83,7 @@ describe('Guardian Demon', function () {
 
         it('should not prompt to target a second creature if the first was not healed', function () {
             this.player1.fightWith(this.restringuntus, this.emberImp);
-            expect(this.emberImp.tokens.damage).toBe(1);
+            expect(this.emberImp.damage).toBe(1);
             this.player1.play(this.guardianDemon);
             expect(this.player1).toHavePrompt('Guardian Demon');
             expect(this.player1).toBeAbleToSelect(this.emberImp);
@@ -95,7 +95,7 @@ describe('Guardian Demon', function () {
 
         it('should deal 1 damage when only 1 damage is healed', function () {
             this.player1.fightWith(this.restringuntus, this.emberImp);
-            expect(this.emberImp.tokens.damage).toBe(1);
+            expect(this.emberImp.damage).toBe(1);
             this.player1.play(this.guardianDemon);
             expect(this.player1).toHavePrompt('Guardian Demon');
             expect(this.player1).toBeAbleToSelect(this.emberImp);
@@ -108,7 +108,7 @@ describe('Guardian Demon', function () {
             this.player1.clickPrompt('1');
             expect(this.player1).toHavePrompt('Guardian Demon');
             this.player1.clickCard(this.theTerror);
-            expect(this.theTerror.tokens.damage).toBe(1);
+            expect(this.theTerror.damage).toBe(1);
         });
     });
 });

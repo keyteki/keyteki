@@ -28,7 +28,7 @@ class ReduceArmorAction extends CardGameAction {
                     return;
                 }
 
-                const currentArmor = event.card.tokens.armor || 0;
+                const currentArmor = event.card.armor || 0;
                 if (currentArmor > 0) {
                     if (amount > currentArmor) {
                         amount = currentArmor;

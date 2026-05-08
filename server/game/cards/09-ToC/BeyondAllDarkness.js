@@ -5,8 +5,7 @@ class BeyondAllDarkness extends Card {
     // destroyed, make a token creature.
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                'make a token creature when a creature is destroyed for the remained of the turn',
+            effect: 'make a token creature when a creature is destroyed for the remained of the turn',
             gameAction: ability.actions.untilPlayerTurnEnd({
                 when: {
                     onCardDestroyed: (event) => event.clone.type === 'creature'

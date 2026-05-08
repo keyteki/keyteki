@@ -24,8 +24,8 @@ describe('Evasive Maneuvers', function () {
         it('should prevent friendly creatures from taking damage for the remainder of the turn', function () {
             this.player1.play(this.evasiveManeuvers);
             this.player1.fightWith(this.urchin, this.krump);
-            expect(this.urchin.tokens.damage).toBeUndefined();
-            expect(this.krump.tokens.damage).toBe(1);
+            expect(this.urchin.damage).toBe(0);
+            expect(this.krump.damage).toBe(1);
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.krump, this.emberImp);
@@ -38,7 +38,7 @@ describe('Evasive Maneuvers', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.reap(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
             expect(this.dustPixie.location).toBe('discard');
             expect(this.urchin.location).toBe('play area');
             expect(this.emberImp.location).toBe('play area');

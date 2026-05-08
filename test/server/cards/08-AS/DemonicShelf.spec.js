@@ -32,17 +32,17 @@ describe('Demonic Shelf', function () {
             expect(this.player1).not.toBeAbleToSelect(this.dewFaerie);
             expect(this.player1).toBeAbleToSelect(this.dustPixie);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.player1).isReadyToTakeAction();
 
-            this.demonicShelf.exhausted = false;
+            this.demonicShelf.ready();
             this.player1.useAction(this.demonicShelf);
             this.player1.clickCard(this.dustPixie);
             expect(this.demonicShelf.childCards.length).toBe(2);
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.rowdySkald);
-            expect(this.troll.tokens.damage).toBe(6);
-            expect(this.rowdySkald.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(6);
+            expect(this.rowdySkald.damage).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -50,11 +50,11 @@ describe('Demonic Shelf', function () {
             this.player1.useAction(this.demonicShelf);
             this.player1.clickCard(this.dewFaerie);
             this.player1.clickCard(this.troll);
-            this.demonicShelf.exhausted = false;
+            this.demonicShelf.ready();
             this.player1.moveCard(this.dustPixie, 'discard');
             this.player1.useAction(this.demonicShelf);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(6);
+            expect(this.troll.damage).toBe(6);
             expect(this.player1).isReadyToTakeAction();
         });
     });

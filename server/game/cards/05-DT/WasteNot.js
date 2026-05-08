@@ -7,16 +7,30 @@ class WasteNot extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'self',
-                gameAction: [
-                    ability.actions.destroy(),
-                    ability.actions.draw((context) => ({
-                        target: context.player,
-                        amount: context.target ? Math.ceil(context.target.power * 0.5) : 0
-                    }))
-                ]
+                gameAction: ability.actions.destroy()
             },
-            effect: 'destroy {0} and draw {1} cards',
-            effectArgs: (context) => (context.target ? Math.ceil(context.target.power * 0.5) : 0)
+            effect: 'destroy {0}',
+            then: {
+                alwaysTriggers: true,
+                message: '{0} uses {1} to draw {3} cards',
+                messageArgs: (context) => {
+                    const power =
+                        context.preThenEvents.length > 0 && context.preThenEvents[0].clone
+                            ? context.preThenEvents[0].clone.modifiedPower
+                            : 0;
+                    return Math.ceil(power * 0.5);
+                },
+                gameAction: ability.actions.draw((context) => {
+                    const power =
+                        context.preThenEvents.length > 0 && context.preThenEvents[0].clone
+                            ? context.preThenEvents[0].clone.modifiedPower
+                            : 0;
+                    return {
+                        target: context.player,
+                        amount: Math.ceil(power * 0.5)
+                    };
+                })
+            }
         });
     }
 }

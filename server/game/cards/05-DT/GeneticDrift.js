@@ -11,7 +11,7 @@ class GeneticDrift extends Card {
             then: {
                 alwaysTriggers: true,
                 gameAction: ability.actions.addPowerCounter((context) => ({
-                    target: context.game.creaturesInPlay.filter((card) => !!card.tokens.power)
+                    target: context.game.creaturesInPlay.filter((card) => card.powerCounters)
                 }))
             }
         });

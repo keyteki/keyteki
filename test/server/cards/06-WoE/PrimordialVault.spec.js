@@ -84,7 +84,7 @@ describe('Primordial Vault', function () {
         });
 
         it('should not search if a cultist was warded', function () {
-            this.token1.tokens.ward = 1;
+            this.token1.ward();
             this.player1.useAction(this.primordialVault);
             this.player1.clickCard(this.token1);
             this.player1.clickCard(this.token2);

@@ -31,7 +31,7 @@ describe('Webstur', function () {
             expect(this.ballcano.location).toBe('deck');
             expect(this.player1.player.discard.length).toBe(0);
             expect(this.player2.player.discard.length).toBe(1);
-            expect(this.webstur.tokens.damage).toBe(1);
+            expect(this.webstur.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -46,7 +46,7 @@ describe('Webstur', function () {
             expect(this.ballcano.location).toBe('deck');
             expect(this.player1.player.discard.length).toBe(1);
             expect(this.player2.player.discard.length).toBe(2);
-            expect(this.webstur.tokens.damage).toBe(1);
+            expect(this.webstur.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -64,7 +64,7 @@ describe('Webstur', function () {
             expect(this.ballcano.location).toBe('deck');
             expect(this.player1.player.discard.length).toBe(2);
             expect(this.player2.player.discard.length).toBe(3);
-            expect(this.webstur.tokens.damage).toBe(1);
+            expect(this.webstur.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -82,7 +82,7 @@ describe('Webstur', function () {
             expect(this.ballcano.location).toBe('discard');
             expect(this.player1.player.discard.length).toBe(3);
             expect(this.player2.player.discard.length).toBe(4);
-            expect(this.webstur.tokens.damage).toBe(7);
+            expect(this.webstur.damage).toBe(7);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -98,7 +98,7 @@ describe('Webstur', function () {
             expect(this.ballcano.location).toBe('discard');
             expect(this.player1.player.discard.length).toBe(0);
             expect(this.player2.player.discard.length).toBe(4);
-            expect(this.webstur.tokens.damage).toBe(7);
+            expect(this.webstur.damage).toBe(7);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -112,7 +112,7 @@ describe('Webstur', function () {
             expect(this.ballcano.location).toBe('deck');
             expect(this.player1.player.discard.length).toBe(0);
             expect(this.player2.player.discard.length).toBe(0);
-            expect(this.webstur.tokens.damage).toBe(undefined);
+            expect(this.webstur.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

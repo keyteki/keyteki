@@ -16,8 +16,8 @@ describe('General Sherman', function () {
         it('should not deal damage when fighting', function () {
             this.player1.fightWith(this.generalSherman, this.narp);
             expect(this.narp.location).toBe('play area');
-            expect(this.narp.tokens.damage).toBeUndefined();
-            expect(this.generalSherman.tokens.damage).toBe(8);
+            expect(this.narp.damage).toBe(0);
+            expect(this.generalSherman.damage).toBe(8);
         });
     });
 
@@ -161,7 +161,7 @@ describe('General Sherman', function () {
         });
 
         it('should purge and return non-warded creatures correctly if something is warded', function () {
-            this.kaupe.tokens.ward = 1;
+            this.kaupe.ward();
 
             this.player1.play(this.generalSherman);
 

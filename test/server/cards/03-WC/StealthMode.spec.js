@@ -44,8 +44,7 @@ describe('Stealth Mode', function () {
                     hand: ['fogbank']
                 }
             });
-            this.tachyonManifold.maverick = 'staralliance';
-            this.tachyonManifold.printedHouse = 'staralliance';
+            this.player1.makeMaverick(this.tachyonManifold, 'staralliance');
             this.player1.useAction(this.tachyonManifold);
         });
 

@@ -35,7 +35,7 @@ describe('Titan Sentry', function () {
         it('should cause a random card from own hand to be archived on reap', function () {
             this.player1.play(this.titanSentry);
             this.player1.clickPrompt('Mine');
-            this.titanSentry.exhausted = false;
+            this.titanSentry.ready();
             this.player1.reap(this.titanSentry);
             this.player1.clickPrompt('Mine');
             expect(this.player1.player.hand.length).toBe(0);

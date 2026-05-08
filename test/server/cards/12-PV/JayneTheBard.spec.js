@@ -15,7 +15,7 @@ describe('Jayne the Bard', function () {
         });
 
         it('should deal 2 damage to an enemy creature and repeat if it has amber', function () {
-            this.krump.tokens.amber = 1;
+            this.krump.amber = 1;
             this.player1.reap(this.jayneTheBard);
             expect(this.player1).toBeAbleToSelect(this.krump);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
@@ -23,31 +23,31 @@ describe('Jayne the Bard', function () {
             expect(this.player1).not.toBeAbleToSelect(this.raidingKnight);
             expect(this.player1).not.toBeAbleToSelect(this.almsmaster);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
             expect(this.player1).toBeAbleToSelect(this.krump);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).not.toBeAbleToSelect(this.jayneTheBard);
             expect(this.player1).not.toBeAbleToSelect(this.raidingKnight);
             expect(this.player1).not.toBeAbleToSelect(this.almsmaster);
             this.player1.clickCard(this.flaxia);
-            expect(this.flaxia.tokens.damage).toBe(2);
+            expect(this.flaxia.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not repeat if the target has no amber', function () {
-            this.dewFaerie.tokens.amber = 1;
+            this.dewFaerie.amber = 1;
             this.player1.reap(this.jayneTheBard);
             this.player1.clickCard(this.dewFaerie);
             expect(this.dewFaerie.location).toBe('discard');
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('should repeat if the target has amber but is destroyed', function () {
             this.player1.reap(this.jayneTheBard);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -61,8 +61,8 @@ describe('Jayne the Bard', function () {
             this.player1.clickCard(this.raidingKnight);
             this.player1.clickCard(this.almsmaster);
             this.player1.clickPrompt('Done');
-            expect(this.raidingKnight.tokens.amber).toBe(1);
-            expect(this.almsmaster.tokens.amber).toBe(1);
+            expect(this.raidingKnight.amber).toBe(1);
+            expect(this.almsmaster.amber).toBe(1);
             expect(this.jayneTheBard.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });

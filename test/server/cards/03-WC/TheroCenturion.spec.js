@@ -17,7 +17,7 @@ describe('Thero Centurion', function () {
         it('should capture 1 amber after play', function () {
             this.player1.playCreature(this.theroCenturion);
             expect(this.player2.amber).toBe(2);
-            expect(this.theroCenturion.tokens.amber).toBe(1);
+            expect(this.theroCenturion.amber).toBe(1);
         });
     });
 
@@ -38,7 +38,7 @@ describe('Thero Centurion', function () {
         it('should not move amber to opponent', function () {
             this.player1.fightWith(this.theroCenturion, this.grovekeeper);
             expect(this.player2.amber).toBe(2);
-            expect(this.theroCenturion.tokens.amber).toBe(1);
+            expect(this.theroCenturion.amber).toBe(1);
         });
     });
 });
