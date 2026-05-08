@@ -25,7 +25,11 @@ class PlayCreatureAction extends BasePlayAction {
     }
 
     executeHandler(context) {
-        if (context.source.gigantic && !context.source.composedPart) {
+        if (
+            context.source.gigantic &&
+            !context.source.composedPart &&
+            context.source.location === 'hand'
+        ) {
             const parts = context.source.controller
                 .getSourceList(context.source.location)
                 .filter((part) => context.source.compositeId === part.id);
