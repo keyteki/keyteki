@@ -296,7 +296,8 @@ class Card extends EffectSource {
                 title: 'Hazardous',
                 printedAbility: false,
                 when: {
-                    onFight: (event, context) => event.card === context.source
+                    onFight: (event, context) =>
+                        event.card === context.source && !event.attacker.ignores('hazardous')
                 },
                 gameAction: ability.actions.dealDamage((context) => ({
                     amount: context.source.getKeywordValue('hazardous'),
@@ -363,14 +364,28 @@ class Card extends EffectSource {
         );
 
         // Invulnerable
+        const invulnerabilityApplies = (_context, _effectContext, event) => {
+            const damageEvent = (event && event.damageEvent) || event;
+            const source = damageEvent && damageEvent.damageSource;
+            if (!source || !source.ignores || !source.ignores('invulnerable')) {
+                return true;
+            }
+            // In a fight, only the attacker's `ignores` bypasses invulnerable;
+            // the defender dealing fight damage back does not bypass it.
+            const fightEvent = damageEvent && damageEvent.fightEvent;
+            if (fightEvent && fightEvent.attacker !== source) {
+                return true;
+            }
+            return false;
+        };
         this.abilities.keywordPersistentEffects.push(
             this.persistentEffect({
                 condition: () => !!this.getKeywordValue('invulnerable'),
                 printedAbility: false,
                 match: this,
                 effect: [
-                    ability.effects.cardCannot('damage'),
-                    ability.effects.cardCannot('destroy'),
+                    ability.effects.cardCannot('damage', invulnerabilityApplies),
+                    ability.effects.cardCannot('destroy', invulnerabilityApplies),
                     ability.effects.cardCannot('sacrifice')
                 ]
             })
@@ -1143,7 +1158,21 @@ class Card extends EffectSource {
             }
         }
 
-        let choices = legalActions.map((action) => action.title);
+        let choices = legalActions.map((action) => {
+            // Include source in tooltip when there are multiple action abilities
+            if (legalActions.length > 1) {
+                const sourceCard = action.grantedBy || this;
+                return {
+                    text: action.title,
+                    tooltip: {
+                        text: '{{title}} (from {{card}})',
+                        values: { title: action.title, card: sourceCard.name },
+                        locale: sourceCard.locale
+                    }
+                };
+            }
+            return action.title;
+        });
         let handlers = legalActions.map((action) => () => {
             let context = action.createContext(player);
             context.ignoreHouse = ignoreHouse;

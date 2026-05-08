@@ -3,7 +3,13 @@ module.exports = {
     env: {
         node: true
     },
-    parser: 'babel-eslint',
+    parserOptions: {
+        ecmaVersion: 11,
+        sourceType: 'module',
+        ecmaFeatures: {
+            jsx: true
+        }
+    },
     plugins: ['react', 'prettier'],
     extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:prettier/recommended'],
     rules: {

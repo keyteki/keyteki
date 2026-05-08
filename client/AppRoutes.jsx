@@ -25,7 +25,6 @@ import Security from './pages/Security.jsx';
 import TournamentLobby from './Components/Games/TournamentLobby';
 import Unauthorised from './pages/Unauthorised';
 import UserAdmin from './pages/UserAdmin';
-import ImportDeck from './Components/Decks/ImportDeck';
 import GameLobby from './Components/Games/GameLobby';
 import GameBoard from './Components/GameBoard/GameBoard.jsx';
 
@@ -55,7 +54,6 @@ const AppRoutes = ({ currentGame, user }) => {
             />
             <Route path='/blocklist' element={<BlockList />} />
             <Route path='/decks' element={<Decks />} />
-            <Route path='/decks/import' element={<ImportDeck />} />
             <Route path='/decks/alliance' element={<AllianceBuilderPage />} />
             <Route path='/forgot' element={<ForgotPassword />} />
             <Route path='/how-to-play' element={<HowToPlay />} />

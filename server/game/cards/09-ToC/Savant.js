@@ -18,7 +18,7 @@ class Savant extends Card {
                 })
             },
             effect: 'put a card into their {1}',
-            effectArgs: (context) => [context.target.location === 'archives' ? 'hand' : 'archives']
+            effectArgs: (context) => [context.target?.location === 'archives' ? 'hand' : 'archives']
         });
     }
 }

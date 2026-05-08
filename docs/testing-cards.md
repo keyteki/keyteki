@@ -58,9 +58,15 @@ Tests are located in `test/server/cards/<Set>/<CardName>.spec.js`, mirroring the
 **Key principles:**
 
 -   Tests should focus on the card's unique abilities, not metadata (house, power, armor, keywords)
--   Keep `beforeEach` setup minimal - only include values like cards or aember that are needed for the tests
--   End each test by verifying the player has no pending prompts: `expect(this.player1).isReadyToTakeAction()`
--   For longer tests, add comments explaining what each test is setting up
+-   Keep `beforeEach` setup minimal — only include values like cards or aember that are needed for the test. Don't add starting amber, extra cards, or keys "just in case".
+-   End each test by verifying the active player has no pending prompts: `expect(this.player1).isReadyToTakeAction()` (or `this.player2` if turn ended).
+-   For longer tests, add comments explaining what each test is setting up.
+-   Each test description (`it('...')`) must describe the specific scenario being asserted — avoid generic descriptions like "works" or "ability".
+-   Cover both the **positive and negative** scenarios (the ability does something / the ability does not). For abilities with a numeric or count condition, also test **at the boundary and just above/below** (e.g., 0 vs 1 counter, exactly N vs N+1 creatures, overwhelmed vs not overwhelmed).
+-   When an ability targets, counts, or affects creatures, assert the result on **every creature in the setup** (friendly + enemy) in battleline order. This catches under- and over-targeting, and guards against unintended side effects on non-targets.
+-   When an ability prompts to choose a target, assert `toBeAbleToSelect` / `not.toBeAbleToSelect` for every creature in the setup before clicking.
+-   Always use the public getters for token-backed values: `.damage`, `.amber`, `.powerCounters`, `.exhausted`, `.stunned`, `.warded`, `.enraged`. **Never** access `.tokens.damage` / `.tokens.amber` / `.tokens.power` directly in assertions — those return `undefined` when no token is set, while the getters return `0` / `false` and are the contract used by card code.
+-   Never assert `.toBeUndefined()` on these token getters. They always have a defined value (default `0` / `false`); assert `.toBe(0)` / `.toBe(false)` instead.
 
 ## Test File Structure
 
@@ -347,6 +353,11 @@ this.player1.clickPrompt('Done');
 // Select a card as a target
 this.player1.clickCard(this.targetCreature);
 
+// If a hand card has a "Play/Discard/Cancel" menu open, clicking a different
+// card in hand reselects that new card directly.
+this.player1.clickCard(this.firstHandCard);
+this.player1.clickCard(this.secondHandCard);
+
 // Select a house
 this.player1.clickPrompt('brobnar');
 
@@ -407,6 +418,10 @@ expect(this.player1).not.toBeAbleToPlay(this.wrongHouseCard);
 
 ### Card State Assertions
 
+> **Always use the public getters** (`.damage`, `.amber`, `.powerCounters`, `.exhausted`, `.stunned`, `.warded`, `.enraged`). They return `0` / `false` when no token is set. **Never** read or assert against `.tokens.damage`, `.tokens.amber`, or `.tokens.power` directly — these return `undefined` when no token has been added, leading to misleading assertions like `.toBeUndefined()`.
+>
+> When setting state in test setup, use the setters (`creature.damage = 3`, `creature.powerCounters = 2`, `creature.amber = 1`).
+
 ```javascript
 // Check card location
 expect(this.myCard.location).toBe('play area');
@@ -416,12 +431,13 @@ expect(this.myCard.location).toBe('deck');
 expect(this.myCard.location).toBe('archives');
 expect(this.myCard.location).toBe('purged');
 
-// Check damage (using getter - returns 0 if no damage token)
+// Check damage (use the getter; defaults to 0)
 expect(this.myCreature.damage).toBe(3);
-expect(this.myCreature.damage).toBe(0);
+expect(this.myCreature.damage).toBe(0); // NOT .toBeUndefined()
 
 // Check power counters
 expect(this.myCreature.powerCounters).toBe(2);
+expect(this.myCreature.powerCounters).toBe(0);
 
 // Check exhausted state
 expect(this.myCreature.exhausted).toBe(true);
@@ -432,12 +448,28 @@ expect(this.myCreature.stunned).toBe(true);
 expect(this.myCreature.warded).toBe(true);
 expect(this.myCreature.enraged).toBe(true);
 
-// Check aember on card
+// Check aember on card (use the getter; defaults to 0)
 expect(this.myCreature.amber).toBe(2);
+expect(this.myCreature.amber).toBe(0);
 
 // Check controller
 expect(this.myCreature.controller).toBe(this.player1.player);
 expect(this.myCreature.controller).toBe(this.player2.player);
+```
+
+**Anti-patterns to avoid:**
+
+```javascript
+// ❌ tokens.X is internal — returns undefined when no token exists
+expect(this.myCreature.tokens.damage).toBe(3);
+expect(this.myCreature.tokens.amber).toBeUndefined();
+
+// ❌ Workaround that hides the real issue
+expect((this.myCreature.tokens.damage || 0)).toBe(0);
+
+// ✅ Use the getter, which is always defined
+expect(this.myCreature.damage).toBe(3);
+expect(this.myCreature.amber).toBe(0);
 ```
 
 ### Player State Assertions
@@ -565,6 +597,53 @@ let card = this.player1.findCardByName('troll', 'play area', 'opponent');
 ```
 
 ## Common Patterns
+
+### Coverage Checklist
+
+When writing or reviewing a card spec, walk through this checklist:
+
+1. **Positive case** — the ability does what its text says.
+2. **Negative case** — when the trigger condition is not met, nothing happens.
+3. **Boundary cases** — at the threshold and just below/above (e.g., 0 vs 1 counter, exactly N vs N+1 creatures, overwhelmed vs not overwhelmed, opponent at 0 amber vs 1 amber).
+4. **Targeting coverage** — for prompts that pick a creature, assert `toBeAbleToSelect` / `not.toBeAbleToSelect` for **every creature in the setup** (friendly + enemy) before clicking. This locks in the legal target set.
+5. **Effect coverage** — when an ability damages, modifies, or counts creatures, assert the resulting state on **every creature in the setup**, in battleline order. This catches under- and over-targeting and unintended side effects.
+6. **Negative-test coverage** — when asserting "ability does nothing", check the unchanged state on **every** creature in the setup, not just one. A single-creature assertion silently passes if the ability mistargets a different creature. Apply the same every-creature rule used for positive tests.
+7. **Armor interactions** — when testing damage on a creature with armor, assert both `.damage` and `.armor` after the event. `damage = 0` alone is ambiguous (armor absorbed it vs damage event never fired). Asserting `.armor` (which decrements when armor absorbs damage) confirms the damage event actually fired.
+8. **Flank checks use `isOnFlank()`** — never reach into `player.player.cardsInPlay`. To verify play-area composition, assert `.location` on each card explicitly. The only legitimate `cardsInPlay` use is aggregate-count tests (e.g. Doomsday Device).
+9. **Gained abilities** — when an ability is granted via `gainAbility(...)`, the first test in the describe should `clickCard` the receiver and assert `toHavePromptButton("Use this card's Action ability")` (or equivalent) before calling `useAction`, to confirm the ability is actually present.
+10. **No leftover prompts** — end with `expect(this.<active-player>).isReadyToTakeAction();`. If a test fails or hangs unexpectedly, check for an active prompt first — most spurious failures come from a leftover prompt rather than a deeper bug.
+
+Example of effect coverage on every creature:
+
+```javascript
+it('gives a friendly creature three +1 power counters when overwhelmed', function () {
+    this.player1.reap(this.agentBuuff);
+    expect(this.player1).toHavePrompt('Choose a creature');
+    expect(this.player1).toBeAbleToSelect(this.agentBuuff);
+    expect(this.player1).toBeAbleToSelect(this.johnSmyth);
+    expect(this.player1).not.toBeAbleToSelect(this.troll);
+    expect(this.player1).not.toBeAbleToSelect(this.krump);
+    expect(this.player1).not.toBeAbleToSelect(this.bumpsy);
+    this.player1.clickCard(this.johnSmyth);
+    expect(this.johnSmyth.powerCounters).toBe(3);
+    expect(this.agentBuuff.powerCounters).toBe(0);
+    expect(this.troll.powerCounters).toBe(0);
+    expect(this.krump.powerCounters).toBe(0);
+    expect(this.bumpsy.powerCounters).toBe(0);
+    expect(this.player1).isReadyToTakeAction();
+});
+```
+
+Example of armor interaction (damage absorbed, not skipped):
+
+```javascript
+it('deals 1 damage to a creature, consumed by armor', function () {
+    // krisperRuld has 1 armor printed
+    this.player1.useAction(this.krisperRuld);
+    expect(this.krisperRuld.damage).toBe(0); // armor absorbed
+    expect(this.krisperRuld.armor).toBe(0); // armor token consumed — confirms damage event fired
+});
+```
 
 ### Testing Play Abilities
 

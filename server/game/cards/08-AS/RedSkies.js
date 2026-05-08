@@ -17,9 +17,7 @@ class RedSkies extends Card {
             effect: 'move {1} to a flank and ready it',
             effectArgs: (context) => [context.target],
             then: {
-                condition: (context) =>
-                    context.player.keys.red ||
-                    (context.player.opponent && context.player.opponent.keys.red),
+                condition: (context) => context.game.isKeyForged('red'),
                 alwaysTriggers: true,
                 target: {
                     controller: 'self',

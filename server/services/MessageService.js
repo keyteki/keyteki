@@ -51,7 +51,7 @@ class MessageService extends EventEmitter {
             );
         } catch (err) {
             logger.error('Unable to fetch messages', err);
-            throw new Error('Unable to fetch messages');
+            return [];
         }
 
         return messages.map((m) => this.mapMessage(m, user));
