@@ -75,7 +75,6 @@ describe('Cosmicrux', function () {
             this.player1.endTurn();
             expect(this.troll.exhausted).toBe(false);
             expect(this.troll.damage).toBe(1);
-            expect(this.player1);
             this.player2.clickPrompt('untamed');
             expect(this.player2).isReadyToTakeAction();
         });
