@@ -52,22 +52,6 @@ class GiganticCard extends Card {
         return powerPrinted;
     }
 
-    getKeywordValue(keyword) {
-        const value = super.getKeywordValue(keyword);
-        const normalizedKeyword = keyword.toLowerCase();
-
-        if (
-            this.giganticBottom ||
-            this.composedPart ||
-            this.getEffects('removeKeyword').includes(normalizedKeyword)
-        ) {
-            return value;
-        }
-
-        const bottomCard = this.controller.allCards.find((card) => card.id === this.compositeId);
-        return value + (bottomCard ? bottomCard.printedKeywords[normalizedKeyword] || 0 : 0);
-    }
-
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',
