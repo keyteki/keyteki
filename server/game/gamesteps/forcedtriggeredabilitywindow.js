@@ -82,19 +82,16 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             this.deferredChoices = [];
         }
 
-        // Drop queued reactions whose source has left its required location
-        // (e.g. a creature with a queued triggered ability is destroyed before
-        // that ability resolves). Abilities with location 'any' are unaffected.
+        // Drop queued reactions whose source has left its valid location
+        // since the trigger fired (e.g. a creature with a queued reaction is
+        // destroyed mid-window). Destroyed and play abilities are exempt:
+        // they are queued via the deferred-choice path in triggeredability.js
+        // and are designed to resolve from the discard / being-played location.
         this.choices = this.choices.filter((context) => {
-            const validLoc = context.ability.location;
-            if (validLoc === 'any') {
+            if (context.ability.properties.destroyed || context.ability.properties.play) {
                 return true;
             }
-            const sourceLoc = context.source.location;
-            if (Array.isArray(validLoc)) {
-                return validLoc.includes(sourceLoc);
-            }
-            return validLoc === sourceLoc;
+            return context.ability.isInValidLocation(context);
         });
 
         if (this.choices.length === 0 || this.pressedDone) {
