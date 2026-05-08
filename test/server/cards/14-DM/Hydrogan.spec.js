@@ -110,3 +110,4 @@ describe('Hydrogan', function () {
         });
     });
 });
+// TODO: make sure hydrogan handles artifacts and token creatures correctly

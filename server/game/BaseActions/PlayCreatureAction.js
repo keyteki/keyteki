@@ -25,12 +25,16 @@ class PlayCreatureAction extends BasePlayAction {
     }
 
     executeHandler(context) {
-        if (context.source.giganticBottom && !context.source.composedPart) {
-            let parts = context.source.controller
+        if (
+            context.source.gigantic &&
+            !context.source.composedPart &&
+            context.source.location === 'hand'
+        ) {
+            const parts = context.source.controller
                 .getSourceList(context.source.location)
                 .filter((part) => context.source.compositeId === part.id);
 
-            if (parts.length > 1) {
+            if (context.source.giganticBottom && parts.length > 1) {
                 // if there are two gigantic top parts, it could be relevant to choose among them
                 // if they have different enhancements
                 context.game.promptForSelect(context.game.activePlayer, {
@@ -46,6 +50,9 @@ class PlayCreatureAction extends BasePlayAction {
                     }
                 });
             } else {
+                if (parts.length > 0) {
+                    context.source.composedPart = parts[0];
+                }
                 super.executeHandler(context);
             }
         } else {

@@ -64,6 +64,23 @@ If you believe a test is genuinely incorrect (e.g., it tests for wrong behavior 
 -   When testing a gained ability (granted via `ability.effects.gainAbility(...)`), the first test in the describe should explicitly confirm the ability is present — `clickCard` the receiving creature and assert `toHavePromptButton("Use this card's Action ability")` (or the equivalent for the gained ability type) before invoking it. `useAction` will fail with a generic prompt error if the ability is missing.
 -   **If a test isn't behaving as expected, check for an active prompt first.** Many spurious failures come from a leftover prompt the test forgot to dismiss. Add `expect(this.<player>).isReadyToTakeAction();` mid-test, or print the current prompt, before suspecting a deeper bug.
 
+### Forced trigger ordering and `orderForcedAbilities`
+
+The `orderForcedAbilities` user option (default **on** in tests via [test/helpers/gameflowwrapper.js](helpers/gameflowwrapper.js); default **off** in [server/settings.js](../server/settings.js)) controls whether the player is prompted to choose the order of simultaneous forced triggers. When the option is **off**, the engine auto-resolves choices in queue order, and any one-time `Autoresolve` prompt button is bypassed. See [docs/card-abilities.md](../docs/card-abilities.md#autoresolve-option) for the related per-ability `autoResolve` flag.
+
+When you write tests that exercise ordering between multiple simultaneous forced triggers (e.g. multiple "after end of turn" reactions firing together), also add a sibling test that sets the option off and asserts the window resolves without ordering prompts:
+
+```javascript
+it('auto-resolves all triggers when orderForcedAbilities is disabled', function () {
+    this.player1.player.optionSettings.orderForcedAbilities = false;
+    // ...trigger the simultaneous events...
+    // No clicks needed to pick ordering; assert the resulting state and that
+    // the player is ready to take action.
+});
+```
+
+Note: with the option off, target-selection prompts within each individual trigger still happen, but the engine picks the first available target automatically. Assertions should focus on terminal state (cards in `discard`, totals) rather than which specific creature took damage, since queue order may produce a different (but valid) target than the prompted-ordering case. See [test/server/cards/14-DM/TheGoldenQueen.spec.js](server/cards/14-DM/TheGoldenQueen.spec.js) for the canonical pattern.
+
 ### `activePromptTitle` discipline
 
 When implementing a card, prefer the default prompt title generated from the target/game-action. Only set `activePromptTitle` when the default is genuinely ambiguous (e.g. multiple sequential prompts in the same ability that need to be distinguished). When you do need to override, prefer reusing an existing localization string (search [`public/locales/en.json`](../public/locales/en.json)) over coining a new very-specific one — every new title must be added to every locale file. See [docs/card-messages.md](../docs/card-messages.md#using-target).
