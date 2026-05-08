@@ -5,7 +5,7 @@ class SafePlace extends Card {
     // Action: Move 1<A> from your pool to Safe Place.
     setupCardAbilities(ability) {
         this.persistentEffect({
-            effect: ability.effects.keyAmber()
+            effect: ability.effects.forgeAmberSource('controller', 'onCard')
         });
 
         this.action({

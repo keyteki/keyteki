@@ -11,7 +11,7 @@ class YipyaxAbductor extends Card {
                 cardType: 'upgrade',
                 controller: 'any',
                 gameAction: ability.actions.archive((context) => ({
-                    owner: context.target.controller === context.player
+                    owner: !context.target || context.target.controller === context.player
                 }))
             }
         });

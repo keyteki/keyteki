@@ -1,25 +1,29 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { Button } from '@heroui/react';
 
 import Link from '../Components/Navigation/Link';
 import Panel from '../Components/Site/Panel';
-
-import './HowToPlay.scss';
 
 const HowToPlay = () => {
     const { t } = useTranslation();
 
     return (
-        <div className='col-xs-12 full-height'>
+        <div className='min-h-full w-full'>
             <Panel title={t('How To Play on The Crucible Online')}>
-                <a
-                    className='btn btn-danger pull-right float-right'
-                    target='_blank'
-                    href='https://github.com/keyteki/keyteki/issues'
-                    rel='noopener noreferrer'
+                <Button
+                    className='mb-3 ml-auto inline-flex'
+                    variant='primary'
+                    onPress={() =>
+                        window.open(
+                            'https://github.com/keyteki/keyteki/issues',
+                            '_blank',
+                            'noopener,noreferrer'
+                        )
+                    }
                 >
                     <Trans>Report Problems</Trans>
-                </a>
+                </Button>
                 <h3>
                     <Trans>Introduction</Trans>
                 </h3>
@@ -59,7 +63,7 @@ const HowToPlay = () => {
                     <Trans>Topics</Trans>
                 </h3>
 
-                <ul className='htp-main-list font-weight-bold mb-3'>
+                <ul className='mb-3 m-0 list-none p-0 font-semibold'>
                     <li>
                         <a href='#decks'>
                             <Trans>Adding Decks</Trans>
@@ -166,6 +170,12 @@ const HowToPlay = () => {
                         </Trans>
                     </li>
                     <li>
+                        /add-card [hand|deck] x -{' '}
+                        <Trans i18nKey='howtoplay.cmd.addcard'>
+                            Add a card by name to your hand or top of deck
+                        </Trans>
+                    </li>
+                    <li>
                         /cancel-prompt -{' '}
                         <Trans i18nKey='howtoplay.cmd.cancelprompt'>
                             Clear the current prompt and resume the game flow. Use with caution and
@@ -179,7 +189,7 @@ const HowToPlay = () => {
                         </Trans>
                     </li>
                     <li>
-                        /discardtopofdeck x -{' '}
+                        /discard-top-of-deck x -{' '}
                         <Trans i18nKey='howtoplay.cmd.discardtopofdeck'>
                             Discards x cards from the top of your deck
                         </Trans>
@@ -191,44 +201,60 @@ const HowToPlay = () => {
                         </Trans>
                     </li>
                     <li>
-                        /forge - <Trans i18nKey='howtoplay.cmd.forge'>Forge a key</Trans>
+                        /first-player x -{' '}
+                        <Trans i18nKey='howtoplay.cmd.firstplayer'>
+                            Before starting hands are drawn, change the first player
+                        </Trans>
                     </li>
                     <li>
-                        /give-control -{' '}
-                        <Trans i18nKey='howtoplay.cmd.givecontrol'>
-                            Give control of a card to your opponent. Use with caution
+                        /forge [color] -{' '}
+                        <Trans i18nKey='howtoplay.cmd.forge'>
+                            Forge a key - optionally specify color
                         </Trans>
                     </li>
                     <li>
                         /manual -{' '}
-                        <Trans i18nKey='howtoplay.cmd.manual'>
-                            Activate or deactivate manual mode (see above).
+                        <Trans i18nKey='howtoplay.cmd.manual'>Deactivate manual mode</Trans>
+                    </li>
+                    <li>
+                        /mute-spectators -{' '}
+                        <Trans i18nKey='howtoplay.cmd.mutespectators'>
+                            Toggle muting spectators
                         </Trans>
                     </li>
                     <li>
                         /rematch -{' '}
                         <Trans i18nKey='howtoplay.cmd.rematch'>
-                            Start over a new game with the current opponent.
+                            Start over a new game with the current opponent
+                        </Trans>
+                    </li>
+                    <li>
+                        /shuffle - <Trans i18nKey='howtoplay.cmd.shuffle'>Shuffle your deck</Trans>
+                    </li>
+                    <li>
+                        /tide x -{' '}
+                        <Trans i18nKey='howtoplay.cmd.tide'>
+                            Change the tide to high, low or neutral
                         </Trans>
                     </li>
                     <li>
                         /token x y -{' '}
                         <Trans i18nKey='howtoplay.cmd.token'>
-                            Choose a card and change the number of tokens of type x to y
+                            Select a card to set the number of tokens of type x to amount y on the
+                            card
                         </Trans>
                     </li>
                     <li>
-                        /unforge - <Trans i18nKey='howtoplay.cmd.unforge'>Unforge a key</Trans>
-                    </li>
-                    <li>
-                        /tide x -{' '}
-                        <Trans i18nKey='howtoplay.cmd.tide'>
-                            Change the tide to level x (high, low or neutral)
+                        /token-creature -{' '}
+                        <Trans i18nKey='howtoplay.cmd.tokencreature'>
+                            Make a token creature with the top card of your deck
                         </Trans>
                     </li>
                     <li>
-                        /first-player x -{' '}
-                        <Trans i18nKey='howtoplay.cmd.firstplayer'>Change first player</Trans>
+                        /unforge [color] -{' '}
+                        <Trans i18nKey='howtoplay.cmd.unforge'>
+                            Unforge a key (optionally specify color)
+                        </Trans>
                     </li>
                 </ul>
 

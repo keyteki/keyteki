@@ -1,9 +1,33 @@
 const _ = require('underscore');
 
+// Fail tests if Node emits a circular-dependency warning during module load.
+// These warnings ("Accessing non-existent property 'X' of module exports
+// inside circular dependency") indicate a require cycle that can cause subtle
+// runtime bugs (e.g. `instanceof` checks failing because a class hasn't
+// finished loading).  Surfacing them as test failures keeps the require graph
+// honest.
+//
+// Vitest reloads this setup file for every test file in a worker, so guard
+// against installing the listener (and busting MaxListeners) more than once.
+const __circularDepGuard = '__keyteki.circularDepWarningGuard';
+if (!process[__circularDepGuard]) {
+    process[__circularDepGuard] = true;
+    process.on('warning', (warning) => {
+        if (
+            warning &&
+            typeof warning.message === 'string' &&
+            warning.message.includes('inside circular dependency')
+        ) {
+            throw new Error(`Circular require detected during module load: ${warning.message}`);
+        }
+    });
+}
+
 require('./objectformatters.js');
 
 const DeckBuilder = require('./deckbuilder.js');
 const GameFlowWrapper = require('./gameflowwrapper.js');
+const { checkAllMessages } = require('./messagehelper.js');
 
 const deckBuilder = new DeckBuilder();
 
@@ -196,6 +220,9 @@ const customMatchers = {
                     : `Expected ${card.name} to be playable by ${player.name} but it wasn't.`
         };
     },
+    toHaveAllChatMessagesBe: function (context, expectedMessages, options = {}) {
+        return checkAllMessages(context, expectedMessages, options);
+    },
     toHaveRecentChatMessage: function (game, msg, numBack = 1) {
         const logs = game.getChatLogs(numBack);
         const pass = logs.filter((lastMsg) => lastMsg.includes(msg)).length > 0;
@@ -348,7 +375,7 @@ beforeEach(function () {
 });
 
 afterEach(function () {
-    if (process.env.DEBUG_TEST) {
+    if (process.env.DEBUG_TEST && this.game?.getPlainTextLog) {
         // eslint-disable-next-line no-console
         console.info(this.game.getPlainTextLog());
     }

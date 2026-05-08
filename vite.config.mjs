@@ -11,16 +11,12 @@ export default defineConfig(({ mode }) => ({
         ...(process.env.SENTRY_AUTH_TOKEN
             ? [
                   sentryVitePlugin({
-                      org: process.env.SENTRY_ORG,
-                      project: process.env.SENTRY_PROJECT,
                       authToken: process.env.SENTRY_AUTH_TOKEN,
                       release: {
                           name: process.env.VITE_VERSION || process.env.VERSION || 'Local build'
                       },
-                      sourcemaps: {
-                          assets: './dist/**',
-                          filesToDeleteAfterUpload: ['./dist/**/*.map']
-                      }
+                      org: 'throneteki',
+                      project: 'keyteki'
                   })
               ]
             : [])
@@ -33,14 +29,6 @@ export default defineConfig(({ mode }) => ({
                 replacement: path.resolve(__dirname, 'client/assets')
             }
         ]
-    },
-    css: {
-        preprocessorOptions: {
-            scss: {
-                quietDeps: true,
-                silenceDeprecations: ['legacy-js-api']
-            }
-        }
     },
     define: {
         process: {
@@ -58,6 +46,7 @@ export default defineConfig(({ mode }) => ({
         )
     },
     build: {
+        cssMinify: 'lightningcss',
         sourcemap: true,
         outDir: 'dist',
         emptyOutDir: true,

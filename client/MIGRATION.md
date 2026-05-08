@@ -143,26 +143,81 @@ Goal: Remove legacy redux usage.
 -   [x] Convert remaining thunks to RTK slices or RTK Query endpoints
 -   [x] Remove legacy store wiring and unused deps
 
-## Phase 7 - Tailwind + HeroUI (incremental)
+## Phase 6.5 - React 19 Readiness
+
+Goal: Upgrade React safely before HeroUI v3.
+
+-   [x] Bump `react` + `react-dom` to 19.x
+-   [x] Remove function component `defaultProps` usage (React 19 removal)
+-   [x] Audit and replace runtime paths that rely on `ReactDOM.findDOMNode`
+-   [x] Validate critical screens after React upgrade:
+    -   [x] Login/Register/Forgot Password
+    -   [x] Lobby
+    -   [x] Game board
+    -   [x] Profile
+-   [x] Run `npm run build` and `npm run typecheck:client`
+
+Known risks to resolve during this phase
+
+-   `react-draggable` and `react-transition-group` include `findDOMNode` usage
+-   legacy/older ecosystem packages may be permissive in peers but still have React 19 runtime issues
+
+## Phase 7 - Tailwind v4 + HeroUI v3 beta (incremental)
 
 Goal: Introduce new styling system without breaking everything at once.
 
--   [ ] Add Tailwind build pipeline and HeroUI
--   [ ] Convert one bounded area first (suggest: Lobby or Profile)
--   [ ] Replace react-bootstrap components for that area
--   [ ] Move SCSS away from bootstrap variables
+-   [x] Upgrade Tailwind pipeline to v4
+    -   [x] Switch CSS entry from `@tailwind ...` directives to Tailwind v4 imports
+    -   [x] Update PostCSS setup for Tailwind v4 plugin model
+    -   [x] Remove v3 `tailwind.config` plugin usage tied to HeroUI v2
+-   [x] Add HeroUI v3 beta packages
+    -   [x] Add `@heroui/react@beta`
+    -   [x] Add `@heroui/styles@beta`
+    -   [x] Remove `@heroui/theme` (v2 stack)
+-   [x] Convert one bounded area first (suggest: Lobby or Profile)
+    -   [x] Suggested first slice: Profile
+    -   [ ] Fallback slice: Lobby
+-   [x] Replace react-bootstrap components for the selected slice
+    -   [x] Shared Site wrappers migrated to HeroUI v3 (`Panel`, `AlertPanel`, `ApiStatus`)
+    -   [x] Profile route/form wrappers migrated off react-bootstrap (`client/pages/Profile.jsx`, `client/Components/Profile/Profile.jsx`)
+    -   [x] Remaining Profile components migrated off react-bootstrap (`client/Components/Profile/ProfileBackground.jsx`, `client/Components/Profile/ProfileCardSize.jsx`, `client/Components/Profile/KeyforgeGameSettings.jsx`)
+    -   [x] Profile settings IA redesign (left-rail sections, sticky save bar, progressive background picker, compact card-size/gameplay controls)
+    -   [x] Root app container migrated off react-bootstrap (`client/Application.jsx`)
+    -   [x] Navigation/menu stack migrated off react-bootstrap (`client/Components/Navigation/Navigation.jsx`, `client/Components/Navigation/ProfileDropdown.jsx`, `client/Components/Navigation/LanguageSelector.jsx`, `client/Components/Navigation/GameContextMenu.jsx`)
+    -   [x] Lobby page layout migrated off react-bootstrap grid (`client/pages/Lobby.jsx`)
+    -   [x] Game lobby + pending-game flow migrated off react-bootstrap wrappers (`client/Components/Games/GameLobby.jsx`, `client/Components/Games/NewGame.jsx`, `client/Components/Games/GameOptions.jsx`, `client/Components/Games/GameFormats.jsx`, `client/Components/Games/GameTypes.jsx`, `client/Components/Games/PendingGame.jsx`, `client/Components/Games/PendingGamePlayers.jsx`, `client/Components/Games/PasswordGame.jsx`)
+-   [x] Move SCSS away from bootstrap variables
+    -   [x] Removed `client/Components/Profile/ProfileBackground.scss`; styles inlined with Tailwind utilities
+    -   [x] Removed lobby/news SCSS wrappers in migrated chain (`client/Components/Lobby/LobbyChat.scss`, `client/Components/News/News.scss`, `client/Components/News/NewsItem.scss`)
+    -   [x] Removed legacy lobby page SCSS wrapper (`client/pages/Lobby.scss`) and moved layout to Tailwind utilities
+    -   [x] Removed game lobby chain SCSS wrappers in migrated flow (`client/Components/Games/GameLobby.scss`, `client/Components/Games/NewGame.scss`, `client/Components/Games/GameFormats.scss`, `client/Components/Games/PendingGame.scss`, `client/Components/Games/PendingGamePlayer.scss`)
+
+Phase 7 target versions (as of 2026-02-07)
+
+-   React core:
+    -   react: 19.2.x
+    -   react-dom: 19.2.x
+-   HeroUI stack:
+    -   @heroui/react: 3.0.0-beta.7 (beta tag)
+    -   @heroui/styles: 3.0.0-beta.7 (beta tag)
+-   Styling stack:
+    -   tailwindcss: 4.x
+
+## Phase 7.1 - Complete HeroUI v3 migration
+
+-   [x] Convert all remaining UI areas from bootstrap-based components to HeroUI v3 + Tailwind v4
 
 ## Phase 8 - Remove Bootstrap
 
--   [ ] Remove bootstrap JS/CSS imports in client/index.\*.jsx
--   [ ] Remove bootstrap SCSS imports across client styles
--   [ ] Remove react-bootstrap and table packages from deps
+-   [x] Remove bootstrap JS/CSS imports in client/index.\*.jsx
+-   [x] Remove bootstrap SCSS imports across client styles
+-   [x] Remove react-bootstrap and table packages from deps
 
 ## Phase 9 - Font Awesome
 
 -   [ ] Upgrade @fortawesome/\* to latest
--   [ ] Add client/Components/Icon.jsx wrapper
--   [ ] Replace icon usage incrementally
+-   [x] Add client/Components/Icon.jsx wrapper
+-   [x] Replace icon usage incrementally
 
 ## Phase 10 - TypeScript Only (end goal)
 

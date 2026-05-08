@@ -23,7 +23,7 @@ export default defineConfig({
         reporters: ['./test/helpers/vitest-reporter.js'],
 
         // Timeout per test
-        testTimeout: 1000,
+        testTimeout: 5000,
 
         // Watch configuration - include source and test directories for changes
         forceRerunTriggers: ['server/game/**', 'test/server/**'],

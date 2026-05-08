@@ -58,9 +58,15 @@ Tests are located in `test/server/cards/<Set>/<CardName>.spec.js`, mirroring the
 **Key principles:**
 
 -   Tests should focus on the card's unique abilities, not metadata (house, power, armor, keywords)
--   Keep `beforeEach` setup minimal - only include values like cards or aember that are needed for the tests
--   End each test by verifying the player has no pending prompts: `expect(this.player1).isReadyToTakeAction()`
--   For longer tests, add comments explaining what each test is setting up
+-   Keep `beforeEach` setup minimal — only include values like cards or aember that are needed for the test. Don't add starting amber, extra cards, or keys "just in case".
+-   End each test by verifying the active player has no pending prompts: `expect(this.player1).isReadyToTakeAction()` (or `this.player2` if turn ended).
+-   For longer tests, add comments explaining what each test is setting up.
+-   Each test description (`it('...')`) must describe the specific scenario being asserted — avoid generic descriptions like "works" or "ability".
+-   Cover both the **positive and negative** scenarios (the ability does something / the ability does not). For abilities with a numeric or count condition, also test **at the boundary and just above/below** (e.g., 0 vs 1 counter, exactly N vs N+1 creatures, overwhelmed vs not overwhelmed).
+-   When an ability targets, counts, or affects creatures, assert the result on **every creature in the setup** (friendly + enemy) in battleline order. This catches under- and over-targeting, and guards against unintended side effects on non-targets.
+-   When an ability prompts to choose a target, assert `toBeAbleToSelect` / `not.toBeAbleToSelect` for every creature in the setup before clicking.
+-   Always use the public getters for token-backed values: `.damage`, `.amber`, `.powerCounters`, `.exhausted`, `.stunned`, `.warded`, `.enraged`. **Never** access `.tokens.damage` / `.tokens.amber` / `.tokens.power` directly in assertions — those return `undefined` when no token is set, while the getters return `0` / `false` and are the contract used by card code.
+-   Never assert `.toBeUndefined()` on these token getters. They always have a defined value (default `0` / `false`); assert `.toBe(0)` / `.toBe(false)` instead.
 
 ## Test File Structure
 
@@ -176,50 +182,50 @@ When writing tests, use creatures with minimal abilities to avoid unintended int
 
 **Recommended creatures by house:**
 
-| House        | Creature               | Notes                                            |
-| ------------ | ---------------------- | ------------------------------------------------ |
-| Brobnar      | `troll`                | 8 power, Reap: heal 3 damage                     |
-| Brobnar      | `groggins`             | 8 power, can only attack flank creatures         |
-| Brobnar      | `honored-battlemaster` | 4 power, Action:                                 |
-| Dis          | `pit-demon`            | 5 power, Action:                                 |
-| Dis          | `hystricog`            | 4 power, Action:                                 |
-| Dis          | `snarette`             | 4 power, captures at end of turn, Action:        |
-| Ekwidon      | `antiquities-dealer`   | 3 power, Action:                                 |
-| Ekwidon      | `gemcoat-vendor`       | 6 power, Action:                                 |
-| Ekwidon      | `pen-pal`              | 5 power, Action:                                 |
-| Geistoid     | `shadys`               | 5 power, Action:                                 |
-| Geistoid     | `helichopper`          | 5 power, +power if haunted, Action:              |
-| Geistoid     | `echofly`              | 2 power, 1 armor, Action:                        |
-| Logos        | `even-ivan`            | 4 power, Action:                                 |
-| Logos        | `odd-clawde`           | 5 power, Action:                                 |
-| Logos        | `novu-archaeologist`   | 4 power, Action:                                 |
-| Mars         | `yxlix-mesmerist`      | 5 power, Action:                                 |
-| Mars         | `green-aeronaut`       | 3 power, Action:                                 |
-| Mars         | `white-aeronaut`       | 3 power, Action:                                 |
-| Redemption   | `even-ivan`            | 4 power, Action:                                 |
-| Redemption   | `odd-clawde`           | 5 power, Action:                                 |
-| Redemption   | `dark-centurion`       | 5 power, Action:                                 |
-| Sanctum      | `abond-the-armorsmith` | 3 power, other creatures +1 armor, Action:       |
-| Sanctum      | `lady-maxena`          | 5 power, 2 armor, Play: stun, Action:            |
-| Sanctum      | `protectrix`           | 5 power, Reap: heal and protect creature         |
-| Saurian      | `dark-centurion`       | 5 power, Action:                                 |
-| Saurian      | `cornicen-octavia`     | 5 power, 1 armor, Action:                        |
-| Saurian      | `eclectic-ambrosius`   | 4 power, knowledge counters, Action:             |
+| House        | Creature               | Notes                                                            |
+| ------------ | ---------------------- | ---------------------------------------------------------------- |
+| Brobnar      | `troll`                | 8 power, Reap: heal 3 damage                                     |
+| Brobnar      | `groggins`             | 8 power, can only attack flank creatures                         |
+| Brobnar      | `honored-battlemaster` | 4 power, Action:                                                 |
+| Dis          | `pit-demon`            | 5 power, Action:                                                 |
+| Dis          | `hystricog`            | 4 power, Action:                                                 |
+| Dis          | `snarette`             | 4 power, captures at end of turn, Action:                        |
+| Ekwidon      | `antiquities-dealer`   | 3 power, Action:                                                 |
+| Ekwidon      | `gemcoat-vendor`       | 6 power, Action:                                                 |
+| Ekwidon      | `pen-pal`              | 5 power, Action:                                                 |
+| Geistoid     | `shadys`               | 5 power, Action:                                                 |
+| Geistoid     | `helichopper`          | 5 power, +power if haunted, Action:                              |
+| Geistoid     | `echofly`              | 2 power, 1 armor, Action:                                        |
+| Logos        | `even-ivan`            | 4 power, Action:                                                 |
+| Logos        | `odd-clawde`           | 5 power, Action:                                                 |
+| Logos        | `novu-archaeologist`   | 4 power, Action:                                                 |
+| Mars         | `yxlix-mesmerist`      | 5 power, Action:                                                 |
+| Mars         | `green-aeronaut`       | 3 power, Action:                                                 |
+| Mars         | `white-aeronaut`       | 3 power, Action:                                                 |
+| Redemption   | `even-ivan`            | 4 power, Action:                                                 |
+| Redemption   | `odd-clawde`           | 5 power, Action:                                                 |
+| Redemption   | `dark-centurion`       | 5 power, Action:                                                 |
+| Sanctum      | `abond-the-armorsmith` | 3 power, other creatures +1 armor, Action:                       |
+| Sanctum      | `lady-maxena`          | 5 power, 2 armor, Play: stun, Action:                            |
+| Sanctum      | `protectrix`           | 5 power, Reap: heal and protect creature                         |
+| Saurian      | `dark-centurion`       | 5 power, Action:                                                 |
+| Saurian      | `cornicen-octavia`     | 5 power, 1 armor, Action:                                        |
+| Saurian      | `eclectic-ambrosius`   | 4 power, knowledge counters, Action:                             |
 | Shadows      | `lamindra`             | 1 power, Elusive; good fight target for testing Fight: abilities |
-| Shadows      | `yantzee-gang`         | 5 power, Action:                                 |
-| Shadows      | `hobnobber`            | 3 power, Action:                                 |
-| Skyborn      | `redhawk`              | 3 power, Action:                                 |
-| Skyborn      | `bux-bastian`          | 3 power, Scrap: exalt enemy flank creature       |
-| Skyborn      | `scalawag-finn`        | 6 power, After Fight: heal 3                     |
-| StarAlliance | `ensign-el-samra`      | 3 power, Action:                                 |
-| StarAlliance | `crewman-jörg`         | 3 power, Action:                                 |
-| StarAlliance | `ambassador-liu`       | 4 power, Action:                                 |
-| Unfathomable | `flamegill-enforcer`   | 6 power, enrages on tide raise, Action:          |
-| Unfathomable | `rustmiser`            | 5 power, Reap: exhaust artifacts                 |
-| Unfathomable | `bubbles`              | 5 power, Play: return creature to deck           |
-| Untamed      | `mighty-tiger`         | 4 power, Play: deal 4 damage                     |
-| Untamed      | `witch-of-the-dawn`    | 3 power, Play: return creature from discard      |
-| Untamed      | `conclave-witch`       | 3 power, Action:                                 |
+| Shadows      | `yantzee-gang`         | 5 power, Action:                                                 |
+| Shadows      | `hobnobber`            | 3 power, Action:                                                 |
+| Skyborn      | `redhawk`              | 3 power, Action:                                                 |
+| Skyborn      | `bux-bastian`          | 3 power, Scrap: exalt enemy flank creature                       |
+| Skyborn      | `scalawag-finn`        | 6 power, After Fight: heal 3                                     |
+| StarAlliance | `ensign-el-samra`      | 3 power, Action:                                                 |
+| StarAlliance | `crewman-jörg`         | 3 power, Action:                                                 |
+| StarAlliance | `ambassador-liu`       | 4 power, Action:                                                 |
+| Unfathomable | `flamegill-enforcer`   | 6 power, enrages on tide raise, Action:                          |
+| Unfathomable | `rustmiser`            | 5 power, Reap: exhaust artifacts                                 |
+| Unfathomable | `bubbles`              | 5 power, Play: return creature to deck                           |
+| Untamed      | `mighty-tiger`         | 4 power, Play: deal 4 damage                                     |
+| Untamed      | `witch-of-the-dawn`    | 3 power, Play: return creature from discard                      |
+| Untamed      | `conclave-witch`       | 3 power, Action:                                                 |
 
 **Avoid** using creatures with abilities or keywords unless those abilities/keywords are being specifically tested. When using a creature with an ability or keyword, make sure to account for its effects in your test assertions:
 
@@ -347,6 +353,11 @@ this.player1.clickPrompt('Done');
 // Select a card as a target
 this.player1.clickCard(this.targetCreature);
 
+// If a hand card has a "Play/Discard/Cancel" menu open, clicking a different
+// card in hand reselects that new card directly.
+this.player1.clickCard(this.firstHandCard);
+this.player1.clickCard(this.secondHandCard);
+
 // Select a house
 this.player1.clickPrompt('brobnar');
 
@@ -407,6 +418,10 @@ expect(this.player1).not.toBeAbleToPlay(this.wrongHouseCard);
 
 ### Card State Assertions
 
+> **Always use the public getters** (`.damage`, `.amber`, `.powerCounters`, `.exhausted`, `.stunned`, `.warded`, `.enraged`). They return `0` / `false` when no token is set. **Never** read or assert against `.tokens.damage`, `.tokens.amber`, or `.tokens.power` directly — these return `undefined` when no token has been added, leading to misleading assertions like `.toBeUndefined()`.
+>
+> When setting state in test setup, use the setters (`creature.damage = 3`, `creature.powerCounters = 2`, `creature.amber = 1`).
+
 ```javascript
 // Check card location
 expect(this.myCard.location).toBe('play area');
@@ -416,12 +431,13 @@ expect(this.myCard.location).toBe('deck');
 expect(this.myCard.location).toBe('archives');
 expect(this.myCard.location).toBe('purged');
 
-// Check damage (using getter - returns 0 if no damage token)
+// Check damage (use the getter; defaults to 0)
 expect(this.myCreature.damage).toBe(3);
-expect(this.myCreature.damage).toBe(0);
+expect(this.myCreature.damage).toBe(0); // NOT .toBeUndefined()
 
 // Check power counters
 expect(this.myCreature.powerCounters).toBe(2);
+expect(this.myCreature.powerCounters).toBe(0);
 
 // Check exhausted state
 expect(this.myCreature.exhausted).toBe(true);
@@ -432,12 +448,28 @@ expect(this.myCreature.stunned).toBe(true);
 expect(this.myCreature.warded).toBe(true);
 expect(this.myCreature.enraged).toBe(true);
 
-// Check aember on card
+// Check aember on card (use the getter; defaults to 0)
 expect(this.myCreature.amber).toBe(2);
+expect(this.myCreature.amber).toBe(0);
 
 // Check controller
 expect(this.myCreature.controller).toBe(this.player1.player);
 expect(this.myCreature.controller).toBe(this.player2.player);
+```
+
+**Anti-patterns to avoid:**
+
+```javascript
+// ❌ tokens.X is internal — returns undefined when no token exists
+expect(this.myCreature.tokens.damage).toBe(3);
+expect(this.myCreature.tokens.amber).toBeUndefined();
+
+// ❌ Workaround that hides the real issue
+expect((this.myCreature.tokens.damage || 0)).toBe(0);
+
+// ✅ Use the getter, which is always defined
+expect(this.myCreature.damage).toBe(3);
+expect(this.myCreature.amber).toBe(0);
 ```
 
 ### Player State Assertions
@@ -565,6 +597,53 @@ let card = this.player1.findCardByName('troll', 'play area', 'opponent');
 ```
 
 ## Common Patterns
+
+### Coverage Checklist
+
+When writing or reviewing a card spec, walk through this checklist:
+
+1. **Positive case** — the ability does what its text says.
+2. **Negative case** — when the trigger condition is not met, nothing happens.
+3. **Boundary cases** — at the threshold and just below/above (e.g., 0 vs 1 counter, exactly N vs N+1 creatures, overwhelmed vs not overwhelmed, opponent at 0 amber vs 1 amber).
+4. **Targeting coverage** — for prompts that pick a creature, assert `toBeAbleToSelect` / `not.toBeAbleToSelect` for **every creature in the setup** (friendly + enemy) before clicking. This locks in the legal target set.
+5. **Effect coverage** — when an ability damages, modifies, or counts creatures, assert the resulting state on **every creature in the setup**, in battleline order. This catches under- and over-targeting and unintended side effects.
+6. **Negative-test coverage** — when asserting "ability does nothing", check the unchanged state on **every** creature in the setup, not just one. A single-creature assertion silently passes if the ability mistargets a different creature. Apply the same every-creature rule used for positive tests.
+7. **Armor interactions** — when testing damage on a creature with armor, assert both `.damage` and `.armor` after the event. `damage = 0` alone is ambiguous (armor absorbed it vs damage event never fired). Asserting `.armor` (which decrements when armor absorbs damage) confirms the damage event actually fired.
+8. **Flank checks use `isOnFlank()`** — never reach into `player.player.cardsInPlay`. To verify play-area composition, assert `.location` on each card explicitly. The only legitimate `cardsInPlay` use is aggregate-count tests (e.g. Doomsday Device).
+9. **Gained abilities** — when an ability is granted via `gainAbility(...)`, the first test in the describe should `clickCard` the receiver and assert `toHavePromptButton("Use this card's Action ability")` (or equivalent) before calling `useAction`, to confirm the ability is actually present.
+10. **No leftover prompts** — end with `expect(this.<active-player>).isReadyToTakeAction();`. If a test fails or hangs unexpectedly, check for an active prompt first — most spurious failures come from a leftover prompt rather than a deeper bug.
+
+Example of effect coverage on every creature:
+
+```javascript
+it('gives a friendly creature three +1 power counters when overwhelmed', function () {
+    this.player1.reap(this.agentBuuff);
+    expect(this.player1).toHavePrompt('Choose a creature');
+    expect(this.player1).toBeAbleToSelect(this.agentBuuff);
+    expect(this.player1).toBeAbleToSelect(this.johnSmyth);
+    expect(this.player1).not.toBeAbleToSelect(this.troll);
+    expect(this.player1).not.toBeAbleToSelect(this.krump);
+    expect(this.player1).not.toBeAbleToSelect(this.bumpsy);
+    this.player1.clickCard(this.johnSmyth);
+    expect(this.johnSmyth.powerCounters).toBe(3);
+    expect(this.agentBuuff.powerCounters).toBe(0);
+    expect(this.troll.powerCounters).toBe(0);
+    expect(this.krump.powerCounters).toBe(0);
+    expect(this.bumpsy.powerCounters).toBe(0);
+    expect(this.player1).isReadyToTakeAction();
+});
+```
+
+Example of armor interaction (damage absorbed, not skipped):
+
+```javascript
+it('deals 1 damage to a creature, consumed by armor', function () {
+    // krisperRuld has 1 armor printed
+    this.player1.useAction(this.krisperRuld);
+    expect(this.krisperRuld.damage).toBe(0); // armor absorbed
+    expect(this.krisperRuld.armor).toBe(0); // armor token consumed — confirms damage event fired
+});
+```
 
 ### Testing Play Abilities
 
@@ -696,8 +775,8 @@ DEBUG_TEST=1 npm test -- test/server/cards/PV/BadOmen.spec.js
 # Run multiple test files
 DEBUG_TEST=1 npm test -- test/server/cards/PV/BadOmen.spec.js test/server/cards/CotA/MightyTiger.spec.js
 
-# Run tests matching a pattern (slower - prefer specifying files)
-DEBUG_TEST=1 npm test -- --filter='Bad Omen'
+# Run tests matching a pattern
+DEBUG_TEST=1 npm test -- --testNamePattern 'Bad Omen'
 ```
 
 ## Testing UI changes

@@ -17,7 +17,7 @@ class CrepuscularRays extends Card {
                 ]
             },
             effect: 'to move all {1} amber from {0} to their pool and destroy {0}',
-            effectArgs: (context) => [context.target.amber]
+            effectArgs: (context) => [context.target?.amber ?? 0]
         });
     }
 }

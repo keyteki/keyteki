@@ -2,7 +2,6 @@ const { fabric } = require('fabric');
 const { registerFont } = require('canvas');
 const fs = require('fs');
 const path = require('path');
-const mkdirp = require('mkdirp');
 const loadImage = (imgPath) =>
     new Promise((resolve) => {
         fabric.Image.fromURL(imgPath, (image) => resolve(image));
@@ -279,7 +278,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
     canvasFinal.renderAll();
 
     const dir = path.dirname(filename);
-    mkdirp.sync(dir);
+    fs.mkdirSync(dir, { recursive: true });
 
     const stream = canvasFinal.createJPEGStream();
     const out = fs.createWriteStream(filename);

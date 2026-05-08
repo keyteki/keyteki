@@ -126,4 +126,36 @@ describe('Masterplan', function () {
             expect(this.player2.amber).toBe(2);
         });
     });
+
+    describe('Masterplan with cannot play cards', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    hand: ['masterplan', 'bait-and-switch', 'treasure-map']
+                },
+                player2: {
+                    amber: 5
+                }
+            });
+        });
+
+        it('should prevent Masterplan from playing the card underneath after Treasure Map is played', function () {
+            this.player1.play(this.masterplan);
+            this.player1.clickCard(this.baitAndSwitch);
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.endTurn();
+            this.player1.clickPrompt('shadows');
+            this.player1.play(this.treasureMap);
+            this.player1.amber = 0;
+            expect(this.player1.amber).toBe(0);
+            this.player1.useOmni(this.masterplan);
+            expect(this.player1).isReadyToTakeAction();
+            expect(this.masterplan.location).toBe('discard');
+            expect(this.baitAndSwitch.location).toBe('discard');
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(5);
+        });
+    });
 });

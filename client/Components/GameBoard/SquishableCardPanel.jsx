@@ -5,8 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import Card from './Card';
 
-import './SquishableCardPanel.scss';
-
 const SquishableCardPanel = (props) => {
     const { i18n } = useTranslation();
     const cards = props.cards || [];
@@ -70,6 +68,9 @@ const SquishableCardPanel = (props) => {
                 size={props.cardSize}
                 style={style}
                 language={i18n.language}
+                hasActiveHouse={props.hasActiveHouse}
+                isMe={props.isMe}
+                isSpectating={props.isSpectating}
                 source={props.source}
             />
         );
@@ -106,6 +107,9 @@ SquishableCardPanel.propTypes = {
     onCardClick: PropTypes.func,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
+    hasActiveHouse: PropTypes.bool,
+    isMe: PropTypes.bool,
+    isSpectating: PropTypes.bool,
     source: PropTypes.string,
     title: PropTypes.string
 };
