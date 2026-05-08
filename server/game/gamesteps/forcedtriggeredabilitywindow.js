@@ -86,8 +86,12 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             return true;
         }
 
-        let autoResolveChoice = this.choices.find((context) => context.ability.autoResolve);
-        if (autoResolveChoice) {
+        const autoResolveChoice = this.choices.find((context) => context.ability.autoResolve);
+        // If all abilities have autoResolveChoice set and they are all the same ability, auto-resolve that ability without prompting the user.
+        if (
+            autoResolveChoice &&
+            this.choices.every((context) => context.ability === autoResolveChoice.ability)
+        ) {
             this.resolveAbility(autoResolveChoice);
             return false;
         }
