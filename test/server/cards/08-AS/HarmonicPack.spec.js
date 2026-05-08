@@ -58,4 +58,145 @@ describe('Harmonic Pack', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('Harmonic Pack against a target with 1 armor', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    hand: ['harmonic-pack']
+                },
+                player2: {
+                    inPlay: ['grabber-jammer'],
+                    archives: ['brikk-nastee']
+                }
+            });
+        });
+
+        it('discards from archives but does not deal the additional 3 damage', function () {
+            this.player1.play(this.harmonicPack);
+            this.player1.clickCard(this.grabberJammer);
+            this.player1.clickPrompt("Opponent's");
+            expect(this.brikkNastee.location).toBe('discard');
+            expect(this.grabberJammer.tokens.damage).toBe(1);
+            expect(this.grabberJammer.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Harmonic Pack against a target with 2 armor', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    hand: ['harmonic-pack']
+                },
+                player2: {
+                    inPlay: ['bulwark'],
+                    archives: ['brikk-nastee']
+                }
+            });
+        });
+
+        it('discards from archives but does not deal the additional 3 damage', function () {
+            this.player1.play(this.harmonicPack);
+            this.player1.clickCard(this.bulwark);
+            this.player1.clickPrompt("Opponent's");
+            expect(this.brikkNastee.location).toBe('discard');
+            expect(this.bulwark.tokens.damage).toBeUndefined();
+            expect(this.bulwark.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Harmonic Pack against a warded target', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    hand: ['harmonic-pack']
+                },
+                player2: {
+                    inPlay: ['crim-torchtooth'],
+                    archives: ['brikk-nastee']
+                }
+            });
+        });
+
+        it('discards from archives but does not deal the additional 3 damage', function () {
+            this.crimTorchtooth.ward();
+            this.player1.play(this.harmonicPack);
+            this.player1.clickCard(this.crimTorchtooth);
+            this.player1.clickPrompt("Opponent's");
+            expect(this.brikkNastee.location).toBe('discard');
+            expect(this.crimTorchtooth.warded).toBe(false);
+            expect(this.crimTorchtooth.tokens.damage).toBeUndefined();
+            expect(this.crimTorchtooth.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Harmonic Pack against an invulnerable target', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    hand: ['harmonic-pack']
+                },
+                player2: {
+                    inPlay: ['emperor-memrox'],
+                    archives: ['brikk-nastee']
+                }
+            });
+        });
+
+        it('discards from archives but does not deal damage to the invulnerable creature', function () {
+            expect(this.emperorMemrox.hasKeyword('invulnerable')).toBe(true);
+            this.player1.play(this.harmonicPack);
+            this.player1.clickCard(this.emperorMemrox);
+            this.player1.clickPrompt("Opponent's");
+            expect(this.brikkNastee.location).toBe('discard');
+            expect(this.emperorMemrox.tokens.damage).toBeUndefined();
+            expect(this.emperorMemrox.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Harmonic Pack when revealed card cannot be discarded (Memrox the Red)', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    inPlay: ['memrox-the-red'],
+                    hand: ['harmonic-pack']
+                },
+                player2: {
+                    inPlay: ['troll', 'krump']
+                }
+            });
+        });
+
+        it('still deals 3 more damage even though the revealed card cannot be discarded', function () {
+            this.player1.moveCard(this.troll, 'archives');
+            expect(this.player1.archives).toContain(this.troll);
+            this.player1.play(this.harmonicPack);
+            this.player1.clickCard(this.krump);
+            this.player1.clickPrompt('Mine');
+            expect(this.player1.archives).toContain(this.troll);
+            expect(this.krump.location).toBe('play area');
+            expect(this.krump.damage).toBe(5);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('still deals 3 more damage and discards card if Memrox the Red is destroyed', function () {
+            this.player1.moveCard(this.troll, 'archives');
+            expect(this.player1.archives).toContain(this.troll);
+            this.player1.play(this.harmonicPack);
+            this.player1.clickCard(this.memroxTheRed);
+            this.player1.clickPrompt('Mine');
+            expect(this.memroxTheRed.location).toBe('discard');
+            expect(this.troll.location).toBe('hand');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
