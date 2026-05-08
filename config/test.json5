@@ -1,0 +1,6 @@
+// Empty config for NODE_ENV=test. Tests use the default config; this file
+// only exists to silence node-config's "did not match any deployment config
+// file names" warning that pollutes the test output.
+{
+    env: 'test'
+}

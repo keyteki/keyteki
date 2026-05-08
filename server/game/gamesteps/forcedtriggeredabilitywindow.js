@@ -51,6 +51,13 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
                     resolved.ability === context.ability && resolved.event === context.event
             )
         ) {
+            // Capture whether the source was in a valid location at the time the
+            // trigger fired. We use this in filterChoices() to drop reactions
+            // whose source has since left its valid location (e.g. a creature
+            // with a queued reaction is destroyed mid-window). Triggers whose
+            // source was already out of valid location at queue time (e.g.
+            // onCardLeavesPlay of the source itself) are exempt from this drop.
+            context.wasInValidLocationAtQueueTime = context.ability.isInValidLocation(context);
             this.choices.push(context);
         }
     }
@@ -87,8 +94,13 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         // destroyed mid-window). Destroyed and play abilities are exempt:
         // they are queued via the deferred-choice path in triggeredability.js
         // and are designed to resolve from the discard / being-played location.
+        // We also exempt triggers whose source was already out of valid
+        // location when queued (e.g. onCardLeavesPlay of the source itself).
         this.choices = this.choices.filter((context) => {
             if (context.ability.properties.destroyed || context.ability.properties.play) {
+                return true;
+            }
+            if (!context.wasInValidLocationAtQueueTime) {
                 return true;
             }
             return context.ability.isInValidLocation(context);

@@ -195,4 +195,42 @@ describe('General Sherman', function () {
             expect(this.alaka.location).toBe('play area');
         });
     });
+
+    describe('General Sherman with animated artifacts', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 3,
+                    house: 'geistoid',
+                    hand: ['animating-force', 'general-sherman', 'sleep-with-the-fishes'],
+                    inPlay: ['dominator-bauble', 'kaupe']
+                },
+                player2: {}
+            });
+        });
+
+        it('does not put a purged animated artifact back into play as an artifact', function () {
+            this.player1.playUpgrade(this.animatingForce, this.dominatorBauble);
+            this.player1.clickPrompt('Right');
+            expect(this.dominatorBauble.type).toBe('creature');
+
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            this.player1.clickPrompt('unfathomable');
+
+            this.player1.play(this.generalSherman);
+            expect(this.dominatorBauble.location).toBe('purged');
+            expect(this.kaupe.location).toBe('purged');
+
+            this.player1.play(this.sleepWithTheFishes);
+            expect(this.generalSherman.location).toBe('discard');
+
+            // Only Kaupe is a creature - the animated artifact reverts to its
+            // printed type when it leaves play, so it stays purged.
+            expect(this.kaupe.location).toBe('play area');
+            expect(this.dominatorBauble.location).toBe('purged');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

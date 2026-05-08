@@ -7,7 +7,7 @@ import { DefaultReporter } from 'vitest/reporters';
 
 export default class CustomReporter extends DefaultReporter {
     constructor(options) {
-        super(options);
+        super({ ...options, summary: false });
         this.filesPassed = 0;
         this.filesFailed = 0;
         this.filesSkipped = 0;
@@ -55,15 +55,15 @@ export default class CustomReporter extends DefaultReporter {
 
     onTestModuleEnd(module) {
         this.filesRun++;
-        const state = module.state;
-        if (state === 'passed' || state === 1) {
+        const state = typeof module.state === 'function' ? module.state() : module.state;
+        if (state === 'passed') {
             this.filesPassed++;
-        } else if (state === 'failed' || state === 2) {
+        } else if (state === 'failed') {
             this.filesFailed++;
-        } else if (state === 'skipped' || state === 3) {
+        } else if (state === 'skipped') {
             this.filesSkipped++;
         } else {
-            this.filesPassed++;
+            this.filesFailed++;
         }
         this._printProgress();
     }
@@ -72,16 +72,17 @@ export default class CustomReporter extends DefaultReporter {
     onTestCaseReady() {}
 
     onTestCaseResult(testCase) {
-        const state = testCase.state;
-        if (state === 'passed' || state === 1) {
+        const result = typeof testCase.result === 'function' ? testCase.result() : testCase.result;
+        const state = result?.state ?? testCase.state;
+        if (state === 'passed') {
             this.testsPassed++;
-        } else if (state === 'failed' || state === 2) {
+        } else if (state === 'failed') {
             this.testsFailed++;
             this._printFailure(testCase);
-        } else if (state === 'skipped' || state === 3) {
+        } else if (state === 'skipped') {
             this.testsSkipped++;
         } else {
-            this.testsPassed++;
+            this.testsFailed++;
         }
         this._printProgress();
     }
@@ -104,8 +105,10 @@ export default class CustomReporter extends DefaultReporter {
 
         console.log(`\n${red}✕${reset} ${path}`);
 
-        if (testCase.errors && testCase.errors.length > 0) {
-            for (const error of testCase.errors) {
+        const result = typeof testCase.result === 'function' ? testCase.result() : testCase.result;
+        const errors = result?.errors || testCase.errors;
+        if (errors && errors.length > 0) {
+            for (const error of errors) {
                 const message = error.message || String(error);
                 console.log(`  ${dim}${message}${reset}`);
             }
@@ -173,6 +176,17 @@ export default class CustomReporter extends DefaultReporter {
     }
 
     async onTestRunEnd(testModules, errors) {
+        // Vitest invokes onTestRunEnd on each reporter, sometimes more than
+        // once per run (e.g. if there are multiple projects or test contexts).
+        // We only want to print the final summary once, and we want to skip
+        // empty/no-op invocations entirely.
+        const filesTotal = this.filesPassed + this.filesFailed + this.filesSkipped;
+        const testsTotal = this.testsPassed + this.testsFailed + this.testsSkipped;
+        if (this._summaryPrinted || (filesTotal === 0 && testsTotal === 0)) {
+            return;
+        }
+        this._summaryPrinted = true;
+
         // Remove signal handlers
         process.off('SIGINT', this._cleanup);
         process.off('SIGTERM', this._cleanup);
@@ -184,7 +198,48 @@ export default class CustomReporter extends DefaultReporter {
             this._linesWritten = false;
         }
 
-        // Call parent to print failure details and summary
-        await super.onTestRunEnd(testModules, errors);
+        // Print our own final summary. We don't delegate to super's
+        // onTestRunEnd because DefaultReporter relies on internal counters
+        // populated by the per-test/per-module handlers we suppress for the
+        // live progress display, so it would print "0 passed".
+        const bold = '\x1b[1m';
+        const reset = '\x1b[0m';
+        const green = '\x1b[32m';
+        const red = '\x1b[31m';
+        const yellow = '\x1b[33m';
+
+        const fileStats = [
+            this.filesFailed > 0 ? `${bold}${red}${this.filesFailed} failed${reset}` : null,
+            this.filesPassed > 0 ? `${bold}${green}${this.filesPassed} passed${reset}` : null,
+            this.filesSkipped > 0 ? `${bold}${yellow}${this.filesSkipped} skipped${reset}` : null
+        ]
+            .filter(Boolean)
+            .join(' | ');
+
+        const testStats = [
+            this.testsFailed > 0 ? `${bold}${red}${this.testsFailed} failed${reset}` : null,
+            this.testsPassed > 0 ? `${bold}${green}${this.testsPassed} passed${reset}` : null,
+            this.testsSkipped > 0 ? `${bold}${yellow}${this.testsSkipped} skipped${reset}` : null
+        ]
+            .filter(Boolean)
+            .join(' | ');
+
+        const startAt = new Date(this.startTime).toLocaleTimeString('en-US', { hour12: false });
+        const elapsedMs = Date.now() - this.startTime;
+        const elapsed = elapsedMs >= 1000 ? `${(elapsedMs / 1000).toFixed(2)}s` : `${elapsedMs}ms`;
+
+        process.stdout.write(
+            `\n Test Files  ${fileStats || '0'} (${filesTotal})\n` +
+                `      Tests  ${testStats || '0'} (${testsTotal})\n` +
+                `   Start at  ${startAt}\n` +
+                `   Duration  ${elapsed}\n`
+        );
+
+        // Surface any unhandled errors collected by vitest itself.
+        if (errors && errors.length > 0) {
+            for (const error of errors) {
+                console.error(error);
+            }
+        }
     }
 }

@@ -109,5 +109,113 @@ describe('Hydrogan', function () {
             expect(this.player2).isReadyToTakeAction();
         });
     });
+
+    describe('Hydrogan with non-creature cards under it', function () {
+        it('does not put back an animated artifact whose lasting effect ended after being placed under', function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    hand: ['hydrogan', 'hydrogan2', 'animating-force'],
+                    inPlay: ['dominator-bauble']
+                },
+                player2: {}
+            });
+
+            this.player1.playUpgrade(this.animatingForce, this.dominatorBauble);
+            this.player1.clickPrompt('Right');
+            expect(this.dominatorBauble.type).toBe('creature');
+
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            this.player1.clickPrompt('unfathomable');
+            this.player1.play(this.hydrogan);
+            expect(this.hydrogan.childCards).toContain(this.dominatorBauble);
+            expect(this.dominatorBauble.type).toBe('artifact');
+
+            this.hydrogan.ready();
+            this.player1.reap(this.hydrogan);
+            expect(this.player1).not.toBeAbleToSelect(this.dominatorBauble);
+            expect(this.dominatorBauble.location).toBe('under');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('does not put back a token creature whose underlying card is an action', function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    token: 'prospector',
+                    deck: ['wild-wormhole'],
+                    hand: ['hydrogan', 'hydrogan2'],
+                    inPlay: ['prospector:wild-wormhole']
+                },
+                player2: {}
+            });
+
+            const wildWormhole = this.player1.player.creaturesInPlay[0];
+            expect(wildWormhole.type).toBe('creature');
+
+            this.player1.play(this.hydrogan);
+            expect(this.hydrogan.childCards).toContain(wildWormhole);
+            expect(wildWormhole.type).toBe('action');
+
+            this.hydrogan.ready();
+            this.player1.reap(this.hydrogan);
+            expect(this.player1).not.toBeAbleToSelect(wildWormhole);
+            expect(wildWormhole.location).toBe('under');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('does not put back a token creature whose underlying card is an artifact', function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    token: 'prospector',
+                    deck: ['library-of-babble'],
+                    hand: ['hydrogan', 'hydrogan2'],
+                    inPlay: ['prospector:library-of-babble']
+                },
+                player2: {}
+            });
+
+            const libraryOfBabble = this.player1.player.creaturesInPlay[0];
+            expect(libraryOfBabble.type).toBe('creature');
+
+            this.player1.play(this.hydrogan);
+            expect(this.hydrogan.childCards).toContain(libraryOfBabble);
+            expect(libraryOfBabble.type).toBe('artifact');
+
+            this.hydrogan.ready();
+            this.player1.reap(this.hydrogan);
+            expect(this.player1).not.toBeAbleToSelect(libraryOfBabble);
+            expect(libraryOfBabble.location).toBe('under');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('does not put back a token creature whose underlying card is an upgrade', function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    token: 'prospector',
+                    deck: ['rocket-boots'],
+                    hand: ['hydrogan', 'hydrogan2'],
+                    inPlay: ['prospector:rocket-boots']
+                },
+                player2: {}
+            });
+
+            const rocketBoots = this.player1.player.creaturesInPlay[0];
+            expect(rocketBoots.type).toBe('creature');
+
+            this.player1.play(this.hydrogan);
+            expect(this.hydrogan.childCards).toContain(rocketBoots);
+            expect(rocketBoots.type).toBe('upgrade');
+
+            this.hydrogan.ready();
+            this.player1.reap(this.hydrogan);
+            expect(this.player1).not.toBeAbleToSelect(rocketBoots);
+            expect(rocketBoots.location).toBe('under');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
-// TODO: make sure hydrogan handles artifacts and token creatures correctly
