@@ -102,6 +102,66 @@ ability.actions.archive();
 ability.actions.archive({ target: someCard });
 ```
 
+### abduct({ target, player })
+
+Move a card to archives and mark it as **abducted**. Use this **only** for
+cards whose text explicitly redirects the card to its owner's hand when it
+leaves archives — i.e. wording along the lines of "If [that card / it]
+leaves your archives, put it into its owner's hand instead." That
+"into its owner's hand" replacement is the defining feature of abduct; if
+the card just archives something with no such redirection, use `archive`
+instead.
+
+The replacement effect is handled centrally by `AbductAction` (it sets
+`card.abducted = true`, and `player.moveCard`, `DiscardCardAction`,
+`PurgeAction`, and `PutIntoPlayAction` all check that flag and reroute the
+card to its owner's hand). Do **not** hand-roll the redirection in card
+code.
+
+When to use `abduct` vs `archive`:
+
+-   Use `archive` when the card's text simply puts a card into archives with no
+    "owner's hand instead" clause.
+-   Use `abduct` when the card's text explicitly says the archived card is
+    redirected to its owner's hand if it leaves your archives. The trigger is
+    the card's text, not runtime ownership: `abduct` always sends the card to
+    its **owner's** hand on leaving archives, even when the abductor and the
+    owner are the same player. (Compare with cards like Yzphyz Knowdrone,
+    which return an abducted card to its owner regardless of who archived it.)
+-   Read each card's redirection clause carefully. The redirection may apply
+    to only some of the targets, and "friendly/enemy" in card text refers to
+    **control**, not ownership — control can switch sides, so a "friendly"
+    creature may be owned by your opponent and vice versa. Wire each target
+    to `archive` or `abduct` based strictly on whether that target's clause
+    in the text contains the "owner's hand instead" redirection.
+
+```javascript
+// Simple abduct of an enemy creature
+ability.actions.abduct();
+
+// Abduct into the opponent's archives (e.g. Curse of Disappearances)
+ability.actions.abduct((context) => ({
+    player: context.player.opponent,
+    promptForSelect: {
+        cardType: 'creature',
+        controller: 'self'
+    }
+}));
+
+// Card text triggers the redirection only when "you are not the owner"
+// (e.g. Glimmerspore, Yipyax Abductor). The card targets a creature the
+// abductor may or may not own, so split at runtime: plain archive when
+// the abductor is the owner, abduct otherwise.
+gameAction: [
+    ability.actions.archive((context) => ({
+        target: context.target?.owner === context.player ? context.target : []
+    })),
+    ability.actions.abduct((context) => ({
+        target: context.target?.owner !== context.player ? context.target : []
+    }))
+];
+```
+
 ### capture({ amount })
 
 Capture aember from opponent onto a creature.

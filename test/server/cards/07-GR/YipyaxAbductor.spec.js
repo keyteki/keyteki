@@ -96,4 +96,51 @@ describe('Yipyax Abductor', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('Yipyax Abductor with abduction', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    hand: ['yipyax-abductor', 'jammer-pack', 'yzphyz-knowdrone', 'zorg'],
+                    inPlay: ['flaxia']
+                },
+                player2: {
+                    hand: ['observ-u-max'],
+                    inPlay: ['dust-pixie']
+                }
+            });
+        });
+
+        it('should return enemy upgrade to owner hand when purged from archives', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('staralliance');
+            this.player2.playUpgrade(this.observUMax, this.dustPixie);
+            this.player2.endTurn();
+            this.player1.clickPrompt('mars');
+            this.player1.playCreature(this.yipyaxAbductor);
+            this.player1.clickCard(this.observUMax);
+            expect(this.observUMax.location).toBe('archives');
+            this.player1.play(this.yzphyzKnowdrone);
+            this.player1.clickCard(this.zorg);
+            this.player1.clickCard(this.observUMax);
+            expect(this.observUMax.location).toBe('hand');
+            expect(this.player2.hand).toContain(this.observUMax);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should allow owned upgrade to be purged normally', function () {
+            this.player1.playUpgrade(this.jammerPack, this.flaxia);
+            this.player1.playCreature(this.yipyaxAbductor);
+            this.player1.clickCard(this.jammerPack);
+            expect(this.jammerPack.location).toBe('archives');
+            this.player1.play(this.yzphyzKnowdrone);
+            this.player1.clickCard(this.zorg);
+            this.player1.clickCard(this.jammerPack);
+            this.player1.clickCard(this.flaxia);
+            expect(this.jammerPack.location).toBe('purged');
+            expect(this.flaxia.stunned).toBe(true);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

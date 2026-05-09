@@ -92,6 +92,7 @@ class Card extends EffectSource {
         this.moribund = false;
         this.isFighting = false;
         this.activeProphecy = false;
+        this.abducted = false;
 
         this.locale = cardData.locale;
 

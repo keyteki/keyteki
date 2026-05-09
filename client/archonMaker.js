@@ -768,7 +768,7 @@ export const buildCard = async (
         maverick ||
         anomaly ||
         houselessCards.includes(card.id) ||
-        (number && (number[0] === 'R' || number[0] === 'S'))
+        /^[ARS]/.test(String(number ?? ''))
     ) {
         let house;
         if (maverick) {

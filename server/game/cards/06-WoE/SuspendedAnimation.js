@@ -9,9 +9,7 @@ class SuspendedAnimation extends Card {
                 cardType: 'creature',
                 controller: 'opponent',
                 cardCondition: (card) => card.hasToken('damage'),
-                gameAction: ability.actions.archive({
-                    owner: false
-                })
+                gameAction: ability.actions.abduct()
             }
         });
     }
