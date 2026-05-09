@@ -1,5 +1,7 @@
-import { fabric } from 'fabric';
+import * as fabricModule from 'fabric';
 import QRCode from 'qrcode';
+
+const fabric = fabricModule.fabric ?? fabricModule.default ?? fabricModule;
 
 import { Constants } from './constants';
 
@@ -29,6 +31,7 @@ let DefaultCard;
 let MaverickCornerImage;
 let Tokens = {};
 let cacheLoaded = false;
+let cachePromise;
 let Rarities = {};
 
 const imgOptions = {
@@ -37,15 +40,15 @@ const imgOptions = {
     hasBorders: false,
     hasRotatingPoint: false,
     noScaleCache: false,
-    objectCaching: false
+    objectCaching: true
 };
 const fontProps = {
     fontWeight: 600,
-    fontFamily: 'Keyforge',
+    fontFamily: 'PoppinsMedium',
     textAlign: 'left',
     fontSize: 10,
     enableRetinaScaling: true,
-    objectCaching: false,
+    objectCaching: true,
     noScaleCache: false,
     selectable: false,
     hasControls: false,
@@ -75,7 +78,13 @@ const gigantic2s = [
     'j43g3r-v2',
     'titanic-bumblebird2',
     'ascendant-hester2',
-    'horizon-saber2'
+    'horizon-saber2',
+    'the-golden-queen2',
+    'gigantor2',
+    'monster-zero2',
+    'kulsha2',
+    'zomok2',
+    'hydrogan2'
 ];
 
 const skybeasts = [
@@ -105,7 +114,7 @@ const skybeasts = [
 ];
 
 // The MV API doesn't provide proper per-house images for these cards.
-const houselessCards = [
+export const houselessCards = [
     'build-your-champion',
     'digging-up-the-monster',
     'tomes-gigantica',
@@ -114,6 +123,10 @@ const houselessCards = [
 
 export const loadImage = (url) => {
     return new Promise((resolve) => {
+        if (!url) {
+            resolve(new fabric.Image());
+            return;
+        }
         fabric.util.loadImage(url, async (image) => {
             if (image) {
                 resolve(new fabric.Image(image, imgOptions));
@@ -136,67 +149,95 @@ export const loadImage = (url) => {
     });
 };
 
+const initCanvas = (canvas) => {
+    canvas.renderOnAddRemove = false;
+    const context = canvas.getContext();
+    if (context) {
+        context.imageSmoothingEnabled = true;
+        context.imageSmoothingQuality = 'high';
+    }
+};
+
 async function cacheImages() {
-    for (let [house, path] of Object.entries(Constants.HouseIconPaths)) {
-        await loadImage(path).then((image) => {
-            HouseIcons[house] = image;
-        });
+    if (cacheLoaded) {
+        return;
     }
 
-    for (let [type, path] of Object.entries(Constants.CardTypesPaths)) {
-        await loadImage(path).then((image) => {
-            CardTypesIcons[type] = image;
-        });
+    if (cachePromise) {
+        return cachePromise;
     }
 
-    for (let [house, path] of Object.entries(Constants.IdBackHousePaths)) {
-        await loadImage(path).then((image) => {
-            IdBackHouseIcons[house] = image;
-        });
-    }
+    const loadEntries = async (entries, target) =>
+        Promise.all(
+            entries.map(async ([key, path]) => {
+                target[key] = await loadImage(path);
+            })
+        );
 
-    for (let [x, path] of Object.entries(Constants.IdBackBlanksPaths)) {
-        await loadImage(path).then((image) => {
-            IdBackBlanksIcons[x] = image;
-        });
-    }
+    cachePromise = (async () => {
+        await Promise.all([
+            loadEntries(Object.entries(Constants.HouseIconPaths), HouseIcons),
+            loadEntries(Object.entries(Constants.CardTypesPaths), CardTypesIcons),
+            loadEntries(Object.entries(Constants.IdBackHousePaths), IdBackHouseIcons),
+            loadEntries(Object.entries(Constants.IdBackBlanksPaths), IdBackBlanksIcons),
+            loadEntries(Object.entries(Constants.SetIconPaths), SetIcons),
+            loadEntries(Object.entries(Constants.EnhancementBaseImages), EnhancementBaseImages),
+            loadEntries(Object.entries(Constants.EnhancementPips), EnhancementPipImages)
+        ]);
 
-    for (let [key, path] of Object.entries(Constants.SetIconPaths)) {
-        await loadImage(path).then((image) => {
-            SetIcons[key] = image;
-        });
-    }
+        const [
+            tcoIcon,
+            deckListIcon,
+            rarityCommon,
+            rarityRare,
+            raritySpecial,
+            rarityUncommon,
+            rarityEvilTwin,
+            rarityTide,
+            maverickIcon,
+            anomalyIcon,
+            defaultCard,
+            modifiedPowerToken,
+            armorToken,
+            cardBackDecalImage
+        ] = await Promise.all([
+            loadImage(imageUrl('idbacks/tco.png')),
+            loadImage(imageUrl('idbacks/decklist-h.png')),
+            loadImage(imageUrl('idbacks/Common.png')),
+            loadImage(imageUrl('idbacks/Rare.png')),
+            loadImage(imageUrl('idbacks/Special.png')),
+            loadImage(imageUrl('idbacks/Uncommon.png')),
+            loadImage(imageUrl('idbacks/evil-twin.png')),
+            loadImage(imageUrl('idbacks/tide.png')),
+            loadImage(Constants.MaverickIcon),
+            loadImage(Constants.AnomalyIcon),
+            loadImage(Constants.DefaultCard),
+            loadImage(Constants.Tokens.ModifiedPower),
+            loadImage(Constants.Tokens.Armor),
+            cardBackDecal ? loadImage(Constants.IdBackDecals[cardBackDecal]) : undefined
+        ]);
 
-    for (let [key, path] of Object.entries(Constants.EnhancementBaseImages)) {
-        await loadImage(path).then((image) => {
-            EnhancementBaseImages[key] = image;
-        });
-    }
+        if (cardBackDecal && cardBackDecalImage) {
+            IdBackDecals[cardBackDecal] = cardBackDecalImage;
+        }
 
-    for (let [key, path] of Object.entries(Constants.EnhancementPips)) {
-        await loadImage(path).then((image) => {
-            EnhancementPipImages[key] = image;
-        });
-    }
+        TCOIcon = tcoIcon;
+        DeckListIcon = deckListIcon;
+        Rarities.Common = rarityCommon;
+        Rarities.Token = Rarities.Rare = rarityRare;
+        Rarities.Special = raritySpecial;
+        Rarities.Uncommon = rarityUncommon;
+        Rarities['Evil Twin'] = rarityEvilTwin;
+        Rarities['The Tide'] = rarityTide;
+        MaverickIcon = maverickIcon;
+        AnomalyIcon = anomalyIcon;
+        DefaultCard = defaultCard;
+        Tokens.ModifiedPower = modifiedPowerToken;
+        Tokens.armor = armorToken;
+        cacheLoaded = true;
+    })();
 
-    if (cardBackDecal) {
-        IdBackDecals[cardBackDecal] = await loadImage(Constants.IdBackDecals[cardBackDecal]);
-    }
-
-    TCOIcon = await loadImage(imageUrl('idbacks/tco.png'));
-    DeckListIcon = await loadImage(imageUrl('idbacks/decklist-h.png'));
-    Rarities.Common = await loadImage(imageUrl('idbacks/Common.png'));
-    Rarities.Token = Rarities.Rare = await loadImage(imageUrl('idbacks/Rare.png'));
-    Rarities.Special = await loadImage(imageUrl('idbacks/Special.png'));
-    Rarities.Uncommon = await loadImage(imageUrl('idbacks/Uncommon.png'));
-    Rarities['Evil Twin'] = await loadImage(imageUrl('idbacks/evil-twin.png'));
-    Rarities['The Tide'] = await loadImage(imageUrl('idbacks/tide.png'));
-    MaverickIcon = await loadImage(Constants.MaverickIcon);
-    AnomalyIcon = await loadImage(Constants.AnomalyIcon);
-    DefaultCard = await loadImage(Constants.DefaultCard);
-    Tokens.ModifiedPower = await loadImage(Constants.Tokens.ModifiedPower);
-    Tokens.armor = await loadImage(Constants.Tokens.Armor);
-    cacheLoaded = true;
+    return cachePromise;
 }
 
 const cardData = {
@@ -206,6 +247,8 @@ const cardData = {
 
 const placeCard = (canvas, card, language, x, y) => {
     const name = card.locale && card.locale[language] ? card.locale[language].name : card.name;
+    const maxLength = 22;
+    const truncatedName = name.length > maxLength ? name.substring(0, maxLength - 3) + '...' : name;
 
     const rarity = new fabric.Image(Rarities[card.rarity].toCanvasElement(), imgOptions);
     rarity
@@ -219,7 +262,7 @@ const placeCard = (canvas, card, language, x, y) => {
     const number = new fabric.Text(card.number.toString(), fontProps).set({
         left: x + rarity.getScaledWidth() + 2,
         top: y + 2,
-        fontSize: 17
+        fontSize: 14
     });
 
     const typeIcon = new fabric.Image(CardTypesIcons[card.type].toCanvasElement(), imgOptions);
@@ -231,13 +274,13 @@ const placeCard = (canvas, card, language, x, y) => {
         })
         .scaleToWidth(cardData.size);
 
-    const title = new fabric.Text(name, {
+    const title = new fabric.Text(truncatedName, {
         ...fontProps,
         fontWeight: 300,
-        fontSize: 17,
+        fontSize: 14,
         fill: card.enhancements ? '#0081ad' : 'black'
     }).set({
-        left: x + rarity.getScaledWidth() + 32 + typeIcon.getScaledWidth(),
+        left: x + rarity.getScaledWidth() + 28 + typeIcon.getScaledWidth(),
         top: y + 2
     });
     canvas.add(number, title, rarity, typeIcon);
@@ -298,7 +341,7 @@ const placeCardCompact = (canvas, card, language, x, y) => {
     const number = new fabric.Text(card.number.toString(), fontProps).set({
         left: x + rarity.getScaledWidth() + 2,
         top: y + 2,
-        fontSize: 17
+        fontSize: 14
     });
 
     const typeIcon = new fabric.Image(CardTypesIcons[card.type].toCanvasElement(), imgOptions);
@@ -313,10 +356,10 @@ const placeCardCompact = (canvas, card, language, x, y) => {
     const title = new fabric.Text(truncatedName, {
         ...fontProps,
         fontWeight: 300,
-        fontSize: 17,
+        fontSize: 14,
         fill: card.enhancements ? '#0081ad' : 'black'
     }).set({
-        left: x + rarity.getScaledWidth() + 32 + typeIcon.getScaledWidth(),
+        left: x + rarity.getScaledWidth() + 28 + typeIcon.getScaledWidth(),
         top: y + 2
     });
 
@@ -334,12 +377,13 @@ export const buildDeckList = async (
     if (!cacheLoaded) {
         await cacheImages();
     }
+    initCanvas(canvas);
     const width = 840;
     const order = ['action', 'artifact', 'creature', 'upgrade'];
 
     const fontProps = {
         fontWeight: 800,
-        fontFamily: 'Keyforge',
+        fontFamily: 'PoppinsMedium',
         textAlign: 'left',
         fillStyle: 'black',
         fontSize: 20
@@ -385,8 +429,7 @@ export const buildDeckList = async (
         }
     }
 
-    // Extend height to accommodate prophecy cards properly
-    const height = prophecyCards.length > 0 ? 630 : 600;
+    const height = 600;
 
     canvas.setWidth(width);
     canvas.setHeight(height);
@@ -404,6 +447,7 @@ export const buildDeckList = async (
     );
 
     const QRCodeIcon = new fabric.Image(qrCode, imgOptions);
+    const DeckListBackground = new fabric.Image(DeckListIcon.toCanvasElement(), imgOptions);
     const expansion = new fabric.Image(SetIcons[deck.expansion].toCanvasElement(), imgOptions);
     const TCO = new fabric.Image(TCOIcon.toCanvasElement(), imgOptions);
 
@@ -414,11 +458,11 @@ export const buildDeckList = async (
 
     QRCodeIcon.set({ left: 737, top: 13 }).scaleToWidth(90);
     expansion.set({ left: 185, top: 72 }).scaleToWidth(20);
-    // Position TCO icon based on actual height
-    const tcoTop = height - 33; // 33px from bottom
+    // Position TCO icon at the fixed bottom offset of the identity frame
+    const tcoTop = 567;
     TCO.set({ left: 757, top: tcoTop }).scaleToWidth(40);
     text.set({ left: 210, top: 72 });
-    canvas.add(DeckListIcon, line1, line2, line3, QRCodeIcon, expansion, text, TCO);
+    canvas.add(DeckListBackground, line1, line2, line3, QRCodeIcon, expansion, text, TCO);
 
     const accoladePromises = [];
     if (showAccolades && deck.accolades?.length > 0) {
@@ -441,7 +485,7 @@ export const buildDeckList = async (
             left: 60,
             top: 29,
             textAlign: 'center',
-            fontFamily: 'Keyforge',
+            fontFamily: 'PoppinsMedium',
             fontSize: 20,
             fontWeight: 300,
             fill: '#fff',
@@ -454,7 +498,7 @@ export const buildDeckList = async (
         canvas.add(name);
     }
 
-    for (const [index, house] of deck.houses.sort().entries()) {
+    for (const [index, house] of [...deck.houses].sort().entries()) {
         const houseImage = new fabric.Image(HouseIcons[house].toCanvasElement(), imgOptions);
         houseImage
             .set({
@@ -499,7 +543,10 @@ export const buildDeckList = async (
     cardList
         .sort((a, b) => +a.number - +b.number)
         .sort((a, b) => order.indexOf(a.type) - order.indexOf(b.type))
-        .sort((a, b) => deck.houses.sort().indexOf(a.house) - deck.houses.sort().indexOf(b.house));
+        .sort(
+            (a, b) =>
+                [...deck.houses].sort().indexOf(a.house) - [...deck.houses].sort().indexOf(b.house)
+        );
     for (const [index, card] of cardList.entries()) {
         let x = cardData.start.x,
             y = cardData.start.y + index * 28;
@@ -576,6 +623,7 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
     if (!cacheLoaded) {
         await cacheImages();
     }
+    initCanvas(canvas);
     const width = 300;
     const height = 420;
 
@@ -674,6 +722,7 @@ export const buildCard = async (
     if (!cacheLoaded) {
         await cacheImages();
     }
+    initCanvas(canvas);
     const tokenFontProps = {
         ...fontProps,
         fill: '#fdfbfa',
@@ -684,7 +733,7 @@ export const buildCard = async (
         originY: 'center',
         textAlign: 'center',
         stroke: 'black',
-        strokeWidth: 3,
+        strokeWidth: 4,
         paintFirst: 'stroke'
     };
 
@@ -695,8 +744,14 @@ export const buildCard = async (
     const width = 300;
     const height = halfSize ? 262.5 : 420;
 
-    canvas.setWidth(width);
-    canvas.setHeight(height);
+    // Render at native source resolution so all overlaid assets (enhancement
+    // pips, tokens, etc.) are composited at their authored pixel density.
+    // We only set the backing store; the canvas element's CSS size is
+    // controlled by its parent layout (e.g. Tailwind h-full w-full), which
+    // lets the browser perform a single high-quality downscale at paint time.
+    canvas.setZoom(1);
+    canvas.setViewportTransform([1, 0, 0, 1, 0, 0]);
+    canvas.setDimensions({ width, height }, { backstoreOnly: true });
 
     const cardImage = new fabric.Image(
         DeckCards[halfSize ? 'halfSize' : 'cards'][image].toCanvasElement(),
@@ -720,8 +775,12 @@ export const buildCard = async (
             if (!MaverickCornerImage) {
                 MaverickCornerImage = await loadImage(Constants.MaverickCornerImage);
             }
-            MaverickCornerImage.set({ left: 210 });
-            canvas.add(MaverickCornerImage);
+            const maverickCornerImage = new fabric.Image(
+                MaverickCornerImage.toCanvasElement(),
+                imgOptions
+            );
+            maverickCornerImage.set({ left: 210 });
+            canvas.add(maverickCornerImage);
             house = maverick;
         } else if (anomaly) {
             house = anomaly;
@@ -735,12 +794,20 @@ export const buildCard = async (
                     Constants.MaverickHouseAmberImages[house]
                 );
             }
-            canvas.add(MaverickHouseAmberImages[house]);
+            const maverickHouseAmberImage = new fabric.Image(
+                MaverickHouseAmberImages[house].toCanvasElement(),
+                imgOptions
+            );
+            canvas.add(maverickHouseAmberImage);
         } else {
             if (!MaverickHouseImages[house]) {
                 MaverickHouseImages[house] = await loadImage(Constants.MaverickHouseImages[house]);
             }
-            canvas.add(MaverickHouseImages[house]);
+            const maverickHouseImage = new fabric.Image(
+                MaverickHouseImages[house].toCanvasElement(),
+                imgOptions
+            );
+            canvas.add(maverickHouseImage);
         }
     }
     if (enhancements && enhancements.length > 0 && enhancements[0] !== '') {
@@ -887,7 +954,7 @@ export const buildCard = async (
 
                 const TokenImage = new fabric.Image(Tokens[name].toCanvasElement(), imgOptions);
                 TokenImage.set({ originX: 'center', originY: 'center', opacity: fade ? 0.6 : 1 });
-                TokenImage.scaleToWidth(100);
+                TokenImage.scaleToWidth(106);
                 let top, left;
                 const position = [50, 150, 250];
                 if (Object.keys(printTokens).length <= 2) {
@@ -897,7 +964,16 @@ export const buildCard = async (
                     top = (Math.floor(index / 3) + 1) * 95;
                     left = position[index % 3];
                 }
-                TokenImage.set({ top, left });
+                TokenImage.set({
+                    top,
+                    left,
+                    shadow: new fabric.Shadow({
+                        color: 'rgba(0, 0, 0, 0.55)',
+                        blur: 7,
+                        offsetX: 0,
+                        offsetY: 2
+                    })
+                });
                 canvas.add(TokenImage);
                 if (showValue) {
                     const TokenText = new fabric.Text(count.toString(), tokenFontProps);
@@ -925,7 +1001,11 @@ const buildFailImage = (canvas, size, width) => {
 const applyFilters = (canvas, size, width) => {
     canvas.renderAll();
     const scale = size ? (defaultCardWidth * getCardSizeMultiplier(size)) / width : 1;
+    if (scale <= 1) {
+        return;
+    }
     const finalImage = new fabric.Image(canvas.toCanvasElement(), imgOptions);
+    canvas.clear();
     finalImage.filters.push(
         new fabric.Image.filters.Resize({
             resizeType: 'lanczos',
@@ -934,7 +1014,6 @@ const applyFilters = (canvas, size, width) => {
             scaleY: scale
         })
     );
-    canvas.clear();
     finalImage.applyFilters();
     finalImage.scaleToWidth(width);
     canvas.add(finalImage);
@@ -993,7 +1072,7 @@ const getCircularText = (
 
     canvas.width = width;
     canvas.height = height;
-    ctx.font = `${fontSize}px Keyforge`;
+    ctx.font = `${fontSize}px PoppinsMedium`;
     ctx.fillStyle = 'white';
     ctx.strokeStyle = 'rgb(32,32,32)';
     ctx.lineWidth = 1;
@@ -1031,6 +1110,7 @@ const getCountersForCard = (card) => {
         'enrage',
         'stun',
         'awakening',
+        'corrosion',
         'depth',
         'disruption',
         'doom',

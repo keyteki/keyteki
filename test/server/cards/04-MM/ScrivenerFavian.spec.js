@@ -106,4 +106,42 @@ describe('Scrivener Favian', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('infinite loop regression with Odoac the Patrician', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    inPlay: ['scrivener-favian'],
+                    hand: ['stalwart']
+                },
+                player2: {
+                    inPlay: ['odoac-the-patrician'],
+                    amber: 3
+                }
+            });
+            this.odoacThePatrician.tokens = { amber: 1 };
+            this.stalwart.enhancements = ['capture'];
+        });
+
+        it('serializes the gamestate after choosing steal but Odoac prevents it', function () {
+            this.player1.play(this.stalwart);
+            expect(this.player1).toHavePrompt('How do you wish to resolve this capture icon?');
+            this.player1.clickPrompt('steal');
+            expect(this.player1).isReadyToTakeAction();
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(3);
+        });
+
+        it('serializes the gamestate after choosing capture', function () {
+            this.player1.play(this.stalwart);
+            expect(this.player1).toHavePrompt('How do you wish to resolve this capture icon?');
+            this.player1.clickPrompt('capture');
+            this.player1.clickCard(this.scrivenerFavian);
+            expect(this.player1).isReadyToTakeAction();
+            expect(this.scrivenerFavian.amber).toBe(1);
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(2);
+        });
+    });
 });

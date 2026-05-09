@@ -80,7 +80,7 @@ describe('Catch and Release', function () {
             this.setupTest({
                 player1: {
                     house: 'unfathomable',
-                    inPlay: ['brillix-ponder', 'brillix-ponder', 'brillix-ponder'],
+                    inPlay: ['brillix-ponder'],
                     hand: [
                         'catch-and-release',
                         'brillix-ponder',
@@ -89,6 +89,18 @@ describe('Catch and Release', function () {
                         'brillix-ponder',
                         'brillix-ponder',
                         'brillix-ponder'
+                    ],
+                    deck: [
+                        'hookmaster',
+                        'hookmaster',
+                        'hookmaster',
+                        'hookmaster',
+                        'hookmaster',
+                        'hookmaster',
+                        'hookmaster',
+                        'hookmaster',
+                        'hookmaster',
+                        'hookmaster'
                     ]
                 },
                 player2: {}
@@ -96,15 +108,16 @@ describe('Catch and Release', function () {
         });
 
         it('should continue discarding after scrap draws a card', function () {
+            const deckLength = this.player1.player.deck.length;
             this.player1.play(this.catchAndRelease);
             expect(this.player1.player.hand.length).toBe(6);
             expect(this.player2.player.hand.length).toBe(0);
+            // The discard and deck length is a constant, and after drawing from
+            // scrap abilities the total number of cards lost should equal 2.
+            // Picked up 1 brillix, need to discard 2 hookmasters to get to 6 cards in hand
             expect(
-                this.player1.player.hand.filter((card) => card.name === 'Brillix Ponder').length
-            ).toBeLessThan(6);
-            expect(
-                this.player1.player.hand.filter((card) => card.name === 'Hookmaster').length
-            ).toBeGreaterThan(0);
+                this.player1.player.discard.length + this.player1.player.deck.length - deckLength
+            ).toEqual(2);
             expect(this.player1).isReadyToTakeAction();
         });
     });

@@ -7,7 +7,7 @@ class BondedAuctioneer extends Card {
     setupCardAbilities(ability) {
         this.reap({
             effect: 'destroy {0} and have {1} gain 1 amber',
-            effectArgs: (context) => [context.target.controller],
+            effectArgs: (context) => [context.target?.controller],
             target: {
                 cardType: 'artifact',
                 location: 'play area',

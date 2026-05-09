@@ -12,12 +12,12 @@ class ChallongeService {
         try {
             personal = await util.httpRequest(
                 `https://api.challonge.com/v1/tournaments.json?api_key=${user.challonge.key}`,
-                { json: true }
+                { json: true, allowedHosts: ['api.challonge.com'] }
             );
             community = user.challonge.subdomain
                 ? await util.httpRequest(
                       `https://api.challonge.com/v1/tournaments.json?api_key=${user.challonge.key}&subdomain=${user.challonge.subdomain}`,
-                      { json: true }
+                      { json: true, allowedHosts: ['api.challonge.com'] }
                   )
                 : [];
         } catch (error) {
@@ -44,7 +44,7 @@ class ChallongeService {
         try {
             matches = await util.httpRequest(
                 `https://api.challonge.com/v1/tournaments/${tournamentId}/matches.json?api_key=${user.challonge.key}`,
-                { json: true }
+                { json: true, allowedHosts: ['api.challonge.com'] }
             );
         } catch (error) {
             logger.error(`Failed to get tournaments for ${user.username}`, error);
@@ -63,7 +63,7 @@ class ChallongeService {
         try {
             participants = await util.httpRequest(
                 `https://api.challonge.com/v1/tournaments/${tournamentId}/participants.json?api_key=${user.challonge.key}`,
-                { json: true }
+                { json: true, allowedHosts: ['api.challonge.com'] }
             );
         } catch (error) {
             logger.error(`Failed to get participants for ${user.username}`, error);
@@ -90,6 +90,7 @@ class ChallongeService {
                     result = await util.httpRequest(url, {
                         method: 'POST',
                         json: true,
+                        allowedHosts: ['api.challonge.com'],
                         body: {
                             description: 'Click This link to enter your game.',
                             url: match.attachment

@@ -74,6 +74,24 @@ class UserService {
             added: added
         };
     }
+
+    async deleteBanlistEntry(id) {
+        let res;
+
+        try {
+            res = await db.query('DELETE FROM "BanList" WHERE "Id" = $1 RETURNING "Id"', [id]);
+        } catch (err) {
+            logger.error(`Error deleting banlist entry ${id}`, err);
+
+            throw new Error('Error occurred deleting banlist entry');
+        }
+
+        if (!res || res.length === 0) {
+            return undefined;
+        }
+
+        return { id: res[0].Id ?? res[0] };
+    }
 }
 
 module.exports = UserService;

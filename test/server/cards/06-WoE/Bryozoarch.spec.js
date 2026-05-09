@@ -36,7 +36,7 @@ describe('Bryozoarch', function () {
             expect(this.player2).isReadyToTakeAction();
         });
 
-        xit('should not return actions via Torvus', function () {
+        it.skip('should not return actions via Torvus', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('unfathomable');
             this.player2.endTurn();

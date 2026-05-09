@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
+  <!-- Diagonal (rotated 45°) square: dominant, defines the major NSEW corners. -->
+  <!-- Axis-aligned square: smaller, its corners poke out as accents on the diagonals. -->
+
+  <!-- Red outline (drawn larger; difference vs. fill = border thickness). -->
+  <g fill="#B82424" stroke="none">
+    <rect x="4.0" y="4.0" width="24.0" height="24.0" rx="2.6" ry="2.6" transform="rotate(45 16 16)"/>
+    <rect x="6.0" y="6.0" width="20.0" height="20.0" rx="0.7" ry="0.7"/>
+  </g>
+
+  <!-- White fill -->
+  <g fill="#FFFFFF" stroke="none">
+    <rect x="7.5" y="7.5" width="17.0" height="17.0" rx="1.7" ry="1.7" transform="rotate(45 16 16)"/>
+    <rect x="9.15" y="9.15" width="13.7" height="13.7" rx="0.4" ry="0.4"/>
+  </g>
+</svg>
+

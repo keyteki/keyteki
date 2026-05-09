@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import classNames from 'classnames';
 import { Trans, useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -14,20 +13,27 @@ import PlayerBoard from './PlayerBoard';
 import PlayerStats from './PlayerStats';
 import ReferenceCardPane from './ReferenceCardPane';
 import TimeLimitClock from './TimeLimitClock';
-import * as actions from '../../redux/actions';
+import { gameSendMessage } from '../../redux/socketActions';
 import { canShowDeckName, getMatchRecord, isSpectating, normalizePlayer } from './gameboardUtils';
 
-import './GameBoard.scss';
+const hasDenseRow = (player) => {
+    const cardsInPlay = player?.cardPiles?.cardsInPlay || [];
+    const grouped = cardsInPlay.reduce((acc, card) => {
+        const key = card.type || 'other';
+        acc[key] = (acc[key] || 0) + 1;
+        return acc;
+    }, {});
+
+    return Object.values(grouped).some((count) => count >= 6);
+};
 
 export const GameBoard = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { t, i18n } = useTranslation();
-    const { cards, currentGame, user } = useSelector((state) => ({
-        cards: state.cards.cards,
-        currentGame: state.lobby.currentGame,
-        user: state.auth.user
-    }));
+    const cards = useSelector((state) => state.cards.cards);
+    const currentGame = useSelector((state) => state.lobby.currentGame);
+    const user = useSelector((state) => state.account.user);
     const [cardToZoom, setCardToZoom] = useState(null);
     const [showMessages, setShowMessages] = useState(true);
     const [lastMessageCount, setLastMessageCount] = useState(0);
@@ -35,8 +41,12 @@ export const GameBoard = () => {
     const [showModal, setShowModal] = useState(false);
 
     const currentMessageCount = currentGame ? currentGame.messages.length : 0;
-    const boundActionCreators = useMemo(() => bindActionCreators(actions, dispatch), [dispatch]);
-    const { sendGameMessage } = boundActionCreators;
+    const sendGameMessage = useMemo(
+        () =>
+            (message, ...args) =>
+                dispatch(gameSendMessage(message, ...args)),
+        [dispatch]
+    );
 
     useEffect(() => {
         if (!currentGame) {
@@ -91,9 +101,11 @@ export const GameBoard = () => {
 
     thisPlayer = normalizePlayer(thisPlayer);
     otherPlayer = normalizePlayer(otherPlayer);
+    const highDensity = hasDenseRow(thisPlayer) || hasDenseRow(otherPlayer);
 
     const boardClass = classNames('game-board', {
-        'select-cursor': thisPlayer && thisPlayer.selectCard
+        'select-cursor': thisPlayer && thisPlayer.selectCard,
+        'high-density': highDensity
     });
     const manualMode = currentGame.manualMode;
     const spectating = isSpectating(currentGame, user);
@@ -110,6 +122,20 @@ export const GameBoard = () => {
     };
 
     const onCardClick = (card) => {
+        const cannotPlayCard =
+            typeof card?.canPlay === 'boolean' &&
+            !card.canPlay &&
+            !card.selected &&
+            !card.selectable;
+
+        if (!card || card.unselectable || cannotPlayCard) {
+            return;
+        }
+
+        if (thisPlayer?.selectCard && !card.selectable) {
+            return;
+        }
+
         sendGameMessage('cardClicked', card.uuid);
     };
 
@@ -183,6 +209,11 @@ export const GameBoard = () => {
     const renderBoard = () => [
         <div key='board-middle' className='board-middle'>
             <div className='board-inner'>
+                <div
+                    className={classNames('board-atmosphere-overlay', {
+                        dense: highDensity
+                    })}
+                />
                 <div className='play-area'>
                     <PlayerBoard
                         cardBack={
@@ -193,6 +224,7 @@ export const GameBoard = () => {
                             />
                         }
                         cardsInPlay={otherPlayer.cardPiles.cardsInPlay}
+                        hasActiveHouse={false}
                         isSpectating={spectating}
                         onCardClick={onCardClick}
                         onMenuItemClick={onMenuItemClick}
@@ -213,6 +245,7 @@ export const GameBoard = () => {
                         cardsInPlay={thisPlayer.cardPiles.cardsInPlay}
                         cardSize={user.settings.cardSize}
                         hand={thisPlayer.cardPiles.hand}
+                        hasActiveHouse={Boolean(thisPlayer.activeHouse)}
                         isMe={!spectating}
                         isSpectating={spectating}
                         manualMode={currentGame.manualMode}
@@ -222,6 +255,7 @@ export const GameBoard = () => {
                         onMouseOut={onMouseOut}
                         onMouseOver={onMouseOver}
                         rowDirection='default'
+                        activePlayer={thisPlayer.activePlayer}
                         tide={thisPlayer.stats.tide}
                         user={user}
                     />
@@ -275,8 +309,7 @@ export const GameBoard = () => {
                 {renderBoard()}
                 {cardToZoom && <CardZoom card={cardToZoom} />}
                 <div className='right-side'>
-                    <div className='prompt-area'>
-                        <div className='right-side-top'></div>
+                    <div className='prompt-area relative box-border flex w-64 shrink-0 flex-col items-center justify-end overflow-visible bg-[color:color-mix(in_oklab,var(--surface)_94%,transparent)] px-0.5'>
                         <ReferenceCardPane
                             thisPlayer={thisPlayer}
                             otherPlayer={otherPlayer}
@@ -315,22 +348,23 @@ export const GameBoard = () => {
                             {timeLimitClock}
                         </div>
                     </div>
-                    {showMessages && (
-                        <div className='gamechat'>
-                            <GameChat
-                                key='gamechat'
-                                messages={currentGame.messages}
-                                onCardMouseOut={onMouseOut}
-                                onCardMouseOver={onMouseOver}
-                                onSendChat={sendChatMessage}
-                                muted={spectating && currentGame.muteSpectators}
-                            />
-                        </div>
-                    )}
+                    <div className='chat-scroll border-l border-[color:color-mix(in_oklab,var(--border)_88%,transparent)] bg-[color:color-mix(in_oklab,var(--surface)_94%,transparent)]'>
+                        {showMessages && (
+                            <div className='relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden box-border'>
+                                <GameChat
+                                    key='gamechat'
+                                    messages={currentGame.messages}
+                                    onCardMouseOut={onMouseOut}
+                                    onCardMouseOver={onMouseOver}
+                                    onSendChat={sendChatMessage}
+                                    muted={spectating && currentGame.muteSpectators}
+                                />
+                            </div>
+                        )}
+                    </div>
                 </div>
             </div>
             <PlayerStats
-                {...boundActionCreators}
                 activeHouse={thisPlayer.activeHouse}
                 activePlayer={thisPlayer.activePlayer}
                 cardBack={

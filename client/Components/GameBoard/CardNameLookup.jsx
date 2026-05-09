@@ -16,7 +16,7 @@ const CardNameLookup = (props) => {
     const typeheadRef = useRef(null);
 
     let cardNames = [...new Set(Object.values(props.cards).map((card) => card.name))];
-    cardNames.sort();
+    cardNames = [...cardNames].sort();
 
     const onDoneClick = () => {
         if (cardName) {
@@ -35,7 +35,11 @@ const CardNameLookup = (props) => {
                 dropup
                 onChange={(cards) => setCardName(cards[0])}
             />
-            <button type='button' onClick={onDoneClick} className='btn btn-primary'>
+            <button
+                type='button'
+                onClick={onDoneClick}
+                className='rounded-md border border-border/70 bg-surface-secondary/55 px-3 py-1.5 text-sm text-foreground transition hover:bg-surface-secondary/75'
+            >
                 <Trans>Done</Trans>
             </button>
         </div>

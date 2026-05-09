@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import $ from 'jquery';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Constants } from './constants';
@@ -10,15 +8,15 @@ import Navigation from './Components/Navigation/Navigation';
 import AppRoutes from './AppRoutes';
 import { tryParseJSON } from './util.jsx';
 import AlertPanel from './Components/Site/AlertPanel';
+import { setAuthTokens } from './redux/slices/authSlice';
 import {
-    authenticate,
-    connectLobby,
-    loadCards,
-    loadFactions,
-    loadStandaloneDecks,
-    setAuthTokens,
-    setWindowBlur
-} from './redux/actions';
+    useGetCardsQuery,
+    useGetFactionsQuery,
+    useGetStandaloneDecksQuery,
+    useVerifyAuthenticationMutation
+} from './redux/api';
+import { lobbyAuthenticateRequested, lobbyConnectRequested } from './redux/socketActions';
+import { lobbyActions } from './redux/slices/lobbySlice';
 
 import Background from './assets/img/bgs/keyforge.png';
 import BlankBg from './assets/img/bgs/blank.png';
@@ -33,11 +31,9 @@ const Application = () => {
     const [cannotLoad, setCannotLoad] = useState(false);
     const prevWindowBlurred = useRef(null);
 
-    const { currentGame, user, windowBlurred } = useSelector((state) => ({
-        currentGame: state.lobby.currentGame,
-        user: state.account.user,
-        windowBlurred: state.lobby.windowBlurred
-    }));
+    const currentGame = useSelector((state) => state.lobby.currentGame);
+    const user = useSelector((state) => state.account.user);
+    const windowBlurred = useSelector((state) => state.lobby.windowBlurred);
 
     const backgrounds = useMemo(() => {
         const values = { blank: BlankBg };
@@ -52,6 +48,11 @@ const Application = () => {
         return values;
     }, []);
 
+    const [verifyAuthentication] = useVerifyAuthenticationMutation();
+    useGetCardsQuery();
+    useGetFactionsQuery();
+    useGetStandaloneDecksQuery();
+
     useEffect(() => {
         if (!localStorage) {
             setIncompatibleBrowser(true);
@@ -62,8 +63,13 @@ const Application = () => {
                 if (refreshToken) {
                     const parsedToken = tryParseJSON(refreshToken);
                     if (parsedToken) {
-                        dispatch(setAuthTokens(token, parsedToken));
-                        dispatch(authenticate());
+                        dispatch(setAuthTokens({ token, refreshToken: parsedToken }));
+                        verifyAuthentication()
+                            .unwrap()
+                            .then(() => {
+                                dispatch(lobbyAuthenticateRequested());
+                            })
+                            .catch(() => {});
                     }
                 }
             } catch (error) {
@@ -71,33 +77,24 @@ const Application = () => {
             }
         }
 
-        dispatch(loadCards());
-        dispatch(loadFactions());
-        dispatch(loadStandaloneDecks());
-
-        const handleAjaxError = (event, xhr) => {
-            if (xhr.status === 403) {
-                navigate('/unauth');
-            }
-        };
-
-        $(document).ajaxError(handleAjaxError);
-
-        dispatch(connectLobby());
+        dispatch(lobbyConnectRequested());
 
         const onFocusChange = (event) => {
-            dispatch(setWindowBlur(event.type));
+            if (event.type === 'blur') {
+                dispatch(lobbyActions.windowBlur());
+            } else {
+                dispatch(lobbyActions.windowFocus());
+            }
         };
 
         window.addEventListener('focus', onFocusChange);
         window.addEventListener('blur', onFocusChange);
 
         return () => {
-            $(document).off('ajaxError', handleAjaxError);
             window.removeEventListener('focus', onFocusChange);
             window.removeEventListener('blur', onFocusChange);
         };
-    }, [dispatch, navigate]);
+    }, [dispatch, verifyAuthentication]);
 
     const blinkTab = useCallback(() => {
         if (!currentGame || !currentGame.players) {
@@ -167,7 +164,7 @@ const Application = () => {
             return;
         }
 
-        bgRef.current.style.backgroundImage = `url('${Background}')`;
+        bgRef.current.style.backgroundImage = 'none';
     }, [backgrounds, gameBoardVisible, user]);
 
     let component = <AppRoutes user={user} currentGame={currentGame} />;
@@ -192,7 +189,7 @@ const Application = () => {
         <div className='bg' ref={bgRef}>
             <Navigation appName='The Crucible Online' user={user} />
             <div className='wrapper'>
-                <Container className='content'>
+                <div className='mx-auto w-full pt-14 px-3 sm:px-4 lg:max-w-[92vw] lg:px-6 2xl:max-w-screen-2xl'>
                     <ErrorBoundary
                         navigate={navigate}
                         errorPath={path}
@@ -200,9 +197,9 @@ const Application = () => {
                     >
                         {component}
                     </ErrorBoundary>
-                </Container>
+                </div>
             </div>
-            <div className='keyforge-font' style={{ zIndex: -999 }}>
+            <div className='font-sans' style={{ zIndex: -999 }}>
                 &nbsp;
             </div>
         </div>

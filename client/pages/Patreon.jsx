@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from '@heroui/react';
 
-import { clearLinkStatus, linkPatreon } from '../redux/actions';
+import { accountActions } from '../redux/slices/accountSlice';
+import { useLinkPatreonMutation } from '../redux/api';
 import AlertPanel from '../Components/Site/AlertPanel';
 import ApiStatus from '../Components/Site/ApiStatus';
 import { useNavigate } from 'react-router-dom';
@@ -10,33 +12,23 @@ import { useNavigate } from 'react-router-dom';
 const Patreon = ({ code }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const [successMessage, setSuccessMessage] = useState('');
-    const { accountLinked, apiState } = useSelector((state) => ({
-        accountLinked: state.account.accountLinked,
-        apiState: state.api.ACCOUNT_LINK_REQUEST || {}
-    }));
+    const [linkPatreon, linkState] = useLinkPatreonMutation();
+    const accountLinked = useSelector((state) => state.account.accountLinked);
 
     useEffect(() => {
         if (code) {
-            dispatch(linkPatreon(code));
+            linkPatreon(code);
         }
-    }, [code, dispatch]);
+    }, [code, linkPatreon]);
 
     useEffect(() => {
         if (!accountLinked) {
             return;
         }
 
-        setSuccessMessage(
-            'Your account was linked successfully.  Sending you back to the profile page.'
-        );
-
-        const timeoutId = setTimeout(() => {
-            dispatch(clearLinkStatus());
-            navigate('/profile');
-        }, 5000);
-
-        return () => clearTimeout(timeoutId);
+        toast.success('Your account was linked successfully.');
+        dispatch(accountActions.clearLinkStatus());
+        navigate('/profile');
     }, [accountLinked, dispatch, navigate]);
 
     if (!code) {
@@ -48,16 +40,26 @@ const Patreon = ({ code }) => {
         );
     }
 
+    const apiState = linkState.isUninitialized
+        ? null
+        : {
+              loading: linkState.isLoading,
+              success: linkState.isSuccess,
+              message: linkState.isSuccess
+                  ? 'Your account was linked successfully.'
+                  : linkState.error?.data?.message
+          };
+
     return (
         <div>
-            <ApiStatus apiState={apiState} successMessage={successMessage} />
-            {apiState.loading && <div>Please wait while we verify your details..</div>}
+            <ApiStatus state={apiState} />
+            {linkState.isLoading && <div>Please wait while we verify your details..</div>}
         </div>
     );
 };
 
 Patreon.propTypes = {
-    code: PropTypes.string.isRequired
+    code: PropTypes.string
 };
 Patreon.displayName = 'Patreon';
 

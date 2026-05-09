@@ -1,23 +1,23 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '@heroui/react';
 
 import Panel from '../Components/Site/Panel';
-
-import { sendSocketMessage } from '../redux/actions';
-import { Col } from 'react-bootstrap';
+import ReactTable from '../Components/Table/ReactTable';
+import { lobbySendMessage } from '../redux/socketActions';
 
 const NodeAdmin = () => {
     const dispatch = useDispatch();
     const nodeStatus = useSelector((state) => state.admin.nodeStatus);
 
     useEffect(() => {
-        dispatch(sendSocketMessage('getnodestatus'));
+        dispatch(lobbySendMessage('getnodestatus'));
     }, [dispatch]);
 
     const onToggleNodeClick = useCallback(
         (node, event) => {
             event.preventDefault();
-            dispatch(sendSocketMessage('togglenode', node.name));
+            dispatch(lobbySendMessage('togglenode', node.name));
         },
         [dispatch]
     );
@@ -25,7 +25,7 @@ const NodeAdmin = () => {
     const onRefreshClick = useCallback(
         (event) => {
             event.preventDefault();
-            dispatch(sendSocketMessage('getnodestatus'));
+            dispatch(lobbySendMessage('getnodestatus'));
         },
         [dispatch]
     );
@@ -33,9 +33,43 @@ const NodeAdmin = () => {
     const onRestartNodeClick = useCallback(
         (node, event) => {
             event.preventDefault();
-            dispatch(sendSocketMessage('restartnode', node.name));
+            dispatch(lobbySendMessage('restartnode', node.name));
         },
         [dispatch]
+    );
+
+    const columns = useMemo(
+        () => [
+            { accessorKey: 'name', header: 'Node Name' },
+            { accessorKey: 'numGames', header: 'Num Games' },
+            { accessorKey: 'status', header: 'Status' },
+            { accessorKey: 'version', header: 'Version' },
+            {
+                id: 'actions',
+                header: 'Actions',
+                cell: ({ row }) => (
+                    <div className='flex gap-2'>
+                        <Button
+                            type='button'
+                            size='sm'
+                            variant='tertiary'
+                            onClick={(event) => onToggleNodeClick(row.original, event)}
+                        >
+                            {row.original.status === 'active' ? 'Disable' : 'Enable'}
+                        </Button>
+                        <Button
+                            type='button'
+                            size='sm'
+                            variant='tertiary'
+                            onClick={(event) => onRestartNodeClick(row.original, event)}
+                        >
+                            Restart
+                        </Button>
+                    </div>
+                )
+            }
+        ],
+        [onRestartNodeClick, onToggleNodeClick]
     );
 
     let content;
@@ -43,59 +77,21 @@ const NodeAdmin = () => {
     if (!nodeStatus) {
         content = <div>Waiting for game node status from the lobby...</div>;
     } else if (nodeStatus.length > 0) {
-        content = (
-            <table className='table table-striped'>
-                <thead>
-                    <tr>
-                        <th>Node Name</th>
-                        <th>Num Games</th>
-                        <th>Status</th>
-                        <th>Version</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {nodeStatus.map((node) => (
-                        <tr key={node.name}>
-                            <td>{node.name}</td>
-                            <td>{node.numGames}</td>
-                            <td>{node.status}</td>
-                            <td>{node.version}</td>
-                            <td>
-                                <button
-                                    type='button'
-                                    className='btn btn-primary'
-                                    onClick={(event) => onToggleNodeClick(node, event)}
-                                >
-                                    {node.status === 'active' ? 'Disable' : 'Enable'}
-                                </button>
-                                <button
-                                    type='button'
-                                    className='btn btn-primary'
-                                    onClick={(event) => onRestartNodeClick(node, event)}
-                                >
-                                    Restart
-                                </button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        );
+        content = <ReactTable columns={columns} data={nodeStatus} disableSelection />;
     } else {
         content = <div>There are no game nodes connected. This is probably bad.</div>;
     }
 
     return (
-        <Col sm={{ span: 10, offset: 1 }}>
+        <div className='mx-auto w-full max-w-6xl'>
             <Panel title='Game Node Administration'>
                 {content}
 
-                <button className='btn btn-default btn-short' onClick={onRefreshClick}>
+                <Button className='mt-2' size='sm' variant='primary' onClick={onRefreshClick}>
                     Refresh
-                </button>
+                </Button>
             </Panel>
-        </Col>
+        </div>
     );
 };
 

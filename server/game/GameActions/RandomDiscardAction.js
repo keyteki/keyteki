@@ -16,9 +16,8 @@ class RandomDiscardAction extends PlayerAction {
     setup() {
         super.setup();
         this.name = 'discard';
-        this.effectMsg = `discard ${
-            this.amount === 1 ? 'a card' : `${this.amount} cards`
-        } at random from {0}'s ${this.location}`;
+        // Defer messaging to print exact amounts during execution
+        this.defersMessage = true;
     }
 
     canAffect(player, context) {
@@ -34,11 +33,16 @@ class RandomDiscardAction extends PlayerAction {
 
     /**
      * Get the amount to discard for a given player.
-     * Supports both a static number and a function that takes the player.
+     * Supports: a static number, a function that takes the player, or an array
+     * where amount[i] corresponds to target[i].
      */
     getAmount(player) {
         if (typeof this.amount === 'function') {
             return this.amount(player);
+        }
+        if (Array.isArray(this.amount)) {
+            const index = this.target.indexOf(player);
+            return index >= 0 && index < this.amount.length ? this.amount[index] : 0;
         }
         return this.amount;
     }
@@ -77,6 +81,18 @@ class RandomDiscardAction extends PlayerAction {
         const amount = this.getAmount(player);
 
         return super.createEvent(EVENTS.unnamedEvent, { player, context, amount }, (event) => {
+            // Print message with exact amount during execution
+            if (amount > 0) {
+                context.game.addMessage(
+                    `{0} uses {1} to randomly discard ${amount} card${
+                        amount === 1 ? '' : 's'
+                    } from {2}'s ${this.location}`,
+                    context.player,
+                    context.source,
+                    player
+                );
+            }
+
             const cardsDiscarded = [];
             let remainingAmount = event.amount;
 
@@ -97,7 +113,11 @@ class RandomDiscardAction extends PlayerAction {
 
                 const randomCard = _.sample(availableCards);
                 cardsDiscarded.push(randomCard);
-                context.game.addMessage('{0} randomly discards {1}', player, randomCard);
+                context.game.addMessage(
+                    `{0} randomly discards {1} from ${this.location}`,
+                    player,
+                    randomCard
+                );
 
                 // Create a discard event for this card
                 const discardEvent = context.game.actions

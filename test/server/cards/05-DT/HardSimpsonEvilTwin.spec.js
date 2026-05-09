@@ -60,6 +60,19 @@ describe("Hard Simpson Evil Twin's ability", function () {
                 expect(this.player2.amber).toBe(3);
                 expect(this.player1).isReadyToTakeAction();
             });
+
+            it('should be able to select enemy damaged creature when opponent has 0 aember', function () {
+                this.player1.amber = 1;
+                this.player2.amber = 0;
+                this.player1.reap(this.hardSimpsonEvilTwin);
+                expect(this.player1).toBeAbleToSelect(this.murkens);
+                expect(this.player1).toBeAbleToSelect(this.shooler);
+                this.player1.clickCard(this.murkens);
+                expect(this.murkens.amber).toBe(0);
+                expect(this.player1.amber).toBe(2);
+                expect(this.player2.amber).toBe(0);
+                expect(this.player1).isReadyToTakeAction();
+            });
         });
     });
 });

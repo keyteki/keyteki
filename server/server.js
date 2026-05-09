@@ -30,10 +30,10 @@ class Server {
         if (!this.isDeveloping) {
             Sentry.init({
                 dsn: this.configService.getValue('sentryDsn'),
-                release: process.env.VERSION || 'Local build'
+                release: process.env.VERSION || 'Local build',
+                environment: process.env.NODE_ENV || 'production',
+                integrations: [Sentry.expressIntegration({ app })]
             });
-            app.use(Sentry.Handlers.requestHandler());
-            app.use(Sentry.Handlers.errorHandler());
         }
 
         var opts = {};
@@ -91,6 +91,10 @@ class Server {
             app.get('*', (req, res) => {
                 res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
             });
+        }
+
+        if (!this.isDeveloping) {
+            Sentry.setupExpressErrorHandler(app);
         }
 
         // Define error middleware last

@@ -1,47 +1,57 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { toast } from '@heroui/react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { Col } from 'react-bootstrap';
 
 import Login from '../Components/Login';
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
-import { Auth } from '../redux/types';
-import { loginAccount, clearApiStatus, authenticateSocket } from '../redux/actions';
+import { useLoginAccountMutation } from '../redux/api';
+import { lobbyAuthenticateRequested, lobbyConnectRequested } from '../redux/socketActions';
 
 const LoginContainer = () => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const navigate = useNavigate();
-    const apiState = useSelector((state) => {
-        const retState = state.api[Auth.LoginAccount];
+    const [loginAccount, loginState] = useLoginAccountMutation();
+    const { isSuccess, reset } = loginState;
 
-        if (retState && retState.status === 401) {
-            retState.message = t('Invalid username/password');
-        } else if (retState && retState.success) {
-            retState.message = t('Login successful, redirecting you to the home page');
+    useEffect(() => {
+        return () => {
+            reset();
+        };
+    }, [reset]);
 
-            setTimeout(() => {
-                dispatch(clearApiStatus(Auth.LoginAccount));
-                dispatch(authenticateSocket());
-                navigate('/');
-            }, 500);
+    useEffect(() => {
+        if (isSuccess) {
+            toast.success(t('Login successful'));
+            reset();
+            dispatch(lobbyConnectRequested());
+            dispatch(lobbyAuthenticateRequested());
+            navigate('/');
         }
+    }, [dispatch, isSuccess, navigate, reset, t]);
 
-        return retState;
-    });
+    const apiState = loginState.isUninitialized
+        ? null
+        : {
+              loading: loginState.isLoading,
+              success: isSuccess,
+              message: isSuccess
+                  ? t('Login successful')
+                  : loginState.error?.status === 401
+                  ? t('Invalid username/password')
+                  : loginState.error?.data?.message
+          };
 
     return (
-        <Col lg={{ span: 8, offset: 2 }}>
+        <div className='mx-auto w-full max-w-2xl'>
             <Panel title={t('Login')}>
-                <ApiStatus
-                    state={apiState}
-                    onClose={() => dispatch(clearApiStatus(Auth.LoginAccount))}
-                />
-                <Login onSubmit={(values) => dispatch(loginAccount(values))} />
+                <ApiStatus state={apiState} onClose={() => loginState.reset()} />
+                <Login onSubmit={(values) => loginAccount(values)} />
             </Panel>
-        </Col>
+        </div>
     );
 };
 

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 
-import './Archon.scss';
 import IdentityCardImage from './IdentityCardImage';
 
 /**

@@ -1,128 +1,180 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import { Button, Input, Label, toast } from '@heroui/react';
 
-import Form from '../Components/Form/Form';
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
-import { addBanlist, clearBanlistStatus, deleteBanlist, loadBanlist } from '../redux/actions';
-import { Col } from 'react-bootstrap';
+import ReactTable from '../Components/Table/ReactTable';
+import { useAddBanlistMutation, useDeleteBanlistMutation, useGetBanlistQuery } from '../redux/api';
+import { adminActions } from '../redux/slices/adminSlice';
 
 const BanlistAdmin = () => {
     const dispatch = useDispatch();
     const [currentRequest, setCurrentRequest] = useState('REQUEST_BANLIST');
-    const [successMessage, setSuccessMessage] = useState(undefined);
-    const { apiAddState, apiDeleteState, apiState, banListAdded, banListDeleted, banlist } =
-        useSelector((state) => ({
-            apiAddState: state.api.ADD_BANLIST,
-            apiDeleteState: state.api.DELETE_BANLIST,
-            apiState: state.api.REQUEST_BANLIST,
-            banListAdded: state.admin.banlistAdded,
-            banListDeleted: state.admin.banlistDeleted,
-            banlist: state.admin.banlist
-        }));
+    const { isLoading } = useGetBanlistQuery();
+    const [addBanlist, addState] = useAddBanlistMutation();
+    const [deleteBanlist, deleteState] = useDeleteBanlistMutation();
+    const banlist = useSelector((state) => state.admin.banlist);
 
     useEffect(() => {
-        dispatch(loadBanlist());
-    }, [dispatch]);
-
-    useEffect(() => {
-        if (!banListAdded && !banListDeleted) {
+        if (!addState.isSuccess) {
             return;
         }
 
-        if (banListAdded) {
-            setSuccessMessage('Banlist item added successfully.');
-        } else if (banListDeleted) {
-            setSuccessMessage('Banlist item deleted successfully.');
+        toast.success('Banlist item added successfully.');
+        addState.reset();
+        dispatch(adminActions.clearBanlistStatus());
+    }, [addState, dispatch]);
+
+    useEffect(() => {
+        if (!deleteState.isSuccess) {
+            return;
         }
 
-        const timeoutId = setTimeout(() => {
-            dispatch(clearBanlistStatus());
-            setSuccessMessage(undefined);
-        }, 5000);
-
-        return () => clearTimeout(timeoutId);
-    }, [banListAdded, banListDeleted, dispatch]);
+        toast.success('Banlist item deleted successfully.');
+        deleteState.reset();
+        dispatch(adminActions.clearBanlistStatus());
+    }, [deleteState, dispatch]);
 
     const onAddBanlistClick = useCallback(
         (state) => {
             setCurrentRequest('ADD_BANLIST');
-            dispatch(addBanlist(state.ip));
+            addBanlist(state.ip);
         },
-        [dispatch]
+        [addBanlist]
     );
 
     const onDeleteClick = useCallback(
         (id) => {
             setCurrentRequest('DELETE_BANLIST');
-            dispatch(deleteBanlist(id));
+            deleteBanlist(id);
         },
-        [dispatch]
+        [deleteBanlist]
     );
 
     const statusBar = useMemo(() => {
         switch (currentRequest) {
             case 'ADD_BANLIST':
-                return <ApiStatus apiState={apiAddState} successMessage={successMessage} />;
+                return (
+                    <ApiStatus
+                        state={
+                            addState.isUninitialized
+                                ? null
+                                : {
+                                      loading: addState.isLoading,
+                                      success: false,
+                                      message: addState.error?.data?.message
+                                  }
+                        }
+                    />
+                );
             case 'DELETE_BANLIST':
-                return <ApiStatus apiState={apiDeleteState} successMessage={successMessage} />;
+                return (
+                    <ApiStatus
+                        state={
+                            deleteState.isUninitialized
+                                ? null
+                                : {
+                                      loading: deleteState.isLoading,
+                                      success: false,
+                                      message: deleteState.error?.data?.message
+                                  }
+                        }
+                    />
+                );
             case 'REQUEST_BANLIST':
             default:
-                return <ApiStatus apiState={apiState} successMessage={successMessage} />;
+                return <ApiStatus state={isLoading ? { loading: true } : null} />;
         }
-    }, [apiAddState, apiDeleteState, apiState, currentRequest, successMessage]);
+    }, [addState, currentRequest, deleteState, isLoading]);
 
-    if (apiState && apiState.loading) {
+    if (isLoading) {
         return 'Loading banlist, please wait...';
     }
 
+    const columns = [
+        { accessorKey: 'ip', header: 'Ip' },
+        {
+            accessorKey: 'added',
+            header: 'Added',
+            cell: ({ row }) => moment(row.original.added).format('YYYY-MM-DD')
+        },
+        { accessorKey: 'user', header: 'Added By' },
+        {
+            id: 'action',
+            header: 'Action',
+            cell: ({ row }) => (
+                <Button
+                    type='button'
+                    size='sm'
+                    variant='danger'
+                    onClick={() => onDeleteClick(row.original.id)}
+                >
+                    Delete
+                </Button>
+            )
+        }
+    ];
+    const schema = yup.object({
+        ip: yup.string().required('Please enter the Ip address')
+    });
+    const initialValues = { ip: '' };
+
     return (
-        <Col>
+        <div>
             {statusBar}
             <Panel title='Banlist administration'>
-                <table className='table table-striped'>
-                    <thead>
-                        <tr>
-                            <th className='col-sm-2'>Ip</th>
-                            <th className='col-sm-2'>Added</th>
-                            <th className='col-sm-3'>Added By</th>
-                            <th className='col-sm-2'>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {banlist.map((entry) => (
-                            <tr key={entry.id}>
-                                <td>{entry.ip}</td>
-                                <td>{moment(entry.added).format('YYYY-MM-DD')}</td>
-                                <td>{entry.user}</td>
-                                <td>
-                                    <button
-                                        type='button'
-                                        className='btn btn-danger'
-                                        onClick={() => onDeleteClick(entry.id)}
-                                    >
-                                        Delete{' '}
-                                        {apiDeleteState && apiDeleteState.loading && (
-                                            <span className='spinner button-spinner' />
-                                        )}
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                <ReactTable columns={columns} data={banlist} disableSelection isStriped={false} />
             </Panel>
             <Panel title='Add new ip'>
-                <Form
-                    name='banlistAdmin'
-                    apiLoading={apiAddState && apiAddState.loading}
-                    buttonClass='col-sm-offset-2 col-sm-4'
-                    buttonText='Add'
+                <Formik
+                    validationSchema={schema}
                     onSubmit={onAddBanlistClick}
-                />
+                    initialValues={initialValues}
+                >
+                    {(formProps) => (
+                        <form onSubmit={formProps.handleSubmit} className='space-y-3'>
+                            <div className='grid gap-1 md:grid-cols-12 md:items-start md:gap-2'>
+                                <Label
+                                    htmlFor='ip'
+                                    className='block text-sm text-zinc-100 md:col-span-2 md:pt-2 md:text-right'
+                                >
+                                    Add ip address
+                                </Label>
+                                <div className='md:col-span-4'>
+                                    <Input
+                                        id='ip'
+                                        name='ip'
+                                        value={formProps.values.ip}
+                                        onChange={formProps.handleChange}
+                                        onBlur={formProps.handleBlur}
+                                        placeholder='Enter Ip'
+                                        variant='tertiary'
+                                    />
+                                    {formProps.touched.ip && formProps.errors.ip ? (
+                                        <div className='mt-1 text-xs text-red-300'>
+                                            {formProps.errors.ip}
+                                        </div>
+                                    ) : null}
+                                </div>
+                            </div>
+                            <div className='md:ml-[16.666667%] md:w-1/3'>
+                                <Button
+                                    type='submit'
+                                    variant='primary'
+                                    isPending={addState.isLoading}
+                                >
+                                    Add
+                                </Button>
+                            </div>
+                        </form>
+                    )}
+                </Formik>
             </Panel>
-        </Col>
+        </div>
     );
 };
 
