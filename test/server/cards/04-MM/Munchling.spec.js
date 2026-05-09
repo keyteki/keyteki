@@ -17,13 +17,14 @@ describe('munchling', function () {
         });
 
         it('give prompt', function () {
-            expect(this.player1).toBeAbleToSelect(this.munchling);
+            expect(this.player1).toHavePrompt('Choose a card');
+            expect(this.player1).toBeAbleToSelect(this.eyegor);
+            expect(this.player1).toBeAbleToSelect(this.archimedes);
+            expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
         });
 
         describe('and the ability is triggered', function () {
-            beforeEach(function () {
-                this.player1.clickCard(this.munchling);
-            });
+            beforeEach(function () {});
 
             it('and gives prompt', function () {
                 expect(this.player1).toHavePrompt('Choose a card');

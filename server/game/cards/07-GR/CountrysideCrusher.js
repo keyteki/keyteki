@@ -7,9 +7,9 @@ class CountrysideCrusher extends Card {
     // Scrap: Ready and fight with the least powerful friendly creature.
     setupCardAbilities(ability) {
         this.fight({
-            optional: true,
             condition: (context) => context.player.opponent && context.player.opponent.isHaunted(),
             target: {
+                optional: true,
                 cardType: 'creature',
                 controller: 'self',
                 cardCondition: (card, context) => context.source.neighbors.includes(card),

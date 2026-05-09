@@ -18,7 +18,6 @@ describe('Chronus', function () {
             this.dextre.enhancements = ['amber', 'draw', 'amber'];
 
             this.player1.play(this.dextre);
-            expect(this.player1).toBeAbleToSelect(this.chronus);
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
             expect(this.player1.amber).toBe(2);
@@ -28,9 +27,7 @@ describe('Chronus', function () {
             this.dextre.enhancements = ['amber', 'amber', 'draw'];
 
             this.player1.play(this.dextre);
-            expect(this.player1).toBeAbleToSelect(this.chronus);
             expect(this.player1).toHavePromptButton('Done');
-            this.player1.clickCard(this.chronus);
             expect(this.player1).toBeAbleToSelect(this.poke);
             expect(this.player1).toBeAbleToSelect(this.tautauVapors);
             expect(this.player1).toBeAbleToSelect(this.mimicGel);
@@ -58,11 +55,8 @@ describe('Chronus', function () {
             this.dextre.enhancements = ['draw', 'draw', 'draw', 'draw'];
 
             this.player1.play(this.dextre);
-            this.player1.clickCard(this.chronus);
             this.player1.clickCard(this.mimicGel);
-            this.player1.clickCard(this.chronus);
             this.player1.clickCard(this.poke);
-            this.player1.clickCard(this.chronus);
             this.player1.clickCard(this.tautauVapors);
             this.player1.clickPrompt('Done');
             expect(this.player1.player.hand.length).toBe(4);
@@ -76,7 +70,6 @@ describe('Chronus', function () {
             this.poke.enhancements = ['draw'];
 
             this.player1.play(this.poke);
-            expect(this.player1).toBeAbleToSelect(this.chronus);
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
             expect(this.player1.player.hand.length).toBe(4);
@@ -91,12 +84,10 @@ describe('Chronus', function () {
             this.player1.clickPrompt('Left');
 
             this.player1.play(this.dextre);
-            expect(this.player1).toBeAbleToSelect(this.chronus);
             expect(this.player1).toBeAbleToSelect(this.mimicGel);
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickCard(this.mimicGel);
             this.player1.clickCard(this.poke);
-            expect(this.player1).toBeAbleToSelect(this.chronus);
             expect(this.player1).toHavePromptButton('Done');
             this.player1.clickPrompt('Done');
             expect(this.poke.location).toBe('archives');

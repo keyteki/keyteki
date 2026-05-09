@@ -8,8 +8,8 @@ class LiamSay extends Card {
             when: {
                 onTurnStart: (_, context) => context.player === this.game.activePlayer
             },
-            optional: true,
             target: {
+                optional: true,
                 activePromptTitle: 'Choose a creature',
                 cardType: 'creature',
                 gameAction: ability.actions.dealDamage({ amount: 1 })
