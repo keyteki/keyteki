@@ -1194,7 +1194,7 @@ pre {
   flex: 1;
   display: flex;
   min-height: 0;
-  overflow-x: hidden;
+  overflow-x: auto;
 }
 
 .board-atmosphere-overlay {
@@ -1227,12 +1227,6 @@ pre {
   overflow: hidden;
 }
 
-.play-area {
-  position: relative;
-  z-index: 2;
-  overflow-x: auto;
-}
-
 .play-area .drop-target,
 .player-board .drop-target {
   flex: 1;
@@ -1247,6 +1241,14 @@ pre {
   flex-direction: column;
   justify-content: space-between;
   min-height: 0;
+}
+.play-area {
+    position: relative;
+    z-index: 2;
+    flex: none;
+    width: max-content;
+    min-width: 100%;
+    height: 100%;
 }
 
 .player-board {

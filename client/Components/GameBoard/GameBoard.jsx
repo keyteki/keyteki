@@ -209,12 +209,12 @@ export const GameBoard = () => {
     const renderBoard = () => [
         <div key='board-middle' className='board-middle'>
             <div className='board-inner'>
-                <div
-                    className={classNames('board-atmosphere-overlay', {
-                        dense: highDensity
-                    })}
-                />
                 <div className='play-area'>
+                    <div
+                        className={classNames('board-atmosphere-overlay', {
+                            dense: highDensity
+                        })}
+                    />
                     <PlayerBoard
                         cardBack={
                             <CardBack
