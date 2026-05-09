@@ -4,7 +4,6 @@ const CardGameAction = require('./CardGameAction');
 class PlayUpgradeOnParentAction extends CardGameAction {
     setDefaultProperties() {
         this.location = 'hand';
-        this.revealOnIllegalTarget = false;
     }
 
     setup() {
@@ -18,10 +17,6 @@ class PlayUpgradeOnParentAction extends CardGameAction {
             return false;
         }
 
-        if (this.revealOnIllegalTarget) {
-            return true;
-        }
-
         if (
             !this.parent ||
             this.parent.type !== 'creature' ||
@@ -30,13 +25,28 @@ class PlayUpgradeOnParentAction extends CardGameAction {
             return false;
         }
 
-        return card
+        const playActions = card
             .getActions(this.location)
-            .some(
-                (action) =>
-                    action.title.includes('Play this upgrade') &&
-                    this.actionMeetsRequirement(context, action)
-            );
+            .filter((action) => action.title.includes('Play this upgrade'));
+
+        if (playActions.some((action) => this.actionMeetsRequirement(context, action))) {
+            return true;
+        }
+
+        // Hidden-zone play blocked solely by a card-self/cost restriction:
+        // surface a reveal-and-return message. External player restrictions
+        // fizzle silently so the card is not revealed to the opponent.
+        return (
+            card.location !== 'hand' &&
+            playActions.length > 0 &&
+            !this.blockedByPlayerRestriction(context, playActions[0])
+        );
+    }
+
+    blockedByPlayerRestriction(context, action) {
+        const actionContext = action.createContext(context.player);
+        actionContext.ignoreHouse = true;
+        return !actionContext.player.checkRestrictions('play', actionContext);
     }
 
     actionMeetsRequirement(context, action) {
@@ -68,12 +78,12 @@ class PlayUpgradeOnParentAction extends CardGameAction {
                 if (playActions.length >= 1 && playActions[0].newWithParent) {
                     this.resolveAction(context, playActions[0].newWithParent(this.parent));
                 } else {
-                    if (this.revealOnIllegalTarget) {
-                        context.game.addMessage(
-                            '{0} was unable to be played so is returned to its original location',
-                            card
-                        );
-                    }
+                    // Reached only when canAffect allowed a hidden-zone play
+                    // blocked solely by a card-self/cost restriction.
+                    context.game.addMessage(
+                        '{0} was unable to be played so is returned to its original location',
+                        card
+                    );
                 }
             }
         );

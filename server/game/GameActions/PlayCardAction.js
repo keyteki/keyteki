@@ -5,7 +5,6 @@ class PlayCardAction extends CardGameAction {
     setDefaultProperties() {
         this.location = 'hand';
         this.deploy = false;
-        this.revealOnIllegalTarget = false;
     }
 
     setup() {
@@ -19,16 +18,32 @@ class PlayCardAction extends CardGameAction {
             return false;
         }
 
-        if (this.revealOnIllegalTarget) {
+        const playActions = card
+            .getActions(this.location)
+            .filter((action) => action.title.includes('Play'));
+
+        if (playActions.some((action) => this.actionMeetsRequirement(context, action))) {
             return true;
         }
 
-        return card
-            .getActions(this.location)
-            .some(
-                (action) =>
-                    action.title.includes('Play') && this.actionMeetsRequirement(context, action)
-            );
+        // No legal play action. For plays from a hidden zone (i.e. anywhere
+        // other than hand), we still need to surface the attempt with a
+        // reveal-and-return message when the only thing blocking the play is
+        // a restriction on the card itself (e.g. Kelifi Dragon's cardCannot,
+        // alpha cost). When the block comes from an external player-level
+        // restriction (e.g. Ember Imp, Kaupe via playerCannot), the play
+        // fizzles silently so the card is not revealed to the opponent.
+        return (
+            card.location !== 'hand' &&
+            playActions.length > 0 &&
+            !this.blockedByPlayerRestriction(context, playActions[0])
+        );
+    }
+
+    blockedByPlayerRestriction(context, action) {
+        const actionContext = action.createContext(context.player);
+        actionContext.ignoreHouse = true;
+        return !actionContext.player.checkRestrictions('play', actionContext);
     }
 
     actionMeetsRequirement(context, action) {
@@ -45,25 +60,7 @@ class PlayCardAction extends CardGameAction {
     }
 
     checkEventCondition(event) {
-        if (!this.canAffect(event.card, event.context)) {
-            return false;
-        }
-
-        // Find the play actions for the card and create proper contexts for them.
-        // We need to use the play action's context (with the card being played as
-        // the source) rather than the event context (which has the card that
-        // triggered the PlayCardAction as the source, e.g. Wild Wormhole).
-        let playActions = event.card
-            .getActions(this.location)
-            .filter((action) => action.title.includes('Play'));
-
-        const hasValidPlayAction = playActions.some((action) =>
-            this.actionMeetsRequirement(event.context, action)
-        );
-
-        // If revealOnIllegalTarget is true, allow the event to proceed even without valid play actions
-        // so we can show an appropriate message
-        return hasValidPlayAction || this.revealOnIllegalTarget;
+        return this.canAffect(event.card, event.context);
     }
 
     getEvent(card, context) {
@@ -90,15 +87,15 @@ class PlayCardAction extends CardGameAction {
                 } else if (playActions.length === 1) {
                     this.resolveAction(context, playActions[0]);
                 } else {
+                    // Reached only when canAffect allowed a hidden-zone play
+                    // blocked solely by a card-self/cost restriction.
                     event.illegalTarget = true;
-                    if (this.revealOnIllegalTarget) {
-                        context.game.addMessage(
-                            '{0} is unable to play {1} and returns it to {2}',
-                            context.player,
-                            card,
-                            card.location
-                        );
-                    }
+                    context.game.addMessage(
+                        '{0} is unable to play {1} and returns it to {2}',
+                        context.player,
+                        card,
+                        card.location
+                    );
                 }
             }
         );

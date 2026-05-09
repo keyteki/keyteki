@@ -76,6 +76,9 @@ describe('Wild Wormhole', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
             expect(this.wayOfTheBear.location).toBe('deck');
+            const logs = this.getChatLogs(10);
+            expect(logs.some((line) => line.includes('Way of the Bear'))).toBe(true);
+            expect(logs.some((line) => line.includes('is unable to play'))).toBe(true);
         });
 
         it('should return alpha cards to the top of the deck', function () {
@@ -84,6 +87,9 @@ describe('Wild Wormhole', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
             expect(this.eureka.location).toBe('deck');
+            const logs = this.getChatLogs(10);
+            expect(logs.some((line) => line.includes('Eureka'))).toBe(true);
+            expect(logs.some((line) => line.includes('is unable to play'))).toBe(true);
         });
 
         it('should keep Kelifi Dragon on the top of the deck if not enough amber', function () {
@@ -92,6 +98,9 @@ describe('Wild Wormhole', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
             expect(this.kelifiDragon.location).toBe('deck');
+            const logs = this.getChatLogs(10);
+            expect(logs.some((line) => line.includes('Kelifi Dragon'))).toBe(true);
+            expect(logs.some((line) => line.includes('is unable to play'))).toBe(true);
         });
 
         it('should not allow playing the 3rd card due to Ember Imp', function () {
@@ -101,6 +110,35 @@ describe('Wild Wormhole', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this.player1.amber).toBe(1);
             expect(this.dextre.location).toBe('deck');
+            // External player restriction: card must NOT be revealed to opponent.
+            const logs = this.getChatLogs(10);
+            expect(logs.some((line) => line.includes('Dextre'))).toBe(false);
+        });
+
+        it('should silently fizzle Kelifi Dragon under Ember Imp without revealing it', function () {
+            // Two restrictions apply: Kelifi's own cardCannot and Ember Imp's playerCannot.
+            // External player restriction takes precedence and the play fizzles silently.
+            this.player1.moveCard(this.kelifiDragon, 'deck');
+            this.player1.play(this.archimedes);
+            this.player1.play(this.wildWormhole);
+            expect(this.player1).isReadyToTakeAction();
+            expect(this.player1.amber).toBe(1);
+            expect(this.kelifiDragon.location).toBe('deck');
+            const logs = this.getChatLogs(10);
+            expect(logs.some((line) => line.includes('Kelifi Dragon'))).toBe(false);
+        });
+
+        it('should silently fizzle an alpha card under Ember Imp without revealing it', function () {
+            // Alpha cost would also block, but Ember Imp's external restriction
+            // takes precedence and the play fizzles silently.
+            this.player1.moveCard(this.eureka, 'deck');
+            this.player1.play(this.archimedes);
+            this.player1.play(this.wildWormhole);
+            expect(this.player1).isReadyToTakeAction();
+            expect(this.player1.amber).toBe(1);
+            expect(this.eureka.location).toBe('deck');
+            const logs = this.getChatLogs(10);
+            expect(logs.some((line) => line.includes('Eureka'))).toBe(false);
         });
 
         it('should interact correctly with Library Access when playing an upgrade', function () {
@@ -120,6 +158,7 @@ describe('Wild Wormhole', function () {
             expect(this.player1).toHavePrompt('Way of the Bear');
             this.player1.clickCard(this.ganymedeArchivist);
             expect(this.gauntletOfCommand.location).toBe('hand');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should interact correctly with Library Access when the upgrade is unplayable', function () {
@@ -159,6 +198,10 @@ describe('Wild Wormhole', function () {
             this.player1.clickPrompt('Library Access');
             expect(this.gauntletOfCommand.location).toBe('hand');
             expect(this.player1).toHavePrompt('Anger');
+            this.player1.clickCard(this.ganymedeArchivist);
+            expect(this.player1).toHavePrompt('Choose a creature to attack');
+            this.player1.clickCard(this.inkaTheSpider);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

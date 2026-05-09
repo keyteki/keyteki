@@ -50,7 +50,6 @@ class BoostedB4Rry extends GiganticCard {
                 condition: () => preThenContext.selects.action.choice === 'Play archived card',
                 gameAction: ability.actions.playAtRandom((context) => ({
                     location: 'archives',
-                    revealOnIllegalTarget: true,
                     target: context.player.opponent
                 }))
             })

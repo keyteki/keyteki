@@ -14,7 +14,6 @@ class TheoryOrConjecture extends Card {
                         target: context.player.deck.slice(0, 2)
                     })),
                     'Play top card': ability.actions.playCard((context) => ({
-                        revealOnIllegalTarget: true,
                         target: context.player.deck[0]
                     }))
                 }

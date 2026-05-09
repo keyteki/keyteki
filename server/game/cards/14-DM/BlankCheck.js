@@ -45,7 +45,6 @@ class BlankCheck extends Card {
                             amount: 5
                         })),
                         ability.actions.playCard((context) => ({
-                            revealOnIllegalTarget: true,
                             target: context.player.opponent.deck[0]
                         }))
                     ])
