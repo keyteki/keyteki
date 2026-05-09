@@ -48,8 +48,8 @@ describe('Alpha Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 uses Batdrone to reap with Batdrone',
+                'player1 plays Mimic Gel',
                 'player1 uses Mimic Gel to copy Bumblebird',
-                'player1 plays Mimic Gel as Bumblebird',
                 'player1 is unable to play Mimic Gel as Bumblebird and returns it to hand'
             ]);
         });
