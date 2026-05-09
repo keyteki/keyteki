@@ -49,7 +49,7 @@ class ResolveBonusIconsAction extends CardGameAction {
         return replacements;
     }
 
-    promptForIconResolution(context, event, currentIcon, originalIcon, usedSources = new Set()) {
+    promptForIconResolution(context, event, currentIcon, usedSources = new Set()) {
         // Terminal replacements are actions, not icons and can no longer be
         // chained - eg Amphora Capture can be replaced by Scrivener Favian, but
         // not vice versa
@@ -88,7 +88,7 @@ class ResolveBonusIconsAction extends CardGameAction {
                                 replacement.source,
                                 event.card,
                                 currentIcon,
-                                'aeiou'.includes(replacement.newIcon.toLowerCase()) ? 'an' : 'a',
+                                'aeiou'.includes(replacement.newIcon[0].toLowerCase()) ? 'an' : 'a',
                                 replacement.newIcon
                             );
                         } else if (this.abilityReplacements[replacement.newIcon]) {
