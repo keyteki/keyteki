@@ -125,9 +125,7 @@ describe('Ardent Hero', function () {
         it('should not take damage from effect of >5 power creature', function () {
             this.player1.clickCard(this.firstBlood);
             this.player1.clickPrompt('Discard this card');
-            expect(this.player1).toBeAbleToSelect(this.rockHurlingGiant);
-            this.player1.clickCard(this.rockHurlingGiant);
-            expect(this.player1).toHavePrompt('Choose a creature');
+            expect(this.player1).toHavePrompt('Rock-Hurling Giant');
             expect(this.player1).toBeAbleToSelect(this.ardentHero);
             this.player1.clickCard(this.ardentHero);
             expect(this.ardentHero.location).toBe('play area');
