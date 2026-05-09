@@ -146,13 +146,9 @@ describe('Chief Engineer Walls', function () {
             expect(this.dustPixie.location).toBe('discard');
 
             // Choose to trigger remaining "may" ability
-            expect(this.player1).toHavePrompt('Any reactions?');
-            expect(this.player1).toBeAbleToSelect(this.chiefEngineerWalls);
-            expect(this.player1).toHavePromptButton('Done');
-            this.player1.clickCard(this.chiefEngineerWalls);
-
-            // Resolve Walls' ability
+            expect(this.player1).toHavePrompt('Chief Engineer Walls');
             expect(this.player1).toBeAbleToSelect(this.accessDenied);
+            expect(this.player1).toHavePromptButton('Done');
             this.player1.clickCard(this.accessDenied);
             expect(this.accessDenied.location).toBe('hand');
 

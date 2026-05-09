@@ -5,10 +5,10 @@ class TheGreyRider extends Card {
     // Play/Fight/Reap: You may ready and fight with a neighboring creature.
     setupCardAbilities(ability) {
         this.play({
-            optional: true,
             fight: true,
             reap: true,
             target: {
+                optional: true,
                 cardType: 'creature',
                 controller: 'self',
                 cardCondition: (card, context) => context.source.neighbors.includes(card),
