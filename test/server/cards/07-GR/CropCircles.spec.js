@@ -46,10 +46,11 @@ describe('Crop Circles', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should selecting friendly creature to capture', function () {
+        it('should allow selecting friendly creature to capture', function () {
             expect(this.tunk.location).toBe('archives');
             this.player1.play(this.cropCircles);
             expect(this.player1).toHavePrompt('Crop Circles');
+            expect(this.player1).not.toBeAbleToSelect(this.blypyp);
             expect(this.player1).toBeAbleToSelect(this.urchin);
             expect(this.player1).toBeAbleToSelect(this.batdrone);
             this.player1.clickCard(this.batdrone);

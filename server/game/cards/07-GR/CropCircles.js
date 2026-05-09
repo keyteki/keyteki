@@ -10,7 +10,6 @@ class CropCircles extends Card {
                 creature: {
                     cardType: 'creature',
                     cardCondition: (c) => !c.hasHouse('mars'),
-                    optional: true,
                     gameAction: ability.actions.capture((context) => ({
                         amount: 1,
                         player: context.targets.creature?.controller,
