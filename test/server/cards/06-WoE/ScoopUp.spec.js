@@ -103,14 +103,16 @@ describe('Scoop Up', function () {
             this.player1.play(this.scoopUp);
             this.player1.clickCard(this.pelf);
             this.player1.clickCard(this.bumpsy);
+            expect(this.pelf.abducted).toBe(false);
+            expect(this.bumpsy.abducted).toBe(true);
             expect(this.pelf.location).toBe('archives');
             expect(this.bumpsy.location).toBe('archives');
             this.player1.play(this.yzphyzKnowdrone);
             this.player1.clickCard(this.hypnobeam);
             this.player1.clickCard(this.pelf);
             this.player1.clickCard(this.troll);
-            expect(this.pelf.location).toBe('hand');
-            expect(this.player1.hand).toContain(this.pelf);
+            expect(this.pelf.location).toBe('purged');
+            expect(this.player1.purged).toContain(this.pelf);
             expect(this.player1).isReadyToTakeAction();
         });
     });

@@ -176,6 +176,10 @@ class PlayerInteractionWrapper {
         return this.player.archives;
     }
 
+    get purged() {
+        return this.player.purged;
+    }
+
     get opponent() {
         return this.player.opponent;
     }

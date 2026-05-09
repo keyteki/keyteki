@@ -17,13 +17,13 @@ class ScoopUp extends Card {
                     gameAction: [
                         ability.actions.archive((context) => ({
                             target:
-                                context.targets.friendly?.owner === context.player
+                                context.targets.friendly?.[0]?.owner === context.player
                                     ? context.targets.friendly
                                     : []
                         })),
                         ability.actions.abduct((context) => ({
                             target:
-                                context.targets.friendly?.owner !== context.player
+                                context.targets.friendly?.[0]?.owner !== context.player
                                     ? context.targets.friendly
                                     : []
                         }))
