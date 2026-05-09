@@ -2,43 +2,20 @@ const EffectValue = require('./EffectValue');
 const GainAbility = require('./GainAbility');
 
 /**
- * Makes the target of this effect a copy of the value of this effect. Used for
- * tokens, Mirror Shell, and Mimic Gel. This doesn’t modify the card data
- * itself, but {@link Card} has code that looks for 'copyCard' effects at
- * appropriate places.
+ * Makes the target of this effect a copy of the given card. Used for tokens,
+ * Mirror Shell, and Mimic Gel. This does not modify the card data itself;
+ * {@link Card} consults `copyCard` effects at the appropriate places.
  *
- * **WARNING:** This does not un-listen any reactions or persistent effects that
- * the underlying card had in this location.
- *
- * As of PV/CC, this limitation is mitigated by the following:
- *
- * - TriggeredAbility#eventHandler takes care of ignoring reactions that are not
- *   currently in their card’s `reactions` property, which is dynamic and
- *   sensitive to CopyCard.
- * - Token creatures in general are only made from the deck or (in the case of
- *   Sidekick) the hand, so the original card’s 'play area' abilities don’t get
- *   registered in the first place.
- * - Gĕzdrutyŏ the Arcane, the only card that _becomes_ a token creature from
- *   being in play, only has an action, not persistent effects, and the code
- *   that displays the list of available actions when selecting it is sensitive
- *   to CopyCard.
- * - Mimic Gel’s persistent effect only applies to being played, so that it is
- *   still around when it’s in play isn’t relevant.
+ * If the source card is itself currently copying something, the abilities of
+ * that copy cascade through. Otherwise we copy the source card's own printed
+ * abilities, taking care to exclude abilities previously injected by other
+ * `copyCard` effects on that card.
  */
 class CopyCard extends EffectValue {
-    /**
-     * @param {Card} card Card to copy the effects from.
-     * @param {boolean} copyOriginalCard If true, copies the underlying, printed
-     * abilities on the card. Otherwise if the card is already copying
-     * something, this would copy those abilities. Necessary for flipping token
-     * creatures to their face-up side, since we need to copy those abilities,
-     * not the token abilities.
-     */
-    constructor(card, copyOriginalCard = false) {
+    constructor(card, cascadeEffects = true) {
         super(card);
         this.abilitiesForTargets = {};
-
-        if (card.anyEffect('copyCard') && !copyOriginalCard) {
+        if (cascadeEffects && card.anyEffect('copyCard')) {
             this.value = card.mostRecentEffect('copyCard');
             this.actions = this.value.actions.map(
                 (action) => new GainAbility('action', action, true)
@@ -50,38 +27,22 @@ class CopyCard extends EffectValue {
                 (properties) => new GainAbility('persistentEffect', properties)
             );
         } else {
-            // There’s not an easy way to just get the original printed
-            // actions/reactions of a card, ignoring any copyCard effects. What
-            // we have to do is collect any CopyCard effects on the card, gather
-            // the abilities that they’re adding, and filter those out. The
-            // remaining abilities are the ones the card had initially.
-
-            const allExistingCopyEffects = card.effects
+            // Filter out abilities previously injected by other copyCard
+            // effects so we copy only the card's own printed abilities
+            // (e.g. when un-tokenizing back to the underlying card).
+            const existingCopiedAbilities = card.effects
                 .filter((effect) => effect.type === 'copyCard')
-                .map((staticEffect) => staticEffect.value)
-                // abilitesForTargets objects have
-                // actions/reactions/persistentEffects properties with array
-                // values.
-                .map(
-                    (/** @type CopyCard */ effectValue) =>
-                        effectValue.abilitiesForTargets[card.uuid] || {}
-                )
-                // flatmap down to the TriggeredAbility / other ability objects
+                .map((effect) => effect.value.abilitiesForTargets[card.uuid] || {})
                 .flatMap((state) => [].concat(...Object.values(state)));
 
-            // We explicitly want to use _e.g._ card.abilities.actions here,
-            // rather than card.actions, since the latter is wired in to copy
-            // card effects as well as text box blanking effects, which we do
-            // _not_ want to respect for this “copy.”
-
             this.actions = card.abilities.actions
-                .filter((effect) => !allExistingCopyEffects.includes(effect))
+                .filter((action) => !existingCopiedAbilities.includes(action))
                 .map((action) => new GainAbility('action', action, true));
             this.reactions = card.abilities.reactions
-                .filter((effect) => !allExistingCopyEffects.includes(effect))
+                .filter((ability) => !existingCopiedAbilities.includes(ability))
                 .map((ability) => new GainAbility(ability.abilityType, ability, true));
             this.persistentEffects = card.abilities.persistentEffects
-                .filter((effect) => !allExistingCopyEffects.includes(effect))
+                .filter((properties) => !existingCopiedAbilities.includes(properties))
                 .map((properties) => new GainAbility('persistentEffect', properties));
         }
     }

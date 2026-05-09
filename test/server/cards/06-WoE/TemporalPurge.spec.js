@@ -61,9 +61,6 @@ describe('Temporal Purge', function () {
             expect(p2c2.location).toBe('play area');
         });
 
-        /**
-         * Regression test for https://github.com/keyteki/keyteki/issues/3529
-         */
         it('should remove after reap effects the token had', function () {
             let collectorBoren = this.player1.inPlay[1];
             expect(collectorBoren.name).toBe('Scholar');
@@ -75,10 +72,8 @@ describe('Temporal Purge', function () {
 
             // Temporal Purge flipped our Scholar over to its Collector Boren
             // side, so it should no longer have any abilities from Scholar.
-
             expect(this.player1.hand.length).toBe(0);
             expect(this.player1.amber).toBe(2);
-
             this.player1.reap(collectorBoren);
 
             // Scholar’s After Reap effect is to draw a card. We want to assert
