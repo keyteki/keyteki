@@ -1,7 +1,6 @@
 /*eslint no-console:0 */
 
 const fs = require('fs');
-const mkdirp = require('mkdirp');
 const path = require('path');
 
 const CardService = require('../../services/CardService');
@@ -121,6 +120,14 @@ class CardImport {
                 'citizen-shrix': true,
                 'even-ivan': true,
                 'odd-clawde': true
+            },
+            928: {
+                cosmicrux: true,
+                'thermal-depletion': true,
+                ignitus: true,
+                'nizak-the-forgotten': true,
+                'lateral-shift': true,
+                timequake: true
             }
         };
 
@@ -138,7 +145,13 @@ class CardImport {
             'j43g3r-v',
             'titanic-bumblebird',
             'ascendant-hester',
-            'horizon-saber'
+            'horizon-saber',
+            'the-golden-queen',
+            'gigantor',
+            'monster-zero',
+            'kulsha',
+            'zomok',
+            'hydrogan'
         ];
         const skipMkdir = {};
 
@@ -233,8 +246,8 @@ class CardImport {
                 `${path.sep}cards${path.sep}halfSize${path.sep}`
             );
 
-            mkdirp(imageLangDir);
-            mkdirp(halfSizeImageDir);
+            fs.mkdirSync(imageLangDir, { recursive: true });
+            fs.mkdirSync(halfSizeImageDir, { recursive: true });
             skipMkdir[language] = imageLangDir;
         } else {
             imageLangDir = skipMkdir[language];

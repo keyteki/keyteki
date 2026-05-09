@@ -26,6 +26,7 @@ describe('Jackpot Greene', function () {
             expect(this.player1.amber).toBe(4);
             expect(this.poke.location).toBe('discard');
             expect(this.player2.amber).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('gives reap ability to enemy creatures', function () {
@@ -41,6 +42,7 @@ describe('Jackpot Greene', function () {
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
             expect(this.fullMoon.location).toBe('discard');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('does nothing with an empty deck', function () {
@@ -49,6 +51,19 @@ describe('Jackpot Greene', function () {
             expect(this.player1.amber).toBe(2);
             expect(this.player1.player.deck.length).toBe(0);
             expect(this.player1.player.discard.length).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('logs the amber gain when a star alliance card is discarded', function () {
+            this.player1.moveCard(this.rogueOperation, 'deck');
+
+            this.player1.reap(this.jackpotGreene);
+
+            const logs = this.getChatLogs(5);
+            expect(
+                logs.some((log) => log.includes('player1 uses Jackpot Greene to gain 1 amber'))
+            ).toBe(true);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

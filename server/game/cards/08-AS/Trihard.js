@@ -6,8 +6,11 @@ class Trihard extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.discardAtRandom((context) => ({
-                amount: (player) => Math.floor(player.hand.length / 3),
-                target: [context.player, context.player.opponent]
+                target: [context.player, context.player.opponent],
+                amount: [
+                    Math.floor(context.player.hand.length / 3),
+                    Math.floor(context.player.opponent?.hand.length / 3) || 0
+                ]
             }))
         });
     }

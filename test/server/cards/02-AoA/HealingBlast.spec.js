@@ -9,8 +9,8 @@ describe('Healing Blast', function () {
                 },
                 player2: {}
             });
-            this.zorg.tokens.damage = 5;
-            this.tunk.tokens.damage = 5;
+            this.zorg.damage = 5;
+            this.tunk.damage = 5;
         });
 
         it('should fully heal a creature and gain 2 amber if healed 4 or more', function () {

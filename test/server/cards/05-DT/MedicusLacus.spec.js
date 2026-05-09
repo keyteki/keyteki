@@ -24,7 +24,9 @@ describe('MedicusLacus', function () {
 
         describe('with another creature', function () {
             it('should allow spending amber from all friendly creatures', function () {
-                expect(this.player1).toHavePrompt('How much amber do you want to use from Troll?');
+                expect(this.player1).toHavePrompt(
+                    'How much amber do you want to spend from Troll?'
+                );
                 this.player1.clickPrompt('4');
                 expect(this.player1).toHavePrompt('Which key would you like to forge?');
                 this.player1.forgeKey('Red');

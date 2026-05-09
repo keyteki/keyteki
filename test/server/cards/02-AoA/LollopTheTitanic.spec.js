@@ -25,7 +25,7 @@ describe('Lollop the Titanic', function () {
         it('should deal damage when fighting', function () {
             this.player1.fightWith(this.lollopTheTitanic, this.batdrone);
             expect(this.batdrone.location).toBe('discard');
-            expect(this.lollopTheTitanic.tokens.damage).toBe(2);
+            expect(this.lollopTheTitanic.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
     });

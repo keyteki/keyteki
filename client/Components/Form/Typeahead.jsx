@@ -1,48 +1,87 @@
-import { Typeahead } from 'react-bootstrap-typeahead';
-import React, { useImperativeHandle, useRef } from 'react';
+import React, { useImperativeHandle, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 const InternalTypeahead = React.forwardRef((props, ref) => {
-    const typeaheadRef = useRef(null);
+    const inputRef = useRef(null);
+    const [inputValue, setInputValue] = useState('');
+    const dataListId = props.id || props.name || 'typeahead';
+
+    const normalizedOptions = useMemo(() => {
+        return (props.options || []).map((option) => {
+            if (typeof option === 'string') {
+                return { label: option, value: option, raw: option };
+            }
+
+            const label = option?.[props.labelKey] ?? option?.label ?? option?.value ?? '';
+            const value = option?.value ?? label;
+
+            return { label, value, raw: option };
+        });
+    }, [props.labelKey, props.options]);
+
+    const emitSelection = (value) => {
+        const selected = normalizedOptions.find((option) => option.label === value);
+
+        if (props.onChange) {
+            props.onChange(selected ? [selected.raw] : []);
+        }
+    };
 
     useImperativeHandle(ref, () => ({
         clear: () => {
-            if (typeaheadRef.current?.clear) {
-                typeaheadRef.current.clear();
-                return;
+            setInputValue('');
+            if (inputRef.current) {
+                inputRef.current.value = '';
             }
-
-            typeaheadRef.current?.getInstance?.()?.clear?.();
+            props.onChange?.([]);
         }
     }));
 
     const label = props.label ? (
-        <label htmlFor={props.name} className={`${props.labelClass} control-label`}>
+        <label
+            htmlFor={dataListId}
+            className={props.labelClass || 'mb-1 block text-sm text-foreground'}
+        >
             {props.label}
         </label>
     ) : null;
+
     const control = (
         <div>
             {label}
             <div className={props.fieldClass}>
-                <Typeahead
-                    ref={typeaheadRef}
-                    id={props.id || props.name}
-                    options={props.options}
-                    labelKey={props.labelKey}
-                    emptyLabel={props.emptyLabel}
-                    onChange={props.onChange}
+                <input
+                    ref={inputRef}
+                    id={dataListId}
+                    list={`${dataListId}-list`}
                     placeholder={props.placeholder}
                     autoFocus={props.autoFocus}
-                    dropup={props.dropup}
-                    minLength={props.minLength}
-                    onInputChange={props.onInputChange}
-                    submitFormOnEnter={props.submitFormOnEnter}
-                    onKeyDown={props.onKeyDown}
                     disabled={props.disabled}
+                    value={inputValue}
+                    onChange={(event) => {
+                        const value = event.target.value;
+                        setInputValue(value);
+                        props.onInputChange?.(value);
+                        emitSelection(value);
+                    }}
+                    onKeyDown={props.onKeyDown}
+                    className='w-full rounded-md border border-border/75 bg-surface px-3 py-2 text-sm text-foreground placeholder:text-foreground/55 focus:border-border focus:outline-none'
                 />
+                <datalist id={`${dataListId}-list`}>
+                    {normalizedOptions
+                        .filter((option) =>
+                            inputValue.length >= (props.minLength || 0)
+                                ? option.label.toLowerCase().includes(inputValue.toLowerCase())
+                                : false
+                        )
+                        .map((option) => (
+                            <option key={option.value} value={option.label} />
+                        ))}
+                </datalist>
                 {props.validationMessage ? (
-                    <span className='help-block'>{props.validationMessage} </span>
+                    <span className='mt-1 block text-xs text-[color:var(--brand)]'>
+                        {props.validationMessage}
+                    </span>
                 ) : null}
             </div>
             {props.children}
@@ -53,7 +92,7 @@ const InternalTypeahead = React.forwardRef((props, ref) => {
         return control;
     }
 
-    return <div className='form-group'>{control}</div>;
+    return <div className='mb-2'>{control}</div>;
 });
 
 InternalTypeahead.displayName = 'Typeahead';

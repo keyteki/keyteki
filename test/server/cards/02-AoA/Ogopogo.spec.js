@@ -15,9 +15,6 @@ describe('Ogopogo', function () {
 
         it('should deal 2 damage to another creature after it attacks and destroys a different one', function () {
             this.player1.fightWith(this.ogopogo, this.umbra);
-            expect(this.player1).toHavePrompt('Triggered Abilities');
-            expect(this.player1).toBeAbleToSelect(this.ogopogo);
-            this.player1.clickCard(this.ogopogo);
             expect(this.player1).toHavePrompt('Ogopogo');
             expect(this.player1).toBeAbleToSelect(this.gamgee);
             this.player1.clickCard(this.gamgee);

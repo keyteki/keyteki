@@ -57,7 +57,7 @@ describe('Brutal Consequences', function () {
             this.player1.play(this.boostedB4Rry);
             this.player1.clickPrompt('Autoresolve');
             this.player1.clickPrompt('Take artifact');
-            this.boostedB4Rry.tokens.damage = 6;
+            this.boostedB4Rry.damage = 6;
             this.player1.play(this.brutalConsequences);
             this.player1.clickCard(this.boostedB4Rry);
             this.player1.clickCard(this.boostedB4Rry);
@@ -69,7 +69,7 @@ describe('Brutal Consequences', function () {
             this.player1.play(this.boostedB4Rry);
             this.player1.clickPrompt('Autoresolve');
             this.player1.clickPrompt('Take artifact');
-            this.boostedB4Rry.tokens.damage = 6;
+            this.boostedB4Rry.damage = 6;
             this.player1.play(this.brutalConsequences);
             this.player1.clickCard(this.boostedB4Rry);
             this.player1.clickCard(this.boostedB4Rry2);

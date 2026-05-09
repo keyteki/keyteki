@@ -18,6 +18,8 @@ class JackpotGreene extends Card {
                     context.preThenEvents &&
                     context.preThenEvents.length > 0 &&
                     context.preThenEvents[0].card.hasHouse('staralliance'),
+                message: '{0} uses {1} to gain 1 amber from discarding {3}',
+                messageArgs: (context) => [context.preThenEvents[0].card],
                 gameAction: ability.actions.gainAmber((context) => ({
                     target: context.source.controller
                 }))

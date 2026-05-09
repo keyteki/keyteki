@@ -39,4 +39,27 @@ describe('Truebaru', function () {
             expect(this.truebaru.location).toBe('hand');
         });
     });
+
+    describe('Truebaru play cost on cancel', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 3,
+                    house: 'dis',
+                    hand: ['truebaru'],
+                    inPlay: ['ember-imp']
+                },
+                player2: {}
+            });
+        });
+
+        it('should refund the 3 amber cost when the play is cancelled at the flank prompt', function () {
+            this.player1.clickCard(this.truebaru);
+            expect(this.player1).toHavePromptButton('Cancel');
+            this.player1.clickPrompt('Cancel');
+            expect(this.truebaru.location).toBe('hand');
+            expect(this.player1.amber).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

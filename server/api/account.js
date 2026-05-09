@@ -6,6 +6,7 @@ const moment = require('moment');
 const _ = require('underscore');
 const sendgrid = require('@sendgrid/mail');
 const fs = require('fs');
+const path = require('path');
 const { fabric } = require('fabric');
 
 const logger = require('../log.js');
@@ -105,16 +106,39 @@ function validatePassword(password) {
     return undefined;
 }
 
-function writeFile(path, data, opts = 'utf8') {
-    return new Promise((resolve, reject) => {
-        fs.writeFile(path, data, opts, (err) => {
-            if (err) {
-                return reject(err);
-            }
+function sanitizePathSegment(input) {
+    return String(input || '').replace(/[^A-Za-z0-9_-]/g, '');
+}
 
-            resolve();
-        });
-    });
+function buildPngPath(baseDir, name) {
+    const safeName = sanitizePathSegment(name);
+    if (!safeName) {
+        throw new Error('Invalid file name');
+    }
+
+    const resolvedBase = path.resolve(baseDir);
+    const resolvedFile = path.resolve(resolvedBase, `${safeName}.png`);
+
+    if (!resolvedFile.startsWith(resolvedBase + path.sep)) {
+        throw new Error('Invalid file path');
+    }
+
+    return resolvedFile;
+}
+
+function removePng(baseDir, name) {
+    if (!name) {
+        return;
+    }
+
+    try {
+        const resolvedPath = buildPngPath(baseDir, name);
+        if (fs.existsSync(resolvedPath)) {
+            fs.unlinkSync(resolvedPath);
+        }
+    } catch (err) {
+        logger.warn(`Failed to resolve file path for ${name}`, err);
+    }
 }
 
 async function getRandomAvatar(user) {
@@ -122,14 +146,14 @@ async function getRandomAvatar(user) {
     let md5Hash = crypto.createHash('md5').update(stringToHash).digest('hex');
     let avatar = await util.httpRequest(
         `https://www.gravatar.com/avatar/${md5Hash}?d=identicon&s=24`,
-        { encoding: null }
+        { encoding: null, allowedHosts: ['www.gravatar.com'] }
     );
 
     if (!fs.existsSync('public/img/avatar')) {
         fs.mkdirSync('public/img/avatar/');
     }
 
-    await writeFile(`public/img/avatar/${user.username}.png`, avatar, 'binary');
+    await fs.promises.writeFile(buildPngPath('public/img/avatar', user.username), avatar);
 }
 
 function processImage(image, width, height) {
@@ -164,9 +188,7 @@ function processImage(image, width, height) {
 async function processAvatar(newUser, user) {
     let hash = crypto.randomBytes(16).toString('hex');
 
-    if (fs.existsSync(`public/img/avatar/${user.settings.avatar}.png`)) {
-        fs.unlinkSync(`public/img/avatar/${user.settings.avatar}.png`);
-    }
+    removePng('public/img/avatar', user.settings.avatar);
 
     let canvas;
     try {
@@ -176,9 +198,9 @@ async function processAvatar(newUser, user) {
         return null;
     }
 
-    let fileName = `${user.username}-${hash}`;
+    let fileName = `${sanitizePathSegment(user.username)}-${hash}`;
     const stream = canvas.createPNGStream();
-    const out = fs.createWriteStream(`public/img/avatar/${fileName}.png`);
+    const out = fs.createWriteStream(buildPngPath('public/img/avatar', fileName));
     stream.on('data', (chunk) => {
         out.write(chunk);
     });
@@ -189,9 +211,7 @@ async function processAvatar(newUser, user) {
 async function processCustomBackground(newUser, user) {
     let hash = crypto.randomBytes(16).toString('hex');
 
-    if (fs.existsSync(`public/img/bgs/${user.settings.customBackground}.png`)) {
-        fs.unlinkSync(`public/img/bgs/${user.settings.customBackground}.png`);
-    }
+    removePng('public/img/bgs', user.settings.customBackground);
 
     if (!fs.existsSync('public/img/bgs')) {
         fs.mkdirSync('public/img/bgs/');
@@ -205,9 +225,9 @@ async function processCustomBackground(newUser, user) {
         return null;
     }
 
-    let fileName = `${user.username}-${hash}`;
+    let fileName = `${sanitizePathSegment(user.username)}-${hash}`;
     const stream = canvas.createPNGStream();
-    const out = fs.createWriteStream(`public/img/bgs/${fileName}.png`);
+    const out = fs.createWriteStream(buildPngPath('public/img/bgs', fileName));
     stream.on('data', (chunk) => {
         out.write(chunk);
     });
@@ -275,7 +295,8 @@ module.exports.init = function (server, options) {
                 let domain = req.body.email.substring(req.body.email.lastIndexOf('@') + 1);
                 try {
                     let response = await util.httpRequest(
-                        `http://check.block-disposable-email.com/easyapi/json/${emailBlockKey}/${domain}`
+                        `http://check.block-disposable-email.com/easyapi/json/${emailBlockKey}/${domain}`,
+                        { allowedHosts: ['check.block-disposable-email.com'] }
                     );
                     let answer = JSON.parse(response);
 
@@ -748,11 +769,15 @@ module.exports.init = function (server, options) {
         wrapAsync(async (req, res) => {
             let resetToken;
 
-            let response = await util.httpRequest(
-                `https://www.google.com/recaptcha/api/siteverify?secret=${configService.getValue(
-                    'captchaKey'
-                )}&response=${req.body.captcha}`
-            );
+            let response = await util.httpRequest('https://hcaptcha.com/siteverify', {
+                method: 'POST',
+                allowedHosts: ['hcaptcha.com'],
+                form: {
+                    secret: configService.getValue('captchaKey'),
+                    response: req.body.captcha,
+                    remoteip: req.ip
+                }
+            });
             let answer = JSON.parse(response);
 
             if (!answer.success) {
@@ -814,6 +839,7 @@ module.exports.init = function (server, options) {
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async (req, res) => {
             let userToSet = req.body.data;
+            let message;
 
             if (req.user.username !== req.params.username) {
                 return res.status(403).send({ message: 'Unauthorized' });
@@ -822,6 +848,16 @@ module.exports.init = function (server, options) {
             let user = await userService.getFullUserByUsername(req.params.username);
             if (!user) {
                 return res.status(404).send({ message: 'Not found' });
+            }
+
+            message = validateUserName(userToSet.username);
+            if (message) {
+                return res.send({ success: false, message: message });
+            }
+
+            message = validateEmail(userToSet.email);
+            if (message) {
+                return res.send({ success: false, message: message });
             }
 
             if (user.username !== userToSet.username) {
@@ -1057,6 +1093,47 @@ module.exports.init = function (server, options) {
                 username: lowerCaseUser,
                 user: updatedUser.getWireSafeDetails()
             });
+        })
+    );
+
+    server.post(
+        '/api/account/:username/delete',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async (req, res) => {
+            let user = await checkAuth(req, res);
+            if (!user) {
+                return;
+            }
+
+            if (!req.body.password) {
+                return res.send({ success: false, message: 'Password must be specified' });
+            }
+
+            let isValidPassword;
+            try {
+                isValidPassword = await verifyPassword(req.body.password, user.password);
+            } catch (err) {
+                logger.error(err);
+                return res.send({
+                    success: false,
+                    message:
+                        'There was an error validating your login details.  Please try again later'
+                });
+            }
+
+            if (!isValidPassword) {
+                return res.send({ success: false, message: 'Invalid username/password' });
+            }
+
+            const oldAvatar = user.settings && user.settings.avatar;
+            const oldCustomBackground = user.settings && user.settings.customBackground;
+
+            await userService.anonymizeUser(user);
+
+            removePng('public/img/avatar', oldAvatar);
+            removePng('public/img/bgs', oldCustomBackground);
+
+            return res.send({ success: true });
         })
     );
 

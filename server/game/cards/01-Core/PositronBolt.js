@@ -59,6 +59,10 @@ class PositronBolt extends Card {
             },
             effect: 'deal 3 damage to {1}{2}{3}{4}{5}',
             effectArgs: (context) => {
+                if (!context.targets.flank) {
+                    return [null, null, null, null, null];
+                }
+
                 let neighbors = context.targets.flank.neighbors;
 
                 if (neighbors.length === 0) {

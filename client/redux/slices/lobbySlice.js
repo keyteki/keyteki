@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const defaultState = {
     games: [],
+    newGameInstance: 0,
     users: [],
     messages: [],
     windowBlurred: false
@@ -56,6 +57,15 @@ const handleMessage = (state, message, args) => {
             state.games = [...args[0], ...state.games];
             break;
         case 'removegame':
+            if (
+                state.currentGame &&
+                !state.currentGame.started &&
+                args[0].some((g) => g.id === state.currentGame.id)
+            ) {
+                state.currentGame = undefined;
+                state.newGame = false;
+                state.gameError = 'The game has timed out and is no longer available.';
+            }
             state.games = state.games.filter((game) => !args[0].some((g) => g.id === game.id));
             break;
         case 'updategame': {
@@ -167,6 +177,9 @@ const lobbySlice = createSlice({
         },
         startNewGame: (state) => {
             state.newGame = true;
+            state.newGameInstance += 1;
+            state.gameError = undefined;
+            state.passwordError = undefined;
         },
         cancelNewGame: (state) => {
             state.newGame = false;
@@ -177,6 +190,9 @@ const lobbySlice = createSlice({
         clearGameState: (state) => {
             state.newGame = false;
             state.currentGame = undefined;
+        },
+        clearGameError: (state) => {
+            state.gameError = undefined;
         },
         windowBlur: (state) => {
             state.windowBlurred = true;

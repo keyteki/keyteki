@@ -20,7 +20,9 @@ class EntropicManipulator extends Card {
                 target:
                     context.select === 'Mine'
                         ? context.player.creaturesInPlay
-                        : context.player.opponent.creaturesInPlay
+                        : context.player.opponent
+                        ? context.player.opponent.creaturesInPlay
+                        : []
             })),
             then: (preContext) => ({
                 alwaysTriggers: true,

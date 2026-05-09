@@ -30,4 +30,32 @@ describe('Suspended Animation', function () {
             expect(this.player1.archives).toContain(this.troll);
         });
     });
+
+    describe('Suspended Animation with abduction', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    inPlay: ['snufflegator'],
+                    hand: ['suspended-animation', 'ammonia-clouds', 'yzphyz-knowdrone']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+        });
+
+        it("should return abducted creature to owner's hand when purged from archives", function () {
+            this.player1.play(this.ammoniaClouds);
+            this.player1.play(this.suspendedAnimation);
+            this.player1.clickCard(this.troll);
+            expect(this.troll.location).toBe('archives');
+            expect(this.player1.archives).toContain(this.troll);
+            this.player1.playCreature(this.yzphyzKnowdrone);
+            this.player1.clickCard(this.troll);
+            expect(this.troll.location).toBe('hand');
+            expect(this.player2.hand).toContain(this.troll);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

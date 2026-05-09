@@ -2,6 +2,7 @@ const GameActions = require('./GameActions/index');
 
 const Actions = {
     // card actions
+    abduct: (propertyFactory) => new GameActions.AbductAction(propertyFactory),
     addPowerCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'power'),
     addDamageToken: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'damage'),
     addDepthCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'depth'),
@@ -10,6 +11,8 @@ const Actions = {
     addDoomCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'doom'),
     addAwakeningCounter: (propertyFactory) =>
         new GameActions.AddTokenAction(propertyFactory, 'awakening'),
+    addCorrosionCounter: (propertyFactory) =>
+        new GameActions.AddTokenAction(propertyFactory, 'corrosion'),
     addFuseCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'fuse'),
     addGloryCounter: (propertyFactory) => new GameActions.AddTokenAction(propertyFactory, 'glory'),
     addGrowthCounter: (propertyFactory) =>
@@ -78,6 +81,8 @@ const Actions = {
     reduceArmor: (propertyFactory) => new GameActions.ReduceArmorAction(propertyFactory),
     removeAllTokens: (propertyFactory) => new GameActions.RemoveAllTokensAction(propertyFactory),
     removeAmber: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'amber'),
+    removeCorrosionCounter: (propertyFactory) =>
+        new GameActions.RemoveTokenAction(propertyFactory, 'corrosion'),
     removeDamage: (propertyFactory) => new GameActions.RemoveTokenAction(propertyFactory, 'damage'),
     removeDepthCounter: (propertyFactory) =>
         new GameActions.RemoveTokenAction(propertyFactory, 'depth'),
@@ -155,6 +160,7 @@ const Actions = {
 
     // meta actions
     addEventToWindow: (propertyFactory) => new GameActions.AddEventToWindowAction(propertyFactory),
+    allocateCapture: (propertyFactory) => new GameActions.AllocateCaptureAction(propertyFactory),
     allocateDamage: (propertyFactory) => new GameActions.AllocateDamageAction(propertyFactory),
     changeEvent: (propertyFactory) => new GameActions.ChangeEventAction(propertyFactory),
     chooseAction: (propertyFactory) => new GameActions.ChooseGameAction(propertyFactory), // choices, activePromptTitle = 'Select one'
@@ -166,6 +172,8 @@ const Actions = {
     sequentialForEach: (propertyFactory) =>
         new GameActions.SequentialForEachAction(propertyFactory),
     sequentialFight: (propertyFactory) => new GameActions.SequentialFightAction(propertyFactory),
+    sequentialPairedChoices: (propertyFactory) =>
+        new GameActions.SequentialPairedChoicesAction(propertyFactory),
     sequentialPlay: (propertyFactory) => new GameActions.SequentialPlayAction(propertyFactory),
     sequentialPutIntoPlay: (propertyFactory) =>
         new GameActions.SequentialPutIntoPlayAction(propertyFactory),

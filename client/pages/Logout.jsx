@@ -14,12 +14,10 @@ import {
 const Logout = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { loggedOut, refreshToken, hasLobbySocket, hasGameSocket } = useSelector((state) => ({
-        loggedOut: state.account.loggedOut,
-        refreshToken: state.auth.refreshToken,
-        hasLobbySocket: !!state.lobby.socket,
-        hasGameSocket: !!state.games.socket
-    }));
+    const loggedOut = useSelector((state) => state.account.loggedOut);
+    const refreshToken = useSelector((state) => state.auth.refreshToken);
+    const hasLobbySocket = useSelector((state) => !!state.lobby.socket);
+    const hasGameSocket = useSelector((state) => !!state.games.socket);
     const [logoutAccount, logoutState] = useLogoutAccountMutation();
 
     useEffect(() => {
@@ -30,7 +28,6 @@ const Logout = () => {
 
         if (hasLobbySocket) {
             dispatch(lobbyDisconnectRequested());
-            dispatch(lobbyConnectRequested());
         }
 
         if (hasGameSocket) {
@@ -42,9 +39,10 @@ const Logout = () => {
 
     useEffect(() => {
         if (loggedOut) {
+            dispatch(lobbyConnectRequested());
             navigate('/');
         }
-    }, [loggedOut, navigate]);
+    }, [dispatch, loggedOut, navigate]);
 
     const errorBar = logoutState.isError ? (
         <AlertPanel
@@ -54,7 +52,7 @@ const Logout = () => {
     ) : null;
 
     return (
-        <div className='col-sm-6 col-sm-offset-3'>
+        <div className='mx-auto w-full max-w-3xl'>
             {errorBar}
             <Trans>Logging you out of your account, please wait...</Trans>
         </div>

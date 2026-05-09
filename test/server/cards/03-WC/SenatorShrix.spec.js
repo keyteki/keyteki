@@ -72,6 +72,10 @@ describe('Senator Shrix', function () {
 
                 it('should prompt the forge key prompt', function () {
                     expect(this.player1).toHavePrompt('Which key would you like to forge?');
+                    this.player1.forgeKey('Red');
+                    expect(this.senatorShrix.amber).toBe(0);
+                    this.player1.clickPrompt('saurian');
+                    expect(this.player1).isReadyToTakeAction();
                 });
             });
         });

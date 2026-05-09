@@ -3,6 +3,38 @@ import { TAG_TYPES } from './apiTags';
 import { setAuthTokens, authActions } from './slices/authSlice';
 import { lobbyAuthenticateRequested } from './socketActions';
 
+const getRefreshTokenFromStorage = () => {
+    if (typeof localStorage === 'undefined') {
+        return undefined;
+    }
+
+    const storedToken = localStorage.getItem('refreshToken');
+    if (!storedToken) {
+        return undefined;
+    }
+
+    try {
+        return JSON.parse(storedToken);
+    } catch (_error) {
+        return undefined;
+    }
+};
+
+const isUnauthorizedError = (error = {}) => {
+    const rawStatus = [error.status, error.originalStatus, error.data?.status]
+        .filter((entry) => entry !== undefined && entry !== null)
+        .find((entry) => String(entry) === '401');
+
+    return Boolean(
+        rawStatus ||
+            error.status === 401 ||
+            error.originalStatus === 401 ||
+            error.data?.status === 401 ||
+            error.message === 'Unauthorized' ||
+            error.data?.message === 'Unauthorized'
+    );
+};
+
 const NEWS_LIST_ID = 'LIST';
 const DECKS_LIST_ID = 'LIST';
 const BANLIST_ID = 'LIST';
@@ -38,12 +70,13 @@ const baseQuery = fetchBaseQuery({
 
 const baseQueryWithReauth = async (args, api, extraOptions) => {
     let result = await baseQuery(args, api, extraOptions);
-    const errorStatus = result.error?.status;
-    const originalStatus = result.error?.originalStatus;
-    const isUnauthorized = errorStatus === 401 || originalStatus === 401;
-    if (result.error && isUnauthorized) {
-        const refreshToken = api.getState()?.auth?.refreshToken;
+    if (result.error && isUnauthorizedError(result.error)) {
+        const refreshToken = api.getState()?.auth?.refreshToken || getRefreshTokenFromStorage();
         if (!refreshToken) {
+            return result;
+        }
+
+        if (args.url === '/account/token') {
             return result;
         }
 
@@ -222,12 +255,30 @@ export const api = createApi({
             providesTags: [{ type: TAG_TYPES.FACTIONS, id: 'LIST' }]
         }),
         getDecks: builder.query({
-            query: (options = {}) => ({
-                url: '/decks',
-                params: {
-                    ...options,
-                    filter: options.filter ? JSON.stringify(options.filter) : undefined
-                }
+            query: (options = {}) => {
+                const sortFromState = Array.isArray(options.sorting)
+                    ? options.sorting[0]
+                    : undefined;
+                const sort = options.sort || sortFromState?.id;
+                const sortDir =
+                    options.sortDir ||
+                    (sortFromState ? (sortFromState.desc ? 'desc' : 'asc') : undefined);
+                const page = options.page || options.pageIndex;
+
+                return {
+                    url: '/decks',
+                    params: {
+                        filter: options.filter ? JSON.stringify(options.filter) : undefined,
+                        page,
+                        pageSize: options.pageSize,
+                        sort,
+                        sortDir
+                    }
+                };
+            },
+            transformResponse: (response) => ({
+                ...response,
+                totalCount: response?.numDecks ?? 0
             }),
             providesTags: [{ type: TAG_TYPES.DECKS, id: DECKS_LIST_ID }]
         }),
@@ -239,6 +290,14 @@ export const api = createApi({
             query: (deckId) => ({
                 url: `/decks/${deckId}`,
                 method: 'DELETE'
+            }),
+            invalidatesTags: [{ type: TAG_TYPES.DECKS, id: DECKS_LIST_ID }]
+        }),
+        deleteDecks: builder.mutation({
+            query: (deckIds) => ({
+                url: '/decks/bulk-delete',
+                method: 'POST',
+                body: { deckIds }
             }),
             invalidatesTags: [{ type: TAG_TYPES.DECKS, id: DECKS_LIST_ID }]
         }),
@@ -320,6 +379,13 @@ export const api = createApi({
                 body: { data: details }
             }),
             invalidatesTags: [{ type: TAG_TYPES.USER, id: 'PROFILE' }]
+        }),
+        deleteAccount: builder.mutation({
+            query: ({ username, password }) => ({
+                url: `/account/${username}/delete`,
+                method: 'POST',
+                body: { password }
+            })
         }),
         findUser: builder.query({
             query: (username) => `/user/${username}`,
@@ -431,6 +497,7 @@ export const {
     useGetDecksQuery,
     useGetDeckQuery,
     useDeleteDeckMutation,
+    useDeleteDecksMutation,
     useSaveDeckMutation,
     useSaveAllianceDeckMutation,
     useGetStandaloneDecksQuery,
@@ -442,6 +509,7 @@ export const {
     useAddBlockListEntryMutation,
     useRemoveBlockListEntryMutation,
     useSaveProfileMutation,
+    useDeleteAccountMutation,
     useFindUserQuery,
     useSaveUserMutation,
     useVerifyDeckMutation,

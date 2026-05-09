@@ -7,7 +7,6 @@ import CardImage from './CardImage';
 import { ItemTypes } from '../../constants';
 import SquishableCardPanel from './SquishableCardPanel';
 
-import './Card.scss';
 import { useTranslation } from 'react-i18next';
 
 const Card = ({
@@ -17,6 +16,8 @@ const Card = ({
     className,
     disableMouseOver,
     halfSize = false,
+    hasActiveHouse = false,
+    isMe = false,
     isSpectating = true,
     onClick,
     onMenuItemClick,
@@ -53,6 +54,7 @@ const Card = ({
     const onCardClicked = (event, card) => {
         event.preventDefault();
         event.stopPropagation();
+
         if (isAllowedMenuSource() && card.menu && card.menu.length !== 0) {
             setShowMenu(!showMenu);
             return;
@@ -96,6 +98,8 @@ const Card = ({
                     onMenuItemClick={onMenuItemClick}
                     size={size}
                     halfSize={halfSize}
+                    hasActiveHouse={hasActiveHouse}
+                    isMe={isMe}
                 />
             );
 
@@ -115,6 +119,14 @@ const Card = ({
         }
 
         let maxCards = 1 + (underneathCards.length - 1) / 6;
+        // Each upgrade adds an effective -15px to the wrapper's vertical flow,
+        // which would pull the underneath panel up by 15px per upgrade and eat
+        // into the bottom peek. Visually translate it back down so the peek is
+        // preserved regardless of upgrade count.
+        const upgradeOffset = (card.upgrades?.length || 0) * 15 * getCardSizeMultiplier();
+        const underneathStyle = upgradeOffset
+            ? { transform: `translateY(${upgradeOffset}px)` }
+            : undefined;
         return (
             <SquishableCardPanel
                 cardBack={cardBack}
@@ -125,7 +137,10 @@ const Card = ({
                 onCardClick={onClick}
                 onMouseOut={onMouseOut}
                 onMouseOver={onMouseOver}
+                hasActiveHouse={hasActiveHouse}
+                isMe={isMe}
                 source='underneath'
+                style={underneathStyle}
             />
         );
     };
@@ -148,10 +163,6 @@ const Card = ({
         }
 
         return true;
-    };
-
-    const isFacedown = () => {
-        return card.facedown || !card.name;
     };
 
     const getDragFrame = (image) => {
@@ -190,6 +201,7 @@ const Card = ({
             return <div />;
         }
 
+        const shouldMuteCannotPlay = !isSpectating && isMe && hasActiveHouse;
         let statusClass = getStatusClass();
 
         let cardClass = classNames(
@@ -204,10 +216,13 @@ const Card = ({
                 horizontal: orientation !== 'vertical' || card.exhausted,
                 vertical: orientation === 'vertical' && !card.exhausted,
                 'can-play':
-                    statusClass !== 'selected' &&
-                    statusClass !== 'selectable' &&
-                    !card.unselectable &&
-                    card.canPlay,
+                    !card.unselectable && card.canPlay && !card.selected && !card.selectable,
+                'cannot-play':
+                    shouldMuteCannotPlay &&
+                    typeof card.canPlay === 'boolean' &&
+                    !card.canPlay &&
+                    !card.selected &&
+                    !card.selectable,
                 unselectable: card.unselectable,
                 dragging: isDragging,
                 controlled: card.controlled,
@@ -229,13 +244,16 @@ const Card = ({
                 <div
                     className={cardClass}
                     onMouseOver={
-                        !disableMouseOver && !isFacedown() && onMouseOver
+                        !disableMouseOver && onMouseOver
                             ? () =>
                                   onMouseOver({
                                       image: (
                                           <CardImage
                                               card={{
                                                   ...(card.versusCard || card),
+                                                  // Opponent's facedown cards have no name in the
+                                                  // summary; render the cardback in that case.
+                                                  facedown: !card.name,
                                                   location: 'zoom'
                                               }}
                                               cardBack={cardBack}
@@ -245,7 +263,7 @@ const Card = ({
                                   })
                             : undefined
                     }
-                    onMouseOut={!disableMouseOver && !isFacedown() ? onMouseOut : undefined}
+                    onMouseOut={!disableMouseOver ? onMouseOut : undefined}
                     onClick={(event) => onCardClicked(event, card)}
                 >
                     <div>

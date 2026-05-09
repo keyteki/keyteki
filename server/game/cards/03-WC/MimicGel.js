@@ -14,13 +14,12 @@ class MimicGel extends Card {
 
         this.reaction({
             when: {
-                onAbilityInitiated: (event, context) =>
-                    event.context.source === context.source &&
-                    event.context.ability.title === 'Play this creature'
+                onCardEnteringPlay: (event, context) => event.card === context.source
             },
             location: 'any',
             target: {
                 cardType: 'creature',
+                cardCondition: (card, context) => card !== context.source,
                 gameAction: ability.actions.cardLastingEffect((context) => ({
                     target: context.source,
                     allowedLocations: 'any',

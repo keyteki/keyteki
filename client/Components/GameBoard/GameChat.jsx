@@ -1,42 +1,146 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import $ from 'jquery';
+import { Button, Input } from '@heroui/react';
 
 import Messages from './Messages';
 
-import './GameChat.scss';
-
 const GameChat = (props) => {
     const messagePanel = useRef(null);
-    const [canScroll, setCanScroll] = useState(true);
+    const messageContentRef = useRef(null);
+    const resizeObserverRef = useRef(null);
+    const shouldAutoFollowRef = useRef(true);
+    const [isPinnedToBottom, setIsPinnedToBottom] = useState(true);
     const [message, setMessage] = useState('');
 
-    useEffect(() => {
-        if (canScroll && messagePanel.current) {
-            $(messagePanel.current).scrollTop(999999);
+    const isNearBottom = useCallback(() => {
+        if (!messagePanel.current) {
+            return true;
         }
-    }, [canScroll, props.messages]);
 
-    const onScroll = useCallback(() => {
-        const messages = messagePanel.current;
-        if (!messages) {
+        const messageList = messagePanel.current;
+        const distanceFromBottom =
+            messageList.scrollHeight - messageList.scrollTop - messageList.clientHeight;
+
+        return distanceFromBottom <= 80;
+    }, []);
+
+    const syncPinnedState = useCallback((nextPinned) => {
+        shouldAutoFollowRef.current = nextPinned;
+        setIsPinnedToBottom((currentPinned) =>
+            currentPinned === nextPinned ? currentPinned : nextPinned
+        );
+    }, []);
+
+    const scrollToBottom = useCallback(
+        (forcePin = false) => {
+            if (!messagePanel.current) {
+                return;
+            }
+
+            const messageList = messagePanel.current;
+            messageList.scrollTop = messageList.scrollHeight - messageList.clientHeight;
+
+            if (forcePin) {
+                syncPinnedState(true);
+            }
+        },
+        [syncPinnedState]
+    );
+
+    const scheduleScrollToBottom = useCallback(
+        (forcePin = false) => {
+            // Wait for layout/paint so scrollHeight is accurate after message render.
+            requestAnimationFrame(() => {
+                requestAnimationFrame(() => {
+                    scrollToBottom(forcePin);
+                    setTimeout(() => scrollToBottom(forcePin), 0);
+                });
+            });
+        },
+        [scrollToBottom]
+    );
+
+    useLayoutEffect(() => {
+        if (!shouldAutoFollowRef.current && !isNearBottom()) {
             return;
         }
 
-        setTimeout(() => {
-            if (messages.scrollTop >= messages.scrollHeight - messages.offsetHeight - 20) {
-                setCanScroll(true);
-            } else {
-                setCanScroll(false);
-            }
-        }, 500);
-    }, []);
+        scheduleScrollToBottom();
+    }, [props.messages, isNearBottom, scheduleScrollToBottom]);
 
-    const onKeyPress = useCallback(
-        (event) => {
-            if (event.key !== 'Enter') {
-                return;
+    useEffect(() => {
+        scheduleScrollToBottom(true);
+    }, [scheduleScrollToBottom]);
+
+    useEffect(() => {
+        if (!messageContentRef.current) {
+            return;
+        }
+
+        resizeObserverRef.current = new ResizeObserver(() => {
+            if (shouldAutoFollowRef.current) {
+                scheduleScrollToBottom(true);
             }
+        });
+        resizeObserverRef.current.observe(messageContentRef.current);
+
+        return () => {
+            resizeObserverRef.current?.disconnect();
+        };
+    }, [scheduleScrollToBottom]);
+
+    useEffect(() => {
+        if (!messageContentRef.current) {
+            return;
+        }
+
+        const mutationObserver = new MutationObserver(() => {
+            if (shouldAutoFollowRef.current) {
+                scheduleScrollToBottom(true);
+            }
+        });
+
+        mutationObserver.observe(messageContentRef.current, {
+            childList: true,
+            subtree: true,
+            characterData: true
+        });
+
+        return () => {
+            mutationObserver.disconnect();
+        };
+    }, [scheduleScrollToBottom]);
+
+    useEffect(() => {
+        const onWindowResize = () => {
+            if (shouldAutoFollowRef.current) {
+                scheduleScrollToBottom(true);
+            }
+        };
+        const onVisibilityOrFocus = () => {
+            if (document.visibilityState === 'visible' && shouldAutoFollowRef.current) {
+                scheduleScrollToBottom(true);
+            }
+        };
+
+        window.addEventListener('resize', onWindowResize);
+        window.addEventListener('focus', onVisibilityOrFocus);
+        document.addEventListener('visibilitychange', onVisibilityOrFocus);
+
+        return () => {
+            window.removeEventListener('resize', onWindowResize);
+            window.removeEventListener('focus', onVisibilityOrFocus);
+            document.removeEventListener('visibilitychange', onVisibilityOrFocus);
+        };
+    }, [scheduleScrollToBottom]);
+
+    const onScroll = useCallback(() => {
+        syncPinnedState(isNearBottom());
+    }, [isNearBottom, syncPinnedState]);
+
+    const onSubmit = useCallback(
+        (event) => {
+            event.preventDefault();
 
             if (message === '') {
                 return;
@@ -44,7 +148,6 @@ const GameChat = (props) => {
 
             props.onSendChat(message);
             setMessage('');
-            event.preventDefault();
         },
         [message, props]
     );
@@ -52,19 +155,44 @@ const GameChat = (props) => {
     const placeholder = props.muted ? 'Spectators cannot chat in this game' : 'Chat...';
 
     return (
-        <div className='chat'>
-            <div className='messages panel' ref={messagePanel} onScroll={onScroll}>
-                <Messages
-                    messages={props.messages}
-                    onCardMouseOver={props.onCardMouseOver}
-                    onCardMouseOut={props.onCardMouseOut}
-                />
+        <div className='relative flex h-full min-h-0 flex-1 flex-col overflow-hidden'>
+            <div
+                className='messages min-h-0 flex-1 overflow-y-auto rounded-md border p-1 [scrollbar-gutter:stable] border-[color:color-mix(in_oklab,var(--border)_92%,transparent)] bg-[color:color-mix(in_oklab,var(--surface)_92%,transparent)]'
+                ref={messagePanel}
+                onScroll={onScroll}
+            >
+                <div ref={messageContentRef}>
+                    <Messages
+                        messages={props.messages}
+                        onCardMouseOver={props.onCardMouseOver}
+                        onCardMouseOut={props.onCardMouseOut}
+                    />
+                </div>
             </div>
-            <form className='form chat-form'>
-                <input
-                    className='form-control'
+            {!isPinnedToBottom ? (
+                <Button
+                    type='button'
+                    size='sm'
+                    variant='tertiary'
+                    className='absolute bottom-14 left-1/2 z-10 -translate-x-1/2'
+                    onPress={() => scheduleScrollToBottom(true)}
+                >
+                    Jump to latest
+                </Button>
+            ) : null}
+            <form
+                className='shrink-0 border-t border-[color:color-mix(in_oklab,var(--border)_88%,transparent)] bg-[color:color-mix(in_oklab,var(--surface)_94%,transparent)] p-1'
+                onSubmit={onSubmit}
+            >
+                <Input
+                    variant='tertiary'
+                    className='w-full [&_[data-slot="input-wrapper"]]:!bg-surface [&_[data-slot="input-wrapper"]]:!border [&_[data-slot="input-wrapper"]]:!border-border/75 [&_[data-slot="input-wrapper"]]:!shadow-none [&_[data-slot="input-wrapper"]]:data-[hover=true]:!border-border [&_[data-slot="input-wrapper"]]:data-[focus=true]:!border-border [&_[data-slot="input"]]:!text-foreground [&_[data-slot="input"]]:placeholder:!text-foreground/55'
                     placeholder={placeholder}
-                    onKeyPress={onKeyPress}
+                    onKeyDown={(event) => {
+                        if (event.key === 'Enter') {
+                            onSubmit(event);
+                        }
+                    }}
                     onChange={(event) =>
                         setMessage(
                             event.target.value.substring(

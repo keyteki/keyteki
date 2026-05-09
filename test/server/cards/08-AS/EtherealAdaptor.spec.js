@@ -23,7 +23,7 @@ describe('Ethereal Adaptor', function () {
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
 
-            expect(this.player1).toHavePrompt('How much amber do you want to use from Troll?');
+            expect(this.player1).toHavePrompt('How much amber do you want to spend from Troll?');
             expect(this.player1).toHavePromptButton(1);
             expect(this.player1).toHavePromptButton(2);
             expect(this.player1).toHavePromptButton(3);

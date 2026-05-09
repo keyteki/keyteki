@@ -352,4 +352,52 @@ describe('Knightapult', function () {
             });
         });
     });
+
+    describe('playing a creature as an upgrade', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    inPlay: ['knightapult', 'helmsman-spears', 'pelf'],
+                    hand: ['pupgrade', 'hapless-cadet']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+
+            this.player1.makeMaverick(this.knightapult, 'staralliance');
+            this.player1.useAction(this.knightapult);
+        });
+
+        it('should be cancelable and return the card to hand without consuming the action, then attach normally and leave the next creature ready and deployable', function () {
+            this.player1.clickCard(this.pupgrade);
+            this.player1.clickPrompt('Play this upgrade');
+            expect(this.player1).toHavePrompt('Choose a creature to attach this upgrade to');
+            expect(this.player1).toHavePromptButton('Cancel');
+            this.player1.clickPrompt('Cancel');
+            expect(this.pupgrade.location).toBe('hand');
+            expect(this.player1).isReadyToTakeAction();
+
+            // Should be able to play it again afterwards
+            this.player1.clickCard(this.pupgrade);
+            this.player1.clickPrompt('Play this upgrade');
+            this.player1.clickCard(this.helmsmanSpears);
+            expect(this.pupgrade.location).toBe('play area');
+            expect(this.pupgrade.parent).toBe(this.helmsmanSpears);
+            expect(this.player1).isReadyToTakeAction();
+
+            // Knightapult's effect should still apply to the next creature played
+            this.player1.clickCard(this.haplessCadet);
+            this.player1.clickPrompt('Play this creature');
+            expect(this.player1).toHavePromptButton('Left');
+            expect(this.player1).toHavePromptButton('Right');
+            expect(this.player1).toHavePromptButton('Deploy Left');
+            expect(this.player1).toHavePromptButton('Deploy Right');
+            this.player1.clickPrompt('Deploy Left');
+            this.player1.clickCard(this.helmsmanSpears);
+            expect(this.haplessCadet.exhausted).toBe(false);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

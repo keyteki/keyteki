@@ -14,7 +14,6 @@ describe('Administrator Pelith', function () {
 
         it('should allow moving a friendly Sanctum creature after reaping', function () {
             this.player1.reap(this.administratorPelith);
-            this.player1.clickCard(this.administratorPelith);
             expect(this.player1).toBeAbleToSelect(this.barristerJoya);
             expect(this.player1).toBeAbleToSelect(this.administratorPelith);
             expect(this.player1).not.toBeAbleToSelect(this.troll);

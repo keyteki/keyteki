@@ -1,5 +1,5 @@
 describe('Dive Deep', function () {
-    describe('Play Ability with creatures in play', function () {
+    describe("Dive Deep's ability", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -15,10 +15,11 @@ describe('Dive Deep', function () {
                 }
             });
             this.player2.moveCard(this.troll, 'deck');
-            this.player1.play(this.diveDeep);
         });
 
-        it('discard from opponents deck and target same house creatures', function () {
+        it('should discard from opponent deck and only allow selecting same house creatures', function () {
+            this.player1.play(this.diveDeep);
+
             expect(this.troll.location).toBe('discard');
             expect(this.player1).toBeAbleToSelect(this.krump);
             expect(this.player1).toBeAbleToSelect(this.groke);
@@ -26,68 +27,43 @@ describe('Dive Deep', function () {
             expect(this.player1).not.toBeAbleToSelect(this.flaxia);
         });
 
-        describe('select opponent creature', function () {
-            it('opponent should be in deck', function () {
-                this.player1.clickCard(this.krump);
-                expect(this.krump.location).toBe('deck');
-                expect(this.groke.location).toBe('play area');
-            });
-        });
-
-        describe('select friendly creature', function () {
-            it('friendly creature should be in deck', function () {
-                this.player1.clickCard(this.groke);
-                expect(this.krump.location).toBe('play area');
-                expect(this.groke.location).toBe('deck');
-            });
-        });
-    });
-
-    describe('Play Ability with no creatures in play', function () {
-        beforeEach(function () {
-            this.setupTest({
-                player1: {
-                    house: 'unfathomable',
-                    amber: 1,
-                    hand: ['dive-deep'],
-                    inPlay: ['flaxia']
-                },
-                player2: {
-                    amber: 1,
-                    inPlay: ['gub'],
-                    discard: ['troll', 'groggins']
-                }
-            });
-            this.player2.moveCard(this.troll, 'deck');
+        it('should put selected opponent creature on top of their deck', function () {
             this.player1.play(this.diveDeep);
-        });
+            this.player1.clickCard(this.krump);
 
-        it('should fizzle after discard', function () {
-            expect(this.troll.location).toBe('discard');
+            expect(this.krump.location).toBe('deck');
+            expect(this.groke.location).toBe('play area');
+            expect(this.diveDeep.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
-    });
 
-    describe('Play Ability with no cards in opponent deck', function () {
-        beforeEach(function () {
-            this.setupTest({
-                player1: {
-                    house: 'unfathomable',
-                    amber: 1,
-                    hand: ['dive-deep'],
-                    inPlay: ['flaxia']
-                },
-                player2: {
-                    amber: 1,
-                    inPlay: ['gub'],
-                    deck: []
-                }
-            });
-            this.player2.player.deck = [];
+        it('should put selected friendly creature on top of their deck', function () {
             this.player1.play(this.diveDeep);
+            this.player1.clickCard(this.groke);
+
+            expect(this.groke.location).toBe('deck');
+            expect(this.krump.location).toBe('play area');
+            expect(this.diveDeep.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should fizzle', function () {
+        it('should fizzle when no matching creatures in play', function () {
+            this.player1.moveCard(this.groke, 'discard');
+            this.player2.moveCard(this.krump, 'discard');
+            this.player1.play(this.diveDeep);
+
+            expect(this.troll.location).toBe('discard');
+            expect(this.diveDeep.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should fizzle when opponent deck is empty', function () {
+            this.player2.player.deck = [];
+            this.player1.play(this.diveDeep);
+
+            expect(this.groke.location).toBe('play area');
+            expect(this.krump.location).toBe('play area');
+            expect(this.diveDeep.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
     });

@@ -1,7 +1,9 @@
 module.exports = {
+    AbductAction: require('./AbductAction'),
     ActivateProphecyAction: require('./ActivateProphecyAction'),
     AddEventToWindowAction: require('./AddEventToWindowAction'),
     AddTokenAction: require('./AddTokenAction'),
+    AllocateCaptureAction: require('./AllocateCaptureAction'),
     AllocateDamageAction: require('./AllocateDamageAction'),
     ArchiveAction: require('./ArchiveAction'),
     ApplyDamageAction: require('./ApplyDamageAction'),
@@ -78,6 +80,7 @@ module.exports = {
     SequentialForEachAction: require('./SequentialForEachAction'),
     SequentialFightAction: require('./SequentialFightAction'),
     SequentialMakeTokenCreatureAction: require('./SequentialMakeTokenCreatureAction'),
+    SequentialPairedChoicesAction: require('./SequentialPairedChoicesAction'),
     SequentialPlayAction: require('./SequentialPlayAction'),
     SequentialPutIntoPlayAction: require('./SequentialPutIntoPlayAction'),
     ShuffleDeckAction: require('./ShuffleDeckAction'),

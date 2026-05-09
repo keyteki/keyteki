@@ -267,7 +267,8 @@ describe('Mimicry', function () {
             this.player1.play(this.mimicry);
             this.player1.clickCard(this.phloxemSpike);
             expect(this).toHaveRecentChatMessage(
-                'player1 uses Mimicry as Phloxem Spike to destroy each creature not on a flank.'
+                'player1 uses Mimicry as Phloxem Spike to destroy each creature not on a flank.',
+                3
             );
             expect(this.mimicry.name).toBe('Mimicry');
             expect(this.player1).isReadyToTakeAction();
