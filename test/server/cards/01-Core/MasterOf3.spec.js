@@ -14,8 +14,8 @@ describe('Master of 3', function () {
 
         it('should optionally destroy a creature with 1 power on reap', function () {
             this.player1.reap(this.masterOf3);
-            expect(this.player1).toHavePrompt('Any reactions?');
-            this.player1.clickCard(this.masterOf3);
+            expect(this.player1).toHavePrompt('Master of 3');
+            expect(this.player1).toHavePromptButton('Done');
             expect(this.player1).not.toBeAbleToSelect(this.rotgrub);
             expect(this.player1).not.toBeAbleToSelect(this.emberImp);
             expect(this.player1).toBeAbleToSelect(this.buzzle);
@@ -28,7 +28,7 @@ describe('Master of 3', function () {
 
         it('should allow declining to destroy', function () {
             this.player1.reap(this.masterOf3);
-            expect(this.player1).toHavePrompt('Any reactions?');
+            expect(this.player1).toHavePrompt('Master of 3');
             this.player1.clickPrompt('Done');
             expect(this.buzzle.location).toBe('play area');
             expect(this.player1.amber).toBe(1);

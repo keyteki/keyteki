@@ -56,10 +56,7 @@ describe('Drummernaut', function () {
 
             for (let i = 1; i < 6; i++) {
                 this.player1.playCreature(this.gangerChieftain);
-                expect(this.player1).toHavePrompt(
-                    'Any reactions to Ganger Chieftain being played?'
-                );
-                this.player1.clickCard(this.gangerChieftain);
+                expect(this.player1).toHavePrompt('Ganger Chieftain');
                 this.player1.clickCard(this.drummernaut);
                 expect(this.player1).isReadyToTakeAction();
                 this.player1.reap(this.drummernaut);
@@ -69,8 +66,7 @@ describe('Drummernaut', function () {
             }
 
             this.player1.playCreature(this.gangerChieftain);
-            expect(this.player1).toHavePrompt('Any reactions to Ganger Chieftain being played?');
-            this.player1.clickCard(this.gangerChieftain);
+            expect(this.player1).toHavePrompt('Ganger Chieftain');
             this.player1.clickCard(this.drummernaut);
             expect(this.drummernaut.exhausted).toBe(false);
             this.player1.clickCard(this.drummernaut);

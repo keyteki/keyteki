@@ -4,8 +4,8 @@ class SeekerOfTruth extends Card {
     // Fight: You may fight with a friendly non-Sanctum creature.
     setupCardAbilities(ability) {
         this.fight({
-            optional: true,
             target: {
+                optional: true,
                 cardType: 'creature',
                 controller: 'self',
                 cardCondition: (card) => !card.exhausted && !card.hasHouse('sanctum'),

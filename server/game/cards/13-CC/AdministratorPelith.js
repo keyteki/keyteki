@@ -4,8 +4,8 @@ class AdministratorPelith extends Card {
     // After Reap: You may move a friendly Sanctum creature anywhere in your battleline.
     setupCardAbilities(ability) {
         this.reap({
-            optional: true,
             target: {
+                optional: true,
                 cardType: 'creature',
                 controller: 'self',
                 cardCondition: (card) => card.hasHouse('sanctum'),
