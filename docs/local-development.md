@@ -100,7 +100,7 @@ For hot reloading and React DevTools, run Node locally while using Docker for da
     npm run dev:db
     ```
 
--   The `config/local.json5` file contains overrides for connecting to the containerized databases from your local machine. This file is automatically loaded by node-config and takes precedence over `default.json5`.
+-   The `config/default-node.json5` file contains overrides for connecting to the containerized databases from your local machine. The `dev:lobby` and `dev:gamenode` scripts set `NODE_APP_INSTANCE=node`, which causes node-config to load this file on top of `default.json5`.
 
 -   Run the lobby server:
 
