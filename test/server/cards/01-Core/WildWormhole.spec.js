@@ -115,9 +115,9 @@ describe('Wild Wormhole', function () {
             expect(logs.some((line) => line.includes('Dextre'))).toBe(false);
         });
 
-        it('should silently fizzle Kelifi Dragon under Ember Imp without revealing it', function () {
+        it('should fizzle Kelifi Dragon under Ember Imp without revealing it', function () {
             // Two restrictions apply: Kelifi's own cardCannot and Ember Imp's playerCannot.
-            // External player restriction takes precedence and the play fizzles silently.
+            // External player restriction takes precedence and the play restricted before revealing.
             this.player1.moveCard(this.kelifiDragon, 'deck');
             this.player1.play(this.archimedes);
             this.player1.play(this.wildWormhole);
@@ -128,9 +128,9 @@ describe('Wild Wormhole', function () {
             expect(logs.some((line) => line.includes('Kelifi Dragon'))).toBe(false);
         });
 
-        it('should silently fizzle an alpha card under Ember Imp without revealing it', function () {
+        it('should fizzle an alpha card under Ember Imp without revealing it', function () {
             // Alpha cost would also block, but Ember Imp's external restriction
-            // takes precedence and the play fizzles silently.
+            // takes precedence and the play restricted before revealing.
             this.player1.moveCard(this.eureka, 'deck');
             this.player1.play(this.archimedes);
             this.player1.play(this.wildWormhole);
