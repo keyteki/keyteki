@@ -75,6 +75,11 @@ function buildPlayAsCopyEffects({ context, ability, additionalEffects = [] }) {
                 return matching.length ? matching[matching.length - 1].getValue(copiedCard) : null;
             };
 
+            const hasEffectFromTransformingSource = (types) =>
+                copiedCard.effects.some(
+                    (effect) => types.includes(effect.type) && fromTransformingSource(effect)
+                );
+
             const setPower = mostRecentByType('setPower');
             const effectivePower =
                 setPower !== null
@@ -86,10 +91,10 @@ function buildPlayAsCopyEffects({ context, ability, additionalEffects = [] }) {
                     ? setArmor
                     : (copiedCard.printedArmor || 0) + sumByType('modifyArmor');
 
-            if (effectivePower !== 0) {
+            if (hasEffectFromTransformingSource(['setPower', 'modifyPower'])) {
                 effects.push(ability.effects.setPower(effectivePower));
             }
-            if (effectiveArmor !== 0) {
+            if (hasEffectFromTransformingSource(['setArmor', 'modifyArmor'])) {
                 effects.push(ability.effects.setArmor(effectiveArmor));
             }
 
