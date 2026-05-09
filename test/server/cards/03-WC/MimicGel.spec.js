@@ -1098,6 +1098,116 @@ describe('Mimic Gel', function () {
         });
     });
 
+    describe("Mimic Gel copying an artifact animated by Animator with Haedroth's Wall", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: [
+                        'animator',
+                        'haedroth-s-wall',
+                        'dominator-bauble',
+                        'dextre',
+                        'daughter'
+                    ],
+                    hand: ['mimic-gel']
+                },
+                player2: {}
+            });
+            this.player1.useAction(this.animator);
+            this.player1.clickCard(this.dominatorBauble);
+            this.player1.clickPrompt('Right');
+            // Original animated artifact: 0 + 3 (Animator) + 2 (Wall) = 5.
+            expect(this.dominatorBauble.type).toBe('creature');
+            expect(this.dominatorBauble.power).toBe(5);
+        });
+
+        // Animator animates the artifact via modifyPower(3). Haedroth's Wall
+        // adds +2 to flank creatures via modifyPower. Mimic Gel adopts the
+        // snapshot value (3) as its NEW printed power, so Wall's modifyPower
+        // continues to stack on the copy normally.
+        it("should adopt 3 as printed power and have Haedroth's Wall stack on the copy", function () {
+            // Mimic Gel ETBs on the left flank (replacing dextre there).
+            this.player1.playCreature(this.mimicGel);
+            this.player1.clickCard(this.dominatorBauble);
+            this.player1.clickPrompt('Left');
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.type).toBe('creature');
+            // 3 snapshot (new printed) + 2 from Wall on left flank.
+            expect(this.mimicGel.power).toBe(5);
+            // Bauble still on right flank: still 5.
+            expect(this.dominatorBauble.power).toBe(5);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        // The snapshot copied to Mimic Gel must be the *baseline* power
+        // contributed by the transforming source (Animator's +3 = 3), not
+        // the original's currently modified power (5 after Wall). When the
+        // bauble is pushed off-flank, it should drop to 3 (no Wall buff),
+        // proving the snapshot does not include Wall's contribution.
+        it('should snapshot only the Animator power, not the Wall buff the original had at copy time', function () {
+            // Mimic Gel ETBs on the right flank, displacing bauble inward
+            // off the flank.
+            this.player1.playCreature(this.mimicGel);
+            this.player1.clickCard(this.dominatorBauble);
+            this.player1.clickPrompt('Right');
+            expect(this.mimicGel.location).toBe('play area');
+            // Mimic Gel on right flank: 3 snapshot + 2 Wall.
+            expect(this.mimicGel.power).toBe(5);
+            // Bauble pushed inward off flank: 0 + 3 (Animator) + 0 = 3.
+            expect(this.dominatorBauble.isOnFlank()).toBe(false);
+            expect(this.dominatorBauble.power).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe("Mimic Gel copying an artifact animated by Animating Force with Haedroth's Wall", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    inPlay: ['library-of-babble', 'haedroth-s-wall'],
+                    hand: ['mimic-gel', 'animating-force']
+                },
+                player2: {}
+            });
+        });
+
+        // Animating Force uses setPower(4) on the original artifact, which is
+        // an absolute override that ignores all modifyPower effects — so the
+        // ORIGINAL stays at exactly 4 even with Haedroth's Wall. Mimic Gel,
+        // however, only copies the *value* (4) as its new printed power; it
+        // does not inherit the setPower ability itself. The copy then behaves
+        // like any normal 4-printed-power creature, so Haedroth's Wall stacks
+        // and the copy ends up at 6.
+        it('should leave the original at the set power but allow Haedroth Wall to buff the copy', function () {
+            this.player1.clickCard(this.animatingForce);
+            this.player1.clickPrompt('Play this upgrade');
+            this.player1.clickCard(this.libraryOfBabble);
+            this.player1.clickPrompt('Right');
+            // setPower(4) overrides Wall's modifyPower(+2) on the original.
+            expect(this.libraryOfBabble.type).toBe('creature');
+            expect(this.libraryOfBabble.power).toBe(4);
+
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            this.player1.clickPrompt('logos');
+
+            this.player1.playCreature(this.mimicGel);
+            this.player1.clickCard(this.libraryOfBabble);
+            this.player1.clickPrompt('Left');
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.type).toBe('creature');
+            // Mimic Gel snapshot adopts 4 as its new printed power; Wall
+            // then stacks normally: 4 + 2 = 6.
+            expect(this.mimicGel.power).toBe(6);
+            // Original library still locked at 4 by its own setPower.
+            expect(this.libraryOfBabble.power).toBe(4);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
     describe('Mimic Gel copying The Mysticeti as a creature', function () {
         function transformMysticeti(t) {
             t.player1.useAction(t.theMysticeti);

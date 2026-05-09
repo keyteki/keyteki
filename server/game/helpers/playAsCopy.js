@@ -34,17 +34,19 @@ function buildPlayAsCopyEffects({ context, ability, additionalEffects = [] }) {
             value: displayName,
             enumerable: true
         });
-        effects.unshift(ability.effects.copyCard(cardWrapper));
 
         // If the card being copied is currently a creature only because of
         // lasting effects (e.g. Animator, Animating Force, Effigy of Melerukh,
         // Auto-Legionary, The Mysticeti), the copied card's printed power /
         // armor / keywords / blank state don't reflect what the copying card
         // should look like. Snapshot the relevant effective state from the
-        // sources that turned the copied card into a creature and apply it
-        // to the copying card so that it enters play as the same creature
-        // the copied card has become. Effects from third-party sources (e.g.
-        // Haedroth's Wall, Spectral Tunneler) are intentionally not copied.
+        // sources that turned the copied card into a creature and treat that
+        // snapshot as the copying card's *new printed* power/armor — so that
+        // external modifyPower/setPower effects (e.g. Haedroth's Wall, The
+        // Pale Star) apply to the copy normally, while the original retains
+        // its actual ability and obeys its setPower/modifyPower semantics.
+        // Effects from third-party sources (e.g. Haedroth's Wall, Spectral
+        // Tunneler) are intentionally not included in the snapshot.
         if (copiedCard.type === 'creature' && copiedCard.printedType !== 'creature') {
             // Identify sources that applied changeType('creature') to the
             // copied card.
@@ -75,28 +77,29 @@ function buildPlayAsCopyEffects({ context, ability, additionalEffects = [] }) {
                 return matching.length ? matching[matching.length - 1].getValue(copiedCard) : null;
             };
 
-            const hasEffectFromTransformingSource = (types) =>
-                copiedCard.effects.some(
-                    (effect) => types.includes(effect.type) && fromTransformingSource(effect)
-                );
-
+            // Compute the snapshot value the transforming source contributes.
+            // setPower from the transformer wins (absolute value); otherwise
+            // the snapshot is printedPower + sum of modifyPower from the
+            // transformer.
             const setPower = mostRecentByType('setPower');
-            const effectivePower =
+            const snapshotPower =
                 setPower !== null
                     ? setPower
-                    : (copiedCard.printedPower || 0) + sumByType('modifyPower');
+                    : (copiedCard.powerPrinted || 0) + sumByType('modifyPower');
+            Object.defineProperty(cardWrapper, 'powerPrinted', {
+                value: snapshotPower,
+                enumerable: true
+            });
+
             const setArmor = mostRecentByType('setArmor');
-            const effectiveArmor =
+            const snapshotArmor =
                 setArmor !== null
                     ? setArmor
-                    : (copiedCard.printedArmor || 0) + sumByType('modifyArmor');
-
-            if (hasEffectFromTransformingSource(['setPower', 'modifyPower'])) {
-                effects.push(ability.effects.setPower(effectivePower));
-            }
-            if (hasEffectFromTransformingSource(['setArmor', 'modifyArmor'])) {
-                effects.push(ability.effects.setArmor(effectiveArmor));
-            }
+                    : (copiedCard.armorPrinted || 0) + sumByType('modifyArmor');
+            Object.defineProperty(cardWrapper, 'armorPrinted', {
+                value: snapshotArmor,
+                enumerable: true
+            });
 
             // Aggregate addKeyword effects from transforming sources (e.g.
             // taunt from The Mysticeti, versatile from Animating Force).
@@ -122,6 +125,8 @@ function buildPlayAsCopyEffects({ context, ability, additionalEffects = [] }) {
                 effects.push(ability.effects.blank());
             }
         }
+
+        effects.unshift(ability.effects.copyCard(cardWrapper));
     } else if (copiedCard && !hasAlphaRestriction) {
         // For actions, manually copy abilities and properties
         // But ONLY if not alpha-restricted (otherwise it will fizzle before abilities trigger)
