@@ -40,6 +40,17 @@ class PutIntoPlayAction extends CardGameAction {
         return card.location === 'hand' || this.numPlayAllowances >= 2;
     }
 
+    // Returns whether the other half of a gigantic creature has the given
+    // printed keyword. Used during preEventHandler when composedPart isn't
+    // wired up yet, so card.hasKeyword() can't see the shared keyword.
+    giganticOtherHalfHasKeyword(card, keyword) {
+        if (!card.gigantic || !card.controller) {
+            return false;
+        }
+        const otherHalf = card.controller.allCards.find((c) => c.id === card.compositeId);
+        return !!(otherHalf && otherHalf.printedKeywords[keyword]);
+    }
+
     preEventHandler(context) {
         super.preEventHandler(context);
         const card = this.target.length > 0 ? this.target[0] : context.source;
@@ -108,7 +119,8 @@ class PutIntoPlayAction extends CardGameAction {
             if (
                 (card.anyEffect('enterPlayAnywhere', context) ||
                     this.deploy ||
-                    card.hasKeyword('deploy')) &&
+                    card.hasKeyword('deploy') ||
+                    this.giganticOtherHalfHasKeyword(card, 'deploy')) &&
                 player.creaturesInPlay.length > 1
             ) {
                 choices.push('Deploy Left');
