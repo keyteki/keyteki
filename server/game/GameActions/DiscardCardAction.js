@@ -105,20 +105,29 @@ class DiscardCardAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        let location = card.location;
+        // Snapshot the origin location at event creation time so that the
+        // abduct replacement decision (below) is fixed by the rules-intent
+        // "when this card would be discarded from archives" — not by where
+        // the card may end up if an intervening effect moves it before this
+        // event resolves.
+        const location = card.location;
         const event = super.createEvent(
             EVENTS.onCardDiscarded,
             { card, context, location, replaced: false },
             () => {
-                // Abduct replacement: delegate to moveCard, which redirects
-                // archived+abducted cards to their owner's hand and emits the
-                // "...instead of being discarded" message.
+                // Abduct replacement: uses the captured origin location so a
+                // card pulled out of archives by another effect in the same
+                // window still gets redirected to hand as the rules require.
                 if (location === 'archives' && card.abducted) {
                     card.controller.moveCard(card, 'discard');
                     event.replaced = true;
                     return;
                 }
 
+                // Hand-discard tracking uses the current location: if an earlier
+                // Scrap effect already moved this card out of hand, it isn't
+                // actually being discarded from hand now and must not
+                // increment the per-turn hand-discard counter.
                 if (card.location === 'hand') {
                     context.game.cardDiscarded(card);
                 }
