@@ -21,7 +21,6 @@ describe('Ganger Chieftain', function () {
             expect(this.troll.exhausted).toBe(true);
             expect(this.docBookton.location).toBe('discard');
             this.player1.playCreature(this.gangerChieftain, true);
-            this.player1.clickCard(this.gangerChieftain);
             expect(this.player1).toHavePrompt('Ganger Chieftain');
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.gangerChieftain);
@@ -32,13 +31,12 @@ describe('Ganger Chieftain', function () {
             this.player1.clickCard(this.batdrone);
             expect(this.troll.exhausted).toBe(true);
             expect(this.batdrone.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(7);
+            expect(this.troll.damage).toBe(7);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow fighting with a non-house creature', function () {
             this.player1.play(this.gangerChieftain);
-            this.player1.clickCard(this.gangerChieftain);
             expect(this.player1).toHavePrompt('Ganger Chieftain');
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.gangerChieftain);
@@ -48,9 +46,9 @@ describe('Ganger Chieftain', function () {
             expect(this.player1).toHavePrompt('Choose a creature to attack');
             this.player1.clickCard(this.batdrone);
             expect(this.batdrone.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(5);
+            expect(this.troll.damage).toBe(5);
             expect(this.ancientBear.exhausted).toBe(true);
-            expect(this.ancientBear.hasToken('damage')).toBe(false);
+            expect(this.ancientBear.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -61,7 +59,6 @@ describe('Ganger Chieftain', function () {
             this.player1.clickCard(this.batdrone);
             expect(this.batdrone.location).toBe('discard');
             this.player1.playCreature(this.gangerChieftain, true);
-            this.player1.clickCard(this.gangerChieftain);
             expect(this.player1).toHavePrompt('Ganger Chieftain');
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.gangerChieftain);
@@ -95,7 +92,6 @@ describe('Ganger Chieftain', function () {
             this.player2.reap(this.troll);
             expect(this.troll.exhausted).toBe(true);
             this.player2.playCreature(this.ganger1, true);
-            this.player2.clickCard(this.ganger1);
             expect(this.player2).toHavePrompt('Ganger Chieftain');
             expect(this.player2).toBeAbleToSelect(this.troll);
             expect(this.player2).not.toBeAbleToSelect(this.ganger1);
@@ -104,7 +100,6 @@ describe('Ganger Chieftain', function () {
             expect(this.troll.exhausted).toBe(false);
             expect(this.player2).isReadyToTakeAction();
             this.player2.playCreature(this.ganger2, true);
-            this.player2.clickCard(this.ganger2);
             expect(this.player2).toHavePrompt('Ganger Chieftain');
             expect(this.player2).not.toBeAbleToSelect(this.troll);
             expect(this.player2).not.toBeAbleToSelect(this.ganger2);
@@ -116,6 +111,32 @@ describe('Ganger Chieftain', function () {
             expect(this.player2).toHavePromptButton('Reap with this creature');
             this.player2.clickPrompt('Reap With This Creature');
             expect(this.player2.amber).toBe(2);
+        });
+    });
+
+    describe("Ganger Chieftain's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    hand: ['ganger-chieftain'],
+                    inPlay: ['awakened-titan']
+                },
+                player2: {
+                    inPlay: ['batdrone', 'dextre']
+                }
+            });
+        });
+
+        it('on play, it should allow selecting a creature that cannot ready', function () {
+            this.player1.reap(this.awakenedTitan);
+            expect(this.awakenedTitan.exhausted).toBe(true);
+            this.player1.playCreature(this.gangerChieftain, true);
+            expect(this.player1).toHavePrompt('Ganger Chieftain');
+            expect(this.player1).toBeAbleToSelect(this.awakenedTitan);
+            this.player1.clickCard(this.awakenedTitan); // click to fail ready
+            expect(this.awakenedTitan.exhausted).toBe(true);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

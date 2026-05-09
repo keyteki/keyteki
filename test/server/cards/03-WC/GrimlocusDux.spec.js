@@ -15,7 +15,7 @@ describe('Grimlocus Dux', function () {
         it('should be exalted twice', function () {
             this.player1.playCreature(this.grimlocusDux);
 
-            expect(this.grimlocusDux.tokens.amber).toBe(2);
+            expect(this.grimlocusDux.amber).toBe(2);
         });
     });
 });

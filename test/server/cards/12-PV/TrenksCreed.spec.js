@@ -23,13 +23,13 @@ describe("Trenk's Creed", function () {
             expect(this.player1).not.toBeAbleToSelect(this.emberImp);
             this.player1.clickCard(this.krump);
 
-            expect(this.krump.tokens.amber).toBe(3);
+            expect(this.krump.amber).toBe(3);
             expect(this.player2.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow moving amber from most powerful creature to common supply', function () {
-            this.krump.tokens.amber = 2;
+            this.krump.amber = 2;
             this.player1.play(this.trenkSCreed);
             this.player1.clickPrompt('Move amber to common supply');
             expect(this.player1).toBeAbleToSelect(this.krump);
@@ -38,7 +38,7 @@ describe("Trenk's Creed", function () {
             expect(this.player1).not.toBeAbleToSelect(this.emberImp);
             this.player1.clickCard(this.krump);
 
-            expect(this.krump.tokens.amber).toBeUndefined();
+            expect(this.krump.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });

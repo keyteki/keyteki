@@ -18,13 +18,13 @@ describe('Trooper', function () {
 
         it('should be exalted after reap', function () {
             this.player1.reap(this.trooper);
-            expect(this.trooper.tokens.amber).toBe(1);
+            expect(this.trooper.amber).toBe(1);
             this.player1.endTurn();
         });
 
         it('should be exalted after fight', function () {
             this.player1.fightWith(this.trooper, this.slimyJark);
-            expect(this.trooper.tokens.amber).toBe(1);
+            expect(this.trooper.amber).toBe(1);
             this.player1.endTurn();
         });
     });

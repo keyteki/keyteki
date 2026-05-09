@@ -21,7 +21,7 @@ describe('Lupo the Scarred', function () {
             expect(this.player1).not.toBeAbleToSelect(this.lupoTheScarred);
             expect(this.player1).not.toBeAbleToSelect(this.dustPixie);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
     });

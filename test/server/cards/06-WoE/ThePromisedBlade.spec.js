@@ -27,9 +27,9 @@ describe('The Promised Blade', function () {
             });
 
             it('has an omni to capture 1', function () {
-                this.player1.useAction(this.thePromisedBlade, true);
+                this.player1.useOmni(this.thePromisedBlade);
                 this.player1.clickCard(this.baldricTheBold);
-                expect(this.baldricTheBold.tokens.amber).toBe(1);
+                expect(this.baldricTheBold.amber).toBe(1);
                 expect(this.player2.amber).toBe(0);
             });
         });
@@ -83,6 +83,54 @@ describe('The Promised Blade', function () {
                 expect(this.player1).toHavePrompt(
                     'Choose which house you want to activate this turn'
                 );
+            });
+        });
+
+        describe('interaction with Haunted House', function () {
+            beforeEach(function () {
+                this.setupTest({
+                    player1: {
+                        house: 'sanctum',
+                        inPlay: [
+                            'tyxl-beambuckler',
+                            'myx-the-tallminded',
+                            'xanthyx-harvester',
+                            'the-promised-blade'
+                        ]
+                    },
+                    player2: {
+                        house: 'geistoid',
+                        inPlay: ['haunted-house'],
+                        deck: new Array(10).fill('poke'),
+                        discard: new Array(9).fill('poke')
+                    }
+                });
+            });
+
+            it('should allow taking control of The Promised Blade after triggering Haunted House', function () {
+                expect(this.thePromisedBlade.controller).toBe(this.player1.player);
+                this.player1.endTurn();
+                expect(this.player2).toHavePrompt('Any reactions?');
+                expect(this.player2).toBeAbleToSelect(this.thePromisedBlade);
+                expect(this.player2).toBeAbleToSelect(this.hauntedHouse);
+                this.player2.clickCard(this.hauntedHouse);
+                this.player2.clickPrompt('geistoid');
+                expect(this.player2).isReadyToTakeAction();
+                expect(this.player2.discard.length).toBe(10);
+                expect(this.thePromisedBlade.controller).toBe(this.player2.player);
+            });
+
+            it('should allow taking control of The Promised Blade before triggering Haunted House', function () {
+                expect(this.thePromisedBlade.controller).toBe(this.player1.player);
+                this.player1.endTurn();
+                expect(this.player2).toHavePrompt('Any reactions?');
+                expect(this.player2).toBeAbleToSelect(this.thePromisedBlade);
+                expect(this.player2).toBeAbleToSelect(this.hauntedHouse);
+                this.player2.clickCard(this.thePromisedBlade);
+                this.player2.clickPrompt('geistoid');
+                expect(this.player2).isReadyToTakeAction();
+                expect(this.player2.discard.length).toBe(10);
+                expect(this.thePromisedBlade.controller).toBe(this.player2.player);
             });
         });
     });

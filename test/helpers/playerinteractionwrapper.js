@@ -112,6 +112,23 @@ class PlayerInteractionWrapper {
     }
 
     /**
+     * Sets the contents of the deck
+     * @param {String[]} newContents - list of names or cards to be put in deck
+     */
+    set deck(newContents = []) {
+        // Clear the deck
+        this.player.deck = [];
+
+        // Add cards in reverse order so first card ends up on top
+        let cards = this.mixedListToCardList(newContents, 'discard');
+        _.chain(cards)
+            .reverse()
+            .each((card) => {
+                this.moveCard(card, 'deck');
+            });
+    }
+
+    /**
      * Sets the contents of the conflict discard pile
      * @param {String[]} newContents - list of names of cards to be put in conflict discard
      */
@@ -370,6 +387,16 @@ class PlayerInteractionWrapper {
         return card;
     }
 
+    /**
+     * Makes a card a maverick of the specified house
+     * @param {DrawCard} card - the card to make a maverick
+     * @param {String} house - the house to maverick the card into
+     */
+    makeMaverick(card, house) {
+        card.maverick = house;
+        card.printedHouse = house;
+    }
+
     hasPlayCreaturePrompt(menuTitle, creatureName) {
         var currentPrompt = this.currentPrompt();
         return (
@@ -543,6 +570,12 @@ class PlayerInteractionWrapper {
             card = this.mixedListToCardList([card], searchLocations)[0];
         }
 
+        if (!this.player.isLegalLocationForCard(card, targetLocation.replace(' bottom', ''))) {
+            throw new Error(
+                `'${targetLocation}' is not a valid location to move ${card.type} '${card.name}'`
+            );
+        }
+
         this.player.moveCard(card, targetLocation);
         this.game.continue();
         return card;
@@ -602,13 +635,22 @@ class PlayerInteractionWrapper {
         }
     }
 
-    useAction(card, omni = false) {
+    useAction(card) {
         if (card.type !== 'creature' && card.type !== 'artifact') {
             throw new Error(`${card.name} cannot act`);
         }
 
         this.clickCard(card);
-        this.clickPrompt("Use this card's " + (omni ? 'Omni' : 'Action') + ' ability');
+        this.clickPrompt("Use this card's Action ability");
+    }
+
+    useOmni(card) {
+        if (card.type !== 'creature' && card.type !== 'artifact') {
+            throw new Error(`${card.name} cannot act`);
+        }
+
+        this.clickCard(card);
+        this.clickPrompt("Use this card's Omni ability");
     }
 
     playUpgrade(upgrade, target) {

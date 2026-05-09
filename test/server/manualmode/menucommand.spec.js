@@ -84,16 +84,16 @@ describe('Menu Commands', function () {
         it('player 1 can add and remove damage tokens from a creature', function () {
             this.player1.menuClick(this.niffleApe, 'addDamage');
             this.player1.menuClick(this.niffleApe, 'addDamage');
-            expect(this.niffleApe.tokens.damage).toBe(2);
+            expect(this.niffleApe.damage).toBe(2);
             this.player1.menuClick(this.niffleApe, 'remDamage');
-            expect(this.niffleApe.tokens.damage).toBe(1);
+            expect(this.niffleApe.damage).toBe(1);
         });
 
         it('player 2 can add and remove damage tokens from a creature', function () {
             this.player2.menuClick(this.batdrone, 'addDamage');
-            expect(this.batdrone.tokens.damage).toBe(1);
+            expect(this.batdrone.damage).toBe(1);
             this.player2.menuClick(this.batdrone, 'remDamage');
-            expect(this.niffleApe.tokens.damage).toBeUndefined();
+            expect(this.niffleApe.damage).toBe(0);
         });
     });
 
@@ -101,16 +101,16 @@ describe('Menu Commands', function () {
         it('player 1 can add and remove power tokens from a creature', function () {
             this.player1.menuClick(this.niffleApe, 'addPower');
             this.player1.menuClick(this.niffleApe, 'addPower');
-            expect(this.niffleApe.tokens.power).toBe(2);
+            expect(this.niffleApe.powerCounters).toBe(2);
             this.player1.menuClick(this.niffleApe, 'remPower');
-            expect(this.niffleApe.tokens.power).toBe(1);
+            expect(this.niffleApe.powerCounters).toBe(1);
         });
 
         it('player 2 can add and remove power tokens from a creature', function () {
             this.player2.menuClick(this.batdrone, 'addPower');
-            expect(this.batdrone.tokens.power).toBe(1);
+            expect(this.batdrone.powerCounters).toBe(1);
             this.player2.menuClick(this.batdrone, 'remPower');
-            expect(this.niffleApe.tokens.power).toBeUndefined();
+            expect(this.niffleApe.powerCounters).toBe(0);
         });
     });
 

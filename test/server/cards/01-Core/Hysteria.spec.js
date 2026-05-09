@@ -14,7 +14,7 @@ describe('Hysteria', function () {
         });
 
         it('should return all creatures to their owners hands', function () {
-            this.krump.tokens.ward = 1;
+            this.krump.ward();
             this.player1.play(this.hysteria);
             expect(this.emberImp.location).toBe('hand');
             expect(this.shooler.location).toBe('hand');

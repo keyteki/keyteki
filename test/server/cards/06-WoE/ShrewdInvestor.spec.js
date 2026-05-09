@@ -17,7 +17,7 @@ describe('Shrewd Investor', function () {
             expect(this.player1).toBeAbleToSelect(this.shrewdInvestor);
             this.player1.clickPrompt('Done');
             expect(this.player2.amber).toBe(3);
-            expect(this.shrewdInvestor.tokens.amber).toBe(undefined);
+            expect(this.shrewdInvestor.amber).toBe(0);
         });
 
         it('should capture if the player chooses to have opponent gain 1', function () {
@@ -25,7 +25,7 @@ describe('Shrewd Investor', function () {
             this.player1.clickCard(this.shrewdInvestor);
             expect(this.player2.amber).toBe(0);
             expect(this.player1.amber).toBe(0);
-            expect(this.shrewdInvestor.tokens.amber).toBe(4);
+            expect(this.shrewdInvestor.amber).toBe(4);
         });
     });
 });

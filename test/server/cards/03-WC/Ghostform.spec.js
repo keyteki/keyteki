@@ -23,7 +23,7 @@ describe('Ghostform', function () {
             expect(this.player2).toHavePrompt('Mighty Tiger');
             expect(this.player2).toBeAbleToSelect(this.urchin);
             this.player2.clickCard(this.urchin);
-            expect(this.urchin.hasToken('damage')).toBe(false);
+            expect(this.urchin.damage).toBe(0);
             expect(this.urchin.location).toBe('play area');
             expect(this.player2).isReadyToTakeAction();
         });

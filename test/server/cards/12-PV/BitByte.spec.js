@@ -22,7 +22,7 @@ describe('Bit Byte', function () {
 
         it('should archive the creature it fights', function () {
             this.player1.playCreature(this.bitByte);
-            this.bitByte.exhausted = false;
+            this.bitByte.ready();
             this.player1.fightWith(this.bitByte, this.flaxia);
             expect(this.flaxia.location).toBe('archives');
             expect(this.player2.player.archives).toContain(this.flaxia);

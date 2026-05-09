@@ -5,9 +5,9 @@ class Growland extends Card {
     // Scrap: Fully heal each friendly Mutant creature.
     setupCardAbilities(ability) {
         this.fight({
-            optional: true,
             reap: true,
             target: {
+                optional: true,
                 cardType: 'creature',
                 cardCondition: (card) => card.hasTrait('mutant'),
                 gameAction: ability.actions.destroy()

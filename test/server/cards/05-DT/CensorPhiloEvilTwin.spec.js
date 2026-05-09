@@ -14,9 +14,9 @@ describe('Censor Philo Evil Twin', function () {
                 }
             });
 
-            this.senatorShrix.tokens.amber = 1;
-            this.tantadlin.tokens.amber = 1;
-            this.ancientBear.tokens.amber = 1;
+            this.senatorShrix.amber = 1;
+            this.tantadlin.amber = 1;
+            this.ancientBear.amber = 1;
         });
 
         it('should deal 5D to a creature with amber', function () {
@@ -27,7 +27,7 @@ describe('Censor Philo Evil Twin', function () {
             expect(this.player1).toBeAbleToSelect(this.tantadlin);
             expect(this.player1).toBeAbleToSelect(this.ancientBear);
             this.player1.clickCard(this.tantadlin);
-            expect(this.tantadlin.tokens.damage).toBe(5);
+            expect(this.tantadlin.damage).toBe(5);
         });
     });
 });

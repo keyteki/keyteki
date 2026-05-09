@@ -28,7 +28,7 @@ describe('Specialist Guthrak', function () {
             this.player1.fightWith(this.specialistGuthrak, this.krump);
 
             expect(this.player2.amber).toBe(4);
-            expect(this.specialistGuthrak.tokens.amber).toBe(1);
+            expect(this.specialistGuthrak.amber).toBe(1);
 
             this.player1.endTurn();
         });
@@ -39,7 +39,7 @@ describe('Specialist Guthrak', function () {
             this.player1.reap(this.specialistGuthrak);
 
             expect(this.player2.amber).toBe(4);
-            expect(this.specialistGuthrak.tokens.amber).toBe(1);
+            expect(this.specialistGuthrak.amber).toBe(1);
 
             this.player1.endTurn();
         });
@@ -54,7 +54,7 @@ describe('Specialist Guthrak', function () {
             this.player1.reap(this.specialistGuthrak);
 
             expect(this.player2.amber).toBe(2);
-            expect(this.specialistGuthrak.tokens.amber).toBe(3);
+            expect(this.specialistGuthrak.amber).toBe(3);
 
             this.player1.endTurn();
         });
@@ -70,7 +70,7 @@ describe('Specialist Guthrak', function () {
             this.player1.reap(this.specialistGuthrak);
 
             expect(this.player2.amber).toBe(3);
-            expect(this.specialistGuthrak.tokens.amber).toBe(2);
+            expect(this.specialistGuthrak.amber).toBe(2);
 
             this.player1.endTurn();
         });
@@ -87,7 +87,7 @@ describe('Specialist Guthrak', function () {
             this.player1.reap(this.specialistGuthrak);
 
             expect(this.player2.amber).toBe(4);
-            expect(this.specialistGuthrak.tokens.amber).toBe(1);
+            expect(this.specialistGuthrak.amber).toBe(1);
 
             this.player1.endTurn();
         });
@@ -105,7 +105,7 @@ describe('Specialist Guthrak', function () {
             this.player1.reap(this.specialistGuthrak);
 
             expect(this.player2.amber).toBe(1);
-            expect(this.specialistGuthrak.tokens.amber).toBe(4);
+            expect(this.specialistGuthrak.amber).toBe(4);
 
             this.player1.endTurn();
         });

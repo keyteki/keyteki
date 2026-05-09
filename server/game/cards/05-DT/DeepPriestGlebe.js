@@ -5,10 +5,10 @@ class DeepPriestGlebe extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardEntersPlay: (event, context) =>
+                onCardPlayed: (event, context) =>
                     event.card.type === 'creature' &&
                     event.card.hasTrait('aquan') &&
-                    event.context.player === context.player
+                    event.player === context.player
             },
             target: {
                 cardType: 'creature',

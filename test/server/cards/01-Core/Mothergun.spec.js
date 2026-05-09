@@ -46,7 +46,7 @@ describe('Mothergun', function () {
             expect(this.player1).toBeAbleToSelect(this.mindwarper);
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
     });

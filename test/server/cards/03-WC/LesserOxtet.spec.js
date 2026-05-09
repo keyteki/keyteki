@@ -65,8 +65,7 @@ describe('Lesser Oxtet', function () {
                     inPlay: []
                 }
             });
-            this.tachyonManifold.maverick = 'dis';
-            this.tachyonManifold.printedHouse = 'dis';
+            this.player1.makeMaverick(this.tachyonManifold, 'dis');
             this.player1.useAction(this.tachyonManifold);
         });
 

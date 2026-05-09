@@ -53,7 +53,7 @@ describe('Holdfast', function () {
             this.player1.fightWith(this.scrivenerFavian, this.stiltKin);
             expect(this.stiltKin.location).toBe('discard');
             expect(this.scrivenerFavian.location).toBe('play area');
-            expect(this.scrivenerFavian.tokens.damage).toBe(2);
+            expect(this.scrivenerFavian.damage).toBe(2);
 
             expect(this.holdfast.exhausted).toBe(false);
             this.player1.reap(this.holdfast);
@@ -65,7 +65,7 @@ describe('Holdfast', function () {
         it('should ready holdfast right creature is damaged by opponent', function () {
             this.player1.endTurn();
 
-            this.holdfast.exhausted = true;
+            this.holdfast.exhaust();
             this.player2.clickPrompt('logos');
 
             expect(this.holdfast.exhausted).toBe(true);

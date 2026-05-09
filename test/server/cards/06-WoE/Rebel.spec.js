@@ -28,12 +28,12 @@ describe('Rebel', function () {
 
         it('should be to deal 1D to friendly creature', function () {
             this.player1.clickCard(this.flaxia);
-            expect(this.flaxia.tokens.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(1);
         });
 
         it('should be to deal 1D to enemy creature', function () {
             this.player1.clickCard(this.gub);
-            expect(this.gub.tokens.damage).toBe(1);
+            expect(this.gub.damage).toBe(1);
         });
     });
 });

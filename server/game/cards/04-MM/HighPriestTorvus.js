@@ -20,7 +20,7 @@ class HighPriestTorvus extends Card {
                         // we allow any location.
                         allowedLocations: 'any',
                         target: context.event.card,
-                        effect: ability.effects.actionCardLocationAfterPlay('hand')
+                        effect: ability.effects.cardLocationAfterPlay('hand')
                     }))
                 }))
             }

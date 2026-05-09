@@ -24,7 +24,7 @@ describe('Endurance', function () {
             expect(this.player1).toHavePrompt('Choose a creature to attack');
             this.player1.clickCard(this.nantucket);
             expect(this.nantucket.location).toBe('discard');
-            expect(this.blackTempest.tokens.damage).toBe(2);
+            expect(this.blackTempest.damage).toBe(2);
             expect(this.blackTempest.exhausted).toBe(true);
             expect(this.player1).isReadyToTakeAction();
         });

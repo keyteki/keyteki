@@ -47,7 +47,7 @@ describe('Fortune Reverser', function () {
         });
 
         it('does not blank enrage tokens', function () {
-            this.theOldTinker.tokens.enrage = 1;
+            this.theOldTinker.enrage();
             this.player1.playUpgrade(this.fortuneReverser, this.theOldTinker);
             this.player1.clickCard(this.theOldTinker);
             expect(this.player1).not.toHavePromptButton('Reap with this creature');

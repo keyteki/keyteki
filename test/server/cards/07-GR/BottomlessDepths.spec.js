@@ -28,7 +28,6 @@ describe('Bottomless Depths', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.play(this.punctuatedEquilibrium);
-            this.player2.clickPrompt('Autoresolve');
             expect(this.crushingDeep.location).toBe('under');
             expect(this.bottomlessDepths.childCards.length).toBe(6);
             expect(this.bottomlessDepths.childCards).toContain(this.crushingDeep);

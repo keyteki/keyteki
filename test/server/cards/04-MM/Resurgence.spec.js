@@ -5,7 +5,7 @@ describe('Resurgence', function () {
                 player1: {
                     house: 'untamed',
                     amber: 1,
-                    inPlay: ['bull-wark', 'flaxia', 'knoxx'],
+                    inPlay: ['bull-wark', 'flaxia', 'knoxx', 'niffle-kong', 'niffle-kong2'],
                     hand: ['resurgence', 'regrowth']
                 },
                 player2: {

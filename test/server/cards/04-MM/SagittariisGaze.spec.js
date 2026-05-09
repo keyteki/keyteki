@@ -15,8 +15,8 @@ describe("Sagittarii's Gaze", function () {
         });
 
         it('should be able to select a creature with damage', function () {
-            this.darkCenturion.tokens.damage = 1;
-            this.troll.tokens.damage = 1;
+            this.darkCenturion.damage = 1;
+            this.troll.damage = 1;
 
             this.player1.play(this.sagittariiSGaze);
 

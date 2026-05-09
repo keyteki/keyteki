@@ -19,8 +19,8 @@ describe('Mogghunter(WC)', function () {
             expect(this.player1).toBeAbleToSelect(this.looterGoblin);
             expect(this.player1).not.toBeAbleToSelect(this.nexus);
             this.player1.clickCard(this.troll);
-            expect(this.nexus.hasToken('damage')).toBe(false);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.nexus.damage).toBe(0);
+            expect(this.troll.damage).toBe(2);
             expect(this).toHaveRecentChatMessage(
                 'player1 uses Mogghunter to deal 2 damage to Troll'
             );

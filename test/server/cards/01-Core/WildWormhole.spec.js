@@ -78,7 +78,7 @@ describe('Wild Wormhole', function () {
             expect(this.wayOfTheBear.location).toBe('deck');
         });
 
-        it('should keep an alpha card on the top of the deck', function () {
+        it('should return alpha cards to the top of the deck', function () {
             this.player1.moveCard(this.eureka, 'deck');
             this.player1.play(this.wildWormhole);
             expect(this.player1).isReadyToTakeAction();

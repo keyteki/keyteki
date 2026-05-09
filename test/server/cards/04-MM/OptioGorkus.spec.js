@@ -25,10 +25,10 @@ describe('Optio Gorkus', function () {
             this.optioGorkus2 = this.player1.player.creaturesInPlay[4];
             this.optioGorkus3 = this.player1.player.creaturesInPlay[6];
 
-            this.citizenShrix.tokens.amber = 3;
-            this.oratorHissaro.tokens.amber = 4;
-            this.rhetorGallim.tokens.amber = 5;
-            this.optioGorkus3.tokens.amber = 1;
+            this.citizenShrix.amber = 3;
+            this.oratorHissaro.amber = 4;
+            this.rhetorGallim.amber = 5;
+            this.optioGorkus3.amber = 1;
         });
 
         it('should not be prompted if destroyed card has no amber', function () {
@@ -97,6 +97,8 @@ describe('Optio Gorkus', function () {
             this.player1.fightWith(this.rhetorGallim, this.troll);
 
             this.player1.clickCard(this.rhetorGallim);
+            expect(this.player1).toHavePrompt('Which ability would you like to use?');
+            this.player1.clickPrompt('Optio Gorkus', 0);
             expect(this.player1).toHavePrompt('Choose a creature');
             expect(this.player1).toBeAbleToSelect(this.optioGorkus2);
             expect(this.player1).toBeAbleToSelect(this.optioGorkus3);
@@ -124,6 +126,8 @@ describe('Optio Gorkus', function () {
             this.player2.fightWith(this.troll, this.rhetorGallim);
 
             this.player2.clickCard(this.rhetorGallim);
+            expect(this.player2).toHavePrompt('Which ability would you like to use?');
+            this.player2.clickPrompt('Optio Gorkus', 1);
             expect(this.player2).toHavePrompt('Choose a creature');
             expect(this.player2).toBeAbleToSelect(this.optioGorkus2);
             expect(this.player2).toBeAbleToSelect(this.optioGorkus3);

@@ -29,8 +29,8 @@ describe('Scooped', function () {
             this.player1.clickCard(this.tantadlin);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
-            expect(this.tantadlin.tokens.damage).toBe(2);
-            expect(this.tantadlin.tokens.amber).toBe(1);
+            expect(this.tantadlin.damage).toBe(2);
+            expect(this.tantadlin.amber).toBe(1);
         });
 
         it('should deal 2D to an enemy creature and not capture if destroyed', function () {
@@ -46,8 +46,8 @@ describe('Scooped', function () {
             this.player1.clickCard(this.troll);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.troll.tokens.damage).toBe(2);
-            expect(this.troll.tokens.amber).toBe(1);
+            expect(this.troll.amber).toBe(1);
+            expect(this.troll.damage).toBe(2);
         });
 
         it('should deal 2D to an enemy creature and capture from their side if not destroyed due to ward', function () {
@@ -56,9 +56,9 @@ describe('Scooped', function () {
             this.player1.clickCard(this.lamindra);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
-            expect(this.lamindra.tokens.damage).toBeUndefined();
+            expect(this.lamindra.damage).toBe(0);
             expect(this.lamindra.location).toBe('play area');
-            expect(this.lamindra.tokens.amber).toBe(1);
+            expect(this.lamindra.amber).toBe(1);
         });
     });
 });

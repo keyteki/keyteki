@@ -62,8 +62,7 @@ describe('Arcenomometer', function () {
                     hand: ['dust-pixie']
                 }
             });
-            this.tachyonManifold.maverick = 'logos';
-            this.tachyonManifold.printedHouse = 'logos';
+            this.player1.makeMaverick(this.tachyonManifold, 'logos');
             this.player1.useAction(this.tachyonManifold);
         });
 
@@ -75,6 +74,36 @@ describe('Arcenomometer', function () {
             this.player2.clickPrompt('untamed');
             this.player2.playCreature(this.dustPixie);
             expect(this.player2.amber).toBe(1);
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
+
+    describe('Arcenomometer with Talent Scout', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 1,
+                    house: 'logos',
+                    hand: ['troll'],
+                    inPlay: ['arcenomometer']
+                },
+                player2: {
+                    amber: 3,
+                    hand: ['talent-scout']
+                }
+            });
+        });
+
+        it('makes opponent lose 1 amber for Talent Scout and again for the creature it plays', function () {
+            this.player1.useAction(this.arcenomometer);
+            this.player1.endTurn();
+            this.player2.clickPrompt('ekwidon');
+            this.player2.play(this.talentScout);
+            this.player2.clickCard(this.talentScout);
+            this.player2.clickCard(this.troll);
+            this.player2.clickPrompt('Left');
+            expect(this.troll.location).toBe('play area');
+            expect(this.player2.amber).toBe(2);
             expect(this.player2).isReadyToTakeAction();
         });
     });

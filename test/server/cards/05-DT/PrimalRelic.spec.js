@@ -17,7 +17,7 @@ describe('Primal Relic', function () {
 
         it('it should place 4AE on it when played', function () {
             this.player1.play(this.primalRelic);
-            expect(this.primalRelic.tokens.amber).toBe(4);
+            expect(this.primalRelic.amber).toBe(4);
         });
 
         it('it should prompt to give 3 power tokens on play on any creature', function () {
@@ -32,9 +32,9 @@ describe('Primal Relic', function () {
             this.player1.clickCard(this.flaxia);
             this.player1.clickPrompt('Done');
 
-            expect(this.dustPixie.tokens.power).toBe(1);
-            expect(this.krump.tokens.power).toBe(1);
-            expect(this.flaxia.tokens.power).toBe(1);
+            expect(this.dustPixie.powerCounters).toBe(1);
+            expect(this.krump.powerCounters).toBe(1);
+            expect(this.flaxia.powerCounters).toBe(1);
 
             this.player1.endTurn();
         });
@@ -54,7 +54,7 @@ describe('Primal Relic', function () {
                 }
 
                 this.player1.endTurn();
-                expect(this.primalRelic.tokens.amber).toBeUndefined();
+                expect(this.primalRelic.amber).toBe(0);
                 expect(this.player1.amber).toBe(2); // started with 1, gained one from primal relic
                 expect(this.player2.amber).toBe(5); // started with 1, gained 4
             });
@@ -66,7 +66,7 @@ describe('Primal Relic', function () {
                 }
 
                 this.player1.endTurn();
-                expect(this.primalRelic.tokens.amber).toBeUndefined();
+                expect(this.primalRelic.amber).toBe(0);
                 expect(this.player1.amber).toBe(2); // started with 1, gained one from primal relic
                 expect(this.player2.amber).toBe(5); // started with 1, gained 4
             });
@@ -89,7 +89,7 @@ describe('Primal Relic', function () {
                 }
 
                 this.player1.endTurn();
-                expect(this.primalRelic.tokens.amber).toBeUndefined();
+                expect(this.primalRelic.amber).toBe(0);
                 expect(this.player1.amber).toBe(2); // started with 1, gained one from primal relic
                 expect(this.player2.amber).toBe(5); // started with 1, gained 4
 

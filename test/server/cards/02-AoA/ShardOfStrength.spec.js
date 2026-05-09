@@ -30,7 +30,7 @@ describe('Shard of Strength', function () {
             expect(this.player1).not.toBeAbleToSelect(this.mother);
             this.player1.clickCard(this.cowfyne);
 
-            expect(this.cowfyne.tokens.power).toBe(3);
+            expect(this.cowfyne.powerCounters).toBe(3);
         });
 
         it('should work properly when Remote Accessed', function () {
@@ -45,7 +45,7 @@ describe('Shard of Strength', function () {
             expect(this.player2).toBeAbleToSelect(this.archimedes);
             expect(this.player2).toBeAbleToSelect(this.mother);
             this.player2.clickCard(this.mother);
-            expect(this.mother.tokens.power).toBe(2);
+            expect(this.mother.powerCounters).toBe(2);
         });
 
         it('should work properly when Borrowed', function () {
@@ -60,7 +60,7 @@ describe('Shard of Strength', function () {
             expect(this.player2).toBeAbleToSelect(this.archimedes);
             expect(this.player2).toBeAbleToSelect(this.mother);
             this.player2.clickCard(this.mother);
-            expect(this.mother.tokens.power).toBe(2);
+            expect(this.mother.powerCounters).toBe(2);
         });
 
         describe('when there are no friendly creatures in play', function () {

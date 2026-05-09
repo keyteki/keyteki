@@ -175,4 +175,35 @@ describe('Fidgit', function () {
             expect(this.player1.amber).toBe(1);
         });
     });
+
+    describe("Fidgit's ability with Vapor Imp", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    inPlay: ['bosun-creen', 'vapor-imp'],
+                    hand: ['dust-imp'],
+                    discard: ['seeker-missiles']
+                },
+                player2: {
+                    house: 'shadows',
+                    inPlay: ['fidgit']
+                }
+            });
+        });
+
+        it('should be able to play non-creature cards', function () {
+            this.player1.reap(this.vaporImp);
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player1.moveCard(this.seekerMissiles, 'deck');
+            this.player2.reap(this.fidgit);
+            expect(this.player2).toHavePrompt('Fidgit');
+            this.player2.clickPrompt('Top of deck');
+            expect(this.player2).toHavePrompt('Seeker Missiles');
+            this.player2.clickCard(this.bosunCreen);
+            expect(this.bosunCreen.damage).toBe(2);
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
 });

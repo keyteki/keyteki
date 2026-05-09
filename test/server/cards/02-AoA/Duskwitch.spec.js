@@ -74,7 +74,7 @@ describe('Duskwitch', function () {
 
         it('should end turn even if killed by autocannon', function () {
             this.player1.play(this.witchOfTheEye);
-            expect(this.witchOfTheEye.tokens.damage).toBe(1);
+            expect(this.witchOfTheEye.damage).toBe(1);
             this.player1.play(this.duskwitch);
             this.player2.clickPrompt('brobnar');
             expect(this.duskwitch.location).toBe('discard');

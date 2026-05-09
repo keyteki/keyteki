@@ -12,7 +12,7 @@ describe('Worthy Adversaries', function () {
                 }
             });
             // Pre-damage troll so we can test exalting already-damaged creatures
-            this.troll.tokens.damage = 2;
+            this.troll.damage = 2;
         });
 
         it('should deal 1 damage to 2 different enemy creatures and exalt all damaged creatures in play', function () {
@@ -25,14 +25,14 @@ describe('Worthy Adversaries', function () {
             this.player1.clickCard(this.flaxia);
             this.player1.clickPrompt('Done');
             // Damage checks
-            expect(this.krump.tokens.damage).toBe(1);
-            expect(this.flaxia.tokens.damage).toBe(1);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(1);
+            expect(this.troll.damage).toBe(2);
             // Exalt checks: all damaged creatures
-            expect(this.krump.tokens.amber).toBe(1);
-            expect(this.flaxia.tokens.amber).toBe(1);
-            expect(this.troll.tokens.amber).toBe(1);
-            expect(this.gub.tokens.amber).toBeUndefined();
+            expect(this.krump.amber).toBe(1);
+            expect(this.flaxia.amber).toBe(1);
+            expect(this.troll.amber).toBe(1);
+            expect(this.gub.amber).toBe(0);
         });
     });
 });

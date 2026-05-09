@@ -26,7 +26,7 @@ describe('Xeno-Saurus', function () {
             });
 
             it('should exalt xeno-saurus', function () {
-                expect(this.xenoSaurus.tokens.amber).toBe(1);
+                expect(this.xenoSaurus.amber).toBe(1);
             });
 
             describe('should prompt to to do damage', function () {
@@ -35,7 +35,7 @@ describe('Xeno-Saurus', function () {
                     expect(this.player1).toBeAbleToSelect(this.troll);
                     expect(this.player1).toBeAbleToSelect(this.xenoSaurus);
                     this.player1.clickCard(this.troll);
-                    expect(this.troll.tokens.damage).toBe(3);
+                    expect(this.troll.damage).toBe(3);
                 });
             });
         });
@@ -46,7 +46,7 @@ describe('Xeno-Saurus', function () {
             });
 
             it('should not exalt xeno-saurus', function () {
-                expect(this.xenoSaurus.tokens.amber).toBe(undefined);
+                expect(this.xenoSaurus.amber).toBe(0);
             });
         });
     });

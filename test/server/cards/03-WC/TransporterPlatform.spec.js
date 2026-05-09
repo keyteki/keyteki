@@ -32,11 +32,11 @@ describe('Transporter Platform', function () {
         });
 
         it('should not return creature when it is warded', function () {
-            this.medicIngram.tokens.ward = 1;
+            this.medicIngram.ward();
             this.player1.useAction(this.transporterPlatform);
             this.player1.clickCard(this.medicIngram);
             expect(this.medicIngram.location).toBe('play area');
-            expect(this.medicIngram.tokens.ward).toBeUndefined();
+            expect(this.medicIngram.warded).toBe(false);
         });
 
         it("should return creature and upgrades to owner's hand", function () {
@@ -55,12 +55,12 @@ describe('Transporter Platform', function () {
 
         it('should return upgrades only when creature is warded', function () {
             this.player1.playUpgrade(this.calv1n, this.medicIngram);
-            this.medicIngram.tokens.ward = 1;
+            this.medicIngram.ward();
             this.player1.useAction(this.transporterPlatform);
             this.player1.clickCard(this.medicIngram);
             expect(this.calv1n.location).toBe('hand');
             expect(this.medicIngram.location).toBe('play area');
-            expect(this.medicIngram.tokens.ward).toBeUndefined();
+            expect(this.medicIngram.warded).toBe(false);
         });
     });
 
@@ -112,14 +112,14 @@ describe('Transporter Platform', function () {
             this.player2.endTurn();
 
             this.player1.clickPrompt('staralliance');
-            this.lamindra.tokens.ward = 1;
+            this.lamindra.ward();
             this.player1.playUpgrade(this.calv1n, this.lamindra);
             this.player1.useAction(this.transporterPlatform);
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             this.player1.clickCard(this.lamindra);
 
             expect(this.lamindra.location).toBe('play area');
-            expect(this.lamindra.tokens.ward).toBeUndefined();
+            expect(this.lamindra.warded).toBe(false);
             expect(this.calv1n.location).toBe('hand');
             expect(this.collarOfSubordination.location).toBe('hand');
             expect(this.wayOfTheBear.location).toBe('hand');

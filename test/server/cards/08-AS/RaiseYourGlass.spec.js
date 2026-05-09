@@ -27,7 +27,7 @@ describe('Raise Your Glass', function () {
         });
 
         it('should choose a creature if there is a tie', function () {
-            this.rowdySkald.exhausted = true;
+            this.rowdySkald.exhaust();
             this.player1.moveCard(this.dewFaerie, 'discard');
             this.player1.play(this.raiseYourGlass);
             expect(this.player1).toBeAbleToSelect(this.flaxia);

@@ -17,8 +17,7 @@ describe('Sabira the Medium', function () {
                 }
             });
 
-            this.spooKeyCharge.printedHouse = 'logos';
-            this.spooKeyCharge.maverick = 'logos';
+            this.player1.makeMaverick(this.spooKeyCharge, 'logos');
         });
 
         it('triggers after a relevant action', function () {

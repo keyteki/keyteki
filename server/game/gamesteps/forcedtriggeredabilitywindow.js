@@ -86,8 +86,11 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             return true;
         }
 
-        let autoResolveChoice = this.choices.find((context) => context.ability.autoResolve);
-        if (autoResolveChoice) {
+        const autoResolveChoice = this.choices.find((context) => context.ability.autoResolve);
+        // Only auto-resolve when every queued choice is itself an autoResolve
+        // ability. Otherwise the player needs to be prompted to order the
+        // non-autoResolve abilities relative to the autoResolve one.
+        if (autoResolveChoice && this.choices.every((context) => context.ability.autoResolve)) {
             this.resolveAbility(autoResolveChoice);
             return false;
         }
@@ -308,7 +311,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         let generatingEffectSource = this.game.getEffectSource(context);
         if (generatingEffectSource) {
             return {
-                key: generatingEffectSource.name + eventToAppend,
+                key: generatingEffectSource.uuid + eventToAppend,
                 text: '{{card}}' + eventToAppend,
                 card: generatingEffectSource,
                 values: { card: generatingEffectSource.name }
@@ -335,10 +338,11 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         }
 
         // This card has multiple abilities which can be used in this window - prompt the player to pick one
-        let handlers = menuChoices.map((button) => () =>
-            this.promptBetweenEventCards(
-                choices.filter((context) => this.getAbilityButton(context).key === button.key)
-            )
+        let handlers = menuChoices.map(
+            (button) => () =>
+                this.promptBetweenEventCards(
+                    choices.filter((context) => this.getAbilityButton(context).key === button.key)
+                )
         );
 
         if (this.noOptionalChoices) {

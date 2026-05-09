@@ -14,8 +14,7 @@ describe('Colossipede', function () {
                 }
             });
 
-            this.colossipede.printedHouse = 'logos';
-            this.colossipede.maverick = 'logos';
+            this.player1.makeMaverick(this.colossipede, 'logos');
             this.helperBot.amber = 3;
         });
 

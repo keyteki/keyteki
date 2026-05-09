@@ -26,7 +26,7 @@ describe('Smiling Ruth', function () {
         it('should take control of an enemy flank creature and use it immediately', function () {
             this.player2.amber = 6;
             this.player1.endTurn();
-            this.player2.clickPrompt('Red');
+            this.player2.forgeKey('Red');
             this.player2.clickPrompt('shadows');
             this.player2.reap(this.smilingRuth);
             expect(this.player2).toBeAbleToSelect(this.zorg);
@@ -44,7 +44,7 @@ describe('Smiling Ruth', function () {
         it('should take control of an enemy flank non-shadows creature', function () {
             this.player2.amber = 6;
             this.player1.endTurn();
-            this.player2.clickPrompt('Red');
+            this.player2.forgeKey('Red');
             this.player2.clickPrompt('shadows');
             this.player2.reap(this.smilingRuth);
             expect(this.player2).toBeAbleToSelect(this.zorg);
@@ -65,7 +65,7 @@ describe('Smiling Ruth', function () {
             this.player2.amber = 7;
             this.player2.play(this.keyCharge);
             this.player2.clickPrompt('Yes');
-            this.player2.clickPrompt('Red');
+            this.player2.forgeKey('Red');
             this.player2.play(this.ghosthawk);
             this.player2.clickCard(this.smilingRuth);
             expect(this.player2).toBeAbleToSelect(this.zorg);

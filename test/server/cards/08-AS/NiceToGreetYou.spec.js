@@ -15,8 +15,8 @@ describe('Nice to Greet You', function () {
         });
 
         it('should ready each mars creature', function () {
-            this.troll.exhausted = true;
-            this.blypyp.exhausted = true;
+            this.troll.exhaust();
+            this.blypyp.exhaust();
             this.player1.playCreature(this.myxTheTallminded);
             this.player1.playCreature(this.mindwarper);
             this.player1.play(this.niceToGreetYou);

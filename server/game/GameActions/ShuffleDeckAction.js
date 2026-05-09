@@ -18,7 +18,7 @@ class ShuffleDeckAction extends PlayerAction {
             { player: player, context: context },
             (event) => {
                 event.player.shuffleDeck();
-                context.game.addMessage('{0} is shuffling their deck', player);
+                context.game.addMessage('{0} shuffles their deck', player);
             }
         );
     }

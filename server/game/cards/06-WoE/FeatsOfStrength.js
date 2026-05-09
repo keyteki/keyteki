@@ -5,8 +5,7 @@ class FeatsOfStrength extends Card {
     // creature is destroyed in a fight, make a token creature.
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                'make a token creature each time an enemy creature is destroyed in a fight for the remainder of the turn',
+            effect: 'make a token creature each time an enemy creature is destroyed in a fight for the remainder of the turn',
             gameAction: ability.actions.untilPlayerTurnEnd((context) => ({
                 when: {
                     onCardDestroyed: (event) =>

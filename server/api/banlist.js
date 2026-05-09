@@ -48,9 +48,26 @@ module.exports.init = function (server) {
                 .catch(() => {
                     return res.send({
                         success: false,
-                        message: 'An error occured adding the banlist entry'
+                        message: 'An error occurred adding the banlist entry'
                     });
                 });
+        })
+    );
+
+    server.delete(
+        '/api/banlist/:id',
+        passport.authenticate('jwt', { session: false }),
+        wrapAsync(async function (req, res) {
+            if (!req.user.permissions || !req.user.permissions.canManageBanlist) {
+                return res.status(403);
+            }
+
+            const entry = await banlistService.deleteBanlistEntry(req.params.id);
+            if (!entry) {
+                return res.status(404).send({ success: false, message: 'Not found' });
+            }
+
+            return res.send({ success: true, id: entry.id });
         })
     );
 };

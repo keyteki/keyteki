@@ -14,8 +14,8 @@ describe('Cowards End', function () {
         });
 
         it('should destroy all creatures that are not damaged', function () {
-            this.dodger.tokens.damage = 1;
-            this.krump.tokens.damage = 1;
+            this.dodger.damage = 1;
+            this.krump.damage = 1;
             this.player1.play(this.cowardSEnd);
             expect(this.dodger.location).toBe('play area');
             expect(this.silvertooth.location).toBe('discard');

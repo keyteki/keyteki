@@ -30,8 +30,8 @@ describe('Mercy, Malkin Queen', function () {
 
         it('should ward a Cat creature after it enters play', function () {
             this.player1.play(this.floomf);
-            expect(this.floomf.tokens.ward).toBe(1);
-            expect(this.mercyMalkinQueen.tokens.ward).toBeUndefined();
+            expect(this.floomf.warded).toBe(true);
+            expect(this.mercyMalkinQueen.warded).toBe(false);
         });
     });
 });
@@ -51,7 +51,7 @@ describe("Mercy, Malkin Queens's Play ability", function () {
 
     it('should not ward an enemy Cat creature after it enters play', function () {
         this.player1.play(this.floomf);
-        expect(this.floomf.tokens.ward).toBeUndefined();
-        expect(this.mercyMalkinQueen.tokens.ward).toBeUndefined();
+        expect(this.floomf.warded).toBe(false);
+        expect(this.mercyMalkinQueen.warded).toBe(false);
     });
 });

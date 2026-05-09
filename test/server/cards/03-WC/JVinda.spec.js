@@ -80,7 +80,7 @@ describe('J. Vinda', function () {
 
             this.player1.clickCard(this.jVinda);
 
-            expect(this.jVinda.tokens.damage).toBe(1);
+            expect(this.jVinda.damage).toBe(1);
 
             expect(this.jVinda.location).toBe('play area');
             expect(this.player1.amber).toBe(4);

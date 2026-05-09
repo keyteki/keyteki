@@ -23,17 +23,18 @@ describe('Tolas', function () {
                         'helper-bot',
                         'brend-the-fanatic',
                         'titan-mechanic'
-                    ]
+                    ],
+                    hand: ['scowly-caper']
                 }
             });
 
-            this.tolas.tokens.power = 2;
+            this.tolas.powerCounters = 2;
         });
 
         it('should cause the opponent of a destroyed creature (self) to gain an amber', function () {
             this.player1.fightWith(this.ancientYurk, this.docBookton);
             expect(this.docBookton.location).toBe('discard');
-            expect(this.ancientYurk.tokens.damage).toBe(5);
+            expect(this.ancientYurk.damage).toBe(5);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(3);
         });
@@ -41,7 +42,7 @@ describe('Tolas', function () {
         it('should cause the opponent of a destroyed creature (opponent) to gain an amber', function () {
             this.player1.fightWith(this.emberImp, this.docBookton);
             expect(this.emberImp.location).toBe('discard');
-            expect(this.docBookton.tokens.damage).toBe(2);
+            expect(this.docBookton.damage).toBe(2);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
         });
@@ -68,13 +69,13 @@ describe('Tolas', function () {
             this.player1.fightWith(this.tolas, this.helperBot);
             expect(this.tolas.location).toBe('play area');
             expect(this.helperBot.location).toBe('discard');
-            expect(this.tolas.tokens.damage).toBe(1);
+            expect(this.tolas.damage).toBe(1);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(3);
         });
 
         it('should not cause its opponent to gain an amber when it is destroyed', function () {
-            this.niffleApe.tokens.power = 2;
+            this.niffleApe.powerCounters = 2;
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.fightWith(this.niffleApe, this.tolas);
@@ -131,9 +132,36 @@ describe('Tolas', function () {
             this.docBookton.ward();
             this.player1.fightWith(this.ancientYurk, this.docBookton);
             expect(this.docBookton.location).toBe('play area');
-            expect(this.ancientYurk.tokens.damage).toBe(5);
+            expect(this.ancientYurk.damage).toBe(5);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
+        });
+    });
+
+    describe("Tolas's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    inPlay: ['tolas'],
+                    hand: ['infiltrator', 'boo', 'all-hands-on-deck']
+                },
+                player2: {}
+            });
+
+            this.tolas.powerCounters = 2;
+        });
+
+        it('correctly handle treachery', function () {
+            this.player1.play(this.infiltrator);
+            this.player1.play(this.boo);
+            this.player1.clickPrompt('Mine');
+            this.player1.play(this.allHandsOnDeck);
+            this.player1.clickCard(this.infiltrator);
+            expect(this.infiltrator.location).toBe('discard');
+            expect(this.player1.amber).toBe(2); // Tolas and Boo
+            expect(this.player2.amber).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

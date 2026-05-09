@@ -25,9 +25,9 @@ describe("Plublio's Decree", function () {
             this.player1.clickCard(this.almsmaster);
             this.player1.clickCard(this.emberImp);
             this.player1.clickPrompt('Done');
-            expect(this.raidingKnight.tokens.amber).toBe(1);
-            expect(this.almsmaster.tokens.amber).toBe(1);
-            expect(this.emberImp.tokens.amber).toBe(1);
+            expect(this.raidingKnight.amber).toBe(1);
+            expect(this.almsmaster.amber).toBe(1);
+            expect(this.emberImp.amber).toBe(1);
             this.player1.reap(this.raidingKnight);
             this.player1.reap(this.almsmaster);
             this.player1.reap(this.emberImp);
@@ -39,9 +39,9 @@ describe("Plublio's Decree", function () {
             this.player1.play(this.plublioSDecree);
             this.player1.clickCard(this.raidingKnight);
             this.player1.clickPrompt('Done');
-            expect(this.raidingKnight.tokens.amber).toBe(1);
-            expect(this.almsmaster.tokens.amber).toBeUndefined();
-            expect(this.emberImp.tokens.amber).toBeUndefined();
+            expect(this.raidingKnight.amber).toBe(1);
+            expect(this.almsmaster.amber).toBe(0);
+            expect(this.emberImp.amber).toBe(0);
             this.player1.reap(this.raidingKnight);
             this.player1.clickCard(this.emberImp);
             expect(this.player1.amber).toBe(6);
@@ -51,9 +51,9 @@ describe("Plublio's Decree", function () {
         it('should not require selecting any creatures', function () {
             this.player1.play(this.plublioSDecree);
             this.player1.clickPrompt('Done');
-            expect(this.raidingKnight.tokens.amber).toBeUndefined();
-            expect(this.almsmaster.tokens.amber).toBeUndefined();
-            expect(this.emberImp.tokens.amber).toBeUndefined();
+            expect(this.raidingKnight.amber).toBe(0);
+            expect(this.almsmaster.amber).toBe(0);
+            expect(this.emberImp.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

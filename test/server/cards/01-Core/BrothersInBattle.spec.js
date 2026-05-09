@@ -22,7 +22,7 @@ describe('Brothers in Battle', function () {
             expect(this.player1).toHavePromptButton('Fight with this creature');
             this.player1.clickPrompt('Fight with this creature');
             this.player1.clickCard(this.cpoZytar);
-            expect(this.cpoZytar.tokens.damage).toBe(1);
+            expect(this.cpoZytar.damage).toBe(1);
         });
 
         it('should not allow non-chosen house creatures to fight', function () {

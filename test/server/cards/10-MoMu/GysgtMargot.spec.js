@@ -20,7 +20,7 @@ describe('Gysgt Margot', function () {
             expect(this.player1).not.toBeAbleToSelect(this.gysgtMargot);
             expect(this.player1).not.toBeAbleToSelect(this.flaxia);
             this.player1.clickCard(this.fandangle);
-            expect(this.fandangle.tokens.damage).toBe(2);
+            expect(this.fandangle.damage).toBe(2);
             expect(this.player1).not.toBeAbleToSelect(this.fandangle);
             expect(this.player1).not.toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.gysgtMargot);
@@ -37,7 +37,7 @@ describe('Gysgt Margot', function () {
             expect(this.player1).not.toBeAbleToSelect(this.gysgtMargot);
             expect(this.player1).not.toBeAbleToSelect(this.flaxia);
             this.player1.clickCard(this.fandangle);
-            expect(this.fandangle.tokens.damage).toBe(2);
+            expect(this.fandangle.damage).toBe(2);
             expect(this.player1).not.toBeAbleToSelect(this.fandangle);
             expect(this.player1).not.toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.gysgtMargot);

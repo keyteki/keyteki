@@ -50,7 +50,7 @@ describe('Psychic Haze', function () {
         });
 
         it('does not affect friendly enraged Mars creatures', function () {
-            this.johnSmyth.enraged = true;
+            this.johnSmyth.enrage;
             this.player1.clickCard(this.johnSmyth);
             this.player1.clickPrompt('Fight with this creature');
             expect(this.player1).toBeAbleToSelect(this.tunk);

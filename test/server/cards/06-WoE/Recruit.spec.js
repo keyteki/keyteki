@@ -66,14 +66,14 @@ describe('Recruit', function () {
             this.player1.play(this.brillixPonder);
             this.player1.play(this.daughter);
             this.player1.play(this.strangeGizmo);
-            this.brillixPonder.tokens.ward = 1;
-            this.daughter.tokens.ward = 1;
+            this.brillixPonder.ward();
+            this.daughter.ward();
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.endTurn();
 
             // Strange Gizmo causes Jargogle to play orator hissaro after forging a key
-            this.player1.clickPrompt('red');
+            this.player1.forgeKey('Red');
             this.player1.clickPrompt('deploy right');
             this.player1.clickCard(this.brillixPonder);
             this.player1.clickCard(this.brillixPonder);

@@ -26,7 +26,7 @@ describe('Bump in the Night', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.touchstone);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -43,13 +43,13 @@ describe('Bump in the Night', function () {
             this.player1.scrap(this.aStrongFeeling);
             this.player1.play(this.bumpInTheNight);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.player1).toBeAbleToSelect(this.dustPixie);
             expect(this.player1).toBeAbleToSelect(this.huntingWitch);
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.touchstone);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
             expect(this.player1).isReadyToTakeAction();
         });
 

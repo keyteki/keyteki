@@ -24,7 +24,7 @@ describe('Grizzled Wyvern', function () {
             expect(this.grizzledWyvern.location).toBe('play area');
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
-            expect(this.grizzledWyvern.tokens.amber).toBe(6);
+            expect(this.grizzledWyvern.amber).toBe(6);
         });
 
         it('should prompt for amber capture from opponent', function () {
@@ -41,7 +41,7 @@ describe('Grizzled Wyvern', function () {
             this.player1.selectOption(6);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(1);
-            expect(this.grizzledWyvern.tokens.amber).toBe(6);
+            expect(this.grizzledWyvern.amber).toBe(6);
         });
 
         it('should prompt for amber capture from opponent and auto calculate from own', function () {
@@ -52,7 +52,7 @@ describe('Grizzled Wyvern', function () {
             this.player1.selectOption(4);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(3);
-            expect(this.grizzledWyvern.tokens.amber).toBe(6);
+            expect(this.grizzledWyvern.amber).toBe(6);
         });
 
         it('should destroy when choosing to capture 1 from self and fewer than 6 total is captured', function () {

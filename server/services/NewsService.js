@@ -29,7 +29,7 @@ class NewsService {
         } catch (err) {
             logger.error('Error adding news item', err);
 
-            throw new Error('Error occured adding news item');
+            throw new Error('Error occurred adding news item');
         }
 
         news.id = ret[0].Id;
@@ -43,7 +43,7 @@ class NewsService {
         } catch (err) {
             logger.error('Error saving news item', err);
 
-            throw new Error('Error occured saving news item');
+            throw new Error('Error occurred saving news item');
         }
     }
 
@@ -53,7 +53,7 @@ class NewsService {
         } catch (err) {
             logger.error('Error deleting news item', err);
 
-            throw new Error('Error occured deleting news item');
+            throw new Error('Error occurred deleting news item');
         }
     }
 

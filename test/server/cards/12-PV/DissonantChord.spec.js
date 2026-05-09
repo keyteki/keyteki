@@ -34,15 +34,15 @@ describe('Dissonant Chord', function () {
             this.player1.play(this.dissonantChord);
             this.player1.clickCard(this.troll);
             expect(this.troll.location).toBe('play area');
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.emberImp.stunned).toBe(false);
             expect(this.flaxia.stunned).toBe(false);
             expect(this.player1).isReadyToTakeAction();
         });
 
         it('should stun friendly creatures with amber when fate is triggered', function () {
-            this.emberImp.tokens.amber = 2;
-            this.yurk.tokens.amber = 1;
+            this.emberImp.amber = 2;
+            this.yurk.amber = 1;
             this.player1.activateProphecy(this.overreach, this.dissonantChord);
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');

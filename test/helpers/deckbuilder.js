@@ -13,6 +13,7 @@ const defaultFiller = {
     geistoid: 'echofly',
     logos: 'foggify',
     mars: 'ammonia-clouds',
+    ouboros: 'doze-wing',
     redemption: 'redeemer-amara',
     sanctum: 'champion-anaphiel',
     shadows: 'macis-asp',

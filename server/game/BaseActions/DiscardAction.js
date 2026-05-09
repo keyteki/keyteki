@@ -17,7 +17,7 @@ class DiscardAction extends BaseAbility {
         });
     }
 
-    meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
+    meetsRequirements(context = this.createContext(), ignoredRequirements) {
         if (
             !context.ignoreHouse &&
             (!this.card.hasHouse(context.player.activeHouse) ||
@@ -40,7 +40,7 @@ class DiscardAction extends BaseAbility {
             return 'phase';
         }
 
-        return super.meetsRequirements(context);
+        return super.meetsRequirements(context, ignoredRequirements);
     }
 
     executeHandler(context) {

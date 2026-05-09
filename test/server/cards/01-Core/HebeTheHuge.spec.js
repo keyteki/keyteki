@@ -8,17 +8,17 @@ describe('Hebe the Huge', function () {
                     inPlay: ['troll', 'bumpsy']
                 },
                 player2: {
-                    inPlay: ['bumpsy', 'ember-imp']
+                    inPlay: ['krump', 'ember-imp']
                 }
             });
-            this.troll.tokens.damage = 1;
+            this.troll.damage = 1;
         });
 
         it('should deal 2 damage to each other undamaged creature', function () {
             this.player1.play(this.hebeTheHuge);
-            expect(this.troll.tokens.damage).toBe(1);
-            expect(this.bumpsy.tokens.damage).toBe(2);
-            expect(this.bumpsy.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(1);
+            expect(this.bumpsy.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
             expect(this.emberImp.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });

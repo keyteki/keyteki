@@ -165,7 +165,7 @@ describe('The Colosseum', function () {
                 }
             });
 
-            this.alaka.tokens.ward = 1;
+            this.alaka.ward();
             this.player1.playUpgrade(this.armageddonCloak, this.bingleBangbang);
             this.player1.endTurn();
             this.player2.clickPrompt('saurian');

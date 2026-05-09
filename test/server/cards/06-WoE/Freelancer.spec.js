@@ -63,12 +63,12 @@ describe('Freelancer', function () {
         });
 
         it('should move tokens', function () {
-            this.pelf.tokens.amber = 1;
+            this.pelf.amber = 1;
             this.player1.playUpgrade(this.freelancer, this.pelf);
             this.player1.endTurn();
             this.player2.clickPrompt('Left');
             this.player2.clickPrompt('untamed');
-            expect(this.pelf.tokens.amber).toBe(1);
+            expect(this.pelf.amber).toBe(1);
         });
     });
 });

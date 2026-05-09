@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const Card = require('../../Card.js');
 
 class CatchAndRelease extends Card {
@@ -7,8 +6,7 @@ class CatchAndRelease extends Card {
     // fewer cards in hand. Gain 2 chains.
     setupCardAbilities(ability) {
         this.play({
-            effect:
-                "return all creatures to their owner's hand and have eac player discard down to 6 cards",
+            effect: "return all creatures to their owner's hand and have each player randomly discard down to 6 cards",
             gameAction: [
                 ability.actions.returnToHand((context) => ({
                     target: context.game.creaturesInPlay
@@ -17,20 +15,10 @@ class CatchAndRelease extends Card {
             ],
             then: {
                 alwaysTriggers: true,
-                gameAction: ability.actions.sequential([
-                    ability.actions.discard((context) => ({
-                        target:
-                            context.player.hand.length > 6
-                                ? _.shuffle(context.player.hand).slice(6)
-                                : []
-                    })),
-                    ability.actions.discard((context) => ({
-                        target:
-                            !!context.player.opponent && context.player.opponent.hand.length > 6
-                                ? _.shuffle(context.player.opponent.hand).slice(6)
-                                : []
-                    }))
-                ])
+                gameAction: ability.actions.discardRandomCardsToAmount((context) => ({
+                    amount: 6,
+                    target: [context.player, context.player.opponent]
+                }))
             }
         });
     }

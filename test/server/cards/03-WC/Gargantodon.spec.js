@@ -41,7 +41,7 @@ describe('Gargantodon', function () {
 
         it('should only deal 4 damage', function () {
             this.player1.fightWith(this.gargantodon, this.troll);
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
         });
     });
 
@@ -80,7 +80,7 @@ describe('Gargantodon', function () {
                 });
 
                 it('should capture amber on the selected creature', function () {
-                    expect(this.troll.tokens.amber).toBe(1);
+                    expect(this.troll.amber).toBe(1);
                 });
 
                 it('should stop amber being stolen', function () {
@@ -95,10 +95,11 @@ describe('Gargantodon', function () {
                 this.player2.clickPrompt('shadows');
                 this.player2.play(this.magdaTheRat);
                 this.player2.clickCard(this.troll);
+                this.player2.clickCard(this.troll);
             });
 
             it('should capture amber on the selected creature', function () {
-                expect(this.troll.tokens.amber).toBe(2);
+                expect(this.troll.amber).toBe(2);
             });
 
             it('should stop amber being stolen', function () {
@@ -141,7 +142,7 @@ describe('Gargantodon', function () {
                 });
 
                 it('should capture amber on the selected creature', function () {
-                    expect(this.gargantodon.tokens.amber).toBe(1);
+                    expect(this.gargantodon.amber).toBe(1);
                 });
 
                 it('should stop amber being stolen', function () {
@@ -155,10 +156,12 @@ describe('Gargantodon', function () {
             beforeEach(function () {
                 this.player1.play(this.cutthroatResearch);
                 this.player1.clickCard(this.rustgnawer);
+                this.player1.clickCard(this.gargantodon);
             });
 
-            it('should capture amber on the selected creature', function () {
-                expect(this.rustgnawer.tokens.amber).toBe(2);
+            it('should prompt creature selection for each aember', function () {
+                expect(this.rustgnawer.amber).toBe(1);
+                expect(this.gargantodon.amber).toBe(1);
             });
 
             it('should stop amber being stolen', function () {
@@ -182,7 +185,7 @@ describe('Gargantodon', function () {
                 this.player1.clickPrompt('logos');
                 this.player1.play(this.informationExchange);
                 this.player1.clickCard(this.gargantodon);
-                expect(this.gargantodon.tokens.amber).toBe(1);
+                expect(this.gargantodon.amber).toBe(1);
             });
         });
     });
@@ -217,10 +220,12 @@ describe('Gargantodon', function () {
             describe('and a creature it selected', function () {
                 beforeEach(function () {
                     this.player1.clickCard(this.dodger);
+                    this.player1.clickCard(this.dodger);
+                    this.player1.clickCard(this.dodger);
                 });
 
                 it('should capture amber on the selected creature', function () {
-                    expect(this.dodger.tokens.amber).toBe(3);
+                    expect(this.dodger.amber).toBe(3);
                 });
 
                 it('should stop own amber being stolen', function () {

@@ -31,7 +31,7 @@ describe('Livia the Elder', function () {
 
                 it('should not trigger the fight effect', function () {
                     expect(this.player2.amber).toBe(2);
-                    expect(this.theroCenturion.tokens.amber).toBe(undefined);
+                    expect(this.theroCenturion.amber).toBe(0);
                 });
             });
         });
@@ -42,7 +42,7 @@ describe('Livia the Elder', function () {
             });
 
             it('should exalt livia', function () {
-                expect(this.liviaTheElder.tokens.amber).toBe(1);
+                expect(this.liviaTheElder.amber).toBe(1);
             });
 
             describe('and a card with a fight effect reaps', function () {
@@ -52,7 +52,7 @@ describe('Livia the Elder', function () {
 
                 it('should trigger the fight effect', function () {
                     expect(this.player2.amber).toBe(1);
-                    expect(this.theroCenturion.tokens.amber).toBe(1);
+                    expect(this.theroCenturion.amber).toBe(1);
                 });
             });
 
@@ -66,7 +66,7 @@ describe('Livia the Elder', function () {
 
                     this.player1.clickCard(this.legatusRaptor);
 
-                    expect(this.legatusRaptor.tokens.amber).toBe(1);
+                    expect(this.legatusRaptor.amber).toBe(1);
                 });
             });
         });

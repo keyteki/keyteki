@@ -28,7 +28,7 @@ describe('Blast from the past', function () {
             });
 
             it('should exalt the creature', function () {
-                expect(this.bulwark.tokens.amber).toBe(1);
+                expect(this.bulwark.amber).toBe(1);
             });
 
             it('should prompt to archive a creature', function () {
@@ -55,7 +55,7 @@ describe('Blast from the past', function () {
                     });
 
                     it('should do damage to the selected card', function () {
-                        expect(this.troll.tokens.damage).toBe(3);
+                        expect(this.troll.damage).toBe(3);
                     });
                 });
             });

@@ -97,8 +97,7 @@ describe('Storm Surge', function () {
                     hand: []
                 }
             });
-            this.tachyonManifold.maverick = 'unfathomable';
-            this.tachyonManifold.printedHouse = 'unfathomable';
+            this.player1.makeMaverick(this.tachyonManifold, 'unfathomable');
             this.player1.useAction(this.tachyonManifold);
         });
 

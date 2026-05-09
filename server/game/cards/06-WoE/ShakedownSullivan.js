@@ -16,7 +16,7 @@ class ShakedownSullivan extends Card {
                 }))
             },
             effect: 'choose {1} and discard {2}',
-            effectArgs: (context) => [context.target, context.target.controller.deck[0]],
+            effectArgs: (context) => [context.target, context.target?.controller.deck[0]],
             then: (preThenContext) => ({
                 alwaysTriggers: true,
                 gameAction: ability.actions.conditional((context) => ({

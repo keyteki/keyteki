@@ -23,11 +23,11 @@ describe('Wipe Clear', function () {
         });
 
         it('should deal 1D to each creatue', function () {
-            expect(this.armsmasterMolina.tokens.damage).toBe(1);
-            expect(this.tantadlin.tokens.damage).toBe(1);
-            expect(this.ancientBear.tokens.damage).toBe(1);
-            expect(this.murkens.tokens.damage).toBe(1);
-            expect(this.troll.tokens.damage).toBe(1);
+            expect(this.armsmasterMolina.damage).toBe(1);
+            expect(this.tantadlin.damage).toBe(1);
+            expect(this.ancientBear.damage).toBe(1);
+            expect(this.murkens.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
         });
 
         it('should destroy all upgrades', function () {

@@ -1,35 +1,40 @@
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { toast } from '@heroui/react';
+import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 import AlertPanel from '../Components/Site/AlertPanel';
-import { activateAccount, clearApiStatus, navigate } from '../redux/actions';
-import { Account } from '../redux/types';
-import { useTranslation } from 'react-i18next';
-import { Col } from 'react-bootstrap';
 import ApiStatus from '../Components/Site/ApiStatus';
+import { useActivateAccountMutation } from '../redux/api';
 
 const Activation = ({ id, token }) => {
-    const dispatch = useDispatch();
     const { t } = useTranslation();
-    const apiState = useSelector((state) => {
-        const retState = state.api[Account.ActivateAccount];
+    const navigate = useNavigate();
+    const [activateAccount, activateState] = useActivateAccountMutation();
 
-        if (retState && retState.success) {
-            retState.message = t(
-                'Your account has been activated.  You will shortly be redirected to the login page.'
-            );
-
-            setTimeout(() => {
-                dispatch(clearApiStatus(Account.ActivateAccount));
-                dispatch(navigate('/login'));
-            }, 3000);
-        }
-
-        return retState;
-    });
     useEffect(() => {
-        dispatch(activateAccount({ id: id, token: token }));
-    }, [dispatch, id, token]);
+        if (activateState.isSuccess) {
+            toast.success(t('Your account has been activated.'));
+            activateState.reset();
+            navigate('/login');
+        }
+    }, [activateState, navigate, t]);
+
+    const apiState = activateState.isUninitialized
+        ? null
+        : {
+              loading: activateState.isLoading,
+              success: activateState.isSuccess,
+              message: activateState.isSuccess
+                  ? t('Your account has been activated.')
+                  : activateState.error?.data?.message
+          };
+
+    useEffect(() => {
+        if (id && token) {
+            activateAccount({ id, token });
+        }
+    }, [activateAccount, id, token]);
 
     if (!id || !token) {
         return (
@@ -43,13 +48,8 @@ const Activation = ({ id, token }) => {
     }
 
     return (
-        <div>
-            <Col sm={{ span: 6, offset: 3 }}>
-                <ApiStatus
-                    state={apiState}
-                    onClose={() => dispatch(clearApiStatus(Account.ActivateAccount))}
-                />
-            </Col>
+        <div className='mx-auto w-full max-w-3xl'>
+            <ApiStatus state={apiState} onClose={() => activateState.reset()} />
         </div>
     );
 };

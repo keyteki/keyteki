@@ -23,7 +23,7 @@ describe('Eater of the Dead', function () {
             expect(this.player1).not.toBeAbleToSelect(this.handOfDis);
             this.player1.clickCard(this.batdrone);
             expect(this.batdrone.location).toBe('purged');
-            expect(this.eaterOfTheDead.tokens.power).toBe(1);
+            expect(this.eaterOfTheDead.powerCounters).toBe(1);
             expect(this.eaterOfTheDead.power).toBe(5);
         });
 
@@ -36,7 +36,7 @@ describe('Eater of the Dead', function () {
             expect(this.player1).not.toBeAbleToSelect(this.handOfDis);
             this.player1.clickCard(this.pitlord);
             expect(this.pitlord.location).toBe('purged');
-            expect(this.eaterOfTheDead.tokens.power).toBe(1);
+            expect(this.eaterOfTheDead.powerCounters).toBe(1);
             expect(this.eaterOfTheDead.power).toBe(5);
         });
 

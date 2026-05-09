@@ -27,8 +27,8 @@ describe('Shoulder Id', function () {
             this.player1.fightWith(this.fuzzyGruen, this.shoulderId);
             expect(this.player1).isReadyToTakeAction();
             expect(this.fuzzyGruen.location).toBe('play area');
-            expect(this.fuzzyGruen.tokens.damage).toBeUndefined();
-            expect(this.shoulderId.tokens.damage).toBe(5);
+            expect(this.fuzzyGruen.damage).toBe(0);
+            expect(this.shoulderId.damage).toBe(5);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(5);
         });
@@ -38,19 +38,19 @@ describe('Shoulder Id', function () {
             this.player1.fightWith(this.fuzzyGruen, this.shoulderId);
             expect(this.player1).isReadyToTakeAction();
             expect(this.fuzzyGruen.location).toBe('play area');
-            expect(this.fuzzyGruen.tokens.damage).toBeUndefined();
-            expect(this.shoulderId.tokens.damage).toBe(5);
+            expect(this.fuzzyGruen.damage).toBe(0);
+            expect(this.shoulderId.damage).toBe(5);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(6);
         });
 
         it('should not steal A if it dies due to Assault', function () {
-            this.shoulderId.tokens.damage = 5;
+            this.shoulderId.damage = 5;
             this.player1.fightWith(this.ancientBear, this.shoulderId);
             expect(this.player1).isReadyToTakeAction();
             expect(this.ancientBear.location).toBe('play area');
             expect(this.shoulderId.location).toBe('discard');
-            expect(this.ancientBear.tokens.damage).toBeUndefined();
+            expect(this.ancientBear.damage).toBe(0);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(4);
         });
@@ -62,10 +62,35 @@ describe('Shoulder Id', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this.fuzzyGruen.location).toBe('play area');
             expect(this.fuzzyGruen.warded).toBe(true);
-            expect(this.fuzzyGruen.tokens.damage).toBeUndefined();
-            expect(this.shoulderId.tokens.damage).toBe(5);
+            expect(this.fuzzyGruen.damage).toBe(0);
+            expect(this.shoulderId.damage).toBe(5);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(5);
+        });
+    });
+
+    describe("Shoulder Id's interaction with Mindworm", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 4,
+                    house: 'mars',
+                    inPlay: ['troll', 'mindworm', 'eyegor']
+                },
+                player2: {
+                    amber: 2,
+                    inPlay: ['batdrone', 'shoulder-id', 'umbra']
+                }
+            });
+        });
+
+        it('should steal instead of dealing damage to neighbors when Mindworm attacks Shoulder Id', function () {
+            this.player1.fightWith(this.mindworm, this.shoulderId);
+            expect(this.batdrone.damage).toBe(0);
+            expect(this.umbra.damage).toBe(0);
+            expect(this.player1.amber).toBe(3);
+            expect(this.player2.amber).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

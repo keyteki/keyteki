@@ -14,7 +14,7 @@ describe('SlimyJark(WC)', function () {
 
         it('enrages what slimy jark fights', function () {
             this.player1.fightWith(this.slimyJark, this.nexus);
-            expect(this.nexus.tokens.enrage).toBe(1);
+            expect(this.nexus.enraged).toBe(true);
             expect(this).toHaveRecentChatMessage('player1 uses Slimy Jark to enrage Nexus');
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');

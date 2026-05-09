@@ -29,7 +29,7 @@ describe('Monument to Octavia', function () {
             this.player1.useAction(this.monumentToOctavia);
             this.player1.clickCard(this.badPenny);
 
-            expect(this.badPenny.tokens.amber).toBe(1);
+            expect(this.badPenny.amber).toBe(1);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(3);
         });
@@ -39,7 +39,7 @@ describe('Monument to Octavia', function () {
             this.player1.useAction(this.monumentToOctavia);
             this.player1.clickCard(this.badPenny);
 
-            expect(this.badPenny.tokens.amber).toBe(2);
+            expect(this.badPenny.amber).toBe(2);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
         });
@@ -57,7 +57,7 @@ describe('Monument to Octavia', function () {
             this.player2.clickCard(this.troll);
             expect(this.monumentToOctavia.location).toBe('discard');
 
-            expect(this.troll.tokens.amber).toBe(1);
+            expect(this.troll.amber).toBe(1);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(5);
         });

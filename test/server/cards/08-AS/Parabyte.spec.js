@@ -36,7 +36,7 @@ describe('Parabyte', function () {
 
         it('should capture on reap', function () {
             this.player1.clickCard(this.mother);
-            this.parabyte.exhausted = false;
+            this.parabyte.ready();
             this.player1.reap(this.parabyte);
             this.player1.clickCard(this.mother);
             expect(this.mother.amber).toBe(2);
@@ -46,13 +46,13 @@ describe('Parabyte', function () {
         it('should increase cost for each amber on friendly creature', function () {
             this.player1.clickCard(this.mother);
             this.player1.reap(this.ælbiaStray);
-            this.parabyte.exhausted = false;
+            this.parabyte.ready();
             this.player1.reap(this.parabyte);
             this.player1.clickCard(this.mother);
             this.player1.endTurn();
 
             // Forge for 9, with 3 captured amber.
-            this.player2.clickPrompt('Yellow');
+            this.player2.forgeKey('Yellow');
             expect(this.player2.player.keys.yellow).toBe(true);
             expect(this.player2.player.amber).toBe(0);
         });
@@ -62,7 +62,7 @@ describe('Parabyte', function () {
             this.animator.amber = 1;
             this.player1.endTurn();
 
-            this.player2.clickPrompt('Yellow');
+            this.player2.forgeKey('Yellow');
             expect(this.player2.player.keys.yellow).toBe(true);
             expect(this.player2.player.amber).toBe(4);
         });

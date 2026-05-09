@@ -27,7 +27,7 @@ describe('Shae Cloudkicker', function () {
         it('should swap with another creature on reap', function () {
             this.player1.playCreature(this.shaeCloudkicker);
             this.player1.clickCard(this.flaxia);
-            this.shaeCloudkicker.exhausted = false;
+            this.shaeCloudkicker.ready();
             this.player1.reap(this.shaeCloudkicker);
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).toBeAbleToSelect(this.dustPixie);

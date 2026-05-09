@@ -37,9 +37,9 @@ describe('Faust The Great', function () {
 
                 it('opponent should forge for 7.', function () {
                     expect(this.faustTheGreat.location).toBe('play area');
-                    expect(this.mother.tokens.amber).toBe(1);
+                    expect(this.mother.amber).toBe(1);
                     expect(this.player2).toHavePrompt('Which key would you like to forge?');
-                    this.player2.clickPrompt('Yellow');
+                    this.player2.forgeKey('Yellow');
                     expect(this.player2.player.keys.yellow).toBe(true);
                     expect(this.player2.player.amber).toBe(0);
                 });
@@ -48,7 +48,7 @@ describe('Faust The Great', function () {
             describe('should increase cost for each exalted creature after taking control', function () {
                 beforeEach(function () {
                     this.player1.endTurn();
-                    this.player2.clickPrompt('Yellow');
+                    this.player2.forgeKey('Yellow');
                     this.player2.clickPrompt('mars');
                     this.player2.play(this.hypnobeam);
                     this.player2.clickCard(this.faustTheGreat);
@@ -60,7 +60,7 @@ describe('Faust The Great', function () {
                     expect(this.yxiliMarauder.amber).toBe(1);
                     this.player2.endTurn();
                     expect(this.player1).toHavePrompt('Which key would you like to forge?');
-                    this.player1.clickPrompt('Yellow');
+                    this.player1.forgeKey('Yellow');
                     expect(this.player1.player.keys.yellow).toBe(true);
                     expect(this.player1.player.amber).toBe(1);
                 });
@@ -79,9 +79,9 @@ describe('Faust The Great', function () {
 
                 it('opponent should forge for 6.', function () {
                     expect(this.faustTheGreat.location).toBe('play area');
-                    expect(this.mother.tokens.amber).toBe(undefined);
+                    expect(this.mother.amber).toBe(0);
                     expect(this.player2).toHavePrompt('Which key would you like to forge?');
-                    this.player2.clickPrompt('Yellow');
+                    this.player2.forgeKey('Yellow');
                     expect(this.player2.player.keys.yellow).toBe(true);
                     expect(this.player2.player.amber).toBe(1);
                 });

@@ -30,11 +30,11 @@ describe('Nautilixian', function () {
 
         it('make pilot creatures invulnerable', function () {
             this.player1.fightWith(this.greenAeronaut, this.emberImp);
-            expect(this.greenAeronaut.tokens.damage).toBe(undefined);
+            expect(this.greenAeronaut.damage).toBe(0);
             expect(this.greenAeronaut.location).toBe('play area');
             expect(this.emberImp.location).toBe('discard');
             this.player1.fightWith(this.whiteAeronaut, this.tocsin);
-            expect(this.whiteAeronaut.tokens.damage).toBe(undefined);
+            expect(this.whiteAeronaut.damage).toBe(0);
             expect(this.whiteAeronaut.location).toBe('play area');
             expect(this.tocsin.location).toBe('discard');
             this.player1.endTurn();
@@ -46,7 +46,7 @@ describe('Nautilixian', function () {
 
         it('does not make non-pilot creatures invulnerable', function () {
             this.player1.fightWith(this.tunk, this.shooler);
-            expect(this.tunk.tokens.damage).toBe(4);
+            expect(this.tunk.damage).toBe(4);
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
             this.player2.play(this.drainingTouch);

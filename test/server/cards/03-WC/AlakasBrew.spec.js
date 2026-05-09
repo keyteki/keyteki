@@ -22,7 +22,7 @@ describe('Alakas Brew', function () {
             expect(this.player1).toBeAbleToSelect(this.mightyTiger);
             expect(this.player1).toBeAbleToSelect(this.huntingWitch);
             this.player1.clickCard(this.ancientBear);
-            expect(this.ancientBear.tokens.power).toBe(2);
+            expect(this.ancientBear.powerCounters).toBe(2);
         });
     });
 });

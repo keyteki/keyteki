@@ -8,12 +8,36 @@ class ResolveBonusIconsAction extends CardGameAction {
         this.effectMsg = "resolve {0}'s bonus icons";
     }
 
+    /**
+     * Build the AbilityContext used to resolve a single bonus icon.
+     *
+     * The source is a BonusIconSource (not a Card), so card-cannot rules
+     * that test the source's traits/type will not consider the bonus icon
+     * to be "dealt by" the card on which it appears.  The source's `name`
+     * still produces a useful chat label, and `controller` delegates to the
+     * underlying card so any consumer of context.source.controller works.
+     *
+     * AbilityContext and BonusIconSource are lazy-required here to avoid a
+     * load-time circular dependency between this file (loaded via
+     * GameActions/index) and GameObject (which requires GameActions).
+     */
+    bonusIconContext(context, card, icon, player) {
+        const AbilityContext = require('../AbilityContext');
+        const BonusIconSource = require('../BonusIconSource');
+
+        return new AbilityContext({
+            game: context.game,
+            player: player || context.player,
+            source: new BonusIconSource(context.game, card, icon)
+        });
+    }
+
     resolveIcon(context, event, icon) {
         switch (icon) {
             case 'amber':
                 context.game.actions
                     .gainAmber({ bonus: true })
-                    .resolve(context.player, context.game.getFrameworkContext(context.player));
+                    .resolve(context.player, this.bonusIconContext(context, event.card, icon));
                 context.game.addMessage(
                     "{0} gains an amber due to {1}'s bonus icon",
                     context.player,
@@ -23,7 +47,7 @@ class ResolveBonusIconsAction extends CardGameAction {
             case 'draw':
                 context.game.actions
                     .draw({ bonus: true })
-                    .resolve(context.player, context.game.getFrameworkContext(context.player));
+                    .resolve(context.player, this.bonusIconContext(context, event.card, icon));
                 context.game.addMessage(
                     "{0} draws a card due to {1}'s bonus icon",
                     context.player,
@@ -36,7 +60,7 @@ class ResolveBonusIconsAction extends CardGameAction {
                         .steal()
                         .resolve(
                             context.player.opponent,
-                            context.game.getFrameworkContext(context.player)
+                            this.bonusIconContext(context, event.card, icon)
                         );
                     context.game.addMessage(
                         "{0} steals an amber due to {1}'s bonus icon",
@@ -59,7 +83,10 @@ class ResolveBonusIconsAction extends CardGameAction {
                         onSelect: (player, card) => {
                             context.game.actions
                                 .capture({ bonus: true })
-                                .resolve(card, context.game.getFrameworkContext(player));
+                                .resolve(
+                                    card,
+                                    this.bonusIconContext(context, event.card, icon, player)
+                                );
                             context.game.addMessage(
                                 "{0} captures an amber on {1} due to {2}'s bonus icon",
                                 player,
@@ -80,7 +107,10 @@ class ResolveBonusIconsAction extends CardGameAction {
                         onSelect: (player, card) => {
                             context.game.actions
                                 .dealDamage({ bonus: true })
-                                .resolve(card, context.game.getFrameworkContext(player));
+                                .resolve(
+                                    card,
+                                    this.bonusIconContext(context, event.card, icon, player)
+                                );
                             context.game.addMessage(
                                 "{0} deals 1 damage to {1} due to {2}'s bonus icon",
                                 player,
@@ -102,9 +132,37 @@ class ResolveBonusIconsAction extends CardGameAction {
                         onSelect: (player, card) => {
                             context.game.actions
                                 .discard({ chatMessage: false })
-                                .resolve(card, context.game.getFrameworkContext(player));
+                                .resolve(
+                                    card,
+                                    this.bonusIconContext(context, event.card, icon, player)
+                                );
                             context.game.addMessage(
                                 "{0} discards {1} due to {2}'s bonus icon",
+                                player,
+                                card,
+                                event.card
+                            );
+                            return true;
+                        }
+                    });
+                }
+                break;
+            case 'power':
+                if (context.game.creaturesInPlay.length > 0) {
+                    context.game.promptForSelect(context.game.activePlayer, {
+                        activePromptTitle:
+                            'Choose a creature to add a +1 power counter to due to bonus icon',
+                        source: event.card,
+                        cardType: 'creature',
+                        onSelect: (player, card) => {
+                            context.game.actions
+                                .addPowerCounter({ amount: 1 })
+                                .resolve(
+                                    card,
+                                    this.bonusIconContext(context, event.card, icon, player)
+                                );
+                            context.game.addMessage(
+                                "{0} adds a +1 power counter to {1} due to {2}'s bonus icon",
                                 player,
                                 card,
                                 event.card
@@ -120,7 +178,7 @@ class ResolveBonusIconsAction extends CardGameAction {
                         .makeTokenCreature()
                         .resolve(
                             context.player.deck[0],
-                            context.game.getFrameworkContext(context.player)
+                            this.bonusIconContext(context, event.card, icon)
                         );
                     context.game.addMessage(
                         "{0} makes a token creature due to {1}'s bonus icon",
@@ -142,9 +200,8 @@ class ResolveBonusIconsAction extends CardGameAction {
 
                     for (let rc = 0; rc < resolveCount; ++rc) {
                         let choices = [icon];
-                        let mayResolveBonusIconsAsEffects = context.player.getEffects(
-                            'mayResolveBonusIconsAs'
-                        );
+                        let mayResolveBonusIconsAsEffects =
+                            context.player.getEffects('mayResolveBonusIconsAs');
 
                         if (mayResolveBonusIconsAsEffects) {
                             let noIconAdded = false;
@@ -171,8 +228,8 @@ class ResolveBonusIconsAction extends CardGameAction {
                                 activePromptTitle:
                                     'How do you wish to resolve this ' + icon + ' icon?',
                                 choices: choices,
-                                handlers: choices.map((choice) => () =>
-                                    this.resolveIcon(context, event, choice)
+                                handlers: choices.map(
+                                    (choice) => () => this.resolveIcon(context, event, choice)
                                 ),
                                 context: context,
                                 source: card

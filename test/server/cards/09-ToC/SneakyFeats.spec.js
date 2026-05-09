@@ -51,7 +51,7 @@ describe('Sneaky Feats', function () {
 
         it('should not archive if only opponent stole this turn', function () {
             this.player2.moveCard(this.umbraFiend, 'play area');
-            this.umbraFiend.tokens.damage = 1;
+            this.umbraFiend.damage = 1;
             this.player1.useAction(this.seekerNeedle);
             this.player1.clickCard(this.umbraFiend);
             this.player1.play(this.sneakyFeats);

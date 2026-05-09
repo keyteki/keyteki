@@ -66,7 +66,7 @@ describe('Omega TT', function () {
             this.player1.clickCard(this.banish);
             this.player1.clickCard(this.cullTheWeak);
             this.player1.clickPrompt('Done');
-            this.omegaTt.exhausted = false;
+            this.omegaTt.ready();
             this.player1.useAction(this.omegaTt);
             expect(this.omegaTt.location).toBe('deck');
         });

@@ -20,18 +20,18 @@ describe('Boiler', function () {
             this.player2.clickPrompt('unfathomable');
             this.player2.fightWith(this.thingFromTheDeep, this.boiler);
             expect(this.cpoZytar.location).toBe('discard');
-            expect(this.thingFromTheDeep.tokens.damage).toBe(2);
-            expect(this.troll.tokens.damage).toBe(6);
-            expect(this.flaxia.tokens.damage).toBe(undefined);
+            expect(this.thingFromTheDeep.damage).toBe(2);
+            expect(this.troll.damage).toBe(6);
+            expect(this.flaxia.damage).toBe(0);
             expect(this.player2).isReadyToTakeAction();
         });
 
         it('deals 1 damage to each enemy creature on scrap', function () {
             this.player1.scrap(this.boiler);
-            expect(this.cpoZytar.tokens.damage).toBe(undefined);
-            expect(this.thingFromTheDeep.tokens.damage).toBe(1);
-            expect(this.troll.tokens.damage).toBe(1);
-            expect(this.flaxia.tokens.damage).toBe(undefined);
+            expect(this.cpoZytar.damage).toBe(0);
+            expect(this.thingFromTheDeep.damage).toBe(1);
+            expect(this.troll.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

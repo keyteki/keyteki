@@ -25,24 +25,24 @@ describe('Monument to Ludo', function () {
         });
 
         it('should remove 1 amber from selected creature when ludo is not in discard', function () {
-            this.badPenny.tokens.amber = 5;
+            this.badPenny.amber = 5;
             this.player1.useAction(this.monumentToLudo);
             this.player1.clickCard(this.badPenny);
 
-            expect(this.badPenny.tokens.amber).toBe(4);
+            expect(this.badPenny.amber).toBe(4);
         });
 
         it('should remove 2 amber from selected creature when ludo is in discard', function () {
-            this.badPenny.tokens.amber = 5;
+            this.badPenny.amber = 5;
             this.player1.player.moveCard(this.praefectusLudo, 'discard');
             this.player1.useAction(this.monumentToLudo);
             this.player1.clickCard(this.badPenny);
 
-            expect(this.badPenny.tokens.amber).toBe(3);
+            expect(this.badPenny.amber).toBe(3);
         });
 
         it("should work with Poltergeist and not consider opponent's discard", function () {
-            this.badPenny.tokens.amber = 5;
+            this.badPenny.amber = 5;
             this.player1.player.moveCard(this.praefectusLudo, 'discard');
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
@@ -52,7 +52,7 @@ describe('Monument to Ludo', function () {
             expect(this.player2).toBeAbleToSelect(this.badPenny);
             this.player2.clickCard(this.badPenny);
             expect(this.monumentToLudo.location).toBe('discard');
-            expect(this.badPenny.tokens.amber).toBe(4);
+            expect(this.badPenny.amber).toBe(4);
         });
     });
 });

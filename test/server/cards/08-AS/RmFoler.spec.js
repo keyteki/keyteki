@@ -32,7 +32,7 @@ describe('Rm-Foler', function () {
             this.player1.reap(this.rmFoler);
             this.player1.clickCard(this.krump);
             expect(this.krump.location).toBe('play area');
-            expect(this.krump.tokens.ward).toBe(undefined);
+            expect(this.krump.warded).toBe(false);
             expect(this.rmFoler.location).toBe('play area');
             expect(this.player1.player.hand.length).toBe(handLen);
             expect(this.player1).isReadyToTakeAction();

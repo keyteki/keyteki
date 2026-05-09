@@ -16,11 +16,11 @@ describe('White Aeronaut', function () {
         it('should cause the nautilixian to heal and ward', function () {
             this.player1.reap(this.tunk);
             this.player1.fightWith(this.nautilixian, this.troll);
-            expect(this.nautilixian.tokens.damage).toBe(4);
+            expect(this.nautilixian.damage).toBe(4);
             this.player1.useAction(this.whiteAeronaut);
             this.player1.clickCard(this.nautilixian);
-            expect(this.nautilixian.tokens.damage).toBe(undefined);
-            expect(this.nautilixian.tokens.ward).toBe(1);
+            expect(this.nautilixian.damage).toBe(0);
+            expect(this.nautilixian.warded).toBe(true);
         });
     });
 });

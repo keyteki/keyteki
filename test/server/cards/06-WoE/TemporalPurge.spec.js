@@ -97,7 +97,7 @@ describe('Temporal Purge', function () {
          */
         it('should send Æmber on Action cards to the pool', function () {
             let anger = this.player2.inPlay[0];
-            anger.tokens.amber = 3;
+            anger.amber = 3;
 
             expect(anger.name).toBe('Grumpus');
 

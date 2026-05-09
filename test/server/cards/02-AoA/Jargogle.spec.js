@@ -38,7 +38,7 @@ describe('Jargogle', function () {
         it("should player after destroyed during player's turn", function () {
             this.player1.play(this.jargogle);
             this.player1.clickCard(this.bindingIrons);
-            this.jargogle.exhausted = false;
+            this.jargogle.ready();
             this.player1.fightWith(this.jargogle, this.shorty);
             expect(this.jargogle.location).toBe('discard');
             expect(this.bindingIrons.location).toBe('discard');
@@ -59,7 +59,7 @@ describe('Jargogle', function () {
         it('should play and consider deploy effect of card', function () {
             this.player1.play(this.jargogle);
             this.player1.clickCard(this.deepwoodDruid);
-            this.jargogle.exhausted = false;
+            this.jargogle.ready();
             this.player1.fightWith(this.jargogle, this.shorty);
             expect(this.player1).toHavePromptButton('Deploy Left');
             expect(this.player1).toHavePromptButton('Deploy Right');
@@ -76,7 +76,7 @@ describe('Jargogle', function () {
         it('should not play and discard alpha card', function () {
             this.player1.play(this.jargogle);
             this.player1.clickCard(this.bumblebird);
-            this.jargogle.exhausted = false;
+            this.jargogle.ready();
             this.player1.fightWith(this.jargogle, this.shorty);
             expect(this.jargogle.location).toBe('discard');
             expect(this.bumblebird.location).toBe('discard');
@@ -85,7 +85,7 @@ describe('Jargogle', function () {
         it('should end turn after fighting and playing omega', function () {
             this.player1.play(this.jargogle);
             this.player1.clickCard(this.duskwitch);
-            this.jargogle.exhausted = false;
+            this.jargogle.ready();
             this.player1.fightWith(this.jargogle, this.shorty);
             this.player1.clickPrompt('Left');
             expect(this.duskwitch.exhausted).toBe(false);

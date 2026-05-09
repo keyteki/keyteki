@@ -1,4 +1,5 @@
 const Card = require('../../Card.js');
+const { buildPlayAsCopyEffects } = require('../../helpers/playAsCopy.js');
 
 class MimicGel extends Card {
     // Mimic Gel cannot be played unless there is another creature in play.
@@ -13,24 +14,24 @@ class MimicGel extends Card {
 
         this.reaction({
             when: {
-                onAbilityInitiated: (event, context) =>
-                    event.context.source === context.source &&
-                    event.context.ability.title === 'Play this creature'
+                onCardEnteringPlay: (event, context) => event.card === context.source
             },
             location: 'any',
             target: {
                 cardType: 'creature',
+                cardCondition: (card, context) => card !== context.source,
                 gameAction: ability.actions.cardLastingEffect((context) => ({
                     target: context.source,
                     allowedLocations: 'any',
                     duration: 'lastingEffect',
-                    effect: [
-                        ability.effects.copyCard(context.target.getBottomCard()),
-                        ability.effects.changeHouse('logos')
-                    ]
+                    effect: buildPlayAsCopyEffects({
+                        context: context,
+                        ability: ability,
+                        additionalEffects: [ability.effects.changeHouse('logos')]
+                    })
                 }))
             },
-            effect: 'to copy {0}'
+            effect: 'copy {0}'
         });
     }
 }

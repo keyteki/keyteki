@@ -13,6 +13,7 @@ class PutIntoPlayAction extends CardGameAction {
         this.promptSource = false;
         this.beingPlayed = false;
         this.controller = null;
+        this.numPlayAllowances = 1;
     }
 
     setup() {
@@ -33,9 +34,54 @@ class PutIntoPlayAction extends CardGameAction {
         return true;
     }
 
+    // Gigantic creatures require 2 play allowances to play both halves.
+    // Playing from hand always provides enough allowance.
+    canPutIntoPlayGigantic(_, card) {
+        return card.location === 'hand' || this.numPlayAllowances >= 2;
+    }
+
+    // Returns whether the other half of a gigantic creature has the given
+    // printed keyword. Used during preEventHandler when composedPart isn't
+    // wired up yet, so card.hasKeyword() can't see the shared keyword.
+    giganticOtherHalfHasKeyword(card, keyword) {
+        if (!card.gigantic || !card.controller) {
+            return false;
+        }
+        const otherHalf = card.controller.allCards.find((c) => c.id === card.compositeId);
+        return !!(otherHalf && otherHalf.printedKeywords[keyword]);
+    }
+
     preEventHandler(context) {
         super.preEventHandler(context);
-        let card = this.target.length > 0 ? this.target[0] : context.source;
+        const card = this.target.length > 0 ? this.target[0] : context.source;
+
+        if (card.gigantic && !this.canPutIntoPlayGigantic(context, card)) {
+            return;
+        }
+
+        // Give abilities a chance to react to the card entering play *before*
+        // the redirect / controller checks and the positioning prompt
+        // (flank/deploy). This is the hook used by cards like Mimic Gel that
+        // need to choose a creature to copy before the card is placed — the
+        // copy effect can introduce a redirect (e.g. Alpha sending the card
+        // to deck), flip controller (e.g. treachery / `entersPlayUnderOpponentsControl`),
+        // or grant `deploy`, all of which must be reflected downstream.
+        context.game.raiseEvent(EVENTS.onCardEnteringPlay, {
+            card: card,
+            context: context
+        });
+
+        context.game.queueSimpleStep(() => this.resolveAfterEnteringPlay(card, context));
+    }
+
+    resolveAfterEnteringPlay(card, context) {
+        // Check if creature should go to a different location instead of play
+        // area - eg Mimic Gel and Alpha. If so, skip flank selection.
+        const redirectLocation = card.mostRecentEffect('cardLocationAfterPlay');
+        if (redirectLocation && redirectLocation !== 'play area') {
+            return;
+        }
+
         let player;
 
         if (this.deployIndex !== undefined) {
@@ -72,9 +118,9 @@ class PutIntoPlayAction extends CardGameAction {
 
             if (
                 (card.anyEffect('enterPlayAnywhere', context) ||
-                    (context.ability &&
-                        context.ability.isCardPlayed() &&
-                        (this.deploy || card.hasKeyword('deploy')))) &&
+                    this.deploy ||
+                    card.hasKeyword('deploy') ||
+                    this.giganticOtherHalfHasKeyword(card, 'deploy')) &&
                 player.creaturesInPlay.length > 1
             ) {
                 choices.push('Deploy Left');
@@ -205,22 +251,35 @@ class PutIntoPlayAction extends CardGameAction {
                 }
 
                 if (card.gigantic) {
-                    let part =
-                        card.composedPart ||
-                        card.controller
-                            .getSourceList(card.location)
-                            .find((part) => card.compositeId === part.id);
+                    let part = card.composedPart;
 
+                    // Play from hand
+                    if (!part && card.location === 'hand') {
+                        part = card.controller
+                            .getSourceList(card.location)
+                            .find((p) => card.compositeId === p.id);
+                    }
+
+                    // Play from under another card
                     if (!part && card.parent) {
-                        // parts are placed togehter under another card and can be put into play together
                         part = card.parent.childCards.find((part) => card.compositeId === part.id);
                     }
 
-                    if (part) {
-                        card.controller.removeCardFromPile(part);
-                        card.composedPart = part;
+                    // Play from discard or other pile - requires 2 play allowances
+                    if (!part && this.numPlayAllowances >= 2) {
+                        part = card.controller
+                            .getSourceList(card.location)
+                            .find((p) => card.compositeId === p.id);
                     }
 
+                    // If the other part of the gigantic creature is not available then fizzle
+                    if (!part) {
+                        return;
+                    }
+
+                    // Compose the gigantic creature with both halves
+                    card.controller.removeCardFromPile(part);
+                    card.composedPart = part;
                     card.image = card.compositeImageId || card.id;
                 }
 
@@ -257,6 +316,21 @@ class PutIntoPlayAction extends CardGameAction {
                             effect: e.builder()
                         })
                         .resolve(card, context);
+                }
+
+                // Show play message
+                context.game.addMessage('{0} plays {1}', player, card);
+
+                // Check if creature should go to a different location instead of play area
+                let location = card.mostRecentEffect('cardLocationAfterPlay') || 'play area';
+                if (location !== 'play area') {
+                    context.game.addMessage(
+                        '{0} is unable to play {1} and returns it to {2}',
+                        player,
+                        card,
+                        location
+                    );
+                    return card.owner.moveCard(card, location);
                 }
 
                 player.moveCard(card, 'play area', {

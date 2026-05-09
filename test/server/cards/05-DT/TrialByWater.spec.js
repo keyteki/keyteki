@@ -61,8 +61,7 @@ describe('Trial by Water', function () {
                     inPlay: []
                 }
             });
-            this.tachyonManifold.maverick = 'sanctum';
-            this.tachyonManifold.printedHouse = 'sanctum';
+            this.player1.makeMaverick(this.tachyonManifold, 'sanctum');
             this.player1.useAction(this.tachyonManifold);
         });
 

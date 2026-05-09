@@ -24,7 +24,7 @@ describe('Peace Accord', function () {
 
         it('should cause a controller who fights to lose 4A and destroy itself, if creature is destroyed by assault', function () {
             this.player1.fightWith(this.tacticalOfficerMoon, this.dustPixie);
-            expect(this.tacticalOfficerMoon.tokens.damage).toBeUndefined();
+            expect(this.tacticalOfficerMoon.damage).toBe(0);
             expect(this.dustPixie.location).toBe('discard');
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);
@@ -33,7 +33,7 @@ describe('Peace Accord', function () {
 
         it('should cause a controller who fights to lose 4A and destroy itself, if attacker is destroyed by hazardous', function () {
             this.player1.fightWith(this.lieutenantKhrkhar, this.briarGrubbling);
-            expect(this.briarGrubbling.tokens.damage).toBeUndefined();
+            expect(this.briarGrubbling.damage).toBe(0);
             expect(this.lieutenantKhrkhar.location).toBe('discard');
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(3);

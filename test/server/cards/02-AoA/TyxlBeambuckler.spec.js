@@ -34,7 +34,7 @@ describe('Tyxl Beambuckler', function () {
             });
 
             it('should deal 2 damage', function () {
-                expect(this.niffleApe.tokens.damage).toBe(2);
+                expect(this.niffleApe.damage).toBe(2);
                 expect(this.niffleApe.location).toBe('play area');
             });
 
@@ -56,8 +56,8 @@ describe('Tyxl Beambuckler', function () {
             });
 
             it('should deal 2 damage to SS', function () {
-                expect(this.shadowSelf.tokens.damage).toBe(2);
-                expect(this.huntingWitch.tokens.damage).toBeUndefined();
+                expect(this.shadowSelf.damage).toBe(2);
+                expect(this.huntingWitch.damage).toBe(0);
                 expect(this.huntingWitch.location).toBe('play area');
             });
 
@@ -69,6 +69,19 @@ describe('Tyxl Beambuckler', function () {
             it('should be able to move to Right flank', function () {
                 this.player1.clickPrompt('Right');
                 expect(this.player2.player.creaturesInPlay[3]).toBe(this.huntingWitch);
+            });
+        });
+
+        describe('when targeting a warded creature', function () {
+            it('ward should prevent damage but creature should still move', function () {
+                this.niffleApe.ward();
+                this.player1.play(this.tyxlBeambuckler);
+                this.player1.clickCard(this.niffleApe);
+                expect(this.niffleApe.warded).toBe(false);
+                expect(this.niffleApe.damage).toBe(0);
+                this.player1.clickPrompt('Left');
+                expect(this.player2.player.creaturesInPlay[0]).toBe(this.niffleApe);
+                expect(this.player1).isReadyToTakeAction();
             });
         });
     });

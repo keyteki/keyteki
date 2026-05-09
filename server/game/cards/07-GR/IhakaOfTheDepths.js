@@ -4,6 +4,10 @@ class IhakaOfTheDepths extends Card {
     // After you draw a card during your turn, you may put the top
     // card of your discard on the bottom of your deck.
     setupCardAbilities(ability) {
+        this.persistentEffect({
+            effect: ability.effects.drawOneAtATimeDuringTurn()
+        });
+
         this.reaction({
             when: {
                 onCardPlaced: (event, context) =>

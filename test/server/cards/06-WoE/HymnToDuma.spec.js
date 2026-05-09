@@ -42,7 +42,7 @@ describe('HymnToDuma,', function () {
 
         describe("and creature's omni is used", function () {
             beforeEach(function () {
-                this.player1.useAction(this.chelonia, true);
+                this.player1.useOmni(this.chelonia);
             });
 
             it('should destroy the creature', function () {
@@ -61,7 +61,7 @@ describe('HymnToDuma,', function () {
                 });
 
                 it('should capture 2 amber', function () {
-                    expect(this.flaxia.tokens.amber).toBe(2);
+                    expect(this.flaxia.amber).toBe(2);
                     expect(this.player2.amber).toBe(1);
                     expect(this).toHaveRecentChatMessage(
                         'player1 uses Hymn to Duma to capture 2 amber, placing it on Flaxia'
@@ -73,7 +73,7 @@ describe('HymnToDuma,', function () {
         describe("and creature's omni is used with ward,", function () {
             beforeEach(function () {
                 this.chelonia.ward();
-                this.player1.useAction(this.chelonia, true);
+                this.player1.useOmni(this.chelonia);
             });
 
             it('should destroy the ward only', function () {
@@ -87,7 +87,7 @@ describe('HymnToDuma,', function () {
                 });
 
                 it('should still capture 2 amber', function () {
-                    expect(this.flaxia.tokens.amber).toBe(2);
+                    expect(this.flaxia.amber).toBe(2);
                     expect(this.player2.amber).toBe(1);
                 });
             });

@@ -20,14 +20,14 @@ describe('Benevolent Charity', function () {
                 }
             });
 
-            this.emberImp.tokens.amber = 2;
-            this.yurk.tokens.amber = 1;
-            this.searine.tokens.amber = 1;
+            this.emberImp.amber = 2;
+            this.yurk.amber = 1;
+            this.searine.amber = 1;
         });
 
         it('should move all amber from friendly creatures to common supply', function () {
-            this.emberImp.tokens.amber = 2;
-            this.yurk.tokens.amber = 1;
+            this.emberImp.amber = 2;
+            this.yurk.amber = 1;
             this.player1.play(this.benevolentCharity);
             expect(this.emberImp.amber).toBe(0);
             expect(this.yurk.amber).toBe(0);

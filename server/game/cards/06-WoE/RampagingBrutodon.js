@@ -15,9 +15,8 @@ class RampagingBrutodon extends Card {
             effect: ability.effects.additionalCost((context) => {
                 if (
                     context.source === this &&
-                    (!context.ability ||
-                        !context.ability.properties ||
-                        context.ability.properties.name !== 'Play')
+                    context.ability &&
+                    context.ability.abilityType === 'action'
                 ) {
                     return ability.costs.destroyFriendlyCreature();
                 }

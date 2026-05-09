@@ -12,7 +12,7 @@ describe('Hadron Collision', function () {
                 }
             });
 
-            this.senatorShrix.tokens.ward = 1;
+            this.senatorShrix.ward();
         });
 
         it('should be able to deal damage and kill a creature regardless of armor', function () {
@@ -38,8 +38,8 @@ describe('Hadron Collision', function () {
             this.player1.clickCard(this.senatorShrix);
             expect(this.senatorShrix.location).toBe('play area');
             expect(this.senatorShrix.armor).toBe(2);
-            expect(this.senatorShrix.tokens.ward).toBeUndefined();
-            expect(this.senatorShrix.tokens.damage).toBe(3);
+            expect(this.senatorShrix.damage).toBe(3);
+            expect(this.senatorShrix.warded).toBe(false);
         });
     });
 });

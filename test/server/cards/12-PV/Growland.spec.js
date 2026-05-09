@@ -16,7 +16,6 @@ describe('Growland', function () {
 
         it('should allow destroying a Mutant creature after fighting', function () {
             this.player1.fightWith(this.growland, this.urchin);
-            this.player1.clickCard(this.growland);
             expect(this.player1).toBeAbleToSelect(this.growland);
             expect(this.player1).toBeAbleToSelect(this.fandangle);
             expect(this.player1).not.toBeAbleToSelect(this.yurk);
@@ -30,7 +29,6 @@ describe('Growland', function () {
 
         it('should allow destroying a Mutant creature after reaping', function () {
             this.player1.reap(this.growland);
-            this.player1.clickCard(this.growland);
             this.player1.clickCard(this.citizenShrix);
             expect(this.citizenShrix.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
@@ -45,13 +43,13 @@ describe('Growland', function () {
 
         it('should fully heal each friendly Mutant creature when scrapped', function () {
             this.player1.moveCard(this.growland, 'hand');
-            this.yurk.tokens.damage = 1;
-            this.fandangle.tokens.damage = 2;
-            this.citizenShrix.tokens.damage = 1;
+            this.yurk.damage = 1;
+            this.fandangle.damage = 2;
+            this.citizenShrix.damage = 1;
             this.player1.scrap(this.growland);
-            expect(this.yurk.tokens.damage).toBe(1);
-            expect(this.citizenShrix.tokens.damage).toBe(1);
-            expect(this.fandangle.tokens.damage).toBeUndefined();
+            expect(this.yurk.damage).toBe(1);
+            expect(this.citizenShrix.damage).toBe(1);
+            expect(this.fandangle.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });

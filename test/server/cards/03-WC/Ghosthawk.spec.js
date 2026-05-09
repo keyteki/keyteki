@@ -13,7 +13,7 @@ describe('Ghosthawk', function () {
                 }
             });
 
-            this.troll.tokens.damage = 4;
+            this.troll.damage = 4;
         });
 
         describe('when playing next to two ready creatures', function () {
@@ -43,7 +43,7 @@ describe('Ghosthawk', function () {
 
                     it('should reap with both creatures the card and trigger the reap effect', function () {
                         expect(this.player1.amber).toBe(3);
-                        expect(this.troll.tokens.damage).toBe(1);
+                        expect(this.troll.damage).toBe(1);
                         expect(this.player1).isReadyToTakeAction();
                     });
                 });
@@ -55,7 +55,7 @@ describe('Ghosthawk', function () {
 
                     it('should reap with both creatures the card and trigger the reap effect', function () {
                         expect(this.player1.amber).toBe(3);
-                        expect(this.troll.tokens.damage).toBe(1);
+                        expect(this.troll.damage).toBe(1);
                         expect(this.player1).isReadyToTakeAction();
                     });
                 });
@@ -70,17 +70,21 @@ describe('Ghosthawk', function () {
                 this.player1.clickCard(this.dewFaerie);
             });
 
-            it('should not prompt to reap with exhausted creatures', function () {
+            it('should prompt to reap with both creatures', function () {
                 expect(this.player1).toBeAbleToSelect(this.troll);
-                expect(this.player1).not.toBeAbleToSelect(this.dewFaerie);
+                expect(this.player1).toBeAbleToSelect(this.dewFaerie);
                 expect(this.player1).not.toBeAbleToSelect(this.snufflegator);
                 expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
+                this.player1.clickCard(this.dewFaerie);
+                this.player1.clickCard(this.troll);
+                expect(this.player1.amber).toBe(1);
+                expect(this.player1).isReadyToTakeAction();
             });
 
             it('should reap with one creature and trigger the reap effect', function () {
                 this.player1.clickCard(this.troll);
                 expect(this.player1.amber).toBe(1);
-                expect(this.troll.tokens.damage).toBe(1);
+                expect(this.troll.damage).toBe(1);
                 expect(this.player1).isReadyToTakeAction();
             });
         });
@@ -225,7 +229,7 @@ describe('Ghosthawk', function () {
                 it('should reap with one creature only and trigger the reap effect', function () {
                     this.player1.clickCard(this.troll);
                     expect(this.player1.amber).toBe(1);
-                    expect(this.troll.tokens.damage).toBe(1);
+                    expect(this.troll.damage).toBe(1);
                     expect(this.player1).isReadyToTakeAction();
                 });
             });

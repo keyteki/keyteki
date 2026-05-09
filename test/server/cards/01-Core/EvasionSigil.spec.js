@@ -25,12 +25,12 @@ describe('Evasion Sigil', function () {
             this.player1.fightWith(this.dextre, this.sequis);
             expect(this.troll.location).toBe('discard');
             expect(this.dextre.location).toBe('deck');
-            expect(this.sequis.tokens.damage).toBe(1);
+            expect(this.sequis.damage).toBe(1);
             this.player1.fightWith(this.batdrone, this.sequis);
             expect(this.dextre.location).toBe('discard');
             expect(this.batdrone.location).toBe('play area');
             expect(this.batdrone.exhausted).toBe(true);
-            expect(this.sequis.tokens.damage).toBe(1);
+            expect(this.sequis.damage).toBe(1);
         });
 
         it('should apply to both players', function () {
@@ -40,9 +40,9 @@ describe('Evasion Sigil', function () {
             this.player2.fightWith(this.niffleApe, this.batdrone);
             expect(this.ancientBear.location).toBe('discard');
             expect(this.batdrone.location).toBe('play area');
-            expect(this.batdrone.tokens.damage).toBeUndefined();
+            expect(this.batdrone.damage).toBe(0);
             expect(this.niffleApe.exhausted).toBe(true);
-            expect(this.niffleApe.tokens.damage).toBeUndefined();
+            expect(this.niffleApe.damage).toBe(0);
         });
 
         it('should prompt for active player when attacker has assault', function () {
@@ -56,9 +56,9 @@ describe('Evasion Sigil', function () {
             expect(this.niffleApe.location).toBe('discard');
             expect(this.ancientBear.location).toBe('play area');
             expect(this.dextre.location).toBe('play area');
-            expect(this.dextre.tokens.damage).toBe(2);
+            expect(this.dextre.damage).toBe(2);
             expect(this.ancientBear.exhausted).toBe(true);
-            expect(this.ancientBear.tokens.damage).toBeUndefined();
+            expect(this.ancientBear.damage).toBe(0);
         });
 
         it('should prompt for active player when attacker has assault and select ES first', function () {
@@ -72,9 +72,9 @@ describe('Evasion Sigil', function () {
             expect(this.niffleApe.location).toBe('discard');
             expect(this.ancientBear.location).toBe('play area');
             expect(this.dextre.location).toBe('play area');
-            expect(this.dextre.tokens.damage).toBe(2);
+            expect(this.dextre.damage).toBe(2);
             expect(this.ancientBear.exhausted).toBe(true);
-            expect(this.ancientBear.tokens.damage).toBeUndefined();
+            expect(this.ancientBear.damage).toBe(0);
         });
 
         it('should prompt for active player when defender has hazardous', function () {
@@ -88,9 +88,9 @@ describe('Evasion Sigil', function () {
             expect(this.ancientBear.location).toBe('discard');
             expect(this.niffleApe.location).toBe('play area');
             expect(this.sanitationEngineer.location).toBe('play area');
-            expect(this.sanitationEngineer.tokens.damage).toBeUndefined();
+            expect(this.sanitationEngineer.damage).toBe(0);
             expect(this.niffleApe.exhausted).toBe(true);
-            expect(this.niffleApe.tokens.damage).toBe(1);
+            expect(this.niffleApe.damage).toBe(1);
         });
 
         it('should prompt for active player when defender has hazardous and select ES first', function () {
@@ -104,9 +104,9 @@ describe('Evasion Sigil', function () {
             expect(this.ancientBear.location).toBe('discard');
             expect(this.niffleApe.location).toBe('play area');
             expect(this.sanitationEngineer.location).toBe('play area');
-            expect(this.sanitationEngineer.tokens.damage).toBeUndefined();
+            expect(this.sanitationEngineer.damage).toBe(0);
             expect(this.niffleApe.exhausted).toBe(true);
-            expect(this.niffleApe.tokens.damage).toBe(1);
+            expect(this.niffleApe.damage).toBe(1);
         });
 
         it('should prompt for active player when attacker has assault, defender has hazardous', function () {
@@ -125,9 +125,9 @@ describe('Evasion Sigil', function () {
             expect(this.niffleApe.location).toBe('discard');
             expect(this.ancientBear.location).toBe('play area');
             expect(this.sanitationEngineer.location).toBe('play area');
-            expect(this.sanitationEngineer.tokens.damage).toBe(2);
+            expect(this.sanitationEngineer.damage).toBe(2);
             expect(this.ancientBear.exhausted).toBe(true);
-            expect(this.ancientBear.tokens.damage).toBe(1);
+            expect(this.ancientBear.damage).toBe(1);
         });
     });
 
@@ -165,7 +165,7 @@ describe('Evasion Sigil', function () {
             expect(this.troll.location).toBe('discard');
             expect(this.brammo.location).toBe('discard');
             expect(this.dextre.location).toBe('deck');
-            expect(this.sequis.tokens.damage).toBe(1);
+            expect(this.sequis.damage).toBe(1);
         });
 
         it('should discard two cards and stop the fight if first discarded card is from same house', function () {

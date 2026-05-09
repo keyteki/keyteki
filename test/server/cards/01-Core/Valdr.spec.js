@@ -24,7 +24,7 @@ describe('Valdr', function () {
 
         it('should not deal extra damage to a character not on a flank', function () {
             this.player1.fightWith(this.valdr, this.francus);
-            expect(this.francus.tokens.damage).toBe(5);
+            expect(this.francus.damage).toBe(5);
         });
     });
 });

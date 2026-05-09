@@ -27,7 +27,7 @@ describe('Zorg', function () {
             this.player1.clickPrompt('mars');
             this.zorg.unstun();
             this.player1.fightWith(this.zorg, this.duskwitch);
-            expect(this.zorg.tokens.damage).toBeUndefined();
+            expect(this.zorg.damage).toBe(0);
             expect(this.duskwitch.stunned).toBe(true);
             expect(this.niffleApe.stunned).toBe(true);
             expect(this.ancientBear.stunned).toBe(true);

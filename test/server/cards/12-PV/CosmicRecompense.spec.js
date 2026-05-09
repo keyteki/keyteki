@@ -29,7 +29,7 @@ describe('Cosmic Recompense', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.medicIngram);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(3);
+            expect(this.krump.damage).toBe(3);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
             expect(this.player1).toBeAbleToSelect(this.krump);
@@ -37,7 +37,7 @@ describe('Cosmic Recompense', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.medicIngram);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(3);
+            expect(this.troll.damage).toBe(3);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
@@ -50,7 +50,7 @@ describe('Cosmic Recompense', function () {
             this.player1.clickCard(this.krump);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(2);
-            expect(this.krump.tokens.damage).toBe(3);
+            expect(this.krump.damage).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -64,15 +64,25 @@ describe('Cosmic Recompense', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should prevent playing, using, or discarding cards when fate is triggered', function () {
+        it('should prevent playing cards when fate is triggered', function () {
             this.player1.activateProphecy(this.overreach, this.cosmicRecompense);
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.reap(this.krump);
             expect(this.cosmicRecompense.location).toBe('discard');
             this.player2.clickCard(this.anger);
-            expect(this.player2).isReadyToTakeAction();
-            this.player2.clickCard(this.troll);
+            expect(this.player2).toHavePrompt('Anger');
+            expect(this.player2).not.toHavePromptButton('Play this action');
+        });
+
+        it('should allow using creatures when fate is triggered', function () {
+            this.player1.activateProphecy(this.overreach, this.cosmicRecompense);
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.reap(this.krump);
+            expect(this.cosmicRecompense.location).toBe('discard');
+            this.player2.reap(this.troll);
+            expect(this.player2.amber).toBe(5);
             expect(this.player2).isReadyToTakeAction();
         });
     });

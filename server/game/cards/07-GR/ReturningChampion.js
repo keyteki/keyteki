@@ -23,11 +23,11 @@ class ReturningChampion extends Card {
                 gameAction: [
                     ability.actions.addDamageToken((context) => ({
                         target: context.target,
-                        amount: context.source.tokens.damage
+                        amount: context.source.damage
                     })),
                     ability.actions.removeDamage((context) => ({
                         target: context.source,
-                        amount: context.source.tokens.damage
+                        amount: context.source.damage
                     }))
                 ]
             }

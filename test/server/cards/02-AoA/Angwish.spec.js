@@ -21,15 +21,15 @@ describe('Angwish', function () {
         });
 
         it('should not increase cost, if damage is on another creature', function () {
-            this.yurk.tokens.damage = 1;
+            this.yurk.damage = 1;
             this.player1.endTurn();
             this.player2.forgeKey('Red');
             expect(this.player2.player.amber).toBe(4);
         });
 
         it('should increase cost equal to damage on Angwish', function () {
-            this.shooler.tokens.damage = 3;
-            this.angwish.tokens.damage = 3;
+            this.shooler.damage = 3;
+            this.angwish.damage = 3;
             this.player1.endTurn();
             this.player2.forgeKey('Red');
             expect(this.player2.player.amber).toBe(1);

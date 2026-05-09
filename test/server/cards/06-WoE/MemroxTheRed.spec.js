@@ -83,4 +83,45 @@ describe('Memrox the Red', function () {
             expect(this.player1.amber).toBe(4);
         });
     });
+
+    describe("Memrox the Red prevents discarding and purging opponent's archived cards", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    inPlay: ['memrox-the-red', 'uxlyx-the-zookeeper'],
+                    hand: ['gone-pear-shaped', 'destructive-analysis']
+                },
+                player2: {
+                    inPlay: ['bumpsy', 'troll']
+                }
+            });
+            this.player1.reap(this.uxlyxTheZookeeper);
+            this.player1.clickCard(this.bumpsy);
+            expect(this.bumpsy.location).toBe('archives');
+            expect(this.bumpsy.owner).toBe(this.player2.player);
+            expect(this.bumpsy.controller).toBe(this.player1.player);
+        });
+
+        it("does not let Destructive Analysis purge opponent's archived card", function () {
+            this.player1.play(this.destructiveAnalysis);
+            this.player1.clickCard(this.troll);
+            this.player1.clickCard(this.bumpsy);
+            this.player1.clickPrompt('Done');
+            expect(this.bumpsy.location).toBe('archives');
+            expect(this.player1.player.purged).not.toContain(this.bumpsy);
+            expect(this.troll.tokens.damage).toBe(2);
+        });
+
+        it("does not let Gone Pear Shaped discard opponent's archived card", function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.endTurn();
+            this.player1.clickPrompt('shadows');
+            this.player1.clickPrompt('No');
+            this.player1.play(this.gonePearShaped);
+            expect(this.bumpsy.location).toBe('archives');
+            expect(this.player1.player.discard).not.toContain(this.bumpsy);
+        });
+    });
 });

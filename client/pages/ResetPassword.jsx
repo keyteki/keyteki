@@ -1,106 +1,142 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { Formik } from 'formik';
+import * as yup from 'yup';
+import { Button, Input, Label, toast } from '@heroui/react';
 
-import { connect } from 'react-redux';
 import AlertPanel from '../Components/Site/AlertPanel';
 import Panel from '../Components/Site/Panel';
-import Form from '../Components/Form/Form';
+import { useNavigate } from 'react-router-dom';
 
-import * as actions from '../redux/actions';
+import { useResetPasswordMutation } from '../redux/api';
 
-class ResetPassword extends React.Component {
-    constructor() {
-        super();
+const ResetPassword = ({ id, token }) => {
+    const navigate = useNavigate();
+    const [resetPassword, resetState] = useResetPasswordMutation();
+    const accountPasswordReset = resetState.isSuccess;
 
-        this.onSubmit = this.onSubmit.bind(this);
-
-        this.state = {};
-    }
-
-    // eslint-disable-next-line camelcase
-    UNSAFE_componentWillReceiveProps(props) {
-        if (props.accountPasswordReset) {
-            this.setState({
-                successMessage:
-                    'Your password has been changed.  You will shortly be redirected to the login page.'
-            });
-
-            setTimeout(() => {
-                this.props.navigate('/login');
-            }, 3000);
-        }
-    }
-
-    onSubmit(state) {
-        this.props.resetPassword({
-            id: this.props.id,
-            token: this.props.token,
-            newPassword: state.password
-        });
-    }
-
-    render() {
-        if (!this.props.id || !this.props.token) {
-            return (
-                <AlertPanel
-                    type='error'
-                    message='This page is not intended to be viewed directly.  Please click on the link in your email to reset your password'
-                />
-            );
+    useEffect(() => {
+        if (!accountPasswordReset) {
+            return;
         }
 
-        let errorBar =
-            this.props.apiSuccess === false ? (
-                <AlertPanel type='error' message={this.props.apiMessage} />
-            ) : null;
-        let successBar = this.state.successMessage ? (
-            <AlertPanel type='success' message={this.state.successMessage} />
-        ) : null;
+        toast.success('Your password has been changed.');
+        navigate('/login');
+    }, [accountPasswordReset, navigate]);
 
+    if (!id || !token) {
         return (
-            <div>
-                <div className='col-sm-6 col-sm-offset-3'>
-                    {errorBar}
-                    {successBar}
-                    <Panel title='Reset password'>
-                        <Form
-                            name='resetpassword'
-                            apiLoading={this.props.apiLoading}
-                            buttonText='Submit'
-                            onSubmit={this.onSubmit}
-                        />
-                    </Panel>
-                </div>
-            </div>
+            <AlertPanel
+                type='error'
+                message='This page is not intended to be viewed directly.  Please click on the link in your email to reset your password'
+            />
         );
     }
-}
+
+    const errorBar = resetState.isError ? (
+        <AlertPanel
+            type='error'
+            message={resetState.error?.data?.message || 'Unable to reset password'}
+        />
+    ) : null;
+    const schema = yup.object({
+        password: yup
+            .string()
+            .required('You must specify a password')
+            .min(6, 'Password must be at least 6 characters'),
+        password1: yup
+            .string()
+            .required('You must confirm your password')
+            .oneOf([yup.ref('password'), null], 'The passwords you have entered do not match')
+    });
+    const initialValues = { password: '', password1: '' };
+
+    return (
+        <div>
+            <div className='mx-auto w-full max-w-3xl'>
+                {errorBar}
+                <Panel title='Reset password'>
+                    <Formik
+                        validationSchema={schema}
+                        onSubmit={(values) =>
+                            resetPassword({
+                                id,
+                                token,
+                                newPassword: values.password
+                            })
+                        }
+                        initialValues={initialValues}
+                    >
+                        {(formProps) => (
+                            <form onSubmit={formProps.handleSubmit} className='space-y-3'>
+                                <div>
+                                    <Label
+                                        className='mb-1 block text-sm text-zinc-200'
+                                        htmlFor='password'
+                                    >
+                                        Password
+                                    </Label>
+                                    <Input
+                                        id='password'
+                                        name='password'
+                                        type='password'
+                                        value={formProps.values.password}
+                                        onChange={formProps.handleChange}
+                                        onBlur={formProps.handleBlur}
+                                        placeholder='Enter a password'
+                                        variant='tertiary'
+                                    />
+                                    {formProps.touched.password && formProps.errors.password ? (
+                                        <div className='mt-1 text-xs text-red-300'>
+                                            {formProps.errors.password}
+                                        </div>
+                                    ) : null}
+                                </div>
+                                <div>
+                                    <Label
+                                        className='mb-1 block text-sm text-zinc-200'
+                                        htmlFor='password1'
+                                    >
+                                        Password (again)
+                                    </Label>
+                                    <Input
+                                        id='password1'
+                                        name='password1'
+                                        type='password'
+                                        value={formProps.values.password1}
+                                        onChange={formProps.handleChange}
+                                        onBlur={formProps.handleBlur}
+                                        placeholder='Enter your password again'
+                                        variant='tertiary'
+                                    />
+                                    {formProps.touched.password1 && formProps.errors.password1 ? (
+                                        <div className='mt-1 text-xs text-red-300'>
+                                            {formProps.errors.password1}
+                                        </div>
+                                    ) : null}
+                                </div>
+                                <div className='pt-1'>
+                                    <Button
+                                        type='submit'
+                                        variant='primary'
+                                        isPending={resetState.isLoading}
+                                    >
+                                        Submit
+                                    </Button>
+                                </div>
+                            </form>
+                        )}
+                    </Formik>
+                </Panel>
+            </div>
+        </div>
+    );
+};
 
 ResetPassword.propTypes = {
-    accountPasswordReset: PropTypes.bool,
-    apiLoading: PropTypes.bool,
-    apiMessage: PropTypes.string,
-    apiSuccess: PropTypes.bool,
     id: PropTypes.string,
-    navigate: PropTypes.func,
-    resetPassword: PropTypes.func,
     token: PropTypes.string
 };
 ResetPassword.displayName = 'ResetPassword';
 
-function mapStateToProps(state) {
-    return {
-        accountPasswordReset: state.account.passwordReset,
-        apiLoading: state.api.RESETPASSWORD_ACCOUNT
-            ? state.api.RESETPASSWORD_ACCOUNT.loading
-            : undefined,
-        apiMessage: state.api.RESETPASSWORD_ACCOUNT
-            ? state.api.RESETPASSWORD_ACCOUNT.message
-            : undefined,
-        apiSuccess: state.api.RESETPASSWORD_ACCOUNT
-            ? state.api.RESETPASSWORD_ACCOUNT.success
-            : undefined
-    };
-}
-
-export default connect(mapStateToProps, actions)(ResetPassword);
+export default ResetPassword;

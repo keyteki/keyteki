@@ -69,4 +69,38 @@ describe('Friendly Guide', function () {
             this.player1.clickPrompt('Reap with this creature');
         });
     });
+
+    describe("Friendly Guide's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'untamed',
+                    inPlay: ['friendly-guide', 'aquilia-lone-hero']
+                },
+                player2: {
+                    inPlay: ['dextre']
+                }
+            });
+        });
+
+        it('should trigger when neighbor uses omni ability even if condition is not met', function () {
+            this.player1.useOmni(this.aquiliaLoneHero);
+            this.player1.clickCard(this.friendlyGuide);
+            expect(this.player1).toHavePromptButton('Reap with this creature');
+            expect(this.player1).toHavePromptButton('Fight with this creature');
+            this.player1.clickPrompt('Reap with this creature');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should trigger when stunned neighbor uses omni ability', function () {
+            this.aquiliaLoneHero.stun();
+            this.player1.clickCard(this.aquiliaLoneHero);
+            this.player1.clickPrompt("Remove this creature's stun");
+            this.player1.clickCard(this.friendlyGuide);
+            expect(this.player1).toHavePromptButton('Reap with this creature');
+            expect(this.player1).toHavePromptButton('Fight with this creature');
+            this.player1.clickPrompt('Reap with this creature');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

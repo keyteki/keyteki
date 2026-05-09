@@ -7,8 +7,8 @@ class ChiefEngineerWalls extends Card {
         this.play({
             fight: true,
             reap: true,
-            optional: true,
             target: {
+                optional: true,
                 location: ['discard'],
                 controller: 'self',
                 cardCondition: (card) => card.hasTrait('robot') || card.type === 'upgrade',

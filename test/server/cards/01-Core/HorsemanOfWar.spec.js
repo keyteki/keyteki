@@ -21,14 +21,14 @@ describe('Horseman of War', function () {
             expect(this.player1).not.toHavePromptButton('Reap with this creature');
             this.player1.clickPrompt('Fight with this creature');
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.emberImp.location).toBe('discard');
             this.player1.clickCard(this.batdrone);
             expect(this.player1).toHavePrompt('Batdrone');
             expect(this.player1).not.toHavePromptButton('Reap with this creature');
             this.player1.clickPrompt('Fight with this creature');
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(0);
             this.player1.clickCard(this.sequis);
@@ -56,7 +56,7 @@ describe('Horseman of War', function () {
             expect(this.player1).not.toHavePromptButton("Use this card's Action ability");
             this.player1.clickPrompt('Fight with this creature');
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(5);
+            expect(this.troll.damage).toBe(5);
             expect(this.pitDemon.location).toBe('discard');
         });
     });

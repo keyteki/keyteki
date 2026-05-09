@@ -19,18 +19,18 @@ describe('Necromorph', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this.necromorph.location).toBe('play area');
             expect(this.huntingWitch.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(5);
+            expect(this.troll.damage).toBe(5);
         });
 
         it('heals instead of getting destroyed', function () {
             this.player1.useAction(this.flamethrower);
             this.player1.clickCard(this.necromorph);
-            expect(this.necromorph.tokens.damage).toBe(1);
+            expect(this.necromorph.damage).toBe(1);
             this.player1.fightWith(this.troll, this.necromorph);
             this.player1.clickCard(this.huntingWitch);
             expect(this.player1).isReadyToTakeAction();
             expect(this.necromorph.location).toBe('play area');
-            expect(this.necromorph.tokens.damage).toBe(undefined);
+            expect(this.necromorph.damage).toBe(0);
         });
 
         it('destroys the chosen non-staralliance neighbor instead', function () {
@@ -41,7 +41,7 @@ describe('Necromorph', function () {
             expect(this.necromorph.location).toBe('play area');
             expect(this.huntingWitch.location).toBe('play area');
             expect(this.flaxia.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(5);
+            expect(this.troll.damage).toBe(5);
         });
 
         it('gets destroyed with no non-staralliance neighbors', function () {

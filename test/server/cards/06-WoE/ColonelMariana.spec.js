@@ -19,9 +19,9 @@ describe('ColonelMariana', function () {
             expect(this.player2.amber).toBe(3);
             this.player1.playCreature(this.colonelMariana);
 
-            expect(this.colonelMariana.tokens.amber).toBe(1);
-            expect(this.badgemagus.tokens.amber).toBe(1);
-            expect(this.almsmaster.tokens.amber).toBe(1);
+            expect(this.colonelMariana.amber).toBe(1);
+            expect(this.badgemagus.amber).toBe(1);
+            expect(this.almsmaster.amber).toBe(1);
 
             expect(this.player2.amber).toBe(0);
 
@@ -44,9 +44,9 @@ describe('ColonelMariana', function () {
             this.player1.clickCard(this.ardentHero);
             this.player1.clickPrompt('Done');
 
-            expect(this.colonelMariana.tokens.amber).toBe(1);
-            expect(this.badgemagus.tokens.amber).toBe(1);
-            expect(this.ardentHero.tokens.amber).toBe(1);
+            expect(this.colonelMariana.amber).toBe(1);
+            expect(this.badgemagus.amber).toBe(1);
+            expect(this.ardentHero.amber).toBe(1);
 
             expect(this.player2.amber).toBe(0);
 

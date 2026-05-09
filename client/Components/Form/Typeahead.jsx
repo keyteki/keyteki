@@ -1,52 +1,99 @@
-import { Typeahead } from 'react-bootstrap-typeahead';
-import React from 'react';
+import React, { useImperativeHandle, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
-class InternalTypeahead extends React.Component {
-    clear() {
-        this.typeahead.getInstance().clear();
-    }
+const InternalTypeahead = React.forwardRef((props, ref) => {
+    const inputRef = useRef(null);
+    const [inputValue, setInputValue] = useState('');
+    const dataListId = props.id || props.name || 'typeahead';
 
-    render() {
-        const label = this.props.label ? (
-            <label htmlFor={this.props.name} className={this.props.labelClass + ' control-label'}>
-                {this.props.label}
-            </label>
-        ) : null;
-        const control = (
-            <div>
-                {label}
-                <div className={this.props.fieldClass}>
-                    <Typeahead
-                        ref={(t) => (this.typeahead = t)}
-                        options={this.props.options}
-                        labelKey={this.props.labelKey}
-                        emptyLabel={this.props.emptyLabel}
-                        onChange={this.props.onChange}
-                        placeholder={this.props.placeholder}
-                        autoFocus={this.props.autoFocus}
-                        dropup={this.props.dropup}
-                        minLength={this.props.minLength}
-                        onInputChange={this.props.onInputChange}
-                        submitFormOnEnter={this.props.submitFormOnEnter}
-                        onKeyDown={this.props.onKeyDown}
-                        disabled={this.props.disabled}
-                    />
-                    {this.props.validationMessage ? (
-                        <span className='help-block'>{this.props.validationMessage} </span>
-                    ) : null}
-                </div>
-                {this.props.children}
-            </div>
-        );
+    const normalizedOptions = useMemo(() => {
+        return (props.options || []).map((option) => {
+            if (typeof option === 'string') {
+                return { label: option, value: option, raw: option };
+            }
 
-        if (this.props.noGroup) {
-            return control;
+            const label = option?.[props.labelKey] ?? option?.label ?? option?.value ?? '';
+            const value = option?.value ?? label;
+
+            return { label, value, raw: option };
+        });
+    }, [props.labelKey, props.options]);
+
+    const emitSelection = (value) => {
+        const selected = normalizedOptions.find((option) => option.label === value);
+
+        if (props.onChange) {
+            props.onChange(selected ? [selected.raw] : []);
         }
+    };
 
-        return <div className='form-group'>{control}</div>;
+    useImperativeHandle(ref, () => ({
+        clear: () => {
+            setInputValue('');
+            if (inputRef.current) {
+                inputRef.current.value = '';
+            }
+            props.onChange?.([]);
+        }
+    }));
+
+    const label = props.label ? (
+        <label
+            htmlFor={dataListId}
+            className={props.labelClass || 'mb-1 block text-sm text-foreground'}
+        >
+            {props.label}
+        </label>
+    ) : null;
+
+    const control = (
+        <div>
+            {label}
+            <div className={props.fieldClass}>
+                <input
+                    ref={inputRef}
+                    id={dataListId}
+                    list={`${dataListId}-list`}
+                    placeholder={props.placeholder}
+                    autoFocus={props.autoFocus}
+                    disabled={props.disabled}
+                    value={inputValue}
+                    onChange={(event) => {
+                        const value = event.target.value;
+                        setInputValue(value);
+                        props.onInputChange?.(value);
+                        emitSelection(value);
+                    }}
+                    onKeyDown={props.onKeyDown}
+                    className='w-full rounded-md border border-border/75 bg-surface px-3 py-2 text-sm text-foreground placeholder:text-foreground/55 focus:border-border focus:outline-none'
+                />
+                <datalist id={`${dataListId}-list`}>
+                    {normalizedOptions
+                        .filter((option) =>
+                            inputValue.length >= (props.minLength || 0)
+                                ? option.label.toLowerCase().includes(inputValue.toLowerCase())
+                                : false
+                        )
+                        .map((option) => (
+                            <option key={option.value} value={option.label} />
+                        ))}
+                </datalist>
+                {props.validationMessage ? (
+                    <span className='mt-1 block text-xs text-[color:var(--brand)]'>
+                        {props.validationMessage}
+                    </span>
+                ) : null}
+            </div>
+            {props.children}
+        </div>
+    );
+
+    if (props.noGroup) {
+        return control;
     }
-}
+
+    return <div className='mb-2'>{control}</div>;
+});
 
 InternalTypeahead.displayName = 'Typeahead';
 InternalTypeahead.propTypes = {
@@ -56,6 +103,7 @@ InternalTypeahead.propTypes = {
     dropup: PropTypes.bool,
     emptyLabel: PropTypes.string,
     fieldClass: PropTypes.string,
+    id: PropTypes.string,
     label: PropTypes.string,
     labelClass: PropTypes.string,
     labelKey: PropTypes.string,

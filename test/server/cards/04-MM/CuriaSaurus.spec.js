@@ -16,7 +16,7 @@ describe('CuriaSaurus', function () {
         });
 
         it('give every creature with amber on it a destroyed trigger', function () {
-            this.badPenny.tokens.amber = 2;
+            this.badPenny.amber = 2;
 
             this.player1.fightWith(this.badPenny, this.troll);
             this.player1.clickCard(this.badPenny);
@@ -27,7 +27,7 @@ describe('CuriaSaurus', function () {
 
             this.player1.clickCard(this.troll);
 
-            expect(this.troll.tokens.amber).toBe(1);
+            expect(this.troll.amber).toBe(1);
         });
     });
 });

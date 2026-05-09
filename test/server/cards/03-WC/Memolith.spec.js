@@ -54,7 +54,7 @@ describe('Memolith', function () {
             this.player1.useAction(this.memolith);
             this.player1.clickCard(this.pound);
             expect(this.pound.parent).toBe(this.memolith);
-            this.memolith.exhausted = false;
+            this.memolith.ready();
             this.player1.useAction(this.memolith);
             expect(this.player1).toHavePrompt('Memolith');
             expect(this.player1).toBeAbleToSelect(this.pound);
@@ -62,9 +62,9 @@ describe('Memolith', function () {
             this.player1.clickCard(this.pound);
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.tantadlin);
-            expect(this.tantadlin.tokens.damage).toBe(2);
-            expect(this.bigtwig.tokens.damage).toBe(1);
-            expect(this.flaxia.tokens.damage).toBe(1);
+            expect(this.tantadlin.damage).toBe(2);
+            expect(this.bigtwig.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -73,15 +73,15 @@ describe('Memolith', function () {
             this.player1.useAction(this.memolith);
             this.player1.clickCard(this.pound);
             expect(this.pound.parent).toBe(this.memolith);
-            this.memolith.exhausted = false;
+            this.memolith.ready();
             this.player1.useAction(this.memolith);
             expect(this.player1).toHavePrompt('Memolith');
             this.player1.clickCard(this.pound);
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.tantadlin);
-            expect(this.tantadlin.tokens.damage).toBe(2);
-            expect(this.bigtwig.tokens.damage).toBe(1);
-            expect(this.flaxia.tokens.damage).toBe(1);
+            expect(this.tantadlin.damage).toBe(2);
+            expect(this.bigtwig.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -91,7 +91,7 @@ describe('Memolith', function () {
             this.player1.useAction(this.memolith);
             this.player1.clickCard(this.pound);
             expect(this.pound.parent).toBe(this.memolith);
-            this.memolith.exhausted = false;
+            this.memolith.ready();
             this.player1.useAction(this.memolith);
             expect(this.player1).toHavePrompt('Memolith');
             expect(this.player1).toBeAbleToSelect(this.pound);
@@ -99,9 +99,9 @@ describe('Memolith', function () {
             this.player1.clickCard(this.pound);
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.tantadlin);
-            expect(this.tantadlin.tokens.damage).toBe(2);
-            expect(this.bigtwig.tokens.damage).toBe(1);
-            expect(this.flaxia.tokens.damage).toBe(1);
+            expect(this.tantadlin.damage).toBe(2);
+            expect(this.bigtwig.damage).toBe(1);
+            expect(this.flaxia.damage).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
     });
@@ -139,7 +139,7 @@ describe('Memolith', function () {
             this.player1.clickCard(this.labwork);
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
-            this.memolith.exhausted = false;
+            this.memolith.ready();
             this.player2.useAction(this.memolith);
             expect(this.player2).not.toBeAbleToSelect(this.wildWormhole);
             expect(this.player2).toBeAbleToSelect(this.labwork);
@@ -165,7 +165,7 @@ describe('Memolith', function () {
             expect(this.player1).not.toBeAbleToSelect(this.anger);
             this.player1.clickCard(this.pound);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
     });

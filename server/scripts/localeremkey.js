@@ -35,7 +35,7 @@ function addKey(localeDir, key) {
 
         fs.writeFile(file, JSON.stringify(locale, undefined, 4), 'utf8', function (err) {
             if (err) {
-                console.log('An error occured while writing JSON Object to File: ' + file);
+                console.log('An error occurred while writing JSON Object to File: ' + file);
                 return console.log(err);
             }
 

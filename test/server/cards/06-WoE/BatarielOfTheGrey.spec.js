@@ -19,10 +19,10 @@ describe('Batariel of the Grey', function () {
         });
 
         it('should ready Disciples after reap', function () {
-            this.disciple1.exhausted = true;
-            this.disciple2.exhausted = true;
-            this.disciple3.exhausted = true;
-            this.troll.exhausted = true;
+            this.disciple1.exhaust();
+            this.disciple2.exhaust();
+            this.disciple3.exhaust();
+            this.troll.exhaust();
             this.player1.reap(this.batarielOfTheGrey);
             expect(this.disciple1.exhausted).toBe(false);
             expect(this.disciple2.exhausted).toBe(false);

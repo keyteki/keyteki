@@ -13,7 +13,7 @@ describe('Echo Pearl', function () {
                 }
             });
 
-            this.player1.useAction(this.echoPearl, true);
+            this.player1.useOmni(this.echoPearl);
         });
 
         it('should be destroyed', function () {

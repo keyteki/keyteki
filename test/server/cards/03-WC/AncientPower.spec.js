@@ -11,12 +11,12 @@ describe('Ancient Power', function () {
                     inPlay: ['lamindra', 'gub']
                 }
             });
-            this.troll.tokens.amber = 1;
-            this.krump.tokens.amber = 10;
-            this.flaxia.tokens.amber = 1;
+            this.troll.amber = 1;
+            this.krump.amber = 10;
+            this.flaxia.amber = 1;
             this.flaxia.ward();
 
-            this.lamindra.tokens.amber = 1;
+            this.lamindra.amber = 1;
         });
 
         it('Play must ward all friendly creatures', function () {

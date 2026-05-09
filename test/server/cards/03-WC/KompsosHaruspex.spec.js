@@ -17,8 +17,8 @@ describe('Kompsos Haruspex', function () {
         it('should make play effects become reap effects too', function () {
             this.player1.reap(this.brammo);
 
-            expect(this.troll.tokens.damage).toBe(2);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
         });
 
         describe('when my opponent takes a turn', function () {

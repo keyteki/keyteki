@@ -32,7 +32,7 @@ describe('Gongoozle', function () {
         it('if own creature is not destroyed, should discard own card', function () {
             this.player1.play(this.gongoozle);
             this.player1.clickCard(this.dodger);
-            expect(this.dodger.tokens.damage).toBe(3);
+            expect(this.dodger.damage).toBe(3);
             expect(this.lamindra.location).toBe('discard');
         });
 
@@ -40,8 +40,8 @@ describe('Gongoozle', function () {
             this.player1.play(this.gongoozle);
             this.player1.clickCard(this.sneklifter);
             expect(this.sneklifter.location).toBe('play area');
-            expect(this.sneklifter.tokens.damage).toBeUndefined();
-            expect(this.shadowSelf.tokens.damage).toBe(3);
+            expect(this.sneklifter.damage).toBe(0);
+            expect(this.shadowSelf.damage).toBe(3);
             expect(this.shooler.location).toBe('discard');
         });
 

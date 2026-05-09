@@ -19,8 +19,8 @@ describe('Cleric', function () {
         it('should capture 1 when enters play', function () {
             this.player1.makeTokenCreature();
             this.player1.makeTokenCreature();
-            expect(this.player1.player.creaturesInPlay[0].tokens.amber).toBe(1);
-            expect(this.player1.player.creaturesInPlay[1].tokens.amber).toBe(1);
+            expect(this.player1.player.creaturesInPlay[0].amber).toBe(1);
+            expect(this.player1.player.creaturesInPlay[1].amber).toBe(1);
         });
     });
 });

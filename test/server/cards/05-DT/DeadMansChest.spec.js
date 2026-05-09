@@ -33,7 +33,7 @@ describe("Dead Man's Chest", function () {
             });
 
             it('should deal 2D', function () {
-                expect(this.fuzzyGruen.tokens.damage).toBe(2);
+                expect(this.fuzzyGruen.damage).toBe(2);
                 expect(this.deadManSChest.amber).toBe(4);
             });
 

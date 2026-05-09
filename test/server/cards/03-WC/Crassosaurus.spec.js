@@ -24,7 +24,7 @@ describe('Crassosaurus', function () {
             expect(this.crassosaurus.location).toBe('play area');
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
-            expect(this.crassosaurus.tokens.amber).toBe(10);
+            expect(this.crassosaurus.amber).toBe(10);
         });
 
         it('should prompt for amber capture from opponent', function () {
@@ -46,7 +46,7 @@ describe('Crassosaurus', function () {
             this.player1.selectOption(10);
             expect(this.player1.amber).toBe(5);
             expect(this.player2.amber).toBe(1);
-            expect(this.crassosaurus.tokens.amber).toBe(10);
+            expect(this.crassosaurus.amber).toBe(10);
         });
 
         it('should prompt for amber capture from opponent and auto calculate from own', function () {
@@ -57,7 +57,7 @@ describe('Crassosaurus', function () {
             this.player1.selectOption(8);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(3);
-            expect(this.crassosaurus.tokens.amber).toBe(10);
+            expect(this.crassosaurus.amber).toBe(10);
         });
 
         it('should prompt for amber capture from opponent and auto calculate from own', function () {
@@ -78,7 +78,7 @@ describe('Crassosaurus', function () {
             this.player1.selectOption(0);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(6);
-            expect(this.crassosaurus.tokens.amber).toBe(10);
+            expect(this.crassosaurus.amber).toBe(10);
         });
 
         it('should purge when choosing to capture 1 from self and fewer than 10 total is captured', function () {
@@ -157,6 +157,10 @@ describe('Crassosaurus', function () {
             this.player1.amber = 1;
             this.player2.amber = 3;
             this.player1.play(this.crassosaurus);
+            expect(this.player1).toHavePrompt(
+                'Any reactions to Crassosaurus being played or Crassosaurus being played?'
+            );
+            this.player1.clickCard(this.crassosaurus);
 
             expect(this.player1).toHavePrompt('Choose how many to capture from opponent');
             expect(this.player1).toHavePromptButton('3');
@@ -171,6 +175,10 @@ describe('Crassosaurus', function () {
             this.player1.amber = 5;
             this.player2.amber = 5;
             this.player1.play(this.crassosaurus);
+            expect(this.player1).toHavePrompt(
+                'Any reactions to Crassosaurus being played or Crassosaurus being played?'
+            );
+            this.player1.clickCard(this.crassosaurus);
 
             expect(this.player1).toHavePrompt('Choose how many to capture from opponent');
             expect(this.player1).toHavePromptButton('5');
@@ -183,13 +191,17 @@ describe('Crassosaurus', function () {
             expect(this.crassosaurus.location).toBe('play area');
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
-            expect(this.crassosaurus.tokens.amber).toBe(10);
+            expect(this.crassosaurus.amber).toBe(10);
         });
 
         it('and prompt twice if captured 10 first time and still amber to capture', function () {
             this.player1.amber = 5;
             this.player2.amber = 6;
             this.player1.play(this.crassosaurus);
+            expect(this.player1).toHavePrompt(
+                'Any reactions to Crassosaurus being played or Crassosaurus being played?'
+            );
+            this.player1.clickCard(this.sciOfficerMorpheus);
 
             expect(this.player1).toHavePrompt('Choose how many to capture from opponent');
             expect(this.player1).toHavePromptButton('6');
@@ -203,13 +215,17 @@ describe('Crassosaurus', function () {
             expect(this.crassosaurus.location).toBe('play area');
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
-            expect(this.crassosaurus.tokens.amber).toBe(11);
+            expect(this.crassosaurus.amber).toBe(11);
         });
 
         it('and prompt twice if captured 10 first time and still amber to capture, with multiple options twice', function () {
             this.player1.amber = 5;
             this.player2.amber = 16;
             this.player1.play(this.crassosaurus);
+            expect(this.player1).toHavePrompt(
+                'Any reactions to Crassosaurus being played or Crassosaurus being played?'
+            );
+            this.player1.clickCard(this.crassosaurus);
 
             expect(this.player1).toHavePrompt('Choose how many to capture from opponent');
             expect(this.player1).toHavePromptButton('10');
@@ -230,7 +246,7 @@ describe('Crassosaurus', function () {
             expect(this.crassosaurus.location).toBe('play area');
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(0);
-            expect(this.crassosaurus.tokens.amber).toBe(20);
+            expect(this.crassosaurus.amber).toBe(20);
         });
     });
 });

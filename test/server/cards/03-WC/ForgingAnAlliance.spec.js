@@ -35,7 +35,7 @@ describe('Forging An Alliance', function () {
         });
         it('should forge a key when the player has sufficient amber [10]', function () {
             this.player1.play(this.forgingAnAlliance);
-            this.player1.clickPrompt('Red');
+            this.player1.forgeKey('Red');
             expect(this.player1.amber).toBe(0);
             expect(this.player1.player.getForgedKeys()).toBe(1);
             expect(this.player1).isReadyToTakeAction();
@@ -57,7 +57,7 @@ describe('Forging An Alliance', function () {
         });
         it('should forge a key when the player has sufficient amber [7]', function () {
             this.player1.play(this.forgingAnAlliance);
-            this.player1.clickPrompt('Red');
+            this.player1.forgeKey('Red');
             expect(this.player1.amber).toBe(0);
             expect(this.player1.player.getForgedKeys()).toBe(1);
             expect(this.player1).isReadyToTakeAction();
@@ -80,7 +80,7 @@ describe('Forging An Alliance', function () {
         it('should forge a key when the player has sufficient amber [7], considering upgrade', function () {
             this.player1.playUpgrade(this.forceField, this.sequis);
             this.player1.play(this.forgingAnAlliance);
-            this.player1.clickPrompt('Red');
+            this.player1.forgeKey('Red');
             expect(this.player1.amber).toBe(1);
             expect(this.player1.player.getForgedKeys()).toBe(1);
             expect(this.player1).isReadyToTakeAction();

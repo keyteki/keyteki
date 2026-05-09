@@ -24,7 +24,7 @@ describe('Predatory Lending', function () {
         it('should exalt and enrage an enemy creature when played', function () {
             this.player1.play(this.predatoryLending);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.amber).toBe(1);
+            expect(this.krump.amber).toBe(1);
             expect(this.krump.enraged).toBe(true);
             expect(this.player1).isReadyToTakeAction();
         });

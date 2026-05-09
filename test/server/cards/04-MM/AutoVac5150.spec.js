@@ -59,7 +59,7 @@ describe('Auto-Vac 5150', function () {
             this.player1.fightWith(this.dextre, this.keyfrog);
 
             expect(this.player1).toHavePrompt('Forge a Key');
-            this.player1.clickPrompt('Red');
+            this.player1.forgeKey('Red');
             expect(this.player2.player.getForgedKeys()).toBe(1);
             expect(this.player2.player.amber).toBe(0);
         });
@@ -182,8 +182,7 @@ describe('Auto-Vac 5150', function () {
                     hand: []
                 }
             });
-            this.tachyonManifold.maverick = 'logos';
-            this.tachyonManifold.printedHouse = 'logos';
+            this.player1.makeMaverick(this.tachyonManifold, 'logos');
             this.player1.useAction(this.tachyonManifold);
         });
 

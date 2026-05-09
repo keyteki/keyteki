@@ -28,7 +28,7 @@ describe('Gizelharts Zealot', function () {
             expect(this.player1).toHavePromptButton('Fight with this creature');
             this.player1.clickPrompt('Fight with this creature');
             this.player1.clickCard(this.niffleApe);
-            expect(this.gizelhartSZealot.tokens.damage).toBe(3);
+            expect(this.gizelhartSZealot.damage).toBe(3);
             expect(this.gizelhartSZealot.enraged).toBe(false);
         });
     });

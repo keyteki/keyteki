@@ -16,7 +16,7 @@ describe('De-Animator', function () {
                 },
                 player2: {
                     amber: 1,
-                    inPlay: ['noddy-the-thief', 'lamindra', 'memrox-the-red']
+                    inPlay: ['noddy-the-thief', 'lamindra', 'memrox-the-red', 'envoy-of-ekwirrĕ']
                 }
             });
 
@@ -45,7 +45,7 @@ describe('De-Animator', function () {
         it('should mineralize a creature on reap', function () {
             this.player1.playCreature(this.deAnimator);
             this.player1.clickCard(this.botBookton);
-            this.deAnimator.exhausted = false;
+            this.deAnimator.ready();
             this.player1.reap(this.deAnimator);
             this.player1.clickCard(this.noddyTheThief);
             expect(this.noddyTheThief.type).toBe('artifact');
@@ -83,7 +83,7 @@ describe('De-Animator', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should keep mineralized creatures if one leaves play but another is still in play ', function () {
+        it('should keep creatures mineralized if one leaves play but another is still in play', function () {
             this.player1.playCreature(this.deAnimator);
             this.player1.clickCard(this.noddyTheThief);
             this.player1.playCreature(this.deAnimator2);
@@ -98,6 +98,30 @@ describe('De-Animator', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
+        it('should keep creatures mineralized if tokens are swapped', function () {
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.memroxTheRed);
+            this.player1.moveCard(this.deAnimator, 'hand');
+            this.player1.clickPrompt('Right');
+            this.player1.endTurn();
+            this.player2.clickPrompt('ekwidon');
+            this.player2.reap(this.envoyOfEkwirrĕ);
+            this.player2.clickCard(this.memroxTheRed);
+            expect(this.player2).isReadyToTakeAction();
+            expect(this.memroxTheRed.tokens.mineralize).toBe(undefined);
+            expect(this.envoyOfEkwirrĕ.tokens.mineralize).toBe(1);
+            expect(this.memroxTheRed.type).toBe('creature');
+            expect(this.envoyOfEkwirrĕ.type).toBe('creature');
+            this.player2.endTurn();
+            this.player1.clickPrompt('logos');
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.lamindra);
+            expect(this.memroxTheRed.type).toBe('creature');
+            expect(this.lamindra.type).toBe('artifact');
+            expect(this.envoyOfEkwirrĕ.type).toBe('artifact');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
         it('should allow mineralized creatures to stack actions', function () {
             this.player1.playCreature(this.deAnimator);
             this.player1.clickCard(this.memroxTheRed);
@@ -108,7 +132,7 @@ describe('De-Animator', function () {
             this.player2.clickPrompt("Use this card's Action ability", 0);
             expect(this.player2.amber).toBe(2);
             expect(this.memroxTheRed.location).toBe('play area');
-            this.memroxTheRed.exhausted = false;
+            this.memroxTheRed.ready();
             this.player2.clickCard(this.memroxTheRed);
             this.player2.clickPrompt("Use this card's Action ability", 1);
             expect(this.memroxTheRed.location).toBe('discard');
@@ -146,8 +170,8 @@ describe('De-Animator', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should send æmber on destroyed creatures as artifacts to the common supply', function () {
-            this.botBookton.tokens.amber = 4;
+        it('should send amber on destroyed creatures as artifacts to the common supply', function () {
+            this.botBookton.amber = 4;
 
             this.player1.playCreature(this.deAnimator);
             this.player1.clickCard(this.botBookton);
@@ -159,6 +183,120 @@ describe('De-Animator', function () {
 
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(1);
+        });
+    });
+
+    describe('De-Animator with Animating Force', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['de-animator', 'positron-bolt'],
+                    inPlay: ['batdrone', 'troll']
+                },
+                player2: {
+                    house: 'geistoid',
+                    hand: ['animating-force']
+                }
+            });
+        });
+
+        it('should keep a mineralized creature as an artifact when Animating Force is attached while De-Animator is in play', function () {
+            // Mineralize Batdrone
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.batdrone);
+            expect(this.batdrone.type).toBe('artifact');
+            expect(this.batdrone.tokens.mineralize).toBe(1);
+            expect(this.batdrone.hasKeyword('versatile')).toBe(false);
+            expect(this.batdrone.power).toBe(2); // Not relevant as an artifact, but is still set
+            this.player1.endTurn();
+
+            // Animating Force Batdrone - stays an artifact
+            this.player2.clickPrompt('geistoid');
+            this.player2.playUpgrade(this.animatingForce, this.batdrone);
+            expect(this.batdrone.type).toBe('artifact');
+            expect(this.batdrone.tokens.mineralize).toBe(1);
+            expect(this.batdrone.hasKeyword('versatile')).toBe(true);
+            expect(this.batdrone.power).toBe(4);
+            this.player2.endTurn();
+
+            // Remove De-Animator - Batdrone becomes a creature
+            this.player1.clickPrompt('logos');
+            this.player1.play(this.positronBolt);
+            this.player1.clickCard(this.deAnimator);
+            this.player1.clickPrompt('Right'); // Move Batdrone to battleline
+            expect(this.deAnimator.location).toBe('discard');
+            expect(this.batdrone.type).toBe('creature');
+            expect(this.batdrone.tokens.mineralize).toBe(1);
+            expect(this.batdrone.hasKeyword('versatile')).toBe(true);
+            expect(this.batdrone.power).toBe(4);
+
+            // De-Animator comes back - Batdrone goes back to being an artifact
+            this.player1.moveCard(this.deAnimator, 'hand');
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.deAnimator);
+            expect(this.batdrone.type).toBe('artifact');
+            expect(this.batdrone.tokens.mineralize).toBe(1);
+            expect(this.batdrone.hasKeyword('versatile')).toBe(true);
+            expect(this.batdrone.power).toBe(4);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('De-Animator with Blossom Drake', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['de-animator']
+                },
+                player2: {
+                    inPlay: ['blossom-drake', 'troll']
+                }
+            });
+        });
+
+        // De-Animator mineralizing itself loops: De-Animator's own persistent
+        // effect is what makes it an artifact, but Blossom Drake then blanks
+        // it, suppressing that very effect — which restores it, etc.
+        it('removes De-Animator from play when it mineralizes itself', function () {
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.deAnimator);
+            while (
+                this.player1.currentPrompt() &&
+                this.player1.currentPrompt().menuTitle ===
+                    'Which flank do you want to move this creature to?'
+            ) {
+                this.player1.clickPrompt('Left');
+            }
+            expect(this.deAnimator.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        // De-Animator changes Blossom Drake's type to artifact,
+        // which causes Blossom Drake's persistent effect to blank itself, which
+        // removes the blank, which restores it, etc.
+        it('removes Blossom Drake from play when De-Animator mineralizes it', function () {
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.blossomDrake);
+            expect(this.blossomDrake.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        // Mineralizing another creature in the presence of Blossom Drake does
+        // not loop: De-Animator's effect on the mineralized card persists even
+        // after Blossom Drake blanks it, which only suppresses the card's
+        // own abilities. The blanked card is an artifact but lacks the granted
+        // "Action: Destroy" ability.
+        it('does not loop when mineralizing a non-Blossom-Drake creature', function () {
+            this.player1.playCreature(this.deAnimator);
+            this.player1.clickCard(this.troll);
+            expect(this.troll.location).toBe('play area');
+            expect(this.troll.type).toBe('artifact');
+            expect(this.troll.isBlank()).toBe(true);
+            expect(this.troll.actions).toEqual([]);
+            expect(this.blossomDrake.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

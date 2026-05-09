@@ -48,7 +48,7 @@ describe("Flint's Stash", function () {
             this.player1.fightWith(this.keyfrog, this.troll);
             this.player1.clickPrompt('Flint’s Stash');
             expect(this.player1.amber).toBe(6);
-            this.player1.clickPrompt('Red'); // Keyfrog
+            this.player1.forgeKey('Red'); // Keyfrog
             expect(this.player1.player.keys.red).toBe(true);
             expect(this.player1.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();

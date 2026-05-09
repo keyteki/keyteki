@@ -5,7 +5,7 @@ describe('Reap Or Sow', function () {
                 player1: {
                     house: 'untamed',
                     hand: ['bring-low', 'lord-golgotha', 'reap-or-sow'],
-                    inPlay: ['dust-pixie', 'sequis', 'giant-sloth']
+                    inPlay: ['dust-pixie', 'sequis', 'giant-sloth', 'awakened-titan']
                 },
                 player2: {
                     inPlay: ['troll', 'snufflegator'],
@@ -31,6 +31,20 @@ describe('Reap Or Sow', function () {
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.dustPixie);
             expect(this.player1.amber).toBe(2);
+        });
+
+        it('should allow any friendly creature to be targeted, even if it cannot ready', function () {
+            this.awakenedTitan.exhaust();
+            this.player1.play(this.reapOrSow);
+            this.player1.clickPrompt('Ready and reap');
+            expect(this.player1).toBeAbleToSelect(this.dustPixie);
+            expect(this.player1).toBeAbleToSelect(this.giantSloth);
+            expect(this.player1).toBeAbleToSelect(this.sequis);
+            expect(this.player1).toBeAbleToSelect(this.awakenedTitan);
+            expect(this.player1).not.toBeAbleToSelect(this.troll);
+            this.player1.clickCard(this.awakenedTitan);
+            expect(this.player1.amber).toBe(0);
+            expect(this.awakenedTitan.exhausted).toBe(true);
         });
 
         it('should allow any friendly creature to ready and reap, even if it cannot be used', function () {
@@ -81,8 +95,8 @@ describe('Reap Or Sow', function () {
             this.player1.clickCard(this.dustPixie);
             this.player1.clickCard(this.dustPixie);
             this.player1.clickCard(this.troll);
-            expect(this.dustPixie.tokens.power).toBe(2);
-            expect(this.troll.tokens.power).toBe(1);
+            expect(this.dustPixie.powerCounters).toBe(2);
+            expect(this.troll.powerCounters).toBe(1);
         });
 
         describe('and inky gloom is played', function () {

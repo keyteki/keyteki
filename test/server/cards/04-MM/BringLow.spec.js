@@ -47,8 +47,8 @@ describe('Bring Low', function () {
             this.player1.clickCard(this.lordGolgotha);
             this.player1.clickCard(this.sequis);
             expect(this.player1).not.toHavePrompt('Choose a creature to capture 1 amber');
-            expect(this.lordGolgotha.tokens.amber).toBe(1);
-            expect(this.sequis.tokens.amber).toBe(1);
+            expect(this.lordGolgotha.amber).toBe(1);
+            expect(this.sequis.amber).toBe(1);
             expect(this.player2.amber).toBe(5);
         });
 
@@ -61,8 +61,8 @@ describe('Bring Low', function () {
             this.player1.clickCard(this.lordGolgotha);
             this.player1.clickCard(this.lordGolgotha);
             expect(this.player1).not.toHavePrompt('Choose a creature to capture 1 amber');
-            expect(this.lordGolgotha.tokens.amber).toBe(2);
-            expect(this.sequis.tokens.amber).toBeUndefined();
+            expect(this.lordGolgotha.amber).toBe(2);
+            expect(this.sequis.amber).toBe(0);
             expect(this.player2.amber).toBe(5);
         });
     });

@@ -9,6 +9,9 @@ const CardPilePopup = ({
     cardBack,
     cards,
     disableMouseOver,
+    hasActiveHouse,
+    isMe,
+    isSpectating,
     manualMode,
     onCardClick,
     onCloseClick,
@@ -33,6 +36,9 @@ const CardPilePopup = ({
         onCardMouseOut: onMouseOut,
         onCardMouseOver: onMouseOver,
         onTouchMove,
+        hasActiveHouse,
+        isMe,
+        isSpectating,
         size,
         source
     };
@@ -53,7 +59,7 @@ const CardPilePopup = ({
         cardList = <CardTiledList cards={cards} {...listProps} />;
     }
 
-    let popupClass = classNames('panel', 'panel-body', {
+    let popupClass = classNames('card-pile-popup', {
         'our-side': popupLocation === 'bottom',
         [size]: true
     });
@@ -68,8 +74,9 @@ const CardPilePopup = ({
         <div>
             {popupMenu.map((menuItem) => {
                 return (
-                    <a
-                        className='btn btn-default'
+                    <button
+                        type='button'
+                        className='mb-2 mr-2 inline-flex items-center rounded-md border border-border/70 bg-surface-secondary/55 px-2.5 py-1.5 text-xs text-foreground transition hover:bg-surface-secondary/75'
                         key={linkIndex++}
                         onClick={() => {
                             menuItem.handler && menuItem.handler();
@@ -78,7 +85,7 @@ const CardPilePopup = ({
                         }}
                     >
                         {menuItem.text}
-                    </a>
+                    </button>
                 );
             })}
         </div>

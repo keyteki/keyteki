@@ -86,11 +86,11 @@ class CopyCard extends EffectValue {
         }
     }
 
-    applyValue(target, abilities, states) {
+    applyValue(target, abilities, states, context) {
         const result = new Array(abilities.length);
         for (var i = 0; i < abilities.length; ++i) {
             states[i] = {};
-            abilities[i].apply(target, states[i]);
+            abilities[i].apply(target, states[i], context);
             result[i] = abilities[i].getValue(target, states[i]);
         }
         return result;
@@ -102,7 +102,7 @@ class CopyCard extends EffectValue {
         }
     }
 
-    apply(target, state) {
+    apply(target, state, context) {
         const states = (state[target.uuid] = {
             actions: new Array(this.actions.length),
             reactions: new Array(this.reactions.length),
@@ -110,12 +110,13 @@ class CopyCard extends EffectValue {
         });
 
         this.abilitiesForTargets[target.uuid] = {
-            actions: this.applyValue(target, this.actions, states.actions),
-            reactions: this.applyValue(target, this.reactions, states.reactions),
+            actions: this.applyValue(target, this.actions, states.actions, context),
+            reactions: this.applyValue(target, this.reactions, states.reactions, context),
             persistentEffects: this.applyValue(
                 target,
                 this.persistentEffects,
-                states.persistentEffects
+                states.persistentEffects,
+                context
             )
         };
     }

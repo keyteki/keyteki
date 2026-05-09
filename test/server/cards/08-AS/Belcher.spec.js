@@ -31,7 +31,7 @@ describe('Belcher', function () {
             expect(this.player1).toBeAbleToSelect(this.krump);
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(5);
+            expect(this.krump.damage).toBe(5);
             expect(this.urchin.location).toBe('deck');
             expect(this.anger.location).toBe('discard');
             expect(this.bloodOfTitans.location).toBe('discard');

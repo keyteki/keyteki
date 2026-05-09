@@ -85,17 +85,17 @@ describe('Final Refrain', function () {
             expect(this.player1).not.toBeAbleToSelect(this.timetraveller);
 
             this.player1.clickCard(this.thingFromTheDeep);
-            expect(this.thingFromTheDeep.tokens.damage).toBe(8);
+            expect(this.thingFromTheDeep.damage).toBe(8);
             expect(this.troll.location).toBe('discard');
 
             this.player1.clickCard(this.medicIngram);
             this.player1.clickCard(this.thingFromTheDeep);
-            expect(this.thingFromTheDeep.tokens.damage).toBe(11);
+            expect(this.thingFromTheDeep.damage).toBe(11);
             expect(this.medicIngram.location).toBe('discard');
 
             this.player1.clickCard(this.helmsmanSpears);
             this.player1.clickCard(this.thingFromTheDeep);
-            expect(this.thingFromTheDeep.tokens.damage).toBe(13);
+            expect(this.thingFromTheDeep.damage).toBe(13);
             expect(this.helmsmanSpears.location).toBe('discard');
 
             expect(this.player1).isReadyToTakeAction();
@@ -118,13 +118,16 @@ describe('Final Refrain', function () {
             this.player1.clickCard(this.medicIngram); // ward ingram
 
             expect(this.medicIngram.location).toBe('play area');
-            expect(this.medicIngram.tokens.ward).toBe(undefined);
+            expect(this.medicIngram.warded).toBe(false);
             expect(this.helmsmanSpears.location).toBe('discard');
             expect(this.troll.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('handles creatures that cannot be put into play', function () {
+        it('handles a creature whose entering-play ability requires a target', function () {
+            // Mimic Gel chooses a creature to copy as it enters play. Final
+            // Refrain puts it into play directly, so the copy prompt fires
+            // before the flank prompt.
             this.player1.moveCard(this.mimicGel, 'discard');
 
             this.player1.play(this.finalRefrain);
@@ -134,24 +137,11 @@ describe('Final Refrain', function () {
             this.player1.clickCard(this.medicIngram);
             this.player1.clickPrompt('Left');
             this.player1.clickCard(this.mimicGel);
+            this.player1.clickCard(this.troll); // copy Troll
             this.player1.clickPrompt('Left');
             this.player1.clickPrompt('Left');
-            expect(this.mimicGel.location).toBe('discard');
-
-            this.player1.clickCard(this.troll);
-            this.player1.clickCard(this.batdrone);
-            this.player1.clickCard(this.helmsmanSpears);
-            this.player1.clickCard(this.dewFaerie);
-            this.player1.clickPrompt('Done'); // spears effect
-            this.player1.clickCard(this.medicIngram);
-            this.player1.clickCard(this.dewFaerie);
-            this.player1.clickCard(this.medicIngram); // ward ingram
-
-            expect(this.medicIngram.location).toBe('play area');
-            expect(this.medicIngram.tokens.ward).toBe(undefined);
-            expect(this.helmsmanSpears.location).toBe('discard');
-            expect(this.troll.location).toBe('discard');
-            expect(this.player1).isReadyToTakeAction();
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Troll');
         });
     });
 });

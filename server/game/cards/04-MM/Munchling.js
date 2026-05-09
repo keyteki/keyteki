@@ -5,8 +5,8 @@ class Munchling extends Card {
     // Fight: You may discard a Logos card from your hand or archives. If you do, gain 1A.
     setupCardAbilities(ability) {
         this.fight({
-            optional: true,
             target: {
+                optional: true,
                 location: ['archives', 'hand'],
                 cardCondition: (card) => card.hasHouse('logos'),
                 controller: 'self',

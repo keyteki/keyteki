@@ -11,10 +11,10 @@ describe('Doomsayer', function () {
                 }
             });
 
-            this.emberImp.tokens.amber = 2;
-            this.yurk.tokens.amber = 1;
-            this.flaxia.tokens.amber = 3;
-            this.searine.tokens.amber = 1;
+            this.emberImp.amber = 2;
+            this.yurk.amber = 1;
+            this.flaxia.amber = 3;
+            this.searine.amber = 1;
         });
 
         it('should move amber from friendly creatures to common supply and deal damage', function () {
@@ -43,8 +43,8 @@ describe('Doomsayer', function () {
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).toBeAbleToSelect(this.searine);
             this.player1.clickCard(this.searine);
-            expect(this.flaxia.tokens.damage).toBe(2);
-            expect(this.searine.tokens.damage).toBe(2);
+            expect(this.flaxia.damage).toBe(2);
+            expect(this.searine.damage).toBe(2);
 
             expect(this.player1).isReadyToTakeAction();
         });

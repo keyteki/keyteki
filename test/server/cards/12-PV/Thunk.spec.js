@@ -27,7 +27,7 @@ describe('Thunk', function () {
             expect(this.player1).toBeAbleToSelect(this.emberImp);
             expect(this.player1).not.toBeAbleToSelect(this.urchin);
             this.player1.clickCard(this.krump);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
             expect(this.krump.exhausted).toBe(true);
             expect(this.player1).isReadyToTakeAction();
         });
@@ -36,7 +36,7 @@ describe('Thunk', function () {
             this.player1.activateProphecy(this.overreach, this.thunk);
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
-            this.urchin.exhausted = true;
+            this.urchin.exhaust();
             this.player2.reap(this.krump);
             expect(this.krump.location).toBe('discard');
             expect(this.emberImp.location).toBe('play area');

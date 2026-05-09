@@ -40,4 +40,32 @@ describe('Numquid the Fair', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('Numquid the Fair with Spartasaur', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    hand: ['numquid-the-fair']
+                },
+                player2: {
+                    inPlay: ['spartasaur', 'saurus-rex', 'urchin', 'silvertooth']
+                }
+            });
+        });
+
+        it('should stop repeating if Numquid is destroyed by Spartasaur', function () {
+            this.player1.play(this.numquidTheFair);
+            expect(this.player1).toHavePrompt('Numquid the Fair');
+            this.player1.clickCard(this.urchin);
+
+            // Spartasaur destroys non-dinosaurs and Numquid stops triggering
+            expect(this.numquidTheFair.location).toBe('discard');
+            expect(this.spartasaur.location).toBe('play area');
+            expect(this.saurusRex.location).toBe('play area');
+            expect(this.urchin.location).toBe('discard');
+            expect(this.silvertooth.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

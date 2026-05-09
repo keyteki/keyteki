@@ -26,7 +26,7 @@ describe('Nameless Horror', function () {
             this.player1.play(this.cloneHome);
             this.player1.fightWith(this.namelessHorror, this.troll);
             expect(this.namelessHorror.location).toBe('play area');
-            expect(this.namelessHorror.tokens.damage).toBeUndefined();
+            expect(this.namelessHorror.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -46,7 +46,7 @@ describe('Nameless Horror', function () {
                 this.player2.fightWith(this.groggins, this.tunk);
                 this.player2.fightWith(this.troll, this.namelessHorror);
                 expect(this.namelessHorror.location).toBe('play area');
-                expect(this.namelessHorror.tokens.damage).toBeUndefined();
+                expect(this.namelessHorror.damage).toBe(0);
                 expect(this.player2).isReadyToTakeAction();
             });
         });

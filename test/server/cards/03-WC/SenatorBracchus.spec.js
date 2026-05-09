@@ -21,7 +21,7 @@ describe('Senator Bracchus', function () {
             });
 
             it('should exalt bracchus', function () {
-                expect(this.senatorBracchus.tokens.amber).toBe(1);
+                expect(this.senatorBracchus.amber).toBe(1);
                 expect(this.player1.amber).toBe(5);
             });
 
@@ -52,32 +52,41 @@ describe('Senator Bracchus', function () {
             });
 
             it('should allow spending amber from all friendly creatures', function () {
-                expect(this.grimlocusDux.tokens.amber).toBe(2);
-                expect(this.senatorBracchus.tokens.amber).toBe(1);
+                expect(this.grimlocusDux.amber).toBe(2);
+                expect(this.senatorBracchus.amber).toBe(1);
+
+                expect(this.player1).toHavePrompt('Select an amber source to use');
+                this.player1.clickCard(this.senatorBracchus);
+                this.player1.clickPrompt('1');
+
+                expect(this.player1).toHavePrompt('Select an amber source to use');
+                this.player1.clickCard(this.grimlocusDux);
+                this.player1.clickPrompt('1');
+
+                // Only Shrix left as source, goes directly to amount prompt
                 expect(this.player1).toHavePrompt(
-                    'How much amber do you want to use from Senator Bracchus?'
+                    'How much amber do you want to spend from Senator Shrix?'
                 );
                 this.player1.clickPrompt('1');
-                expect(this.player1).toHavePrompt(
-                    'How much amber do you want to use from Grimlocus Dux?'
-                );
-                this.player1.clickPrompt('1');
-                expect(this.player1).toHavePrompt(
-                    'How much amber do you want to use from Senator Shrix?'
-                );
-                this.player1.clickPrompt('1');
+
                 expect(this.player1).toHavePrompt('Which key would you like to forge?');
-                expect(this.grimlocusDux.tokens.amber).toBe(1);
-                expect(this.senatorBracchus.hasToken('amber')).toBe(false);
-                expect(this.senatorShrix.hasToken('amber')).toBe(false);
-                this.player1.clickPrompt('Red');
+                expect(this.grimlocusDux.amber).toBe(2);
+                expect(this.senatorBracchus.amber).toBe(1);
+                expect(this.senatorShrix.amber).toBe(1);
+                this.player1.forgeKey('Red');
+                expect(this.grimlocusDux.amber).toBe(1);
+                expect(this.senatorBracchus.amber).toBe(0);
+                expect(this.senatorShrix.amber).toBe(0);
                 expect(this.player1.amber).toBe(2);
+                expect(this.player1).toHavePrompt(
+                    'Choose which house you want to activate this turn'
+                );
             });
         });
 
         describe('with an enemy creature', function () {
             beforeEach(function () {
-                this.lamindra.tokens.amber = 8;
+                this.lamindra.amber = 8;
                 this.player1.endTurn();
             });
 
@@ -86,7 +95,7 @@ describe('Senator Bracchus', function () {
                     'How much amber do you want to use from Lamindra?'
                 );
                 this.player2.clickPrompt('shadows');
-                expect(this.lamindra.tokens.amber).toBe(8);
+                expect(this.lamindra.amber).toBe(8);
             });
         });
     });
@@ -106,22 +115,17 @@ describe('Senator Bracchus', function () {
         });
 
         it('should always use amber on creatures', function () {
-            this.senatorBracchus.tokens.amber = 4;
-            this.senatorShrix.tokens.amber = 2;
-            this.championAnaphiel.tokens.amber = 2;
+            this.senatorBracchus.amber = 4;
+            this.senatorShrix.amber = 2;
+            this.championAnaphiel.amber = 2;
             this.player1.endTurn();
 
-            expect(this.player2).toHavePrompt(
-                'How much amber do you want to use from Senator Bracchus?'
-            );
-            expect(this.player2).toHavePromptButton(0);
-            expect(this.player2).toHavePromptButton(1);
-            expect(this.player2).toHavePromptButton(2);
-            expect(this.player2).toHavePromptButton(3);
-            expect(this.player2).toHavePromptButton(4);
-            this.player2.clickPrompt(0);
+            expect(this.player2).toHavePrompt('Select an amber source to use');
+            this.player2.clickCard(this.senatorBracchus);
+            this.player2.clickPrompt('4');
+            this.player2.clickPrompt('Done');
             expect(this.player2).toHavePrompt('Which key would you like to forge?');
-            this.player2.clickPrompt('red');
+            this.player2.forgeKey('Red');
         });
     });
 });

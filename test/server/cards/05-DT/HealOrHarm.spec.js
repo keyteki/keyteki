@@ -12,9 +12,9 @@ describe('HealOrHarm', function () {
                     amber: 2
                 }
             });
-            this.foozle.tokens.damage = 3;
-            this.mother.tokens.damage = 3;
-            this.groke.tokens.damage = 3;
+            this.foozle.damage = 3;
+            this.mother.damage = 3;
+            this.groke.damage = 3;
             this.player1.play(this.healOrHarm);
         });
 
@@ -28,9 +28,9 @@ describe('HealOrHarm', function () {
             });
 
             it('Fully heal creature and gain 1A', function () {
-                expect(this.foozle.tokens.damage).toBeUndefined();
-                expect(this.mother.tokens.damage).toBe(3);
-                expect(this.groke.tokens.damage).toBe(3);
+                expect(this.foozle.damage).toBe(0);
+                expect(this.mother.damage).toBe(3);
+                expect(this.groke.damage).toBe(3);
                 expect(this.player1.amber).toBe(1);
             });
         });
@@ -44,7 +44,7 @@ describe('HealOrHarm', function () {
             });
 
             it('Ready and fight with creature', function () {
-                expect(this.foozle.tokens.damage).toBe(4);
+                expect(this.foozle.damage).toBe(4);
                 expect(this.helperBot.location).toBe('discard');
             });
         });

@@ -42,7 +42,7 @@ describe('Skollenbuzzz', function () {
         it('should allow putting a creature from hand under it on reap', function () {
             this.player1.playCreature(this.skŏllĕnbŭzzz);
             this.player1.clickCard(this.blypyp);
-            this.skŏllĕnbŭzzz.exhausted = false;
+            this.skŏllĕnbŭzzz.ready();
             this.player1.reap(this.skŏllĕnbŭzzz);
             expect(this.player1).toBeAbleToSelect(this.charette);
             expect(this.player1).not.toBeAbleToSelect(this.hireOn);
@@ -60,10 +60,10 @@ describe('Skollenbuzzz', function () {
         it('should put creatures into play on destroyed', function () {
             this.player1.playCreature(this.skŏllĕnbŭzzz);
             this.player1.clickCard(this.blypyp);
-            this.skŏllĕnbŭzzz.exhausted = false;
+            this.skŏllĕnbŭzzz.ready();
             this.player1.reap(this.skŏllĕnbŭzzz);
             this.player1.clickCard(this.charette);
-            this.skŏllĕnbŭzzz.exhausted = false;
+            this.skŏllĕnbŭzzz.ready();
             this.player1.fightWith(this.skŏllĕnbŭzzz, this.troll);
             expect(this.player1).toBeAbleToSelect(this.blypyp);
             expect(this.player1).toBeAbleToSelect(this.charette);
@@ -84,7 +84,7 @@ describe('Skollenbuzzz', function () {
         it('should put creatures into play for opponent when opponent controls it', function () {
             this.player1.playCreature(this.skŏllĕnbŭzzz);
             this.player1.clickCard(this.blypyp);
-            this.skŏllĕnbŭzzz.exhausted = false;
+            this.skŏllĕnbŭzzz.ready();
             this.player1.reap(this.skŏllĕnbŭzzz);
             this.player1.clickCard(this.charette);
             this.player1.endTurn();

@@ -52,11 +52,11 @@ describe('Soft Landing', function () {
 
         it('should ready the next creature played even when there is another trigger to resolve', function () {
             this.player1.fightWith(this.tunk, this.batdrone);
-            expect(this.tunk.tokens.damage).toBe(1);
+            expect(this.tunk.damage).toBe(1);
             this.player1.play(this.softLanding);
             this.player1.play(this.mindwarper);
             expect(this.mindwarper.exhausted).toBe(false);
-            expect(this.tunk.tokens.damage).toBe(undefined);
+            expect(this.tunk.damage).toBe(0);
         });
 
         it('should ready the next artifact played', function () {

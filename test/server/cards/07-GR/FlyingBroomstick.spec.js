@@ -17,7 +17,7 @@ describe('Flying Broomstick', function () {
         it('should heal', function () {
             this.player1.playUpgrade(this.flyingBroomstick, this.tantadlin);
             this.player1.fightWith(this.tantadlin, this.umbra);
-            expect(this.tantadlin.tokens.damage).toBe(2);
+            expect(this.tantadlin.damage).toBe(2);
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
             this.player2.endTurn();
@@ -27,7 +27,7 @@ describe('Flying Broomstick', function () {
             expect(this.player1).toBeAbleToSelect(this.flaxia);
             expect(this.player1).toBeAbleToSelect(this.gub);
             this.player1.clickCard(this.tantadlin);
-            expect(this.tantadlin.tokens.damage).toBe(undefined);
+            expect(this.tantadlin.damage).toBe(0);
         });
 
         it('remove amber', function () {
@@ -59,13 +59,13 @@ describe('Flying Broomstick', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.fightWith(this.umbra, this.tantadlin);
-            expect(this.tantadlin.tokens.damage).toBe(undefined);
+            expect(this.tantadlin.damage).toBe(0);
         });
 
         it('should work on other creatures', function () {
             this.player1.playUpgrade(this.flyingBroomstick, this.tantadlin);
             this.player1.fightWith(this.tantadlin, this.gub);
-            expect(this.tantadlin.tokens.damage).toBe(1);
+            expect(this.tantadlin.damage).toBe(1);
             this.player1.endTurn();
             this.player2.clickPrompt('dis');
             this.player2.endTurn();
@@ -77,13 +77,13 @@ describe('Flying Broomstick', function () {
             this.umbra.stun();
 
             expect(this.umbra.amber).toBe(5);
-            expect(this.umbra.tokens.damage).toBe(1);
+            expect(this.umbra.damage).toBe(1);
             expect(this.umbra.stunned).toBe(true);
 
             this.player1.reap(this.tantadlin);
             this.player1.clickCard(this.umbra);
-            expect(this.tantadlin.tokens.damage).toBe(1);
-            expect(this.umbra.tokens.damage).toBe(undefined);
+            expect(this.tantadlin.damage).toBe(1);
+            expect(this.umbra.damage).toBe(0);
             expect(this.umbra.amber).toBe(0);
             expect(this.umbra.stunned).toBe(false);
         });

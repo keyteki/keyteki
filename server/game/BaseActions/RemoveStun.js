@@ -7,12 +7,14 @@ class RemoveStun extends BaseAbility {
     constructor(card) {
         super({ cost: [Costs.use(), Costs.exhaust()] });
         this.card = card;
+        this.abilityType = 'action';
         this.title = "Remove this creature's stun";
         this.printedAbility = false;
         this.omni = false;
+        this.unstun = true;
     }
 
-    meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
+    meetsRequirements(context = this.createContext(), ignoredRequirements) {
         if (
             !this.card.checkRestrictions('use', context) ||
             !context.player.checkRestrictions('use', context)
@@ -27,7 +29,7 @@ class RemoveStun extends BaseAbility {
             return 'stunned';
         }
 
-        return super.meetsRequirements(context);
+        return super.meetsRequirements(context, ignoredRequirements);
     }
 
     createContext(player = this.card.controller) {

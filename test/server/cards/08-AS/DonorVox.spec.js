@@ -19,7 +19,7 @@ describe('Donor Vox', function () {
             expect(this.player1).not.toBeAbleToSelect(this.thunderdell);
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.drXyloxxzlphrex);
-            expect(this.drXyloxxzlphrex.tokens.power).toBe(2);
+            expect(this.drXyloxxzlphrex.powerCounters).toBe(2);
         });
     });
 });

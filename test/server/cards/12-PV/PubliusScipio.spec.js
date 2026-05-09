@@ -26,9 +26,9 @@ describe('Publius Scipio', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.reap(this.krump);
-            expect(this.krump.tokens.damage).toBeUndefined();
+            expect(this.krump.damage).toBe(0);
             expect(this.dustPixie.location).toBe('discard');
-            expect(this.troll.tokens.damage).toBe(4);
+            expect(this.troll.damage).toBe(4);
             expect(this.publiusScipio.location).toBe('discard');
             expect(this.urchin.location).toBe('play area');
             expect(this.huntingWitch.location).toBe('play area');

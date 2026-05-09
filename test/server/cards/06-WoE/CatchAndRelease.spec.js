@@ -25,6 +25,8 @@ describe('Catch and Release', function () {
             let discardLength1 = this.player1.player.discard.length;
             let discardLength2 = this.player2.player.discard.length;
             this.player1.play(this.catchAndRelease);
+            expect(this.player1).toHavePrompt('Choose which player discards first');
+            this.player1.clickPrompt('Me');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
             expect(this.player1.player.hand.length).toBe(6);
             expect(this.player1.player.discard.length).toBe(discardLength1 + 2);
@@ -37,16 +39,18 @@ describe('Catch and Release', function () {
         });
 
         it('should not return warded creatures', function () {
-            this.pelf.tokens.ward = 1;
+            this.pelf.ward();
             let discardLength1 = this.player1.player.discard.length;
             let discardLength2 = this.player2.player.discard.length;
             this.player1.play(this.catchAndRelease);
+            expect(this.player1).toHavePrompt('Choose which player discards first');
+            this.player1.clickPrompt('Me');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
             expect(this.player1.player.hand.length).toBe(6);
             expect(this.player1.player.discard.length).toBe(discardLength1 + 2);
             expect(this.player2.player.creaturesInPlay.length).toBe(1);
             expect(this.pelf.location).toBe('play area');
-            expect(this.pelf.tokens.ward).toBe(undefined);
+            expect(this.pelf.warded).toBe(false);
             expect(this.player2.player.hand.length).toBe(6);
             expect(this.player2.player.discard.length).toBe(discardLength2 + 2);
             expect(this.player1).isReadyToTakeAction();
@@ -67,6 +71,53 @@ describe('Catch and Release', function () {
             expect(this.player2.player.creaturesInPlay.length).toBe(0);
             expect(this.player2.player.hand.length).toBe(6);
             expect(this.player2.player.discard.length).toBe(discardLength2 + 3);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Catch and Release with scrap abilities', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    inPlay: ['brillix-ponder'],
+                    hand: [
+                        'catch-and-release',
+                        'brillix-ponder',
+                        'brillix-ponder',
+                        'brillix-ponder',
+                        'brillix-ponder',
+                        'brillix-ponder',
+                        'brillix-ponder'
+                    ],
+                    deck: [
+                        'hookmaster',
+                        'hookmaster',
+                        'hookmaster',
+                        'hookmaster',
+                        'hookmaster',
+                        'hookmaster',
+                        'hookmaster',
+                        'hookmaster',
+                        'hookmaster',
+                        'hookmaster'
+                    ]
+                },
+                player2: {}
+            });
+        });
+
+        it('should continue discarding after scrap draws a card', function () {
+            const deckLength = this.player1.player.deck.length;
+            this.player1.play(this.catchAndRelease);
+            expect(this.player1.player.hand.length).toBe(6);
+            expect(this.player2.player.hand.length).toBe(0);
+            // The discard and deck length is a constant, and after drawing from
+            // scrap abilities the total number of cards lost should equal 2.
+            // Picked up 1 brillix, need to discard 2 hookmasters to get to 6 cards in hand
+            expect(
+                this.player1.player.discard.length + this.player1.player.deck.length - deckLength
+            ).toEqual(2);
             expect(this.player1).isReadyToTakeAction();
         });
     });

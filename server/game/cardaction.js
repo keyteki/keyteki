@@ -48,7 +48,7 @@ class CardAction extends CardAbility {
         this.cost = this.cost.concat(Costs.exhaust(), Costs.use());
     }
 
-    meetsRequirements(context = this.createContext(), ignoredRequirements = []) {
+    meetsRequirements(context = this.createContext(), ignoredRequirements) {
         if (
             !this.card.checkRestrictions('useAction', context) ||
             !context.player.checkRestrictions('useAction', context)
@@ -65,9 +65,11 @@ class CardAction extends CardAbility {
             return 'condition';
         } else if (!ignoredRequirements.includes('stunned') && this.card.stunned) {
             return 'stunned';
+        } else if (!ignoredRequirements.includes('exhausted') && this.card.exhausted) {
+            return 'exhausted';
         }
 
-        return super.meetsRequirements(context);
+        return super.meetsRequirements(context, ignoredRequirements);
     }
 
     /**
@@ -76,6 +78,21 @@ class CardAction extends CardAbility {
     resolveTargets(context) {
         if (!this.condition(context)) {
             context.game.addMessage('{0} uses {1} without effect', context.player, context.source);
+
+            // Raise on use event even for actions without effect
+            // eg Friendly Guide and Aquilia, Lone Hero
+            if (!this.reap && !this.fight) {
+                context.game.raiseEvent(
+                    EVENTS.onUseCard,
+                    {
+                        card: this.card,
+                        context: context,
+                        action: true,
+                        omni: this.omni
+                    },
+                    () => {}
+                );
+            }
             return {
                 cancelled: true,
                 payCostsFirst: false,

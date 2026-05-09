@@ -31,7 +31,7 @@ describe('The Body Snatchers', function () {
             this.player1.clickCard(this.thingFromTheDeep);
             this.player1.clickPrompt('Right');
             expect(this.thingFromTheDeep.location).toBe('play area');
-            expect(this.thingFromTheDeep.tokens.damage).toBeUndefined();
+            expect(this.thingFromTheDeep.damage).toBe(0);
             expect(this.player1.player.creaturesInPlay).toContain(this.thingFromTheDeep);
             expect(this.thingFromTheDeep.exhausted).toBe(false);
             expect(this.player1).isReadyToTakeAction();
@@ -53,7 +53,7 @@ describe('The Body Snatchers', function () {
             this.player1.clickCard(this.thingFromTheDeep);
             this.player1.clickPrompt('Left');
             expect(this.thingFromTheDeep.location).toBe('play area');
-            expect(this.thingFromTheDeep.tokens.damage).toBeUndefined();
+            expect(this.thingFromTheDeep.damage).toBe(0);
             expect(this.player1.player.creaturesInPlay).toContain(this.thingFromTheDeep);
             expect(this.ritualOfBalance.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();

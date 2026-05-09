@@ -30,7 +30,7 @@ describe('The Chosen One', function () {
             });
 
             it('should not deal 3 damages to TCO due to exhausted creatures', function () {
-                expect(this.theChosenOne.tokens.damage).toBeUndefined();
+                expect(this.theChosenOne.damage).toBe(0);
             });
 
             it('should ready creatures', function () {
@@ -50,7 +50,7 @@ describe('The Chosen One', function () {
                 });
 
                 it('should deal 3 damages to TCO due to exhausted creatures', function () {
-                    expect(this.theChosenOne.tokens.damage).toBe(3);
+                    expect(this.theChosenOne.damage).toBe(3);
                 });
 
                 it('should not ready creatures', function () {
@@ -69,8 +69,6 @@ describe('The Chosen One', function () {
                     this.player2.reap(this.batdrone);
                     this.player2.play(this.helperBot);
                     this.player2.play(this.gangerChieftain, true);
-                    expect(this.player2).toBeAbleToSelect(this.gangerChieftain);
-                    this.player2.clickCard(this.gangerChieftain);
                 });
 
                 it('should be able to ready out of ready phase', function () {
@@ -101,7 +99,7 @@ describe('The Chosen One', function () {
 
             describe('when TCO is destroyed during ready phase', function () {
                 beforeEach(function () {
-                    this.theChosenOne.tokens.damage = 8;
+                    this.theChosenOne.damage = 8;
                     this.player2.clickPrompt('brobnar');
                     this.player2.reap(this.lollopTheTitanic);
                     this.player2.reap(this.groggins);

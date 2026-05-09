@@ -6,13 +6,28 @@ class PlayAction extends BasePlayAction {
         this.title = 'Play this action';
     }
 
+    displayMessage(context) {
+        super.displayMessage(context);
+
+        // Check if card is restricted from being played
+        const location = context.source.mostRecentEffect('cardLocationAfterPlay') || 'discard';
+        if (location !== 'discard') {
+            context.game.addMessage(
+                '{0} is unable to play {1} and returns it to {2}',
+                context.player,
+                context.source,
+                location
+            );
+        }
+    }
+
     executeHandler(context) {
         context.player.moveCard(context.source, 'being played');
         super.executeHandler(context);
         context.game.queueSimpleStep(() => {
             if (context.source.location === 'being played') {
-                let location =
-                    context.source.mostRecentEffect('actionCardLocationAfterPlay') || 'discard';
+                const location =
+                    context.source.mostRecentEffect('cardLocationAfterPlay') || 'discard';
                 context.source.owner.moveCard(context.source, location);
             }
         });

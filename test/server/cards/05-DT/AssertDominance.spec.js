@@ -52,8 +52,8 @@ describe('Assert Dominance', function () {
 
                     it('should fight with it', function () {
                         expect(this.bumblebird.exhausted).toBe(true);
-                        expect(this.bumblebird.tokens.damage).toBeUndefined();
-                        expect(this.murkens.tokens.damage).toBe(1);
+                        expect(this.bumblebird.damage).toBe(0);
+                        expect(this.murkens.damage).toBe(1);
                     });
                 });
             });

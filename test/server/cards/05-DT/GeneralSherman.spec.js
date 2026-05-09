@@ -16,8 +16,8 @@ describe('General Sherman', function () {
         it('should not deal damage when fighting', function () {
             this.player1.fightWith(this.generalSherman, this.narp);
             expect(this.narp.location).toBe('play area');
-            expect(this.narp.tokens.damage).toBeUndefined();
-            expect(this.generalSherman.tokens.damage).toBe(8);
+            expect(this.narp.damage).toBe(0);
+            expect(this.generalSherman.damage).toBe(8);
         });
     });
 
@@ -161,7 +161,7 @@ describe('General Sherman', function () {
         });
 
         it('should purge and return non-warded creatures correctly if something is warded', function () {
-            this.kaupe.tokens.ward = 1;
+            this.kaupe.ward();
 
             this.player1.play(this.generalSherman);
 
@@ -193,6 +193,104 @@ describe('General Sherman', function () {
             expect(this.narp.location).toBe('play area');
             expect(this.groke.location).toBe('play area');
             expect(this.alaka.location).toBe('play area');
+        });
+    });
+
+    describe('General Sherman with animated artifacts', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 3,
+                    house: 'geistoid',
+                    hand: ['animating-force', 'general-sherman', 'sleep-with-the-fishes'],
+                    inPlay: ['dominator-bauble', 'kaupe']
+                },
+                player2: {}
+            });
+        });
+
+        it('does not put a purged animated artifact back into play as an artifact', function () {
+            this.player1.playUpgrade(this.animatingForce, this.dominatorBauble);
+            this.player1.clickPrompt('Right');
+            expect(this.dominatorBauble.type).toBe('creature');
+
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            this.player1.clickPrompt('unfathomable');
+
+            this.player1.play(this.generalSherman);
+            expect(this.dominatorBauble.location).toBe('purged');
+            expect(this.kaupe.location).toBe('purged');
+
+            this.player1.play(this.sleepWithTheFishes);
+            expect(this.generalSherman.location).toBe('discard');
+
+            // Only Kaupe is a creature - the animated artifact reverts to its
+            // printed type when it leaves play, so it stays purged.
+            expect(this.kaupe.location).toBe('play area');
+            expect(this.dominatorBauble.location).toBe('purged');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('General Sherman with token creatures', function () {
+        it('only puts back token creatures whose underlying card is a creature', function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    token: 'prospector',
+                    deck: ['wild-wormhole', 'library-of-babble', 'rocket-boots', 'dysania'],
+                    hand: ['general-sherman', 'sleep-with-the-fishes'],
+                    inPlay: [
+                        'kaupe',
+                        'prospector:wild-wormhole',
+                        'prospector:library-of-babble',
+                        'prospector:dysania',
+                        'prospector:rocket-boots'
+                    ]
+                },
+                player2: {}
+            });
+
+            const tokens = {};
+            for (const c of this.player1.player.creaturesInPlay) {
+                if (c.isToken()) {
+                    tokens[c.id] = c;
+                }
+            }
+            const wildWormhole = tokens['wild-wormhole'];
+            const libraryOfBabble = tokens['library-of-babble'];
+            const dysania = tokens['dysania'];
+            const rocketBoots = tokens['rocket-boots'];
+
+            this.player1.play(this.generalSherman);
+            for (const c of [this.kaupe, wildWormhole, libraryOfBabble, rocketBoots, dysania]) {
+                expect(c.location).toBe('purged');
+            }
+
+            this.player1.play(this.sleepWithTheFishes);
+            expect(this.generalSherman.location).toBe('discard');
+
+            // Only Kaupe and the dysania-token are creatures - the others
+            // revert to their underlying types when leaving play, so they
+            // stay purged.
+            expect(this.player1).toBeAbleToSelect(this.kaupe);
+            expect(this.player1).toBeAbleToSelect(dysania);
+            expect(this.player1).not.toBeAbleToSelect(wildWormhole);
+            expect(this.player1).not.toBeAbleToSelect(libraryOfBabble);
+            expect(this.player1).not.toBeAbleToSelect(rocketBoots);
+
+            this.player1.clickCard(this.kaupe);
+            this.player1.clickCard(dysania);
+            this.player1.clickPrompt('Left');
+
+            expect(this.kaupe.location).toBe('play area');
+            expect(dysania.location).toBe('play area');
+            expect(wildWormhole.location).toBe('purged');
+            expect(libraryOfBabble.location).toBe('purged');
+            expect(rocketBoots.location).toBe('purged');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

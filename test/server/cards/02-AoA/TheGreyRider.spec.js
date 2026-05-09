@@ -45,7 +45,7 @@ describe('The Grey Rider', function () {
             this.player1.clickCard(this.batdrone);
             expect(this.batdrone.location).toBe('discard');
             expect(this.ancientBear.exhausted).toBe(true);
-            expect(this.ancientBear.hasToken('damage')).toBe(false);
+            expect(this.ancientBear.damage).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 

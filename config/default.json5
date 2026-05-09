@@ -31,7 +31,7 @@
          *  - cookieLifetime
          *  - emailKey
          *  - hmacSecret
-         *  - captchaKey
+         *  - captchaKey (hCaptcha secret key)
          */
     },
 

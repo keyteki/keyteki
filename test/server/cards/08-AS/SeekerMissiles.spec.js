@@ -21,7 +21,7 @@ describe('Scalawag Finn', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -38,8 +38,8 @@ describe('Scalawag Finn', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.krump);
             this.player1.clickCard(this.krump);
-            expect(this.troll.tokens.damage).toBe(2);
-            expect(this.krump.tokens.damage).toBe(2);
+            expect(this.troll.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -63,7 +63,7 @@ describe('Scalawag Finn', function () {
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.troll);
-            expect(this.troll.tokens.damage).toBe(6);
+            expect(this.troll.damage).toBe(6);
             expect(this.player1).isReadyToTakeAction();
         });
     });

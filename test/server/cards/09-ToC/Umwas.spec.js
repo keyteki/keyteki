@@ -25,11 +25,11 @@ describe('Umwas', function () {
             this.player1.playCreature(this.umwas);
             this.player1.clickPrompt('Right');
             expect(this.niffleBrute2.location).toBe('play area');
-            expect(this.niffleBrute1.getPower()).toBe(5);
-            expect(this.niffleBrute2.getPower()).toBe(5);
-            expect(this.dustPixie.getPower()).toBe(1);
-            expect(this.umwas.getPower()).toBe(4);
-            expect(this.propsector1.getPower()).toBe(1);
+            expect(this.niffleBrute1.power).toBe(5);
+            expect(this.niffleBrute2.power).toBe(5);
+            expect(this.dustPixie.power).toBe(1);
+            expect(this.umwas.power).toBe(4);
+            expect(this.propsector1.power).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
     });

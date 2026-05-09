@@ -26,17 +26,17 @@ describe('Infighting', function () {
 
             // should be un harmed since was on urchin's left
             expect(this.nexus.location).toBe('play area');
-            expect(this.nexus.tokens.damage).toBeUndefined();
+            expect(this.nexus.damage).toBe(0);
 
             // should be dead because batrone is on zorg's right
             expect(this.batdrone.location).toBe('discard');
 
             // should take 5 damage from mother, because zorg is on mother's right
             expect(this.zorg.location).toBe('play area');
-            expect(this.zorg.tokens.damage).toBe(5);
+            expect(this.zorg.damage).toBe(5);
 
             // should be alive, with no damage
-            expect(this.mother.tokens.damage).toBeUndefined();
+            expect(this.mother.damage).toBe(0);
             expect(this.mother.location).toBe('play area');
         });
 
@@ -44,11 +44,11 @@ describe('Infighting', function () {
             this.player1.play(this.theCommonCold);
             this.player1.clickPrompt('No');
             expect(this.urchin.location).toBe('discard');
-            expect(this.nexus.tokens.damage).toBe(1);
+            expect(this.nexus.damage).toBe(1);
 
             this.player1.play(this.infighting);
             expect(this.nexus.location).toBe('play area');
-            expect(this.nexus.tokens.damage).toBe(1);
+            expect(this.nexus.damage).toBe(1);
         });
 
         it('it should do nothing if there are no creatures in play', function () {
@@ -79,7 +79,7 @@ describe('Infighting', function () {
             this.player1.play(this.dharna);
             this.player1.play(this.infighting);
 
-            expect(this.dharna.tokens.damage).toBe(1);
+            expect(this.dharna.damage).toBe(1);
         });
     });
 
@@ -100,9 +100,9 @@ describe('Infighting', function () {
 
         it('should steal when shoulder id would deal damage to Urchin', function () {
             this.player1.play(this.infighting);
-            expect(this.lamindra.tokens.damage).toBeUndefined();
-            expect(this.shoulderId.tokens.damage).toBe(1);
-            expect(this.urchin.tokens.damage).toBeUndefined();
+            expect(this.lamindra.damage).toBe(0);
+            expect(this.shoulderId.damage).toBe(1);
+            expect(this.urchin.damage).toBe(0);
             expect(this.urchin.location).toBe('play area');
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(4);
@@ -126,30 +126,30 @@ describe('Infighting', function () {
 
         it('should not take damage if neighbor is mutant', function () {
             this.player1.play(this.infighting);
-            expect(this.gub.tokens.damage).toBeUndefined();
+            expect(this.gub.damage).toBe(0);
             expect(this.gub.location).toBe('play area');
-            expect(this.niffleApe.tokens.damage).toBe(1);
+            expect(this.niffleApe.damage).toBe(1);
 
-            expect(this.theGreyRider.tokens.damage).toBeUndefined();
+            expect(this.theGreyRider.damage).toBe(0);
             expect(this.theGreyRider.location).toBe('play area');
-            expect(this.adaptoid.tokens.damage).toBe(2);
-            expect(this.ardentHero.tokens.damage).toBeUndefined();
+            expect(this.adaptoid.damage).toBe(2);
+            expect(this.ardentHero.damage).toBe(0);
             expect(this.ardentHero.location).toBe('play area');
-            expect(this.championAnaphiel.tokens.damage).toBe(3);
+            expect(this.championAnaphiel.damage).toBe(3);
         });
 
         it('should take damage if neighbor is not-mutant', function () {
             this.player2.moveCard(this.adaptoid, 'discard');
             this.player1.play(this.infighting);
-            expect(this.gub.tokens.damage).toBeUndefined();
+            expect(this.gub.damage).toBe(0);
             expect(this.gub.location).toBe('play area');
-            expect(this.niffleApe.tokens.damage).toBe(1);
+            expect(this.niffleApe.damage).toBe(1);
 
-            expect(this.theGreyRider.tokens.damage).toBeUndefined();
+            expect(this.theGreyRider.damage).toBe(0);
             expect(this.theGreyRider.location).toBe('play area');
-            expect(this.ardentHero.tokens.damage).toBe(2);
+            expect(this.ardentHero.damage).toBe(2);
             expect(this.ardentHero.location).toBe('play area');
-            expect(this.championAnaphiel.tokens.damage).toBe(3);
+            expect(this.championAnaphiel.damage).toBe(3);
         });
     });
 
@@ -170,9 +170,9 @@ describe('Infighting', function () {
 
         it('should steal when shoulder id would deal damage to Ardent Hero', function () {
             this.player1.play(this.infighting);
-            expect(this.lamindra.tokens.damage).toBeUndefined();
-            expect(this.shoulderId.tokens.damage).toBe(1);
-            expect(this.ardentHero.tokens.damage).toBeUndefined();
+            expect(this.lamindra.damage).toBe(0);
+            expect(this.shoulderId.damage).toBe(1);
+            expect(this.ardentHero.damage).toBe(0);
             expect(this.ardentHero.location).toBe('play area');
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(4);
