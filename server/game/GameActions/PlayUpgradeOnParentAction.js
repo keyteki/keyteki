@@ -33,13 +33,14 @@ class PlayUpgradeOnParentAction extends CardGameAction {
             return true;
         }
 
-        // Hidden-zone play blocked solely by a card-self/cost restriction:
-        // surface a reveal-and-return message. External player restrictions
-        // block without revealing to the opponent.
+        // Hidden-zone play blocked solely by a card-self/cost restriction
+        // or by a card-specific player restriction: surface a
+        // reveal-and-return message via getEvent. Card-independent
+        // player restrictions block without revealing.
         return (
             card.location !== 'hand' &&
             playActions.length > 0 &&
-            !this.blockedByPlayerRestriction(context, playActions[0])
+            !this.isBlockedWithoutReveal(card, context)
         );
     }
 

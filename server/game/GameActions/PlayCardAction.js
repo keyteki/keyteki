@@ -58,31 +58,11 @@ class PlayCardAction extends CardGameAction {
     }
 
     isBlockedWithoutReveal(card, context) {
-        // A card-independent player-level restriction (e.g. Ember Imp's
-        // per-turn play limit) blocks the play without inspecting the
-        // card, so we can block without revealing it. Card-specific
-        // restrictions inspect the card's identity and so the card must
-        // be revealed before the block can be known.
-        const playActions = this.getPlayActions(card);
-        if (playActions.length === 0) {
-            return false;
-        }
-        const actionContext = playActions[0].createContext(context.player);
-        actionContext.ignoreHouse = true;
-        if (actionContext.player.checkRestrictions('play', actionContext)) {
-            return false;
-        }
-        return context.player.effects.some((effect) => {
-            if (effect.type !== 'abilityRestrictions') {
-                return false;
-            }
-            const restriction = effect.getValue && effect.getValue(context.player);
-            return (
-                restriction &&
-                !restriction.condition &&
-                restriction.checkRestriction('play', actionContext, null, effect.context)
-            );
-        });
+        // Override: use this.location-scoped play actions rather than the
+        // card's current zone, since hidden-zone plays (e.g. Wild Wormhole
+        // playing the top of deck) still resolve via the card's hand play
+        // action.
+        return super.isBlockedWithoutReveal(card, context, this.getPlayActions(card));
     }
 
     actionMeetsRequirement(context, action) {

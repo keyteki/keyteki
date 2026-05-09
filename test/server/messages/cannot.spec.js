@@ -28,6 +28,37 @@ describe('Cannot Play Messages', function () {
         });
     });
 
+    describe('hidden-zone play with ability-level effect message blocked by player restriction (Wormhole Technician)', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['library-of-babble', 'batdrone'],
+                    inPlay: ['wormhole-technician'],
+                    discard: ['dextre']
+                },
+                player2: {
+                    inPlay: ['ember-imp']
+                }
+            });
+        });
+
+        it("should preserve the ability's reveal message even when the play is blocked", function () {
+            this.player1.moveCard(this.dextre, 'deck');
+            this.player1.play(this.libraryOfBabble);
+            this.player1.play(this.batdrone);
+            this.player1.reap(this.wormholeTechnician);
+            expect(this.dextre.location).toBe('deck');
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Library of Babble',
+                'player1 plays Batdrone',
+                'player1 uses Wormhole Technician to reap with Wormhole Technician',
+                'player1 uses Wormhole Technician to reveal Dextre, which is a Logos card, and play it',
+                'player1 is unable to play a card from deck due to a restriction'
+            ]);
+        });
+    });
+
     describe('hidden-zone play blocked by card-specific player restriction (Quixxle Stone)', function () {
         beforeEach(function () {
             this.setupTest({
@@ -143,6 +174,32 @@ describe('Cannot Play Messages', function () {
                 "player2 gains an amber due to Wild Wormhole's bonus icon",
                 'player2 uses Wild Wormhole to play Dextre',
                 'player2 is unable to play Dextre and returns it to deck'
+            ]);
+        });
+    });
+
+    describe('discard play blocked by card-specific player restriction (Elite Disruptzord vs Dr. Xyloxxzlphrex)', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    inPlay: ['elite-disruptzord', 'dr-xyloxxzlphrex'],
+                    discard: ['zorg']
+                }
+            });
+            this.drXyloxxzlphrex.powerCounters = 5;
+        });
+
+        it('should reveal Zorg and return it to discard when selected via Dr. Xylo', function () {
+            expect(this.eliteDisruptzord.power).toBe(6);
+            this.player1.reap(this.drXyloxxzlphrex);
+            this.player1.clickCard(this.zorg);
+            expect(this.zorg.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 uses Dr. Xyloxxzlphrex to reap with Dr. Xyloxxzlphrex',
+                'player1 uses Dr. Xyloxxzlphrex to play Zorg',
+                'player1 is unable to play Zorg and returns it to discard'
             ]);
         });
     });
