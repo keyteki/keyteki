@@ -27,3 +27,4 @@ server/game/generatedcards
 bin/
 obj/
 .env.development
+tmp/
