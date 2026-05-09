@@ -25,9 +25,7 @@ class PlayUpgradeOnParentAction extends CardGameAction {
             return false;
         }
 
-        const playActions = card
-            .getActions(this.location)
-            .filter((action) => action.title.includes('Play this upgrade'));
+        const playActions = this.getPlayActions(card);
 
         if (playActions.some((action) => this.actionMeetsRequirement(context, action))) {
             return true;
@@ -42,6 +40,19 @@ class PlayUpgradeOnParentAction extends CardGameAction {
             playActions.length > 0 &&
             !this.isBlockedWithoutReveal(card, context)
         );
+    }
+
+    getPlayActions(card) {
+        return card
+            .getActions(this.location)
+            .filter((action) => action.title.includes('Play this upgrade'));
+    }
+
+    isBlockedWithoutReveal(card, context) {
+        // Override: use this.location-scoped play actions rather than the
+        // card's current zone, since hidden-zone plays still resolve via
+        // the card's hand play action.
+        return super.isBlockedWithoutReveal(card, context, this.getPlayActions(card));
     }
 
     actionMeetsRequirement(context, action) {
@@ -62,13 +73,9 @@ class PlayUpgradeOnParentAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        let playActions = card
-            .getActions(this.location)
-            .filter(
-                (action) =>
-                    action.title.includes('Play this upgrade') &&
-                    this.actionMeetsRequirement(context, action)
-            );
+        let playActions = this.getPlayActions(card).filter((action) =>
+            this.actionMeetsRequirement(context, action)
+        );
 
         return super.createEvent(
             EVENTS.unnamedEvent,
