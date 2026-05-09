@@ -15,8 +15,7 @@ class SampleCollection extends Card {
                 ),
             gameAction: ability.actions.sequentialForEach((context) => ({
                 num: context.player.opponent.getForgedKeys(),
-                action: ability.actions.archive({
-                    owner: false,
+                action: ability.actions.abduct({
                     promptForSelect: {
                         activePromptTitle: 'Choose a creature to archive',
                         cardType: 'creature',

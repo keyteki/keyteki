@@ -11,18 +11,14 @@ class VestedHarold extends Card {
                     numCards: 1,
                     cardType: 'creature',
                     controller: 'self',
-                    gameAction: ability.actions.archive({
-                        owner: true
-                    })
+                    gameAction: ability.actions.archive()
                 },
                 enemy: {
                     mode: 'exactly',
                     numCards: 1,
                     cardType: 'creature',
                     controller: 'opponent',
-                    gameAction: ability.actions.archive({
-                        owner: true
-                    })
+                    gameAction: ability.actions.archive()
                 }
             },
             effect: 'archive {1}',

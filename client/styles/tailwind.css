@@ -1121,12 +1121,17 @@ pre {
 }
 
 .card-zoom > img,
-.card-zoom > canvas {
+.card-zoom > canvas,
+.card-zoom canvas {
   width: 100% !important;
   height: 100% !important;
   max-width: 100% !important;
   max-height: 100% !important;
   display: block;
+}
+.card-zoom > div {
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .overlay {
