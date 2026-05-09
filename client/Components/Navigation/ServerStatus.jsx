@@ -1,13 +1,11 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Icon from '../Icon';
 import { faCheckCircle, faTimesCircle, faBan } from '@fortawesome/free-solid-svg-icons';
 
-import './ServerStatus.scss';
-
 const ServerStatus = (props) => {
-    const { connecting, connected, responseTime, serverType } = props;
+    const { connecting, connected, responseTime, serverType, mobile = false } = props;
     const { t } = useTranslation();
 
     const connectionStatus = t(
@@ -28,14 +26,20 @@ const ServerStatus = (props) => {
             : 'danger'
     }`;
 
-    const pingText2 = `${serverType[0]}: ${
+    const pingText = `${serverType[0]}: ${
         connected ? (responseTime ? `${responseTime}ms` : 'Waiting') : connectionStatus
     }`;
 
     return (
-        <div className='navbar-item'>
+        <div
+            className={
+                mobile
+                    ? 'inline-flex h-9 items-center px-3 text-sm font-medium'
+                    : 'inline-flex h-9 items-center px-3 text-sm font-medium lg:h-12'
+            }
+        >
             <span className={pingLevel}>
-                {pingText2} <FontAwesomeIcon icon={connectionIcon} title={t(toolTip)} />
+                {pingText} <Icon icon={connectionIcon} title={t(toolTip)} />
             </span>
         </div>
     );
@@ -45,6 +49,7 @@ ServerStatus.displayName = 'ServerStatus';
 ServerStatus.propTypes = {
     connected: PropTypes.bool,
     connecting: PropTypes.bool,
+    mobile: PropTypes.bool,
     responseTime: PropTypes.number,
     serverType: PropTypes.string
 };

@@ -1,7 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import $ from 'jquery';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Constants } from './constants';
@@ -33,11 +31,9 @@ const Application = () => {
     const [cannotLoad, setCannotLoad] = useState(false);
     const prevWindowBlurred = useRef(null);
 
-    const { currentGame, user, windowBlurred } = useSelector((state) => ({
-        currentGame: state.lobby.currentGame,
-        user: state.account.user,
-        windowBlurred: state.lobby.windowBlurred
-    }));
+    const currentGame = useSelector((state) => state.lobby.currentGame);
+    const user = useSelector((state) => state.account.user);
+    const windowBlurred = useSelector((state) => state.lobby.windowBlurred);
 
     const backgrounds = useMemo(() => {
         const values = { blank: BlankBg };
@@ -70,22 +66,16 @@ const Application = () => {
                         dispatch(setAuthTokens({ token, refreshToken: parsedToken }));
                         verifyAuthentication()
                             .unwrap()
+                            .then(() => {
+                                dispatch(lobbyAuthenticateRequested());
+                            })
                             .catch(() => {});
-                        dispatch(lobbyAuthenticateRequested());
                     }
                 }
             } catch (error) {
                 setCannotLoad(true);
             }
         }
-
-        const handleAjaxError = (event, xhr) => {
-            if (xhr.status === 403) {
-                navigate('/unauth');
-            }
-        };
-
-        $(document).ajaxError(handleAjaxError);
 
         dispatch(lobbyConnectRequested());
 
@@ -101,11 +91,10 @@ const Application = () => {
         window.addEventListener('blur', onFocusChange);
 
         return () => {
-            $(document).off('ajaxError', handleAjaxError);
             window.removeEventListener('focus', onFocusChange);
             window.removeEventListener('blur', onFocusChange);
         };
-    }, [dispatch, navigate, verifyAuthentication]);
+    }, [dispatch, verifyAuthentication]);
 
     const blinkTab = useCallback(() => {
         if (!currentGame || !currentGame.players) {
@@ -175,7 +164,7 @@ const Application = () => {
             return;
         }
 
-        bgRef.current.style.backgroundImage = `url('${Background}')`;
+        bgRef.current.style.backgroundImage = 'none';
     }, [backgrounds, gameBoardVisible, user]);
 
     let component = <AppRoutes user={user} currentGame={currentGame} />;
@@ -200,7 +189,7 @@ const Application = () => {
         <div className='bg' ref={bgRef}>
             <Navigation appName='The Crucible Online' user={user} />
             <div className='wrapper'>
-                <Container className='content'>
+                <div className='mx-auto w-full pt-14 px-3 sm:px-4 lg:max-w-[92vw] lg:px-6 2xl:max-w-screen-2xl'>
                     <ErrorBoundary
                         navigate={navigate}
                         errorPath={path}
@@ -208,9 +197,9 @@ const Application = () => {
                     >
                         {component}
                     </ErrorBoundary>
-                </Container>
+                </div>
             </div>
-            <div className='keyforge-font' style={{ zIndex: -999 }}>
+            <div className='font-sans' style={{ zIndex: -999 }}>
                 &nbsp;
             </div>
         </div>

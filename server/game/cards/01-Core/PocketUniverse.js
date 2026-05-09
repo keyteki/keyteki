@@ -5,7 +5,7 @@ class PocketUniverse extends Card {
     // Action: Move 1A from your pool to Pocket Universe.
     setupCardAbilities(ability) {
         this.persistentEffect({
-            effect: ability.effects.keyAmber()
+            effect: ability.effects.forgeAmberSource('controller', 'onCard')
         });
 
         this.action({

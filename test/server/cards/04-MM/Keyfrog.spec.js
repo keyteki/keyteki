@@ -146,7 +146,7 @@ describe('Keyfrog', function () {
             this.player2.fightWith(this.troll, this.keyfrog);
 
             expect(this.player2).toHavePrompt(
-                'How much amber do you want to use from Senator Shrix?'
+                'How much amber do you want to spend from Senator Shrix?'
             );
             this.player2.clickPrompt('2');
             expect(this.player1).not.toHavePrompt('Which key would you like to forge?');

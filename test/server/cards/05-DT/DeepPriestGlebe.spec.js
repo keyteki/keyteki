@@ -66,4 +66,57 @@ describe('Deep Priest Glebe', function () {
             expect(this.deepPriestGlebe.exhausted).toBe(false);
         });
     });
+
+    describe('Deep Priest Glebe triggering on itself', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    hand: ['deep-priest-glebe']
+                },
+                player2: {
+                    inPlay: ['gub', 'krump']
+                }
+            });
+        });
+
+        it('should trigger when Deep Priest Glebe itself is played', function () {
+            this.player1.play(this.deepPriestGlebe);
+            expect(this.player1).toBeAbleToSelect(this.gub);
+            expect(this.player1).toBeAbleToSelect(this.krump);
+            this.player1.clickCard(this.gub);
+            expect(this.gub.exhausted).toBe(true);
+            expect(this.krump.exhausted).toBe(false);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Deep Priest Glebe with a put-into-play effect', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    inPlay: ['lightbearer-kelvin', 'deep-priest-glebe'],
+                    discard: ['portalmonger']
+                },
+                player2: {
+                    inPlay: ['gub', 'krump']
+                }
+            });
+        });
+
+        it('should not trigger when an Aquan creature is put into play (not played)', function () {
+            this.player1.moveCard(this.portalmonger, 'deck bottom');
+            this.player1.fightWith(this.lightbearerKelvin, this.gub);
+            this.player1.clickPrompt('My Deck');
+            this.player1.clickPrompt('Right');
+            expect(this.portalmonger.location).toBe('play area');
+            expect(this.portalmonger.hasTrait('aquan')).toBe(true);
+
+            // No exhaust prompt should appear.
+            expect(this.gub.exhausted).toBe(false);
+            expect(this.krump.exhausted).toBe(false);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

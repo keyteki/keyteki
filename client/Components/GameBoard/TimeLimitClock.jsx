@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import './TimeLimitClock.scss';
-
 const TimeLimitClock = (props) => {
     const [timeLeft, setTimeLeft] = useState();
 
@@ -25,8 +23,8 @@ const TimeLimitClock = (props) => {
     }, [props.timeLimit, props.timeLimitStarted, props.timeLimitStartedAt]);
 
     return (
-        <div className='time-limit-clock card bg-dark border-primary'>
-            <h1>{timeLeft}</h1>
+        <div className='mt-[-6px] rounded-sm border border-border/75 bg-surface-secondary/75 px-2 pt-1 font-["Orbitron",sans-serif] font-medium text-foreground'>
+            <h1 className='ml-[23%] w-28 text-[2rem]'>{timeLeft}</h1>
         </div>
     );
 };

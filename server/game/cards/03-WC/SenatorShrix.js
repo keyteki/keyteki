@@ -5,7 +5,7 @@ class SenatorShrix extends Card {
     // Play/Reap: You may exalt Senator Shrix.
     setupCardAbilities(ability) {
         this.persistentEffect({
-            effect: ability.effects.keyAmber()
+            effect: ability.effects.forgeAmberSource('controller', 'onCard')
         });
 
         this.play({

@@ -1,6 +1,7 @@
-const uuid = require('uuid');
+const { randomUUID } = require('node:crypto');
 
 const Card = require('./Card.js');
+const GameObject = require('./GameObject.js');
 const Spectator = require('./spectator.js');
 const Player = require('./player.js');
 
@@ -22,7 +23,7 @@ class GameChat {
         ];
         let formattedMessage = this.formatMessage(format, args);
 
-        this.messages.push({ id: uuid.v1(), date: new Date(), message: formattedMessage });
+        this.messages.push({ id: randomUUID(), date: new Date(), message: formattedMessage });
     }
 
     getFormattedMessage(message) {
@@ -53,7 +54,7 @@ class GameChat {
     addMessage(message, ...args) {
         let formattedMessage = this.getFormattedMessage(message, ...args);
         this.messages.push({
-            id: uuid.v1(),
+            id: randomUUID(),
             date: new Date(),
             message: formattedMessage,
             activePlayer: this.game.activePlayer && this.game.activePlayer.name
@@ -64,7 +65,7 @@ class GameChat {
         let formattedMessage = this.getFormattedMessage(message, ...args);
 
         this.messages.push({
-            id: uuid.v1(),
+            id: randomUUID(),
             date: new Date(),
             message: { alert: { type: type, message: formattedMessage } },
             activePlayer: this.game.activePlayer && this.game.activePlayer.name
@@ -98,6 +99,28 @@ class GameChat {
                             argType: 'nonAvatarPlayer',
                             role: arg.user.role
                         });
+                    } else if (arg instanceof GameObject) {
+                        // Defense-in-depth: any non-Card GameObject (e.g. a
+                        // framework EffectSource) carries back-references to
+                        // the game graph and would create circular structures
+                        // when serialized.  The client message renderer only
+                        // handles card/player fragments specially, so emit a
+                        // plain string fallback rather than an unrecognised
+                        // fragment shape that would render as "[object Object]".
+                        returnedFraments.push(String(arg.name || 'unknown'));
+                    } else if (arg && typeof arg === 'object' && !Array.isArray(arg)) {
+                        // Last-ditch guard for any other unexpected object
+                        // arg.  Recognised fragment shapes (those with an
+                        // `argType` or a nested `message` produced by
+                        // formatArray) are passed through.  Anything else is
+                        // reduced to a short string summary so it can't render
+                        // as "[object Object]" on the client or embed
+                        // unintended data in the gamestate.
+                        if (typeof arg.argType === 'string' || arg.message !== undefined) {
+                            returnedFraments.push(arg);
+                        } else {
+                            returnedFraments.push(this.summarizeUnknownArg(arg));
+                        }
                     } else {
                         returnedFraments.push(arg);
                     }
@@ -131,6 +154,21 @@ class GameChat {
         }
 
         return { message: this.formatMessage(format, array) };
+    }
+
+    /**
+     * Reduce an unexpected object argument to a short, safe string summary so
+     * it can be rendered by the client without showing "[object Object]" and
+     * without embedding arbitrary or potentially circular data in the
+     * gamestate.
+     */
+    summarizeUnknownArg(arg) {
+        if (arg && typeof arg.name === 'string') {
+            return arg.name;
+        }
+
+        const ctor = arg && arg.constructor && arg.constructor.name;
+        return ctor ? `[${ctor}]` : '[unknown]';
     }
 }
 

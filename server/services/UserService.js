@@ -1,7 +1,6 @@
 const moment = require('moment');
 const crypto = require('crypto');
 const EventEmitter = require('events');
-const uuid = require('uuid');
 
 const logger = require('../log');
 const User = require('../models/User');
@@ -400,7 +399,7 @@ class UserService extends EventEmitter {
             this.configService.getValueForSection('lobby', 'hmacSecret')
         );
 
-        let tokenId = uuid.v1();
+        let tokenId = crypto.randomUUID();
 
         let encodedToken = hmac.update(`REFRESH ${user.username} ${tokenId}`).digest('hex');
         let res = await db.query(
@@ -518,6 +517,37 @@ class UserService extends EventEmitter {
 
     async cleanupRefreshTokens() {
         await db.query('DELETE FROM "RefreshToken" WHERE "Expiry" < current_date');
+    }
+
+    async anonymizeUser(user, options = {}) {
+        const client = await db.startTransaction();
+        const anonymizedUsername = options.username || `deleted-user-${user.id}`;
+        const anonymizedEmail = options.email || `deleted-user-${user.id}@example.invalid`;
+
+        try {
+            await db.queryTran(
+                client,
+                'UPDATE "Users" SET "Username" = $1, "Email" = $2, "Password" = NULL, "Verified" = false, "Disabled" = true, "Settings_Avatar" = NULL, "Settings_CustomBackground" = NULL, "PatreonToken" = NULL, "ResetToken" = NULL, "TokenExpires" = NULL, "ActivationToken" = NULL, "ActivationTokenExpiry" = NULL, "RegisterIp" = NULL WHERE "Id" = $3',
+                [anonymizedUsername, anonymizedEmail, user.id]
+            );
+
+            await db.queryTran(client, 'DELETE FROM "UserRoles" WHERE "UserId" = $1', [user.id]);
+            await db.queryTran(client, 'DELETE FROM "RefreshToken" WHERE "UserId" = $1', [user.id]);
+            await db.queryTran(client, 'DELETE FROM "BlockList" WHERE "UserId" = $1', [user.id]);
+            await db.queryTran(client, 'DELETE FROM "ChallongeSettings" WHERE "UserId" = $1', [
+                user.id
+            ]);
+
+            await db.queryTran(client, 'COMMIT');
+            await client.release();
+        } catch (err) {
+            logger.error('Failed to anonymize user', err);
+            await db.queryTran(client, 'ROLLBACK');
+            await client.release();
+            throw new Error('Failed to anonymize user');
+        }
+
+        return { username: anonymizedUsername, email: anonymizedEmail };
     }
 
     async populatedLinkedUserDetails(user) {

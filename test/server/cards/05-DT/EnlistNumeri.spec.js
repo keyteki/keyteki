@@ -55,7 +55,7 @@ describe('Enlist Numeri', function () {
                 }
             });
 
-            this.pandulfTheProvoker.tokens.amber = 1;
+            this.pandulfTheProvoker.amber = 1;
         });
 
         it('should keep the creature as Saurian when control returns after multiple transfers', function () {

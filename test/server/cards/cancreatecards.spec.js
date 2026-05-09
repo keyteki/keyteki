@@ -13,7 +13,8 @@ const card = {
     tokens: {},
     hasToken: () => false,
     isInCenter: () => true,
-    isToken: () => false
+    isToken: () => false,
+    bonusIcons: []
 };
 card.neighbors.push(card);
 card.neighbors.push(card);
@@ -32,7 +33,8 @@ const player = {
     isTideLow: () => false,
     isHaunted: () => true,
     keys: { red: true, blue: true, yellow: true },
-    getDiscardSlice: () => []
+    getDiscardSlice: () => [],
+    isOverwhelmed: () => false
 };
 player.opponent = player;
 card.controller = player;
@@ -44,7 +46,8 @@ const mockContext = {
         creaturesInPlay: [],
         cardsInPlay: [],
         activePlayer: player,
-        getFrameworkContext: () => {}
+        getFrameworkContext: () => {},
+        getPlayers: () => [player]
     },
     house: {},
     source: card,
