@@ -40,12 +40,6 @@ class PlayCardAction extends CardGameAction {
         );
     }
 
-    blockedByPlayerRestriction(context, action) {
-        const actionContext = action.createContext(context.player);
-        actionContext.ignoreHouse = true;
-        return !actionContext.player.checkRestrictions('play', actionContext);
-    }
-
     actionMeetsRequirement(context, action) {
         let actionContext = action.createContext(context.player);
         actionContext.ignoreHouse = true;

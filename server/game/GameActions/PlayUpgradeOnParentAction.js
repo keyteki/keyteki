@@ -43,12 +43,6 @@ class PlayUpgradeOnParentAction extends CardGameAction {
         );
     }
 
-    blockedByPlayerRestriction(context, action) {
-        const actionContext = action.createContext(context.player);
-        actionContext.ignoreHouse = true;
-        return !actionContext.player.checkRestrictions('play', actionContext);
-    }
-
     actionMeetsRequirement(context, action) {
         let actionContext = action.createContext(context.player);
         actionContext.ignoreHouse = true;
@@ -60,6 +54,10 @@ class PlayUpgradeOnParentAction extends CardGameAction {
         let actionContext = action.createContext(context.player);
         actionContext.ignoreHouse = true;
         context.game.resolveAbility(actionContext);
+    }
+
+    checkEventCondition(event) {
+        return this.canAffect(event.card, event.context);
     }
 
     getEvent(card, context) {

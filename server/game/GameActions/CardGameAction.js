@@ -136,6 +136,12 @@ class CardGameAction extends GameAction {
         );
     }
 
+    blockedByPlayerRestriction(context, action) {
+        const actionContext = action.createContext(context.player);
+        actionContext.ignoreHouse = true;
+        return !actionContext.player.checkRestrictions('play', actionContext);
+    }
+
     // eslint-disable-next-line no-unused-vars
     targetsCanChangeViaSimultaneousAction(context) {
         return false;
