@@ -2076,7 +2076,8 @@ pre {
 .squishable-card-panel {
   display: flex;
   justify-content: flex-start;
-  margin: 0px 5px;
+  margin-left: 5px;
+  margin-right: 5px;
   min-height: 0;
   padding: 0px;
   position: relative;
