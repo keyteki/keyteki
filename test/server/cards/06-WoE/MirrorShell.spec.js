@@ -100,4 +100,78 @@ describe('Mirror Shell', function () {
             expect(this.player1.amber).toBe(7);
         });
     });
+
+    describe('Mirror Shell on a token creature', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 1,
+                    house: 'staralliance',
+                    token: 'rebel',
+                    inPlay: ['questor-jarta', 'first-officer-frane', 'rebel:collector-boren'],
+                    hand: ['mirror-shell', 'mirror-shell', 'stunner']
+                },
+                player2: {
+                    amber: 4,
+                    token: 'grumpus',
+                    inPlay: ['grumpus:batdrone', 'bumpsy']
+                }
+            });
+
+            this.mirrorShell1 = this.player1.player.hand[0];
+            this.mirrorShell2 = this.player1.player.hand[1];
+        });
+
+        it('does not infinite loop when reaping a token with Mirror Shell', function () {
+            // Attach Mirror Shell to Frane and reap with Frane so the
+            // Rebel token becomes a copy of Frane
+            this.player1.playUpgrade(this.mirrorShell1, this.firstOfficerFrane);
+            this.player1.clickPrompt('Right');
+            this.player1.reap(this.firstOfficerFrane);
+            this.player1.clickPrompt('First Officer Frane');
+            this.player1.clickCard(this.questorJarta);
+
+            expect(this.rebel.name).toBe('First Officer Frane');
+            expect(this.questorJarta.amber).toBe(1);
+
+            // Attach a second Mirror Shell to Rebel
+            this.player1.playUpgrade(this.mirrorShell2, this.rebel);
+            this.player1.clickPrompt('Right');
+
+            // Reaping the Rebel triggers Frane's printed reap (capture)
+            // and Mirror Shell's reap (copy onto friendly tokens) without infinite loop.
+            this.player1.reap(this.rebel);
+            this.player1.clickPrompt('First Officer Frane');
+            this.player1.clickCard(this.questorJarta);
+
+            expect(this.questorJarta.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('does not copy upgrade-granted abilities to tokens', function () {
+            this.player1.playUpgrade(this.stunner, this.firstOfficerFrane);
+            this.player1.playUpgrade(this.mirrorShell1, this.firstOfficerFrane);
+            this.player1.clickPrompt('Right');
+
+            // Reap with Frane: Frane's reap (capture), Stunner's granted
+            // reap (optional stun), and Mirror Shell's after-reap (copy)
+            // all trigger.
+            this.player1.reap(this.firstOfficerFrane);
+            this.player1.clickPrompt('First Officer Frane');
+            this.player1.clickCard(this.questorJarta);
+            this.player1.clickPrompt('Stunner');
+            this.player1.clickPrompt('Done');
+            // Mirror Shell's copy auto-resolves
+
+            expect(this.rebel.name).toBe('First Officer Frane');
+
+            // Reap with the Rebel (now copying Frane). Only Frane's printed
+            // reap should trigger
+            this.player1.reap(this.rebel);
+            expect(this.player1).toHavePrompt('First Officer Frane');
+            this.player1.clickCard(this.questorJarta);
+
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
