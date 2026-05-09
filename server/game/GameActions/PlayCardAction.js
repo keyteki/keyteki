@@ -60,7 +60,7 @@ class PlayCardAction extends CardGameAction {
     isBlockedWithoutReveal(card, context) {
         // A card-independent player-level restriction (e.g. Ember Imp's
         // per-turn play limit) blocks the play without inspecting the
-        // card, so we can fizzle without revealing it. Card-specific
+        // card, so we can block without revealing it. Card-specific
         // restrictions inspect the card's identity and so the card must
         // be revealed before the block can be known.
         const playActions = this.getPlayActions(card);

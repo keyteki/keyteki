@@ -1,5 +1,5 @@
 describe('Cannot Play Messages', function () {
-    describe('hidden-zone play silently fizzled by player restriction (Ember Imp)', function () {
+    describe('hidden-zone play blocked by player restriction (Ember Imp)', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {

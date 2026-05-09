@@ -35,7 +35,7 @@ class PlayUpgradeOnParentAction extends CardGameAction {
 
         // Hidden-zone play blocked solely by a card-self/cost restriction:
         // surface a reveal-and-return message. External player restrictions
-        // fizzle silently so the card is not revealed to the opponent.
+        // block without revealing to the opponent.
         return (
             card.location !== 'hand' &&
             playActions.length > 0 &&
