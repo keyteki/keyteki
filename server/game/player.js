@@ -556,15 +556,22 @@ class Player extends GameObject {
         }
 
         // Abduct replacement effect: abducted cards go to their owner's hand
-        // instead of anywhere else when leaving archives
+        // instead of anywhere else when leaving archives. This is the single
+        // source of truth for the redirect; DiscardCardAction and PurgeAction
+        // delegate here by calling moveCard with their original target
+        // location ('discard' / 'purged') and rely on this block to redirect
+        // and emit the appropriate message.
         if (location === 'archives' && card.abducted) {
             if (targetLocation !== 'hand') {
-                this.game.addMessage(
-                    "{0} leaves {1}'s archives and is added to {2}'s hand",
-                    card,
-                    card.controller,
-                    card.owner
-                );
+                let message = "{0} leaves {1}'s archives and is added to {2}'s hand";
+                if (targetLocation === 'discard') {
+                    message =
+                        "{0} leaves {1}'s archives and is added to {2}'s hand instead of being discarded";
+                } else if (targetLocation === 'purged') {
+                    message =
+                        "{0} leaves {1}'s archives and is added to {2}'s hand instead of being purged";
+                }
+                this.game.addMessage(message, card, card.controller, card.owner);
                 card.controller = card.owner;
                 targetLocation = 'hand';
                 targetPile = card.owner.getSourceList(targetLocation);

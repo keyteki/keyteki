@@ -94,18 +94,11 @@ class PurgeAction extends CardGameAction {
             EVENTS.onCardPurged,
             { card: card, context: context, replaced: false },
             () => {
-                // Abduct replacement effect: abducted cards go to owner's hand instead of purge
+                // Abduct replacement: delegate to moveCard, which redirects
+                // archived+abducted cards to their owner's hand and emits the
+                // "...instead of being purged" message.
                 if (location === 'archives' && card.abducted) {
-                    context.game.addMessage(
-                        "{0} leaves {1}'s archives and is added to {2}'s hand instead of being purged",
-                        card,
-                        card.controller,
-                        card.owner
-                    );
-                    card.abducted = false;
-                    // moveCard must be called before changing controller, as it uses
-                    // controller to find which pile to remove the card from
-                    card.controller.moveCard(card, 'hand');
+                    card.controller.moveCard(card, 'purged');
                     event.replaced = true;
                     return;
                 }
