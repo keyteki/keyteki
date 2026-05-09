@@ -13,7 +13,7 @@ describe('Opal Knight', function () {
             });
         });
 
-        it('destroys each creature with even power on play, including itself', function () {
+        it('destroys each creature with even power on play', function () {
             this.player1.play(this.opalKnight);
             expect(this.troll.location).toBe('discard');
             expect(this.lamindra.location).toBe('play area');
