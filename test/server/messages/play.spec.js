@@ -147,4 +147,54 @@ describe('Play Messages', function () {
             ]);
         });
     });
+
+    describe('play a treachery creature', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    hand: ['scowly-caper']
+                },
+                player2: {}
+            });
+        });
+
+        it('should log a single play message naming the playing player even though the creature enters play under the opponent', function () {
+            this.player1.play(this.scowlyCaper);
+            expect(this.scowlyCaper.location).toBe('play area');
+            expect(this.scowlyCaper.controller).toBe(this.player2.player);
+            expect(this.player1).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe(['player1 plays Scowly Caper']);
+        });
+    });
+
+    describe('play a treachery creature while restricted from playing', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['batdrone', 'wild-wormhole', 'scowly-caper']
+                },
+                player2: {
+                    inPlay: ['ember-imp']
+                }
+            });
+        });
+
+        it('should log a single play message naming the attempting player', function () {
+            this.player1.moveCard(this.scowlyCaper, 'deck');
+            this.player1.play(this.batdrone);
+            this.player1.play(this.wildWormhole);
+            expect(this.player1).not.toHavePromptButton('Play this creature');
+            expect(this.scowlyCaper.location).toBe('deck');
+            expect(this.player1).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Batdrone',
+                'player1 plays Wild Wormhole',
+                "player1 uses Wild Wormhole's amber bonus icon to gain 1 amber",
+                'player1 uses Wild Wormhole to play Scowly Caper',
+                'player1 is unable to play Scowly Caper and returns it to deck'
+            ]);
+        });
+    });
 });

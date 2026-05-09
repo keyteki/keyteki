@@ -331,9 +331,15 @@ class PutIntoPlayAction extends CardGameAction {
                 // Check if creature should go to a different location instead of play area
                 let location = card.mostRecentEffect('cardLocationAfterPlay') || 'play area';
                 if (location !== 'play area') {
+                    // Use context.player (the player attempting to play the
+                    // card) rather than the locally-computed `player` (which
+                    // is the new controller for treachery cards). The
+                    // attempting player is the one whose play is being
+                    // refused, and matches the player referenced by
+                    // BasePlayAction.displayMessage's "X plays Y" message.
                     context.game.addMessage(
                         '{0} is unable to play {1} and returns it to {2}',
-                        player,
+                        context.player,
                         card,
                         location
                     );
