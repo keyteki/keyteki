@@ -15,12 +15,15 @@ class ExeldonYash extends Card {
                 },
                 then: (preThenContext) => ({
                     condition: () =>
-                        !!preThenContext.target && preThenContext.source.hasToken('amber'),
-                    gameAction: ability.actions.returnAmber((context) => ({
-                        target: context.source,
+                        !!preThenContext.target &&
+                        preThenContext.preThenEvents.some(
+                            (event) => event.name === 'onCapture' && event.amount === 2
+                        ),
+                    gameAction: ability.actions.returnAmber({
+                        target: preThenContext.source,
                         amount: 1,
-                        recipient: context.player
-                    }))
+                        recipient: preThenContext.player
+                    })
                 })
             }
         });

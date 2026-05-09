@@ -36,8 +36,19 @@ class PutIntoPlayAction extends CardGameAction {
 
     // Gigantic creatures require 2 play allowances to play both halves.
     // Playing from hand always provides enough allowance.
-    canPutIntoPlayGigantic(context, card) {
+    canPutIntoPlayGigantic(_, card) {
         return card.location === 'hand' || this.numPlayAllowances >= 2;
+    }
+
+    // Returns whether the other half of a gigantic creature has the given
+    // printed keyword. Used during preEventHandler when composedPart isn't
+    // wired up yet, so card.hasKeyword() can't see the shared keyword.
+    giganticOtherHalfHasKeyword(card, keyword) {
+        if (!card.gigantic || !card.controller) {
+            return false;
+        }
+        const otherHalf = card.controller.allCards.find((c) => c.id === card.compositeId);
+        return !!(otherHalf && otherHalf.printedKeywords[keyword]);
     }
 
     preEventHandler(context) {
@@ -92,7 +103,8 @@ class PutIntoPlayAction extends CardGameAction {
             if (
                 (card.anyEffect('enterPlayAnywhere', context) ||
                     this.deploy ||
-                    card.hasKeyword('deploy')) &&
+                    card.hasKeyword('deploy') ||
+                    this.giganticOtherHalfHasKeyword(card, 'deploy')) &&
                 player.creaturesInPlay.length > 1
             ) {
                 choices.push('Deploy Left');

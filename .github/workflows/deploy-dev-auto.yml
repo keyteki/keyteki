@@ -2,7 +2,7 @@ name: Auto Deploy to Development
 on:
     workflow_run:
         workflows: ['Build, test and package']
-        branches: ['pack/dm']
+        branches: ['master']
         types: [completed]
 
 jobs:
