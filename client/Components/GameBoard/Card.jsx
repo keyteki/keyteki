@@ -119,6 +119,14 @@ const Card = ({
         }
 
         let maxCards = 1 + (underneathCards.length - 1) / 6;
+        // Each upgrade adds an effective -15px to the wrapper's vertical flow,
+        // which would pull the underneath panel up by 15px per upgrade and eat
+        // into the bottom peek. Visually translate it back down so the peek is
+        // preserved regardless of upgrade count.
+        const upgradeOffset = (card.upgrades?.length || 0) * 15 * getCardSizeMultiplier();
+        const underneathStyle = upgradeOffset
+            ? { transform: `translateY(${upgradeOffset}px)` }
+            : undefined;
         return (
             <SquishableCardPanel
                 cardBack={cardBack}
@@ -132,6 +140,7 @@ const Card = ({
                 hasActiveHouse={hasActiveHouse}
                 isMe={isMe}
                 source='underneath'
+                style={underneathStyle}
             />
         );
     };
@@ -157,7 +166,11 @@ const Card = ({
     };
 
     const isFacedown = () => {
-        return card.facedown || !card.name;
+        // Hover/zoom is allowed whenever the server sent us full card data
+        // (i.e. a name). Cards under our own permanents (Masterplan, Jargogle,
+        // etc.) are facedown to opponents but visible to the controller, so
+        // the controller's summary includes the name and we should preview it.
+        return !card.name;
     };
 
     const getDragFrame = (image) => {
@@ -246,6 +259,7 @@ const Card = ({
                                           <CardImage
                                               card={{
                                                   ...(card.versusCard || card),
+                                                  facedown: false,
                                                   location: 'zoom'
                                               }}
                                               cardBack={cardBack}

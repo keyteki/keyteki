@@ -83,7 +83,8 @@ const SquishableCardPanel = (props) => {
 
     const style = {
         width: `${overallDimensions.width}px`,
-        height: `${overallDimensions.height}px`
+        height: `${overallDimensions.height}px`,
+        ...(props.style || {})
     };
 
     return (
@@ -111,6 +112,7 @@ SquishableCardPanel.propTypes = {
     isMe: PropTypes.bool,
     isSpectating: PropTypes.bool,
     source: PropTypes.string,
+    style: PropTypes.object,
     title: PropTypes.string
 };
 
