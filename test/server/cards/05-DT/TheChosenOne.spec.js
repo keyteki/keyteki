@@ -69,8 +69,6 @@ describe('The Chosen One', function () {
                     this.player2.reap(this.batdrone);
                     this.player2.play(this.helperBot);
                     this.player2.play(this.gangerChieftain, true);
-                    expect(this.player2).toBeAbleToSelect(this.gangerChieftain);
-                    this.player2.clickCard(this.gangerChieftain);
                 });
 
                 it('should be able to ready out of ready phase', function () {

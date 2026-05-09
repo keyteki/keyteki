@@ -15,8 +15,8 @@ describe('Zyzzix the Many', function () {
 
         it('should optionally reveal a creature from hand to archive it and gain power counters after reap', function () {
             this.player1.reap(this.zyzzixTheMany);
-            expect(this.player1).toHavePrompt('Any reactions?');
-            this.player1.clickCard(this.zyzzixTheMany);
+            expect(this.player1).toHavePrompt('Zyzzix the Many');
+            expect(this.player1).toHavePromptButton('Done');
             expect(this.player1).toBeAbleToSelect(this.zorg);
             expect(this.player1).toBeAbleToSelect(this.mindwarper);
             expect(this.player1).not.toBeAbleToSelect(this.squawker);
@@ -29,8 +29,7 @@ describe('Zyzzix the Many', function () {
 
         it('should optionally reveal a creature from hand after fight', function () {
             this.player1.fightWith(this.zyzzixTheMany, this.lamindra);
-            expect(this.player1).toHavePrompt('Any reactions?');
-            this.player1.clickCard(this.zyzzixTheMany);
+            expect(this.player1).toHavePrompt('Zyzzix the Many');
             this.player1.clickCard(this.zorg);
             expect(this.zorg.location).toBe('archives');
             expect(this.zyzzixTheMany.powerCounters).toBe(3);
@@ -39,7 +38,7 @@ describe('Zyzzix the Many', function () {
 
         it('should allow skipping the ability', function () {
             this.player1.reap(this.zyzzixTheMany);
-            expect(this.player1).toHavePrompt('Any reactions?');
+            expect(this.player1).toHavePrompt('Zyzzix the Many');
             this.player1.clickPrompt('Done');
             expect(this.zorg.location).toBe('hand');
             expect(this.zyzzixTheMany.powerCounters).toBe(0);
@@ -49,13 +48,11 @@ describe('Zyzzix the Many', function () {
 
         it('should stack power counters on multiple uses', function () {
             this.player1.reap(this.zyzzixTheMany);
-            this.player1.clickCard(this.zyzzixTheMany);
             this.player1.clickCard(this.zorg);
             this.zyzzixTheMany.exhausted = false;
             expect(this.zyzzixTheMany.powerCounters).toBe(3);
             this.zyzzixTheMany.ready();
             this.player1.reap(this.zyzzixTheMany);
-            this.player1.clickCard(this.zyzzixTheMany);
             this.player1.clickCard(this.mindwarper);
             expect(this.zyzzixTheMany.powerCounters).toBe(6);
             expect(this.player1).isReadyToTakeAction();

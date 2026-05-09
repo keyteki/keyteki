@@ -31,8 +31,8 @@ class NiffleKong extends GiganticCard {
 
         this.fight({
             reap: true,
-            optional: true,
             target: {
+                optional: true,
                 controller: 'self',
                 cardType: 'creature',
                 cardCondition: (card) => card.hasTrait('niffle'),

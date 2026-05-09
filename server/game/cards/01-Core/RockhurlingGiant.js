@@ -12,8 +12,8 @@ class RockhurlingGiant extends Card {
                     context.game.activePlayer === context.player &&
                     event.card.hasHouse('brobnar')
             },
-            optional: true,
             target: {
+                optional: true,
                 cardType: 'creature',
                 gameAction: ability.actions.dealDamage({ amount: 4 })
             }
