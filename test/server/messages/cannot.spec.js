@@ -82,6 +82,31 @@ describe('Cannot Play Messages', function () {
         });
     });
 
+    describe('hidden-zone play of upgrade with no legal target', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['wild-wormhole'],
+                    discard: ['way-of-the-bear']
+                }
+            });
+        });
+
+        it('should reveal the upgrade and return it to the deck since the lack of attach target is card-specific', function () {
+            this.player1.moveCard(this.wayOfTheBear, 'deck');
+            this.player1.play(this.wildWormhole);
+            expect(this.player1).isReadyToTakeAction();
+            expect(this.wayOfTheBear.location).toBe('deck');
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Wild Wormhole',
+                "player1 gains an amber due to Wild Wormhole's bonus icon",
+                'player1 uses Wild Wormhole to play Way of the Bear',
+                'player1 is unable to play Way of the Bear and returns it to deck'
+            ]);
+        });
+    });
+
     describe('hidden-zone play blocked by card-specific player restriction (Traumatic Echo)', function () {
         beforeEach(function () {
             this.setupTest({
