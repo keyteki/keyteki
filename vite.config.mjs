@@ -30,14 +30,6 @@ export default defineConfig(({ mode }) => ({
             }
         ]
     },
-    css: {
-        preprocessorOptions: {
-            scss: {
-                quietDeps: true,
-                silenceDeprecations: ['legacy-js-api']
-            }
-        }
-    },
     define: {
         process: {
             env: {
@@ -54,6 +46,7 @@ export default defineConfig(({ mode }) => ({
         )
     },
     build: {
+        cssMinify: 'lightningcss',
         sourcemap: true,
         outDir: 'dist',
         emptyOutDir: true,

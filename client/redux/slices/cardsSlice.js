@@ -119,8 +119,14 @@ const cardsSlice = createSlice({
             .addMatcher(api.endpoints.getDecks.matchFulfilled, (state, action) => {
                 state.singleDeck = false;
                 state.numDecks = action.payload.numDecks;
+                const previousSelectedDeckId = state.selectedDeck?.id;
                 state.decks = normalizeDecks(action.payload.decks, state);
-                selectDeckInternal(state, state.decks[0]);
+                const selectedFromCurrentPage = state.decks.find(
+                    (deck) => deck.id === previousSelectedDeckId
+                );
+                const nextSelectedDeck =
+                    selectedFromCurrentPage || state.selectedDeck || state.decks[0];
+                selectDeckInternal(state, nextSelectedDeck);
             })
             .addMatcher(api.endpoints.getStandaloneDecks.matchFulfilled, (state, action) => {
                 if (action.payload.decks) {
@@ -163,6 +169,12 @@ const cardsSlice = createSlice({
                 state.decks = state.decks.filter(
                     (deck) => deck.id !== parseInt(action.payload.deckId)
                 );
+                state.selectedDeck = state.decks[0];
+            })
+            .addMatcher(api.endpoints.deleteDecks.matchFulfilled, (state, action) => {
+                const deletedDeckIds = action.payload.deckIds.map((id) => parseInt(id));
+                state.deckDeleted = true;
+                state.decks = state.decks.filter((deck) => !deletedDeckIds.includes(deck.id));
                 state.selectedDeck = state.decks[0];
             })
             .addMatcher(api.endpoints.refreshAccolades.matchFulfilled, (state, action) => {

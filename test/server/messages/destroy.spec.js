@@ -73,4 +73,36 @@ describe('Destroy Messages', function () {
             ]);
         });
     });
+
+    describe('chained destroys from Harbinger of Doom with a warded creature', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'saurian',
+                    hand: ['saury-about-that'],
+                    inPlay: ['ember-imp']
+                },
+                player2: {
+                    inPlay: ['harbinger-of-doom', 'dextre', 'troll']
+                }
+            });
+            this.dextre.ward();
+        });
+
+        it('logs repeated destroy messages and ward prevention', function () {
+            this.player1.play(this.sauryAboutThat);
+            this.player1.clickCard(this.harbingerOfDoom);
+            expect(this.player1).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Saury About That',
+                'player1 uses Saury About That to destroy Harbinger of Doom',
+                'Harbinger of Doom is destroyed',
+                'player2 uses Harbinger of Doom to destroy Ember Imp, Dextre, and Troll',
+                'player2 uses Dextre to remove its ward token',
+                'Ember Imp is destroyed',
+                'Troll is destroyed',
+                'player2 gains 1 amber from Saury About That'
+            ]);
+        });
+    });
 });

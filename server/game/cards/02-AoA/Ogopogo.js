@@ -9,8 +9,8 @@ class Ogopogo extends Card {
                     event.destroyedFighting &&
                     event.damageEvent.fightEvent.attacker === context.source
             },
-            optional: true,
             target: {
+                optional: true,
                 cardType: 'creature',
                 gameAction: ability.actions.dealDamage({ amount: 2 })
             }

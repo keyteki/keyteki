@@ -4,8 +4,8 @@ class MasterOf3 extends Card {
     // Reap: You may destroy a creature with 3 power.
     setupCardAbilities(ability) {
         this.reap({
-            optional: true,
             target: {
+                optional: true,
                 cardType: 'creature',
                 cardCondition: (card) => card.power === 3,
                 gameAction: ability.actions.destroy()

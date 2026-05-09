@@ -5,12 +5,12 @@ class Chronus extends Card {
     // After you resolve a R bonus icon, you may archive a card.
     setupCardAbilities(ability) {
         this.reaction({
-            optional: true,
             when: {
                 onDrawCards: (event, context) =>
                     !!event.bonus && event.player === context.source.controller
             },
             target: {
+                optional: true,
                 controller: 'self',
                 location: 'hand',
                 gameAction: ability.actions.archive()

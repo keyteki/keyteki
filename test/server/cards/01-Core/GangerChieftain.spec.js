@@ -21,7 +21,6 @@ describe('Ganger Chieftain', function () {
             expect(this.troll.exhausted).toBe(true);
             expect(this.docBookton.location).toBe('discard');
             this.player1.playCreature(this.gangerChieftain, true);
-            this.player1.clickCard(this.gangerChieftain);
             expect(this.player1).toHavePrompt('Ganger Chieftain');
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.gangerChieftain);
@@ -38,7 +37,6 @@ describe('Ganger Chieftain', function () {
 
         it('should allow fighting with a non-house creature', function () {
             this.player1.play(this.gangerChieftain);
-            this.player1.clickCard(this.gangerChieftain);
             expect(this.player1).toHavePrompt('Ganger Chieftain');
             expect(this.player1).not.toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.gangerChieftain);
@@ -61,7 +59,6 @@ describe('Ganger Chieftain', function () {
             this.player1.clickCard(this.batdrone);
             expect(this.batdrone.location).toBe('discard');
             this.player1.playCreature(this.gangerChieftain, true);
-            this.player1.clickCard(this.gangerChieftain);
             expect(this.player1).toHavePrompt('Ganger Chieftain');
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).not.toBeAbleToSelect(this.gangerChieftain);
@@ -95,7 +92,6 @@ describe('Ganger Chieftain', function () {
             this.player2.reap(this.troll);
             expect(this.troll.exhausted).toBe(true);
             this.player2.playCreature(this.ganger1, true);
-            this.player2.clickCard(this.ganger1);
             expect(this.player2).toHavePrompt('Ganger Chieftain');
             expect(this.player2).toBeAbleToSelect(this.troll);
             expect(this.player2).not.toBeAbleToSelect(this.ganger1);
@@ -104,7 +100,6 @@ describe('Ganger Chieftain', function () {
             expect(this.troll.exhausted).toBe(false);
             expect(this.player2).isReadyToTakeAction();
             this.player2.playCreature(this.ganger2, true);
-            this.player2.clickCard(this.ganger2);
             expect(this.player2).toHavePrompt('Ganger Chieftain');
             expect(this.player2).not.toBeAbleToSelect(this.troll);
             expect(this.player2).not.toBeAbleToSelect(this.ganger2);
@@ -137,8 +132,7 @@ describe('Ganger Chieftain', function () {
             this.player1.reap(this.awakenedTitan);
             expect(this.awakenedTitan.exhausted).toBe(true);
             this.player1.playCreature(this.gangerChieftain, true);
-            expect(this.player1).toHavePrompt('Any reactions to Ganger Chieftain being played?');
-            this.player1.clickCard(this.gangerChieftain);
+            expect(this.player1).toHavePrompt('Ganger Chieftain');
             expect(this.player1).toBeAbleToSelect(this.awakenedTitan);
             this.player1.clickCard(this.awakenedTitan); // click to fail ready
             expect(this.awakenedTitan.exhausted).toBe(true);

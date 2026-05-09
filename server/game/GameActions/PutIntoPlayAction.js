@@ -36,8 +36,19 @@ class PutIntoPlayAction extends CardGameAction {
 
     // Gigantic creatures require 2 play allowances to play both halves.
     // Playing from hand always provides enough allowance.
-    canPutIntoPlayGigantic(context, card) {
+    canPutIntoPlayGigantic(_, card) {
         return card.location === 'hand' || this.numPlayAllowances >= 2;
+    }
+
+    // Returns whether the other half of a gigantic creature has the given
+    // printed keyword. Used during preEventHandler when composedPart isn't
+    // wired up yet, so card.hasKeyword() can't see the shared keyword.
+    giganticOtherHalfHasKeyword(card, keyword) {
+        if (!card.gigantic || !card.controller) {
+            return false;
+        }
+        const otherHalf = card.controller.allCards.find((c) => c.id === card.compositeId);
+        return !!(otherHalf && otherHalf.printedKeywords[keyword]);
     }
 
     preEventHandler(context) {
@@ -48,10 +59,31 @@ class PutIntoPlayAction extends CardGameAction {
             return;
         }
 
+        // Give abilities a chance to react to the card entering play *before*
+        // the redirect / controller checks and the positioning prompt
+        // (flank/deploy). This is the hook used by cards like Mimic Gel that
+        // need to choose a creature to copy before the card is placed — the
+        // copy effect can introduce a redirect (e.g. Alpha sending the card
+        // to deck), flip controller (e.g. treachery / `entersPlayUnderOpponentsControl`),
+        // or grant `deploy`, all of which must be reflected downstream.
+        context.game.raiseEvent(EVENTS.onCardEnteringPlay, {
+            card: card,
+            context: context
+        });
+
+        context.game.queueSimpleStep(() => this.resolveAfterEnteringPlay(card, context));
+    }
+
+    resolveAfterEnteringPlay(card, context) {
         // Check if creature should go to a different location instead of play
         // area - eg Mimic Gel and Alpha. If so, skip flank selection.
         const redirectLocation = card.mostRecentEffect('cardLocationAfterPlay');
         if (redirectLocation && redirectLocation !== 'play area') {
+            return;
+        }
+
+        // Abducted cards return to owner's hand when leaving archives - skip flank selection
+        if (card.abducted && card.location === 'archives') {
             return;
         }
 
@@ -92,7 +124,8 @@ class PutIntoPlayAction extends CardGameAction {
             if (
                 (card.anyEffect('enterPlayAnywhere', context) ||
                     this.deploy ||
-                    card.hasKeyword('deploy')) &&
+                    card.hasKeyword('deploy') ||
+                    this.giganticOtherHalfHasKeyword(card, 'deploy')) &&
                 player.creaturesInPlay.length > 1
             ) {
                 choices.push('Deploy Left');

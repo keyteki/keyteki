@@ -148,7 +148,6 @@ describe('Niffle Kong', function () {
 
             this.niffleKong.ready();
             this.player1.reap(this.niffleKong);
-            this.player1.clickCard(this.niffleKong);
             expect(this.player1).not.toBeAbleToSelect(this.fuzzyGruen);
             expect(this.player1).toBeAbleToSelect(this.niffleKong);
             expect(this.player1).toBeAbleToSelect(this.niffleApe1);
@@ -183,7 +182,6 @@ describe('Niffle Kong', function () {
 
             this.niffleKong2.ready();
             this.player1.fightWith(this.niffleKong2, this.zorg);
-            this.player1.clickCard(this.niffleKong2);
             this.player1.clickCard(this.niffleApe1);
             this.player1.clickCard(this.collectorWorm);
             this.player1.clickCard(this.mothergun);
@@ -204,7 +202,6 @@ describe('Niffle Kong', function () {
 
             this.niffleKong.ready();
             this.player1.reap(this.niffleKong);
-            this.player1.clickCard(this.niffleKong);
             this.player1.clickCard(this.niffleApe1);
             this.player1.clickCard(this.niffleKong);
             expect(this.player1.amber).toBe(2);
@@ -220,7 +217,6 @@ describe('Niffle Kong', function () {
 
             this.niffleKong2.ready();
             this.player1.fightWith(this.niffleKong2, this.zorg);
-            this.player1.clickCard(this.niffleKong2);
             this.player1.clickCard(this.niffleApe1);
             this.player1.clickCard(this.niffleKong2);
             expect(this.player1.amber).toBe(1);

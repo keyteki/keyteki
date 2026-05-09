@@ -5,8 +5,6 @@ import { useTranslation } from 'react-i18next';
 
 import Card from './Card';
 
-import './SquishableCardPanel.scss';
-
 const SquishableCardPanel = (props) => {
     const { i18n } = useTranslation();
     const cards = props.cards || [];
@@ -62,7 +60,7 @@ const SquishableCardPanel = (props) => {
                 key={card.uuid}
                 card={card}
                 cardBack={props.cardBack}
-                disableMouseOver={!card.name}
+                disableMouseOver={false}
                 canDrag={props.manualMode}
                 onClick={props.onCardClick}
                 onMouseOver={props.onMouseOver}
@@ -70,6 +68,9 @@ const SquishableCardPanel = (props) => {
                 size={props.cardSize}
                 style={style}
                 language={i18n.language}
+                hasActiveHouse={props.hasActiveHouse}
+                isMe={props.isMe}
+                isSpectating={props.isSpectating}
                 source={props.source}
             />
         );
@@ -82,7 +83,8 @@ const SquishableCardPanel = (props) => {
 
     const style = {
         width: `${overallDimensions.width}px`,
-        height: `${overallDimensions.height}px`
+        height: `${overallDimensions.height}px`,
+        ...(props.style || {})
     };
 
     return (
@@ -106,7 +108,11 @@ SquishableCardPanel.propTypes = {
     onCardClick: PropTypes.func,
     onMouseOut: PropTypes.func,
     onMouseOver: PropTypes.func,
+    hasActiveHouse: PropTypes.bool,
+    isMe: PropTypes.bool,
+    isSpectating: PropTypes.bool,
     source: PropTypes.string,
+    style: PropTypes.object,
     title: PropTypes.string
 };
 

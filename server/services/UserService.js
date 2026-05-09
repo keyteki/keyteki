@@ -1,7 +1,6 @@
 const moment = require('moment');
 const crypto = require('crypto');
 const EventEmitter = require('events');
-const uuid = require('uuid');
 
 const logger = require('../log');
 const User = require('../models/User');
@@ -400,7 +399,7 @@ class UserService extends EventEmitter {
             this.configService.getValueForSection('lobby', 'hmacSecret')
         );
 
-        let tokenId = uuid.v1();
+        let tokenId = crypto.randomUUID();
 
         let encodedToken = hmac.update(`REFRESH ${user.username} ${tokenId}`).digest('hex');
         let res = await db.query(

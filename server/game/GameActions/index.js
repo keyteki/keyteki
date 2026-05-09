@@ -1,7 +1,9 @@
 module.exports = {
+    AbductAction: require('./AbductAction'),
     ActivateProphecyAction: require('./ActivateProphecyAction'),
     AddEventToWindowAction: require('./AddEventToWindowAction'),
     AddTokenAction: require('./AddTokenAction'),
+    AllocateCaptureAction: require('./AllocateCaptureAction'),
     AllocateDamageAction: require('./AllocateDamageAction'),
     ArchiveAction: require('./ArchiveAction'),
     ApplyDamageAction: require('./ApplyDamageAction'),

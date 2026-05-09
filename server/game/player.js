@@ -156,6 +156,19 @@ class Player extends GameObject {
         return this.cardsInPlay.filter((card) => card.type === 'creature');
     }
 
+    /**
+     * Returns true if this player is overwhelmed, i.e. their opponent has more
+     * creatures in play than they do.
+     * @returns {boolean}
+     */
+    isOverwhelmed() {
+        if (!this.opponent) {
+            return false;
+        }
+
+        return this.opponent.creaturesInPlay.length > this.creaturesInPlay.length;
+    }
+
     get activeProphecies() {
         return this.prophecyCards.filter((card) => card.activeProphecy);
     }
@@ -542,6 +555,31 @@ class Player extends GameObject {
             card.purgedBy = null;
         }
 
+        // Abduct replacement effect: abducted cards go to their owner's hand
+        // instead of anywhere else when leaving archives. This is the single
+        // source of truth for the redirect; DiscardCardAction and PurgeAction
+        // delegate here by calling moveCard with their original target
+        // location ('discard' / 'purged') and rely on this block to redirect
+        // and emit the appropriate message.
+        if (location === 'archives' && card.abducted) {
+            if (targetLocation !== 'hand') {
+                let message = "{0} leaves {1}'s archives and is added to {2}'s hand";
+                if (targetLocation === 'discard') {
+                    message =
+                        "{0} leaves {1}'s archives and is added to {2}'s hand instead of being discarded";
+                } else if (targetLocation === 'purged') {
+                    message =
+                        "{0} leaves {1}'s archives and is added to {2}'s hand instead of being purged";
+                }
+                this.game.addMessage(message, card, card.controller, card.owner);
+                card.controller = card.owner;
+                targetLocation = 'hand';
+                targetPile = card.owner.getSourceList(targetLocation);
+            }
+            // Always clear the flag when leaving archives
+            card.abducted = false;
+        }
+
         // Clear wasComposed when the card moves to a new location.
         // This flag only applies within the zone where the gigantic landed after separation.
         if (card.wasComposed) {
@@ -567,8 +605,10 @@ class Player extends GameObject {
             return;
         } else if (card.location === 'archives' && card.controller !== card.owner) {
             this.game.addMessage(
-                `{0} leaves the archives and will be returned its owner hand`,
-                card
+                "{0} leaves {1}'s archives and is added to {2}'s hand",
+                card,
+                card.controller,
+                card.owner
             );
 
             card.controller = card.owner;
@@ -852,7 +892,25 @@ class Player extends GameObject {
             (total, source) => total + this.getAmberValueFromSource(source),
             0
         );
-        return this.amber + alternativeSources >= this.getCurrentKeyCost() + modifier;
+        return (
+            this.amber + alternativeSources + this.getMaxAmberFromOpponentPool() >=
+            this.getCurrentKeyCost() + modifier
+        );
+    }
+
+    getMaxAmberFromOpponentPool() {
+        if (!this.opponent) {
+            return 0;
+        }
+        const totalCap = this.cardsInPlay.reduce(
+            (sum, card) =>
+                sum +
+                card
+                    .getEffects('forgeWithOpponentsAmber')
+                    .reduce((max, value) => Math.max(max, value), 0),
+            0
+        );
+        return Math.min(totalCap, this.opponent.amber);
     }
 
     getCurrentKeyCost() {
@@ -870,16 +928,69 @@ class Player extends GameObject {
             (total, source) => total + this.getAmberValueFromSource(source),
             0
         );
-        // Track pending selections - sources are consumed only when key is forged
-        const pendingSelections = { tokens: [], cards: [] };
-        this.chooseAmberSource(
-            amberSources,
-            totalAvailable,
-            cost,
-            cost,
-            keyColor,
-            pendingSelections
-        );
+        const opponentPoolSources = this.opponent
+            ? this.cardsInPlay
+                  .map((card) => ({
+                      card,
+                      max: card
+                          .getEffects('forgeWithOpponentsAmber')
+                          .reduce((max, value) => Math.max(max, value), 0)
+                  }))
+                  .filter((entry) => entry.max > 0)
+            : [];
+        const maxFromPool = Math.min(this.getMaxAmberFromOpponentPool(), cost);
+        const minFromPool = Math.max(0, cost - this.amber - totalAvailable);
+        const proceed = (fromOpponentPool) => {
+            const pendingSelections = {
+                tokens: [],
+                cards: [],
+                opponentPoolAmber: fromOpponentPool
+            };
+            this.chooseAmberSource(
+                amberSources,
+                totalAvailable,
+                cost - fromOpponentPool,
+                cost,
+                keyColor,
+                pendingSelections
+            );
+        };
+        const promptForOpponentPoolSource = (index, takenSoFar) => {
+            if (index >= opponentPoolSources.length) {
+                proceed(takenSoFar);
+                return;
+            }
+            const { card, max } = opponentPoolSources[index];
+            const budgetRemaining = Math.max(0, maxFromPool - takenSoFar);
+            const opponentRemaining = this.opponent.amber - takenSoFar;
+            const sourceMax = Math.min(max, opponentRemaining, budgetRemaining);
+            const remainingSourcesMax = opponentPoolSources
+                .slice(index + 1)
+                .reduce((sum, entry) => sum + entry.max, 0);
+            const otherSourcesMaxAvailable = Math.min(
+                remainingSourcesMax,
+                opponentRemaining,
+                budgetRemaining
+            );
+            const stillNeeded = Math.max(0, minFromPool - takenSoFar);
+            const sourceMin = Math.max(0, stillNeeded - otherSourcesMaxAvailable);
+            if (sourceMax === 0 || sourceMin === sourceMax) {
+                promptForOpponentPoolSource(index + 1, takenSoFar + sourceMax);
+                return;
+            }
+            this.game.promptWithHandlerMenu(this, {
+                activePromptTitle: "How much amber do you want to spend from your opponent's pool?",
+                source: card,
+                choices: _.range(sourceMin, sourceMax + 1).map(String),
+                choiceHandler: (choice) =>
+                    promptForOpponentPoolSource(index + 1, takenSoFar + parseInt(choice, 10))
+            });
+        };
+        if (maxFromPool > 0) {
+            promptForOpponentPoolSource(0, 0);
+        } else {
+            proceed(0);
+        }
         return cost;
     }
 
@@ -1149,6 +1260,17 @@ class Player extends GameObject {
     }
 
     finalizeForge(key, modifiedCost, cost, pendingSelections) {
+        // Consume amber from opponent's pool (eg. Honorable Abagnale)
+        if (pendingSelections.opponentPoolAmber > 0 && this.opponent) {
+            this.opponent.modifyAmber(-pendingSelections.opponentPoolAmber);
+            this.game.addMessage(
+                "{0} spends {1} amber from {2}'s pool to forge a key",
+                this,
+                pendingSelections.opponentPoolAmber,
+                this.opponent
+            );
+        }
+
         // Consume pending token selections
         for (const tokenSelection of pendingSelections.tokens) {
             tokenSelection.source.removeToken('amber', tokenSelection.amount);
