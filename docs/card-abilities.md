@@ -295,6 +295,20 @@ this.reaction({
 });
 ```
 
+#### `autoResolve` option
+
+Set `autoResolve: true` on a `reaction()` or `interrupt()` when the ability should not prompt the player to pick an order **among multiple instances of the same ability** firing simultaneously. The engine will auto-resolve consecutive choices that all come from the same ability, then return to normal prompting for any other queued triggers. This is appropriate for triggers whose individual resolutions are independent and whose order is irrelevant to the outcome (e.g. each instance hits a different mandatory target).
+
+```javascript
+this.reaction({
+    when: { onTurnEnded: (event, context) => event.player === context.player.opponent },
+    autoResolve: true,
+    gameAction: ability.actions.discardTopOfDeck()
+});
+```
+
+`autoResolve` does **not** override the player's `orderForcedAbilities` option for choices between _different_ abilities — it only collapses the same-ability prompt.
+
 ### interrupt()
 
 Abilities that trigger before an event resolves, potentially modifying or preventing it.
@@ -551,3 +565,55 @@ The `then` block supports:
 -   `alwaysTriggers: true` - The "then" effect triggers even if the main effect didn't fully resolve
 -   `condition` - Additional condition for the "then" effect
 -   `may` - Prompt text if the player can choose whether to do the "then" effect
+
+#### "If you do" Clauses
+
+When card text says "If you do, ...", the follow-up effect must trigger **only if the preceding effect actually happened**. By default, a `then` block is already gated by whether the prior `gameAction`'s events resolved uncancelled, so simple cases work automatically:
+
+```javascript
+// Sacrifice this artifact. If you do, gain 2A.
+this.omni({
+    gameAction: ability.actions.sacrifice(),
+    then: {
+        gameAction: ability.actions.gainAmber({ amount: 2 })
+    }
+});
+```
+
+For chained "If you do" clauses (e.g. "Capture 2A. You may discard a card. If you do, ..."), each clause's condition must verify what really happened, not the final card state. Common pitfalls:
+
+-   **Don't infer success from card state.** `source.hasToken('amber')` is true even if amber was already on the card before the ability resolved — it does not prove a capture succeeded this turn.
+-   **Inspect `preThenEvents` for the actual events.** Each event has a `name` and result fields (e.g. `amount` for `onCapture`). Use these to confirm the effect occurred at the required magnitude.
+-   **Check optional target selection with `!!preThenContext.target`.** When `target.optional` is true, `target` is empty/falsy if the player declined.
+
+```javascript
+// After Reap: Capture 2A. You may discard a card.
+// If you do, move 1A from this creature to your pool.
+this.reap({
+    gameAction: ability.actions.capture({ amount: 2 }),
+    then: {
+        alwaysTriggers: true,
+        target: {
+            optional: true,
+            location: 'hand',
+            controller: 'self',
+            gameAction: ability.actions.discard()
+        },
+        then: (preThenContext) => ({
+            condition: () =>
+                // Both clauses of "If you do" must be satisfied:
+                !!preThenContext.target && // a card was actually discarded
+                preThenContext.preThenEvents.some(
+                    (event) => event.name === 'onCapture' && event.amount === 2
+                ), // and the capture was the full 2 amber
+            gameAction: ability.actions.returnAmber({
+                target: preThenContext.source,
+                amount: 1,
+                recipient: preThenContext.player
+            })
+        })
+    }
+});
+```
+
+Note that `alwaysTriggers: true` is needed on the outer `then` so the optional-discard prompt still appears even when the capture event was cancelled or partial — but the inner `then`'s `condition` then ensures the final effect is gated correctly.

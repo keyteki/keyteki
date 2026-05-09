@@ -8,7 +8,7 @@ describe('Hebe the Huge', function () {
                     inPlay: ['troll', 'bumpsy']
                 },
                 player2: {
-                    inPlay: ['bumpsy', 'ember-imp']
+                    inPlay: ['krump', 'ember-imp']
                 }
             });
             this.troll.damage = 1;
@@ -18,7 +18,7 @@ describe('Hebe the Huge', function () {
             this.player1.play(this.hebeTheHuge);
             expect(this.troll.damage).toBe(1);
             expect(this.bumpsy.damage).toBe(2);
-            expect(this.bumpsy.damage).toBe(2);
+            expect(this.krump.damage).toBe(2);
             expect(this.emberImp.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });

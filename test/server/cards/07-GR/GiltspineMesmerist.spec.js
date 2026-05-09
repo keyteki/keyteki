@@ -19,7 +19,6 @@ describe('Giltspine Mesmerist', function () {
             this.player1.playCreature(this.kaupe);
             this.player1.play(this.frigorificRod);
             this.player1.endTurn();
-            this.player1.clickPrompt('Autoresolve');
             expect(this.player1.player.discard.length).toBe(3);
             this.player2.clickPrompt('staralliance');
             this.player2.reap(this.awayTeam);
