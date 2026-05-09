@@ -108,7 +108,6 @@
         "react-responsive-carousel": "^3.2.18",
         "react-router-dom": "^6.22.3",
         "react-select": "^5.10.2",
-        "react-toastify": "^11.0.5",
         "react-transition-group": "^4.4.5",
         "redis": "^5.11.0",
         "redux": "^5.0.1",
