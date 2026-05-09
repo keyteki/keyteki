@@ -1018,5 +1018,259 @@ describe('Mimic Gel', function () {
         });
     });
 
-    // TODO: Pale start
+    // TODO: melerukh pale star is permanently 1 power
+    describe('Mimic Gel copying an artifact animated by Animating Force', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    inPlay: ['library-of-babble'],
+                    hand: ['mimic-gel', 'animating-force']
+                },
+                player2: {}
+            });
+        });
+
+        it('should copy 4 power, versatile, and the original artifact text box', function () {
+            this.player1.clickCard(this.animatingForce);
+            this.player1.clickPrompt('Play this upgrade');
+            this.player1.clickCard(this.libraryOfBabble);
+            this.player1.clickPrompt('Right');
+            expect(this.libraryOfBabble.type).toBe('creature');
+            expect(this.libraryOfBabble.power).toBe(4);
+            expect(this.libraryOfBabble.hasKeyword('versatile')).toBe(true);
+
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            this.player1.clickPrompt('logos');
+
+            this.player1.playCreature(this.mimicGel);
+            this.player1.clickCard(this.libraryOfBabble);
+            this.player1.clickPrompt('Left');
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.type).toBe('creature');
+            expect(this.mimicGel.power).toBe(4);
+            expect(this.mimicGel.hasKeyword('versatile')).toBe(true);
+
+            // Library of Babble's printed text lets you draw a card via its
+            // Action ability. Reaping gives the standard +1 amber.
+            this.mimicGel.ready();
+            this.player1.clickCard(this.mimicGel);
+            const handSize = this.player1.hand.length;
+            this.player1.clickPrompt("Use this card's Action ability");
+            expect(this.player1.hand.length).toBe(handSize + 1);
+
+            this.mimicGel.ready();
+            this.player1.reap(this.mimicGel);
+            expect(this.player1.amber).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Mimic Gel copying an artifact animated by Animator', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['animator', 'dominator-bauble'],
+                    hand: ['mimic-gel']
+                },
+                player2: {}
+            });
+        });
+
+        it('should copy 3 power but override the house to Logos', function () {
+            this.player1.useAction(this.animator);
+            this.player1.clickCard(this.dominatorBauble);
+            this.player1.clickPrompt('Right');
+            expect(this.dominatorBauble.type).toBe('creature');
+            expect(this.dominatorBauble.power).toBe(3);
+            expect(this.dominatorBauble.hasHouse('logos')).toBe(true);
+
+            this.player1.playCreature(this.mimicGel);
+            this.player1.clickCard(this.dominatorBauble);
+            this.player1.clickPrompt('Left');
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.type).toBe('creature');
+            expect(this.mimicGel.power).toBe(3);
+            expect(this.mimicGel.hasHouse('logos')).toBe(true);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Mimic Gel copying The Mysticeti as a creature', function () {
+        function transformMysticeti(t) {
+            t.player1.useAction(t.theMysticeti);
+            t.player1.clickCard(t.dustPixie);
+            t.player1.clickCard(t.bumblebird);
+            t.player1.clickPrompt('Done');
+            t.player1.clickCard(t.dustPixie);
+            t.player1.clickPrompt('Left');
+        }
+
+        function nextTurn(t, player2House) {
+            t.player1.endTurn();
+            t.player2.clickPrompt(player2House);
+            t.player2.endTurn();
+            t.player1.clickPrompt('logos');
+        }
+
+        describe('with no support', function () {
+            beforeEach(function () {
+                this.setupTest({
+                    player1: {
+                        house: 'untamed',
+                        inPlay: ['the-mysticeti', 'dust-pixie', 'bumblebird'],
+                        hand: ['mimic-gel']
+                    },
+                    player2: {}
+                });
+            });
+
+            it('should copy as a 0-power creature with taunt and no power counters and immediately die', function () {
+                transformMysticeti(this);
+                expect(this.theMysticeti.type).toBe('creature');
+                expect(this.theMysticeti.power).toBe(6);
+                expect(this.theMysticeti.powerCounters).toBe(6);
+                expect(this.theMysticeti.hasKeyword('taunt')).toBe(true);
+
+                nextTurn(this, 'untamed');
+
+                this.player1.playCreature(this.mimicGel);
+                this.player1.clickCard(this.theMysticeti);
+                this.player1.clickPrompt('Left');
+                // No copy power counters; 0 power means it dies immediately.
+                expect(this.mimicGel.location).toBe('discard');
+                expect(this.player1).isReadyToTakeAction();
+            });
+        });
+
+        describe("with Haedroth's Wall on the same flank", function () {
+            beforeEach(function () {
+                this.setupTest({
+                    player1: {
+                        house: 'untamed',
+                        inPlay: ['the-mysticeti', 'dust-pixie', 'bumblebird', 'haedroth-s-wall'],
+                        hand: ['mimic-gel']
+                    },
+                    player2: {}
+                });
+            });
+
+            it('should be saved by the +2 power buff', function () {
+                transformMysticeti(this);
+                nextTurn(this, 'sanctum');
+
+                this.player1.playCreature(this.mimicGel);
+                this.player1.clickCard(this.theMysticeti);
+                this.player1.clickPrompt('Left');
+                expect(this.mimicGel.location).toBe('play area');
+                expect(this.mimicGel.power).toBe(2); // 0 + 2 from Haedroth's Wall
+                expect(this.mimicGel.hasKeyword('taunt')).toBe(true);
+                expect(this.player1).isReadyToTakeAction();
+            });
+        });
+
+        describe('with The Pale Star active', function () {
+            beforeEach(function () {
+                this.setupTest({
+                    player1: {
+                        house: 'untamed',
+                        inPlay: ['the-mysticeti', 'dust-pixie', 'bumblebird', 'the-pale-star'],
+                        hand: ['mimic-gel']
+                    },
+                    player2: {}
+                });
+            });
+
+            it('should be momentarily saved this turn by Pale Star setting all power to 1', function () {
+                transformMysticeti(this);
+                nextTurn(this, 'untamed');
+
+                this.player1.useOmni(this.thePaleStar);
+
+                this.player1.playCreature(this.mimicGel);
+                this.player1.clickCard(this.theMysticeti);
+                this.player1.clickPrompt('Left');
+                // Pale Star sets all creatures to 1 power until end of turn.
+                expect(this.mimicGel.location).toBe('play area');
+                expect(this.mimicGel.power).toBe(1);
+                this.player1.endTurn();
+                this.player2.clickPrompt('untamed');
+                // At the start of the next turn, without Pale Star's effect, Mimic Gel should die.
+                expect(this.mimicGel.location).toBe('discard');
+                expect(this.player2).isReadyToTakeAction();
+            });
+        });
+    });
+
+    describe('Mimic Gel put into play', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'untamed',
+                    inPlay: ['soul-snatcher'],
+                    hand: ['æmberlution', 'mimic-gel', 'dextre']
+                },
+                player2: {}
+            });
+        });
+
+        it('with no other creatures available should enter play with 0 power, immediately die, and trigger Soul Snatcher', function () {
+            this.player1.play(this.æmberlution);
+            this.player1.clickCard(this.mimicGel);
+            expect(this.mimicGel.location).toBe('discard');
+            expect(this.dextre.location).toBe('play area');
+            expect(this.player1.amber).toBe(1);
+            this.player2.clickPrompt('untamed');
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('with other creatures available should enter play as a copy of another creature', function () {
+            this.player1.play(this.æmberlution);
+            // Choose put-into-play order: Dextre first.
+            this.player1.clickCard(this.dextre);
+            // Mimic Gel is put into play next; the `onCardEnteringPlay`
+            // reaction fires before the flank prompt, so we choose the
+            // creature to copy first, then the flank.
+            expect(this.player1).toHavePrompt('Mimic Gel');
+            this.player1.clickCard(this.dextre);
+            this.player1.clickPrompt('Left');
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Dextre');
+            expect(this.player1.amber).toBe(0);
+            this.player2.clickPrompt('untamed');
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
+
+    describe('Mimic Gel copying a treachery creature', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['mimic-gel'],
+                    inPlay: ['ragatha']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+        });
+
+        it('should enter play under the opponents control', function () {
+            // Ragatha has treachery. After Mimic Gel copies it, Mimic Gel
+            // gains the treachery keyword, which makes it enter play under
+            // the opponent's control.
+            this.player1.playCreature(this.mimicGel);
+            this.player1.clickCard(this.ragatha);
+            this.player1.clickPrompt('Left');
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Ragatha');
+            expect(this.mimicGel.controller).toBe(this.player2.player);
+            expect(this.mimicGel.hasKeyword('treachery')).toBe(true);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
