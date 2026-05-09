@@ -16,7 +16,6 @@ describe('Growland', function () {
 
         it('should allow destroying a Mutant creature after fighting', function () {
             this.player1.fightWith(this.growland, this.urchin);
-            this.player1.clickCard(this.growland);
             expect(this.player1).toBeAbleToSelect(this.growland);
             expect(this.player1).toBeAbleToSelect(this.fandangle);
             expect(this.player1).not.toBeAbleToSelect(this.yurk);
@@ -30,7 +29,6 @@ describe('Growland', function () {
 
         it('should allow destroying a Mutant creature after reaping', function () {
             this.player1.reap(this.growland);
-            this.player1.clickCard(this.growland);
             this.player1.clickCard(this.citizenShrix);
             expect(this.citizenShrix.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();

@@ -454,7 +454,30 @@ this.play({
 
 ### Optional
 
-Use `optional: true` when the card text says "you may" to let the player choose whether to use the ability:
+Use `optional: true` when the card text says "you may" to let the player choose whether to use the ability.
+
+**For "you may" abilities with a single card target, put `optional: true` inside the `target` block, not on the ability:**
+
+```javascript
+// Play: You may deal 2 damage to a creature.
+this.play({
+    target: {
+        optional: true,
+        cardType: 'creature',
+        gameAction: ability.actions.dealDamage({ amount: 2 })
+    }
+});
+```
+
+This shows the target prompt directly with a "Done" button to decline. Putting `optional: true` at the ability level on a `play`/`fight`/`reap` with a single `target:` instead generates an extra "Any reactions?" opt-in step that requires the player to click the source card before they can pick a target — worse UX.
+
+**Use ability-level `optional: true` when:**
+
+-   The ability has no `target:` block (e.g., "you may exalt this creature", "you may forge a key").
+-   The ability has a `then:` and the player should be able to atomically decline both the target and the `then` effect (e.g., Nirbor Flamewing).
+-   The ability uses `targets:` (plural) with multiple targets, and declining should skip all of them together.
+-   The ability uses `mode: 'house'` or `mode: 'select'` (a choice prompt rather than a card-target prompt).
+-   The ability is a triggered `reaction` / `interrupt` where the global "Any reactions?" prompt is the desired UX (so the target prompt doesn't pop up every time the trigger fires).
 
 ```javascript
 // Play: You may exalt Dino-Knight. If you do, deal 3D to a creature.
