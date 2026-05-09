@@ -165,14 +165,6 @@ const Card = ({
         return true;
     };
 
-    const isFacedown = () => {
-        // Hover/zoom is allowed whenever the server sent us full card data
-        // (i.e. a name). Cards under our own permanents (Masterplan, Jargogle,
-        // etc.) are facedown to opponents but visible to the controller, so
-        // the controller's summary includes the name and we should preview it.
-        return !card.name;
-    };
-
     const getDragFrame = (image) => {
         if (!isDragging) {
             return null;
@@ -252,14 +244,16 @@ const Card = ({
                 <div
                     className={cardClass}
                     onMouseOver={
-                        !disableMouseOver && !isFacedown() && onMouseOver
+                        !disableMouseOver && onMouseOver
                             ? () =>
                                   onMouseOver({
                                       image: (
                                           <CardImage
                                               card={{
                                                   ...(card.versusCard || card),
-                                                  facedown: false,
+                                                  // Opponent's facedown cards have no name in the
+                                                  // summary; render the cardback in that case.
+                                                  facedown: !card.name,
                                                   location: 'zoom'
                                               }}
                                               cardBack={cardBack}
@@ -269,7 +263,7 @@ const Card = ({
                                   })
                             : undefined
                     }
-                    onMouseOut={!disableMouseOver && !isFacedown() ? onMouseOut : undefined}
+                    onMouseOut={!disableMouseOver ? onMouseOut : undefined}
                     onClick={(event) => onCardClicked(event, card)}
                 >
                     <div>

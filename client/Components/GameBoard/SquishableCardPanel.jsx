@@ -60,7 +60,7 @@ const SquishableCardPanel = (props) => {
                 key={card.uuid}
                 card={card}
                 cardBack={props.cardBack}
-                disableMouseOver={!card.name}
+                disableMouseOver={false}
                 canDrag={props.manualMode}
                 onClick={props.onCardClick}
                 onMouseOver={props.onMouseOver}
