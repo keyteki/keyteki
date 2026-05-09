@@ -72,10 +72,12 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
     const englishImageUrl = `/img/cards/${
         halfSize ? 'halfSize/' : ''
     }${imageName}.${imageExtension}`;
+    const isHouselessByNumber = /^[ARS]/.test(String(card?.number ?? ''));
     const shouldRenderCanvas =
         Boolean(card?.maverick) ||
         Boolean(card?.anomaly) ||
         (card?.id && houselessCards.includes(card.id)) ||
+        isHouselessByNumber ||
         (Array.isArray(card?.enhancements) && card.enhancements.length > 0) ||
         card?.location === 'play area' ||
         card?.location === 'zoom';
