@@ -1018,7 +1018,6 @@ describe('Mimic Gel', function () {
         });
     });
 
-    // TODO: melerukh pale star is permanently 1 power
     describe('Mimic Gel copying an artifact animated by Animating Force', function () {
         beforeEach(function () {
             this.setupTest({
@@ -1271,6 +1270,40 @@ describe('Mimic Gel', function () {
             expect(this.mimicGel.controller).toBe(this.player2.player);
             expect(this.mimicGel.hasKeyword('treachery')).toBe(true);
             expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Mimic Gel copying a creature with an upgrade-granted keyword', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: ['flame-wreathed', 'mimic-gel'],
+                    inPlay: ['troll']
+                },
+                player2: {}
+            });
+        });
+
+        it('should not copy keywords granted by upgrades on the copied creature', function () {
+            // Attach Flame-Wreathed to Troll so Troll has hazardous 2 via the
+            // upgrade's `whileAttached` effect (not its printed text).
+            this.player1.playUpgrade(this.flameWreathed, this.troll);
+            expect(this.troll.hasKeyword('hazardous')).toBe(true);
+
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            this.player1.clickPrompt('logos');
+
+            this.player1.playCreature(this.mimicGel);
+            this.player1.clickCard(this.troll);
+            this.player1.clickPrompt('Left');
+
+            expect(this.mimicGel.location).toBe('play area');
+            expect(this.mimicGel.name).toBe('Mimic Gel as Troll');
+            expect(this.mimicGel.power).toBe(8);
+            expect(this.mimicGel.hasKeyword('hazardous')).toBe(false);
         });
     });
 });

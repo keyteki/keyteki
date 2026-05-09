@@ -12,12 +12,6 @@ class MimicGel extends Card {
             effect: ability.effects.cardCannot('play')
         });
 
-        // Mimic Gel chooses a creature to copy as it enters play, regardless
-        // of whether it was played or put into play by another effect. The
-        // `onCardEnteringPlay` event fires before any positioning prompt
-        // (e.g. flank choice), and before the card actually moves to the
-        // play area, so the copy effect can land before the state check
-        // that would otherwise destroy a 0-power Mimic Gel.
         this.reaction({
             when: {
                 onCardEnteringPlay: (event, context) => event.card === context.source
