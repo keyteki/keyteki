@@ -59,7 +59,7 @@ class AbilityTargetCard extends AbilityTarget {
             context.stage !== 'pretarget' &&
             this.selector instanceof SingleCardSelector &&
             !Optional.EvalOptional(context, this.properties.optional) &&
-            !context.player?.optionSettings?.orderForcedAbilities
+            !context.game.activePlayer?.optionSettings?.orderForcedAbilities
         ) {
             let legalTargets = this.selector.getAllLegalTargets(context);
             if (legalTargets.length === 1) {
