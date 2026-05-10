@@ -42,4 +42,35 @@ describe('Mass Abduction', function () {
             expect(this.player1.archives).toContain(this.dextre);
         });
     });
+
+    describe('Mass Abduction with Yzphyz Knowdrone', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    hand: ['mass-abduction', 'yzphyz-knowdrone'],
+                    inPlay: ['zorg']
+                },
+                player2: {
+                    inPlay: ['troll', 'bumpsy']
+                }
+            });
+            this.troll.damage = 1;
+            this.bumpsy.damage = 1;
+        });
+
+        it('should return abducted creatures to owner hand when purged', function () {
+            this.player1.play(this.massAbduction);
+            this.player1.clickCard(this.troll);
+            this.player1.clickCard(this.bumpsy);
+            this.player1.clickPrompt('Done');
+            expect(this.player1.archives).toContain(this.troll);
+            expect(this.player1.archives).toContain(this.bumpsy);
+            this.player1.play(this.yzphyzKnowdrone);
+            this.player1.clickCard(this.troll);
+            expect(this.troll.location).toBe('hand');
+            expect(this.player2.hand).toContain(this.troll);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

@@ -59,7 +59,7 @@ class HarmonicPack extends Card {
                         message: '{0} uses {1} to {3}discard {4}',
                         messageArgs: (context) => [
                             preThenContext.targets.creature && dealtFullDamage()
-                                ? 'deal 3 more damage and '
+                                ? `deal 3 more damage to ${preThenContext.targets.creature.name} and `
                                 : '',
                             context.preThenEvent.card
                         ]

@@ -89,15 +89,39 @@ class PurgeAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent(EVENTS.onCardPurged, { card: card, context: context }, () => {
-            if (card.location === 'play area') {
-                context.game.raiseEvent(EVENTS.onCardLeavesPlay, { card, context }, () =>
-                    this.purge(card)
-                );
-            } else {
-                this.purge(card);
+        // Snapshot the origin location at event creation time so that the
+        // abduct replacement decision (below) is fixed by the rules-intent
+        // "when this card would be purged from archives" — not by where the
+        // card may end up if an intervening effect moves it before this
+        // event resolves.
+        const location = card.location;
+        const event = super.createEvent(
+            EVENTS.onCardPurged,
+            { card: card, context: context, replaced: false },
+            () => {
+                // Abduct replacement: uses the captured origin location so a
+                // card pulled out of archives by another effect in the same
+                // window still gets redirected to hand as the rules require.
+                if (location === 'archives' && card.abducted) {
+                    card.controller.moveCard(card, 'purged');
+                    event.replaced = true;
+                    return;
+                }
+
+                // onCardLeavesPlay uses the current location: only fire it if
+                // the card is still in play at resolution time, since an
+                // earlier effect in the same window may have already moved
+                // it out (and raised onCardLeavesPlay then).
+                if (card.location === 'play area') {
+                    context.game.raiseEvent(EVENTS.onCardLeavesPlay, { card, context }, () =>
+                        this.purge(card)
+                    );
+                } else {
+                    this.purge(card);
+                }
             }
-        });
+        );
+        return event;
     }
 }
 

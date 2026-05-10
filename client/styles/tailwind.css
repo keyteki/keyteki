@@ -1121,12 +1121,17 @@ pre {
 }
 
 .card-zoom > img,
-.card-zoom > canvas {
+.card-zoom > canvas,
+.card-zoom canvas {
   width: 100% !important;
   height: 100% !important;
   max-width: 100% !important;
   max-height: 100% !important;
   display: block;
+}
+.card-zoom > div {
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .overlay {
@@ -2076,7 +2081,8 @@ pre {
 .squishable-card-panel {
   display: flex;
   justify-content: flex-start;
-  margin: 0px 5px;
+  margin-left: 5px;
+  margin-right: 5px;
   min-height: 0;
   padding: 0px;
   position: relative;

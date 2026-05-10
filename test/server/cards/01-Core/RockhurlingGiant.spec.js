@@ -17,14 +17,11 @@ describe('Rock-Hurling Giant', function () {
             this.player1.clickPrompt('brobnar');
             this.player1.clickCard(this.troll);
             this.player1.clickPrompt('Discard this card');
-            expect(this.player1).toHavePrompt('Triggered Abilities');
-            this.player1.clickCard(this.rockHurlingGiant);
             expect(this.player1).toHavePrompt('Rock-Hurling Giant');
             this.player1.clickCard(this.valdr);
             expect(this.valdr.damage).toBe(4);
             this.player1.clickCard(this.lootTheBodies);
             this.player1.clickPrompt('Discard this card');
-            this.player1.clickCard(this.rockHurlingGiant);
             this.player1.clickCard(this.valdr);
             expect(this.valdr.location).toBe('discard');
         });
@@ -36,7 +33,7 @@ describe('Rock-Hurling Giant', function () {
             this.player1.clickCard(this.troll);
             expect(this.player1).toHavePrompt('Sloppy Labwork');
             this.player1.clickCard(this.lootTheBodies);
-            expect(this.player1).toHavePrompt('Triggered Abilities');
+            expect(this.player1).toHavePrompt('Rock-Hurling Giant');
         });
 
         it("should not trigger during opponent's turn", function () {

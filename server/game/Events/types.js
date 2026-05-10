@@ -190,6 +190,19 @@ const EVENTS = /** @type {const} */ ({
     onCardEntersPlay: 'onCardEntersPlay',
 
     /**
+     * Triggered while a card is in the process of entering play, before
+     * positioning prompts (e.g. flank choice) are resolved. Used by abilities
+     * that must apply effects to the entering card before it actually lands
+     * in the play area (e.g. Mimic Gel choosing a creature to copy).
+     *
+     * Params:
+     * * `card` — The {@link Card} that's about to enter play.
+     *
+     * @see PutIntoPlayAction
+     */
+    onCardEnteringPlay: 'onCardEnteringPlay',
+
+    /**
      * Triggered when a card is being exhausted, either through a card effect or
      * as the cost of using a card or removing a stun. Does not trigger when a
      * card enters play exhausted.

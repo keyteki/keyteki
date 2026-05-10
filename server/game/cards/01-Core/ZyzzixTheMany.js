@@ -5,7 +5,6 @@ class ZyzzixTheMany extends Card {
     setupCardAbilities(ability) {
         this.fight({
             reap: true,
-            optional: true,
             target: {
                 optional: true,
                 cardType: 'creature',

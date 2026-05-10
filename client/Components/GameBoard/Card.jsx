@@ -119,6 +119,14 @@ const Card = ({
         }
 
         let maxCards = 1 + (underneathCards.length - 1) / 6;
+        // Each upgrade adds an effective -15px to the wrapper's vertical flow,
+        // which would pull the underneath panel up by 15px per upgrade and eat
+        // into the bottom peek. Visually translate it back down so the peek is
+        // preserved regardless of upgrade count.
+        const upgradeOffset = (card.upgrades?.length || 0) * 15 * getCardSizeMultiplier();
+        const underneathStyle = upgradeOffset
+            ? { transform: `translateY(${upgradeOffset}px)` }
+            : undefined;
         return (
             <SquishableCardPanel
                 cardBack={cardBack}
@@ -132,6 +140,7 @@ const Card = ({
                 hasActiveHouse={hasActiveHouse}
                 isMe={isMe}
                 source='underneath'
+                style={underneathStyle}
             />
         );
     };
@@ -154,10 +163,6 @@ const Card = ({
         }
 
         return true;
-    };
-
-    const isFacedown = () => {
-        return card.facedown || !card.name;
     };
 
     const getDragFrame = (image) => {
@@ -239,13 +244,16 @@ const Card = ({
                 <div
                     className={cardClass}
                     onMouseOver={
-                        !disableMouseOver && !isFacedown() && onMouseOver
+                        !disableMouseOver && onMouseOver
                             ? () =>
                                   onMouseOver({
                                       image: (
                                           <CardImage
                                               card={{
                                                   ...(card.versusCard || card),
+                                                  // Opponent's facedown cards have no name in the
+                                                  // summary; render the cardback in that case.
+                                                  facedown: !card.name,
                                                   location: 'zoom'
                                               }}
                                               cardBack={cardBack}
@@ -255,7 +263,7 @@ const Card = ({
                                   })
                             : undefined
                     }
-                    onMouseOut={!disableMouseOver && !isFacedown() ? onMouseOut : undefined}
+                    onMouseOut={!disableMouseOver ? onMouseOut : undefined}
                     onClick={(event) => onCardClicked(event, card)}
                 >
                     <div>

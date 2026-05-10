@@ -31,7 +31,9 @@ class ParallelThinking extends Card {
             })),
             then: {
                 condition: (context) => {
-                    const cards = context.preThenEvents.map((event) => event.card);
+                    const cards = context.preThenEvents
+                        .filter((event) => !event.replaced)
+                        .map((event) => event.card);
                     return (
                         context.player.opponent &&
                         cards.length === 2 &&
