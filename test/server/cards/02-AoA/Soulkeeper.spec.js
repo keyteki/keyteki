@@ -99,7 +99,7 @@ describe('Soulkeeper', function () {
         });
     });
 
-    describe('when the most powerful enemy creature is tagged for destruction (#1028)', function () {
+    describe('when the most powerful enemy creature is tagged for destruction', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
@@ -126,7 +126,7 @@ describe('Soulkeeper', function () {
         });
     });
 
-    describe('when one of multiple most-powerful creatures is tagged for destruction (#1028)', function () {
+    describe('when one of multiple most-powerful creatures is tagged for destruction', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
