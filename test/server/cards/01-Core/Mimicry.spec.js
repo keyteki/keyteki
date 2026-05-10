@@ -274,4 +274,65 @@ describe('Mimicry', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('Mimicry with Master the Theory (with damage bonus icon)', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'untamed',
+                    hand: ['mimicry', 'combat-pheromones', 'soft-landing'],
+                    inPlay: ['dust-pixie']
+                },
+                player2: {
+                    inPlay: ['mindwarper', 'zorg'],
+                    discard: ['master-the-theory']
+                }
+            });
+            this.masterTheTheory.enhancements = ['damage'];
+        });
+
+        it("should re-evaluate the gained play's condition after the bonus icon resolves", function () {
+            this.player1.play(this.mimicry);
+            this.player1.clickCard(this.masterTheTheory);
+            expect(this.player1).toHavePrompt('Choose a creature to damage due to bonus icon');
+            this.player1.clickCard(this.dustPixie);
+            expect(this.dustPixie.location).toBe('discard');
+            // Now no friendly creatures remain; Master the Theory should
+            // archive 2 cards.
+            expect(this.player1).toHavePrompt('Choose 2 cards');
+            this.player1.clickCard(this.combatPheromones);
+            this.player1.clickCard(this.softLanding);
+            this.player1.clickPrompt('Done');
+            expect(this.combatPheromones.location).toBe('archives');
+            expect(this.softLanding.location).toBe('archives');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('Mimicry with Xenotraining', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'untamed',
+                    hand: ['mimicry'],
+                    inPlay: ['dust-pixie']
+                },
+                player2: {
+                    amber: 6,
+                    inPlay: ['lieutenant-khrkhar', 'troll', 'mother'],
+                    discard: ['xenotraining']
+                }
+            });
+        });
+
+        it("should count houses among the Mimicry player's creatures, not the original controller's", function () {
+            this.player1.play(this.mimicry);
+            this.player1.clickCard(this.xenotraining);
+            expect(this.player1).toHavePrompt('Choose a creature to capture 1 amber');
+            this.player1.clickCard(this.dustPixie);
+            expect(this.dustPixie.amber).toBe(1);
+            expect(this.player2.player.amber).toBe(5);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
