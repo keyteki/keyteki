@@ -1432,6 +1432,16 @@ class Card extends EffectSource {
             cardback: this.owner.deckData.cardback,
             childCards: childCards,
             controlled: this.owner !== this.controller,
+            // Tokens always have a baseline `copyCard(tokenCard)` effect (see
+            // MakeTokenCreatureAction); ignore that self-copy and only flag
+            // `copying` when something else (e.g. Mirror Shell, Mimic Gel)
+            // overrides the card's identity.
+            copying: (() => {
+                const copyEffect = this.mostRecentEffect('copyCard');
+                if (!copyEffect) return false;
+                if (this.isToken() && copyEffect === this.tokenCard()) return false;
+                return true;
+            })(),
             exhausted: this.exhausted,
             facedown: this.facedown,
             location: this.location,

@@ -60,7 +60,7 @@ describe('Mirror Shell', function () {
             expect(this.player1.amber).toBe(7);
         });
 
-        it('does not expose the underlying deck card when copying onto a token', function () {
+        it('does not expose the underlying card when copying onto a token', function () {
             // If Mirror Shell's token-copying ability is working correctly, the Grunt token should become a copy of Frane while retaining its original identity.
             this.player1.playUpgrade(this.mirrorShell, this.firstOfficerFrane);
             this.player1.clickPrompt('Right');
