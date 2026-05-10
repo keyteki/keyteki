@@ -30,7 +30,8 @@ class LeastStatCardSelector extends ExactlyXCardSelector {
         let maxStat =
             sorted.length < this.numCards ? Infinity : this.cardStat(sorted[this.numCards - 1]);
         return sorted.every(
-            (card) => this.cardStat(card) >= maxStat || selectedCards.includes(card)
+            (card) =>
+                card.moribund || this.cardStat(card) >= maxStat || selectedCards.includes(card)
         );
     }
 }
