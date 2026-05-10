@@ -147,9 +147,12 @@ class Card extends EffectSource {
     }
 
     tokenCard() {
-        return this.game
-            .getPlayers()
-            .find((player) => player.tokenCard && player.tokenCard.name === this.name)?.tokenCard;
+        // Tokens are always created from their owner's own deck,
+        // and each player has atmost one token card definition,
+        // so the owner's tokenCard is the canonical resolution.
+        // Avoid looking up by `this.name`, which can be overridden
+        //  by a copyCard effect.
+        return this.owner && this.owner.tokenCard;
     }
 
     isProphecy() {

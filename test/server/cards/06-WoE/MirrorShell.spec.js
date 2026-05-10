@@ -59,5 +59,22 @@ describe('Mirror Shell', function () {
             this.player1.clickCard(grunt2);
             expect(this.player1.amber).toBe(7);
         });
+
+        it('does not expose the underlying deck card when copying onto a token', function () {
+            // If Mirror Shell's token-copying ability is working correctly, the Grunt token should become a copy of Frane while retaining its original identity.
+            this.player1.playUpgrade(this.mirrorShell, this.firstOfficerFrane);
+            this.player1.clickPrompt('Right');
+            this.player1.reap(this.firstOfficerFrane);
+            this.player1.clickPrompt('First Officer Frane');
+            this.player1.clickCard(this.questorJarta);
+
+            expect(this.grunt.getShortSummary().id).toBe('grunt');
+            expect(this.grunt.getShortSummary().name).toBe('Grunt');
+            this.player1.reap(this.grunt);
+            this.player1.clickCard(this.grunt);
+            expect(this.grunt.amber).toBe(1);
+            expect(this.player2.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
     });
 });
