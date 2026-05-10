@@ -115,20 +115,22 @@ describe('Amphora Captura', function () {
             });
         });
 
-        it('should only offer capture once even with two Amphoras and not cause a cycle', function () {
+        it('offers each Amphora as a separate capture source and does not cycle', function () {
             this.player1.play(this.dustPixie);
 
-            // First amber icon - both Amphoras can convert to capture, but only one choice appears
+            // First amber icon - both Amphoras are offered as distinct capture sources.
             expect(this.player1).toHavePrompt('How do you wish to resolve this amber bonus icon?');
-            expect(this.player1).toHavePromptButton('amber');
-            expect(this.player1).toHavePromptButton('capture');
-            this.player1.clickPrompt('capture');
+            expect(this.player1.currentButtons[0]).toBe('amber');
+            expect(this.player1.currentButtons[1]).toBe('capture (Amphora Captura)');
+            expect(this.player1.currentButtons[2]).toBe('capture (Amphora Captura)');
+            this.player1.clickPrompt('capture (Amphora Captura)');
             this.player1.clickCard(this.senatorShrix);
 
-            // Second amber icon
+            // Second amber icon - both Amphoras are again available
             expect(this.player1).toHavePrompt('How do you wish to resolve this amber bonus icon?');
-            expect(this.player1).toHavePromptButton('amber');
-            expect(this.player1).toHavePromptButton('capture');
+            expect(this.player1.currentButtons[0]).toBe('amber');
+            expect(this.player1.currentButtons[1]).toBe('capture (Amphora Captura)');
+            expect(this.player1.currentButtons[2]).toBe('capture (Amphora Captura)');
             this.player1.clickPrompt('amber');
 
             expect(this.senatorShrix.amber).toBe(1);

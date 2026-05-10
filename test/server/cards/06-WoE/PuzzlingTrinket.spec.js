@@ -74,4 +74,43 @@ describe('Puzzling Trinket', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('with Amphora Captura', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    inPlay: ['puzzling-trinket', 'amphora-captura', 'antiquities-dealer'],
+                    hand: ['vow-of-blood']
+                },
+                player2: {
+                    inPlay: ['troll'],
+                    amber: 2
+                }
+            });
+        });
+
+        it('disambiguates capture by source and prevents chained self-replacement', function () {
+            this.player1.play(this.vowOfBlood);
+            expect(this.player1).toHavePrompt('How do you wish to resolve this amber bonus icon?');
+            expect(this.player1).toHavePromptButton('amber');
+            expect(this.player1).toHavePromptButton('capture (Puzzling Trinket)');
+            expect(this.player1).toHavePromptButton('capture (Amphora Captura)');
+            expect(this.player1).toHavePromptButton('draw');
+            expect(this.player1).toHavePromptButton('damage');
+            expect(this.player1).not.toHavePromptButton('capture');
+            this.player1.clickPrompt('capture (Puzzling Trinket)');
+            this.player1.clickCard(this.antiquitiesDealer);
+            expect(this.antiquitiesDealer.amber).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('lets the player pick Amphora Captura instead of Puzzling Trinket', function () {
+            this.player1.play(this.vowOfBlood);
+            this.player1.clickPrompt('capture (Amphora Captura)');
+            this.player1.clickCard(this.antiquitiesDealer);
+            expect(this.antiquitiesDealer.amber).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

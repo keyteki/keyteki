@@ -37,6 +37,13 @@ class ResolveBonusIconsAction extends CardGameAction {
                 continue;
             }
             const value = effect.getValue(player);
+            // Skip no-op self-replacements (e.g. Amphora Captura's
+            // any-icon -> capture effect when the current icon is already
+            // capture). Without this filter the player would be offered
+            // duplicate buttons that resolve to the same outcome.
+            if (value.newIcon === currentIcon) {
+                continue;
+            }
             if (value.icon === 'any' || value.icon === currentIcon) {
                 replacements.push({
                     effect,
@@ -70,67 +77,77 @@ class ResolveBonusIconsAction extends CardGameAction {
             return;
         }
 
-        // Build choices: current icon + all possible replacements
-        const choices = [currentIcon];
+        // Build choices: current icon + one entry per available replacement.
+        // We do NOT deduplicate by newIcon: when multiple sources offer the
+        // same replacement (e.g. both Puzzling Trinket and Amphora Captura
+        // replace amber with capture), the player must be able to choose
+        // which source to spend, since usedSources tracking affects which
+        // further chained replacements remain available downstream.
+        const choices = [this.getDisplayName(currentIcon)];
         const handlers = [() => this.resolveIcon(context, event, currentIcon)];
 
+        // Count how many replacements target each newIcon so we only
+        // disambiguate the label with the source name when needed.
+        const newIconCounts = replacements.reduce((acc, r) => {
+            acc[r.newIcon] = (acc[r.newIcon] || 0) + 1;
+            return acc;
+        }, {});
+
         for (const replacement of replacements) {
-            if (!choices.includes(replacement.newIcon)) {
-                choices.push(replacement.newIcon);
-                handlers.push(() => {
-                    // Print the replacement message
-                    if (replacement.source) {
-                        const bonusIcons = ['amber', 'capture', 'damage', 'draw', 'discard'];
-                        if (bonusIcons.includes(replacement.newIcon)) {
-                            context.game.addMessage(
-                                "{0} uses {1} to resolve {2}'s {3} bonus icon as {4} {5} bonus icon",
-                                context.player,
-                                replacement.source,
-                                event.card,
-                                currentIcon,
-                                'aeiou'.includes(replacement.newIcon[0].toLowerCase()) ? 'an' : 'a',
-                                replacement.newIcon
-                            );
-                        } else if (this.abilityReplacements[replacement.newIcon]) {
-                            context.game.addMessage(
-                                "{0} uses {1} to resolve {2}'s {3} bonus icon to {4}",
-                                context.player,
-                                replacement.source,
-                                event.card,
-                                currentIcon,
-                                this.abilityReplacements[replacement.newIcon]
-                            );
-                        } else {
-                            context.game.addMessage(
-                                "{0} uses {1} to resolve {2}'s {3} bonus icon as {4}",
-                                context.player,
-                                replacement.source,
-                                event.card,
-                                currentIcon,
-                                replacement.newIcon
-                            );
-                        }
+            const baseLabel = this.getDisplayName(replacement.newIcon);
+            const label =
+                newIconCounts[replacement.newIcon] > 1 && replacement.source
+                    ? `${baseLabel} (${replacement.source.name})`
+                    : baseLabel;
+            choices.push(label);
+            handlers.push(() => {
+                // Print the replacement message
+                if (replacement.source) {
+                    const bonusIcons = ['amber', 'capture', 'damage', 'draw', 'discard', 'power'];
+                    if (bonusIcons.includes(replacement.newIcon)) {
+                        context.game.addMessage(
+                            "{0} uses {1} to resolve {2}'s {3} bonus icon as {4} {5} bonus icon",
+                            context.player,
+                            replacement.source,
+                            event.card,
+                            currentIcon,
+                            'aeiou'.includes(replacement.newIcon[0].toLowerCase()) ? 'an' : 'a',
+                            replacement.newIcon
+                        );
+                    } else if (this.abilityReplacements[replacement.newIcon]) {
+                        context.game.addMessage(
+                            "{0} uses {1} to resolve {2}'s {3} bonus icon to {4}",
+                            context.player,
+                            replacement.source,
+                            event.card,
+                            currentIcon,
+                            this.abilityReplacements[replacement.newIcon]
+                        );
+                    } else {
+                        context.game.addMessage(
+                            "{0} uses {1} to resolve {2}'s {3} bonus icon as {4}",
+                            context.player,
+                            replacement.source,
+                            event.card,
+                            currentIcon,
+                            replacement.newIcon
+                        );
                     }
-                    // Mark this source as used so it can't be used again in this chain
-                    const newUsedSources = new Set(usedSources);
-                    if (replacement.source) {
-                        newUsedSources.add(replacement.source);
-                    }
-                    // Continue prompting with the new icon
-                    this.promptForIconResolution(
-                        context,
-                        event,
-                        replacement.newIcon,
-                        newUsedSources
-                    );
-                });
-            }
+                }
+                // Mark this source as used so it can't be used again in this chain
+                const newUsedSources = new Set(usedSources);
+                if (replacement.source) {
+                    newUsedSources.add(replacement.source);
+                }
+                // Continue prompting with the new icon
+                this.promptForIconResolution(context, event, replacement.newIcon, newUsedSources);
+            });
         }
 
         if (choices.length > 1) {
             context.game.promptWithHandlerMenu(context.player, {
                 activePromptTitle: `How do you wish to resolve this ${currentIcon} bonus icon?`,
-                choices: choices.map((c) => this.getDisplayName(c)),
+                choices: choices,
                 context: context,
                 handlers: handlers,
                 source: event.card
