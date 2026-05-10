@@ -10,7 +10,9 @@ class LeastStatCardSelector extends ExactlyXCardSelector {
         let sorted = this.getSortedCards(context);
         let maxStat =
             sorted.length < this.numCards ? Infinity : this.cardStat(sorted[this.numCards - 1]);
-        return this.cardStat(card) <= maxStat && sorted.includes(card);
+        // See note in MostStatCardSelector: tagged-for-destruction cards still count for the
+        // stat threshold but cannot themselves be chosen by the player.
+        return !card.moribund && this.cardStat(card) <= maxStat && sorted.includes(card);
     }
 
     getSortedCards(context) {

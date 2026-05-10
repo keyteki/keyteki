@@ -98,4 +98,62 @@ describe('Soulkeeper', function () {
             expect(this.yantzeeGang.location).toBe('discard');
         });
     });
+
+    describe('when the most powerful enemy creature is tagged for destruction (#1028)', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    inPlay: ['old-yurk'],
+                    hand: ['soulkeeper']
+                },
+                player2: {
+                    inPlay: ['bilgum-avalanche', 'nexus', 'helper-bot']
+                }
+            });
+        });
+
+        it('should target the tagged-for-destruction creature when it is the only most powerful', function () {
+            this.player1.playUpgrade(this.soulkeeper, this.oldYurk);
+            this.oldYurk.ready();
+            this.player1.fightWith(this.oldYurk, this.bilgumAvalanche);
+            expect(this.oldYurk.location).toBe('discard');
+            expect(this.soulkeeper.location).toBe('discard');
+            expect(this.bilgumAvalanche.location).toBe('discard');
+            expect(this.nexus.location).toBe('play area');
+            expect(this.helperBot.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('when one of multiple most-powerful creatures is tagged for destruction (#1028)', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    inPlay: ['old-yurk'],
+                    hand: ['soulkeeper']
+                },
+                player2: {
+                    inPlay: ['bilgum-avalanche', 'yantzee-gang', 'dodger', 'nexus']
+                }
+            });
+        });
+
+        it('should let the player choose between the untagged most-powerful creatures', function () {
+            this.player1.playUpgrade(this.soulkeeper, this.oldYurk);
+            this.player1.fightWith(this.oldYurk, this.bilgumAvalanche);
+            expect(this.player1).toHavePrompt('Soulkeeper');
+            expect(this.player1).not.toBeAbleToSelect(this.bilgumAvalanche);
+            expect(this.player1).not.toBeAbleToSelect(this.nexus);
+            expect(this.player1).toBeAbleToSelect(this.yantzeeGang);
+            expect(this.player1).toBeAbleToSelect(this.dodger);
+            this.player1.clickCard(this.yantzeeGang);
+            expect(this.bilgumAvalanche.location).toBe('discard');
+            expect(this.yantzeeGang.location).toBe('discard');
+            expect(this.dodger.location).toBe('play area');
+            expect(this.nexus.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
