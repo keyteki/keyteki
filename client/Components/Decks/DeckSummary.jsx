@@ -241,7 +241,7 @@ const DeckSummary = ({ deck }) => {
             )}
             {hasMissingCards && (
                 <AlertPanel type='warning' className='mt-3'>
-                    <Trans>
+                    <Trans i18nKey='decksummary.cardsMissing'>
                         Some cards in this deck could not be loaded. Please refresh the page. If the
                         issue persists, report it as a bug.
                     </Trans>
