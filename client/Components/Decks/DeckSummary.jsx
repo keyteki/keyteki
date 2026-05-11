@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
-import { sortBy } from 'underscore';
-import { useTranslation, Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { sortBy } from 'underscore';
 
 import { Constants } from '../../constants';
-import CardBack from './CardBack';
-import CardHoverPreview from '../Site/CardHoverPreview';
-import AlertPanel from '../Site/AlertPanel';
 import { useUpdateAccoladeShownMutation } from '../../redux/api';
+import AlertPanel from '../Site/AlertPanel';
+import CardHoverPreview from '../Site/CardHoverPreview';
+import CardBack from './CardBack';
 
 import AmberImage from '../../assets/img/enhancements/amberui.png';
 import CaptureImage from '../../assets/img/enhancements/captureui.png';
-import DrawImage from '../../assets/img/enhancements/drawui.png';
 import DamageImage from '../../assets/img/enhancements/damageui.png';
 import DiscardImage from '../../assets/img/enhancements/discardui.png';
+import DrawImage from '../../assets/img/enhancements/drawui.png';
 import PowerImage from '../../assets/img/enhancements/powerui.png';
 
 const DeckSummary = ({ deck }) => {
