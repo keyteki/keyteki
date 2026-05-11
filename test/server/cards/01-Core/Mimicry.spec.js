@@ -390,4 +390,30 @@ describe('Mimicry', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe("Mimicry played via opponent's Lateral Shift", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    hand: ['lateral-shift'],
+                    discard: ['punch']
+                },
+                player2: {
+                    hand: ['mimicry'],
+                    discard: ['neuro-syphon']
+                }
+            });
+        });
+
+        it("should target the opponent's discard, not the Lateral Shift player's", function () {
+            this.player1.play(this.lateralShift);
+            this.player1.clickCard(this.mimicry);
+            expect(this.player1).toHavePrompt('Mimicry');
+            expect(this.player1).toBeAbleToSelect(this.neuroSyphon);
+            expect(this.player1).not.toBeAbleToSelect(this.punch);
+            this.player1.clickCard(this.neuroSyphon);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
