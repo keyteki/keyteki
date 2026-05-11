@@ -4,6 +4,7 @@ const RedisClientFactory = require('./RedisClientFactory');
 
 class CardService {
     constructor(configService) {
+        this.configService = configService;
         const factory = new RedisClientFactory(configService);
         this.redis = factory.createClient();
 
@@ -121,6 +122,7 @@ class CardService {
         }
 
         await this.redis.set('cards', JSON.stringify(cardsById));
+        await this.redis.publish('carddata:updated', '');
     }
 
     async getAllCards(options) {
@@ -233,8 +235,24 @@ class CardService {
         return retCards;
     }
 
+    clearCache() {
+        this.cardCache = null;
+        this.cardExpansionCache = {};
+    }
+
+    subscribeToUpdates(callback) {
+        const factory = new RedisClientFactory(this.configService);
+        this.subscriber = factory.createClient();
+        this.subscriber.connect().then(() => {
+            return this.subscriber.subscribe('carddata:updated', callback);
+        });
+    }
+
     async shutdown() {
         await this.redis.close();
+        if (this.subscriber) {
+            await this.subscriber.close();
+        }
     }
 
     mapCard(card, languages, options, locale) {

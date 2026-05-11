@@ -71,6 +71,10 @@ class Lobby {
     async init() {
         // pre cache card list so the first user to the site doesn't have a slowdown
         await this.cardService.getAllCards();
+        this.cardService.subscribeToUpdates(() => {
+            logger.info('Card data updated by fetchdata, clearing cache');
+            this.cardService.clearCache();
+        });
     }
 
     // External methods
