@@ -40,6 +40,18 @@ describe('Emperor Memrox', function () {
             expect(this.player1.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
+
+        it('still gains 1 amber per archived card when no cards are in hand to archive', function () {
+            this.player1.moveCard(this.troll, 'archives');
+            for (const card of this.player1.player.hand.slice()) {
+                this.player1.moveCard(card, 'discard');
+            }
+            expect(this.player1.player.archives.length).toBe(1);
+            this.player1.reap(this.emperorMemrox);
+            // 1 reap amber + 1 amber for the card already in archives
+            expect(this.player1.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
     });
 
     describe("Emperor Memrox's invulnerable in center", function () {
