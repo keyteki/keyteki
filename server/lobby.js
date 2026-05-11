@@ -74,6 +74,7 @@ class Lobby {
         this.cardService.subscribeToUpdates(() => {
             logger.info('Card data updated by fetchdata, clearing cache');
             this.cardService.clearCache();
+            this.io.emit('cardsupdated');
         });
     }
 
