@@ -335,4 +335,59 @@ describe('Mimicry', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe("Mimicry played via opponent's Flea Market", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'ekwidon',
+                    inPlay: ['flea-market'],
+                    amber: 2,
+                    discard: ['remote-access']
+                },
+                player2: {
+                    hand: ['mimicry'],
+                    discard: ['neuro-syphon']
+                }
+            });
+        });
+
+        it("should target the opponent's discard, not the Flea Market player's", function () {
+            this.player1.useAction(this.fleaMarket);
+            expect(this.player1).toHavePromptButton('Yes');
+            this.player1.clickPrompt('Yes');
+            expect(this.player1).toHavePrompt('Mimicry');
+            expect(this.player1).toBeAbleToSelect(this.neuroSyphon);
+            expect(this.player1).not.toBeAbleToSelect(this.remoteAccess);
+            this.player1.clickCard(this.neuroSyphon);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe("Mimicry played via opponent's Murkens from deck", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    hand: ['murkens'],
+                    discard: ['finishing-blow']
+                },
+                player2: {
+                    hand: ['mimicry'],
+                    discard: ['neuro-syphon']
+                }
+            });
+            this.player2.moveCard(this.mimicry, 'deck');
+        });
+
+        it("should target the opponent's discard, not the Murkens player's", function () {
+            this.player1.play(this.murkens);
+            this.player1.clickPrompt('Top of deck');
+            expect(this.player1).toHavePrompt('Mimicry');
+            expect(this.player1).toBeAbleToSelect(this.neuroSyphon);
+            expect(this.player1).not.toBeAbleToSelect(this.finishingBlow);
+            this.player1.clickCard(this.neuroSyphon);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
