@@ -17,14 +17,14 @@ class EmperorMemrox extends Card {
                 }
             }),
             effect: 'archive a card',
-            then: () => ({
+            then: {
                 alwaysTriggers: true,
                 gameAction: ability.actions.gainAmber((context) => ({
                     amount: context.player.archives.length
                 })),
                 message: '{0} uses {1} to gain {3} amber',
                 messageArgs: (context) => [context.player.archives.length]
-            })
+            }
         });
     }
 }
