@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import { Constants } from '../../constants';
 import CardBack from './CardBack';
 import CardHoverPreview from '../Site/CardHoverPreview';
+import AlertPanel from '../Site/AlertPanel';
 import { useUpdateAccoladeShownMutation } from '../../redux/api';
 
 import AmberImage from '../../assets/img/enhancements/amberui.png';
@@ -156,6 +157,8 @@ const DeckSummary = ({ deck }) => {
 
     const totalGames = parseInt(deck.wins || 0) + parseInt(deck.losses || 0);
 
+    const hasMissingCards = deck.cards.some((c) => !c.card?.name);
+
     return (
         <div className='deck-summary mx-auto mt-3 w-full max-w-5xl'>
             <div className='flex flex-wrap items-start gap-4'>
@@ -235,6 +238,14 @@ const DeckSummary = ({ deck }) => {
                         );
                     })}
                 </div>
+            )}
+            {hasMissingCards && (
+                <AlertPanel type='warning' className='mt-3'>
+                    <Trans>
+                        Some cards in this deck could not be loaded. Please refresh the page. If the
+                        issue persists, report it as a bug.
+                    </Trans>
+                </AlertPanel>
             )}
             <div className='relative mt-4 grid grid-cols-1 gap-2 sm:justify-center sm:gap-x-10 sm:[grid-template-columns:repeat(3,max-content)]'>
                 <CardHoverPreview card={hoveredCard} position={hoverPosition} />
