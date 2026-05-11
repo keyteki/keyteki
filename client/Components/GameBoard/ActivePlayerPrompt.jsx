@@ -38,7 +38,10 @@ const ActivePlayerPrompt = (props) => {
             setButtonsDisabled(true);
             const timer = setTimeout(() => setButtonsDisabled(false), 1500);
             prevPromptTitle.current = titleText;
-            return () => clearTimeout(timer);
+            return () => {
+                clearTimeout(timer);
+                setButtonsDisabled(false);
+            };
         }
 
         prevPromptTitle.current = titleText;
