@@ -202,6 +202,7 @@ export const GameBoard = () => {
             timeLimitStarted={currentGame.gameTimeLimitStarted}
             timeLimitStartedAt={currentGame.gameTimeLimitStartedAt}
             timeLimit={currentGame.gameTimeLimitTime}
+            winner={currentGame.winner}
         />
     ) : null;
 
