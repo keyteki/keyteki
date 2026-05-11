@@ -16,7 +16,6 @@ import {
     lobbyStartGameRequested
 } from '../socketActions';
 import { api } from '../api';
-import { TAG_TYPES } from '../apiTags';
 import { setAuthTokens } from '../slices/authSlice';
 
 let lobbySocket;
@@ -148,10 +147,6 @@ export const socketMiddleware = (store) => (next) => (action) => {
 
         lobbySocket.on('nodestatus', (status) => {
             store.dispatch(adminActions.nodeStatusReceived(status));
-        });
-
-        lobbySocket.on('cardsupdated', () => {
-            store.dispatch(api.util.invalidateTags([{ type: TAG_TYPES.CARDS, id: 'LIST' }]));
         });
 
         lobbySocket.on('removemessage', (messageId, deletedBy) => {
