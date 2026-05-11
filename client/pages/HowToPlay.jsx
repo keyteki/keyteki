@@ -4,6 +4,7 @@ import { Button } from '@heroui/react';
 
 import Link from '../Components/Navigation/Link';
 import Panel from '../Components/Site/Panel';
+import manualCommands from '../manualCommands';
 
 const HowToPlay = () => {
     const { t } = useTranslation();
@@ -162,100 +163,15 @@ const HowToPlay = () => {
                         smoother gameplay experience:
                     </Trans>
                 </p>
-                <ul>
-                    <li>
-                        /active-house x -{' '}
-                        <Trans i18nKey='howtoplay.cmd.activehouse'>
-                            Change your active house to x
-                        </Trans>
-                    </li>
-                    <li>
-                        /add-card [hand|deck] x -{' '}
-                        <Trans i18nKey='howtoplay.cmd.addcard'>
-                            Add a card by name to your hand or top of deck
-                        </Trans>
-                    </li>
-                    <li>
-                        /cancel-prompt -{' '}
-                        <Trans i18nKey='howtoplay.cmd.cancelprompt'>
-                            Clear the current prompt and resume the game flow. Use with caution and
-                            only when the prompt is &apos;stuck&apos; and you are unable to continue
-                        </Trans>
-                    </li>
-                    <li>
-                        /discard x -{' '}
-                        <Trans i18nKey='howtoplay.cmd.discard'>
-                            Discards x cards randomly from your hand
-                        </Trans>
-                    </li>
-                    <li>
-                        /discard-top-of-deck x -{' '}
-                        <Trans i18nKey='howtoplay.cmd.discardtopofdeck'>
-                            Discards x cards from the top of your deck
-                        </Trans>
-                    </li>
-                    <li>
-                        /draw x -{' '}
-                        <Trans i18nKey='howtoplay.cmd.draw'>
-                            Draws x cards from your deck to your hand
-                        </Trans>
-                    </li>
-                    <li>
-                        /first-player x -{' '}
-                        <Trans i18nKey='howtoplay.cmd.firstplayer'>
-                            Before starting hands are drawn, change the first player
-                        </Trans>
-                    </li>
-                    <li>
-                        /forge [color] -{' '}
-                        <Trans i18nKey='howtoplay.cmd.forge'>
-                            Forge a key - optionally specify color
-                        </Trans>
-                    </li>
-                    <li>
-                        /manual -{' '}
-                        <Trans i18nKey='howtoplay.cmd.manual'>Deactivate manual mode</Trans>
-                    </li>
-                    <li>
-                        /mute-spectators -{' '}
-                        <Trans i18nKey='howtoplay.cmd.mutespectators'>
-                            Toggle muting spectators
-                        </Trans>
-                    </li>
-                    <li>
-                        /rematch -{' '}
-                        <Trans i18nKey='howtoplay.cmd.rematch'>
-                            Start over a new game with the current opponent
-                        </Trans>
-                    </li>
-                    <li>
-                        /shuffle - <Trans i18nKey='howtoplay.cmd.shuffle'>Shuffle your deck</Trans>
-                    </li>
-                    <li>
-                        /tide x -{' '}
-                        <Trans i18nKey='howtoplay.cmd.tide'>
-                            Change the tide to high, low or neutral
-                        </Trans>
-                    </li>
-                    <li>
-                        /token x y -{' '}
-                        <Trans i18nKey='howtoplay.cmd.token'>
-                            Select a card to set the number of tokens of type x to amount y on the
-                            card
-                        </Trans>
-                    </li>
-                    <li>
-                        /token-creature -{' '}
-                        <Trans i18nKey='howtoplay.cmd.tokencreature'>
-                            Make a token creature with the top card of your deck
-                        </Trans>
-                    </li>
-                    <li>
-                        /unforge [color] -{' '}
-                        <Trans i18nKey='howtoplay.cmd.unforge'>
-                            Unforge a key (optionally specify color)
-                        </Trans>
-                    </li>
+                <ul className='list-disc list-inside ml-4 space-y-1'>
+                    {manualCommands.map((cmd) => (
+                        <li key={cmd.usage}>
+                            <code className='font-mono text-sm bg-default-200 text-default-700 px-1 py-0.5 rounded'>
+                                {cmd.usage}
+                            </code>{' '}
+                            - <Trans i18nKey={cmd.i18nKey}>{cmd.description}</Trans>
+                        </li>
+                    ))}
                 </ul>
 
                 <h3 id='conceding'>
