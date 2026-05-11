@@ -148,14 +148,36 @@ describe('Mirror Shell', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
+        it('handles two Mirror Shells on the same token creature without infinite loop', function () {
+            // Attach two Mirror Shells to the Rebel token.
+            this.player1.playUpgrade(this.mirrorShell1, this.rebel);
+            this.player1.clickPrompt('Right');
+            this.player1.playUpgrade(this.mirrorShell2, this.rebel);
+            this.player1.clickPrompt('Right');
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.endTurn();
+            this.player1.clickPrompt('mars');
+
+            // Reaping the host token with two Mirror Shells attached fires
+            // both gained after-reap abilities plus Rebel's printed reap.
+            // The copy effect excludes the source token, so there's no
+            // infinite loop.
+            this.player1.reap(this.rebel);
+            this.player1.clickPrompt('Mirror Shell');
+            this.player1.clickPrompt('Mirror Shell');
+            this.player1.clickCard(this.bumpsy);
+            expect(this.bumpsy.damage).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
         it('does not copy upgrade-granted abilities to tokens', function () {
             this.player1.playUpgrade(this.stunner, this.firstOfficerFrane);
             this.player1.playUpgrade(this.mirrorShell1, this.firstOfficerFrane);
             this.player1.clickPrompt('Right');
 
-            // Reap with Frane: Frane's reap (capture), Stunner's granted
-            // reap (optional stun), and Mirror Shell's after-reap (copy)
-            // all trigger.
+            // Reap with Frane: Frane's capture, Stunner's stun,
+            // and Mirror Shell's copy all trigger.
             this.player1.reap(this.firstOfficerFrane);
             this.player1.clickPrompt('First Officer Frane');
             this.player1.clickCard(this.questorJarta);
@@ -165,7 +187,7 @@ describe('Mirror Shell', function () {
 
             expect(this.rebel.name).toBe('First Officer Frane');
 
-            // Reap with the Rebel (now copying Frane). Only Frane's printed
+            // Reap with the Rebel - only Frane's printed
             // reap should trigger
             this.player1.reap(this.rebel);
             expect(this.player1).toHavePrompt('First Officer Frane');
