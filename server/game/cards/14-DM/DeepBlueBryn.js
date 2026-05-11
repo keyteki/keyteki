@@ -5,13 +5,13 @@ class DeepBlueBryn extends Card {
     setupCardAbilities(ability) {
         this.fight({
             gameAction: ability.actions.steal({ amount: 1 }),
-            then: (preThenContext) => ({
+            then: {
                 alwaysTriggers: true,
-                condition: () => preThenContext.game.isKeyForged('blue'),
+                condition: (context) => context.game.isKeyForged('blue'),
                 gameAction: ability.actions.ward((context) => ({
                     target: context.source
                 }))
-            })
+            }
         });
     }
 }
