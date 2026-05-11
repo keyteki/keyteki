@@ -17,6 +17,7 @@ describe('Praefectus Ludo', function () {
             this.player1.fightWith(this.crassosaurus, this.troll);
             expect(this.crassosaurus.location).toBe('discard');
             expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
 
