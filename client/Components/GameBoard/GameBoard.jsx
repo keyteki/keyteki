@@ -202,7 +202,7 @@ export const GameBoard = () => {
             timeLimitStarted={currentGame.gameTimeLimitStarted}
             timeLimitStartedAt={currentGame.gameTimeLimitStartedAt}
             timeLimit={currentGame.gameTimeLimitTime}
-            winner={currentGame.winner}
+            paused={!!currentGame.winner && thisPlayer.promptTitle === 'Game Won'}
         />
     ) : null;
 

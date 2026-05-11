@@ -21,8 +21,7 @@ const TimeLimitClock = (props) => {
     });
 
     useEffect(() => {
-        if (props.winner) {
-            // Game ended — freeze the clock
+        if (props.paused) {
             return;
         }
 
@@ -47,7 +46,7 @@ const TimeLimitClock = (props) => {
         const timer = setInterval(tick, 1000);
 
         return () => clearInterval(timer);
-    }, [props.timeLimit, props.timeLimitStarted, props.timeLimitStartedAt, props.winner]);
+    }, [props.timeLimit, props.timeLimitStarted, props.timeLimitStartedAt, props.paused]);
 
     return (
         <div className='px-1 pb-1'>
@@ -60,10 +59,10 @@ const TimeLimitClock = (props) => {
 
 TimeLimitClock.displayName = 'TimeLimitClock';
 TimeLimitClock.propTypes = {
+    paused: PropTypes.bool,
     timeLimit: PropTypes.number,
     timeLimitStarted: PropTypes.bool,
-    timeLimitStartedAt: PropTypes.instanceOf(Date),
-    winner: PropTypes.string
+    timeLimitStartedAt: PropTypes.instanceOf(Date)
 };
 
 export default TimeLimitClock;
