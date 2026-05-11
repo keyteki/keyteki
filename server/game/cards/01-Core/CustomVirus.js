@@ -30,7 +30,7 @@ class CustomVirus extends Card {
                     );
                     return selfDestroyed && creaturePurged;
                 },
-                gameAction: ability.actions.destroy({
+                gameAction: ability.actions.destroy(() => ({
                     target: preThenContext.target
                         ? preThenContext.game.creaturesInPlay.filter((card) =>
                               card
@@ -38,7 +38,7 @@ class CustomVirus extends Card {
                                   .some((trait) => preThenContext.target.hasTrait(trait))
                           )
                         : []
-                })
+                }))
             })
         });
     }
