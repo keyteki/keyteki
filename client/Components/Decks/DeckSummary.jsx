@@ -59,7 +59,7 @@ const DeckSummary = ({ deck }) => {
     for (const house of orderedHouses) {
         cardsByHouse[house] = [];
         const filteredCards = sortBy(
-            deck.cards.filter((c) => c.card.house === house && !c.isNonDeck),
+            deck.cards.filter((c) => c.card?.house === house && c.card?.name && !c.isNonDeck),
             (c) => c.card.name
         );
 
