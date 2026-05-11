@@ -3,11 +3,20 @@ import PropTypes from 'prop-types';
 import moment from 'moment';
 
 const TimeLimitClock = (props) => {
-    const [timeLeft, setTimeLeft] = useState();
+    const [timeLeft, setTimeLeft] = useState(() => {
+        if (props.timeLimit) {
+            const mins = String(props.timeLimit).padStart(2, '0');
+            return `${mins}:00`;
+        }
+        return undefined;
+    });
 
     useEffect(() => {
         if (!props.timeLimitStarted) {
-            setTimeLeft(undefined);
+            if (props.timeLimit) {
+                const mins = String(props.timeLimit).padStart(2, '0');
+                setTimeLeft(`${mins}:00`);
+            }
             return;
         }
 
@@ -23,8 +32,8 @@ const TimeLimitClock = (props) => {
     }, [props.timeLimit, props.timeLimitStarted, props.timeLimitStartedAt]);
 
     return (
-        <div className='mt-[-6px] rounded-sm border border-border/75 bg-surface-secondary/75 px-2 pt-1 font-["Orbitron",sans-serif] font-medium text-foreground'>
-            <h1 className='ml-[23%] w-28 text-[2rem]'>{timeLeft}</h1>
+        <div className='mt-0.5 rounded-sm border border-border/75 bg-surface-secondary/75 px-2 pt-1 font-["Orbitron",sans-serif] font-medium text-foreground'>
+            <h1 className='w-28 text-center text-[2rem] tabular-nums'>{timeLeft}</h1>
         </div>
     );
 };
