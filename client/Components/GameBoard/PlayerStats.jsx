@@ -203,7 +203,8 @@ const PlayerStats = ({
         onMouseOut,
         onMouseOver,
         popupLocation: side,
-        size
+        size,
+        houses
     };
 
     const renderDroppableList = (source, child) => {

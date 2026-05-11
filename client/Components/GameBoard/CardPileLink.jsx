@@ -12,6 +12,7 @@ const CardPileLink = ({
     disableMouseOver,
     disablePopup,
     hasActiveHouse,
+    houses,
     isMe,
     isSpectating,
     manualMode,
@@ -127,6 +128,7 @@ const CardPileLink = ({
                     popupLocation={popupLocation}
                     popupMenu={popupMenu}
                     hasActiveHouse={hasActiveHouse}
+                    houses={houses}
                     isMe={isMe}
                     isSpectating={isSpectating}
                     size={size}

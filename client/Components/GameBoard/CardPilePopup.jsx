@@ -4,12 +4,14 @@ import classNames from 'classnames';
 import CardTiledList from './CardTiledList';
 import Droppable from './Droppable';
 import MovablePanel from './MovablePanel';
+import { Constants } from '../../constants';
 
 const CardPilePopup = ({
     cardBack,
     cards,
     disableMouseOver,
     hasActiveHouse,
+    houses,
     isMe,
     isSpectating,
     manualMode,
@@ -91,10 +93,39 @@ const CardPilePopup = ({
         </div>
     );
 
+    let popupTitle = title;
+    if (houses && houses.length > 0 && cards) {
+        const ownedCards = cards.filter((card) => !card.controlled);
+        const hasHiddenCards = ownedCards.some((card) => card.facedown);
+        const ownedVisible = ownedCards.filter((card) => !card.facedown);
+        const counts = houses.map((house) => ({
+            house,
+            count: hasHiddenCards
+                ? '?'
+                : ownedVisible.filter((card) => card.printedHouse === house).length
+        }));
+
+        popupTitle = (
+            <span className='inline-flex items-center gap-2'>
+                <span>{title}</span>
+                {counts.map(({ house, count }) => (
+                    <span key={house} className='inline-flex items-center gap-0.5'>
+                        <img
+                            src={Constants.IdBackHousePaths[house]}
+                            alt={house}
+                            className='inline-block h-4 w-4'
+                        />
+                        <span className='text-sm'>{count}</span>
+                    </span>
+                ))}
+            </span>
+        );
+    }
+
     popup = (
         <MovablePanel
             size={size}
-            title={title}
+            title={popupTitle}
             name={source}
             onCloseClick={onCloseClick}
             side={popupLocation}
