@@ -20,7 +20,13 @@ class AttachAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if (!context || !context.player || !card || card.location !== 'play area') {
+        if (
+            !context ||
+            !context.player ||
+            !card ||
+            card.location !== 'play area' ||
+            card.moribund
+        ) {
             return false;
         } else if (this.upgradeChosenOnResolution) {
             return super.canAffect(card, context);

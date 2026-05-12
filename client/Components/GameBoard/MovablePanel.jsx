@@ -1,7 +1,7 @@
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDrag } from 'react-dnd';
 import Icon from '../Icon';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import { ItemTypes } from '../../constants';
 import PopupDefaults from './PopupDefaults';

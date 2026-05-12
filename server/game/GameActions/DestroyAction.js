@@ -28,6 +28,8 @@ class DestroyAction extends CardGameAction {
             isRedirected: this.damageEvent ? this.damageEvent.isRedirected : false
         };
 
+        const isBatched = !!context.game.currentDestructionWindow;
+
         const event = super.createEvent(EVENTS.onCardDestroyed, params, (event) => {
             event.card.moribund = true;
 
@@ -43,9 +45,17 @@ class DestroyAction extends CardGameAction {
                     battlelineIndex: event.card.controller.cardsInPlay.indexOf(event.card) - 1,
                     isRedirected: this.damageEvent ? this.damageEvent.isRedirected : false
                 },
-                (leavesPlayEvent) => {
-                    leavesPlayEvent.card.owner.moveCard(event.card, 'discard');
-                }
+                isBatched
+                    ? // No-op when batched: the outer DestroyedAbilityWindow will
+                      // emit onCardLeavesPlay:interrupt for this event and call
+                      // moveCard during processBatchedDestroyEvents. Running
+                      // moveCard here would unregister the card's destroyed:
+                      // ability before its trigger gets a chance to be queued
+                      // in the outer window.
+                      () => true
+                    : (leavesPlayEvent) => {
+                          leavesPlayEvent.card.owner.moveCard(event.card, 'discard');
+                      }
             );
 
             event.addSubEvent(event.leavesPlayEvent);
@@ -53,7 +63,7 @@ class DestroyAction extends CardGameAction {
 
         // If this destruction was triggered while resolving destroyed abilities
         // then it should be batched together with them.
-        if (context.game.currentDestructionWindow) {
+        if (isBatched) {
             // Mark this event so we don't open a separate reaction window for it
             event.openReactionWindow = false;
             context.game.currentDestructionWindow.addBatchedDestroyEvent(event);
