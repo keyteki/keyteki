@@ -21,72 +21,37 @@ const ForcedTriggeredAbilityWindow = require('./forcedtriggeredabilitywindow.js'
  *      `discardAllTaggedCards()`.
  *
  *   2. **Lock-in of each card's `Destroyed:` ability set at tagging time.**
- *      Per the rulebook: a card only resolves `Destroyed:` abilities
- *      that it had at the moment it was tagged for destruction. Anything
- *      that becomes eligible later (e.g. Archimedes granting
- *      "Destroyed: archive" to neighbours after a different creature
- *      dies and the battleline shifts; or Thoughtcatcher's gainAbility
- *      kicking in because a tagged creature gained amber via a
- *      Parasitic Arachnoid capture) must NOT retroactively trigger.
+ *      A card only resolves `Destroyed:` abilities that it had at
+ *      the moment it was tagged for destruction. Anything
+ *      that becomes eligible later must NOT retroactively trigger.
  *
  * The two semantics interact: cascaded destructions are tagged
  * mid-window, and their *initial* triggers (the abilities the card had
  * the moment it was tagged) must be allowed through the lock-in exactly
  * once — but no later eligibility changes for those events should slip
  * through.
- *
- * Note on terminology: the codebase's `moribund` flag is the engine
- * equivalent of the rulebook's "tagged for destruction". Per the rules,
- * the only way to remove the tag is an "instead" replacement effect;
- * other interventions (healing, ward, capture, gaining amber) leave the
- * card tagged and bound for the discard pile.
- *
- * Implementation outline:
- *
- *   - `batchedDestroyEvents` — destroy events tagged by DestroyAction
- *     while `game.currentDestructionWindow` is set. Drained at window
- *     close (`discardAllTaggedCards`).
- *   - `batchedLeavesPlayEvents` / `batchedLeavesPlayEventSet` — the
- *     leavesPlay sub-events for those cascaded destructions. Re-emitted
- *     by `emitEvents()` so their `Destroyed:` triggers register as
- *     additional orderable choices.
- *   - `newlyTaggedLeavesPlayEvents` — the subset of the above just
- *     added and not yet emitted. The lock-in check in `addChoice` /
- *     `addDeferredChoice` bypasses `lockedInChoices` only for events in
- *     this set; `continue()` clears it after `super.continue()` runs
- *     `emitEvents()` once, locking the trigger list in.
- *   - `lockedInChoices` — snapshot of the choices gathered on the
- *     previous iteration. Subsequent iterations only accept new choices
- *     that match (ability, event) pairs already seen. This enforces the
- *     "tagging time" rule.
  */
 class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
     constructor(game, abilityType, window, eventsToExclude = []) {
         super(game, abilityType, window, eventsToExclude);
-        // Snapshot of `this.choices` taken after each ability resolution.
-        // Used by addChoice/addDeferredChoice to reject contexts that
-        // weren't part of the original (or newly-tagged) trigger set —
-        // i.e. abilities the card didn't have at tagging time.
-        this.lockedInChoices = [];
         // Cascaded destroy events queued by DestroyAction while this
         // window is the active destruction window. Drained at window
         // close (`discardAllTaggedCards`): cards are placed into their
         // owner's discard pile and each event is attached as a child of
         // the parent destroyed event so the outer EventWindow's reaction
         // phase covers the whole cascade in one pass.
-        this.batchedDestroyEvents = [];
-        // The leavesPlay sub-events corresponding to batchedDestroyEvents.
-        // Re-emitted by our emitEvents() override so their `Destroyed:`
-        // triggers join this window's choice list.
-        this.batchedLeavesPlayEvents = [];
-        // O(1) dedup mirror of batchedLeavesPlayEvents.
-        this.batchedLeavesPlayEventSet = new Set();
-        // Cascaded leavesPlay events that have just been tagged and have
-        // NOT yet been emitted to gather their `Destroyed:` ability
-        // choices. The first addChoice/addDeferredChoice pass for one of
-        // these events bypasses the lockedInChoices lockout so its
-        // abilities can register; on the next iteration they're treated
-        // like the original window events (locked in). This is what
+        this.batchedDestroyEvents = new Set();
+        // The leavesPlay sub-events for those cascaded destructions.
+        // Re-emitted by our `emitEvents()` override so their
+        // `Destroyed:` triggers register as additional orderable choices
+        // in this window.
+        this.batchedLeavesPlayEvents = new Set();
+        // The subset of `batchedLeavesPlayEvents` just added and not yet
+        // emitted. The lock-in check in `addChoice` / `addDeferredChoice`
+        // bypasses `lockedInChoices` only for events in this set, so the
+        // initial trigger set of a newly-tagged card can register;
+        // `continue()` clears it after `super.continue()` runs
+        // `emitEvents()` once, locking the trigger list in. This is what
         // implements the "abilities at the time the card was tagged"
         // rule for cascaded destructions, and prevents a later
         // persistent-effect change (e.g. Thoughtcatcher's grant becoming
@@ -94,6 +59,11 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
         // from retroactively adding a new trigger to an already-emitted
         // event.
         this.newlyTaggedLeavesPlayEvents = new Set();
+        // Snapshot of `this.choices` taken after each ability resolution.
+        // Used by addChoice/addDeferredChoice to reject contexts that
+        // weren't part of the original (or newly-tagged) trigger set —
+        // i.e. abilities the card didn't have at tagging time.
+        this.lockedInChoices = [];
     }
 
     addChoice(context) {
@@ -145,8 +115,8 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
         this.game.currentDestructionWindow = this;
         super.resolveAbility(context);
         // Snapshot the choice set we just resolved against. Future
-        // iterations use this to reject (ability, event) pairs that
-        // weren't on the table when the player started ordering.
+        // iterations use this to reject new `Destroyed:` abilities on
+        // cards already tagged for destruction.
         this.lockedInChoices = this.choices;
     }
 
@@ -203,7 +173,11 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
             this.eventWindow.event.getSimultaneousEvents(),
             this.eventsToExclude
         );
-        events = events.concat(this.batchedLeavesPlayEvents.filter((event) => !event.cancelled));
+        for (const event of this.batchedLeavesPlayEvents) {
+            if (!event.cancelled) {
+                events.push(event);
+            }
+        }
         _.each(events, (event) => {
             this.game.emit(event.name + ':' + this.abilityType, event, this);
         });
@@ -219,25 +193,24 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
      * `discardAllTaggedCards` runs at close.
      */
     addBatchedDestroyEvent(destroyEvent) {
-        this.batchedDestroyEvents.push(destroyEvent);
+        this.batchedDestroyEvents.add(destroyEvent);
     }
 
     /**
      * Promote each newly-tagged destroy event's leavesPlay sub-event
-     * into our re-emit list. New entries are also added to
+     * into our re-emit set. New entries are also added to
      * `newlyTaggedLeavesPlayEvents` so their initial triggers can bypass
      * the lock-in check exactly once on the next emit pass.
-     * Deduplication via `batchedLeavesPlayEventSet` ensures we never
-     * re-emit the same event twice across multiple iterations.
+     * `batchedLeavesPlayEvents` is a Set, so re-running this across
+     * multiple `continue()` passes never re-emits the same event twice.
      */
     captureNewlyTaggedLeavesPlayEvents() {
         for (const destroyEvent of this.batchedDestroyEvents) {
             const leavesPlayEvent = destroyEvent.leavesPlayEvent;
-            if (!leavesPlayEvent || this.batchedLeavesPlayEventSet.has(leavesPlayEvent)) {
+            if (!leavesPlayEvent || this.batchedLeavesPlayEvents.has(leavesPlayEvent)) {
                 continue;
             }
-            this.batchedLeavesPlayEvents.push(leavesPlayEvent);
-            this.batchedLeavesPlayEventSet.add(leavesPlayEvent);
+            this.batchedLeavesPlayEvents.add(leavesPlayEvent);
             this.newlyTaggedLeavesPlayEvents.add(leavesPlayEvent);
         }
     }
@@ -270,7 +243,7 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
      *     whole cascade rather than one per cascaded destruction.
      */
     discardAllTaggedCards() {
-        if (this.batchedDestroyEvents.length === 0) {
+        if (this.batchedDestroyEvents.size === 0) {
             return;
         }
 
@@ -290,10 +263,7 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
             // Re-check the leavesPlay condition (location === 'play area')
             // so an ability that moved the card to a different
             // out-of-play zone mid-window doesn't get its discard
-            // double-applied here. Note: ward applied to a tagged card
-            // does NOT remove the tag, and does NOT flow through this
-            // check — the card's location is still 'play area', so the
-            // discard correctly proceeds.
+            // double-applied here.
             if (
                 leavesPlayEvent &&
                 !leavesPlayEvent.cancelled &&
@@ -303,7 +273,7 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
             }
         }
 
-        this.batchedDestroyEvents = [];
+        this.batchedDestroyEvents.clear();
     }
 }
 
