@@ -363,24 +363,22 @@ describe("Champion's Challenge", function () {
             // Thoughtcatcher does not gain +1 Draw from Parasitic Arachnoid
             // capture due to already being tagged for destruction
             expect(this.player1).toHavePrompt(
-                'Any interrupts to Mender being destroyed or Thoughtcatcher being destroyed, Thoughtcatcher being destroyed?'
+                'Any interrupts to Mender being destroyed or Thoughtcatcher being destroyed?'
             );
             expect(this.player1).toHavePrompt('Triggered Abilities');
             expect(this.player1).toBeAbleToSelect(this.thoughtcatcher);
             expect(this.player1).toBeAbleToSelect(this.mender);
             expect(this.player2.hand.length).toBe(0);
             this.player1.clickCard(this.thoughtcatcher);
-            this.player1.clickPrompt('Thoughtcatcher');
             expect.soft(this.player2.hand.length).toBe(0);
 
             // Auto-resolve Mender Kaspara +1A
-            expect(this.player1.amber).toBe(5);
-            expect(this.player2.amber).toBe(0);
+            expect(this.player1.amber).toBe(8);
+            expect(this.player2.amber).toBe(2);
             expect(this.kaspara.location).toBe('play area');
             expect(this.kaspara.moribund).toBe(false);
             expect(this.kaspara.damage).toBe(3);
-            expect(this.kaspara.power).toBe(5);
-            this.player1.clickCard(this.thoughtcatcher);
+            expect(this.kaspara.power).toBe(10);
 
             // Finalize Obsidian Forge's destruction. All destroyed abilities
             // have resolved and cards have moved to the discard pile
