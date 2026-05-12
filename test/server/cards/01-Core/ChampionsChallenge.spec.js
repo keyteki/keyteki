@@ -226,8 +226,6 @@ describe("Champion's Challenge", function () {
             }
         });
 
-        // TODO: CC can choose an already tagged for destruction creature
-        // order multiple destroyed effects on same card (eg double soulkeeper)
         it('keeps every destroyed creature on the board until all Destroyed: abilities (including those triggered by CC) have resolved, batches their amber gains correctly, and lets P1 forge a key with Obsidian Forge once the dust settles', function () {
             // Resolve Jargogle with Batdrone
             expect(this.player1).toHavePrompt(
@@ -413,6 +411,46 @@ describe("Champion's Challenge", function () {
             expect(this.player1.hand.length).toBe(0);
             expect.soft(this.player2.hand.length).toBe(0);
 
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('autoresolves the cascade end-to-end', function () {
+            this.player1.clickPrompt('Autoresolve');
+
+            // Champion's Challenge: spare an enemy / friendly.
+            expect(this.player1).toHavePrompt('Champion’s Challenge');
+            expect(this.player1).toHavePrompt('Choose an enemy creature to not destroy');
+            this.player1.clickCard(this.thoughtcatcher);
+            expect(this.player1).toHavePrompt('Choose a creature to fight with');
+            this.player1.clickCard(this.jargogleWithBatdrone);
+            expect(this.player1).toHavePrompt('Choose a creature to attack');
+            this.player1.clickCard(this.thoughtcatcher);
+
+            // Batdrone enters from Jargogle's child.
+            expect(this.player1).toHavePrompt('Which flank do you want to place this creature on?');
+            this.player1.clickPrompt('Left');
+
+            // Soulkeeper picks an enemy creature to destroy.
+            expect(this.player1).toHavePrompt('Soulkeeper');
+            this.player1.clickCard(this.thoughtcatcher);
+
+            // Parasitic Arachnoid captures 1A from a creature.
+            expect(this.player1).toHavePrompt('Parasitic Arachnoid');
+            this.player1.clickCard(this.thoughtcatcher);
+
+            // Obsidian Forge prompts to forge.
+            expect(this.player1).toHavePrompt('Obsidian Forge');
+            this.player1.clickPrompt('Yes');
+            this.player1.forgeKey('Red');
+            expect(this.obsidianForge.location).toBe('discard');
+
+            expect(this.player1.player.cardsInPlay).toEqual([this.batdrone]);
+            expect(this.player2.player.cardsInPlay).toEqual([]);
+            expect(this.player1.hand.length).toBe(0);
+            expect(this.player2.hand.length).toBe(0);
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(3);
+            expect(this.player1.player.keys.red).toBe(true);
             expect(this.player1).isReadyToTakeAction();
         });
     });
