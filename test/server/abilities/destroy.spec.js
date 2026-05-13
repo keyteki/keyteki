@@ -144,7 +144,7 @@ describe('Destroyed: ability window', function () {
             expect(this.batdrone.location).toBe('play area');
             expect(this.batdrone.moribund).toBe(false); // not yet tagged for destruction
             expect(this.player1).not.toBeAbleToSelect(this.batdrone);
-            expect(this.player1).not.toBeAbleToSelect(this.jargoglewithChampChall);
+            expect(this.player1).not.toBeAbleToSelect(this.jargogleWithChampChall);
             expect(this.player1).not.toBeAbleToSelect(this.jargogleWithBatdrone);
             this.player1.clickCard(this.skullion);
 
