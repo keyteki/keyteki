@@ -26,7 +26,7 @@ class ShizyokuBuggy extends Card {
                     ]
                 })
             },
-            effect: 'reveal {1}{0} {2}',
+            effect: 'reveal {1}{0}{2}',
             effectArgs: (context) => [
                 context.target &&
                 context.target.length == 2 &&
@@ -36,7 +36,7 @@ class ShizyokuBuggy extends Card {
                 context.target &&
                 context.target.length == 2 &&
                 context.target[0].getHouses().some((house) => context.target[1].hasHouse(house))
-                    ? 'to make a token creature'
+                    ? ' to make a token creature'
                     : ''
             ]
         });

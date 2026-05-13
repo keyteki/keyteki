@@ -14,7 +14,7 @@ describe('Malina', function () {
         });
 
         it('opponent cannot play creatures more powerful than the most powerful in play while exhausted', function () {
-            this.malina.exhausted = true;
+            this.malina.exhaust();
             this.player1.endTurn();
             this.player1.clickPrompt('done');
             this.player2.clickPrompt('brobnar');
@@ -30,7 +30,7 @@ describe('Malina', function () {
         });
 
         it('opponent can play creatures equal to or less powerful than the most powerful in play while exhausted', function () {
-            this.malina.exhausted = true;
+            this.malina.exhaust();
             this.player1.endTurn();
             this.player1.clickPrompt('done');
             this.player2.clickPrompt('brobnar');
@@ -56,7 +56,7 @@ describe('Malina', function () {
         });
 
         it("does not restrict Malina's controller from playing creatures of any power while exhausted", function () {
-            this.malina.exhausted = true;
+            this.malina.exhaust();
             this.player1.play(this.hemogrith);
             expect(this.hemogrith.location).toBe('play area');
             this.player1.play(this.sibylWaimare);

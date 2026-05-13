@@ -14,7 +14,7 @@ describe('Hot Bunk', function () {
         });
 
         it('exhausts a creature, then readies a creature', function () {
-            this.troll.exhausted = true;
+            this.troll.exhaust();
             this.player1.play(this.hotBunk);
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.exeldonYash);
@@ -26,7 +26,7 @@ describe('Hot Bunk', function () {
         });
 
         it('exhausts an exhausted creature, and does not ready a creature', function () {
-            this.troll.exhausted = true;
+            this.troll.exhaust();
             this.player1.play(this.hotBunk);
             expect(this.player1).toHavePrompt('Choose a creature');
             this.player1.clickCard(this.troll);
@@ -55,7 +55,7 @@ describe('Hot Bunk', function () {
                     inPlay: ['sariel-the-steadfast', 'troll']
                 }
             });
-            this.troll.exhausted = true;
+            this.troll.exhaust();
         });
 
         it('does not ready a creature when no creature can be exhausted', function () {

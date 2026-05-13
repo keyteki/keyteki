@@ -140,7 +140,7 @@ beforeEach(function () {
     });
 
     // Exhaust a creature
-    this.myCreature.exhausted = true;
+    this.myCreature.exhaust();
 
     // Ready a creature
     this.myCreature.ready();
@@ -709,7 +709,7 @@ it('should gain 2 aember when destroyed', function () {
 
 ```javascript
 it('should ready and fight with a creature', function () {
-    this.dextre.exhausted = true;
+    this.dextre.exhaust();
     this.player1.useAction(this.gauntletOfCommand);
     expect(this.player1).toHavePrompt('Choose a creature');
     this.player1.clickCard(this.dextre);

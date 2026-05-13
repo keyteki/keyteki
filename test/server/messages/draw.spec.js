@@ -62,7 +62,7 @@ describe('Draw Messages', function () {
                 'player1 uses Phase Shift to allow them to play one non-Logos card this turn',
                 'player1 draws 6 cards to refill their hand to 6 cards',
                 'player1: 0 amber (0 keys) player2: 0 amber (0 keys)',
-                'player2 does not forge a key.  They have 0 amber.  The current cost is 6 amber'
+                'player2 does not forge a key. They have 0 amber. The current cost is 6 amber'
             ]);
         });
     });
