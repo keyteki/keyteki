@@ -1,10 +1,10 @@
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
 
+import { Constants } from '../../constants';
 import CardTiledList from './CardTiledList';
 import Droppable from './Droppable';
 import MovablePanel from './MovablePanel';
-import { Constants } from '../../constants';
 
 const CardPilePopup = ({
     cardBack,
@@ -102,7 +102,9 @@ const CardPilePopup = ({
             house,
             count: hasHiddenCards
                 ? '?'
-                : ownedVisible.filter((card) => card.printedHouse === house).length
+                : ownedVisible.filter(
+                      (card) => (card.maverick || card.anomaly || card.printedHouse) === house
+                  ).length
         }));
 
         popupTitle = (
