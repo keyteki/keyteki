@@ -14,7 +14,7 @@ describe('Dammater', function () {
             const startingHand = this.player1.player.hand.length;
             this.player1.play(this.dammater);
             expect(this.player1.player.hand.length).toBe(startingHand - 1 + 3);
-            expect(this.player1).toHavePrompt('Choose {{amount}} cards to discard');
+            expect(this.player1).toHavePrompt('Choose 2 cards to discard');
             for (const card of this.player1.player.hand) {
                 expect(this.player1).toBeAbleToSelect(card);
             }
@@ -49,7 +49,7 @@ describe('Dammater', function () {
 
         it('still requires discarding 2 and archiving 1 when no cards are drawn', function () {
             this.player1.play(this.dammater);
-            expect(this.player1).toHavePrompt('Choose {{amount}} cards to discard');
+            expect(this.player1).toHavePrompt('Choose 2 cards to discard');
             for (const card of this.player1.player.hand) {
                 expect(this.player1).toBeAbleToSelect(card);
             }

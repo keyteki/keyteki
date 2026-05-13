@@ -8,7 +8,10 @@ class Dammater extends Card {
             then: {
                 alwaysTriggers: true,
                 target: {
-                    activePromptTitle: 'Choose {{amount}} cards to discard',
+                    activePromptTitle: {
+                        text: 'Choose {{amount}} cards to discard',
+                        values: { amount: 2 }
+                    },
                     location: 'hand',
                     controller: 'self',
                     mode: 'exactly',
