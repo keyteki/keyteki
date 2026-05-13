@@ -5,6 +5,8 @@ class TotalRecall extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'gain {1} amber and return all of their creatures to their hand',
+            effectArgs: (context) =>
+                context.player.creaturesInPlay.filter((card) => !card.exhausted).length,
             gameAction: [
                 ability.actions.gainAmber((context) => ({
                     amount: context.player.creaturesInPlay.filter((card) => !card.exhausted).length

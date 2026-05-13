@@ -18,7 +18,7 @@ class Atrocity extends Card {
                 gameAction: ability.actions.discard((context) => ({
                     target: context.player.opponent ? context.player.opponent.deck.slice(0, 1) : []
                 })),
-                message: '{0} uses {1} to discard {3} from the top of their deck',
+                message: '{0} uses {1} to discard {2} from the top of their deck',
                 messageArgs: (context) => [
                     context.player,
                     context.source,

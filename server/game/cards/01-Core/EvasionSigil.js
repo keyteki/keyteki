@@ -7,7 +7,7 @@ class EvasionSigil extends Card {
             when: {
                 onFight: () => true
             },
-            effect: "discard the top card of {1}'s deck: {2}. {3}{4}",
+            effect: "discard the top card of {1}'s deck: {2}{3}{4}{5}",
             effectArgs: (context) => {
                 let player = context.event.context.player;
                 let topCard = player.deck.length ? player.deck[0] : '';
@@ -16,6 +16,7 @@ class EvasionSigil extends Card {
                 return [
                     player,
                     topCard,
+                    cancelFight ? '. ' : '',
                     cancelFight ? context.event.context.source : '',
                     cancelFight ? ' is exhausted without effect' : ''
                 ];

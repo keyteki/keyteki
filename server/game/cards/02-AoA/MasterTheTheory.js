@@ -5,7 +5,7 @@ class MasterTheTheory extends Card {
     setupCardAbilities(ability) {
         this.play({
             condition: () => this.controller.creaturesInPlay.length === 0,
-            effect: ' to archive a card for each creature {1} has in play ({2}).',
+            effect: 'archive a card for each creature {1} has in play ({2})',
             effectArgs: (context) => [
                 context.player.opponent,
                 context.player.opponent.creaturesInPlay.length

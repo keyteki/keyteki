@@ -23,8 +23,15 @@ class Commpod extends Card {
                     })
                 }))
             },
-            effect: 'reveal {0} and to ready a creature {1} times',
-            effectArgs: (context) => context.target.length
+            effect: '{1}',
+            effectArgs: (context) => {
+                const n = context.target.length;
+                return n
+                    ? `reveal ${n} Mars card${n === 1 ? '' : 's'} and ready a creature ${n} time${
+                          n === 1 ? '' : 's'
+                      }`
+                    : 'reveal no Mars cards from their hand';
+            }
         });
     }
 }
