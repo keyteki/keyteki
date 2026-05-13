@@ -274,4 +274,45 @@ describe('Mimicry', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('Mimicry with Befuddle', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    hand: ['befuddle', 'helper-bot', 'dimension-door'],
+                    discard: ['lateral-shift', 'neuro-syphon']
+                },
+                player2: {
+                    hand: ['mimicry', 'dust-pixie']
+                }
+            });
+        });
+
+        beforeEach(function () {
+            this.player1.play(this.befuddle);
+            this.player1.clickPrompt('untamed');
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+        });
+
+        it('can be played when Befuddle restricts to Untamed since Mimicry can copy a non-Untamed card', function () {
+            this.player2.play(this.mimicry);
+            expect(this.player2).toHavePrompt('Mimicry');
+            expect(this.player2).toBeAbleToSelect(this.lateralShift);
+            expect(this.player2).toBeAbleToSelect(this.neuroSyphon);
+            this.player2.clickCard(this.neuroSyphon);
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('still reveals opponent hand when copying Lateral Shift even if no cards are playable', function () {
+            this.player2.play(this.mimicry);
+            this.player2.clickCard(this.lateralShift);
+            for (let card of this.player1.player.hand) {
+                expect(this.player2.game.isCardVisible(card, this.player2.player)).toBe(true);
+            }
+            this.player2.clickPrompt('Done');
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
 });
