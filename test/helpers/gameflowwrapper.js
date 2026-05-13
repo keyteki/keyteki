@@ -96,7 +96,7 @@ class GameFlowWrapper {
      */
     getChatLogs(numBack = 1, reverse = true) {
         let results = [];
-        for (let i = 0; i < this.game.messages.length && i < numBack; i++) {
+        for (let i = 0; i < this.game.messages.length && results.length < numBack; i++) {
             let result = '';
             let chatMessage = this.game.messages[this.game.messages.length - i - 1];
             let messageContent = chatMessage.message;
