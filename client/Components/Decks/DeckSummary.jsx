@@ -157,7 +157,9 @@ const DeckSummary = ({ deck }) => {
 
     const totalGames = parseInt(deck.wins || 0) + parseInt(deck.losses || 0);
 
-    const hasMissingCards = deck.cards.some((c) => !c.isNonDeck && !c.card?.name);
+    const hasMissingCards = deck.cards.some(
+        (c) => !c.isNonDeck && (!c.card?.name || !c.card?.house)
+    );
 
     return (
         <div className='deck-summary mx-auto mt-3 w-full max-w-5xl'>
