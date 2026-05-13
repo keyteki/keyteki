@@ -19,9 +19,7 @@ class BattleFleet extends Card {
             effectArgs: (context) => {
                 const n = context.target.length;
                 return n
-                    ? `reveal ${n} Mars card${
-                          n === 1 ? '' : 's'
-                      } from their hand, and draw ${n} card${n === 1 ? '' : 's'}`
+                    ? `reveal ${context.target.map((c) => c.name).join(', ')} from their hand`
                     : 'reveal no Mars cards from their hand';
             }
         });

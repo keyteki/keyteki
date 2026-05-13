@@ -28,12 +28,13 @@ class Mothergun extends Card {
             effect: '{1}',
             effectArgs: (context) => {
                 const revealed = context.targets.reveal;
-                const n = Array.isArray(revealed) ? revealed.length : revealed ? 1 : 0;
+                const cards = Array.isArray(revealed) ? revealed : revealed ? [revealed] : [];
+                const n = cards.length;
                 const target = context.targets.damage;
                 return n
-                    ? `reveal ${n} Mars card${
-                          n === 1 ? '' : 's'
-                      } from their hand, and deal ${n} damage to ${
+                    ? `reveal ${cards
+                          .map((c) => c.name)
+                          .join(', ')} from their hand and deal ${n} damage to ${
                           target ? target.name : 'nothing'
                       }`
                     : 'reveal no Mars cards from their hand';

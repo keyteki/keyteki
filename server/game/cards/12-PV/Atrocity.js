@@ -7,7 +7,7 @@ class Atrocity extends Card {
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,
-            effect: "force {1} to discard and choose that card's house next turn",
+            effect: "force {1} on their next turn to discard the top card of their deck and choose that card's house for that turn",
             effectArgs: (context) => context.player.opponent,
             effectAlert: true,
             gameAction: ability.actions.duringOpponentNextTurn({
@@ -16,11 +16,12 @@ class Atrocity extends Card {
                 },
                 multipleTrigger: false,
                 gameAction: ability.actions.discard((context) => ({
-                    target: context.player.opponent ? context.player.opponent.deck.slice(0, 1) : []
+                    target: context.player.opponent ? context.player.opponent.deck.slice(0, 1) : [],
+                    chatMessage: false
                 })),
                 message: '{0} uses {1} to discard {2} from the top of their deck',
                 messageArgs: (context) => [
-                    context.player,
+                    context.game.activePlayer,
                     context.source,
                     context.player.opponent && context.player.opponent.deck.length > 0
                         ? context.player.opponent.deck[0]

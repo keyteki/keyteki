@@ -5,11 +5,25 @@ class Amberlution extends Card {
     // Play: Destroy each creature. Each player reveals their hand and puts each creature from their hand into play ready.
     setupCardAbilities(ability) {
         this.play({
-            effect: "destroy each creature, reveal each player's hand, and put creatures from each player's hand into play ready",
-            preserveActionMessages: true,
-            gameAction: ability.actions.sequential([
-                ability.actions.destroy((context) => ({ target: context.game.creaturesInPlay })),
-                ability.actions.sequentialPutIntoPlay((context) => {
+            effect: 'destroy each creature',
+            gameAction: ability.actions.destroy((context) => ({
+                target: context.game.creaturesInPlay
+            })),
+            then: {
+                alwaysTriggers: true,
+                message:
+                    "{0} uses {1} to reveal {3}'s hand ({4}) and reveal {5}'s hand ({6}) and put each revealed creature into play ready",
+                messageArgs: (context) => {
+                    const p1Hand = context.player.hand;
+                    const p2Hand = context.player.opponent ? context.player.opponent.hand : [];
+                    return [
+                        context.player,
+                        p1Hand.length ? p1Hand : 'empty',
+                        context.player.opponent || 'no opponent',
+                        p2Hand.length ? p2Hand : 'empty'
+                    ];
+                },
+                gameAction: ability.actions.sequentialPutIntoPlay((context) => {
                     const creatures = context.game.allCards.filter(
                         (card) => card.location === 'hand' && card.type === 'creature'
                     );
@@ -22,7 +36,7 @@ class Amberlution extends Card {
                         numPlayAllowances: creatures.length
                     };
                 })
-            ])
+            }
         });
     }
 }

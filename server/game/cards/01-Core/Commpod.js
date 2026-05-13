@@ -18,7 +18,9 @@ class Commpod extends Card {
                             activePromptTitle: 'Choose a creature to ready',
                             cardType: 'creature',
                             cardCondition: (card) => card.hasHouse('mars'),
-                            controller: 'self'
+                            controller: 'self',
+                            message: '{0} uses {1} to ready {2}',
+                            messageArgs: (card) => [context.player, context.source, card]
                         }
                     })
                 }))
@@ -27,9 +29,9 @@ class Commpod extends Card {
             effectArgs: (context) => {
                 const n = context.target.length;
                 return n
-                    ? `reveal ${n} Mars card${n === 1 ? '' : 's'} and ready a creature ${n} time${
-                          n === 1 ? '' : 's'
-                      }`
+                    ? `reveal ${context.target
+                          .map((c) => c.name)
+                          .join(', ')} and ready ${n} creature${n === 1 ? '' : 's'}`
                     : 'reveal no Mars cards from their hand';
             }
         });
