@@ -156,4 +156,33 @@ describe('Zomok', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('Armor', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'skyborn',
+                    hand: ['zomok', 'zomok2'],
+                    inPlay: []
+                },
+                player2: {
+                    inPlay: ['earthshaker']
+                }
+            });
+        });
+
+        it('should have 2 armor when played via the bottom half', function () {
+            this.player1.play(this.zomok);
+            expect(this.zomok.armorTotal).toBe(2);
+            expect(this.zomok.tokens.armor).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should have 2 armor when played via the top half', function () {
+            this.player1.play(this.zomok2);
+            expect(this.zomok2.armorTotal).toBe(2);
+            expect(this.zomok2.tokens.armor).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
