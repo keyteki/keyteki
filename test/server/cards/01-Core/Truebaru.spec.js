@@ -53,13 +53,11 @@ describe('Truebaru', function () {
             });
         });
 
-        it('should refund the 3 amber cost when the play is cancelled at the flank prompt', function () {
+        it('should not allow cancelling at the flank prompt because the amber cost is irrevocable', function () {
             this.player1.clickCard(this.truebaru);
-            expect(this.player1).toHavePromptButton('Cancel');
-            this.player1.clickPrompt('Cancel');
-            expect(this.truebaru.location).toBe('hand');
-            expect(this.player1.amber).toBe(3);
-            expect(this.player1).isReadyToTakeAction();
+            this.player1.clickPrompt('Play this creature');
+            expect(this.player1).toHavePrompt('Which flank do you want to place this creature on?');
+            expect(this.player1).not.toHavePromptButton('Cancel');
         });
     });
 });

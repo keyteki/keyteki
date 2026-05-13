@@ -149,7 +149,9 @@ class PutIntoPlayAction extends CardGameAction {
                 source:
                     this.promptSource || (this.target.length > 0 ? this.target[0] : context.source),
                 choices:
-                    this.beingPlayed && card.location === 'hand'
+                    this.beingPlayed &&
+                    card.location === 'hand' &&
+                    context.player.getAdditionalCosts(context).length === 0
                         ? choices.concat({ text: 'Cancel', type: 'cancel' })
                         : choices,
                 choiceHandler: (choice) => {
@@ -237,15 +239,20 @@ class PutIntoPlayAction extends CardGameAction {
     // Cancel an in-flight play that has reached the flank/deploy prompt.
     //
     // SAFETY: This is only called from the flank prompt's Cancel choice, which
-    // can only appear when `beingPlayed && card.location === 'hand'` — i.e.
-    // a direct user-initiated play from hand. By the time the prompt fires,
-    // the cost subevents and bonus-icon subevents have already RESOLVED
+    // can only appear when `beingPlayed && card.location === 'hand'` and there
+    // are no additional costs — i.e. a direct user-initiated play from hand
+    // with no irrevocable side-effects. By the time the prompt fires, the base
+    // cost subevents and bonus-icon subevents have already RESOLVED
     // synchronously (their handlers ran and mutated state), so cancelling
     // those events here is a no-op for state — it only suppresses their
     // `onXResolved` follow-up bookkeeping. The play's own `onCardPlayed`
     // event has not yet resolved (its handler is what queues this prompt's
     // sibling steps), so cancelling it correctly suppresses the play log
     // message and the put-into-play side-effects.
+    //
+    // The Cancel button is hidden when additional costs (e.g. Truebaru's
+    // loseAmber(3)) have been paid, because those costs resolve in separate
+    // event windows and refunding them could trigger unintended side-effects.
     //
     // We assert below that the root event is not yet resolved to catch any
     // future change that would re-order the pipeline and make this unsafe.
