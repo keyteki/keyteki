@@ -271,7 +271,13 @@ export const socketMiddleware = (store) => (next) => (action) => {
         });
 
         gameSocket.on('cleargamestate', () => {
-            store.dispatch(lobbyActions.clearGameState());
+            const currentState = store.getState();
+            // Don't clear game state if the lobby has already set up a new pending game
+            // (e.g., from a rematch with new decks). The game socket's cleargamestate
+            // can race with the lobby socket's gamestate for the new pending game.
+            if (!currentState.lobby.currentGame || currentState.lobby.currentGame.started) {
+                store.dispatch(lobbyActions.clearGameState());
+            }
         });
     }
 
