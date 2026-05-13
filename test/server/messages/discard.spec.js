@@ -55,7 +55,7 @@ describe('Discard Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 discards Donor Vox',
-                'player1 uses Donor Vox to give Zorg two +1 power counters'
+                'player1 uses Donor Vox to place 2 +1 power counters on Zorg'
             ]);
         });
     });

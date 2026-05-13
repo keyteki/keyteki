@@ -99,8 +99,23 @@ class GameFlowWrapper {
         for (let i = 0; i < this.game.messages.length && i < numBack; i++) {
             let result = '';
             let chatMessage = this.game.messages[this.game.messages.length - i - 1];
-            for (let j = 0; j < chatMessage.message.length; j++) {
-                result += getChatString(chatMessage.message[j]);
+            let messageContent = chatMessage.message;
+
+            // Alert messages wrap content in { alert: { type, message } }
+            // Only include 'bell' alerts (card effects); skip structural alerts
+            if (messageContent && messageContent.alert) {
+                if (messageContent.alert.type !== 'bell') {
+                    continue;
+                }
+                messageContent = messageContent.alert.message;
+            }
+
+            if (Array.isArray(messageContent)) {
+                for (let j = 0; j < messageContent.length; j++) {
+                    result += getChatString(messageContent[j]);
+                }
+            } else {
+                result += getChatString(messageContent);
             }
 
             results.push(result);

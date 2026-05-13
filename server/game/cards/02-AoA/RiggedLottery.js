@@ -1,7 +1,7 @@
 const Card = require('../../Card.js');
 
 class RiggedLottery extends Card {
-    // Play: Each player discards the top 5cards of their deck. For each Shadows card discarded, its owner gains 1A.
+    // Play: Each player discards the top 5 cards of their deck. For each Shadows card discarded, its owner gains 1A.
     setupCardAbilities(ability) {
         this.play({
             gameAction: [
@@ -40,13 +40,13 @@ class RiggedLottery extends Card {
                         : [];
                 return {
                     message:
-                        "{0} discards {3} from {4}'s deck, and {4} gains {5} amber. They also discard {6} from {7}'s deck and {7} gains {8} amber",
+                        '{3} discards the top 5 cards of their deck ({4}) and gains {5} amber. {6} discards the top 5 cards of their deck ({7}) and gains {8} amber',
                     messageArgs: [
-                        myCards,
                         preThenContext.player,
+                        myCards,
                         myCards.filter((card) => card.hasHouse('shadows')).length,
-                        theirCards,
                         preThenContext.player.opponent,
+                        theirCards,
                         theirCards.filter((card) => card.hasHouse('shadows')).length
                     ],
                     gameAction: [
