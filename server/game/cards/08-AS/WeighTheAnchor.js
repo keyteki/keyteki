@@ -10,6 +10,7 @@ class WeighTheAnchor extends Card {
                 context.player.opponent.creaturesInPlay.length >
                     context.player.creaturesInPlay.length,
             target: {
+                activePromptTitle: 'Choose a creature to stun',
                 mode: 'exactly',
                 controller: 'opponent',
                 numCards: (context) =>

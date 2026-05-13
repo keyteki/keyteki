@@ -9,6 +9,7 @@ class QyxxlyxxGraveMaster extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
+                activePromptTitle: 'Choose a creature to purge',
                 cardType: 'creature',
                 controller: 'any',
                 location: 'discard',

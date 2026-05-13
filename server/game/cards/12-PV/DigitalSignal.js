@@ -13,6 +13,7 @@ class DigitalSignal extends Card {
             condition: (context) =>
                 context.player.opponent && context.player.opponent.archives.length > 0,
             target: {
+                activePromptTitle: 'Choose which card to archive',
                 mode: 'exactly',
                 numCards: (context) =>
                     context.player.opponent ? context.player.opponent.archives.length : 0,
