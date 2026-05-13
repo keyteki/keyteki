@@ -191,3 +191,40 @@ describe('Mulligan', function () {
         });
     });
 });
+
+describe('Mulligan with chains', function () {
+    beforeEach(function () {
+        const deckBuilder = new DeckBuilder();
+        this.player1.selectDeck(
+            deckBuilder.customDeck({
+                hand: ['troll', 'anger', 'punch', 'bumpsy', 'headhunter', 'smith', 'earthshaker']
+            })
+        );
+        this.player2.selectDeck(
+            deckBuilder.customDeck({
+                hand: [
+                    'dust-pixie',
+                    'hunting-witch',
+                    'flaxia',
+                    'silvertooth',
+                    'urchin',
+                    'bad-penny'
+                ]
+            })
+        );
+        this.player1.player.chains = 3;
+        this.startGame();
+    });
+
+    it('should not shed chains when player1 mulligans', function () {
+        // chains=3: single first-player refill targets maxHandSize+1=7,
+        // penalty=1, amount = 7-0-1 = 6, sheds 1 → chains=2.
+        // Pre-mulligan: hand=6, chains=2.
+        expect(this.player1.chains).toBe(2);
+        this.player1.clickPrompt('Mulligan');
+        this.player2.clickPrompt('Keep Hand');
+        // Mulligan draws hand.length - 1 cards and does not shed chains
+        expect(this.player1.hand.length).toBe(5);
+        expect(this.player1.chains).toBe(2);
+    });
+});
