@@ -98,8 +98,7 @@ describe('Whirlpool', function () {
             });
         });
 
-        // Not clear how whirlpool collar rules with animating force deanimator, and in terms of implementation those are in direct conflict
-        it.skip('changes control of a collared creature to the opponent at end of turn', function () {
+        it('changes control of a collared creature to the opponent at end of turn', function () {
             this.player1.playUpgrade(this.collarOfSubordination, this.krump);
             expect(this.krump.controller).toBe(this.player1.player);
             expect(this.krump.upgrades).toContain(this.collarOfSubordination);
