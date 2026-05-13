@@ -40,13 +40,15 @@ class AllocateDamageAction extends GameAction {
                                         .dealDamage({ amount: amount })
                                         .getEvent(card, context)
                                 );
-                                context.game.addMessage(
-                                    '{0} uses {1} to deal {2} damage to {3}',
-                                    context.player,
-                                    context.source,
-                                    amount,
-                                    card
-                                );
+                                if (!context.suppressActionMessages) {
+                                    context.game.addMessage(
+                                        '{0} uses {1} to deal {2} damage to {3}',
+                                        context.player,
+                                        context.source,
+                                        amount,
+                                        card
+                                    );
+                                }
                             }
                         }
                     }

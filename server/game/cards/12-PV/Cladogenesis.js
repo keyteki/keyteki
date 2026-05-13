@@ -4,27 +4,14 @@ class Cladogenesis extends Card {
     // Play: Each player discards the top card of their deck and reveals their hand. Discard each card that belongs to their discarded card's house. Each player refills their hand as if it were their "draw cards" step.
     setupCardAbilities(ability) {
         this.play({
-            effect: "discard {1}, reveal each player's hand, and discard cards belonging to each player's discarded card's house",
-            effectArgs: (context) => {
-                let res = [];
-                let myTop = context.player.deck.length > 0 ? context.player.deck[0] : '';
-                if (myTop) {
-                    res.push(myTop);
-                }
-                if (context.player.opponent && context.player.opponent.deck.length > 0) {
-                    res.push(context.player.opponent.deck[0]);
-                }
-                if (res.length === 0) {
-                    return [['nothing']];
-                }
-                return [res];
-            },
+            effect: "discard the top card of each player's deck, reveal each player's hand, and discard cards belonging to each player's discarded card's house",
+            preserveActionMessages: true,
             gameAction: ability.actions.sequential([
-                ability.actions.discard((context) => ({
-                    target: context.game
-                        .getPlayers()
-                        .filter((player) => player.deck.length > 0)
-                        .map((player) => player.deck[0])
+                ability.actions.discardTopOfDeck((context) => ({
+                    target: context.player
+                })),
+                ability.actions.discardTopOfDeck((context) => ({
+                    target: context.player.opponent
                 })),
                 ability.actions.reveal((context) => ({
                     target: context.player.hand,

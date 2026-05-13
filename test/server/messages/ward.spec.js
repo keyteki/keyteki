@@ -165,10 +165,7 @@ describe('Ward Messages', function () {
             this.player1.useAction(this.soulLock);
             this.player1.clickCard(this.dextre);
             expect(this.player1).isReadyToTakeAction();
-            expect(this).toHaveAllChatMessagesBe([
-                'player1 uses Soul Lock',
-                'player2 uses Dextre to remove its ward token'
-            ]);
+            expect(this).toHaveAllChatMessagesBe(['player2 uses Dextre to remove its ward token']);
         });
     });
 });

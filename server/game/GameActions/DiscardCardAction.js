@@ -75,6 +75,7 @@ class DiscardCardAction extends CardGameAction {
     setup() {
         super.setup();
         this.cost = 'discarding {0}';
+        this.defersMessage = true;
     }
 
     setDefaultProperties() {
@@ -147,7 +148,7 @@ class DiscardCardAction extends CardGameAction {
         if (this._orderedDiscardFromHandByPrompt) {
             const orderedTargets = this.target.filter((t) => this.canAffect(t, context));
 
-            if (orderedTargets.length > 0 && this.chatMessage) {
+            if (orderedTargets.length > 0 && this.chatMessage && !context.suppressActionMessages) {
                 context.game.addMessage(
                     '{0} uses {1} to discard {2}',
                     context.player,
@@ -175,7 +176,7 @@ class DiscardCardAction extends CardGameAction {
         const events = this.target
             .filter((target) => this.canAffect(target, context))
             .map((card) => this.getEvent(card, context));
-        if (events.length > 0 && this.chatMessage) {
+        if (events.length > 0 && this.chatMessage && !context.suppressActionMessages) {
             context.game.addMessage(
                 '{0} uses {1} to discard {2}',
                 context.player,

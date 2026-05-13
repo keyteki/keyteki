@@ -33,10 +33,7 @@ describe('Discard Messages', function () {
             this.player1.useAction(this.feedingPit);
             this.player1.clickCard(this.troll);
             expect(this.player1).isReadyToTakeAction();
-            expect(this).toHaveAllChatMessagesBe([
-                'player1 uses Feeding Pit',
-                'player1 uses Feeding Pit to discard Troll'
-            ]);
+            expect(this).toHaveAllChatMessagesBe(['player1 uses Feeding Pit to discard Troll']);
         });
     });
 
@@ -249,6 +246,100 @@ describe('Discard Messages', function () {
                 "player1 gains an amber due to Brine Reckoning's bonus icon",
                 "player1 uses Brine Reckoning to discard Urchin, Urchin, Urchin, Urchin, and Urchin from the top of player1's deck",
                 "player1 uses Brine Reckoning to discard Troll, Troll, Troll, Troll, and Troll from the top of player2's deck"
+            ]);
+        });
+    });
+
+    describe('reaction with discard target (Wraith Construct)', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    hand: ['troll'],
+                    inPlay: ['wraith-construct']
+                },
+                player2: {
+                    inPlay: ['bumpsy']
+                }
+            });
+        });
+
+        it('logs a single discard message for an unconditional discard reaction', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.endTurn();
+            this.player1.clickCard(this.troll);
+            this.player1.clickPrompt('geistoid');
+            expect(this.player1).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 readies their cards',
+                'player1 draws 5 cards to refill their hand to 6 cards',
+                'player1: 0 amber (0 keys) player2: 0 amber (0 keys)',
+                'player2 does not forge a key.  They have 0 amber.  The current cost is 6 amber ',
+                'player2 chooses brobnar as their active house this turn',
+                'player2 readies their cards',
+                'player2 draws 6 cards to refill their hand to 6 cards',
+                'player1: 0 amber (0 keys) player2: 0 amber (0 keys)',
+                'player1 uses Wraith Construct to discard Troll',
+                'player1 does not forge a key.  They have 0 amber.  The current cost is 6 amber ',
+                'player1 chooses geistoid as their active house this turn'
+            ]);
+        });
+    });
+
+    describe('discard then optional follow-up (Haunting Measures)', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    hand: ['haunting-measures'],
+                    discard: ['troll', 'anger', 'krump', 'punch', 'tremor', 'pelf']
+                },
+                player2: {}
+            });
+        });
+
+        it('logs the discard and the optional return-to-hand message', function () {
+            this.player1.moveCard(this.pelf, 'deck');
+            this.player1.moveCard(this.tremor, 'deck');
+            this.player1.moveCard(this.punch, 'deck');
+            this.player1.moveCard(this.krump, 'deck');
+            this.player1.moveCard(this.anger, 'deck');
+            this.player1.moveCard(this.troll, 'deck');
+            this.player1.play(this.hauntingMeasures);
+            this.player1.clickCard(this.troll);
+            expect(this.player1).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Haunting Measures',
+                "player1 gains an amber due to Haunting Measures's bonus icon",
+                'player1 uses Haunting Measures to discard Troll, Anger, Krump, Punch, Tremor, and Pelf',
+                'player1 uses Haunting Measures to return Troll to hand'
+            ]);
+        });
+    });
+
+    describe('discard with then gain amber (Munchling)', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['eyegor'],
+                    inPlay: ['munchling']
+                },
+                player2: {
+                    inPlay: ['helper-bot']
+                }
+            });
+        });
+
+        it('logs the discard once when used in a fight', function () {
+            this.player1.fightWith(this.munchling, this.helperBot);
+            this.player1.clickCard(this.eyegor);
+            expect(this.player1).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 uses Munchling to make Munchling fight Helper Bot',
+                'Helper Bot is destroyed',
+                'player1 uses Munchling to discard Eyegor'
             ]);
         });
     });

@@ -6,12 +6,14 @@ class RiggedLottery extends Card {
         this.play({
             gameAction: [
                 ability.actions.discard((context) => ({
+                    chatMessage: false,
                     target:
                         context.player.deck.length > 0
                             ? context.player.deck.slice(0, Math.min(5, context.player.deck.length))
                             : []
                 })),
                 ability.actions.discard((context) => ({
+                    chatMessage: false,
                     target:
                         context.player.opponent && context.player.opponent.deck.length > 0
                             ? context.player.opponent.deck.slice(

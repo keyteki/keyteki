@@ -38,8 +38,10 @@ class CardAbility extends ThenAbility {
         // Track events for 'then' condition checking
         allEvents.push(...events);
 
-        // Print effectMsg for this action if it has legal targets
-        if (action.hasLegalTarget(context) && action.effectMsg) {
+        // Print effectMsg for this action if it has legal targets.
+        // Skip when the action defers messaging (it emits its own chat
+        // message during execution); otherwise we'd print twice.
+        if (action.hasLegalTarget(context) && action.effectMsg && !action.defersMessage) {
             this.addMessage(
                 this.getMessageArgs(context, action.effectMsg, [action.target], action.effectArgs)
             );
@@ -136,11 +138,25 @@ class CardAbility extends ThenAbility {
         }
 
         if (this.properties.message) {
+            // The ability provides its own top-level message, so suppress
+            // the default "uses {source} to ..." messages that the immediate
+            // game actions would otherwise emit. Nested abilities (e.g., a
+            // `then:` block) get a fresh context and are unaffected.
+            // Cards can opt out via `preserveActionMessages: true` if their
+            // top-level message describes intent only and the granular
+            // sub-action messages should still print.
+            if (!this.properties.preserveActionMessages) {
+                context.suppressActionMessages = true;
+            }
             this.displayCustomMessage(context);
             return;
         }
 
         if (this.properties.effect) {
+            // Same reasoning as above for `effect:`-style messages.
+            if (!this.properties.preserveActionMessages) {
+                context.suppressActionMessages = true;
+            }
             this.displayEffectMessage(context);
             return;
         }
@@ -187,6 +203,12 @@ class CardAbility extends ThenAbility {
         );
 
         if (!gameActions || gameActions.length === 0) {
+            // If a `then:` block will provide its own messaging, suppress
+            // the bare "uses {source}" default that would otherwise print
+            // when the parent's game action had no legal target.
+            if (this.properties.then) {
+                return;
+            }
             this.addMessage(this.getMessageArgs(context));
             return;
         }
