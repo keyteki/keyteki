@@ -137,8 +137,6 @@ describe('Token', function () {
         });
 
         it('should swap the token during adaptive', function () {
-            // player1 bids 2 chains and player2 passes, so player1 takes 2
-            // chains. The first-player refill sheds 1 chain → chains=1.
             expect(this.player1.player.chains).toBe(1);
             expect(this.player1.player.tokenCard).toBe(undefined);
             expect(this.player2.player.tokenCard.name).toBe('Prospector');
