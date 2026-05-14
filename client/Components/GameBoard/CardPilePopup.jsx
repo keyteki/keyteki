@@ -21,6 +21,7 @@ const CardPilePopup = ({
     onMouseOut,
     onMouseOver,
     onTouchMove,
+    playerName,
     popupLocation,
     popupMenu,
     size,
@@ -94,6 +95,7 @@ const CardPilePopup = ({
     );
 
     let popupTitle = title;
+    const titleText = playerName ? `${title} - ${playerName}` : title;
     if (houses && houses.length > 0 && cards) {
         const ownedCards = cards.filter((card) => !card.controlled);
         const hasHiddenCards = ownedCards.some((card) => card.facedown);
@@ -109,12 +111,13 @@ const CardPilePopup = ({
 
         popupTitle = (
             <span className='inline-flex items-center gap-2'>
-                <span>{title}</span>
+                <span>{titleText}</span>
                 {counts.map(({ house, count }) => (
                     <span key={house} className='inline-flex items-center gap-0.5'>
                         <img
                             src={Constants.IdBackHousePaths[house]}
                             alt={house}
+                            draggable={false}
                             className='inline-block h-4 w-4'
                         />
                         <span className='text-sm'>{count}</span>
@@ -122,6 +125,8 @@ const CardPilePopup = ({
                 ))}
             </span>
         );
+    } else {
+        popupTitle = titleText;
     }
 
     popup = (

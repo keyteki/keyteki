@@ -24,6 +24,7 @@ const CardPileLink = ({
     onPopupChange,
     onTouchMove,
     orientation = 'vertical',
+    playerName,
     popupLocation = 'bottom',
     popupMenu,
     size,
@@ -131,6 +132,7 @@ const CardPileLink = ({
                     houses={houses}
                     isMe={isMe}
                     isSpectating={isSpectating}
+                    playerName={playerName}
                     size={size}
                     source={source}
                     title={title}

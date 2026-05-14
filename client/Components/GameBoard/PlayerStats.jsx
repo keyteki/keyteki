@@ -204,7 +204,8 @@ const PlayerStats = ({
         onMouseOver,
         popupLocation: side,
         size,
-        houses
+        houses,
+        playerName: user?.username
     };
 
     const renderDroppableList = (source, child) => {
