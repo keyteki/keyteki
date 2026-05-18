@@ -691,5 +691,6 @@
     "howtoplay.cmd.mutespectators": "Activer/désactiver la sourdine des spectateurs",
     "howtoplay.cmd.shuffle": "Mélangez votre deck",
     "howtoplay.cmd.tokencreature": "Créez une créature symbolique avec la carte du dessus de votre deck",
-    "about.colors": "<0>Signification des couleurs des noms d'utilisateur</0><p>Certains noms d'utilisateur ont des couleurs différentes et l'intention est de reconnaître les supporters de la plateforme :</p><2><0><0>admin</0> - administrateur du site</0><1><0>contributeur</0> - personnes qui ont apporté des contributions significatives au développement de la plateforme. site</1><2><0>supporter</0> - supporters de Patreon</2><3><0>winner</0> - vainqueur actuel du tournoi</3><4><0>vainqueur précédent</0> - ancien vainqueur du tournoi</4></2>"
+    "about.colors": "<0>Signification des couleurs des noms d'utilisateur</0><p>Certains noms d'utilisateur ont des couleurs différentes et l'intention est de reconnaître les supporters de la plateforme :</p><2><0><0>admin</0> - administrateur du site</0><1><0>contributeur</0> - personnes qui ont apporté des contributions significatives au développement de la plateforme. site</1><2><0>supporter</0> - supporters de Patreon</2><3><0>winner</0> - vainqueur actuel du tournoi</3><4><0>vainqueur précédent</0> - ancien vainqueur du tournoi</4></2>",
+    "decksummary.cardsMissing": "Certaines cartes de ce deck n'ont pas pu être chargées. Veuillez rafraîchir la page. Si le problème persiste, signalez-le comme un bug."
 }
