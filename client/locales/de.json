@@ -691,5 +691,6 @@
     "howtoplay.cmd.mutespectators": "Schalten Sie die Stummschaltung von Zuschauern um",
     "howtoplay.cmd.shuffle": "Mische dein Deck",
     "howtoplay.cmd.tokencreature": "Erstelle eine Spielsteinkreatur mit der obersten Karte deines Decks",
-    "about.colors": "<0>Bedeutung der Benutzernamenfarben</0><p>Einige Benutzernamen haben unterschiedliche Farben und die Absicht besteht darin, die Unterstützer der Plattform zu würdigen:</p><2><0><0>admin</0> – Site-Administrator</0><1><0>Mitwirkender</0> – Personen, die bedeutende Entwicklungsbeiträge zur Plattform geleistet haben site</1><2><0>Unterstützer</0> – Patreon-Unterstützer</2><3><0>Gewinner</0> – aktueller Turniersieger</3><4><0>vorheriger Gewinner</0> – ehemaliger Turniersieger</4></2>"
+    "about.colors": "<0>Bedeutung der Benutzernamenfarben</0><p>Einige Benutzernamen haben unterschiedliche Farben und die Absicht besteht darin, die Unterstützer der Plattform zu würdigen:</p><2><0><0>admin</0> – Site-Administrator</0><1><0>Mitwirkender</0> – Personen, die bedeutende Entwicklungsbeiträge zur Plattform geleistet haben site</1><2><0>Unterstützer</0> – Patreon-Unterstützer</2><3><0>Gewinner</0> – aktueller Turniersieger</3><4><0>vorheriger Gewinner</0> – ehemaliger Turniersieger</4></2>",
+    "decksummary.cardsMissing": "Einige Karten in diesem Deck konnten nicht geladen werden. Bitte aktualisiere die Seite. Wenn das Problem weiterhin besteht, melde es als Fehler."
 }

@@ -8,6 +8,7 @@ This folder contains technical documentation for implementing cards and understa
 -   [Implementing Cards](implementing-cards.md) - General card implementation guidelines
 -   [Testing Cards](testing-cards.md) - How to write tests for cards
 -   [Card Messages](card-messages.md) - How to format game log messages
+-   [Adding a New Set](new-sets.md) - Scaffolding required to register a new KeyForge set
 
 ## Game Engine References
 
