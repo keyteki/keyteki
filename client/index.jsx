@@ -35,7 +35,12 @@ if (isProd && sentryDsn) {
             // overlap, Chrome aborts the in-flight transition and rejects
             // the promise. HeroUI doesn't catch it, so it escapes as an
             // unhandled rejection. Harmless — toasts still render.
-            /Transition was aborted because of invalid state/
+            /Transition was aborted because of invalid state/,
+            // Browser translation extensions (e.g. Google Translate) walk
+            // the DOM and read textContent from nodes that React has just
+            // unmounted, raising this from <anonymous> stack frames. Not
+            // our code — the app has no .textContent access.
+            /Cannot read properties of null \(reading 'textContent'\)/
         ],
         denyUrls: [
             /graph\.facebook\.com/i,
