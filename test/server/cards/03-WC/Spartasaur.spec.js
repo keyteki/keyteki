@@ -131,6 +131,7 @@ describe('Spartasaur', function () {
             expect(this.troll.location).toBe('discard');
             expect(this.spartasaur.location).toBe('play area');
             expect(this.legatusRaptor.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
@@ -163,6 +164,7 @@ describe('Spartasaur', function () {
             expect(this.brainEater.location).toBe('play area');
             expect(this.spartasaur.location).toBe('play area');
             expect(this.legatusRaptor.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 
