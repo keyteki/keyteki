@@ -32,6 +32,8 @@
          *  - emailKey
          *  - hmacSecret
          *  - captchaKey (hCaptcha secret key)
+         *  - awsSesRegion, awsAccessKeyId, awsSecretAccessKey (AWS SES credentials)
+         *  - emailFrom, emailReplyTo (email sender addresses)
          */
     },
 
