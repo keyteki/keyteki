@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import { sortBy } from 'underscore';
-import { useTranslation, Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
+import { sortBy } from 'underscore';
 
 import { Constants } from '../../constants';
-import CardBack from './CardBack';
-import CardHoverPreview from '../Site/CardHoverPreview';
 import { useUpdateAccoladeShownMutation } from '../../redux/api';
+import AlertPanel from '../Site/AlertPanel';
+import CardHoverPreview from '../Site/CardHoverPreview';
+import CardBack from './CardBack';
 
 import AmberImage from '../../assets/img/enhancements/amberui.png';
 import CaptureImage from '../../assets/img/enhancements/captureui.png';
-import DrawImage from '../../assets/img/enhancements/drawui.png';
 import DamageImage from '../../assets/img/enhancements/damageui.png';
 import DiscardImage from '../../assets/img/enhancements/discardui.png';
+import DrawImage from '../../assets/img/enhancements/drawui.png';
 import PowerImage from '../../assets/img/enhancements/powerui.png';
 
 const DeckSummary = ({ deck }) => {
@@ -58,7 +59,7 @@ const DeckSummary = ({ deck }) => {
     for (const house of orderedHouses) {
         cardsByHouse[house] = [];
         const filteredCards = sortBy(
-            deck.cards.filter((c) => c.card.house === house && !c.isNonDeck),
+            deck.cards.filter((c) => c.card?.house === house && c.card?.name && !c.isNonDeck),
             (c) => c.card.name
         );
 
@@ -156,6 +157,10 @@ const DeckSummary = ({ deck }) => {
 
     const totalGames = parseInt(deck.wins || 0) + parseInt(deck.losses || 0);
 
+    const hasMissingCards = deck.cards.some(
+        (c) => !c.isNonDeck && (!c.card?.name || !c.card?.house)
+    );
+
     return (
         <div className='deck-summary mx-auto mt-3 w-full max-w-5xl'>
             <div className='flex flex-wrap items-start gap-4'>
@@ -235,6 +240,14 @@ const DeckSummary = ({ deck }) => {
                         );
                     })}
                 </div>
+            )}
+            {hasMissingCards && (
+                <AlertPanel type='warning' className='mt-3'>
+                    <Trans i18nKey='decksummary.cardsMissing'>
+                        Some cards in this deck could not be loaded. Please refresh the page. If the
+                        issue persists, report it as a bug.
+                    </Trans>
+                </AlertPanel>
             )}
             <div className='relative mt-4 grid grid-cols-1 gap-2 sm:justify-center sm:gap-x-10 sm:[grid-template-columns:repeat(3,max-content)]'>
                 <CardHoverPreview card={hoveredCard} position={hoverPosition} />
