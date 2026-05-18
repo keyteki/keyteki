@@ -691,5 +691,6 @@
     "howtoplay.cmd.mutespectators": "Przełącz wyciszenie widzów",
     "howtoplay.cmd.shuffle": "Potasuj swoją talię",
     "howtoplay.cmd.tokencreature": "Stwórz żetonowe stworzenie z wierzchniej karty ze swojej talii",
-    "about.colors": "<0>Znaczenie kolorów nazw użytkowników</0><p>Niektóre nazwy użytkowników mają różne kolory, a ich celem jest wyróżnienie zwolenników platformy:</p><2><0><0>admin</0> - administrator serwisu</0><1><0>współautor</0> - osoby, które wniosły znaczący wkład w rozwój serwisu strona</1><2><0>supporter</0> - osoby wspierające Patreona</2><3><0>winner</0> - obecny zwycięzca turnieju</3><4><0>poprzedni zwycięzca</0> - były zwycięzca turnieju</4></2>"
+    "about.colors": "<0>Znaczenie kolorów nazw użytkowników</0><p>Niektóre nazwy użytkowników mają różne kolory, a ich celem jest wyróżnienie zwolenników platformy:</p><2><0><0>admin</0> - administrator serwisu</0><1><0>współautor</0> - osoby, które wniosły znaczący wkład w rozwój serwisu strona</1><2><0>supporter</0> - osoby wspierające Patreona</2><3><0>winner</0> - obecny zwycięzca turnieju</3><4><0>poprzedni zwycięzca</0> - były zwycięzca turnieju</4></2>",
+    "decksummary.cardsMissing": "Niektóre karty w tej talii nie mogły zostać załadowane. Odśwież stronę. Jeśli problem będzie się powtarzał, zgłoś go jako błąd."
 }

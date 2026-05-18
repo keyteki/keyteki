@@ -691,5 +691,6 @@
     "howtoplay.cmd.mutespectators": "Chuyển đổi tắt tiếng khán giả",
     "howtoplay.cmd.shuffle": "Xáo trộn bộ bài của bạn",
     "howtoplay.cmd.tokencreature": "Tạo một sinh vật mã thông báo bằng thẻ trên cùng của bộ bài của bạn",
-    "about.colors": "<0>Ý nghĩa của màu sắc tên người dùng</0><p>Một số tên người dùng có màu sắc khác nhau và mục đích là để ghi nhận những người ủng hộ nền tảng:</p><2><0><0>admin</0> - quản trị viên trang</0><1>TG_8__contributor</0> - những người đã có những đóng góp phát triển đáng kể cho nền tảng trang</1><2>_TG_12__người ủng hộ</0> - người ủng hộ patreon</2><3><0>người chiến thắng</0> - người chiến thắng giải đấu hiện tại</3>TG_19<0>người chiến thắng trước</0> - cựu chiến thắng giải đấu</4></2>"
+    "about.colors": "<0>Ý nghĩa của màu sắc tên người dùng</0><p>Một số tên người dùng có màu sắc khác nhau và mục đích là để ghi nhận những người ủng hộ nền tảng:</p><2><0><0>admin</0> - quản trị viên trang</0><1>TG_8__contributor</0> - những người đã có những đóng góp phát triển đáng kể cho nền tảng trang</1><2>_TG_12__người ủng hộ</0> - người ủng hộ patreon</2><3><0>người chiến thắng</0> - người chiến thắng giải đấu hiện tại</3>TG_19<0>người chiến thắng trước</0> - cựu chiến thắng giải đấu</4></2>",
+    "decksummary.cardsMissing": "Một số lá bài trong bộ bài này không thể tải được. Vui lòng làm mới trang. Nếu vấn đề vẫn tiếp diễn, hãy báo cáo lỗi."
 }

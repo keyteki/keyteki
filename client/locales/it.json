@@ -783,5 +783,6 @@
     "howtoplay.cmd.mutespectators": "Attiva/disattiva l'audio degli spettatori",
     "howtoplay.cmd.shuffle": "Mescola il tuo mazzo",
     "howtoplay.cmd.tokencreature": "Crea una pedina creatura con la prima carta del tuo mazzo",
-    "about.colors": "<0>Significato dei colori del nome utente</0><p>Alcuni nomi utente hanno colori diversi e l'intento è quello di riconoscere i sostenitori della piattaforma:</p><2><0><0>admin</0> - sito amministratore</0><1><0>contributor</0> - persone che hanno apportato contributi significativi allo sviluppo del sito</1><2><0>supporter</0> - sostenitori patreon</2><3><0>winner</0> - vincitore attuale del torneo</3><4><0>vincitore precedente</0> - ex vincitore del torneo</4></2>"
+    "about.colors": "<0>Significato dei colori del nome utente</0><p>Alcuni nomi utente hanno colori diversi e l'intento è quello di riconoscere i sostenitori della piattaforma:</p><2><0><0>admin</0> - sito amministratore</0><1><0>contributor</0> - persone che hanno apportato contributi significativi allo sviluppo del sito</1><2><0>supporter</0> - sostenitori patreon</2><3><0>winner</0> - vincitore attuale del torneo</3><4><0>vincitore precedente</0> - ex vincitore del torneo</4></2>",
+    "decksummary.cardsMissing": "Alcune carte di questo mazzo non sono state caricate. Aggiorna la pagina. Se il problema persiste, segnalalo come bug."
 }

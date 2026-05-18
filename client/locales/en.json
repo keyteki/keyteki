@@ -691,5 +691,6 @@
     "howtoplay.cmd.mutespectators": "Toggle muting spectators",
     "howtoplay.cmd.shuffle": "Shuffle your deck",
     "howtoplay.cmd.tokencreature": "Make a token creature with the top card of your deck",
-    "about.colors": "<0>Meaning of Username Colors</0><p>Some usernames have different colors and the intent is to acknowledge the supporters of the platform:</p><2><0><0>admin</0> - site administrator</0><1><0>contributor</0> - people who have made significant development contributions to the site</1><2><0>supporter</0> - patreon supporters</2><3><0>winner</0> - current tournament winner</3><4><0>previous winner</0> - former tournament winner</4></2>"
+    "about.colors": "<0>Meaning of Username Colors</0><p>Some usernames have different colors and the intent is to acknowledge the supporters of the platform:</p><2><0><0>admin</0> - site administrator</0><1><0>contributor</0> - people who have made significant development contributions to the site</1><2><0>supporter</0> - patreon supporters</2><3><0>winner</0> - current tournament winner</3><4><0>previous winner</0> - former tournament winner</4></2>",
+    "decksummary.cardsMissing": "Some cards in this deck could not be loaded. Please refresh the page. If the issue persists, report it as a bug."
 }

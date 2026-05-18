@@ -1,16 +1,16 @@
-import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Trans, useTranslation } from 'react-i18next';
-import { Formik } from 'formik';
-import * as yup from 'yup';
 import { Button, Input } from '@heroui/react';
+import { Formik } from 'formik';
+import React from 'react';
+import { Trans, useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import * as yup from 'yup';
 
-import Panel from '../Site/Panel';
-import GameOptions from './GameOptions';
-import GameFormats from './GameFormats';
-import GameTypes from './GameTypes';
 import { lobbyActions } from '../../redux/slices/lobbySlice';
 import { lobbySendMessage } from '../../redux/socketActions';
+import Panel from '../Site/Panel';
+import GameFormats from './GameFormats';
+import GameOptions from './GameOptions';
+import GameTypes from './GameTypes';
 
 const GameNameMaxLength = 64;
 
@@ -115,6 +115,7 @@ const NewGame = ({
                         vm2023: values.vm2023,
                         vm2024: values.vm2024,
                         vm2025: values.vm2025,
+                        vm2026: values.vm2026,
                         wc: values.wc,
                         woe: values.woe
                     };
@@ -175,6 +176,7 @@ const NewGame = ({
                                 !formProps.values.vm2023 &&
                                 !formProps.values.vm2024 &&
                                 !formProps.values.vm2025 &&
+                                !formProps.values.vm2026 &&
                                 !formProps.values.pv &&
                                 !formProps.values.cc &&
                                 !formProps.values.dm

@@ -691,5 +691,6 @@
     "howtoplay.cmd.mutespectators": "Alternar para silenciar espectadores",
     "howtoplay.cmd.shuffle": "Embaralhe seu baralho",
     "howtoplay.cmd.tokencreature": "Faça uma criatura ficha com a carta do topo do seu baralho",
-    "about.colors": "<0>Significado das cores dos usuários</0><p>Alguns nomes de usuários possuem diferentes cores e o objetivo é reconhecer os colaboradores da plataforma:</p><2><0><0>admin</0> - administrador do site</0><1><0>contribuidores</0> - pessoas que fizeram alguma contribuição de desenvolvimento significativa para o site</1><2><0>apoiadores</0> - apoiadores patreon</2><3><0>vencedor</0> - vencedor do último campeonato</3><4><0>vencedor anterior</0> - vencedores dos campeonatos anteriores</4></2>"
+    "about.colors": "<0>Significado das cores dos usuários</0><p>Alguns nomes de usuários possuem diferentes cores e o objetivo é reconhecer os colaboradores da plataforma:</p><2><0><0>admin</0> - administrador do site</0><1><0>contribuidores</0> - pessoas que fizeram alguma contribuição de desenvolvimento significativa para o site</1><2><0>apoiadores</0> - apoiadores patreon</2><3><0>vencedor</0> - vencedor do último campeonato</3><4><0>vencedor anterior</0> - vencedores dos campeonatos anteriores</4></2>",
+    "decksummary.cardsMissing": "Algumas cartas deste deck não puderam ser carregadas. Por favor, atualize a página. Se o problema persistir, reporte como um bug."
 }
