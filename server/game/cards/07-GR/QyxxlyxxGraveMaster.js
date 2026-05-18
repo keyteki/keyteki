@@ -15,11 +15,16 @@ class QyxxlyxxGraveMaster extends Card {
                 gameAction: ability.actions.purge()
             },
             then: (preThenContext) => ({
+                condition: () => !!preThenContext.target,
                 gameAction: ability.actions.dealDamage((context) => ({
                     amount: 2,
-                    target: context.game.creaturesInPlay.filter((card) =>
-                        card.getTraits().some((trait) => preThenContext.target.hasTrait(trait))
-                    )
+                    target: preThenContext.target
+                        ? context.game.creaturesInPlay.filter((card) =>
+                              card
+                                  .getTraits()
+                                  .some((trait) => preThenContext.target.hasTrait(trait))
+                          )
+                        : []
                 }))
             })
         });
