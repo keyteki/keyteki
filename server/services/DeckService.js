@@ -290,6 +290,10 @@ class DeckService {
             dbExpansions.push(939);
         }
 
+        if (expansions.vm2026) {
+            dbExpansions.push(964);
+        }
+
         if (expansions.pv) {
             dbExpansions.push(886);
         }
