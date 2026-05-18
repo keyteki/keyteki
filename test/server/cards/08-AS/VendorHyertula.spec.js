@@ -154,4 +154,57 @@ describe('Vendor Hyertula', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('when the artifact leaves play and re-enters before being taken back', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'ekwidon',
+                    inPlay: ['vendor-hyertula', 'uncommon-currency']
+                },
+                player2: {
+                    hand: ['bonded-auctioneer'],
+                    inPlay: ['ritual-of-balance']
+                }
+            });
+        });
+
+        it('should not change house when the artifact re-enters play and is later taken via Uncommon Currency', function () {
+            // Player1 reaps Vendor Hyertula, taking control of Ritual of Balance.
+            expect(this.ritualOfBalance.getHouses()).toEqual(['untamed']);
+            this.player1.reap(this.vendorHyertula);
+            this.player1.clickCard(this.vendorHyertula);
+            this.player1.clickCard(this.ritualOfBalance);
+            expect(this.ritualOfBalance.controller).toBe(this.player1.player);
+            expect(this.ritualOfBalance.getHouses()).toEqual(['ekwidon']);
+            this.player1.endTurn();
+
+            // Player2 scraps Bonded Auctioneer
+            this.player2.clickPrompt('ekwidon');
+            this.player2.scrap(this.bondedAuctioneer);
+            this.player2.clickCard(this.ritualOfBalance);
+            expect(this.ritualOfBalance.location).toBe('hand');
+            expect(this.player2.player.hand).toContain(this.ritualOfBalance);
+            this.player2.endTurn();
+
+            // Player2 plays Ritual of Balance
+            this.player1.clickPrompt('ekwidon');
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.play(this.ritualOfBalance);
+            expect(this.ritualOfBalance.location).toBe('play area');
+            expect(this.ritualOfBalance.controller).toBe(this.player2.player);
+            expect(this.ritualOfBalance.getHouses()).toEqual(['untamed']);
+            this.player2.endTurn();
+
+            // Player1 takes control of Ritual of Balance via Uncommon Currency.
+            // Vendor Hyertula's effect should not re-apply to this new instance.
+            this.player1.clickPrompt('ekwidon');
+            this.player1.useAction(this.uncommonCurrency);
+            this.player1.clickCard(this.ritualOfBalance);
+            expect(this.ritualOfBalance.controller).toBe(this.player1.player);
+            expect(this.ritualOfBalance.getHouses()).toEqual(['untamed']);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
