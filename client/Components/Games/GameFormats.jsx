@@ -34,6 +34,7 @@ const GameFormats = ({
         { name: 'vm2023', label: t('Vault Masters 2023') },
         { name: 'vm2024', label: t('Vault Masters 2024') },
         { name: 'vm2025', label: t('Vault Masters 2025') },
+        { name: 'vm2026', label: t('Vault Masters 2026') },
         { name: 'pv', label: t('Prophetic Visions') },
         { name: 'cc', label: t('Crucible Clash') },
         { name: 'dm', label: t('Draconian Measures') }
