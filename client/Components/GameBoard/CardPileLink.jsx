@@ -13,6 +13,7 @@ const CardPileLink = ({
     disablePopup,
     hasActiveHouse,
     isMe,
+    isPromptTarget,
     isSpectating,
     manualMode,
     numDeckCards,
@@ -45,12 +46,12 @@ const CardPileLink = ({
             return;
         }
 
-        if (cards?.some((card) => card.selectable)) {
+        if (isPromptTarget || cards?.some((card) => card.selectable)) {
             updatePopupVisibility(true);
         } else {
             updatePopupVisibility(false);
         }
-    }, [cards, manualPopup, updatePopupVisibility]);
+    }, [cards, isPromptTarget, manualPopup, updatePopupVisibility]);
 
     let classNameStr = classNames('card-pile-link', className, {
         horizontal: orientation === 'horizontal' || orientation === 'exhausted',
