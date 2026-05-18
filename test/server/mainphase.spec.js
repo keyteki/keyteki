@@ -233,5 +233,20 @@ describe('main phase', function () {
             expect(this.wayOfTheBear.exhausted).toBe(false);
             expect(this.player1).isReadyToTakeAction();
         });
+
+        it('should allow canceling from the upgrade target prompt and not resolve bonus icons', function () {
+            expect(this.player1.amber).toBe(0);
+            this.wayOfTheBear = this.player1.findCardByName('way-of-the-bear');
+            this.wayOfTheBear.enhancements = ['amber'];
+            this.player1.clickCard(this.wayOfTheBear);
+            this.player1.clickPrompt('Play this upgrade');
+            expect(this.player1).toHavePrompt('Choose a creature to attach this upgrade to');
+            expect(this.player1).toHavePromptButton('Cancel');
+            this.player1.clickPrompt('Cancel');
+            expect(this.wayOfTheBear.location).toBe('hand');
+            expect(this.player1.hand).toContain(this.wayOfTheBear);
+            expect(this.player1.amber).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
+        });
     });
 });

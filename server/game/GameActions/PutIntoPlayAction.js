@@ -242,24 +242,25 @@ class PutIntoPlayAction extends CardGameAction {
 
     // Cancel an in-flight play that has reached the flank/deploy prompt.
     //
-    // SAFETY: This is only called from the flank prompt's Cancel choice, which
+    // This is only called from the flank prompt's Cancel choice, which
     // can only appear when `beingPlayed && card.location === 'hand'`, the card
     // belongs to the playing player, the play was not initiated by another
     // card's effect (i.e. `ability.actions.playCard()`), and there are no
     // additional costs — i.e. a direct user-initiated play of one's own card
-    // from hand with no irrevocable side-effects. By the time the prompt fires,
-    // the base
-    // cost subevents and bonus-icon subevents have already RESOLVED
-    // synchronously (their handlers ran and mutated state), so cancelling
-    // those events here is a no-op for state — it only suppresses their
-    // `onXResolved` follow-up bookkeeping. The play's own `onCardPlayed`
-    // event has not yet resolved (its handler is what queues this prompt's
-    // sibling steps), so cancelling it correctly suppresses the play log
-    // message and the put-into-play side-effects.
+    // from hand with no irrevocable side-effects.
     //
-    // The Cancel button is hidden when additional costs (e.g. Truebaru's
-    // loseAmber(3)) have been paid, because those costs resolve in separate
-    // event windows and refunding them could trigger unintended side-effects.
+    // The flank prompt is queued during `PlayCreatureAction.addSubEvent` via
+    // `preEventHandler`, which runs synchronously BEFORE `openEventWindow`
+    // opens the `onCardPlayed` event window. The pipeline drains the flank
+    // prompt first, so when Cancel is clicked here the play event, its bonus
+    // icon subevent, and the putIntoPlay child event are all queued but
+    // unresolved. Calling `cancel()` on the tree marks them cancelled, and
+    // the subsequent event window skips them — so the card never enters play,
+    // no bonus icons resolve, and no `onCardPlayed`-driven side-effects fire.
+    //
+    // Hide Cancel when additional costs (e.g. Truebaru's loseAmber(3))
+    // exist because those costs resolve in separate event windows and
+    // refunding them could trigger unintended side-effects.
     //
     // We assert below that the root event is not yet resolved to catch any
     // future change that would re-order the pipeline and make this unsafe.
