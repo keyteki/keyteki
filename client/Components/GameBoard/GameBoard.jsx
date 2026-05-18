@@ -197,14 +197,14 @@ export const GameBoard = () => {
         sendGameMessage('toggleManualMode');
     };
 
-    const timeLimitClock =
-        currentGame.useGameTimeLimit && currentGame.gameTimeLimitStarted ? (
-            <TimeLimitClock
-                timeLimitStarted={currentGame.gameTimeLimitStarted}
-                timeLimitStartedAt={currentGame.gameTimeLimitStartedAt}
-                timeLimit={currentGame.gameTimeLimitTime}
-            />
-        ) : null;
+    const timeLimitClock = currentGame.useGameTimeLimit ? (
+        <TimeLimitClock
+            timeLimitStarted={currentGame.gameTimeLimitStarted}
+            timeLimitStartedAt={currentGame.gameTimeLimitStartedAt}
+            timeLimit={currentGame.gameTimeLimitTime}
+            paused={!!currentGame.winner && thisPlayer.promptTitle === 'Game Won'}
+        />
+    ) : null;
 
     const renderBoard = () => [
         <div key='board-middle' className='board-middle'>
