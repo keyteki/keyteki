@@ -24,7 +24,8 @@ describe('Zomok', function () {
             this.player1.fightWith(this.zomok, this.urchin);
             expect(this.urchin.location).toBe('discard');
             expect(this.zomok.location).toBe('play area');
-            expect(this.zomok.damage).toBe(1);
+            expect(this.zomok.damage).toBe(0);
+            expect(this.zomok.armor).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -36,7 +37,8 @@ describe('Zomok', function () {
 
         it('ignores hazardous while attacking', function () {
             this.player1.fightWith(this.zomok, this.mickeyTheCarver);
-            expect(this.zomok.damage).toBe(this.mickeyTheCarver.power);
+            expect(this.zomok.damage).toBe(this.mickeyTheCarver.power - 2);
+            expect(this.zomok.armor).toBe(0);
             expect(this.mickeyTheCarver.location).toBe('discard');
         });
 
@@ -67,7 +69,8 @@ describe('Zomok', function () {
             this.player2.fightWith(this.emperorMemrox, this.zomok);
             expect(this.emperorMemrox.location).toBe('play area');
             expect(this.emperorMemrox.damage).toBe(0);
-            expect(this.zomok.damage).toBe(this.emperorMemrox.power);
+            expect(this.zomok.damage).toBe(this.emperorMemrox.power - 2);
+            expect(this.zomok.armor).toBe(0);
             expect(this.player2).isReadyToTakeAction();
         });
 
