@@ -43,12 +43,13 @@ INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (16
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (17, 886, 'PV', 'Prophetic Visions');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (18, 918, 'CC', 'Crucible Clash');
 INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (19, 928, 'DM', 'Draconian Measures');
+INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (20, 964, 'VM2026', 'Vault Masters 2026');
 
 --
 -- Name: Expansions_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: keyteki
 --
 
-SELECT pg_catalog.setval('public."Expansions_Id_seq"', 19, true);
+SELECT pg_catalog.setval('public."Expansions_Id_seq"', 20, true);
 
 INSERT INTO public."Roles" ("Id", "Name") VALUES (1, 'UserManager');
 INSERT INTO public."Roles" ("Id", "Name") VALUES (2, 'BanListManager');
