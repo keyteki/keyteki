@@ -33,9 +33,12 @@ const CardPileLink = ({
     const [manualPopup, setManualPopup] = useState(false);
     const updatePopupVisibility = useCallback(
         (value) => {
-            setShowPopup(value);
-
-            onPopupChange && onPopupChange({ source: source, visible: value });
+            setShowPopup((prev) => {
+                if (prev !== value) {
+                    onPopupChange && onPopupChange({ source: source, visible: value });
+                }
+                return value;
+            });
         },
         [source, onPopupChange]
     );
@@ -45,12 +48,11 @@ const CardPileLink = ({
             return;
         }
 
-        if (cards?.some((card) => card.selectable)) {
-            updatePopupVisibility(true);
-        } else {
-            updatePopupVisibility(false);
+        const desired = !!cards?.some((card) => card.selectable);
+        if (desired !== showPopup) {
+            updatePopupVisibility(desired);
         }
-    }, [cards, manualPopup, updatePopupVisibility]);
+    }, [cards, manualPopup, showPopup, updatePopupVisibility]);
 
     let classNameStr = classNames('card-pile-link', className, {
         horizontal: orientation === 'horizontal' || orientation === 'exhausted',

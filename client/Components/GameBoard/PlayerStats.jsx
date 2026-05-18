@@ -39,7 +39,6 @@ const PlayerStats = ({
     numMessages,
     onCardClick,
     onDragDrop,
-    onDrawPopupChange,
     onMenuItemClick,
     onPopupChange,
     onTouchMove,
@@ -224,7 +223,6 @@ const PlayerStats = ({
             cards={cardPiles.deck}
             isMe={isMe}
             numDeckCards={numDeckCards}
-            onPopupChange={onDrawPopupChange}
             onShuffleClick={onShuffleClick}
             showDeckName={showDeckName}
             spectating={spectating}

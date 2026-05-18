@@ -10,7 +10,7 @@ import { Toast } from '@heroui/react';
 import configureStore from './configureStore.rtk';
 import * as Sentry from '@sentry/react';
 import { DndProvider } from 'react-dnd';
-import { TouchBackend } from 'react-dnd-touch-backend';
+import { SafeTouchBackend } from './safeTouchBackend';
 
 import Application from './Application';
 import ErrorBoundary from './Components/Site/ErrorBoundary';
@@ -122,7 +122,7 @@ const render = async () => {
     root.render(
         <Provider store={store}>
             <BrowserRouter>
-                <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
+                <DndProvider backend={SafeTouchBackend} options={{ enableMouseEvents: true }}>
                     <div className='body'>
                         <Toast.Provider placement='top end' />
                         {content}
