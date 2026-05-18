@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const moment = require('moment');
 const _ = require('underscore');
-const sendgrid = require('@sendgrid/mail');
+const EmailService = require('../services/EmailService');
 const fs = require('fs');
 const path = require('path');
 const { fabric } = require('fabric');
@@ -18,6 +18,7 @@ const PatreonService = require('../services/PatreonService');
 const util = require('../util.js');
 
 let configService = new ConfigService();
+let emailService = new EmailService(configService);
 let userService;
 let banlistService;
 let patreonService;
@@ -40,26 +41,6 @@ function isValidImage(base64Image) {
     let buffer = Buffer.from(base64Image, 'base64');
 
     return buffer.toString('hex', 0, 4) === '89504e47' || buffer.toString('hex', 0, 2) === 'ffd8';
-}
-
-async function sendEmail(address, subject, email) {
-    if (!configService.getValueForSection('lobby', 'emailKey')) {
-        logger.info(`Trying to send email to ${address}, but email key not configured.`);
-        return;
-    }
-
-    const message = {
-        to: address,
-        from: `${appName} <${configService.getValueForSection('lobby', 'emailFromAddress')}>`,
-        subject: subject,
-        text: email
-    };
-
-    try {
-        return sendgrid.send(message);
-    } catch (err) {
-        logger.error('Unable to send email', err);
-    }
 }
 
 function validateUserName(username) {
@@ -248,11 +229,6 @@ module.exports.init = function (server, options) {
         configService.getValueForSection('lobby', 'patreonCallbackUrl')
     );
 
-    let emailKey = configService.getValueForSection('lobby', 'emailKey');
-    if (emailKey) {
-        sendgrid.setApiKey(emailKey);
-    }
-
     server.post(
         '/api/account/register',
         wrapAsync(async (req, res) => {
@@ -400,7 +376,11 @@ module.exports.init = function (server, options) {
                     'Kind regards,\n\n' +
                     `${appName} team`;
 
-                await sendEmail(user.email, `${appName} - Account activation`, emailText);
+                await emailService.sendEmail(
+                    user.email,
+                    `${appName} - Account activation`,
+                    emailText
+                );
             }
 
             res.send({ success: true });
@@ -830,7 +810,7 @@ module.exports.init = function (server, options) {
                 'Kind regards,\n\n' +
                 `${appName} team`;
 
-            await sendEmail(user.email, `${appName} - Password reset`, emailText);
+            await emailService.sendEmail(user.email, `${appName} - Password reset`, emailText);
         })
     );
 
