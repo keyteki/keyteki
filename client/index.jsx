@@ -29,7 +29,13 @@ if (isProd && sentryDsn) {
             // move event, dnd-core's beginDrag trips this invariant. The
             // error escapes as an unhandled error from a document
             // mousemove listener but doesn't affect user-visible state.
-            /Expected sourceIds to be registered/
+            /Expected sourceIds to be registered/,
+            // HeroUI ToastQueue wraps add/close/update in
+            // document.startViewTransition(() => flushSync(fn)). When toasts
+            // overlap, Chrome aborts the in-flight transition and rejects
+            // the promise. HeroUI doesn't catch it, so it escapes as an
+            // unhandled rejection. Harmless — toasts still render.
+            /Transition was aborted because of invalid state/
         ],
         denyUrls: [
             /graph\.facebook\.com/i,
