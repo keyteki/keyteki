@@ -10,7 +10,7 @@ import { Toast } from '@heroui/react';
 import configureStore from './configureStore.rtk';
 import * as Sentry from '@sentry/react';
 import { DndProvider } from 'react-dnd';
-import { SafeTouchBackend } from './safeTouchBackend';
+import { TouchBackend } from 'react-dnd-touch-backend';
 
 import Application from './Application';
 import ErrorBoundary from './Components/Site/ErrorBoundary';
@@ -23,6 +23,14 @@ const sentryDsn = import.meta.env.VITE_SENTRY_DSN;
 if (isProd && sentryDsn) {
     const sentryOptions = {
         dsn: sentryDsn,
+        ignoreErrors: [
+            // react-dnd-touch-backend v16.0.1 race condition: when a drag
+            // source unmounts between mousedown/touchstart and the first
+            // move event, dnd-core's beginDrag trips this invariant. The
+            // error escapes as an unhandled error from a document
+            // mousemove listener but doesn't affect user-visible state.
+            /Expected sourceIds to be registered/
+        ],
         denyUrls: [
             /graph\.facebook\.com/i,
             /connect\.facebook\.net\/en_US\/all\.js/i,
@@ -122,7 +130,7 @@ const render = async () => {
     root.render(
         <Provider store={store}>
             <BrowserRouter>
-                <DndProvider backend={SafeTouchBackend} options={{ enableMouseEvents: true }}>
+                <DndProvider backend={TouchBackend} options={{ enableMouseEvents: true }}>
                     <div className='body'>
                         <Toast.Provider placement='top end' />
                         {content}
