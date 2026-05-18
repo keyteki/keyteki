@@ -691,5 +691,6 @@
     "howtoplay.cmd.mutespectators": "Alternar silenciar espectadores",
     "howtoplay.cmd.shuffle": "Baraja tu mazo",
     "howtoplay.cmd.tokencreature": "Crea una criatura simbólica con la carta superior de tu mazo.",
-    "about.colors": "<0>Significado de los colores del nombre de usuario</0><p>Algunos nombres de usuario tienen diferentes colores y la intención es reconocer a los partidarios de la plataforma:</p><2><0><0>admin</0> - administrador del sitio</0><1><0>contributor</0> - personas que han hecho contribuciones significativas al desarrollo de la sitio</1><2><0>supporter</0> - seguidores de patreon</2><3><0>winner</0> - ganador actual del torneo</3><4><0>ganador anterior</0> - ex ganador del torneo</4></2>"
+    "about.colors": "<0>Significado de los colores del nombre de usuario</0><p>Algunos nombres de usuario tienen diferentes colores y la intención es reconocer a los partidarios de la plataforma:</p><2><0><0>admin</0> - administrador del sitio</0><1><0>contributor</0> - personas que han hecho contribuciones significativas al desarrollo de la sitio</1><2><0>supporter</0> - seguidores de patreon</2><3><0>winner</0> - ganador actual del torneo</3><4><0>ganador anterior</0> - ex ganador del torneo</4></2>",
+    "decksummary.cardsMissing": "Algunas cartas de este mazo no se pudieron cargar. Por favor, actualiza la página. Si el problema persiste, repórtalo como un error."
 }
