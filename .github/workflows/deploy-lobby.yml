@@ -45,7 +45,6 @@ jobs:
                     redisKeyPrefix: "keyteki:$ENV"
                     redisUrl: "${{ secrets.REDIS_URL }}"
                     secret: "${{ secrets.SECRET }}"
-                    emailKey: "${{ secrets.EMAIL_KEY }}"
                     emailBlockKey: "${{ secrets.EMAIL_BLOCK_KEY }}"
                     port: 80
                     hmacSecret: "${{ secrets.HMAC }}"
@@ -63,7 +62,11 @@ jobs:
                       middleDeckThreshold: 20
                       upperDeckThreshold: 50
                       port: 80
-                      emailKey: "${{ secrets.EMAIL_KEY }}"
+                      awsSesRegion: "${{ vars.AWS_SES_REGION || 'eu-west-1' }}"
+                      awsAccessKeyId: "${{ secrets.AWS_ACCESS_KEY_ID }}"
+                      awsSecretAccessKey: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+                      emailFrom: "${{ vars.EMAIL_FROM }}"
+                      emailReplyTo: "${{ vars.EMAIL_REPLY_TO }}"
                       hmacSecret: "${{ secrets.HMAC }}"
                       requireActivation: false
                       patreonCallbackUrl: "${{ vars.PATREON_CALLBACK_URL }}"

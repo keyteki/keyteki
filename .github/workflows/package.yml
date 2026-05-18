@@ -46,6 +46,7 @@ jobs:
               uses: docker/build-push-action@v3
               with:
                   build-args: |
+                      HCAPTCHA_SITEKEY=${{ secrets.HCAPTCHA_SITE_KEY }}
                       VERSION=${{ steps.determine_version.outputs.semVer }}
                       SENTRY_DSN=${{ secrets.SENTRY_DSN }}
                       SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
