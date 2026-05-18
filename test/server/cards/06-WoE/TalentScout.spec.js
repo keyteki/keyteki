@@ -34,11 +34,11 @@ describe('Talent Scout', function () {
             expect(this.player2.player.cardsInPlay).toContain(this.talentScout);
         });
 
-        it('should not have a Back button when playing from opponent hand', function () {
+        it('should not have a Cancel button when playing from opponent hand', function () {
             this.player1.playCreature(this.talentScout);
             expect(this.player1.amber).toBe(3);
             this.player1.clickCard(this.bumpsy);
-            expect(this.player1).not.toHavePromptButton('Back');
+            expect(this.player1).not.toHavePromptButton('Cancel');
             this.player1.clickPrompt('Left');
             expect(this.player1.player.cardsInPlay).toContain(this.bumpsy);
             expect(this.player1).isReadyToTakeAction();

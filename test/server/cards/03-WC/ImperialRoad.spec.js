@@ -68,6 +68,20 @@ describe('Imperial Road', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this.imperialRoad.exhausted).toBe(true);
         });
+
+        it('should not show a Cancel button when placing on flank', function () {
+            this.player1.useOmni(this.imperialRoad);
+            this.player1.clickCard(this.grimlocusDux);
+            expect(this.grimlocusDux.location).toBe('play area');
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.endTurn();
+            this.player1.clickPrompt('untamed');
+            this.player1.useOmni(this.imperialRoad);
+            this.player1.clickCard(this.tribunePompitus);
+            expect(this.player1).toHavePrompt('Which flank do you want to place this creature on?');
+            expect(this.player1).not.toHavePromptButton('Cancel');
+        });
     });
 
     describe("Imperial Road's ability", function () {
@@ -94,21 +108,6 @@ describe('Imperial Road', function () {
             expect(this.player1).toBeAbleToSelect(this.bestiariiUrso);
             this.player1.clickCard(this.bestiariiUrso);
             expect(this.bestiariiUrso.stunned).toBe(false);
-        });
-
-        it('should not have a Back button when placing on flank', function () {
-            this.player1.useOmni(this.imperialRoad);
-            this.player1.clickCard(this.bestiariiUrso);
-            expect(this.bestiariiUrso.location).toBe('play area');
-            this.player1.clickCard(this.bestiariiUrso);
-            this.player1.endTurn();
-            this.player2.clickPrompt('brobnar');
-            this.player2.endTurn();
-            this.player1.clickPrompt('untamed');
-            this.player1.useOmni(this.imperialRoad);
-            this.player1.clickCard(this.tribunePompitus);
-            expect(this.player1).toHavePrompt('Which flank do you want to place this creature on?');
-            expect(this.player1).not.toHavePromptButton('Back');
         });
     });
 });

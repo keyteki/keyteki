@@ -151,9 +151,13 @@ class PutIntoPlayAction extends CardGameAction {
                 choices:
                     this.beingPlayed &&
                     card.location === 'hand' &&
+                    card.controller === context.player &&
+                    !context.playedByCardEffect &&
                     context.player.getAdditionalCosts(context).length === 0
-                        ? choices.concat({ text: 'Cancel', type: 'cancel' })
-                        : choices,
+                        ? // If playing a card from own hand with no costs without using an ability, allow cancelling to stop the play
+                          choices.concat({ text: 'Cancel', type: 'cancel' })
+                        : //   Otherwise, choices with no cancel option
+                          choices,
                 choiceHandler: (choice) => {
                     if (choice && choice.type === 'cancel') {
                         this.cancelled = true;
@@ -239,9 +243,12 @@ class PutIntoPlayAction extends CardGameAction {
     // Cancel an in-flight play that has reached the flank/deploy prompt.
     //
     // SAFETY: This is only called from the flank prompt's Cancel choice, which
-    // can only appear when `beingPlayed && card.location === 'hand'` and there
-    // are no additional costs — i.e. a direct user-initiated play from hand
-    // with no irrevocable side-effects. By the time the prompt fires, the base
+    // can only appear when `beingPlayed && card.location === 'hand'`, the card
+    // belongs to the playing player, the play was not initiated by another
+    // card's effect (i.e. `ability.actions.playCard()`), and there are no
+    // additional costs — i.e. a direct user-initiated play of one's own card
+    // from hand with no irrevocable side-effects. By the time the prompt fires,
+    // the base
     // cost subevents and bonus-icon subevents have already RESOLVED
     // synchronously (their handlers ran and mutated state), so cancelling
     // those events here is a no-op for state — it only suppresses their

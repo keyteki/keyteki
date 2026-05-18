@@ -62,12 +62,12 @@ describe('Sandhopper', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should not have a Back button when choosing flank', function () {
+        it('should not show a Cancel button when choosing flank', function () {
             this.player1.useAction(this.sandhopper);
             this.player1.clickCard(this.antiquitiesDealer);
             this.player1.clickCard(this.pelf);
             expect(this.player1).toHavePrompt('Which flank do you want to place this creature on?');
-            expect(this.player1).not.toHavePromptButton('Back');
+            expect(this.player1).not.toHavePromptButton('Cancel');
         });
     });
 });
