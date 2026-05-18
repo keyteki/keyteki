@@ -671,4 +671,4 @@ this.play({
 });
 ```
 
-The engine includes a test-mode assertion that throws when this pattern is detected: an `alwaysTriggers` block whose `gameAction` has no legal target while it has a nested `then` that is itself a function or `alwaysTriggers: true`. If you see this error, refactor the card to branch on the empty case as shown above.
+The engine includes a test-mode assertion that throws when this pattern is detected: a function-form `then` whose returned `gameAction` has no legal target while its outer `alwaysTriggers: true` block has a further nested `then`-chain. If you see this error, refactor the function-form `then` to return a no-`gameAction` object on the empty case (as shown above) so the inner chain still runs.
