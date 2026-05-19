@@ -225,7 +225,20 @@ const HowToPlay = () => {
                     <li>
                         /rematch -{' '}
                         <Trans i18nKey='howtoplay.cmd.rematch'>
-                            Start over a new game with the current opponent
+                            Start over a new game with the current opponent, using the same decks
+                        </Trans>
+                    </li>
+                    <li>
+                        /rematch-swap-decks -{' '}
+                        <Trans i18nKey='howtoplay.cmd.rematchswap'>
+                            Start over a new game with the current opponent, swapping decks
+                        </Trans>
+                    </li>
+                    <li>
+                        /rematch-change-decks -{' '}
+                        <Trans i18nKey='howtoplay.cmd.rematchchange'>
+                            Start over a new game with the current opponent, each picking a
+                            different deck
                         </Trans>
                     </li>
                     <li>

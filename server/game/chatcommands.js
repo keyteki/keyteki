@@ -25,6 +25,8 @@ class ChatCommands {
             '/mulligan': this.mulligan,
             '/mute-spectators': this.muteSpectators,
             '/rematch': this.rematch,
+            '/rematch-swap-decks': this.rematchSwap,
+            '/rematch-change-decks': this.rematchChange,
             '/shuffle': this.shuffle,
             '/start-clocks': this.startClocks,
             '/stop-clocks': this.stopClocks,
@@ -381,6 +383,18 @@ class ChatCommands {
     }
 
     rematch(player) {
+        this.queueRematch(player, 'same');
+    }
+
+    rematchSwap(player) {
+        this.queueRematch(player, 'swap');
+    }
+
+    rematchChange(player) {
+        this.queueRematch(player, 'change');
+    }
+
+    queueRematch(player, mode) {
         if (this.game.finishedAt) {
             this.game.addAlert('info', '{0} is requesting a rematch', player);
         } else {
@@ -391,7 +405,7 @@ class ChatCommands {
             );
         }
 
-        this.game.queueStep(new RematchPrompt(this.game, player));
+        this.game.queueStep(new RematchPrompt(this.game, player, mode));
     }
 
     firstPlayer(player, args) {
