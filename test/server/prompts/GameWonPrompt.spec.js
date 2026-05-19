@@ -154,6 +154,21 @@ describe('GameWonPrompt', function () {
             // The continuePlaying flag is consumed so it only re-opens once.
             expect(this.game.continuePlaying).toBe(false);
         });
+
+        it('reflects the new winner (but keeps original stats) when the original winner concedes after continuing', function () {
+            this.player2.clickPrompt('Yes');
+            const recordedWinner = this.game.winner;
+            const recordedWins = this.player2.player.wins;
+
+            this.game.concede(this.player2.player.name);
+            this.game.continue();
+
+            expect(this.player1.currentPrompt().menuTitle).toBe(
+                `${this.player1.player.name} has won the game!`
+            );
+            expect(this.game.winner).toBe(recordedWinner);
+            expect(this.player2.player.wins).toBe(recordedWins);
+        });
     });
 
     describe('passive win checks after a win is recorded', function () {
@@ -167,6 +182,19 @@ describe('GameWonPrompt', function () {
             expect(this.player2.player.wins).toBe(wins);
             // Still on the original Game Won prompt.
             expect(this.player1.currentButtons).toContain('Rematch: Same Decks');
+        });
+    });
+
+    describe('chat command /rematch-swap-decks in adaptive-bo1', function () {
+        it('refuses to queue the swap rematch and does not toggle game.swap', function () {
+            this.game.gameFormat = 'adaptive-bo1';
+            this.game.swap = false;
+            this.game.chatCommands.executeCommand(this.player1.player, '/rematch-swap-decks', [
+                '/rematch-swap-decks'
+            ]);
+            this.game.continue();
+            expect(this.game.router.rematch).not.toHaveBeenCalled();
+            expect(this.game.swap).toBe(false);
         });
     });
 });

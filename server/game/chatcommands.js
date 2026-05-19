@@ -395,6 +395,15 @@ class ChatCommands {
     }
 
     queueRematch(player, mode) {
+        if (mode === 'swap' && this.game.gameFormat === 'adaptive-bo1') {
+            this.game.addAlert(
+                'warning',
+                '{0} cannot start a swap-decks rematch in adaptive: the format manages deck assignment itself',
+                player
+            );
+            return;
+        }
+
         if (this.game.finishedAt) {
             this.game.addAlert('info', '{0} is requesting a rematch', player);
         } else {

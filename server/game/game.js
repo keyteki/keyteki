@@ -551,10 +551,12 @@ class Game extends EventEmitter {
         if (this.winner) {
             // Game was already won but the players chose to continue. Re-open
             // the post-game menu (without re-recording stats) so they can
-            // pick rematch/continue again.
+            // pick rematch/continue again. The displayed winner reflects the
+            // most recent concession even though the recorded winner stays
+            // as the original.
             if (this.continuePlaying) {
                 this.continuePlaying = false;
-                this.queueStep(new GameWonPrompt(this, this.winner));
+                this.queueStep(new GameWonPrompt(this, winner));
             }
             return;
         }
