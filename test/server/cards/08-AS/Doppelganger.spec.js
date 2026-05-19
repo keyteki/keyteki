@@ -164,11 +164,11 @@ describe('Doppelganger', function () {
             expect(this.player1).toBeAbleToSelect(this.doppelgangerB);
 
             // First resolution for Doppelganger A - can't break out of loop yet
-            expect(this.player1).not.toHavePromptButton('Move Doppelganger to discard pile');
+            expect(this.player1).not.toHavePromptButton('Move to discard');
             this.player1.clickCard(this.umbra);
 
             // First resolution for Doppelganger B - can't break out of loop yet
-            expect(this.player1).not.toHavePromptButton('Move Doppelganger to discard pile');
+            expect(this.player1).not.toHavePromptButton('Move to discard');
             this.player1.clickCard(this.huntingWitch);
             this.player1.clickPrompt('geistoid');
             expect(this.player1).isReadyToTakeAction();
@@ -177,28 +177,28 @@ describe('Doppelganger', function () {
         it('should offer the infinite-loop escape when the same Doppelganger re-resolves in the same start-of-turn window', function () {
             // First resolution for Doppelganger A - can't break out of loop yet
             this.player1.clickCard(this.doppelgangerA);
-            expect(this.player1).not.toHavePromptButton('Move Doppelganger to discard pile');
+            expect(this.player1).not.toHavePromptButton('Move to discard');
             this.player1.clickCard(this.doppelgangerB);
 
             // Second resolution for Doppelganger A - can break out of loop
             this.player1.clickCard(this.doppelgangerA);
-            expect(this.player1).toHavePromptButton('Move Doppelganger to discard pile');
+            expect(this.player1).toHavePromptButton('Move to discard');
             this.player1.clickCard(this.doppelgangerB);
 
             // First resolution for Doppelganger B - can't break out of loop yet
             this.player1.clickCard(this.doppelgangerB);
-            expect(this.player1).not.toHavePromptButton('Move Doppelganger to discard pile');
+            expect(this.player1).not.toHavePromptButton('Move to discard');
             this.player1.clickCard(this.doppelgangerA);
 
             // Second resolution for Doppelganger B - can break out of loop
             this.player1.clickCard(this.doppelgangerB);
-            expect(this.player1).toHavePromptButton('Move Doppelganger to discard pile');
-            this.player1.clickPrompt('Move Doppelganger to discard pile');
+            expect(this.player1).toHavePromptButton('Move to discard');
+            this.player1.clickPrompt('Move to discard');
             expect(this.doppelgangerA.location).toBe('play area');
             expect(this.doppelgangerB.location).toBe('discard');
 
             // Doppelganger A is no longer in a potential loop
-            expect(this.player1).not.toHavePromptButton('Move Doppelganger to discard pile');
+            expect(this.player1).not.toHavePromptButton('Move to discard');
             this.player1.clickCard(this.huntingWitch);
             this.player1.clickPrompt('geistoid');
             expect(this.player1).isReadyToTakeAction();
@@ -209,22 +209,22 @@ describe('Doppelganger', function () {
         it('should not offer the infinite-loop escape on the first resolution of a fresh turn even after a prior loop turn', function () {
             // First resolution for Doppelganger A - can't break out of loop yet
             this.player1.clickCard(this.doppelgangerA);
-            expect(this.player1).not.toHavePromptButton('Move Doppelganger to discard pile');
+            expect(this.player1).not.toHavePromptButton('Move to discard');
             this.player1.clickCard(this.doppelgangerB);
 
             // First resolution for Doppelganger B - can't break out of loop yet
             this.player1.clickCard(this.doppelgangerB);
-            expect(this.player1).not.toHavePromptButton('Move Doppelganger to discard pile');
+            expect(this.player1).not.toHavePromptButton('Move to discard');
             this.player1.clickCard(this.doppelgangerA);
 
             // Second resolution for Doppelganger A - can break out of loop
             this.player1.clickCard(this.doppelgangerA);
-            expect(this.player1).toHavePromptButton('Move Doppelganger to discard pile');
+            expect(this.player1).toHavePromptButton('Move to discard');
             this.player1.clickCard(this.umbra);
 
             // Second resolution for Doppelganger B - can break out of loop
             this.player1.clickCard(this.doppelgangerB);
-            expect(this.player1).toHavePromptButton('Move Doppelganger to discard pile');
+            expect(this.player1).toHavePromptButton('Move to discard');
             this.player1.clickCard(this.huntingWitch);
             this.player1.clickCard(this.huntingWitch); // Doppelganger B copied two gain text box from A
 
@@ -237,9 +237,9 @@ describe('Doppelganger', function () {
 
             // First resolutions for this turn - cannot break out of infinite loop yet
             this.player1.clickCard(this.doppelgangerA);
-            expect(this.player1).not.toHavePromptButton('Move Doppelganger to discard pile');
+            expect(this.player1).not.toHavePromptButton('Move to discard');
             this.player1.clickCard(this.umbra);
-            expect(this.player1).not.toHavePromptButton('Move Doppelganger to discard pile');
+            expect(this.player1).not.toHavePromptButton('Move to discard');
             this.player1.clickCard(this.huntingWitch);
             this.player1.clickPrompt('geistoid');
             expect(this.player1).isReadyToTakeAction();
@@ -274,10 +274,8 @@ describe('Doppelganger', function () {
             this.player1.clickCard(this.mimicGel);
             this.player1.clickCard(this.doppelganger);
             this.player1.clickCard(this.mimicGel);
-            expect(this.player1).toHavePromptButton(
-                'Move Mimic Gel as Doppelganger to discard pile'
-            );
-            this.player1.clickPrompt('Move Mimic Gel as Doppelganger to discard pile');
+            expect(this.player1).toHavePromptButton('Move to discard');
+            this.player1.clickPrompt('Move to discard');
             expect(this.mimicGel.location).toBe('discard');
             this.player1.clickPrompt('logos');
             expect(this.player1).isReadyToTakeAction();

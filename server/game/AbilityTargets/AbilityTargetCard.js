@@ -85,7 +85,7 @@ class AbilityTargetCard extends AbilityTarget {
         }
         if (infiniteLoopActive) {
             buttons.unshift({
-                text: `Move ${context.source.name} to discard pile`,
+                text: `Move to discard`,
                 arg: 'discardSelf'
             });
         }
