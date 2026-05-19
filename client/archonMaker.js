@@ -480,7 +480,7 @@ export const buildDeckList = async (
 
     let name;
     try {
-        name = new fabric.TextBox(deck.name, {
+        name = new fabric.Textbox(deck.name, {
             width: 380,
             left: 60,
             top: 29,
