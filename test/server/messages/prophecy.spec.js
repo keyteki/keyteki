@@ -55,8 +55,8 @@ describe('Prophecy Messages', function () {
                 'player2 chooses untamed as their active house this turn',
                 'player2 plays Spoo-key Charge',
                 'player2 uses Spoo-key Charge',
-                'player1 uses Expect the Unexpected to fulfill its prophecy',
-                'player1 resolves the fate effect of Parasitic Arachnoid'
+                "player2 fulfills Expect the Unexpected's prophecy",
+                'player2 resolves the fate effect of Parasitic Arachnoid'
             ]);
         });
     });
@@ -91,8 +91,43 @@ describe('Prophecy Messages', function () {
                 'player2 chooses untamed as their active house this turn',
                 'player2 plays Spoo-key Charge',
                 'player2 uses Spoo-key Charge',
-                'player1 uses Expect the Unexpected to fulfill its prophecy',
-                'player1 resolves the fate effect of Ancient Bear'
+                "player2 fulfills Expect the Unexpected's prophecy",
+                'player2 resolves the fate effect of Ancient Bear'
+            ]);
+        });
+    });
+
+    describe('fulfilling prophecy with Neotechnic Gopher fate effect', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    prophecies: ['overreach', 'forge-ahead-with-confidence'],
+                    hand: ['neotechnic-gopher']
+                },
+                player2: {
+                    inPlay: ['krump']
+                }
+            });
+            this.player1.activateProphecy(this.overreach, this.neotechnicGopher);
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+        });
+
+        it("should log correct message when Overreach's fate triggers Neotechnic Gopher's draw", function () {
+            this.player2.reap(this.krump);
+            expect(this.player2).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 activates their prophecy Overreach',
+                'player1 draws 6 cards to refill their hand to 6 cards',
+                'player1: 0 amber (0 keys) player2: 0 amber (0 keys)',
+                'player2 does not forge a key.  They have 0 amber.  The current cost is 6 amber',
+                'player2 chooses brobnar as their active house this turn',
+                'player2 uses Krump to reap with Krump',
+                "player2 fulfills Overreach's prophecy",
+                'player2 resolves the fate effect of Neotechnic Gopher',
+                'player2 uses Neotechnic Gopher to make their opponent draw a card',
+                'player1 draws 1 card'
             ]);
         });
     });

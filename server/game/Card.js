@@ -446,6 +446,25 @@ class Card extends EffectSource {
     }
 
     fate(properties) {
+        // Re-attribute the auto-generated "uses {fateCard} to ..." message to
+        // the active player (who triggered the prophecy fulfillment) rather
+        // than the fate card's controller, without altering context.player so
+        // that card targeting (e.g. controller: 'opponent') is unaffected.
+        let wrapped = Object.assign({}, properties);
+        if (wrapped.effect && !wrapped.message) {
+            const origEffect = wrapped.effect;
+            const origEffectArgs = wrapped.effectArgs;
+            wrapped.message = '{0} uses {1} to ' + origEffect;
+            wrapped.messageArgs = (context) => {
+                const extra =
+                    typeof origEffectArgs === 'function'
+                        ? origEffectArgs(context)
+                        : origEffectArgs || [];
+                return [context.game.activePlayer, context.source, ...extra];
+            };
+            delete wrapped.effect;
+            delete wrapped.effectArgs;
+        }
         return this.interrupt(
             Object.assign(
                 {
@@ -453,10 +472,9 @@ class Card extends EffectSource {
                         onFate: (event, context) => event.card === context.source
                     },
                     name: 'Fate',
-                    location: 'any',
-                    effectAlert: true
+                    location: 'any'
                 },
-                properties
+                wrapped
             )
         );
     }

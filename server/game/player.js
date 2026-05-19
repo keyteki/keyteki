@@ -1565,7 +1565,7 @@ class Player extends GameObject {
         return !flipProphecy.activeProphecy;
     }
 
-    activateProphecy(context, prophecyCard, showMessage = true) {
+    activateProphecy(_, prophecyCard) {
         if (!this.canActivateProphecy(prophecyCard)) {
             return false;
         }
@@ -1573,9 +1573,7 @@ class Player extends GameObject {
         prophecyCard.activeProphecy = true;
         this.game.raiseEvent(EVENTS.onProphecyActivated, { prophecyCard: prophecyCard });
 
-        if (showMessage) {
-            this.game.addMessage('{0} activates their prophecy {1}', this, prophecyCard);
-        }
+        this.game.addAlert('bell', '{0} activates their prophecy {1}', this, prophecyCard);
 
         return true;
     }

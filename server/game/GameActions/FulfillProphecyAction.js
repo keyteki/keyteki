@@ -10,6 +10,9 @@ class FulfillProphecyAction extends PlayerAction {
         super.setup();
         this.name = 'fulfillProphecy';
         this.effectMsg = 'fulfill its prophecy';
+        // Messaging is emitted directly from getEvent so we can attribute it
+        // to the active player rather than the prophecy controller.
+        this.defersMessage = true;
     }
 
     defaultTargets(context) {
@@ -31,6 +34,7 @@ class FulfillProphecyAction extends PlayerAction {
     }
 
     getEvent(player, context) {
+        context.game.addAlert('bell', "{0} fulfills {1}'s prophecy", player, this.card);
         return super.createEvent(
             EVENTS.onFulfillProphecy,
             { player: player, card: this.card, context: context },
@@ -39,6 +43,11 @@ class FulfillProphecyAction extends PlayerAction {
                 if (this.card.childCards && this.card.childCards.length > 0) {
                     let childCard = this.card.childCards[0];
                     childCard.facedown = false;
+                    context.game.addMessage(
+                        '{0} resolves the fate effect of {1}',
+                        player,
+                        childCard
+                    );
                     context.game.actions.resolveFate().resolve(childCard, context);
                 }
             }
