@@ -3,6 +3,7 @@ const _ = require('underscore');
 const CardSelector = require('../CardSelector.js');
 const AbilityTarget = require('./AbilityTarget.js');
 const Optional = require('../optional.js');
+const { EVENTS } = require('../Events/types');
 
 class AbilityTargetCard extends AbilityTarget {
     constructor(name, properties, ability) {
@@ -67,6 +68,28 @@ class AbilityTargetCard extends AbilityTarget {
             }
         }
 
+        // The prompt may offer an escape to discard the ability's source so
+        // the player can break out of a detected infinite loop. Each game
+        // action class may opt in by exposing a static
+        // `isInfiniteLoop(context, legalTargets)` predicate (see
+        // `GainsTextBoxAction`).
+        let infiniteLoopActive = false;
+        const actionClasses = (this.properties.gameAction || [])
+            .map((action) => action && action.constructor)
+            .filter((cls) => cls && typeof cls.isInfiniteLoop === 'function');
+        if (actionClasses.length > 0) {
+            const legalTargets = this.selector.getAllLegalTargets(context);
+            infiniteLoopActive = actionClasses.some((cls) =>
+                cls.isInfiniteLoop(context, legalTargets)
+            );
+        }
+        if (infiniteLoopActive) {
+            buttons.unshift({
+                text: `Move ${context.source.name} to discard pile`,
+                arg: 'discardSelf'
+            });
+        }
+
         let promptProperties = {
             waitingPromptTitle: waitingPromptTitle,
             context: context,
@@ -87,6 +110,21 @@ class AbilityTargetCard extends AbilityTarget {
             onMenuCommand: (player, arg) => {
                 if (arg === 'costsFirst') {
                     targetResults.costsFirst = true;
+                    return true;
+                }
+
+                if (arg === 'discardSelf' && infiniteLoopActive) {
+                    context.game.addMessage(
+                        '{0} resolves the infinite loop by moving {1} to the discard pile',
+                        player,
+                        context.source
+                    );
+                    context.game.raiseEvent(
+                        EVENTS.onCardLeavesPlay,
+                        { card: context.source, context: context },
+                        () => context.source.owner.moveCard(context.source, 'discard')
+                    );
+                    targetResults.cancelled = true;
                     return true;
                 }
 
