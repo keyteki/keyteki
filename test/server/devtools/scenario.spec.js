@@ -5,10 +5,17 @@ const {
     loadScenario,
     SCENARIO_BREAK
 } = require('../../../server/devtools/scenario/runner.js');
+const logger = require('../../../server/log.js');
 
 const FIXTURE = path.join(__dirname, 'fixtures', 'sample.scenario.js');
 
 describe('scenario/runner', function () {
+    beforeEach(function () {
+        // loadScenario emits warn() when it auto-picks a test from a
+        // multi-test file or matches multiple by fragment. The tests below
+        // exercise both paths intentionally; silence the noise.
+        vi.spyOn(logger, 'warn').mockImplementation(() => {});
+    });
     describe('inspectScenario', function () {
         it('lists tests with describe/it labels joined by " > "', function () {
             const { tests } = inspectScenario(FIXTURE);

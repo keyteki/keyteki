@@ -109,10 +109,9 @@ function dryLoad(absPath) {
     global.afterEach = afterEachImpl;
     global.vi = makeNoopExpect();
 
-    let mod;
     try {
         delete require.cache[absPath];
-        mod = require(absPath);
+        require(absPath);
     } finally {
         global.describe = prev.describe;
         global.it = prev.it;
@@ -124,7 +123,6 @@ function dryLoad(absPath) {
             global.vi = prev.vi;
         }
     }
-    void mod;
 
     const tests = [];
     (function collect(suite, parentName, parentHooks) {
@@ -406,7 +404,7 @@ function buildContext(game) {
  */
 function runScenario(scenarioPath, { router, gameId } = {}) {
     if (!router) {
-        throw new Error('scenarioRunner.runScenario requires a router');
+        throw new Error('runScenario requires a router');
     }
 
     const scenarioFn = loadScenario(scenarioPath);

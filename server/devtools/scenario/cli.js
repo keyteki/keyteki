@@ -284,7 +284,7 @@ function pick({ title, items, getText, renderText }) {
         const stdin = process.stdin;
         const stdout = process.stdout;
         if (!stdin.isTTY) {
-            reject(new Error('scenarioCli requires a TTY'));
+            reject(new Error('scenario CLI requires a TTY'));
             return;
         }
         // 50ms instead of node's 500ms default makes a standalone Esc press
