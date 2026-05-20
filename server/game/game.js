@@ -1636,6 +1636,7 @@ class Game extends EventEmitter {
             name: this.name,
             owner: this.owner,
             players: playerSummaries,
+            scenario: this.scenario,
             showHand: this.showHand,
             spectators: this.getSpectators().map((spectator) => {
                 return {

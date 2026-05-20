@@ -261,6 +261,11 @@ beforeEach(function () {
         delete testContext[key];
     }
 
+    // `this.scenarioBreak()` is a no-op under vitest. In scenario mode
+    // (loaded via server/devtools/scenarioRunner), it halts test execution at
+    // the call site so the dev can interact with the resulting game state.
+    this.scenarioBreak = () => {};
+
     this.flow = new GameFlowWrapper(cardsByCode);
 
     this.game = this.flow.game;
