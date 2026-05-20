@@ -259,7 +259,7 @@ function buildFlow(game) {
                 let result = '';
                 const msg = game.messages[game.messages.length - 1 - i];
                 for (const frag of msg.message) {
-                    result += typeof frag === 'string' ? frag : frag?.name || '';
+                    result += getChatString(frag);
                 }
                 results.push(result);
             }
@@ -280,6 +280,21 @@ function cardCamel(card) {
         split[i] = split[i].slice(0, 1).toUpperCase() + split[i].slice(1);
     }
     return split.join('');
+}
+
+// Mirrors the recursive flattener in test/helpers/gameflowwrapper.js so
+// scenario mode produces identical chat log text to the source test.
+function getChatString(item) {
+    if (Array.isArray(item)) {
+        return item.map(getChatString).join('');
+    } else if (item instanceof Object) {
+        if (item.name) {
+            return item.name;
+        } else if (item.message) {
+            return getChatString(item.message);
+        }
+    }
+    return item;
 }
 
 function buildContext(game) {

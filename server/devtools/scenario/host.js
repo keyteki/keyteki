@@ -70,9 +70,10 @@ function reset(server, oldGame) {
         }
     }
 
-    // Detach old game.
-    delete server.games[oldGame.id];
-
+    // Don't detach the old game up-front: bootstrap may throw (e.g. the dev
+    // saved a syntax error into the spec) and we'd rather keep the old game
+    // alive so connected sockets aren't orphaned. bootstrap overwrites
+    // server.games[reuseId] on success anyway.
     const newGame = bootstrap(server, oldGame.scenarioPath, oldGame.id);
 
     // Carry over the per-user diff baseline so the next sendGameState is a
