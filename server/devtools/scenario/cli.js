@@ -2,7 +2,7 @@
 /*
  * Interactive scenario picker.
  *
- *   npm run scenario
+ *   npm run dev:scenario
  *
  * Two pickers (file → test) with VSCode-style subsequence filtering, then it
  * spawns `npm run dev:gamenode` with the right SCENARIO env var. Esc
