@@ -524,8 +524,7 @@ async function main() {
     let selectedTest = null;
     let autoSelectedTest = false;
 
-    // eslint-disable-next-line no-constant-condition
-    while (true) {
+    while (stage) {
         if (stage === 'file') {
             const picked = await pick({
                 title: 'Pick a scenario or spec file',
