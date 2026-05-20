@@ -15,11 +15,11 @@
 const path = require('path');
 const { randomUUID } = require('node:crypto');
 
-const Game = require('../game/game.js');
-const Settings = require('../settings.js');
-const logger = require('../log.js');
-const DeckBuilder = require('../../test/helpers/deckbuilder.js');
-const PlayerInteractionWrapper = require('../../test/helpers/playerinteractionwrapper.js');
+const Game = require('../../game/game.js');
+const Settings = require('../../settings.js');
+const logger = require('../../log.js');
+const DeckBuilder = require('../../../test/helpers/deckbuilder.js');
+const PlayerInteractionWrapper = require('../../../test/helpers/playerinteractionwrapper.js');
 
 const deckBuilder = new DeckBuilder();
 const cardsByCode = {};
@@ -445,4 +445,4 @@ function runScenario(scenarioPath, { router, gameId } = {}) {
     return game;
 }
 
-module.exports = { runScenario, inspectScenario, PLAYER_NAMES };
+module.exports = { runScenario, inspectScenario, loadScenario, PLAYER_NAMES, SCENARIO_BREAK };

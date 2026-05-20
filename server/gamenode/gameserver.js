@@ -18,7 +18,6 @@ const Game = require('../game/game');
 const Socket = require('../socket');
 const ConfigService = require('../services/ConfigService');
 const HealthServer = require('./healthserver.js');
-const scenarioRunner = require('../devtools/scenarioRunner.js');
 
 class GameServer {
     constructor() {
@@ -128,17 +127,7 @@ class GameServer {
         this.healthServer.start();
 
         if (process.env.SCENARIO) {
-            this.bootstrapScenario(process.env.SCENARIO);
-            // The CLI (npm run dev:scenario) sends SIGUSR2 when the dev presses
-            // "r" to reset the scenario without restarting the node.
-            process.on('SIGUSR2', () => {
-                const game = this.scenarioGameId && this.games[this.scenarioGameId];
-                if (!game) {
-                    logger.warn('SIGUSR2 received but no scenario game is active');
-                    return;
-                }
-                this.resetScenarioGame(game);
-            });
+            require('../devtools/scenario/host.js').install(this, process.env.SCENARIO);
         }
     }
 
@@ -417,87 +406,6 @@ class GameServer {
         if (pendingGame.rematch) {
             game.addAlert('info', 'The rematch is ready');
         }
-    }
-
-    /**
-     * Build (or rebuild) a scenario-mode game on this node.
-     *
-     * @param {string} scenarioPath
-     * @param {string} [reuseId]
-     */
-    bootstrapScenario(scenarioPath, reuseId) {
-        try {
-            const game = scenarioRunner.runScenario(scenarioPath, {
-                router: this,
-                gameId: reuseId
-            });
-
-            // Tag the game so the client knows to auto-navigate to /play
-            // whenever a scenario gamestate arrives (new spawn or `r` reset).
-            game.scenario = true;
-
-            game.on('onTimeExpired', () => {
-                this.sendGameState(game);
-            });
-
-            this.games[game.id] = game;
-            this.scenarioGameId = game.id;
-
-            this.sendGameState(game);
-            logger.info(`Scenario ready as game ${game.id}; log in as test0/test1 to join`);
-            return game;
-        } catch (err) {
-            logger.error('Failed to bootstrap scenario:', err);
-            throw err;
-        }
-    }
-
-    /**
-     * Rebuild the active scenario game in place, preserving the game id and
-     * any open browser socket connections.
-     *
-     * @param {import("../game/game")} oldGame
-     */
-    resetScenarioGame(oldGame) {
-        if (!oldGame || !oldGame.scenarioPath) {
-            return;
-        }
-
-        // Capture sockets keyed by username so we can re-attach them.
-        const sockets = {};
-        for (const player of Object.values(oldGame.getPlayersAndSpectators())) {
-            if (player.socket) {
-                sockets[player.name] = player.socket;
-            }
-        }
-
-        // Detach old game.
-        delete this.games[oldGame.id];
-
-        const newGame = this.bootstrapScenario(oldGame.scenarioPath, oldGame.id);
-
-        // Carry over the per-user diff baseline so the next sendGameState is
-        // a diff from the client's current rootState (not a raw full state,
-        // which the client would incorrectly try to apply as a diff and
-        // corrupt the board).
-        for (const [name, baseline] of Object.entries(oldGame.jsonForUsers || {})) {
-            newGame.jsonForUsers[name] = baseline;
-        }
-
-        // Re-attach captured sockets to the freshly-built player records.
-        for (const [name, socket] of Object.entries(sockets)) {
-            const player = newGame.playersAndSpectators[name];
-            if (!player) {
-                continue;
-            }
-            player.lobbyId = player.id;
-            player.id = socket.id;
-            player.connectionSucceeded = true;
-            player.socket = socket;
-        }
-
-        newGame.addAlert('warning', 'Scenario reset');
-        this.sendGameState(newGame);
     }
 
     /**

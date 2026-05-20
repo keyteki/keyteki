@@ -16,9 +16,9 @@ const path = require('node:path');
 const readline = require('node:readline');
 const { spawn } = require('node:child_process');
 
-const { inspectScenario } = require('./scenarioRunner.js');
+const { inspectScenario } = require('./runner.js');
 
-const ROOT = path.resolve(__dirname, '..', '..');
+const ROOT = path.resolve(__dirname, '..', '..', '..');
 const SEARCH_ROOTS = [{ dir: path.join(ROOT, 'test', 'server'), pattern: /\.spec\.js$/ }];
 
 function walk(dir, pattern, out = []) {

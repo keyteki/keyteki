@@ -26,7 +26,7 @@ describe('scenarioBreak()', function () {
             lines.forEach((line, i) => {
                 // Match `this.scenarioBreak(` or bare `scenarioBreak(`, but
                 // skip comments so the explanatory comment in this file (and
-                // in scenarioRunner.js docs referenced elsewhere) is fine.
+                // in scenario/runner.js docs referenced elsewhere) is fine.
                 const stripped = line.replace(/\/\/.*$/, '');
                 if (/(?:^|[^.\w])(?:this\.)?scenarioBreak\s*\(/.test(stripped)) {
                     offenders.push(`${path.relative(TEST_ROOT, file)}:${i + 1}`);
