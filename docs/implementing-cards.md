@@ -285,7 +285,7 @@ These events are used in `reaction()` and `interrupt()` abilities:
 | `onPhaseEnd`          | When a phase ends                                    | `event.phase`                                          |
 | `onChooseActiveHouse` | When active house is chosen                          | `event.player`, `event.house`                          |
 | `onStun`              | When a creature is stunned                           | `event.card`                                           |
-| `onCardReadied`       | When a card is readied                               | `event.card`, `event.exhausted`                        |
+| `onCardsReadied`      | When one or more cards are readied. Fires as a single event covering every card that is about to ready in that operation (the whole ready phase, or all targets of one `ReadyAction` like Nice to Greet You). Cards in `event.cards` may belong to either player. Listeners that want a per-card effect should iterate `event.cards` in their `gameAction`. Only cards actually transitioning from exhausted to ready appear in `cards`. | `event.cards` |
 | `onHeal`              | When a creature is healed                            | `event.card`, `event.amount`                           |
 | `onWard`              | When a creature is warded                            | `event.card`                                           |
 | `onExalt`             | When a creature is exalted                           | `event.card`, `event.amount`                           |

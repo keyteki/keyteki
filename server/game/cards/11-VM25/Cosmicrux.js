@@ -5,11 +5,11 @@ class Cosmicrux extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardReadied: (event) => event.card.type === 'creature' && event.exhausted
+                onCardsReadied: (event) => event.cards.some((card) => card.type === 'creature')
             },
             gameAction: ability.actions.dealDamage((context) => ({
                 amount: 1,
-                target: context.event.card
+                target: context.event.cards.filter((card) => card.type === 'creature')
             }))
         });
     }
