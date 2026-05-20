@@ -5,6 +5,7 @@ class TriggeredAbilityContext extends AbilityContext {
         super(properties);
 
         this.event = properties.event;
+        this.subject = properties.subject;
     }
 
     copy(newProps) {
@@ -14,6 +15,7 @@ class TriggeredAbilityContext extends AbilityContext {
     getProps() {
         let props = super.getProps();
         props.event = this.event;
+        props.subject = this.subject;
         return props;
     }
 

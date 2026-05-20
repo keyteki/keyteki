@@ -22,14 +22,11 @@ describe('The Chosen One', function () {
             });
         });
 
-        it('does not damage TCO and readies controller creatures at end of controller turn', function () {
-            // TCO's controller ends their turn: the mass ready phase belongs
-            // to player1, so TCO should not trigger against itself.
+        it('does not damage The Chosen One and readies controller creatures at end of controller turn', function () {
             this.player1.reap(this.troll);
             this.player1.reap(this.valdr);
             this.player1.endTurn();
 
-            // TCO takes no damage and friendly creatures ready normally.
             expect(this.theChosenOne.damage).toBe(0);
             expect(this.troll.exhausted).toBe(false);
             expect(this.valdr.exhausted).toBe(false);
@@ -38,12 +35,9 @@ describe('The Chosen One', function () {
             expect(this.player2).isReadyToTakeAction();
         });
 
-        it('deals 1 damage to TCO for each exhausted opponent creature and prevents readying at end of opponent turn', function () {
-            this.player1.reap(this.troll);
-            this.player1.reap(this.valdr);
+        it('deals 1 damage to The Chosen One for each exhausted opponent creature and prevents readying at end of opponent turn', function () {
             this.player1.endTurn();
 
-            // Opponent exhausts three creatures during their turn.
             this.player2.clickPrompt('logos');
             this.player2.reap(this.batdrone);
             this.player2.reap(this.dextre);
@@ -52,9 +46,6 @@ describe('The Chosen One', function () {
             this.player2.clickCard(this.daughter);
             this.player2.endTurn();
 
-            // TCO cancels the mass ready and takes 1 damage per exhausted
-            // opponent creature (3); creatures stay exhausted. The unrelated
-            // artifact is not counted and readies normally.
             expect(this.theChosenOne.damage).toBe(3);
             expect(this.groggins.exhausted).toBe(false);
             expect(this.lollopTheTitanic.exhausted).toBe(false);
@@ -72,17 +63,12 @@ describe('The Chosen One', function () {
             this.player1.reap(this.valdr);
             this.player1.endTurn();
 
-            // Ganger Chieftain's Play ability readies another creature. This
-            // is a card-effect ready, not the mass ready phase, so TCO must
-            // not interfere -- including not removing valid targets from the
-            // selection prompt.
             this.player2.clickPrompt('logos');
             this.player2.reap(this.batdrone);
             this.player2.play(this.helperBot);
             this.player2.play(this.gangerChieftain, true);
             this.player2.clickCard(this.batdrone);
 
-            // Ready opponent creatures remain selectable as Ready targets.
             expect(this.player2).toBeAbleToSelect(this.troll);
             expect(this.player2).toBeAbleToSelect(this.valdr);
             this.player2.clickCard(this.troll);
@@ -90,19 +76,19 @@ describe('The Chosen One', function () {
             expect(this.player2).isReadyToTakeAction();
         });
 
-        it('readies opponent creatures when TCO is destroyed before the ready phase', function () {
+        it('readies opponent creatures when The Chosen One is destroyed before the ready phase', function () {
             this.player1.reap(this.troll);
             this.player1.reap(this.valdr);
             this.player1.endTurn();
 
-            // Opponent kills TCO during their turn, then exhausts a creature.
+            // Opponent kills The Chosen One during their turn, then exhausts a creature.
             this.player2.clickPrompt('brobnar');
             this.player2.fightWith(this.lollopTheTitanic, this.theChosenOne);
             expect(this.theChosenOne.location).toBe('discard');
             this.player2.reap(this.groggins);
             this.player2.endTurn();
 
-            // With TCO gone, the mass ready resolves normally.
+            // With The Chosen One gone, the mass ready resolves normally.
             expect(this.lollopTheTitanic.exhausted).toBe(false);
             expect(this.groggins.exhausted).toBe(false);
             expect(this.batdrone.exhausted).toBe(false);
@@ -113,21 +99,21 @@ describe('The Chosen One', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('does not ready opponent creatures even when TCO is destroyed during the ready phase', function () {
+        it('does not ready opponent creatures even when The Chosen One is destroyed during the ready phase', function () {
             this.player1.reap(this.troll);
             this.player1.reap(this.valdr);
             this.player1.endTurn();
 
-            // Pre-damage TCO so the ready-phase damage will kill it.
+            // Pre-damage The Chosen One so the ready-phase damage will kill it.
             this.theChosenOne.damage = 8;
             this.player2.clickPrompt('brobnar');
             this.player2.reap(this.lollopTheTitanic);
             this.player2.reap(this.groggins);
             this.player2.endTurn();
 
-            // TCO triggers, cancels the ready, then dies from the damage.
+            // The Chosen One triggers, cancels the ready, then dies from the damage.
             // The cancellation still applies, so exhausted creatures stay
-            // exhausted (TCO already replaced the ready before dying).
+            // exhausted (The Chosen One already replaced the ready before dying).
             expect(this.theChosenOne.location).toBe('discard');
             expect(this.lollopTheTitanic.exhausted).toBe(true);
             expect(this.groggins.exhausted).toBe(true);
@@ -154,12 +140,12 @@ describe('The Chosen One', function () {
             });
         });
 
-        it('does not trigger TCO when opponent cannot ready cards due to Storm Surge', function () {
+        it('does not trigger The Chosen One when opponent cannot ready cards due to Storm Surge', function () {
             this.player1.play(this.stormSurge);
             this.player1.endTurn();
 
             // With Storm Surge active, opponent's creatures cannot ready at
-            // all, so no ready event is raised and TCO does not trigger.
+            // all, so no ready event is raised and The Chosen One does not trigger.
             this.troll.exhaust();
             this.helichopper.exhaust();
             this.player2.clickPrompt('brobnar');
@@ -188,12 +174,12 @@ describe('The Chosen One', function () {
             });
         });
 
-        it('does not trigger TCO when creatures cannot ready due to Thermal Depletion', function () {
+        it('does not trigger The Chosen One when creatures cannot ready due to Thermal Depletion', function () {
             this.player1.play(this.thermalDepletion);
             this.player1.endTurn();
 
             // Thermal Depletion also prevents creatures from readying, so
-            // no ready event fires and TCO has nothing to interrupt.
+            // no ready event fires and The Chosen One has nothing to interrupt.
             this.troll.exhaust();
             this.helichopper.exhaust();
             this.player2.clickPrompt('brobnar');
@@ -211,8 +197,8 @@ describe('The Chosen One', function () {
     // Representative test for the broader family of per-card "do not
     // ready" effects: Kiri Giltspine, Physaloha, Frost Giant,
     // Awakened Titan, Under Pressure, and entrench. If no creature
-    // actually readies, TCO has nothing to replace and deals no
-    // damage; if any creature would ready, TCO triggers and deals
+    // actually readies, The Chosen One has nothing to replace and deals no
+    // damage; if any creature would ready, The Chosen One triggers and deals
     // damage for each exhausted opponent creature.
     describe('with entrenched opponent creatures', function () {
         beforeEach(function () {
@@ -230,9 +216,9 @@ describe('The Chosen One', function () {
             this.player2.endTurn();
         });
 
-        it('does not trigger TCO when no entrenched creature is selected to ready', function () {
+        it('does not trigger The Chosen One when no entrenched creature is selected to ready', function () {
             // Decline to ready any entrenched creatures: no ready event is
-            // raised, so TCO does not trigger.
+            // raised, so The Chosen One does not trigger.
             expect(this.player2).toHavePrompt('Select entrenched creatures to ready');
             this.player2.clickPrompt('done');
 
@@ -244,15 +230,15 @@ describe('The Chosen One', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('triggers TCO when at least one entrenched creature is selected to ready', function () {
-            // Select Grammy Taps to ready: a ready event is raised, TCO
+        it('triggers The Chosen One when at least one entrenched creature is selected to ready', function () {
+            // Select Grammy Taps to ready: a ready event is raised, The Chosen One
             // interrupts it and replaces it with damage to itself.
             expect(this.player2).toHavePrompt('Select entrenched creatures to ready');
             this.player2.clickCard(this.grammyTaps);
             this.player2.clickPrompt('done');
 
-            // TCO prevents creature readying, so both stay exhausted, and
-            // TCO takes one damage per exhausted opponent creature.
+            // The Chosen One prevents creature readying, so both stay exhausted, and
+            // The Chosen One takes one damage per exhausted opponent creature.
             expect(this.grammyTaps.exhausted).toBe(true);
             expect(this.knuckler.exhausted).toBe(true);
             expect(this.theChosenOne.damage).toBe(2);
@@ -281,9 +267,9 @@ describe('The Chosen One', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
 
-            // TCO triggers because Troll (a creature) would ready. Damage = 1
+            // The Chosen One triggers because Troll (a creature) would ready. Damage = 1
             // (just Troll); the exhausted artifact (Hologrammophone) is not
-            // counted, and TCO did not block the artifact from readying.
+            // counted, and The Chosen One did not block the artifact from readying.
             expect(this.theChosenOne.damage).toBe(1);
             expect(this.hologrammophone.exhausted).toBe(false);
             expect(this.troll.exhausted).toBe(true);
@@ -293,7 +279,7 @@ describe('The Chosen One', function () {
         });
     });
 
-    describe('with two TCOs in play', function () {
+    describe('with two The Chosen Ones in play', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: { inPlay: ['the-chosen-one', 'the-chosen-one'] },
@@ -301,8 +287,8 @@ describe('The Chosen One', function () {
             });
         });
 
-        it('only the chosen TCO takes damage', function () {
-            const [tco1, tco2] = this.player1.player.creaturesInPlay.filter(
+        it('only the chosen The Chosen One takes damage', function () {
+            const [theChosenOne1, theChosenOne2] = this.player1.player.creaturesInPlay.filter(
                 (c) => c.id === 'the-chosen-one'
             );
 
@@ -314,15 +300,15 @@ describe('The Chosen One', function () {
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();
 
-            // Both TCOs interrupt onCardsReadied. The active player (player2,
+            // Both The Chosen Ones interrupt onCardsReadied. The active player (player2,
             // whose ready phase it is) is prompted to choose the order. The
-            // first TCO to resolve replaces the readying and takes the damage.
-            // The second TCO re-evaluates its when condition and sees
+            // first The Chosen One to resolve replaces the readying and takes the damage.
+            // The second The Chosen One re-evaluates its when condition and sees
             // event.cards has no creatures left, so it does not trigger.
-            this.player2.clickCard(tco1);
+            this.player2.clickCard(theChosenOne1);
 
-            expect(tco1.damage).toBe(2);
-            expect(tco2.damage).toBe(0);
+            expect(theChosenOne1.damage).toBe(2);
+            expect(theChosenOne2.damage).toBe(0);
             expect(this.troll.exhausted).toBe(true);
             expect(this.helichopper.exhausted).toBe(true);
 
@@ -342,50 +328,49 @@ describe('The Chosen One', function () {
             this.setupTest({
                 player1: {
                     house: 'dis',
-                    hand: ['soulkeeper'],
-                    inPlay: ['the-chosen-one']
+                    hand: ['soulkeeper', 'armageddon-cloak'],
+                    inPlay: ['the-chosen-one', 'almsmaster-evil-twin']
                 },
                 player2: {
                     hand: ['jargogle', 'ganger-chieftain'],
                     inPlay: ['frost-giant']
                 }
             });
+            this.player1.makeMaverick(this.armageddonCloak, 'dis');
         });
 
         it('cancels and takes damage when the chain triggers a ready', function () {
-            // Setup: Soulkeeper on TCO so it survives the lethal damage,
-            // Frost Giant exhausted on the opposing side.
             this.frostGiant.exhaust();
+            this.player1.playUpgrade(this.armageddonCloak, this.theChosenOne);
             this.player1.playUpgrade(this.soulkeeper, this.theChosenOne);
             this.player1.endTurn();
-
-            // Opponent plays Big Jargogle and stashes Ganger Chieftain under it.
             this.player2.clickPrompt('logos');
             this.player2.play(this.jargogle);
             this.player2.clickCard(this.gangerChieftain);
-
-            // Pre-conditions to force the desired chain: Jargogle has enough
-            // power counters to die during the ready phase, and TCO is one
-            // hit from dying (Soulkeeper will save it).
             this.jargogle.powerCounters = 20;
             this.theChosenOne.damage = 8;
             this.player2.endTurn();
 
-            // Ready phase: Jargogle dies, plays Ganger Chieftain, whose
-            // Play readies Frost Giant. "doesNotReady" only blocks the mass
-            // ready -- card-effect readies still raise an onCardsReadied
-            // event, so TCO triggers and replaces it with damage.
+            // Player2 ready phase - soulkeeper destroys Jargogle
             expect(this.theChosenOne.damage).toBe(10);
-
-            // Resolve Jargogle's destroyed trigger: play Ganger Chieftain.
+            this.player2.clickPrompt(this.soulkeeper.name);
             this.player2.clickCard(this.jargogle);
+
+            // Jargogle plays Ganger Chieftain
             this.player2.clickPrompt('left');
             this.player2.clickCard(this.frostGiant);
 
-            // Frost Giant was not actually readied -- TCO cancelled the ready.
+            // Frost Giant does not ready due to The Chosen One
             expect(this.frostGiant.exhausted).toBe(true);
-            this.player2.clickCard(this.dextre);
+            expect(this.gangerChieftain.location).toBe('play area');
+            expect(this.gangerChieftain.exhausted).toBe(true);
 
+            // Almsmaster Evil Twin and Armageddon Cloak prompt here, allowing The Chosen One's damage to be checked
+            expect(this.player2).toHavePrompt('Which ability would you like to use?');
+            expect(this.theChosenOne.damage).toBe(13);
+
+            // Turn finishes
+            this.player2.clickPrompt(this.almsmasterEvilTwin.name);
             this.player1.clickPrompt('dis');
             expect(this.player1).isReadyToTakeAction();
         });

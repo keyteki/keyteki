@@ -9,9 +9,6 @@ class ReadyAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        if (card.game.currentPhase === 'ready' && !card.readiesDuringReadyPhase()) {
-            return false;
-        }
         return (
             card.location === 'play area' &&
             card.checkRestrictions('ready', context) &&
@@ -26,9 +23,11 @@ class ReadyAction extends CardGameAction {
         // no-op on it. Filter exhausted state here so onCardsReadied only
         // covers cards that actually transition exhausted -> ready.
         const cards = this.target.filter((card) => card.exhausted && this.canAffect(card, context));
-        if (cards.length === 0) {
-            return [];
-        }
+        // Always emit a single onCardsReadied event, even when `cards` is
+        // empty, so the ability's `then` continuation still runs (e.g.
+        // Smite uses ready().then(fight) on a possibly-already-ready
+        // creature). Listeners (Cosmicrux, Giltspine, etc.) should guard
+        // on `event.cards.length` so they don't fire spuriously.
         return [
             this.createEvent(
                 EVENTS.onCardsReadied,
@@ -45,8 +44,8 @@ class ReadyAction extends CardGameAction {
         ];
     }
 
-    checkEventCondition(event) {
-        return event.cards.length > 0;
+    checkEventCondition() {
+        return true;
     }
 }
 

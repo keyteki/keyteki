@@ -45,6 +45,13 @@ class TriggeredAbility extends CardAbility {
         this.optional = properties.optional;
         this.isLastingAbilityTrigger = !!properties.player;
         this.multipleTrigger = !!properties.multipleTrigger;
+        // Optional: `triggerSubjects(event, context) => Card[]` lets a
+        // single event produce one ability trigger per returned subject.
+        // Each trigger gets its own context with `context.subject` set, and
+        // each trigger is added to the ability window as a distinct choice
+        // the player can order. Used for bulk events (e.g. onCardsReadied)
+        // where a reaction like Cosmicrux fires per readied creature.
+        this.triggerSubjects = properties.triggerSubjects;
         if (properties.location === 'any') {
             this.registerEvents();
         }
@@ -69,7 +76,32 @@ class TriggeredAbility extends CardAbility {
 
         let context = this.createContext(player, event);
         if (this.card.reactions.includes(this) || this.isLastingAbilityTrigger) {
-            if (this.isTriggeredByEvent(event, context)) {
+            if (this.triggerSubjects) {
+                // For per-subject triggers, only the `when` clause is
+                // evaluated against the bulk context — `condition` and
+                // `meetsRequirements` are evaluated per subject so they
+                // can use `context.subject`.
+                if (!this.when[event.name] || !this.when[event.name](event, context)) {
+                    return;
+                }
+                const subjects = this.triggerSubjects(event, context) || [];
+                for (const subject of subjects) {
+                    const perSubjectContext = this.createContext(player, event, subject);
+                    if (!this.isTriggeredByEvent(event, perSubjectContext)) {
+                        continue;
+                    }
+                    if (this.meetsRequirements(perSubjectContext, []) === '') {
+                        window.addChoice(perSubjectContext);
+                    } else {
+                        // Per-subject triggers always defer when their
+                        // gameAction has no legal target right now —
+                        // ordering with other triggers (e.g. Prospector's
+                        // destroyed) may refill the deck/discard pile and
+                        // make the target legal by the time it's resolved.
+                        window.addDeferredChoice(perSubjectContext);
+                    }
+                }
+            } else if (this.isTriggeredByEvent(event, context)) {
                 if (this.meetsRequirements(context, []) === '') {
                     // If the ability meets requirements then add it as a choice
                     window.addChoice(context);
@@ -81,9 +113,10 @@ class TriggeredAbility extends CardAbility {
         }
     }
 
-    createContext(player = this.card.controller, event) {
+    createContext(player = this.card.controller, event, subject) {
         return new TriggeredAbilityContext({
             event: event,
+            subject: subject,
             game: this.game,
             source: this.card,
             player: player,
