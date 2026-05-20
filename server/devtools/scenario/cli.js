@@ -9,8 +9,6 @@
  * goes back one level; Ctrl+C exits.
  */
 
-// @ts-nocheck
-
 const fs = require('node:fs');
 const path = require('node:path');
 const readline = require('node:readline');
