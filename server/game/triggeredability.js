@@ -93,12 +93,13 @@ class TriggeredAbility extends CardAbility {
                     }
                     if (this.meetsRequirements(perSubjectContext, []) === '') {
                         window.addChoice(perSubjectContext);
-                    } else {
-                        // Per-subject triggers always defer when their
-                        // gameAction has no legal target right now —
-                        // ordering with other triggers (e.g. Prospector's
-                        // destroyed) may refill the deck/discard pile and
-                        // make the target legal by the time it's resolved.
+                    } else if (this.properties.destroyed || this.properties.play) {
+                        // Mirror the non-multi path: only `destroyed` and
+                        // `play` reactions defer when targets are illegal,
+                        // because ordering with other triggers may refill
+                        // the deck/discard pile and make the target legal
+                        // by the time it's resolved. Regular reactions are
+                        // silently skipped to match single-subject behavior.
                         window.addDeferredChoice(perSubjectContext);
                     }
                 }
