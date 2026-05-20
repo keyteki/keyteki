@@ -378,10 +378,10 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     promptBetweenEventCards(choices, addBackButton = true) {
-        // When an ability uses triggerSubjects (one trigger per readied card,
-        // per dealt-damage target, etc.) the choices share the same event
-        // but each has its own subject. Disambiguate by subject so the
-        // player can pick which one to resolve next.
+        // When an ability uses multiTriggerEvent (one trigger per readied
+        // card, per dealt-damage target, etc.) the choices share the same
+        // event but each has its own subject. Disambiguate by subject so
+        // the player can pick which one to resolve next.
         const choiceCard = (context) => context.subject || context.event.card;
         if (_.uniq(choices, choiceCard).length === 1) {
             // The events which this ability can respond to only affect a single card
@@ -419,27 +419,12 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     promptBetweenEvents(choices, addBackButton = true) {
-        // For triggerSubjects choices the underlying event is identical but
-        // the subject differs — dedup by (event, subject) so per-subject
+        // For multiTriggerEvent choices the underlying event is identical
+        // but the subject differs — dedup by (event, subject) so per-subject
         // resolutions aren't collapsed into a single choice.
-        const seen = new Set();
-        choices = choices.filter((context) => {
-            const key = context.subject ? `${context.subject.uuid}` : null;
-            if (!key) {
-                if (seen.has(context.event)) {
-                    return false;
-                }
-                seen.add(context.event);
-                return true;
-            }
-            const combined =
-                context.event && context.event.uuid ? `${context.event.uuid}|${key}` : key;
-            if (seen.has(combined)) {
-                return false;
-            }
-            seen.add(combined);
-            return true;
-        });
+        choices = _.uniq(choices, (context) =>
+            context.subject ? context.subject.uuid : context.event
+        );
         if (choices.length === 1) {
             // This card is only being affected by a single event which the chosen ability can respond to
             this.resolveAbility(choices[0]);

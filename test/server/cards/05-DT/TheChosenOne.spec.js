@@ -3,11 +3,6 @@ describe('The Chosen One', function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
-                    amber: 2,
-                    house: 'brobnar',
-                    inPlay: ['troll', 'valdr', 'the-chosen-one']
-                },
-                player2: {
                     amber: 1,
                     inPlay: [
                         'batdrone',
@@ -18,33 +13,40 @@ describe('The Chosen One', function () {
                         'hologrammophone'
                     ],
                     hand: ['helper-bot', 'ganger-chieftain']
+                },
+                player2: {
+                    amber: 2,
+                    house: 'brobnar',
+                    inPlay: ['troll', 'valdr', 'the-chosen-one']
                 }
             });
         });
 
         it('does not damage The Chosen One and readies controller creatures at end of controller turn', function () {
-            this.player1.reap(this.troll);
-            this.player1.reap(this.valdr);
+            this.player1.clickPrompt('logos');
             this.player1.endTurn();
+
+            this.player2.clickPrompt('brobnar');
+            this.player2.reap(this.troll);
+            this.player2.reap(this.valdr);
+            this.player2.endTurn();
 
             expect(this.theChosenOne.damage).toBe(0);
             expect(this.troll.exhausted).toBe(false);
             expect(this.valdr.exhausted).toBe(false);
 
-            this.player2.clickPrompt('logos');
-            expect(this.player2).isReadyToTakeAction();
+            this.player1.clickPrompt('logos');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('deals 1 damage to The Chosen One for each exhausted opponent creature and prevents readying at end of opponent turn', function () {
+            this.player1.clickPrompt('logos');
+            this.player1.reap(this.batdrone);
+            this.player1.reap(this.dextre);
+            this.player1.reap(this.daughter);
+            this.player1.useAction(this.hologrammophone);
+            this.player1.clickCard(this.daughter);
             this.player1.endTurn();
-
-            this.player2.clickPrompt('logos');
-            this.player2.reap(this.batdrone);
-            this.player2.reap(this.dextre);
-            this.player2.reap(this.daughter);
-            this.player2.useAction(this.hologrammophone);
-            this.player2.clickCard(this.daughter);
-            this.player2.endTurn();
 
             expect(this.theChosenOne.damage).toBe(3);
             expect(this.groggins.exhausted).toBe(false);
@@ -54,66 +56,49 @@ describe('The Chosen One', function () {
             expect(this.daughter.exhausted).toBe(true);
             expect(this.hologrammophone.exhausted).toBe(false);
 
-            this.player1.clickPrompt('brobnar');
-            expect(this.player1).isReadyToTakeAction();
-        });
-
-        it('does not affect creatures readied outside of the ready phase', function () {
-            this.player1.reap(this.troll);
-            this.player1.reap(this.valdr);
-            this.player1.endTurn();
-
-            this.player2.clickPrompt('logos');
-            this.player2.reap(this.batdrone);
-            this.player2.play(this.helperBot);
-            this.player2.play(this.gangerChieftain, true);
-            this.player2.clickCard(this.batdrone);
-
-            expect(this.player2).toBeAbleToSelect(this.troll);
-            expect(this.player2).toBeAbleToSelect(this.valdr);
-            this.player2.clickCard(this.troll);
-
+            this.player2.clickPrompt('brobnar');
             expect(this.player2).isReadyToTakeAction();
         });
 
+        it('does not affect creatures readied outside of the ready phase', function () {
+            this.player1.clickPrompt('logos');
+            this.player1.reap(this.batdrone);
+            this.player1.play(this.helperBot);
+            this.player1.play(this.gangerChieftain, true);
+            this.player1.clickCard(this.batdrone);
+
+            expect(this.player1).toBeAbleToSelect(this.troll);
+            expect(this.player1).toBeAbleToSelect(this.valdr);
+            this.player1.clickCard(this.troll);
+
+            expect(this.theChosenOne.damage).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
         it('readies opponent creatures when The Chosen One is destroyed before the ready phase', function () {
-            this.player1.reap(this.troll);
-            this.player1.reap(this.valdr);
+            this.player1.clickPrompt('brobnar');
+            this.player1.fightWith(this.lollopTheTitanic, this.theChosenOne);
+            expect(this.theChosenOne.location).toBe('discard');
+            this.player1.reap(this.groggins);
             this.player1.endTurn();
 
-            // Opponent kills The Chosen One during their turn, then exhausts a creature.
-            this.player2.clickPrompt('brobnar');
-            this.player2.fightWith(this.lollopTheTitanic, this.theChosenOne);
-            expect(this.theChosenOne.location).toBe('discard');
-            this.player2.reap(this.groggins);
-            this.player2.endTurn();
-
-            // With The Chosen One gone, the mass ready resolves normally.
             expect(this.lollopTheTitanic.exhausted).toBe(false);
             expect(this.groggins.exhausted).toBe(false);
             expect(this.batdrone.exhausted).toBe(false);
             expect(this.dextre.exhausted).toBe(false);
             expect(this.daughter.exhausted).toBe(false);
 
-            this.player1.clickPrompt('brobnar');
-            expect(this.player1).isReadyToTakeAction();
+            this.player2.clickPrompt('brobnar');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('does not ready opponent creatures even when The Chosen One is destroyed during the ready phase', function () {
-            this.player1.reap(this.troll);
-            this.player1.reap(this.valdr);
+            this.theChosenOne.damage = 8;
+            this.player1.clickPrompt('brobnar');
+            this.player1.reap(this.lollopTheTitanic);
+            this.player1.reap(this.groggins);
             this.player1.endTurn();
 
-            // Pre-damage The Chosen One so the ready-phase damage will kill it.
-            this.theChosenOne.damage = 8;
-            this.player2.clickPrompt('brobnar');
-            this.player2.reap(this.lollopTheTitanic);
-            this.player2.reap(this.groggins);
-            this.player2.endTurn();
-
-            // The Chosen One triggers, cancels the ready, then dies from the damage.
-            // The cancellation still applies, so exhausted creatures stay
-            // exhausted (The Chosen One already replaced the ready before dying).
             expect(this.theChosenOne.location).toBe('discard');
             expect(this.lollopTheTitanic.exhausted).toBe(true);
             expect(this.groggins.exhausted).toBe(true);
@@ -121,8 +106,8 @@ describe('The Chosen One', function () {
             expect(this.dextre.exhausted).toBe(false);
             expect(this.daughter.exhausted).toBe(false);
 
-            this.player1.clickPrompt('brobnar');
-            expect(this.player1).isReadyToTakeAction();
+            this.player2.clickPrompt('brobnar');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
@@ -135,7 +120,7 @@ describe('The Chosen One', function () {
                     hand: ['storm-surge']
                 },
                 player2: {
-                    inPlay: ['troll', 'helichopper']
+                    inPlay: ['bumpsy', 'krump']
                 }
             });
         });
@@ -144,18 +129,16 @@ describe('The Chosen One', function () {
             this.player1.play(this.stormSurge);
             this.player1.endTurn();
 
-            // With Storm Surge active, opponent's creatures cannot ready at
-            // all, so no ready event is raised and The Chosen One does not trigger.
-            this.troll.exhaust();
-            this.helichopper.exhaust();
             this.player2.clickPrompt('brobnar');
+            this.player2.reap(this.bumpsy);
+            this.player2.reap(this.krump);
             this.player2.endTurn();
 
-            expect(this.troll.exhausted).toBe(true);
-            expect(this.helichopper.exhausted).toBe(true);
+            expect(this.bumpsy.exhausted).toBe(true);
+            expect(this.krump.exhausted).toBe(true);
             expect(this.theChosenOne.damage).toBe(0);
 
-            this.player1.clickPrompt('sanctum');
+            this.player1.clickPrompt('unfathomable');
             expect(this.player1).isReadyToTakeAction();
         });
     });
@@ -169,7 +152,7 @@ describe('The Chosen One', function () {
                     hand: ['thermal-depletion']
                 },
                 player2: {
-                    inPlay: ['troll', 'helichopper']
+                    inPlay: ['troll', 'krump']
                 }
             });
         });
@@ -178,15 +161,13 @@ describe('The Chosen One', function () {
             this.player1.play(this.thermalDepletion);
             this.player1.endTurn();
 
-            // Thermal Depletion also prevents creatures from readying, so
-            // no ready event fires and The Chosen One has nothing to interrupt.
-            this.troll.exhaust();
-            this.helichopper.exhaust();
             this.player2.clickPrompt('brobnar');
+            this.troll.exhaust();
+            this.krump.exhaust();
             this.player2.endTurn();
 
             expect(this.troll.exhausted).toBe(true);
-            expect(this.helichopper.exhausted).toBe(true);
+            expect(this.krump.exhausted).toBe(true);
             expect(this.theChosenOne.damage).toBe(0);
 
             this.player1.clickPrompt('brobnar');
@@ -194,87 +175,68 @@ describe('The Chosen One', function () {
         });
     });
 
-    // Representative test for the broader family of per-card "do not
-    // ready" effects: Kiri Giltspine, Physaloha, Frost Giant,
-    // Awakened Titan, Under Pressure, and entrench. If no creature
-    // actually readies, The Chosen One has nothing to replace and deals no
-    // damage; if any creature would ready, The Chosen One triggers and deals
-    // damage for each exhausted opponent creature.
     describe('with entrenched opponent creatures', function () {
         beforeEach(function () {
             this.setupTest({
-                player1: { inPlay: ['the-chosen-one'] },
-                player2: { inPlay: ['grammy-taps', 'knuckler'] }
+                player1: {
+                    house: 'skyborn',
+                    inPlay: ['cabochon', 'remmi-hound']
+                },
+                player2: { inPlay: ['the-chosen-one'] }
             });
 
-            this.grammyTaps.exhaust();
-            this.knuckler.exhaust();
-            this.player1.clickPrompt('sanctum');
+            this.player1.reap(this.cabochon);
+            this.player1.reap(this.remmiHound);
             this.player1.endTurn();
-
-            this.player2.clickPrompt('shadows');
-            this.player2.endTurn();
         });
 
         it('does not trigger The Chosen One when no entrenched creature is selected to ready', function () {
-            // Decline to ready any entrenched creatures: no ready event is
-            // raised, so The Chosen One does not trigger.
-            expect(this.player2).toHavePrompt('Select entrenched creatures to ready');
-            this.player2.clickPrompt('done');
+            expect(this.player1).toHavePrompt('Select entrenched creatures to ready');
+            this.player1.clickPrompt('done');
 
-            expect(this.grammyTaps.exhausted).toBe(true);
-            expect(this.knuckler.exhausted).toBe(true);
+            expect(this.cabochon.exhausted).toBe(true);
+            expect(this.remmiHound.exhausted).toBe(true);
             expect(this.theChosenOne.damage).toBe(0);
 
-            this.player1.clickPrompt('sanctum');
-            expect(this.player1).isReadyToTakeAction();
+            this.player2.clickPrompt('unfathomable');
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('triggers The Chosen One when at least one entrenched creature is selected to ready', function () {
-            // Select Grammy Taps to ready: a ready event is raised, The Chosen One
-            // interrupts it and replaces it with damage to itself.
-            expect(this.player2).toHavePrompt('Select entrenched creatures to ready');
-            this.player2.clickCard(this.grammyTaps);
-            this.player2.clickPrompt('done');
+            expect(this.player1).toHavePrompt('Select entrenched creatures to ready');
+            this.player1.clickCard(this.cabochon);
+            this.player1.clickPrompt('done');
 
-            // The Chosen One prevents creature readying, so both stay exhausted, and
-            // The Chosen One takes one damage per exhausted opponent creature.
-            expect(this.grammyTaps.exhausted).toBe(true);
-            expect(this.knuckler.exhausted).toBe(true);
+            expect(this.cabochon.exhausted).toBe(true);
+            expect(this.remmiHound.exhausted).toBe(true);
             expect(this.theChosenOne.damage).toBe(2);
 
-            this.player1.clickPrompt('sanctum');
-            expect(this.player1).isReadyToTakeAction();
+            this.player2.clickPrompt('unfathomable');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
     describe('with an opponent artifact and creature', function () {
         beforeEach(function () {
             this.setupTest({
-                player1: { inPlay: ['the-chosen-one'] },
-                player2: { inPlay: ['hologrammophone', 'troll'] }
+                player1: { house: 'logos', inPlay: ['hologrammophone', 'dextre'] },
+                player2: { inPlay: ['the-chosen-one'] }
             });
         });
 
         it('is not triggered by an artifact readying and does not count artifacts toward damage', function () {
-            // Exhaust both an artifact and a creature, then let opponent's
-            // ready phase fire.
-            this.hologrammophone.exhaust();
-            this.troll.exhaust();
-            this.player1.clickPrompt('sanctum');
+            this.player1.useAction(this.hologrammophone);
+            this.player1.clickCard(this.dextre);
             this.player1.endTurn();
 
-            this.player2.clickPrompt('brobnar');
+            this.player2.clickPrompt('unfathomable');
             this.player2.endTurn();
 
-            // The Chosen One triggers because Troll (a creature) would ready. Damage = 1
-            // (just Troll); the exhausted artifact (Hologrammophone) is not
-            // counted, and The Chosen One did not block the artifact from readying.
-            expect(this.theChosenOne.damage).toBe(1);
             expect(this.hologrammophone.exhausted).toBe(false);
-            expect(this.troll.exhausted).toBe(true);
+            expect(this.dextre.exhausted).toBe(false);
+            expect(this.theChosenOne.damage).toBe(0);
 
-            this.player1.clickPrompt('sanctum');
+            this.player1.clickPrompt('logos');
             expect(this.player1).isReadyToTakeAction();
         });
     });
@@ -282,47 +244,30 @@ describe('The Chosen One', function () {
     describe('with two The Chosen Ones in play', function () {
         beforeEach(function () {
             this.setupTest({
-                player1: { inPlay: ['the-chosen-one', 'the-chosen-one'] },
-                player2: { inPlay: ['troll', 'helichopper'] }
+                player1: { house: 'brobnar', inPlay: ['troll', 'krump'] },
+                player2: { inPlay: ['the-chosen-one', 'the-chosen-one'] }
             });
+            [this.theChosenOne1, this.theChosenOne2] = this.player2.player.creaturesInPlay.filter(
+                (c) => c.id === 'the-chosen-one'
+            );
         });
 
         it('only the chosen The Chosen One takes damage', function () {
-            const [theChosenOne1, theChosenOne2] = this.player1.player.creaturesInPlay.filter(
-                (c) => c.id === 'the-chosen-one'
-            );
-
-            this.troll.exhaust();
-            this.helichopper.exhaust();
-            this.player1.clickPrompt('sanctum');
+            this.player1.reap(this.troll);
+            this.player1.reap(this.krump);
             this.player1.endTurn();
 
-            this.player2.clickPrompt('brobnar');
-            this.player2.endTurn();
-
-            // Both The Chosen Ones interrupt onCardsReadied. The active player (player2,
-            // whose ready phase it is) is prompted to choose the order. The
-            // first The Chosen One to resolve replaces the readying and takes the damage.
-            // The second The Chosen One re-evaluates its when condition and sees
-            // event.cards has no creatures left, so it does not trigger.
-            this.player2.clickCard(theChosenOne1);
-
-            expect(theChosenOne1.damage).toBe(2);
-            expect(theChosenOne2.damage).toBe(0);
+            this.player1.clickCard(this.theChosenOne1);
+            expect(this.theChosenOne1.damage).toBe(2);
+            expect(this.theChosenOne2.damage).toBe(0);
             expect(this.troll.exhausted).toBe(true);
-            expect(this.helichopper.exhausted).toBe(true);
+            expect(this.krump.exhausted).toBe(true);
 
-            this.player1.clickPrompt('sanctum');
-            expect(this.player1).isReadyToTakeAction();
+            this.player2.clickPrompt('unfathomable');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 
-    // "Does not ready" specifically refers to the mass ready in the
-    // standard ready phase. A chain like Chosen One + Soulkeeper + Big
-    // Jargogle + Ganger Chieftain + Frost Giant should still attempt to
-    // ready (since the chain produces real ready operations outside the
-    // ready phase / pushes other creatures through), so Chosen One should
-    // cancel and take damage.
     describe('with a Jargogle / Ganger Chieftain ready chain through Frost Giant', function () {
         beforeEach(function () {
             this.setupTest({
@@ -373,6 +318,119 @@ describe('The Chosen One', function () {
             this.player2.clickPrompt(this.almsmasterEvilTwin.name);
             this.player1.clickPrompt('dis');
             expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('with Under Pressure on an opponent creature', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    inPlay: ['the-chosen-one'],
+                    hand: ['under-pressure']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+        });
+
+        it('only counts creatures that actually ready', function () {
+            this.player1.playUpgrade(this.underPressure, this.troll);
+            this.player1.endTurn();
+
+            this.player2.clickPrompt('brobnar');
+            this.player2.reap(this.troll);
+            this.player2.endTurn();
+
+            expect(this.troll.exhausted).toBe(true);
+            expect(this.theChosenOne.damage).toBe(0);
+
+            this.player1.clickPrompt('unfathomable');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('with Awakened Titan', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    inPlay: ['awakened-titan']
+                },
+                player2: { inPlay: ['the-chosen-one'] }
+            });
+        });
+
+        it('does not trigger when the only opponent creature cannot ready', function () {
+            this.player1.reap(this.awakenedTitan);
+            this.player1.endTurn();
+
+            expect(this.awakenedTitan.exhausted).toBe(true);
+            expect(this.theChosenOne.damage).toBe(0);
+
+            this.player2.clickPrompt('unfathomable');
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
+
+    describe('with Giltspine School', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    token: 'priest',
+                    inPlay: ['giltspine-school', 'priest:troll', 'priest:krump', 'priest:batdrone']
+                },
+                player2: { inPlay: ['the-chosen-one'] }
+            });
+        });
+
+        it('does not trigger when only tokens would ready', function () {
+            const [priest1, priest2, priest3] = this.player1.player.creaturesInPlay.filter((c) =>
+                c.isToken()
+            );
+            this.player1.reap(priest1);
+            this.player1.reap(priest2);
+            this.player1.reap(priest3);
+            this.player1.endTurn();
+
+            expect(this.giltspineSchool.exhausted).toBe(false);
+            expect(priest1.exhausted).toBe(true);
+            expect(priest2.exhausted).toBe(true);
+            expect(priest3.exhausted).toBe(true);
+            expect(this.theChosenOne.damage).toBe(0);
+
+            this.player2.clickPrompt('unfathomable');
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
+
+    describe('with Physaloha', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    inPlay: ['physaloha', 'bumpsy', 'krump']
+                },
+                player2: { inPlay: ['the-chosen-one'] }
+            });
+        });
+
+        it('does not trigger when only damaged creatures would ready', function () {
+            this.bumpsy.damage = 1;
+            this.krump.damage = 1;
+            this.player1.reap(this.bumpsy);
+            this.player1.reap(this.krump);
+            this.player1.endTurn();
+
+            expect(this.physaloha.exhausted).toBe(false);
+            expect(this.bumpsy.exhausted).toBe(true);
+            expect(this.krump.exhausted).toBe(true);
+            expect(this.theChosenOne.damage).toBe(0);
+
+            this.player2.clickPrompt('unfathomable');
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });

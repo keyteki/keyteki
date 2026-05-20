@@ -16,13 +16,18 @@ class ReadyAction extends CardGameAction {
         );
     }
 
+    // Note: we intentionally do NOT reject already-ready cards in
+    // canAffect, so that targeting prompts (e.g. "Ready a creature")
+    // still allow picking a ready creature — the effect is just a
+    // no-op on it. The exhausted filter only applies at event creation
+    // time so onCardsReadied covers only cards that actually transition
+    // exhausted -> ready.
+    willActuallyReady(card, context) {
+        return card.exhausted && this.canAffect(card, context);
+    }
+
     getEventArray(context) {
-        // Note: we intentionally do NOT reject already-ready cards in
-        // canAffect, so that targeting prompts (e.g. "Ready a creature")
-        // still allow picking a ready creature — the effect is just a
-        // no-op on it. Filter exhausted state here so onCardsReadied only
-        // covers cards that actually transition exhausted -> ready.
-        const cards = this.target.filter((card) => card.exhausted && this.canAffect(card, context));
+        const cards = this.target.filter((card) => this.willActuallyReady(card, context));
         // Always emit a single onCardsReadied event, even when `cards` is
         // empty, so the ability's `then` continuation still runs (e.g.
         // Smite uses ready().then(fight) on a possibly-already-ready

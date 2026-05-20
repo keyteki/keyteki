@@ -9,7 +9,7 @@ class GiltspineMesmerist extends Card {
             when: {
                 onCardsReadied: () => true
             },
-            triggerSubjects: (event) => event.cards,
+            multiTriggerEvent: (event) => event.cards,
             autoResolve: true,
             gameAction: ability.actions.discard((context) => ({
                 target: context.subject.controller.deck[0]

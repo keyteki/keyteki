@@ -45,13 +45,14 @@ class TriggeredAbility extends CardAbility {
         this.optional = properties.optional;
         this.isLastingAbilityTrigger = !!properties.player;
         this.multipleTrigger = !!properties.multipleTrigger;
-        // Optional: `triggerSubjects(event, context) => Card[]` lets a
-        // single event produce one ability trigger per returned subject.
-        // Each trigger gets its own context with `context.subject` set, and
-        // each trigger is added to the ability window as a distinct choice
-        // the player can order. Used for bulk events (e.g. onCardsReadied)
-        // where a reaction like Cosmicrux fires per readied creature.
-        this.triggerSubjects = properties.triggerSubjects;
+        // Optional: `multiTriggerEvent(event, context) => Card[]` lets a
+        // single bulk event produce one ability trigger per returned
+        // subject card. Each trigger gets its own context with
+        // `context.subject` set, and each is added to the ability window
+        // as a distinct choice the player can order. Used for bulk events
+        // (e.g. onCardsReadied) where a reaction like Cosmicrux fires per
+        // readied creature.
+        this.multiTriggerEvent = properties.multiTriggerEvent;
         if (properties.location === 'any') {
             this.registerEvents();
         }
@@ -76,7 +77,7 @@ class TriggeredAbility extends CardAbility {
 
         let context = this.createContext(player, event);
         if (this.card.reactions.includes(this) || this.isLastingAbilityTrigger) {
-            if (this.triggerSubjects) {
+            if (this.multiTriggerEvent) {
                 // For per-subject triggers, only the `when` clause is
                 // evaluated against the bulk context — `condition` and
                 // `meetsRequirements` are evaluated per subject so they
@@ -84,7 +85,7 @@ class TriggeredAbility extends CardAbility {
                 if (!this.when[event.name] || !this.when[event.name](event, context)) {
                     return;
                 }
-                const subjects = this.triggerSubjects(event, context) || [];
+                const subjects = this.multiTriggerEvent(event, context) || [];
                 for (const subject of subjects) {
                     const perSubjectContext = this.createContext(player, event, subject);
                     if (!this.isTriggeredByEvent(event, perSubjectContext)) {

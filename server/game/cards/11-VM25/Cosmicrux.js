@@ -7,7 +7,7 @@ class Cosmicrux extends Card {
             when: {
                 onCardsReadied: (event) => event.cards.some((card) => card.type === 'creature')
             },
-            triggerSubjects: (event) => event.cards.filter((card) => card.type === 'creature'),
+            multiTriggerEvent: (event) => event.cards.filter((card) => card.type === 'creature'),
             gameAction: ability.actions.dealDamage((context) => ({
                 amount: 1,
                 target: context.subject

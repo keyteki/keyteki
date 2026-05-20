@@ -52,27 +52,31 @@ class ReadyPhase extends Phase {
         });
     }
 
+    // A card readies in the ready phase only if it's currently exhausted,
+    // is not an entrenched creature the player declined to ready, has no
+    // per-card ready restriction (doesNotReady, cardCannot('ready'), etc.),
+    // and passes the player-level ready restriction.
+    wouldReadyThisPhase(card, context) {
+        return (
+            card.exhausted &&
+            (!card.hasKeyword('entrench') || this.entrenchedToReady.has(card)) &&
+            card.readiesDuringReadyPhase() &&
+            card.checkRestrictions('ready', context)
+        );
+    }
+
     readyCards() {
         const player = this.game.activePlayer;
         const context = this.game.getFrameworkContext(player);
         if (!player.checkRestrictions('ready', context)) {
             return;
         }
-        // Pre-filter to only cards that would actually ready: must be
-        // currently exhausted, drop entrenched creatures the player chose
-        // not to ready, and drop cards with a per-card ready restriction
-        // (doesNotReady, cardCannot('ready'), etc.). Doing this BEFORE
-        // raising onCardsReadied means listeners (e.g. The Chosen One) only
-        // fire when at least one card actually readies — they don't trigger
-        // on a phase where everything is blocked by Storm Surge / Thermal
-        // Depletion / Frost Giant / etc.
-        const cards = player.cardsInPlay.filter(
-            (card) =>
-                card.exhausted &&
-                (!card.hasKeyword('entrench') || this.entrenchedToReady.has(card)) &&
-                card.readiesDuringReadyPhase() &&
-                card.checkRestrictions('ready', context)
-        );
+        // Pre-filter to only cards that would actually ready. Doing this
+        // BEFORE raising onCardsReadied means listeners (e.g. The Chosen
+        // One) only fire when at least one card actually readies — they
+        // don't trigger on a phase where everything is blocked by Storm
+        // Surge / Thermal Depletion / Frost Giant / etc.
+        const cards = player.cardsInPlay.filter((card) => this.wouldReadyThisPhase(card, context));
         if (cards.length === 0) {
             return;
         }
