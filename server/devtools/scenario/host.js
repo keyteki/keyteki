@@ -118,7 +118,16 @@ function install(server, scenarioPath) {
             logger.warn('SIGUSR2 received but no scenario game is active');
             return;
         }
-        reset(server, game);
+        try {
+            reset(server, game);
+        } catch (err) {
+            // bootstrap() inside reset() may throw if the spec file has a
+            // syntax/runtime error. Log and keep the old game (and its
+            // sockets) alive so the dev can fix the spec and try again.
+            logger.error('Scenario reset failed; keeping previous game:', err);
+            game.addAlert('danger', `Scenario reset failed: ${err.message}`);
+            server.sendGameState(game);
+        }
     });
 }
 
