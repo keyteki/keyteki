@@ -1207,9 +1207,7 @@ class Lobby {
         // Re-send the lobby state so the user's game/user list (which is
         // filtered by their block list) reflects the change without
         // requiring a page refresh.
-        let socket = Object.values(this.sockets).find(
-            (s) => s.user && s.user.username === user.username
-        );
+        const socket = this.socketsByName[user.username];
         if (socket) {
             this.sendUserListFilteredWithBlockList(socket, this.getUserList());
             this.broadcastGameList(socket);
