@@ -35,7 +35,7 @@ describe('Giltspine Mesmerist', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('discards cards from opponent deck when readying their creature', function () {
+        it('discards from the active player deck when readying an enemy creature', function () {
             this.player1.playCreature(this.giltspineMesmerist);
             this.player1.play(this.callOfTheVoid);
             this.player1.clickCard(this.awayTeam);
@@ -43,8 +43,8 @@ describe('Giltspine Mesmerist', function () {
             const p2Discard = this.player2.player.discard.length;
             this.player1.fightWith(this.skullbackCrab, this.cadet);
             this.player1.clickCard(this.awayTeam);
-            expect(this.player1.player.discard.length).toBe(p1Discard + 1); // skullback
-            expect(this.player2.player.discard.length).toBe(p2Discard + 2); // cadet, away team
+            expect(this.player1.player.discard.length).toBe(p1Discard + 2); // skullback + discard from readying away team
+            expect(this.player2.player.discard.length).toBe(p2Discard + 1); // cadet
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -91,8 +91,8 @@ describe('Giltspine Mesmerist', function () {
             this.player1.play(this.niceToGreetYou);
             expect(this.myxTheTallminded.exhausted).toBe(false);
             expect(this.mindwarper.exhausted).toBe(false);
-            expect(this.player1.player.discard.length).toBe(p1Discard + 2);
-            expect(this.player2.player.discard.length).toBe(p2Discard + 1);
+            expect(this.player1.player.discard.length).toBe(p1Discard + 3); // nice to greet you + one per readied creature
+            expect(this.player2.player.discard.length).toBe(p2Discard);
             expect(this.player1).isReadyToTakeAction();
         });
     });
