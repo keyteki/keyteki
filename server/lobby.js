@@ -523,7 +523,8 @@ class Lobby {
                     game.gameFormat === gameDetails.gameFormat &&
                     Object.values(game.players).length < 2 &&
                     !game.password &&
-                    !game.gamePrivate
+                    !game.gamePrivate &&
+                    game.isVisibleFor(socket.user)
             );
 
             if (gameToJoin) {
@@ -1202,6 +1203,17 @@ class Lobby {
         }
 
         updatedUser.blockList = user.blockList;
+
+        // Re-send the lobby state so the user's game/user list (which is
+        // filtered by their block list) reflects the change without
+        // requiring a page refresh.
+        let socket = Object.values(this.sockets).find(
+            (s) => s.user && s.user.username === user.username
+        );
+        if (socket) {
+            this.sendUserListFilteredWithBlockList(socket, this.getUserList());
+            this.broadcastGameList(socket);
+        }
     }
 
     onWorkerTimedOut(nodeName) {
