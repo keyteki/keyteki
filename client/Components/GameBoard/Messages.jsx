@@ -89,6 +89,8 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
     const lastMousePos = useRef({ x: 0, y: 0 });
     const pendingClear = useRef(null);
     const JITTER_PX = 6;
+    const CLEAR_POLL_MS = 50;
+    const CLEAR_MAX_MS = 10000;
     useEffect(() => {
         const onMove = (e) => {
             lastMousePos.current = { x: e.clientX, y: e.clientY };
@@ -111,19 +113,21 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
     };
     const handleCardMouseOut = () => {
         const start = { ...lastMousePos.current };
+        const deadline = Date.now() + CLEAR_MAX_MS;
         if (pendingClear.current) {
             clearTimeout(pendingClear.current);
         }
         const check = () => {
             const { x, y } = lastMousePos.current;
-            if (Math.hypot(x - start.x, y - start.y) > JITTER_PX) {
+            const moved = Math.hypot(x - start.x, y - start.y) > JITTER_PX;
+            if (moved || Date.now() >= deadline) {
                 pendingClear.current = null;
                 onCardMouseOut();
             } else {
-                pendingClear.current = setTimeout(check, 50);
+                pendingClear.current = setTimeout(check, CLEAR_POLL_MS);
             }
         };
-        pendingClear.current = setTimeout(check, 50);
+        pendingClear.current = setTimeout(check, CLEAR_POLL_MS);
     };
 
     for (let house of Constants.Houses) {
