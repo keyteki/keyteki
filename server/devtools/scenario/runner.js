@@ -20,6 +20,7 @@ const Settings = require('../../settings.js');
 const logger = require('../../log.js');
 const DeckBuilder = require('../../../test/helpers/deckbuilder.js');
 const PlayerInteractionWrapper = require('../../../test/helpers/playerinteractionwrapper.js');
+const { cardCamel, getChatString } = require('../../../test/helpers/chat-utils.js');
 
 const deckBuilder = new DeckBuilder();
 const cardsByCode = {};
@@ -152,22 +153,24 @@ function dryLoad(absPath) {
 function inspectScenario(scenarioPath) {
     const abs = path.resolve(scenarioPath);
     const { tests } = dryLoad(abs);
-    // Scenario mode requires the test to build a game via `setupTest`. Tests
-    // that don't (unit-style specs with mocks) can't be replayed on a live
-    // node — filter them out here so the picker only offers viable choices.
-    const usesSetupTest = (test) => {
-        const sources = [test.body, ...test.hooks].map((fn) => {
-            try {
-                return fn.toString();
-            } catch {
-                return '';
-            }
-        });
-        return sources.some((src) => src.includes('setupTest'));
-    };
     return {
         tests: tests.filter(usesSetupTest).map((t) => ({ fullName: t.fullName }))
     };
+}
+
+// Scenario mode requires the test to build a game via `setupTest`. Tests that
+// don't (unit-style specs with mocks) can't be replayed on a live node — both
+// the picker and direct SCENARIO loads guard against them so the user either
+// doesn't see them or gets an explanatory error instead of a stuck game.
+function usesSetupTest(test) {
+    const sources = [test.body, ...test.hooks].map((fn) => {
+        try {
+            return fn.toString();
+        } catch {
+            return '';
+        }
+    });
+    return sources.some((src) => src.includes('setupTest'));
 }
 
 function loadScenario(scenarioPathInput) {
@@ -206,6 +209,12 @@ function loadScenario(scenarioPathInput) {
                 `Multiple it() tests in ${abs}; running first: ${chosen.fullName} (append #<name> to select)`
             );
         }
+    }
+
+    if (!usesSetupTest(chosen)) {
+        throw new Error(
+            `Scenario test "${chosen.fullName}" in ${abs} does not call setupTest() and cannot be replayed on a live node. Pick a test that builds its game via setupTest.`
+        );
     }
 
     return function () {
@@ -272,29 +281,6 @@ function buildFlow(game) {
     };
 
     return flow;
-}
-
-function cardCamel(card) {
-    const split = card.id.split('-');
-    for (let i = 1; i < split.length; i++) {
-        split[i] = split[i].slice(0, 1).toUpperCase() + split[i].slice(1);
-    }
-    return split.join('');
-}
-
-// Mirrors the recursive flattener in test/helpers/gameflowwrapper.js so
-// scenario mode produces identical chat log text to the source test.
-function getChatString(item) {
-    if (Array.isArray(item)) {
-        return item.map(getChatString).join('');
-    } else if (item instanceof Object) {
-        if (item.name) {
-            return item.name;
-        } else if (item.message) {
-            return getChatString(item.message);
-        }
-    }
-    return item;
 }
 
 function buildContext(game) {

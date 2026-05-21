@@ -28,6 +28,7 @@ require('./objectformatters.js');
 const DeckBuilder = require('./deckbuilder.js');
 const GameFlowWrapper = require('./gameflowwrapper.js');
 const { checkAllMessages } = require('./messagehelper.js');
+const { cardCamel } = require('./chat-utils.js');
 
 const deckBuilder = new DeckBuilder();
 
@@ -282,17 +283,7 @@ beforeEach(function () {
         return deckBuilder.buildDeck(faction, cards);
     };
 
-    this.cardCamel = function (card) {
-        let split = card.id.split('-');
-        for (let i = 1; i < split.length; i++) {
-            split[i] = split[i].slice(0, 1).toUpperCase() + split[i].slice(1);
-            // TODO Enable this and fix the tests it breaks
-            // if (split[i].length === 1) {
-            //     split[i] = split[i].toLowerCase();
-            // }
-        }
-        return split.join('');
-    };
+    this.cardCamel = cardCamel;
 
     /**
      * Factory method. Creates a new simulation of a game.
