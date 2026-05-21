@@ -7,7 +7,7 @@ class HoistOperations extends Card {
             target: {
                 cardType: 'creature',
                 controller: 'any',
-                gameAction: ability.actions.archive()
+                gameAction: ability.actions.putIntoArchives()
             }
         });
     }
