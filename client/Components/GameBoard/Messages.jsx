@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 
 import AmberImage from '../../assets/img/amber.png';
@@ -80,6 +80,51 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
     const owner = useSelector(
         (state) => state.lobby.currentGame.players[state.lobby.currentGame.owner]
     );
+
+    // When the chat re-renders (e.g. a new message arrives) any card span the
+    // user was hovering can scroll out from under the cursor, which fires a
+    // synthetic mouseout and clears the zoomed card even though the user
+    // hasn't moved. Defer mouseouts until the cursor actually moves a few
+    // pixels so layout-induced leaves don't dismiss the hover.
+    const lastMousePos = useRef({ x: 0, y: 0 });
+    const pendingClear = useRef(null);
+    const JITTER_PX = 6;
+    useEffect(() => {
+        const onMove = (e) => {
+            lastMousePos.current = { x: e.clientX, y: e.clientY };
+        };
+        document.addEventListener('mousemove', onMove);
+        return () => {
+            document.removeEventListener('mousemove', onMove);
+            if (pendingClear.current) {
+                clearTimeout(pendingClear.current);
+                pendingClear.current = null;
+            }
+        };
+    }, []);
+    const handleCardMouseOver = (payload) => {
+        if (pendingClear.current) {
+            clearTimeout(pendingClear.current);
+            pendingClear.current = null;
+        }
+        onCardMouseOver(payload);
+    };
+    const handleCardMouseOut = () => {
+        const start = { ...lastMousePos.current };
+        if (pendingClear.current) {
+            clearTimeout(pendingClear.current);
+        }
+        const check = () => {
+            const { x, y } = lastMousePos.current;
+            if (Math.hypot(x - start.x, y - start.y) > JITTER_PX) {
+                pendingClear.current = null;
+                onCardMouseOut();
+            } else {
+                pendingClear.current = setTimeout(check, 50);
+            }
+        };
+        pendingClear.current = setTimeout(check, 50);
+    };
 
     for (let house of Constants.Houses) {
         tokens[house] = {
@@ -236,12 +281,12 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                     <span
                         key={index++}
                         className='cursor-pointer text-emerald-500 hover:text-cyan-400'
-                        onMouseOver={onCardMouseOver.bind(this, {
+                        onMouseOver={handleCardMouseOver.bind(this, {
                             image: <CardImage card={{ ...fragment, location: 'zoom' }} />,
                             size: 'normal',
                             zoomClass: 'from-chat'
                         })}
-                        onMouseOut={onCardMouseOut.bind(this)}
+                        onMouseOut={handleCardMouseOut}
                     >
                         {fragment.label}
                     </span>
