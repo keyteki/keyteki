@@ -22,17 +22,24 @@ class SiphonMaw extends Card {
                     target: owner && owner.deck[0] ? [owner.deck[0]] : []
                 };
             }),
-            then: {
-                alwaysTriggers: true,
-                gameAction: ability.actions.loseAmber((context) => ({
-                    amount: context.preThenEvents
+            then: () => {
+                const amberLost = (context) =>
+                    context.preThenEvents
                         .filter((event) => !event.cancelled && event.card)
                         .reduce(
                             (sum, event) =>
                                 sum + (event.card.bonusIcons ? event.card.bonusIcons.length : 0),
                             0
-                        )
-                }))
+                        );
+                return {
+                    alwaysTriggers: true,
+                    condition: (context) => amberLost(context) > 0,
+                    message: '{0} uses {1} to make {3} lose {4} amber',
+                    messageArgs: (context) => [context.player.opponent, amberLost(context)],
+                    gameAction: ability.actions.loseAmber((context) => ({
+                        amount: amberLost(context)
+                    }))
+                };
             }
         });
     }
