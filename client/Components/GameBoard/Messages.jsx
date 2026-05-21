@@ -238,7 +238,8 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                         className='cursor-pointer text-emerald-500 hover:text-cyan-400'
                         onMouseOver={onCardMouseOver.bind(this, {
                             image: <CardImage card={{ ...fragment, location: 'zoom' }} />,
-                            size: 'normal'
+                            size: 'normal',
+                            zoomClass: 'from-chat'
                         })}
                         onMouseOut={onCardMouseOut.bind(this)}
                     >

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { Trans, useTranslation } from 'react-i18next';
@@ -35,6 +35,7 @@ export const GameBoard = () => {
     const currentGame = useSelector((state) => state.lobby.currentGame);
     const user = useSelector((state) => state.account.user);
     const [cardToZoom, setCardToZoom] = useState(null);
+    const chatScrollRef = useRef(null);
     const [showMessages, setShowMessages] = useState(true);
     const [lastMessageCount, setLastMessageCount] = useState(0);
     const [newMessages, setNewMessages] = useState(0);
@@ -65,6 +66,33 @@ export const GameBoard = () => {
             navigate('/');
         }
     }, [navigate, user]);
+
+    // Track the chat panel's left edge so the from-chat zoomed card can be
+    // positioned just to the left of the chat instead of covering it.
+    useLayoutEffect(() => {
+        const updateChatLeft = () => {
+            const element = chatScrollRef.current;
+            if (!element) {
+                return;
+            }
+            const left = element.getBoundingClientRect().left;
+            document.documentElement.style.setProperty('--chat-left', `${left}px`);
+        };
+        updateChatLeft();
+        if (typeof ResizeObserver === 'undefined') {
+            window.addEventListener('resize', updateChatLeft);
+            return () => window.removeEventListener('resize', updateChatLeft);
+        }
+        const observer = new ResizeObserver(updateChatLeft);
+        if (chatScrollRef.current) {
+            observer.observe(chatScrollRef.current);
+        }
+        window.addEventListener('resize', updateChatLeft);
+        return () => {
+            observer.disconnect();
+            window.removeEventListener('resize', updateChatLeft);
+        };
+    }, [showMessages]);
 
     if (Object.values(cards).length === 0 || !currentGame?.started) {
         return (
@@ -348,7 +376,7 @@ export const GameBoard = () => {
                             {timeLimitClock}
                         </div>
                     </div>
-                    <div className='chat-scroll border-l border-[color:color-mix(in_oklab,var(--border)_88%,transparent)] bg-[color:color-mix(in_oklab,var(--surface)_94%,transparent)]'>
+                    <div ref={chatScrollRef} className='chat-scroll'>
                         {showMessages && (
                             <div className='relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden box-border'>
                                 <GameChat
