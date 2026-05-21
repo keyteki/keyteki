@@ -3,6 +3,26 @@ const Effects = require('../effects');
 const CardGameAction = require('./CardGameAction');
 
 /**
+ * Returns true if the given persistent-effect factory produces an
+ * `addKeyword` effect. Persistent-effect `effect` properties are factory
+ * functions of shape `(game, source, props) => CardEffect` produced by
+ * `EffectBuilder`. We invoke the factory with stub arguments (supplying
+ * an empty `context` so the Effect constructor doesn't try to derive one
+ * from `game`) so we can inspect the resulting effect's type.
+ */
+function isAddKeywordEffectFactory(factory) {
+    if (typeof factory !== 'function') {
+        return false;
+    }
+    try {
+        const inst = factory(null, null, { context: {} });
+        return !!(inst && inst.effect && inst.effect.type === 'addKeyword');
+    } catch (e) {
+        return false;
+    }
+}
+
+/**
  * Gives the target card the text box of `textBoxSource` for the configured
  * duration (defaults to until end of the current player's turn). "Text box"
  * is interpreted as the text box-source card's current effective traits,
@@ -73,8 +93,12 @@ class GainsTextBoxAction extends CardGameAction {
         }
 
         // Aggregate all keywords currently active on the text box source
-        // (printed plus those granted by upgrades or other gain-style
-        // effects) by merging every `addKeyword` effect that applies to it.
+        // (printed plus those granted by upgrades or external auras) by
+        // merging every `addKeyword` effect that applies to it. Keywords
+        // reduce cleanly to numeric values, so we collapse them here
+        // rather than cloning each underlying ability — that also picks
+        // up keywords granted by effects that don't live in the source's
+        // own `persistentEffects` (e.g. an upgrade attached to it).
         const keywordTotals = {};
         for (const keywords of textBoxSource.getEffects('addKeyword')) {
             for (const [keyword, count] of Object.entries(keywords)) {
@@ -87,8 +111,14 @@ class GainsTextBoxAction extends CardGameAction {
             factories.push(Effects.addKeyword(keywordTotals));
         }
 
-        // Use the runtime ability accessors so we pick up CopyCard-base
-        // abilities (token creatures, Mimic Gel) and abilities the source has gained
+        // Re-emit the source's own abilities on the target. Unlike
+        // keywords, non-keyword persistent effects can't be collapsed to
+        // values — they have match conditions, durations, and side
+        // effects on other cards (e.g. a creature whose persistent
+        // effect grants skirmish to every other creature in play). The
+        // target has to gain the whole ability definition so it acts as
+        // the new source. Includes CopyCard-base abilities (token
+        // creatures, Mimic Gel) and abilities the source itself gained
         // via upgrades or earlier gainsTextBox effects.
         const sourceAbilities = [
             ...textBoxSource.actions,
@@ -99,6 +129,31 @@ class GainsTextBoxAction extends CardGameAction {
             const abilityType = sourceAbility.abilityType;
             if (!abilityType) continue;
             const properties = sourceAbility.properties ? sourceAbility.properties : sourceAbility;
+            if (abilityType === 'persistentEffect') {
+                // Printed keywords also live in `persistentEffects` as
+                // addKeyword effects, but the aggregation above already
+                // accounted for them. Drop those factories here so we
+                // don't apply the same keyword a second time (which
+                // would double numeric values like hazardous, assault,
+                // poison).
+                const effProp = properties.effect;
+                const factoriesList = Array.isArray(effProp) ? effProp : effProp ? [effProp] : [];
+                const filteredFactories = factoriesList.filter(
+                    (factory) => !isAddKeywordEffectFactory(factory)
+                );
+                if (filteredFactories.length === 0) {
+                    continue;
+                }
+                if (filteredFactories.length !== factoriesList.length) {
+                    factories.push(
+                        Effects.gainAbility(abilityType, {
+                            ...properties,
+                            effect: filteredFactories
+                        })
+                    );
+                    continue;
+                }
+            }
             factories.push(Effects.gainAbility(abilityType, properties));
         }
 

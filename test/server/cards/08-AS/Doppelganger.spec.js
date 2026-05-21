@@ -404,4 +404,34 @@ describe('Doppelganger', function () {
             expect(this.player2).isReadyToTakeAction();
         });
     });
+
+    describe('Doppelganger adjacent to a creature with a numeric printed keyword', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    inPlay: ['troll']
+                },
+                player2: {
+                    inPlay: ['doppelganger', 'fanghouse']
+                }
+            });
+        });
+
+        it('should not double the value of the printed numeric keyword', function () {
+            this.player1.endTurn();
+
+            this.player2.clickCard(this.fanghouse);
+
+            expect(this.fanghouse.getKeywordValue('assault')).toBe(3);
+            expect(this.fanghouse.getKeywordValue('hazardous')).toBe(3);
+            expect(this.doppelganger.hasKeyword('assault')).toBe(true);
+            expect(this.doppelganger.hasKeyword('hazardous')).toBe(true);
+            expect(this.doppelganger.getKeywordValue('assault')).toBe(3);
+            expect(this.doppelganger.getKeywordValue('hazardous')).toBe(3);
+
+            this.player2.clickPrompt('untamed');
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
 });
