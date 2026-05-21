@@ -88,7 +88,10 @@ class TriggeredAbility extends CardAbility {
                 const subjects = this.multiTriggerEvent(event, context) || [];
                 for (const subject of subjects) {
                     const perSubjectContext = this.createContext(player, event, subject);
-                    if (!this.isTriggeredByEvent(event, perSubjectContext)) {
+                    // Skip re-evaluating `when` per subject: it was already
+                    // checked on the bulk context above, and bulk-context
+                    // semantics mean it must not depend on `context.subject`.
+                    if (!this.isTriggeredByEvent(event, perSubjectContext, { skipWhen: true })) {
                         continue;
                     }
                     if (this.meetsRequirements(perSubjectContext, []) === '') {
@@ -126,10 +129,13 @@ class TriggeredAbility extends CardAbility {
         });
     }
 
-    isTriggeredByEvent(event, context) {
+    isTriggeredByEvent(event, context, { skipWhen = false } = {}) {
         if (this.properties.condition && !this.properties.condition(context)) {
             return false;
-        } else if (!this.when[event.name] || !this.when[event.name](event, context)) {
+        } else if (
+            !skipWhen &&
+            (!this.when[event.name] || !this.when[event.name](event, context))
+        ) {
             return false;
         } else if (this.properties.play || this.properties.fight || this.properties.reap) {
             if (
