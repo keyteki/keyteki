@@ -1,20 +1,20 @@
-import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import ActivePlayerPrompt from './ActivePlayerPrompt';
+import { gameSendMessage } from '../../redux/socketActions';
 import CardBack from '../Decks/CardBack';
+import ActivePlayerPrompt from './ActivePlayerPrompt';
 import CardZoom from './CardZoom';
+import { canShowDeckName, getMatchRecord, isSpectating, normalizePlayer } from './gameboardUtils';
 import GameChat from './GameChat';
 import GameConfigurationModal from './GameConfigurationModal';
 import PlayerBoard from './PlayerBoard';
 import PlayerStats from './PlayerStats';
 import ReferenceCardPane from './ReferenceCardPane';
 import TimeLimitClock from './TimeLimitClock';
-import { gameSendMessage } from '../../redux/socketActions';
-import { canShowDeckName, getMatchRecord, isSpectating, normalizePlayer } from './gameboardUtils';
 
 const hasDenseRow = (player) => {
     const cardsInPlay = player?.cardPiles?.cardsInPlay || [];
@@ -35,7 +35,6 @@ export const GameBoard = () => {
     const currentGame = useSelector((state) => state.lobby.currentGame);
     const user = useSelector((state) => state.account.user);
     const [cardToZoom, setCardToZoom] = useState(null);
-    const chatScrollRef = useRef(null);
     const [showMessages, setShowMessages] = useState(true);
     const [lastMessageCount, setLastMessageCount] = useState(0);
     const [newMessages, setNewMessages] = useState(0);
@@ -68,31 +67,31 @@ export const GameBoard = () => {
     }, [navigate, user]);
 
     // Track the chat panel's left edge so the from-chat zoomed card can be
-    // positioned just to the left of the chat instead of covering it.
+    // positioned just to the left of the chat instead of covering it. We use
+    // a callback ref + state so the effect re-runs whenever the chat element
+    // actually mounts/unmounts (e.g. after the initial "Waiting for server"
+    // early-return), not just when `showMessages` toggles.
+    const [chatScrollEl, setChatScrollEl] = useState(null);
     useLayoutEffect(() => {
+        if (!chatScrollEl) {
+            return undefined;
+        }
         const updateChatLeft = () => {
-            const element = chatScrollRef.current;
-            if (!element) {
-                return;
-            }
-            const left = element.getBoundingClientRect().left;
+            const left = chatScrollEl.getBoundingClientRect().left;
             document.documentElement.style.setProperty('--chat-left', `${left}px`);
         };
         updateChatLeft();
-        if (typeof ResizeObserver === 'undefined') {
-            window.addEventListener('resize', updateChatLeft);
-            return () => window.removeEventListener('resize', updateChatLeft);
-        }
-        const observer = new ResizeObserver(updateChatLeft);
-        if (chatScrollRef.current) {
-            observer.observe(chatScrollRef.current);
+        let observer;
+        if (typeof ResizeObserver !== 'undefined') {
+            observer = new ResizeObserver(updateChatLeft);
+            observer.observe(chatScrollEl);
         }
         window.addEventListener('resize', updateChatLeft);
         return () => {
-            observer.disconnect();
+            observer?.disconnect();
             window.removeEventListener('resize', updateChatLeft);
         };
-    }, [showMessages]);
+    }, [chatScrollEl]);
 
     if (Object.values(cards).length === 0 || !currentGame?.started) {
         return (
@@ -376,7 +375,7 @@ export const GameBoard = () => {
                             {timeLimitClock}
                         </div>
                     </div>
-                    <div ref={chatScrollRef} className='chat-scroll'>
+                    <div ref={setChatScrollEl} className='chat-scroll'>
                         {showMessages && (
                             <div className='relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden box-border'>
                                 <GameChat
