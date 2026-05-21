@@ -6,6 +6,7 @@ class NeotechnicGopher extends Card {
     setupCardAbilities(ability) {
         this.play({
             reap: true,
+            preferActionPromptMessage: true,
             target: {
                 activePromptTitle: 'Choose a card to discard',
                 location: 'hand',
