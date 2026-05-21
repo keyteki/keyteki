@@ -84,6 +84,13 @@ const DecksComponent = () => {
             if (event.key !== 'Escape') {
                 return;
             }
+            // Bail out when a modal/overlay is open so Escape closes it instead of navigating back
+            if (event.defaultPrevented) {
+                return;
+            }
+            if (document.querySelector('[role="dialog"], [role="alertdialog"]')) {
+                return;
+            }
             // Only navigate back on narrow viewports; on wide layouts both panels are visible
             if (window.matchMedia('(min-width: 1024px)').matches) {
                 return;
