@@ -25,7 +25,7 @@ const AbilityTargeting = (props) => {
 
     const renderSimpleCard = (card) => (
         <div
-            className='mb-2 h-24 w-16 shrink-0 overflow-hidden rounded-[6.25%] [&>canvas]:!h-full [&>canvas]:!w-full'
+            className='h-24 w-16 shrink-0 overflow-hidden rounded-[6.25%] [&>canvas]:!h-full [&>canvas]:!w-full'
             onMouseOut={() => onMouseOut(card)}
             onMouseOver={() =>
                 onMouseOver({
@@ -38,13 +38,21 @@ const AbilityTargeting = (props) => {
         </div>
     );
 
-    const targetCards = props.targets.map((target) => renderSimpleCard(target));
+    const count = props.targets.length;
 
     return (
-        <div className='flex flex-row items-center justify-center gap-2'>
+        <div className='mb-2 flex w-full flex-row items-center gap-2'>
             {renderSimpleCard(props.source)}
-            {targetCards.length > 0 && <Icon icon={faArrowRight} />}
-            {targetCards}
+            {count > 0 && <Icon icon={faArrowRight} />}
+            {count > 0 && (
+                <div className='ability-target-row' style={{ '--target-count': count }}>
+                    {props.targets.map((target, index) => (
+                        <React.Fragment key={target.uuid || index}>
+                            {renderSimpleCard(target)}
+                        </React.Fragment>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
