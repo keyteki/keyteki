@@ -15,6 +15,16 @@ class TheArchivist extends Card {
             location: 'any',
             effect: ability.effects.chooseCardsFromArchives(this)
         });
+        this.reaction({
+            when: {
+                onCardArchived: (event, context) => event.card === context.source
+            },
+            location: 'any',
+            effectAlert: true,
+            message: '{0} archives {1} face up',
+            messageArgs: (context) => [context.event.context.player, context.source],
+            gameAction: ability.actions.changeEvent((context) => ({ event: context.event }))
+        });
     }
 }
 
