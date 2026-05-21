@@ -196,7 +196,8 @@ function ReactTable({
     startPageNumber = 0,
     startPageSize = 10,
     tableClassName = '',
-    fillHeight = false
+    fillHeight = false,
+    hideTopContent = false
 }) {
     const [pageSize, setPageSize] = useState(startPageSize);
     const [page, setPage] = useState(startPageNumber);
@@ -468,13 +469,13 @@ function ReactTable({
                 classNames?.base || ''
             }`}
         >
-            {topContent}
+            {hideTopContent ? null : topContent}
 
             <Table
                 aria-label='Data table'
                 className={`${
                     fillHeight ? 'flex min-h-0 flex-1 flex-col overflow-hidden' : ''
-                } rounded-lg border border-[color:var(--table-border)] bg-[var(--surface)] dark:border-zinc-700/60 dark:bg-black/35 ${tableClassName}`}
+                } overflow-hidden rounded-lg border border-[color:var(--table-border)] bg-[var(--surface)] dark:border-zinc-700/60 dark:bg-black/35 ${tableClassName}`}
             >
                 <Table.ScrollContainer className={fillHeight ? 'min-h-0 flex-1 overflow-auto' : ''}>
                     <Table.Content

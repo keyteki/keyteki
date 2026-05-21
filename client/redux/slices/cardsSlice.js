@@ -84,6 +84,9 @@ const cardsSlice = createSlice({
             state.selectedDeck = selected || normalizeDeck(action.payload, state);
             state.deckSaved = false;
         },
+        deselectDeck: (state) => {
+            delete state.selectedDeck;
+        },
         clearDeckStatus: (state) => {
             state.deckDeleted = false;
             state.deckSaved = false;

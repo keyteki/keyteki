@@ -249,7 +249,7 @@ const DeckSummary = ({ deck }) => {
                     </Trans>
                 </AlertPanel>
             )}
-            <div className='relative mt-4 grid grid-cols-1 gap-2 sm:justify-center sm:gap-x-10 sm:[grid-template-columns:repeat(3,max-content)]'>
+            <div className='relative mt-4 grid grid-cols-1 gap-2 @xl:justify-center @xl:gap-x-10 @xl:[grid-template-columns:repeat(3,max-content)]'>
                 <CardHoverPreview card={hoveredCard} position={hoverPosition} />
                 {orderedHouses.map((house) => {
                     return (

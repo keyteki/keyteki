@@ -73,6 +73,7 @@ const DeckSetFilter = ({ expansions = [], selectedExpansions = [], onChange, lab
             <label className='mb-1 block text-sm text-foreground'>{label}</label>
             <Popover
                 id={panelId}
+                isNonModal
                 isOpen={isOpen}
                 placement='bottom'
                 shouldFlip
@@ -90,7 +91,7 @@ const DeckSetFilter = ({ expansions = [], selectedExpansions = [], onChange, lab
                         <Icon className='text-muted' icon={isOpen ? faChevronUp : faChevronDown} />
                     </Button>
                 </Popover.Trigger>
-                <Popover.Content className='w-[min(520px,calc(100vw-3rem))] max-w-full rounded-md border border-[color:var(--table-border)] !bg-[var(--surface)] p-2 !text-foreground shadow-[var(--overlay-shadow)] dark:border-white/10 dark:!bg-zinc-900/95 dark:!text-zinc-100'>
+                <Popover.Content className='w-[min(260px,calc(100vw-3rem))] max-w-full rounded-md border border-[color:var(--table-border)] !bg-[var(--surface)] p-2 !text-foreground shadow-[var(--overlay-shadow)] [&[data-entering]]:!animate-none [&[data-exiting]]:!animate-none dark:border-white/10 dark:!bg-zinc-900/95 dark:!text-zinc-100'>
                     <Popover.Dialog>
                         <div className='mb-2 flex items-center gap-2'>
                             <Input
