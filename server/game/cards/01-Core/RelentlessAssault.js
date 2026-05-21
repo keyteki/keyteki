@@ -2,24 +2,34 @@ const Card = require('../../Card.js');
 
 class RelentlessAssault extends Card {
     // Play: Ready and fight with up
-    // to 3different friendly creatures,
+    // to 3 different friendly creatures,
     // one at a time.
     setupCardAbilities(ability) {
+        const targetProps = (excluded) => ({
+            cardType: 'creature',
+            controller: 'self',
+            mode: 'single',
+            optional: true,
+            cardCondition: (card) => !excluded.includes(card),
+            gameAction: ability.actions.sequential([
+                ability.actions.ready(),
+                ability.actions.fight()
+            ])
+        });
+
         this.play({
-            target: {
-                cardType: 'creature',
-                controller: 'self',
-                mode: 'upTo',
-                numCards: 3,
-                gameAction: ability.actions.sequentialForEach((context) => ({
-                    forEach: context.target,
-                    action: ability.actions.sequential([
-                        ability.actions.ready(),
-                        ability.actions.fight()
-                    ])
-                }))
-            },
-            effect: 'ready and fight with {0}'
+            target: targetProps([]),
+            effect: 'ready and fight with {0}',
+            then: (context1) =>
+                context1.target
+                    ? {
+                          target: targetProps([context1.target]),
+                          then: (context2) =>
+                              context2.target
+                                  ? { target: targetProps([context1.target, context2.target]) }
+                                  : { alwaysTriggers: true }
+                      }
+                    : { alwaysTriggers: true }
         });
     }
 }

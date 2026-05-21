@@ -58,4 +58,25 @@ describe('Prince Derric Unifier', function () {
             expect(this.player1.amber).toBe(3);
         });
     });
+
+    describe("Prince Derric Unifier's play ability with house enhancement", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    inPlay: ['helper-bot', 'gub', 'shooler'],
+                    hand: ['prince-derric-unifier']
+                },
+                player2: {
+                    inPlay: ['lamindra']
+                }
+            });
+        });
+
+        it('should gain 3 ambers when a Mars-enhanced creature brings the total to four houses', function () {
+            this.helperBot.enhancements = ['mars'];
+            this.player1.playCreature(this.princeDerricUnifier);
+            expect(this.player1.amber).toBe(3);
+        });
+    });
 });
