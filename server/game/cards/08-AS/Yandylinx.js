@@ -6,6 +6,7 @@ class Yandylinx extends Card {
     setupCardAbilities(ability) {
         this.reap({
             target: {
+                activePromptTitle: 'Choose a card to discard',
                 controller: 'self',
                 location: 'hand',
                 gameAction: ability.actions.discard()

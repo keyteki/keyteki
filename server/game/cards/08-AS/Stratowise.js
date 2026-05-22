@@ -6,6 +6,7 @@ class Stratowise extends Card {
         this.reap({
             fight: true,
             target: {
+                activePromptTitle: 'Choose a card to discard',
                 controller: 'self',
                 location: 'hand',
                 gameAction: ability.actions.discard()

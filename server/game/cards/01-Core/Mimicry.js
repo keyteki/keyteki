@@ -13,8 +13,12 @@ class Mimicry extends Card {
             location: 'any',
             target: {
                 cardType: 'action',
-                controller: 'opponent',
-                location: 'discard'
+                location: 'discard',
+                controller: 'any',
+                cardCondition: (card, context) => {
+                    const playingPlayer = context.event?.context?.player || context.player;
+                    return card.owner !== playingPlayer;
+                }
             },
             effect: 'copy {0}',
             gameAction: ability.actions.cardLastingEffect((context) => ({
