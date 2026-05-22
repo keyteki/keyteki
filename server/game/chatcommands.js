@@ -5,7 +5,7 @@ const ManualModePrompt = require('./gamesteps/ManualModePrompt');
 const Deck = require('./deck');
 const RematchPrompt = require('./gamesteps/RematchPrompt');
 const ManualKeyForgePrompt = require('./gamesteps/ManualKeyForgePrompt.js');
-const manualCommands = require('./manualCommands.js');
+const manualCommands = require('../../manualCommands.json');
 
 class ChatCommands {
     constructor(game) {

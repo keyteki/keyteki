@@ -4,7 +4,7 @@ import { Button } from '@heroui/react';
 
 import Link from '../Components/Navigation/Link';
 import Panel from '../Components/Site/Panel';
-import manualCommands from '../manualCommands';
+import manualCommands from '../../manualCommands.json';
 
 const HowToPlay = () => {
     const { t } = useTranslation();
