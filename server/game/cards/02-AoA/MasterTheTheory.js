@@ -4,7 +4,7 @@ class MasterTheTheory extends Card {
     // Play: If there are no friendly creatures in play, you may archive a card for each enemy creature.
     setupCardAbilities(ability) {
         this.play({
-            condition: () => this.controller.creaturesInPlay.length === 0,
+            condition: (context) => context.player.creaturesInPlay.length === 0,
             effect: 'archive a card for each of the {2} creature{3} that {1} has in play ({4})',
             effectArgs: (context) => {
                 const creatures = context.player.opponent.creaturesInPlay;
