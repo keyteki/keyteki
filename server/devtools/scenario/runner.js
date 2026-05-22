@@ -21,6 +21,7 @@ const logger = require('../../log.js');
 const DeckBuilder = require('../../../test/helpers/deckbuilder.js');
 const PlayerInteractionWrapper = require('../../../test/helpers/playerinteractionwrapper.js');
 const { cardCamel, getChatString } = require('../../../test/helpers/chat-utils.js');
+const { applySetupTest } = require('../../../test/helpers/setupTest.js');
 
 const deckBuilder = new DeckBuilder();
 const cardsByCode = {};
@@ -315,80 +316,23 @@ function buildContext(game) {
     };
 
     context.setupTest = function (options = {}) {
-        if (!options.player1) options.player1 = {};
-        if (!options.player2) options.player2 = {};
-
-        if (options.gameFormat) {
-            game.gameFormat = options.gameFormat;
-        }
-
-        if (!options.player1.name) options.player1.name = PLAYER_NAMES[0];
-        if (!options.player2.name) options.player2.name = PLAYER_NAMES[1];
-
-        const player1Deck = deckBuilder.customDeck(options.player1);
-        const player2Deck = deckBuilder.customDeck(options.player2);
-        // Default to CotA so the identity card image renders a real set icon.
-        player1Deck.expansion = player1Deck.expansion || 341;
-        player2Deck.expansion = player2Deck.expansion || 341;
-        // A uuid is required for the player bar to render the house icons.
-        player1Deck.uuid = player1Deck.uuid || `scenario-${PLAYER_NAMES[0]}-deck`;
-        player2Deck.uuid = player2Deck.uuid || `scenario-${PLAYER_NAMES[1]}-deck`;
-        flow.player1.selectDeck(player1Deck);
-        flow.player2.selectDeck(player2Deck);
-
-        flow.startGame();
-        flow.keepCards();
-
-        if (options.phase !== 'setup') {
-            flow.player1.clickPrompt(flow.player1.currentButtons[0]);
-            flow.player1.endTurn();
-            flow.player2.clickPrompt(flow.player2.currentButtons[0]);
-            flow.player2.endTurn();
-            if (options.player1.house) {
-                flow.player1.clickPrompt(options.player1.house);
+        applySetupTest(options, {
+            game,
+            player1: flow.player1,
+            player2: flow.player2,
+            startGame: flow.startGame,
+            keepCards: flow.keepCards,
+            deckBuilder,
+            cardRegistry: context,
+            playerNames: PLAYER_NAMES,
+            prepareDeck: (deck, idx) => {
+                // Default to CotA so the identity card image renders a real
+                // set icon.
+                deck.expansion = deck.expansion || 341;
+                // A uuid is required for the player bar to render house icons.
+                deck.uuid = deck.uuid || `scenario-${PLAYER_NAMES[idx]}-deck`;
             }
-        }
-
-        flow.player1.amber = options.player1.amber;
-        flow.player2.amber = options.player2.amber;
-        flow.player1.keys = options.player1.keys;
-        flow.player2.keys = options.player2.keys;
-        flow.player1.chains = options.player1.chains;
-        flow.player2.chains = options.player2.chains;
-        flow.player1.token = options.player1.token;
-        flow.player2.token = options.player2.token;
-
-        flow.player1.hand = [];
-        flow.player2.hand = [];
-        flow.player1.inPlay = options.player1.inPlay;
-        flow.player2.inPlay = options.player2.inPlay;
-        flow.player1.hand = options.player1.hand;
-        flow.player2.hand = options.player2.hand;
-        flow.player1.discard = options.player1.discard;
-        flow.player2.discard = options.player2.discard;
-        flow.player1.archives = options.player1.archives;
-        flow.player2.archives = options.player2.archives;
-
-        for (const player of [flow.player1, flow.player2]) {
-            const cards = ['inPlay', 'hand', 'discard', 'archives'].reduce(
-                (array, location) => array.concat(player[location]),
-                []
-            );
-            for (const card of cards) {
-                const camel = cardCamel(card.isToken() ? card.tokenCard() : card);
-                if (!context[camel]) {
-                    context[camel] = card;
-                }
-            }
-            for (const prophecy of player.player.prophecyCards) {
-                const camel = cardCamel(prophecy);
-                if (!context[camel]) {
-                    context[camel] = prophecy;
-                }
-            }
-        }
-
-        game.checkGameState(true);
+        });
     };
 
     return context;

@@ -29,6 +29,7 @@ const DeckBuilder = require('./deckbuilder.js');
 const GameFlowWrapper = require('./gameflowwrapper.js');
 const { checkAllMessages } = require('./messagehelper.js');
 const { cardCamel } = require('./chat-utils.js');
+const { applySetupTest } = require('./setupTest.js');
 
 const deckBuilder = new DeckBuilder();
 
@@ -290,83 +291,15 @@ beforeEach(function () {
      * @param {Object} [options = {}] - specifies the state of the game
      */
     this.setupTest = function (options = {}) {
-        //Set defaults
-        if (!options.player1) {
-            options.player1 = {};
-        }
-
-        if (!options.player2) {
-            options.player2 = {};
-        }
-
-        if (options.gameFormat) {
-            this.game.gameFormat = options.gameFormat;
-        }
-
-        //Build decks
-        this.player1.selectDeck(deckBuilder.customDeck(options.player1));
-        this.player2.selectDeck(deckBuilder.customDeck(options.player2));
-
-        this.startGame();
-        //Setup phase
-
-        this.keepCards();
-        if (options.phase !== 'setup') {
-            // Choose a house
-            this.player1.clickPrompt(this.player1.currentButtons[0]);
-            this.player1.endTurn();
-            this.player2.clickPrompt(this.player2.currentButtons[0]);
-            this.player2.endTurn();
-            if (options.player1.house) {
-                this.player1.clickPrompt(options.player1.house);
-            }
-        }
-
-        //Player stats
-        this.player1.amber = options.player1.amber;
-        this.player2.amber = options.player2.amber;
-        this.player1.keys = options.player1.keys;
-        this.player2.keys = options.player2.keys;
-        this.player1.chains = options.player1.chains;
-        this.player2.chains = options.player2.chains;
-        //Token card
-        this.player1.token = options.player1.token;
-        this.player2.token = options.player2.token;
-        //Field
-        this.player1.hand = [];
-        this.player2.hand = [];
-        this.player1.inPlay = options.player1.inPlay;
-        this.player2.inPlay = options.player2.inPlay;
-        //Conflict deck related
-        this.player1.hand = options.player1.hand;
-        this.player2.hand = options.player2.hand;
-        this.player1.discard = options.player1.discard;
-        this.player2.discard = options.player2.discard;
-        this.player1.archives = options.player1.archives;
-        this.player2.archives = options.player2.archives;
-
-        for (let player of [this.player1, this.player2]) {
-            let cards = ['inPlay', 'hand', 'discard', 'archives'].reduce(
-                (array, location) => array.concat(player[location]),
-                []
-            );
-            for (let card of cards) {
-                // still allow access by token's name
-                let camel = this.cardCamel(card.isToken() ? card.tokenCard() : card);
-                if (!this[camel]) {
-                    this[camel] = card;
-                }
-            }
-
-            for (let prophecy of player.player.prophecyCards) {
-                let camel = this.cardCamel(prophecy);
-                if (!this[camel]) {
-                    this[camel] = prophecy;
-                }
-            }
-        }
-
-        this.game.checkGameState(true);
+        applySetupTest(options, {
+            game: this.game,
+            player1: this.player1,
+            player2: this.player2,
+            startGame: (...args) => this.startGame(...args),
+            keepCards: (...args) => this.keepCards(...args),
+            deckBuilder,
+            cardRegistry: this
+        });
     };
 });
 
