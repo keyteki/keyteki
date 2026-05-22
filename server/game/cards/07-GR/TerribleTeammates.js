@@ -5,6 +5,7 @@ class TerribleTeammates extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
+                activePromptTitle: 'Choose a card to discard',
                 optional: true,
                 controller: 'self',
                 location: 'hand',

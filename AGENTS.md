@@ -28,6 +28,7 @@ Keyteki is an open-source implementation of the KeyForge card game. KeyForge is 
 
 -   [Server Implementation Guide](server/AGENTS.md) - Architecture, code style, and card implementation
 -   [Testing Guide](test/AGENTS.md) - Running tests and writing test cases
+-   [New Set Implementation Guide](docs/new-sets.md) - Steps for adding a new KeyForge set
 
 ### Canonical Style Reference
 
