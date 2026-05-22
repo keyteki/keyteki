@@ -26,6 +26,7 @@ This document describes how card abilities are defined in Keyteki. All card abil
     -   [Optional](#optional)
     -   [Targeting](#targeting)
     -   [Chaining Effects with "then"](#chaining-effects-with-then)
+    -   [Guarding `preThenContext.target` access](#guarding-prethencontexttarget-access)
 
 ## Basic Structure
 
@@ -625,3 +626,97 @@ this.reap({
 ```
 
 Note that `alwaysTriggers: true` is needed on the outer `then` so the optional-discard prompt still appears even when the capture event was cancelled or partial — but the inner `then`'s `condition` then ensures the final effect is gated correctly.
+
+#### Guarding `preThenContext.target` access
+
+Any `then` block that reads `preThenContext.target` must defend against it being `undefined`. This is **not** limited to `target.optional: true` — it also happens in routine cases where the parent ability's target step finds **no eligible card**. Without a guard, the game crashes with `TypeError: Cannot read properties of undefined (reading '<prop>')` and the user sees an error toast mid-ability.
+
+**When `preThenContext.target` is undefined:**
+
+1. **Optional targets.** `target: { optional: true, ... }` and the player declined.
+2. **No eligible target.** The parent `target` declared `cardCondition`/`controller`/`location` restrictions and no card in scope matched (e.g. Replacement Targ played with all neighbors being Soldiers, Inspiring Oration played with no friendly creatures, Placeholder played with no creatures in play).
+3. **Mid-resolution invalidation.** The target was chosen but became invalid (left play, moved zones) before the `then` resolved.
+
+**When does the `then` still fire if there was no target?** Only when `alwaysTriggers: true` is set on the `then`:
+
+| Parent target step                     | `then.alwaysTriggers` | Does `then` fire?            |
+| -------------------------------------- | --------------------- | ---------------------------- |
+| Found a valid target, action resolved  | any                   | yes                          |
+| Found a valid target, action cancelled | `true`                | yes                          |
+| Found a valid target, action cancelled | `false`/absent        | no                           |
+| Found no eligible target               | `true`                | **yes (this is the danger)** |
+| Found no eligible target               | `false`/absent        | no                           |
+
+So the rule is: if your `then` uses `preThenContext.target` **and** sets `alwaysTriggers: true`, you must guard. If your `then` uses `preThenContext.target` **without** `alwaysTriggers`, you're usually safe — but still add a guard if the parent target uses `optional: true`, or if there's any path where the parent's `gameAction` produces events while leaving `target` unset.
+
+**The canonical guard pattern:**
+
+Add (or extend) a `condition` on the `then` that returns `false` when the target is missing. The whole `then` ability is then cleanly skipped:
+
+```javascript
+// Play: Put a neighboring non-Soldier creature into its owner's hand.
+// If you do, the most powerful friendly creature captures 2A.
+this.play({
+    target: {
+        cardType: 'creature',
+        controller: 'self',
+        cardCondition: (card, context) =>
+            !card.hasTrait('soldier') && context.source.neighbors.includes(card),
+        gameAction: ability.actions.returnToHand()
+    },
+    then: (preThenContext) => ({
+        alwaysTriggers: true,
+        // Guard: if no neighbor was eligible, preThenContext.target is undefined
+        condition: () => preThenContext.target && preThenContext.target.location === 'hand',
+        target: {
+            mode: 'mostStat',
+            cardType: 'creature',
+            controller: 'self',
+            numCards: 1,
+            cardStat: (card) => card.power,
+            gameAction: ability.actions.capture({ amount: 2 })
+        }
+    })
+});
+```
+
+If the `then` has no other condition, just add one:
+
+```javascript
+then: (preThenContext) => ({
+    condition: () => !!preThenContext.target,
+    gameAction: ability.actions.gainAmber({
+        amount: 1,
+        target: preThenContext.target && preThenContext.target.controller
+    })
+});
+```
+
+**Inline guarding for property accesses.** Even with a `condition` guard, any expression evaluated **outside** the condition (e.g. inside `messageArgs`, `effectArgs`, or a `gameAction` factory) is also evaluated — sometimes during `then` setup, before the condition fires. Defensively guard each access there too:
+
+```javascript
+// BAD — crashes if no eligible target
+then: (preThenContext) => ({
+    condition: () => !!preThenContext.target,
+    gameAction: ability.actions.draw({
+        amount: 2 * preThenContext.target.neighbors.length // evaluated immediately
+    })
+});
+
+// GOOD
+then: (preThenContext) => ({
+    condition: () => !!preThenContext.target,
+    gameAction: ability.actions.draw({
+        amount: preThenContext.target ? 2 * preThenContext.target.neighbors.length : 0
+    })
+});
+```
+
+The same applies to `preThenContext.preThenEvent` — when the parent produced no events (no eligible target with `alwaysTriggers: true`), `preThenEvent` is `undefined`. Guard `context.preThenEvent && context.preThenEvent.<prop>` whenever you read it.
+
+**Quick checklist when writing a `then` that reads `preThenContext.target`:**
+
+1. Does the parent ability have a `target` or `targets` requirement? → guard needed.
+2. Does the `then` set `alwaysTriggers: true`? → guard is **required**.
+3. Is the parent target `optional: true`? → guard is **required**.
+4. Does any `messageArgs` / `effectArgs` / `gameAction` factory dereference `preThenContext.target.X` outside the `condition`? → inline-guard those accesses too.
