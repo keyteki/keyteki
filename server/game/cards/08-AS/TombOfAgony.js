@@ -6,6 +6,7 @@ class TombOfAgony extends Card {
         this.whileAttached({
             effect: ability.effects.gainAbility('reap', {
                 target: {
+                    activePromptTitle: 'Choose an enemy creature to purge',
                     cardType: 'creature',
                     controller: 'opponent',
                     gameAction: ability.actions.purge()

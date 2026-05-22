@@ -9,7 +9,9 @@ describe('main phase', function () {
                     'way-of-the-bear',
                     'protectrix',
                     'inka-the-spider',
-                    'nepenthe-seed'
+                    'nepenthe-seed',
+                    'bumblebird',
+                    'glimmer'
                 ],
                 discard: ['ancient-bear'],
                 inPlay: ['witch-of-the-eye', 'champion-anaphiel']
@@ -145,6 +147,43 @@ describe('main phase', function () {
             expect(this.inkaTheSpider.exhausted).toBe(true);
         });
 
+        it('should allow canceling from the flank selection and return the creature to hand', function () {
+            expect(this.player1.amber).toBe(0);
+            this.inkaTheSpider.enhancements = ['amber'];
+            this.inkaTheSpider = this.player1.clickCard('inka-the-spider');
+            this.player1.clickPrompt('Play this creature');
+            expect(this.player1).toHavePrompt('Which flank do you want to place this creature on?');
+            expect(this.player1).toHavePromptButton('Cancel');
+            this.player1.clickPrompt('Cancel');
+            expect(this.inkaTheSpider.location).toBe('hand');
+            expect(this.player1.hand).toContain(this.inkaTheSpider);
+            expect(this.player1.amber).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should allow playing another alpha card after canceling flank selection on an alpha creature', function () {
+            this.player1.moveCard('inka-the-spider', 'deck');
+            this.player1.moveCard('nepenthe-seed', 'deck');
+            this.bumblebird = this.player1.findCardByName('bumblebird');
+            this.glimmer = this.player1.findCardByName('glimmer');
+
+            this.player1.clickCard(this.bumblebird);
+            this.player1.clickPrompt('Play this creature');
+            expect(this.player1).toHavePrompt('Which flank do you want to place this creature on?');
+            this.player1.clickPrompt('Cancel');
+            expect(this.bumblebird.location).toBe('hand');
+
+            this.player1.clickCard(this.glimmer);
+            expect(this.player1).toHavePromptButton('Play this creature');
+            this.player1.clickPrompt('Play this creature');
+            expect(this.player1).toHavePrompt('Which flank do you want to place this creature on?');
+            this.player1.clickPrompt('Left');
+            expect(this.glimmer.location).toBe('play area');
+            this.player1.clickCard(this.ancientBear);
+            expect(this.ancientBear.location).toBe('hand');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
         it('should resolve any Play: abilities on the creature', function () {
             this.championAnaphiel.stun();
             this.inkaTheSpider = this.player1.clickCard('inka-the-spider');
@@ -192,6 +231,21 @@ describe('main phase', function () {
             expect(this.championAnaphiel.upgrades).toContain(this.wayOfTheBear);
             expect(this.wayOfTheBear.location).toBe('play area');
             expect(this.wayOfTheBear.exhausted).toBe(false);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should allow canceling from the upgrade target prompt and not resolve bonus icons', function () {
+            expect(this.player1.amber).toBe(0);
+            this.wayOfTheBear = this.player1.findCardByName('way-of-the-bear');
+            this.wayOfTheBear.enhancements = ['amber'];
+            this.player1.clickCard(this.wayOfTheBear);
+            this.player1.clickPrompt('Play this upgrade');
+            expect(this.player1).toHavePrompt('Choose a creature to attach this upgrade to');
+            expect(this.player1).toHavePromptButton('Cancel');
+            this.player1.clickPrompt('Cancel');
+            expect(this.wayOfTheBear.location).toBe('hand');
+            expect(this.player1.hand).toContain(this.wayOfTheBear);
+            expect(this.player1.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
     });
