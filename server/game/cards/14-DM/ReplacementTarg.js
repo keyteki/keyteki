@@ -14,7 +14,7 @@ class ReplacementTarg extends Card {
             },
             then: (preThenContext) => ({
                 alwaysTriggers: true,
-                condition: () => preThenContext.target.location === 'hand',
+                condition: () => preThenContext.target && preThenContext.target.location === 'hand',
                 target: {
                     mode: 'mostStat',
                     cardType: 'creature',
