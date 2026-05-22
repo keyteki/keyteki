@@ -12,6 +12,7 @@ class InspiringOration extends Card {
             },
             then: (preThenContext) => ({
                 alwaysTriggers: true,
+                condition: () => !!preThenContext.target,
                 message: '{0} uses {1} to make {3}{4}',
                 messageArgs: () =>
                     preThenContext.target.amber === 1
