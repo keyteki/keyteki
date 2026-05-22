@@ -55,11 +55,12 @@ class AbilityTargetCard extends AbilityTarget {
         // and there is exactly one legal target. This skips a redundant prompt where
         // the player has no real choice. Players who prefer to click through every
         // forced choice can opt out via the `orderForcedAbilities` setting.
+        // TODO: Remove the orderForcedAbilities setting, which requires updating many tests that expect additional prompts.
         if (
             context.stage !== 'pretarget' &&
             this.selector instanceof SingleCardSelector &&
             !Optional.EvalOptional(context, this.properties.optional) &&
-            !context.game.activePlayer?.optionSettings?.orderForcedAbilities
+            !context.player?.optionSettings?.orderForcedAbilities
         ) {
             let legalTargets = this.selector.getAllLegalTargets(context);
             if (legalTargets.length === 1) {
