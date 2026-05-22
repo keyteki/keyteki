@@ -5,6 +5,7 @@ class ObsidianForge extends Card {
     setupCardAbilities(ability) {
         this.action({
             target: {
+                activePromptTitle: 'Choose a creature to sacrifice',
                 mode: 'unlimited',
                 controller: 'self',
                 cardType: 'creature',
