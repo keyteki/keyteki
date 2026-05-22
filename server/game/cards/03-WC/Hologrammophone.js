@@ -5,6 +5,7 @@ class Hologrammophone extends Card {
     setupCardAbilities(ability) {
         this.action({
             target: {
+                activePromptTitle: 'Choose a creature to ward',
                 cardType: 'creature',
                 gameAction: ability.actions.ward()
             }

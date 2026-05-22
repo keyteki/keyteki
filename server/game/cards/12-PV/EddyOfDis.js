@@ -17,12 +17,15 @@ class EddyOfDis extends Card {
         });
 
         this.fate({
+            condition: (context) => !!context.game.activePlayer.opponent,
             effect: "shuffle {1}'s discard into their deck and have them draw a card",
             effectArgs: (context) => [context.game.activePlayer.opponent],
             gameAction: ability.actions.sequential([
                 ability.actions.returnToDeck((context) => ({
                     shuffle: true,
-                    target: context.game.activePlayer.opponent.discard
+                    target: context.game.activePlayer.opponent
+                        ? context.game.activePlayer.opponent.discard
+                        : []
                 })),
                 ability.actions.draw((context) => ({
                     target: context.game.activePlayer.opponent
