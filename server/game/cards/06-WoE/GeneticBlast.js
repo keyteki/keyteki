@@ -12,11 +12,15 @@ class GeneticBlast extends Card {
             effectArgs: (context) => [context.target],
             then: (preThenContext) => ({
                 alwaysTriggers: true,
+                condition: () => !!preThenContext.target,
                 gameAction: ability.actions.dealDamage((context) => ({
-                    target: context.game.cardsInPlay.filter(
-                        (card) =>
-                            card.name === preThenContext.target.name && card.type === 'creature'
-                    ),
+                    target: preThenContext.target
+                        ? context.game.cardsInPlay.filter(
+                              (card) =>
+                                  card.name === preThenContext.target.name &&
+                                  card.type === 'creature'
+                          )
+                        : [],
                     amount: 2
                 }))
             })

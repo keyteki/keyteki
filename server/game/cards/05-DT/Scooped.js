@@ -11,7 +11,9 @@ class Scooped extends Card {
             then: (preThenContext) => ({
                 alwaysTriggers: true,
                 condition: (context) =>
+                    !!preThenContext.target &&
                     !(
+                        context.preThenEvent &&
                         context.preThenEvent.destroyEvent &&
                         context.preThenEvent.destroyEvent.resolved
                     ),

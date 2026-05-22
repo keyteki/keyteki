@@ -107,4 +107,47 @@ describe('Boosted B4-RRY', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe("when control of the stolen artifact returns to Boosted B4-RRY's controller", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    hand: ['boosted-b4-rry', 'boosted-b4-rry2', 'art-project']
+                },
+                player2: {
+                    inPlay: ['library-of-babble', 'uncommon-currency']
+                }
+            });
+        });
+
+        it('should re-apply house Shadows when control returns', function () {
+            this.player1.playCreature(this.boostedB4Rry);
+            this.player1.clickPrompt('Take artifact');
+            this.player1.clickCard(this.libraryOfBabble);
+            expect(this.libraryOfBabble.controller).toBe(this.player1.player);
+            expect(this.libraryOfBabble.getHouses()).toEqual(['shadows']);
+
+            // Player2 swaps Library back via their Uncommon Currency.
+            this.player1.endTurn();
+            this.player2.clickPrompt('ekwidon');
+            this.player2.useAction(this.uncommonCurrency);
+            this.player2.clickCard(this.libraryOfBabble);
+            this.player2.clickCard(this.libraryOfBabble);
+            expect(this.libraryOfBabble.controller).toBe(this.player2.player);
+            expect(this.libraryOfBabble.getHouses()).toEqual(['logos']);
+
+            // Player1 swaps Library back via the same Uncommon Currency.
+            this.player2.endTurn();
+            this.player1.clickPrompt('ekwidon');
+            this.uncommonCurrency.ready();
+            this.player1.useAction(this.uncommonCurrency);
+            this.player1.clickCard(this.libraryOfBabble);
+            expect(this.libraryOfBabble.controller).toBe(this.player1.player);
+
+            // The Boosted B4-RRY house-change should still apply.
+            expect(this.libraryOfBabble.getHouses()).toEqual(['shadows']);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

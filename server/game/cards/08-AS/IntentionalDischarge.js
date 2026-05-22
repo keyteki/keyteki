@@ -11,6 +11,7 @@ class IntentionalDischarge extends Card {
             },
             then: {
                 target: {
+                    activePromptTitle: 'Choose a creature to ready',
                     controller: 'self',
                     cardType: 'creature',
                     cardCondition: (card) => card.hasHouse('mars'),

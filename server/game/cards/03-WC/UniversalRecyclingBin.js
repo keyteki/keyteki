@@ -5,6 +5,7 @@ class UniversalRecycleBin extends Card {
     setupCardAbilities(ability) {
         this.action({
             target: {
+                activePromptTitle: 'Choose which card to archive',
                 location: 'purged',
                 controller: 'self',
                 gameAction: ability.actions.archive()
