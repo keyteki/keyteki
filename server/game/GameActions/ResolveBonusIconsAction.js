@@ -346,8 +346,10 @@ class ResolveBonusIconsAction extends CardGameAction {
             { card: card, context: context },
             (event) => {
                 for (const icon of event.card.bonusIcons) {
-                    // House enhancements are not resolvable bonus icons
-                    if (Constants.Houses.includes(icon.toLowerCase())) {
+                    // House enhancements are not resolvable bonus icons.
+                    // Match Card.getHouseEnhancements() which strips spaces
+                    // so e.g. "star alliance" → "staralliance" is recognized.
+                    if (Constants.Houses.includes(icon.toLowerCase().replace(' ', ''))) {
                         continue;
                     }
 
