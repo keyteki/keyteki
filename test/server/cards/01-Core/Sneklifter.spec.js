@@ -96,4 +96,46 @@ describe('Sneklifter', function () {
             expect(this.player2.amber).toBe(6);
         });
     });
+
+    describe('when control of the snek-lifted artifact returns to the original player', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    hand: ['sneklifter', 'art-project']
+                },
+                player2: {
+                    inPlay: ['library-of-babble', 'uncommon-currency']
+                }
+            });
+        });
+
+        it('should remain in house Shadows when control returns', function () {
+            this.player1.play(this.sneklifter);
+            this.player1.clickCard(this.libraryOfBabble);
+            expect(this.libraryOfBabble.controller).toBe(this.player1.player);
+            expect(this.libraryOfBabble.getHouses()).toEqual(['shadows']);
+
+            // Player2 swaps Library back via their Uncommon Currency.
+            this.player1.endTurn();
+            this.player2.clickPrompt('ekwidon');
+            this.player2.useAction(this.uncommonCurrency);
+            this.player2.clickCard(this.libraryOfBabble);
+            this.player2.clickCard(this.libraryOfBabble);
+            expect(this.libraryOfBabble.controller).toBe(this.player2.player);
+            expect(this.libraryOfBabble.getHouses()).toEqual(['logos']);
+
+            // Player1 swaps Library back via the same Uncommon Currency.
+            this.player2.endTurn();
+            this.player1.clickPrompt('ekwidon');
+            this.uncommonCurrency.ready();
+            this.player1.useAction(this.uncommonCurrency);
+            this.player1.clickCard(this.libraryOfBabble);
+            expect(this.libraryOfBabble.controller).toBe(this.player1.player);
+
+            // The Sneklifter house-change should still apply.
+            expect(this.libraryOfBabble.getHouses()).toEqual(['shadows']);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
