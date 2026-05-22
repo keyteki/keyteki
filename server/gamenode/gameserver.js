@@ -594,16 +594,18 @@ class GameServer {
             delete this.games[game.id];
 
             this.gameSocket.send('GAMECLOSED', { game: game.id });
+            this.sendGameState(game);
         } else {
             // Re-run the pipeline so any prompts currently waiting on the
             // departing player (e.g. the post-game rematch prompt) can
             // recompute their buttons / completion based on the new
             // `player.left` state. Without this, the remaining player keeps
             // seeing stale buttons until the next game action.
-            game.continue();
+            this.runAndCatchErrors(game, () => {
+                game.continue();
+                this.sendGameState(game);
+            });
         }
-
-        this.sendGameState(game);
     }
 
     onGameMessage(socket, command, ...args) {
