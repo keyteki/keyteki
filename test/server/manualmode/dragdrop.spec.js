@@ -109,6 +109,56 @@ describe('Drag and drop card', function () {
         });
     });
 
+    describe('creature-as-upgrade drag', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    hand: ['pupgrade'],
+                    inPlay: ['helmsman-spears', 'pelf']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+        });
+
+        it('should prompt to choose between playing as creature or upgrade', function () {
+            this.player1.drop(this.pupgrade, 'play area');
+            expect(this.player1).toHavePromptButton('Play this creature');
+            expect(this.player1).toHavePromptButton('Play this upgrade');
+            expect(this.player1).toHavePromptButton('Cancel');
+            this.player1.clickPrompt('Cancel');
+            expect(this.pupgrade.location).toBe('hand');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should let the player play it as an upgrade after dragging', function () {
+            this.player1.drop(this.pupgrade, 'play area');
+            this.player1.clickPrompt('Play this upgrade');
+            this.player1.clickCard(this.helmsmanSpears);
+            expect(this.pupgrade.location).toBe('play area');
+            expect(this.pupgrade.parent).toBe(this.helmsmanSpears);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should let the player play it as a creature after dragging', function () {
+            this.player1.drop(this.pupgrade, 'play area');
+            this.player1.clickPrompt('Play this creature');
+            this.player1.clickPrompt('Left');
+            expect(this.pupgrade.location).toBe('play area');
+            expect(this.pupgrade.type).toBe('creature');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should let the player cancel the drag', function () {
+            this.player1.drop(this.pupgrade, 'play area');
+            this.player1.clickPrompt('Cancel');
+            expect(this.pupgrade.location).toBe('hand');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
     describe('functionality', function () {
         beforeEach(function () {
             this.setupTest({

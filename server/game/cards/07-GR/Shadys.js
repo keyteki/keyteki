@@ -12,7 +12,8 @@ class Shadys extends Card {
                 gameAction: ability.actions.playCard()
             },
             then: (preThenContext) => ({
-                condition: () => preThenContext.target.name === 'Purse-a-phone',
+                condition: () =>
+                    !!preThenContext.target && preThenContext.target.name === 'Purse-a-phone',
                 gameAction: ability.actions.destroy((context) => ({
                     target: context.source
                 }))
