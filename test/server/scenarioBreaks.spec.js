@@ -24,11 +24,13 @@ describe('scenarioBreak()', function () {
             const src = fs.readFileSync(file, 'utf8');
             const lines = src.split('\n');
             lines.forEach((line, i) => {
-                // Match `this.scenarioBreak(` or bare `scenarioBreak(`, but
-                // skip comments so the explanatory comment in this file (and
-                // in scenario/runner.js docs referenced elsewhere) is fine.
+                // Match `this.scenarioBreak(` or bare `scenarioBreak(`,
+                // including optional-chained calls like `scenarioBreak?.(`,
+                // but skip comments so the explanatory comment in this file
+                // (and in scenario/runner.js docs referenced elsewhere) is
+                // fine.
                 const stripped = line.replace(/\/\/.*$/, '');
-                if (/(?:^|[^.\w])(?:this\.)?scenarioBreak\s*\(/.test(stripped)) {
+                if (/(?:^|[^.\w])(?:this\.)?scenarioBreak\s*\??\.?\s*\(/.test(stripped)) {
                     offenders.push(`${path.relative(TEST_ROOT, file)}:${i + 1}`);
                 }
             });

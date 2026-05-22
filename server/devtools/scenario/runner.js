@@ -309,8 +309,8 @@ function buildContext(game) {
     context.buildDeck = (faction, cards) => deckBuilder.buildDeck(faction, cards);
     context.cardCamel = cardCamel;
 
-    // Tests can call `this.scenarioBreak?.()` to halt scenario execution at
-    // that point. The `?.` makes it a no-op when run under vitest.
+    // Tests can call `this.scenarioBreak()` to halt scenario execution at
+    // that point.
     context.scenarioBreak = () => {
         throw SCENARIO_BREAK;
     };
