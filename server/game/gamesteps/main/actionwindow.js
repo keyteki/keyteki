@@ -27,11 +27,22 @@ class ActionWindow extends UiPrompt {
     onCardDragged(player, card, from, to) {
         if (player === this.game.activePlayer && card.controller === player && from === 'hand') {
             if (to === 'play area') {
-                let playAction = card
+                const playActions = card
                     .getLegalActions(player)
-                    .find((action) => action.title.includes('Play'));
-                if (playAction) {
-                    this.game.resolveAbility(playAction.createContext(player));
+                    .filter((action) => action.title.includes('Play'));
+                if (playActions.length === 1) {
+                    this.game.resolveAbility(playActions[0].createContext(player));
+                } else if (playActions.length > 1) {
+                    this.game.promptWithHandlerMenu(player, {
+                        activePromptTitle: 'How would you like to play this card?',
+                        source: card,
+                        choices: playActions.map((action) => action.title).concat('Cancel'),
+                        handlers: playActions
+                            .map((action) => () => {
+                                this.game.resolveAbility(action.createContext(player));
+                            })
+                            .concat(() => true)
+                    });
                 }
             } else if (to === 'discard') {
                 let discardAction = new DiscardAction(card);

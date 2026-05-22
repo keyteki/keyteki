@@ -166,4 +166,42 @@ describe('Timequake', function () {
             expect(this.player1.player.hand.length).toBe(8);
         });
     });
+
+    describe('with controlled enemy cards', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    amber: 0,
+                    inPlay: ['lamindra', 'alaka'],
+                    hand: ['timequake', 'sneklifter']
+                },
+                player2: {
+                    amber: 0,
+                    inPlay: ['bulwark', 'orb-of-wonder']
+                }
+            });
+        });
+
+        it('should only draw for cards shuffled into own deck, not controlled enemy cards', function () {
+            this.player1.play(this.sneklifter);
+            this.player1.clickCard(this.orbOfWonder);
+            expect(this.player1.player.cardsInPlay).toContain(this.orbOfWonder);
+
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.endTurn();
+            this.player1.clickPrompt('brobnar');
+
+            expect(this.player1.player.hand.length).toBe(6);
+
+            this.player1.play(this.timequake);
+
+            expect(this.player1.player.cardsInPlay.length).toBe(0);
+            // 3 own cards shuffled into deck (lamindra, alaka, sneklifter); orb returns to opponent's deck
+            // 6 initial - 1 played + 3 drawn = 8
+            expect(this.player1.player.hand.length).toBe(8);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
