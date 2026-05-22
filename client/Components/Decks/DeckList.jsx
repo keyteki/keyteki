@@ -375,7 +375,7 @@ const DeckList = ({
                     selectedRows={selectedRows}
                     startPageSize={15}
                     tableClassName='table-fixed [&_thead_th]:sticky [&_thead_th]:top-0 [&_thead_th]:z-20 [&_thead_th]:bg-[var(--table-header-bg)]'
-                    hideTopContent={!standaloneDecks}
+                    hideButtons={!standaloneDecks}
                     getRowClassName={(row) => {
                         const isSelected = selectedDeck && row.original.id === selectedDeck.id;
                         const isInvalid = row.original.status?.basicRules === false;
