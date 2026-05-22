@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -93,6 +93,29 @@ export const GameBoard = () => {
         };
     }, [chatScrollEl]);
 
+    // Track the cursor so we can debounce chat-card mouseouts: when new chat
+    // messages arrive, the chat scroll element can shift under the cursor and
+    // fire a synthetic mouseout while the user hasn't actually moved. Defer
+    // the clear until the cursor moves a few pixels. Any subsequent
+    // onMouseOver (from chat OR board/prompt cards) cancels the pending clear,
+    // so quickly moving from a chat card to an adjacent board/prompt card no
+    // longer dismisses the new zoom.
+    const lastMousePos = useRef({ x: 0, y: 0 });
+    const pendingClear = useRef(null);
+    useEffect(() => {
+        const onMove = (e) => {
+            lastMousePos.current = { x: e.clientX, y: e.clientY };
+        };
+        document.addEventListener('mousemove', onMove);
+        return () => {
+            document.removeEventListener('mousemove', onMove);
+            if (pendingClear.current) {
+                clearTimeout(pendingClear.current);
+                pendingClear.current = null;
+            }
+        };
+    }, []);
+
     if (Object.values(cards).length === 0 || !currentGame?.started) {
         return (
             <div>
@@ -138,14 +161,47 @@ export const GameBoard = () => {
     const spectating = isSpectating(currentGame, user);
     const showDeckName = (isMe) => canShowDeckName(currentGame, isMe);
 
+    const JITTER_PX = 6;
+    const CLEAR_POLL_MS = 50;
+    const CLEAR_MAX_MS = 10000;
+
+    const cancelPendingClear = () => {
+        if (pendingClear.current) {
+            clearTimeout(pendingClear.current);
+            pendingClear.current = null;
+        }
+    };
+
     const onMouseOver = (card) => {
         if (card.image) {
+            cancelPendingClear();
             setCardToZoom(card);
         }
     };
 
     const onMouseOut = () => {
+        cancelPendingClear();
         setCardToZoom(null);
+    };
+
+    // Chat-card mouseouts are deferred to absorb jitter from chat scroll
+    // reflows. The poll bails out as soon as the cursor moves > JITTER_PX,
+    // or after CLEAR_MAX_MS as a safety deadline.
+    const onChatCardMouseOut = () => {
+        const start = { ...lastMousePos.current };
+        const deadline = Date.now() + CLEAR_MAX_MS;
+        cancelPendingClear();
+        const check = () => {
+            const { x, y } = lastMousePos.current;
+            const moved = Math.hypot(x - start.x, y - start.y) > JITTER_PX;
+            if (moved || Date.now() >= deadline) {
+                pendingClear.current = null;
+                setCardToZoom(null);
+            } else {
+                pendingClear.current = setTimeout(check, CLEAR_POLL_MS);
+            }
+        };
+        pendingClear.current = setTimeout(check, CLEAR_POLL_MS);
     };
 
     const onCardClick = (card) => {
@@ -381,7 +437,7 @@ export const GameBoard = () => {
                                 <GameChat
                                     key='gamechat'
                                     messages={currentGame.messages}
-                                    onCardMouseOut={onMouseOut}
+                                    onCardMouseOut={onChatCardMouseOut}
                                     onCardMouseOver={onMouseOver}
                                     onSendChat={sendChatMessage}
                                     muted={spectating && currentGame.muteSpectators}

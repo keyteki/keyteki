@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 
 import AmberImage from '../../assets/img/amber.png';
@@ -80,55 +80,6 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
     const owner = useSelector(
         (state) => state.lobby.currentGame.players[state.lobby.currentGame.owner]
     );
-
-    // When the chat re-renders (e.g. a new message arrives) any card span the
-    // user was hovering can scroll out from under the cursor, which fires a
-    // synthetic mouseout and clears the zoomed card even though the user
-    // hasn't moved. Defer mouseouts until the cursor actually moves a few
-    // pixels so layout-induced leaves don't dismiss the hover.
-    const lastMousePos = useRef({ x: 0, y: 0 });
-    const pendingClear = useRef(null);
-    const JITTER_PX = 6;
-    const CLEAR_POLL_MS = 50;
-    const CLEAR_MAX_MS = 10000;
-    useEffect(() => {
-        const onMove = (e) => {
-            lastMousePos.current = { x: e.clientX, y: e.clientY };
-        };
-        document.addEventListener('mousemove', onMove);
-        return () => {
-            document.removeEventListener('mousemove', onMove);
-            if (pendingClear.current) {
-                clearTimeout(pendingClear.current);
-                pendingClear.current = null;
-            }
-        };
-    }, []);
-    const handleCardMouseOver = (payload) => {
-        if (pendingClear.current) {
-            clearTimeout(pendingClear.current);
-            pendingClear.current = null;
-        }
-        onCardMouseOver(payload);
-    };
-    const handleCardMouseOut = () => {
-        const start = { ...lastMousePos.current };
-        const deadline = Date.now() + CLEAR_MAX_MS;
-        if (pendingClear.current) {
-            clearTimeout(pendingClear.current);
-        }
-        const check = () => {
-            const { x, y } = lastMousePos.current;
-            const moved = Math.hypot(x - start.x, y - start.y) > JITTER_PX;
-            if (moved || Date.now() >= deadline) {
-                pendingClear.current = null;
-                onCardMouseOut();
-            } else {
-                pendingClear.current = setTimeout(check, CLEAR_POLL_MS);
-            }
-        };
-        pendingClear.current = setTimeout(check, CLEAR_POLL_MS);
-    };
 
     for (let house of Constants.Houses) {
         tokens[house] = {
@@ -285,12 +236,12 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                     <span
                         key={index++}
                         className='cursor-pointer text-emerald-500 hover:text-cyan-400'
-                        onMouseOver={handleCardMouseOver.bind(this, {
+                        onMouseOver={onCardMouseOver.bind(this, {
                             image: <CardImage card={{ ...fragment, location: 'zoom' }} />,
                             size: 'normal',
                             zoomClass: 'from-chat'
                         })}
-                        onMouseOut={handleCardMouseOut}
+                        onMouseOut={onCardMouseOut}
                     >
                         {fragment.label}
                     </span>
