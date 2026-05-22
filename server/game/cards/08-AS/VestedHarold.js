@@ -7,6 +7,7 @@ class VestedHarold extends Card {
         this.scrap({
             targets: {
                 friendly: {
+                    activePromptTitle: 'Choose a creature to archive',
                     mode: 'exactly',
                     numCards: 1,
                     cardType: 'creature',
@@ -14,6 +15,7 @@ class VestedHarold extends Card {
                     gameAction: ability.actions.archive()
                 },
                 enemy: {
+                    activePromptTitle: 'Choose a creature to archive',
                     mode: 'exactly',
                     numCards: 1,
                     cardType: 'creature',
