@@ -611,6 +611,9 @@ pre {
     --c-ring: #6dd889cc;
     --extra-shadow: 0 0 12px #40c95a38;
 }
+.game-card.new {
+    --c-ring: #0dcaf0;
+}
 .game-card.in-danger {
     --c-ring: red;
 }
@@ -642,9 +645,6 @@ pre {
     box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.35);
     z-index: 3;
     pointer-events: none;
-}
-.game-card.new {
-    --c-ring: #0dcaf0;
 }
 
 .game-board.high-density .game-card {
