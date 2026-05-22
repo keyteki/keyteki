@@ -9,7 +9,7 @@ class Xenotraining extends Card {
             gameAction: ability.actions.sequentialForEach((context) => ({
                 num: Math.min(
                     context.player.opponent.amber,
-                    context.game.getHousesInPlay(this.controller.creaturesInPlay).length
+                    context.game.getHousesInPlay(context.player.creaturesInPlay).length
                 ),
                 action: ability.actions.capture({
                     promptForSelect: {

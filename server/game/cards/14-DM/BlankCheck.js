@@ -16,40 +16,66 @@ class BlankCheck extends Card {
                 shuffleDiscardIntoDeck: true,
                 target: context.player.opponent.archives.concat(context.player.opponent.discard)
             });
+
+        const shuffleStep = (context) => {
+            // No opponent: just shuffle the active player's archives/discard.
+            if (!context.player.opponent) {
+                return {
+                    condition: false,
+                    falseGameAction: playerShuffle(context)
+                };
+            }
+            // Order-forced: prompt the active player for who shuffles first.
+            if (context.player.optionSettings.orderForcedAbilities) {
+                return {
+                    condition: true,
+                    trueGameAction: ability.actions.chooseAction({
+                        activePromptTitle:
+                            'Choose which player shuffles their archives and discard pile first',
+                        choices: {
+                            Me: [playerShuffle(context), opponentShuffle(context)],
+                            Opponent: [opponentShuffle(context), playerShuffle(context)]
+                        }
+                    })
+                };
+            }
+            // Default: active player shuffles first, then opponent.
+            return {
+                condition: true,
+                trueGameAction: ability.actions.sequential([
+                    playerShuffle(context),
+                    opponentShuffle(context)
+                ])
+            };
+        };
+
+        const discardAndPlayStep = (context) => {
+            // No opponent: nothing to discard or play.
+            if (!context.player.opponent) {
+                return { condition: false };
+            }
+            return {
+                condition: true,
+                trueGameAction: ability.actions.sequential([
+                    ability.actions.discardTopOfDeck((context) => ({
+                        target: context.player.opponent,
+                        amount: 5
+                    })),
+                    ability.actions.playCard((context) => ({
+                        revealOnIllegalTarget: true,
+                        target: context.player.opponent.deck[0]
+                    }))
+                ])
+            };
+        };
+
         this.play({
             effect: 'have each player shuffle their archives and discard pile into their deck',
-            gameAction: ability.actions.conditional((context) => ({
-                condition: !!context.player.opponent,
-                trueGameAction: context.player.optionSettings.orderForcedAbilities
-                    ? ability.actions.chooseAction({
-                          activePromptTitle:
-                              'Choose which player shuffles their archives and discard pile first',
-                          choices: {
-                              Me: [playerShuffle(context), opponentShuffle(context)],
-                              Opponent: [opponentShuffle(context), playerShuffle(context)]
-                          }
-                      })
-                    : ability.actions.sequential([
-                          playerShuffle(context),
-                          opponentShuffle(context)
-                      ]),
-                falseGameAction: playerShuffle(context)
-            })),
-            then: () => ({
+            gameAction: ability.actions.conditional(shuffleStep),
+            then: {
                 alwaysTriggers: true,
-                gameAction: ability.actions.conditional((context) => ({
-                    condition: !!context.player.opponent,
-                    trueGameAction: ability.actions.sequential([
-                        ability.actions.discardTopOfDeck((context) => ({
-                            target: context.player.opponent,
-                            amount: 5
-                        })),
-                        ability.actions.playCard((context) => ({
-                            target: context.player.opponent.deck[0]
-                        }))
-                    ])
-                }))
-            })
+                gameAction: ability.actions.conditional(discardAndPlayStep)
+            }
         });
     }
 }
