@@ -13,19 +13,21 @@ class Timequake extends Card {
             })),
             then: {
                 alwaysTriggers: true,
-                message: '{0} uses {1} to draw {3} card',
-                messageArgs: (context) => [
-                    context.preThenEvent
-                        ? context.player.deck.length - context.preThenEvent.deckLength
-                        : 0
-                ],
                 gameAction: ability.actions.draw((context) => ({
-                    amount: context.preThenEvent
-                        ? context.player.deck.length - context.preThenEvent.deckLength
-                        : 0
+                    amount: this.countCardsShuffledIntoDeck(context)
                 }))
             }
         });
+    }
+
+    countCardsShuffledIntoDeck(context) {
+        if (!context.preThenEvents) {
+            return 0;
+        }
+
+        return context.preThenEvents.filter(
+            (event) => !event.cancelled && event.card && event.card.owner === context.player
+        ).length;
     }
 }
 

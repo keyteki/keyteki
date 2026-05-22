@@ -21,17 +21,23 @@ class ColdRopes extends Card {
                 preThenContext.player.isOverwhelmed()
                     ? {
                           alwaysTriggers: true,
+                          condition: () => !!preThenContext.target,
                           message: "{0} uses {1} to put {3} on the bottom of {4}'s deck",
-                          messageArgs: () => [preThenContext.target, preThenContext.target.owner]
+                          messageArgs: () =>
+                              preThenContext.target
+                                  ? [preThenContext.target, preThenContext.target.owner]
+                                  : []
                       }
                     : {
                           alwaysTriggers: true,
+                          condition: () => !!preThenContext.target,
                           gameAction: ability.actions.exhaust({
                               target: preThenContext.target
                           }),
                           message: '{0} uses {1} to move {3} to the {4} flank and exhaust it',
                           messageArgs: () => {
                               const t = preThenContext.target;
+                              if (!t) return [];
                               const inPlay = t.controller.cardsInPlay;
                               const side =
                                   inPlay.length <= 1 || inPlay.indexOf(t) === 0 ? 'left' : 'right';
