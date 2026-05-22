@@ -27,5 +27,16 @@ describe('Harmonia', function () {
             this.player1.play(this.duskwitch);
             expect(this.player1.amber).toBe(7);
         });
+
+        it('should not trigger when a creature play is cancelled at the flank prompt', function () {
+            this.player1.play(this.harmonia);
+            const startAmber = this.player1.amber;
+            this.player1.clickCard(this.dustPixie);
+            expect(this.player1).toHavePromptButton('Cancel');
+            this.player1.clickPrompt('Cancel');
+            expect(this.dustPixie.location).toBe('hand');
+            expect(this.player1.amber).toBe(startAmber);
+            expect(this.player1).isReadyToTakeAction();
+        });
     });
 });

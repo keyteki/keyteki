@@ -13,7 +13,9 @@ class ReturnToDeckAction extends CardGameAction {
     setup() {
         super.setup();
         this.name = 'returnToDeck';
-        if (this.shuffle) {
+        if (this.target.length === 0) {
+            this.effectMsg = "return nothing to their owner's deck";
+        } else if (this.shuffle) {
             if (
                 this.reveal ||
                 this.target.every((card) =>
