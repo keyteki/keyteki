@@ -45,7 +45,7 @@ describe('GameWonPrompt', function () {
 
         it('shows the requester a Back button while waiting', function () {
             const prompt = this.player1.currentPrompt();
-            expect(prompt.menuTitle).toBe('Waiting for opponent to agree to rematch');
+            expect(prompt.menuTitle).toBe('Waiting for opponent to accept a rematch');
             expect(this.player1.currentButtons).toContain('Back');
         });
 

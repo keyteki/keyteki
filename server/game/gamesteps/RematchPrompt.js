@@ -1,4 +1,4 @@
-const AllPlayerPrompt = require('./allplayerprompt');
+const AgreementPrompt = require('./AgreementPrompt');
 
 const RematchModes = {
     same: { description: 'with the same decks' },
@@ -6,91 +6,50 @@ const RematchModes = {
     change: { description: 'with different decks' }
 };
 
-class RematchPrompt extends AllPlayerPrompt {
+class RematchPrompt extends AgreementPrompt {
     /**
      * @param {string} mode 'same' (default), 'swap' (same decks, but swap
      * sides), or 'change' (each player picks a different deck).
      * @param {{onAccept?: () => void, onCancel?: () => void}} [callbacks]
      */
     constructor(game, requestingPlayer, mode = 'same', callbacks = {}) {
-        super(game);
+        super(game, requestingPlayer, callbacks);
 
         if (!RematchModes[mode]) {
             mode = 'same';
         }
-
-        this.requestingPlayer = requestingPlayer;
-        this.completedPlayers = new Set([requestingPlayer]);
         this.mode = mode;
-        this.cancelled = false;
-        this.callbacks = callbacks;
     }
 
-    completionCondition(player) {
-        return this.cancelled || this.completedPlayers.has(player);
+    getWaitingTitle() {
+        return 'Waiting for opponent to accept a rematch';
     }
 
-    activeCondition(player) {
-        // Keep the requesting player active so they can see a Back button to
-        // cancel the request if they clicked the wrong option.
-        if (this.cancelled) {
-            return false;
-        }
-        return player === this.requestingPlayer || !this.completedPlayers.has(player);
-    }
-
-    activePrompt(player) {
-        if (player === this.requestingPlayer) {
-            return {
-                menuTitle: 'Waiting for opponent to agree to rematch',
-                buttons: [{ arg: 'back', text: 'Back' }]
-            };
-        }
+    getRequestMenuTitle() {
         return {
-            menuTitle: {
-                text: '{{player}} would like a rematch {{description}}. Allow?',
-                values: {
-                    player: this.requestingPlayer.name,
-                    description: RematchModes[this.mode].description
-                }
-            },
-            buttons: [
-                { arg: 'yes', text: 'Yes' },
-                { arg: 'no', text: 'No' }
-            ]
+            text: '{{player}} would like a rematch {{description}}. Accept?',
+            values: {
+                player: this.requestingPlayer.name,
+                description: RematchModes[this.mode].description
+            }
         };
     }
 
-    waitingPrompt() {
-        return {
-            menuTitle: 'Waiting for opponent to agree to rematch'
-        };
+    addCancelAlert(player) {
+        this.game.addAlert('info', '{0} cancels their rematch request', player);
     }
 
-    onMenuCommand(player, arg) {
-        if (arg === 'back' && player === this.requestingPlayer) {
-            this.game.addAlert('info', '{0} cancels their rematch request', player);
-            this.cancelled = true;
-            this.callbacks.onCancel?.();
-            return true;
-        }
+    addAcceptAlert(player) {
+        this.game.addAlert(
+            'info',
+            '{0} has agreed to a rematch {1}',
+            player,
+            RematchModes[this.mode].description
+        );
+    }
 
-        if (arg === 'yes') {
-            this.game.addAlert(
-                'info',
-                '{0} agrees to a rematch {1}, setting it up now',
-                player,
-                RematchModes[this.mode].description
-            );
-            this.completedPlayers.add(player);
-            this.callbacks.onAccept?.();
-        } else {
-            this.game.addAlert('info', '{0} would not like a rematch', player);
-            this.cancelled = true;
-            this.callbacks.onCancel?.();
-        }
-
-        return true;
+    addDeclineAlert(player) {
+        this.game.addAlert('info', '{0} has declined a rematch', player);
     }
 
     onCompleted() {
