@@ -22,11 +22,13 @@ class BearFlute extends Card {
             then: {
                 gameAction: ability.actions.returnToDeck((context) => ({
                     shuffle: true,
-                    target: !context.game.creaturesInPlay.some(
-                        (card) => card.name === 'Ancient Bear'
-                    )
-                        ? context.player.discard
-                        : []
+                    target:
+                        context.preThenEvents &&
+                        context.preThenEvents[0] &&
+                        context.preThenEvents[0].searchedCards &&
+                        context.preThenEvents[0].searchedCards.length > 0
+                            ? context.player.discard
+                            : []
                 }))
             }
         });
