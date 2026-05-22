@@ -13,15 +13,11 @@ class Borrow extends Card {
                 }))
             },
             effect: 'take control of {0}',
-            then: (context) => ({
+            then: (preThenContext) => ({
                 gameAction: ability.actions.cardLastingEffect({
-                    target: context.target,
+                    target: preThenContext.target,
                     duration: 'lastingEffect',
-                    until: {
-                        onTakeControl: (event) =>
-                            event.card === context.target &&
-                            event.player === context.player.opponent
-                    },
+                    condition: () => preThenContext.target.controller === preThenContext.player,
                     effect: ability.effects.changeHouse('shadows')
                 })
             })
