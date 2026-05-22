@@ -44,6 +44,8 @@ class Player extends GameObject {
 
         this.left = false;
         this.disconnectedAt = null;
+        this.lastActivityAt = Date.now();
+        this.idle = false;
 
         this.promptState = new PlayerPromptState(this);
     }
@@ -1463,6 +1465,7 @@ class Player extends GameObject {
             },
             cardback: 'cardback',
             disconnected: !!this.disconnectedAt,
+            idle: this.idle,
             activePlayer: this.game.activePlayer === this,
             canRaiseTide:
                 !this.isTideHigh() &&

@@ -241,6 +241,17 @@ class GameServer {
             logger.info(`closed empty game ${game.id}`);
             this.closeGame(game);
         }
+
+        // Re-evaluate per-player idle state on active games and push any changes
+        // to clients. This piggybacks on the 30s sweep so there's no extra timer.
+        for (const game of Object.values(this.games)) {
+            if (game.finishedAt) {
+                continue;
+            }
+            if (game.updateIdleState()) {
+                this.sendGameState(game);
+            }
+        }
     }
 
     /**
@@ -583,6 +594,13 @@ class GameServer {
             delete this.games[game.id];
 
             this.gameSocket.send('GAMECLOSED', { game: game.id });
+        } else {
+            // Re-run the pipeline so any prompts currently waiting on the
+            // departing player (e.g. the post-game rematch prompt) can
+            // recompute their buttons / completion based on the new
+            // `player.left` state. Without this, the remaining player keeps
+            // seeing stale buttons until the next game action.
+            game.continue();
         }
 
         this.sendGameState(game);
@@ -599,9 +617,28 @@ class GameServer {
             return this.onLeaveGame(socket);
         }
 
+        if (command === 'activity') {
+            // Lightweight client-driven activity heartbeat. Just refresh the
+            // player's lastActivityAt; only push state if the idle flag was
+            // cleared so the opponent can see they're back.
+            const idleCleared = game.noteActivity(socket.user.username);
+            if (idleCleared) {
+                this.sendGameState(game);
+            }
+            return;
+        }
+
+        // Some client commands (e.g. `showDrawDeck`) are UI sync messages
+        // fired automatically by React effects on every gamestate diff, not
+        // by user input. Only treat the command as activity if it actually
+        // maps to a real game method — otherwise the act of going idle (which
+        // pushes a state diff) would itself bounce back as auto-emitted
+        // commands and clear the idle flag immediately.
         if (!game[command] || !(game[command] instanceof Function)) {
             return;
         }
+
+        game.noteActivity(socket.user.username);
 
         this.runAndCatchErrors(game, () => {
             game[command](socket.user.username, ...args);

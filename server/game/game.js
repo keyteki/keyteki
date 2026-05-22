@@ -154,6 +154,79 @@ class Game extends EventEmitter {
         this.gameChat.addAlert(...arguments);
     }
 
+    /**
+     * Records that a player has interacted with the game. Clears the idle flag
+     * (and posts an alert) if the player was previously flagged as idle.
+     * @param {String} playerName
+     * @returns {Boolean} true if the idle flag was cleared as a result
+     */
+    noteActivity(playerName) {
+        const player = this.playersAndSpectators[playerName];
+        if (!player || this.isSpectator(player)) {
+            return false;
+        }
+
+        player.lastActivityAt = Date.now();
+
+        if (player.idle) {
+            player.idle = false;
+            if (!this.finishedAt) {
+                this.addAlert('info', '{0} is no longer inactive', player);
+            }
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Re-evaluates the idle state for each player. A player is considered idle
+     * when they have a pending prompt requiring their input and they have not
+     * sent any activity for the configured threshold.
+     * @param {Number} thresholdMs
+     * @returns {Boolean} true if any player's idle flag changed
+     */
+    updateIdleState(thresholdMs = 2 * 60 * 1000) {
+        if (this.finishedAt) {
+            return false;
+        }
+
+        const now = Date.now();
+        let changed = false;
+
+        for (const player of this.getPlayers()) {
+            if (player.left || player.disconnectedAt) {
+                continue;
+            }
+
+            const promptState = player.promptState;
+            const hasPendingPrompt =
+                (Array.isArray(promptState.buttons) && promptState.buttons.length > 0) ||
+                promptState.selectCard ||
+                (Array.isArray(promptState.controls) && promptState.controls.length > 0);
+
+            const newIdle = hasPendingPrompt && now - player.lastActivityAt > thresholdMs;
+
+            if (newIdle && !player.idle) {
+                player.idle = true;
+                this.addAlert(
+                    'info',
+                    '{0} has been inactive - you may leave the game without recording a loss',
+                    player
+                );
+                changed = true;
+            }
+            // Note: we do not clear the idle flag here when the prompt context
+            // goes away. Once a player has been flagged as inactive, only real
+            // activity from them (handled in noteActivity) should clear it —
+            // otherwise the flag would flicker off as soon as the game advanced
+            // to a phase where they aren't being prompted, even though they're
+            // still actually AFK.
+        }
+
+        return changed;
+    }
+
     get messages() {
         return this.gameChat.messages;
     }
@@ -1220,7 +1293,7 @@ class Game extends EventEmitter {
         } else {
             this.addAlert(
                 'info',
-                '{0} has disconnected.  The game will wait up to 30 seconds for them to reconnect',
+                '{0} has disconnected. You may leave without recording a loss or wait for them to reconnect.',
                 player
             );
 

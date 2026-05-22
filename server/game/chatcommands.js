@@ -381,6 +381,16 @@ class ChatCommands {
     }
 
     rematch(player) {
+        const opponentLeft = this.game.getPlayers().some((other) => other !== player && other.left);
+        if (opponentLeft) {
+            this.game.addAlert(
+                'warning',
+                '{0} tried to start a rematch, but their opponent has left the game',
+                player
+            );
+            return;
+        }
+
         if (this.game.finishedAt) {
             this.game.addAlert('info', '{0} is requesting a rematch', player);
         } else {

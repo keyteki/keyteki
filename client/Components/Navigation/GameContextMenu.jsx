@@ -39,7 +39,7 @@ const GameContextMenu = ({ mobile = false }) => {
             return false;
         }
 
-        if (otherPlayer.disconnected || otherPlayer.left) {
+        if (otherPlayer.disconnected || otherPlayer.left || otherPlayer.idle) {
             return false;
         }
 
