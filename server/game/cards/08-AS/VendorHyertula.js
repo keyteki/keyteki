@@ -19,15 +19,11 @@ class VendorHyertula extends Card {
                 },
                 message: '{0} uses {1} to take control of {3}',
                 messageArgs: (context) => [context.target],
-                then: (context) => ({
+                then: (preThenContext) => ({
                     gameAction: ability.actions.cardLastingEffect({
-                        target: context.target,
+                        target: preThenContext.target,
                         duration: 'lastingEffect',
-                        until: {
-                            onTakeControl: (event) =>
-                                event.card === context.target &&
-                                event.player === context.player.opponent
-                        },
+                        condition: () => preThenContext.target.controller === preThenContext.player,
                         effect: ability.effects.changeHouse('ekwidon')
                     })
                 })

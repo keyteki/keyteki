@@ -18,7 +18,7 @@ describe('Terrible Teammates', function () {
 
         it('should allow selecting only non-mars cards from hand to discard', function () {
             this.player1.play(this.terribleTeammates);
-            expect(this.player1).toHavePrompt('Choose a card');
+            expect(this.player1).toHavePrompt('Choose a card to discard');
             expect(this.player1).not.toBeAbleToSelect(this.airlock);
             expect(this.player1).not.toBeAbleToSelect(this.flaxia);
             expect(this.player1).toBeAbleToSelect(this.keyfrog);
@@ -32,7 +32,7 @@ describe('Terrible Teammates', function () {
 
         it('should allow you to discard nothing', function () {
             this.player1.play(this.terribleTeammates);
-            expect(this.player1).toHavePrompt('Choose a card');
+            expect(this.player1).toHavePrompt('Choose a card to discard');
             this.player1.clickPrompt('Done');
             this.player1.endTurn();
         });
