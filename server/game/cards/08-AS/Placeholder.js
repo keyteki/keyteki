@@ -18,7 +18,8 @@ class Placeholder extends Card {
             },
             then: (preThenContext) => ({
                 alwaysTriggers: true,
-                condition: () => preThenContext.target.location === 'play area',
+                condition: () =>
+                    preThenContext.target && preThenContext.target.location === 'play area',
                 message: '{0} uses {1} to move {3} to a flank and deal 2 damage to it',
                 messageArgs: (context) => context.target,
                 target: {
