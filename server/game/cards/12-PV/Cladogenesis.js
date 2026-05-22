@@ -5,7 +5,6 @@ class Cladogenesis extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: "discard the top card of each player's deck, reveal each player's hand, and discard cards belonging to each player's discarded card's house",
-            preserveActionMessages: true,
             gameAction: ability.actions.sequential([
                 ability.actions.discardTopOfDeck((context) => ({
                     target: context.player

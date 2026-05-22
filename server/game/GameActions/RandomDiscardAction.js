@@ -82,7 +82,7 @@ class RandomDiscardAction extends PlayerAction {
 
         return super.createEvent(EVENTS.unnamedEvent, { player, context, amount }, (event) => {
             // Print message with exact amount during execution
-            if (amount > 0 && !context.suppressActionMessages) {
+            if (amount > 0) {
                 context.game.addMessage(
                     `{0} uses {1} to randomly discard ${amount} card${
                         amount === 1 ? '' : 's'
