@@ -12,11 +12,13 @@ class Camaraderie extends Card {
                 gameAction: ability.actions.exhaust()
             },
             then: (preThenContext) => ({
+                condition: () => !!preThenContext.target,
                 gameAction: ability.actions.draw({
-                    amount:
-                        2 *
-                        preThenContext.target.neighbors.filter((c) => !c.hasHouse('staralliance'))
-                            .length
+                    amount: preThenContext.target
+                        ? 2 *
+                          preThenContext.target.neighbors.filter((c) => !c.hasHouse('staralliance'))
+                              .length
+                        : 0
                 })
             })
         });
