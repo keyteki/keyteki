@@ -4,7 +4,7 @@ import { Button } from '@heroui/react';
 
 import Link from '../Components/Navigation/Link';
 import Panel from '../Components/Site/Panel';
-import manualCommands from '../../manualCommands.json';
+import chatCommands from '../../server/game/chatCommands.json';
 
 const HowToPlay = () => {
     const { t } = useTranslation();
@@ -164,7 +164,7 @@ const HowToPlay = () => {
                     </Trans>
                 </p>
                 <ul className='list-disc list-inside ml-4 space-y-1'>
-                    {manualCommands.map((cmd) => (
+                    {chatCommands.map((cmd) => (
                         <li key={cmd.usage}>
                             <code className='font-mono text-sm bg-default-200 text-default-700 px-1 py-0.5 rounded'>
                                 {cmd.usage}

@@ -5,7 +5,7 @@ const ManualModePrompt = require('./gamesteps/ManualModePrompt');
 const Deck = require('./deck');
 const RematchPrompt = require('./gamesteps/RematchPrompt');
 const ManualKeyForgePrompt = require('./gamesteps/ManualKeyForgePrompt.js');
-const manualCommands = require('../../manualCommands.json');
+const chatCommands = require('./chatCommands.json');
 
 class ChatCommands {
     constructor(game) {
@@ -252,7 +252,7 @@ class ChatCommands {
 
     help(player) {
         this.game.addAlert('info', '{0} requests the manual mode command list:', player);
-        for (const entry of manualCommands) {
+        for (const entry of chatCommands) {
             this.game.addAlert('info', `${entry.usage} - ${entry.description}`);
         }
     }
