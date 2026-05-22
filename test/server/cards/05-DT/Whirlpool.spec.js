@@ -102,7 +102,6 @@ describe('Whirlpool', function () {
             this.player1.playUpgrade(this.collarOfSubordination, this.krump);
             expect(this.krump.controller).toBe(this.player1.player);
             expect(this.krump.upgrades).toContain(this.collarOfSubordination);
-            expect(this.krump.controller).toBe(this.player1.player);
             this.player1.endTurn();
             expect(this.krump.controller).toBe(this.player2.player);
             expect(this.krump.upgrades).toContain(this.collarOfSubordination);
