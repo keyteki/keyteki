@@ -5,6 +5,7 @@ class Apoptosis extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
+                activePromptTitle: 'Choose which card to purge',
                 location: 'discard',
                 controller: 'self',
                 gameAction: ability.actions.purge()
