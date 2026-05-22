@@ -14,6 +14,7 @@ class PlayUpgradeAction extends BasePlayAction {
         super(card, {
             activePromptTitle: title,
             cardType: cardType,
+            buttons: [],
             gameAction: new AttachAction((context) => ({ upgrade: context.source }))
         });
         this.title = 'Play this upgrade';
@@ -53,6 +54,16 @@ class PlayUpgradeAction extends BasePlayAction {
                 delayTargeting: null
             };
         }
+
+        // Mirror the Cancel-button gate from PutIntoPlayAction: only allow
+        // cancelling a direct, user-initiated play of one's own card from hand
+        // with no additional costs paid.
+        const canCancel =
+            context.source.location === 'hand' &&
+            context.source.controller === context.player &&
+            !context.playedByCardEffect &&
+            context.player.getAdditionalCosts(context).length === 0;
+        this.targets[0].properties.buttons = canCancel ? [{ text: 'Cancel', arg: 'cancel' }] : [];
         return super.resolveTargets(context);
     }
 
