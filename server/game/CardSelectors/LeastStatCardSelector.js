@@ -11,7 +11,9 @@ class LeastStatCardSelector extends ExactlyXCardSelector {
         let maxStat =
             sorted.length < this.numCards ? Infinity : this.cardStat(sorted[this.numCards - 1]);
         // See note in MostStatCardSelector: tagged-for-destruction cards still count for the
-        // stat threshold but cannot themselves be chosen by the player.
+        // stat threshold but cannot themselves be chosen by the player. When all
+        // threshold-meeting cards are moribund the ability silently fizzles, which produces
+        // the same game state as "target it and no-op" without forcing a meaningless prompt.
         return !card.moribund && this.cardStat(card) <= maxStat && sorted.includes(card);
     }
 

@@ -15,6 +15,13 @@ class MostStatCardSelector extends ExactlyXCardSelector {
         // The destroy event for the tagged card would no-op anyway; excluding
         // it from selectable targets prevents a degenerate "click the card
         // that's already dying" prompt.
+        //
+        // Trade-off: when the *only* card meeting the threshold is moribund
+        // (e.g. it is the sole highest-power creature), `hasEnoughTargets`
+        // returns false and the ability silently fizzles instead of
+        // "targeting" the tagged card. This produces an identical game state
+        // because destroy on a moribund card is a no-op; the only difference
+        // is a missing log line.
         return !card.moribund && this.cardStat(card) >= minStat && sorted.includes(card);
     }
 
