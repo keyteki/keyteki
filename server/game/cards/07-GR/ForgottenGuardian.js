@@ -7,6 +7,7 @@ class ForgottenGuardian extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
+                activePromptTitle: 'Choose which card to purge',
                 location: 'discard',
                 mode: 'exactly',
                 numCards: 1,

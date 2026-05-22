@@ -17,11 +17,10 @@ class TrojanSauropod extends Card {
             then: {
                 condition: (context) => context.player.opponent,
                 gameAction: ability.actions.sequentialPutIntoPlay((context) => {
-                    const creatures = context.player.opponent.hand.filter(
-                        (card) => card.type === 'creature'
-                    );
+                    const hand = context.player.opponent ? context.player.opponent.hand : [];
+                    const creatures = hand.filter((card) => card.type === 'creature');
                     return {
-                        revealList: context.player.opponent.hand,
+                        revealList: hand,
                         forEach: creatures,
                         ready: true,
                         numPlayAllowances: creatures.length
