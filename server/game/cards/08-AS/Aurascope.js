@@ -6,6 +6,7 @@ class Aurascope extends Card {
     setupCardAbilities(ability) {
         this.action({
             target: {
+                activePromptTitle: 'Choose a card to discard',
                 mode: 'exactly',
                 numCards: 1,
                 location: 'hand',
@@ -14,6 +15,7 @@ class Aurascope extends Card {
             },
             then: (preThenContext) => ({
                 target: {
+                    activePromptTitle: 'Choose which card to purge',
                     mode: 'exactly',
                     numCards: 1,
                     location: 'discard',

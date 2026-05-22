@@ -19,6 +19,9 @@ class ShakedownSullivan extends Card {
             effectArgs: (context) => [context.target, context.target?.controller.deck[0]],
             then: (preThenContext) => ({
                 alwaysTriggers: true,
+                condition: (context) =>
+                    !!preThenContext.target &&
+                    !!(context.preThenEvent && context.preThenEvent.card),
                 gameAction: ability.actions.conditional((context) => ({
                     condition: context.preThenEvent.card
                         .getHouses()
