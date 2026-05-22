@@ -18,6 +18,7 @@ class Aristotlmimus extends Card {
             then: (preThenContext) => ({
                 alwaysTriggers: true,
                 target: {
+                    activePromptTitle: 'Choose a card to archive',
                     cardCondition: (_, context) => context.source.hasToken('wisdom'),
                     location: 'hand',
                     controller: 'self',

@@ -10,6 +10,7 @@ class GreaterOxtet extends Card {
                     event.phase === 'ready' && this.game.activePlayer === context.player
             },
             target: {
+                activePromptTitle: 'Choose which card to purge',
                 controller: 'self',
                 location: 'hand',
                 gameAction: ability.actions.purge()

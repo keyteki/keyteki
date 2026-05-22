@@ -84,4 +84,52 @@ describe('Lord Invidius', function () {
             });
         });
     });
+
+    describe('when control of the captured creature later returns to the original player', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    inPlay: ['troll', 'lord-invidius', 'waspscream']
+                },
+                player2: {
+                    inPlay: ['urchin', 'waspscream']
+                }
+            });
+            this.player1Wasp = this.player1.findCardByName('waspscream', 'play area');
+            this.player2Wasp = this.player2.findCardByName('waspscream', 'play area');
+        });
+
+        it('should re-apply house Dis when control of the creature returns', function () {
+            this.player1.reap(this.lordInvidius);
+            this.player1.clickCard(this.urchin);
+            this.player1.clickPrompt('Left');
+            expect(this.urchin.controller).toBe(this.player1.player);
+            expect(this.urchin.getHouses()).toEqual(['dis']);
+
+            // Player2's Waspscream takes Urchin back at the start of player2's turn.
+            this.player2Wasp.exhaust();
+            this.player1.endTurn();
+            expect(this.player2).toHavePrompt('Choose a creature');
+            this.player2.clickCard(this.urchin);
+            this.player2.clickPrompt('Left');
+            expect(this.urchin.controller).toBe(this.player2.player);
+            expect(this.urchin.getHouses()).toEqual(['shadows']);
+            this.player2.clickPrompt('shadows');
+
+            // Player1's Waspscream takes Urchin back at the start of player1's turn.
+            this.player1Wasp.exhaust();
+            this.player2.endTurn();
+            this.player2.clickPrompt('Done');
+            expect(this.player1).toHavePrompt('Choose a creature');
+            this.player1.clickCard(this.urchin);
+            this.player1.clickPrompt('Left');
+            expect(this.urchin.controller).toBe(this.player1.player);
+
+            // The Lord Invidius house-change effect should still apply.
+            expect(this.urchin.getHouses()).toEqual(['dis']);
+            this.player1.clickPrompt('dis');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
