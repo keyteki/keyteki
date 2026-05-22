@@ -39,4 +39,25 @@ describe('Truebaru', function () {
             expect(this.truebaru.location).toBe('hand');
         });
     });
+
+    describe('Truebaru play cost on cancel', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 3,
+                    house: 'dis',
+                    hand: ['truebaru'],
+                    inPlay: ['ember-imp']
+                },
+                player2: {}
+            });
+        });
+
+        it('should not allow cancelling at the flank prompt because the amber cost is irrevocable', function () {
+            this.player1.clickCard(this.truebaru);
+            this.player1.clickPrompt('Play this creature');
+            expect(this.player1).toHavePrompt('Which flank do you want to place this creature on?');
+            expect(this.player1).not.toHavePromptButton('Cancel');
+        });
+    });
 });

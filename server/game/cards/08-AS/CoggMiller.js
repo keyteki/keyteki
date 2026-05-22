@@ -11,8 +11,9 @@ class CoggMiller extends Card {
                 gameAction: ability.actions.destroy()
             },
             then: (preThenContext) => ({
+                condition: () => !!preThenContext.target,
                 gameAction: ability.actions.archiveAtRandom({
-                    target: preThenContext.target.owner,
+                    target: preThenContext.target && preThenContext.target.owner,
                     amount: 1
                 })
             })

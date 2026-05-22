@@ -13,20 +13,21 @@ class Sneklifter extends Card {
                 }))
             },
             effect: 'take control of {0}',
-            then: (context) => ({
-                condition: () =>
-                    context.player.houses.every((house) => !context.target.hasHouse(house)),
-                gameAction: ability.actions.cardLastingEffect({
-                    target: context.target,
-                    duration: 'lastingEffect',
-                    until: {
-                        onTakeControl: (event) =>
-                            event.card === context.target &&
-                            event.player === context.player.opponent
-                    },
-                    effect: ability.effects.changeHouse('shadows')
-                })
-            })
+            then: (preThenContext) => {
+                return {
+                    alwaysTriggers: true,
+                    condition: () =>
+                        preThenContext.player.houses.every(
+                            (house) => !preThenContext.target.hasHouse(house)
+                        ),
+                    gameAction: ability.actions.cardLastingEffect({
+                        target: preThenContext.target,
+                        duration: 'lastingEffect',
+                        condition: () => preThenContext.target.controller === preThenContext.player,
+                        effect: ability.effects.changeHouse('shadows')
+                    })
+                };
+            }
         });
     }
 }
