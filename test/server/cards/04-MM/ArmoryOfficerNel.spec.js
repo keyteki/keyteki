@@ -14,7 +14,19 @@ describe('Armory Officer Nel', function () {
         it('draws a card after an upgrade enters play', function () {
             const handBefore = this.player1.hand.length;
             this.player1.playUpgrade(this.zRayBlaster, this.stealthster);
-            expect(this.player1.hand.length).toBe(handBefore - 1 + 1);
+            expect(this.zRayBlaster.parent).toBe(this.stealthster);
+            expect(this.player1.hand.length).toBe(handBefore);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('does not draw a card when upgrade play is cancelled', function () {
+            const handBefore = this.player1.hand.length;
+            this.player1.clickCard(this.zRayBlaster);
+            this.player1.clickPrompt('Play this upgrade');
+            expect(this.player1).toHavePromptButton('Cancel');
+            this.player1.clickPrompt('Cancel');
+            expect(this.zRayBlaster.location).toBe('hand');
+            expect(this.player1.hand.length).toBe(handBefore);
             expect(this.player1).isReadyToTakeAction();
         });
     });
