@@ -22,6 +22,7 @@ class Gigantor extends GiganticCard {
                 },
                 cards: {
                     dependsOn: 'select',
+                    activePromptTitle: 'Choose which cards to purge',
                     mode: 'upTo',
                     numCards: 3,
                     cardCondition: (card, context) =>
