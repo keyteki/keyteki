@@ -20,10 +20,23 @@ import ChargeMp3 from '../../assets/sound/charge.mp3';
 import ChargeOgg from '../../assets/sound/charge.ogg';
 
 function showNotification(notification) {
-    if (window.Notification && Notification.permission === 'granted') {
+    if (!window.Notification || Notification.permission !== 'granted') {
+        return;
+    }
+
+    try {
         const windowNotification = new Notification('The Crucible Online', notification);
 
         setTimeout(() => windowNotification.close(), 5000);
+    } catch {
+        // Some browsers (e.g. Chrome on Linux/Android, or any context with an active service
+        // worker) disallow the direct `Notification` constructor and throw "Illegal constructor".
+        // Fall back to ServiceWorkerRegistration.showNotification when available.
+        if (navigator.serviceWorker?.ready) {
+            navigator.serviceWorker.ready
+                .then((reg) => reg.showNotification('The Crucible Online', notification))
+                .catch(() => {});
+        }
     }
 }
 

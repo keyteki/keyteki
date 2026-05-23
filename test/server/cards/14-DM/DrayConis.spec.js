@@ -15,6 +15,7 @@ describe('Dray Conis', function () {
         it('destroys each creature at start of turn if exhausted', function () {
             this.drayConis.exhaust();
             this.player1.endTurn();
+            this.player1.clickCard(this.drayConis);
             this.player1.clickPrompt('Done');
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();

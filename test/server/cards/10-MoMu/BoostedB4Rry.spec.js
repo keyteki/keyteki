@@ -108,6 +108,39 @@ describe('Boosted B4-RRY', function () {
         });
     });
 
+    describe('Armor', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 1,
+                    house: 'shadows',
+                    hand: ['boosted-b4-rry', 'boosted-b4-rry2'],
+                    inPlay: []
+                },
+                player2: {
+                    amber: 1,
+                    inPlay: ['earthshaker']
+                }
+            });
+        });
+
+        it('should have 2 armor when played via the bottom half', function () {
+            this.player1.playCreature(this.boostedB4Rry);
+            this.player1.clickPrompt('Play archived card');
+            expect(this.boostedB4Rry.armorTotal).toBe(2);
+            expect(this.boostedB4Rry.tokens.armor).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should have 2 armor when played via the top half', function () {
+            this.player1.playCreature(this.boostedB4Rry2);
+            this.player1.clickPrompt('Play archived card');
+            expect(this.boostedB4Rry2.armorTotal).toBe(2);
+            expect(this.boostedB4Rry2.tokens.armor).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
     describe("when control of the stolen artifact returns to Boosted B4-RRY's controller", function () {
         beforeEach(function () {
             this.setupTest({
