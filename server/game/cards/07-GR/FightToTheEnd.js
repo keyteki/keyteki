@@ -18,7 +18,7 @@ class FightToTheEnd extends Card {
             },
             effect: '{1}ready and fight with {0}',
             effectArgs: (context) =>
-                context.player.isHaunted()
+                context.player.isHaunted() && context.target
                     ? 'give ' + context.target.name + ' skirmish until it leaves play, then '
                     : '',
             then: (preThenContext) => ({
