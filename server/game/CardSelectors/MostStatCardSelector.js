@@ -9,7 +9,20 @@ class MostStatCardSelector extends ExactlyXCardSelector {
     canTarget(card, context) {
         let sorted = this.getSortedCards(context);
         let minStat = sorted.length < this.numCards ? 0 : this.cardStat(sorted[this.numCards - 1]);
-        return this.cardStat(card) >= minStat && sorted.includes(card);
+        // Cards already tagged for destruction set the stat ceiling (so e.g.
+        // "destroy the most powerful enemy creature" knows the tagged card is
+        // the most powerful) but cannot themselves be chosen by the player.
+        // The destroy event for the tagged card would no-op anyway; excluding
+        // it from selectable targets prevents a degenerate "click the card
+        // that's already dying" prompt.
+        //
+        // Trade-off: when the *only* card meeting the threshold is moribund
+        // (e.g. it is the sole highest-power creature), `hasEnoughTargets`
+        // returns false and the ability silently fizzles instead of
+        // "targeting" the tagged card. This produces an identical game state
+        // because destroy on a moribund card is a no-op; the only difference
+        // is a missing log line.
+        return !card.moribund && this.cardStat(card) >= minStat && sorted.includes(card);
     }
 
     getSortedCards(context) {
@@ -26,7 +39,8 @@ class MostStatCardSelector extends ExactlyXCardSelector {
         let sorted = this.getSortedCards(context);
         let minStat = sorted.length < this.numCards ? 0 : this.cardStat(sorted[this.numCards - 1]);
         return sorted.every(
-            (card) => this.cardStat(card) <= minStat || selectedCards.includes(card)
+            (card) =>
+                card.moribund || this.cardStat(card) <= minStat || selectedCards.includes(card)
         );
     }
 }
