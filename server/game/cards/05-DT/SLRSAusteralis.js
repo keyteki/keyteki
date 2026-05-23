@@ -18,7 +18,6 @@ class SLRSAusteralis extends Card {
                 gameAction: ability.actions.sequentialForEach((context) => ({
                     num: context.preThenEvents.filter((event) => !event.cancelled).length,
                     action: ability.actions.playCard((context) => ({
-                        revealOnIllegalTarget: true,
                         target: context.player.deck[0]
                     }))
                 }))
