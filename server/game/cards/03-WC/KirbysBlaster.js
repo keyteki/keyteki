@@ -1,4 +1,4 @@
-const BlasterCard = require('./BlasterCard.js');
+const BlasterCard = require('./_BlasterCard.js');
 
 class KirbysBlaster extends BlasterCard {
     // This creature gains, Fight/Reap: You may deal 2D to a creature, or attach Kirbys Blaster to Com. Officer Kirby.

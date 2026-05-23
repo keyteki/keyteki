@@ -38,8 +38,7 @@ describe('Ready Messages', function () {
         });
 
         it('should log correct message when readying entrenched creatures', function () {
-            expect(this.player1).toHavePrompt('Select entrenched creatures to ready');
-            this.player1.clickCard(this.grammyTaps);
+            expect(this.player1).toHavePrompt('Select entrenched creatures to keep exhausted');
             this.player1.clickPrompt('done');
             this.player2.clickPrompt('shadows');
             expect(this.player2).isReadyToTakeAction();
@@ -53,7 +52,8 @@ describe('Ready Messages', function () {
         });
 
         it('should log correct message when leaving entrenched creatures exhausted', function () {
-            expect(this.player1).toHavePrompt('Select entrenched creatures to ready');
+            expect(this.player1).toHavePrompt('Select entrenched creatures to keep exhausted');
+            this.player1.clickCard(this.grammyTaps);
             this.player1.clickPrompt('done');
             this.player2.clickPrompt('shadows');
             expect(this.player2).isReadyToTakeAction();
