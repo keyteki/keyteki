@@ -108,7 +108,7 @@ describe('Elite Disruptzord', function () {
                 player1: {
                     house: 'mars',
                     inPlay: ['elite-disruptzord', 'dr-xyloxxzlphrex'],
-                    discard: ['mindwarper', 'zorg']
+                    discard: ['mindwarper', 'zorg', 'blypyp']
                 }
             });
 
@@ -121,11 +121,23 @@ describe('Elite Disruptzord', function () {
             this.player1.reap(this.drXyloxxzlphrex);
             expect(this.player1).toHavePrompt('Dr. Xyloxxzlphrex');
             expect(this.player1).toBeAbleToSelect(this.mindwarper);
-            expect(this.player1).not.toBeAbleToSelect(this.zorg);
+            expect(this.player1).toBeAbleToSelect(this.zorg);
             this.player1.clickCard(this.mindwarper);
             this.player1.clickPrompt('Right');
             expect(this.mindwarper.location).toBe('play area');
             expect(this.mindwarper.exhausted).toBe(false);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should allow selecting an over-powered creature via Dr. Xylo but block it at play time', function () {
+            expect(this.player1.discard[1]).toBe(this.zorg);
+            expect(this.eliteDisruptzord.power).toBe(6);
+            this.player1.reap(this.drXyloxxzlphrex);
+            expect(this.player1).toBeAbleToSelect(this.zorg);
+            this.player1.clickCard(this.zorg);
+            expect(this.zorg.location).toBe('discard');
+            expect(this.player1.discard[1]).toBe(this.zorg);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

@@ -12,12 +12,10 @@ class Murkens extends Card {
                 mode: 'select',
                 choices: {
                     'Top of deck': ability.actions.playCard((context) => ({
-                        revealOnIllegalTarget: true,
                         target: context.player.opponent.deck[0]
                     })),
                     'Random card from archives': ability.actions.playAtRandom((context) => ({
                         location: 'archives',
-                        revealOnIllegalTarget: true,
                         target: context.player.opponent
                     }))
                 }

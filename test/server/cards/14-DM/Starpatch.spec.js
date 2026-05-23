@@ -17,6 +17,7 @@ describe('Starpatch', function () {
             this.player1.playUpgrade(this.starpatch, this.paranormalPalisade);
             this.paranormalPalisade.exhaust();
             this.player1.endTurn();
+            this.player1.clickCard(this.paranormalPalisade);
             this.player1.clickPrompt('Done');
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
@@ -76,6 +77,7 @@ describe('Starpatch', function () {
             this.player1.playUpgrade(this.starpatch, this.paranormalPalisade);
             this.paranormalPalisade.exhaust();
             this.player1.endTurn();
+            this.player1.clickCard(this.paranormalPalisade);
             this.player1.clickPrompt('Done');
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
@@ -105,6 +107,7 @@ describe('Starpatch', function () {
             this.player1.playUpgrade(this.starpatch, this.paranormalPalisade);
             this.paranormalPalisade.exhaust();
             this.player1.endTurn();
+            this.player1.clickCard(this.paranormalPalisade);
             this.player1.clickPrompt('Done');
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
