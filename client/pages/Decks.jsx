@@ -69,11 +69,21 @@ const DecksComponent = () => {
         setSelectedDecks([]);
     }, [isDeckDeleted]);
 
-    const [showListOnNarrow, setShowListOnNarrow] = useState(true);
+    const [showListOnNarrow, setShowListOnNarrow] = useState(!selectedDeck);
 
     const handleBackToList = () => {
         setShowListOnNarrow(true);
     };
+
+    // Keep the narrow-viewport view in sync with the selected deck so that a
+    // deck already in Redux (e.g. retained from a previous visit, or selected
+    // on a wide layout where the back button was never invoked) reveals the
+    // detail panel when the viewport shrinks below `lg`.
+    useEffect(() => {
+        if (selectedDeck) {
+            setShowListOnNarrow(false);
+        }
+    }, [selectedDeck]);
 
     useEffect(() => {
         if (!selectedDeck || showListOnNarrow) {
