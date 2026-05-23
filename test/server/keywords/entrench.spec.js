@@ -14,19 +14,19 @@ describe('Entrench', function () {
         this.player1.endTurn();
     });
 
-    it('lets the controller leave Grammy Taps exhausted during their ready phase', function () {
-        expect(this.player1).toHavePrompt('Select entrenched creatures to ready');
+    it('readies Grammy Taps by default when none selected to keep exhausted', function () {
+        expect(this.player1).toHavePrompt('Select entrenched creatures to keep exhausted');
         this.player1.clickPrompt('done');
-        expect(this.grammyTaps.exhausted).toBe(true);
+        expect(this.grammyTaps.exhausted).toBe(false);
         this.player2.clickPrompt('brobnar');
         expect(this.player2).isReadyToTakeAction();
     });
 
-    it('readies Grammy Taps when selected', function () {
-        expect(this.player1).toHavePrompt('Select entrenched creatures to ready');
+    it('lets the controller leave Grammy Taps exhausted when selected', function () {
+        expect(this.player1).toHavePrompt('Select entrenched creatures to keep exhausted');
         this.player1.clickCard(this.grammyTaps);
         this.player1.clickPrompt('done');
-        expect(this.grammyTaps.exhausted).toBe(false);
+        expect(this.grammyTaps.exhausted).toBe(true);
         this.player2.clickPrompt('brobnar');
         expect(this.player2).isReadyToTakeAction();
     });
