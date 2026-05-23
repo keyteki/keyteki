@@ -148,7 +148,7 @@ class Card extends EffectSource {
 
     tokenCard() {
         // Tokens are always created from their owner's own deck,
-        // and each player has atmost one token card definition,
+        // and each player has at most one token card definition,
         // so the owner's tokenCard is the canonical resolution.
         // Avoid looking up by `this.name`, which can be overridden
         //  by a copyCard effect.
