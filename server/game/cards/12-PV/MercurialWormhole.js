@@ -6,7 +6,6 @@ class MercurialWormhole extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.playCard((context) => ({
-                revealOnIllegalTarget: true,
                 target: context.player.deck[0]
             })),
             then: {
