@@ -17,13 +17,16 @@ class Sneklifter extends Card {
                 return {
                     alwaysTriggers: true,
                     condition: () =>
+                        !!preThenContext.target &&
                         preThenContext.player.houses.every(
                             (house) => !preThenContext.target.hasHouse(house)
                         ),
                     gameAction: ability.actions.cardLastingEffect({
                         target: preThenContext.target,
                         duration: 'lastingEffect',
-                        condition: () => preThenContext.target.controller === preThenContext.player,
+                        condition: () =>
+                            !!preThenContext.target &&
+                            preThenContext.target.controller === preThenContext.player,
                         effect: ability.effects.changeHouse('shadows')
                     })
                 };

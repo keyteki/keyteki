@@ -5,7 +5,6 @@ class PlayCardAction extends CardGameAction {
     setDefaultProperties() {
         this.location = 'hand';
         this.deploy = false;
-        this.revealOnIllegalTarget = false;
     }
 
     setup() {
@@ -14,21 +13,56 @@ class PlayCardAction extends CardGameAction {
         this.effectMsg = 'play {0}';
     }
 
+    update(context) {
+        super.update(context);
+        // Suppress the standard "uses {source} to play {target}" effectMsg
+        // when every target is blocked by a card-independent player-level
+        // restriction (e.g. Ember Imp), since revealing the card name
+        // would leak hidden information. The generic "unable to play a
+        // card from {location}" message is emitted by getEvent instead.
+        // Card-specific restrictions (Quixxle Stone, Traumatic Echo) and
+        // card-self/cost restrictions (Kelifi Dragon, alpha) still reveal
+        // the card via the standard messaging flow.
+        this.defersMessage =
+            this.target.length > 0 &&
+            this.target.every(
+                (target) =>
+                    target.location !== 'hand' &&
+                    !this.hasLegalPlayAction(target, context) &&
+                    this.isBlockedWithoutReveal(target, context)
+            );
+    }
+
     canAffect(card, context) {
         if (!super.canAffect(card, context)) {
             return false;
         }
 
-        if (this.revealOnIllegalTarget) {
+        if (this.hasLegalPlayAction(card, context)) {
             return true;
         }
 
-        return card
-            .getActions(this.location)
-            .some(
-                (action) =>
-                    action.title.includes('Play') && this.actionMeetsRequirement(context, action)
-            );
+        // No legal play action. For plays from a hidden zone we still
+        // surface the attempt so getEvent can emit an appropriate message.
+        return card.location !== 'hand' && this.getPlayActions(card).length > 0;
+    }
+
+    getPlayActions(card) {
+        return card.getActions(this.location).filter((action) => action.title.includes('Play'));
+    }
+
+    hasLegalPlayAction(card, context) {
+        return this.getPlayActions(card).some((action) =>
+            this.actionMeetsRequirement(context, action)
+        );
+    }
+
+    isBlockedWithoutReveal(card, context) {
+        // Override: use this.location-scoped play actions rather than the
+        // card's current zone, since hidden-zone plays (e.g. Wild Wormhole
+        // playing the top of deck) still resolve via the card's hand play
+        // action.
+        return super.isBlockedWithoutReveal(card, context, this.getPlayActions(card));
     }
 
     actionMeetsRequirement(context, action) {
@@ -46,34 +80,13 @@ class PlayCardAction extends CardGameAction {
     }
 
     checkEventCondition(event) {
-        if (!this.canAffect(event.card, event.context)) {
-            return false;
-        }
-
-        // Find the play actions for the card and create proper contexts for them.
-        // We need to use the play action's context (with the card being played as
-        // the source) rather than the event context (which has the card that
-        // triggered the PlayCardAction as the source, e.g. Wild Wormhole).
-        let playActions = event.card
-            .getActions(this.location)
-            .filter((action) => action.title.includes('Play'));
-
-        const hasValidPlayAction = playActions.some((action) =>
-            this.actionMeetsRequirement(event.context, action)
-        );
-
-        // If revealOnIllegalTarget is true, allow the event to proceed even without valid play actions
-        // so we can show an appropriate message
-        return hasValidPlayAction || this.revealOnIllegalTarget;
+        return this.canAffect(event.card, event.context);
     }
 
     getEvent(card, context) {
-        let playActions = card
-            .getActions(this.location)
-            .filter(
-                (action) =>
-                    action.title.includes('Play') && this.actionMeetsRequirement(context, action)
-            );
+        let playActions = this.getPlayActions(card).filter((action) =>
+            this.actionMeetsRequirement(context, action)
+        );
 
         return super.createEvent(
             EVENTS.playCardEvent,
@@ -92,7 +105,13 @@ class PlayCardAction extends CardGameAction {
                     this.resolveAction(context, playActions[0]);
                 } else {
                     event.illegalTarget = true;
-                    if (this.revealOnIllegalTarget) {
+                    if (this.isBlockedWithoutReveal(card, context)) {
+                        context.game.addMessage(
+                            '{0} is unable to play a card from {1} due to a restriction',
+                            context.player,
+                            card.location
+                        );
+                    } else {
                         context.game.addMessage(
                             '{0} is unable to play {1} and returns it to {2}',
                             context.player,

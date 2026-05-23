@@ -48,4 +48,60 @@ describe('Synchronizer', function () {
             this.player2.clickPrompt('unfathomable');
         });
     });
+
+    describe('double Synchronizer', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    inPlay: ['tick-tock', 'ancestral-timekeeper', 'synchronizer', 'synchronizer']
+                },
+                player2: {
+                    inPlay: ['thing-from-the-deep']
+                }
+            });
+            this.synchronizer1 = this.player1.filterCardsByName('synchronizer', 'play area')[0];
+            this.synchronizer2 = this.player1.filterCardsByName('synchronizer', 'play area')[1];
+            this.ancestralTimekeeper.tokens.time = 4;
+            this.tickTock.tokens.time = 3;
+        });
+
+        it('halves time counters sequentially so second Synchronizer gets fewer', function () {
+            this.player1.fightWith(this.ancestralTimekeeper, this.thingFromTheDeep);
+            this.player1.clickPrompt('Synchronizer');
+            expect(this.ancestralTimekeeper.location).toBe('discard');
+            expect(this.synchronizer1.tokens.time).toBe(2);
+            expect(this.synchronizer2.tokens.time).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('rounds up for odd time counters with double Synchronizer', function () {
+            this.player1.fightWith(this.tickTock, this.thingFromTheDeep);
+            this.player1.clickPrompt('Synchronizer');
+            expect(this.tickTock.location).toBe('discard');
+            expect(this.synchronizer1.tokens.time).toBe(2);
+            expect(this.synchronizer2.tokens.time).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('auto-resolves ordering when Autoresolve is clicked', function () {
+            this.player1.fightWith(this.ancestralTimekeeper, this.thingFromTheDeep);
+            this.player1.clickPrompt('Autoresolve');
+            expect(this.ancestralTimekeeper.location).toBe('discard');
+            expect(
+                (this.synchronizer1.tokens.time || 0) + (this.synchronizer2.tokens.time || 0)
+            ).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('auto-resolves all triggers when orderForcedAbilities is disabled', function () {
+            this.player1.player.optionSettings.orderForcedAbilities = false;
+            this.player1.fightWith(this.ancestralTimekeeper, this.thingFromTheDeep);
+            expect(this.ancestralTimekeeper.location).toBe('discard');
+            expect(
+                (this.synchronizer1.tokens.time || 0) + (this.synchronizer2.tokens.time || 0)
+            ).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
