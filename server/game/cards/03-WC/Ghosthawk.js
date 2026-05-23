@@ -16,7 +16,7 @@ class Ghosthawk extends Card {
                 alwaysTriggers: true,
                 gameAction: ability.actions.reap((context) => ({
                     target: preThenContext.cardStateWhenInitiated.clonedNeighbors.filter(
-                        (c) => c !== context.preThenEvent.card
+                        (c) => !context.preThenEvent || c !== context.preThenEvent.card
                     )
                 }))
             })

@@ -123,4 +123,47 @@ describe('Com. Officer Hings', function () {
             });
         });
     });
+
+    describe('with orderForcedAbilities disabled', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    inPlay: [
+                        'com-officer-hings',
+                        'tantadlin',
+                        'sensor-chief-garcia',
+                        'com-officer-gross'
+                    ],
+                    hand: ['com-officer-gross']
+                },
+                player2: {
+                    inPlay: ['lamindra']
+                }
+            });
+
+            this.player1.player.optionSettings.orderForcedAbilities = false;
+            this.comOfficerGross1 = this.player1.player.creaturesInPlay.find(
+                (c) => c.name === 'Com. Officer Gross'
+            );
+            this.comOfficerGross2 = this.player1.hand[0];
+        });
+
+        it('auto-resolves the target when only one Gross is in play', function () {
+            this.player1.reap(this.comOfficerHings);
+            expect(this.player1.player.hand.length).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('still prompts when there are two Gross in play', function () {
+            this.player1.play(this.comOfficerGross2, true);
+            this.player1.clickPrompt('Done');
+            this.player1.reap(this.comOfficerHings);
+            expect(this.player1).toHavePrompt('Choose a creature');
+            expect(this.player1).toBeAbleToSelect(this.comOfficerGross1);
+            expect(this.player1).toBeAbleToSelect(this.comOfficerGross2);
+            this.player1.clickCard(this.comOfficerGross1);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
