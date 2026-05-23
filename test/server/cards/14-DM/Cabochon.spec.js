@@ -15,7 +15,8 @@ describe('Cabochon', function () {
         it('gains amber for each friendly Skyborn flank creature', function () {
             this.cabochon.exhaust();
             this.player1.endTurn();
-            // entrench prompt for Cabochon
+            // entrench prompt - select Cabochon to keep exhausted
+            this.player1.clickCard(this.cabochon);
             this.player1.clickPrompt('Done');
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
@@ -65,6 +66,7 @@ describe('Cabochon', function () {
         it('does not count non-Skyborn flank creatures', function () {
             this.cabochon.exhaust();
             this.player1.endTurn();
+            this.player1.clickCard(this.cabochon);
             this.player1.clickPrompt('Done');
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
