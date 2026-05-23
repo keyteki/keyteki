@@ -16,6 +16,7 @@ describe('Snapper Dyn', function () {
         it('allocates 1 damage per opponent amber at end of turn if exhausted', function () {
             this.snapperDyn.exhaust();
             this.player1.endTurn();
+            this.player1.clickCard(this.snapperDyn);
             this.player1.clickPrompt('Done');
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.umbra);
