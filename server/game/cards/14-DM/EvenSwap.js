@@ -34,6 +34,7 @@ class EvenSwap extends Card {
             effectArgs: (context) => context.player.opponent,
             then: (firstCtx) => ({
                 alwaysTriggers: true,
+                condition: (context) => context.player.creaturesInPlay.length > 0,
                 target: giveTarget(),
                 message: '{0} uses {1} to give control of {2} to {3}',
                 messageArgs: (context) => context.player.opponent,
