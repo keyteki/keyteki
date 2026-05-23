@@ -40,7 +40,7 @@ describe('The Archivist', function () {
             expect(this.dextre.getSummary(this.player1.player).facedown).toBe(false);
             expect(this.theArchivist.getSummary(this.player1.player).facedown).toBe(false);
             expect(this.dextre.getSummary(this.player2.player).facedown).toBe(true);
-            expect(this.theArchivist.getSummary(this.player2.player).facedown).toBe(false);
+            expect(this.theArchivist.getSummary(this.player2.player).facedown).toBe(true);
 
             this.player1.player.moveCard(this.theArchivist, 'hand');
             expect(this.theArchivist.getSummary(this.player1.player).facedown).toBe(false);
@@ -209,6 +209,109 @@ describe('The Archivist', function () {
                 expect(this.archimedes.location).toBe('hand');
                 expect(this.blypyp.location).toBe('play area');
             });
+        });
+    });
+
+    describe('when put into archives (not archived)', function () {
+        it('should not be visible to opponent when Mind Over Matter puts it into archives', function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['the-archivist'],
+                    hand: ['mind-over-matter']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+
+            this.player1.play(this.mindOverMatter);
+            expect(this.theArchivist.location).toBe('archives');
+            expect(this.troll.location).toBe('archives');
+            expect(this.theArchivist.getSummary(this.player2.player).facedown).toBe(true);
+        });
+
+        it("should not be visible to opponent when Sample Collection puts opponent's Archivist into your archives", function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['batdrone'],
+                    hand: ['sample-collection', 'phase-shift', 'labwork', 'wild-wormhole']
+                },
+                player2: {
+                    inPlay: ['the-archivist']
+                }
+            });
+            this.player1.play(this.phaseShift);
+            this.player1.play(this.labwork);
+            this.player1.clickCard(this.wildWormhole);
+            this.player2.player.keys = { red: true, blue: false, yellow: false };
+
+            this.player1.play(this.sampleCollection);
+            this.player1.clickCard(this.theArchivist);
+            expect(this.theArchivist.location).toBe('archives');
+            expect(this.player1.archives).toContain(this.theArchivist);
+            expect(this.theArchivist.getSummary(this.player2.player).facedown).toBe(true);
+        });
+
+        it('should not be visible to opponent when Biomatrix Backup puts it into archives', function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    hand: ['biomatrix-backup'],
+                    inPlay: ['the-archivist']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+
+            this.player1.playUpgrade(this.biomatrixBackup, this.theArchivist);
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.fightWith(this.troll, this.theArchivist);
+            expect(this.theArchivist.location).toBe('archives');
+            expect(this.theArchivist.getSummary(this.player2.player).facedown).toBe(true);
+        });
+
+        it('should not be visible to opponent when Scoop Up puts a friendly Archivist into your archives', function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    inPlay: ['the-archivist'],
+                    hand: ['scoop-up']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+
+            this.player1.play(this.scoopUp);
+            this.player1.clickCard(this.theArchivist);
+            this.player1.clickCard(this.troll);
+
+            expect(this.theArchivist.location).toBe('archives');
+            expect(this.troll.location).toBe('archives');
+            expect(this.player1.archives).toContain(this.theArchivist);
+            expect(this.theArchivist.getSummary(this.player2.player).facedown).toBe(true);
+        });
+    });
+
+    describe('when archived', function () {
+        it('should be visible to opponent when archived as a destroyed neighbor of Archimedes', function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['archimedes', 'the-archivist']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+
+            this.player1.fightWith(this.theArchivist, this.troll);
+            expect(this.theArchivist.location).toBe('archives');
+            expect(this.theArchivist.getSummary(this.player2.player).facedown).toBe(false);
         });
     });
 });

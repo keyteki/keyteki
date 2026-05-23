@@ -11,8 +11,8 @@ describe('Squawker', function () {
                     inPlay: ['lamindra', 'mindwarper']
                 }
             });
-            this.zorg.exhausted = true;
-            this.mindwarper.exhausted = true;
+            this.zorg.exhaust();
+            this.mindwarper.exhaust();
         });
 
         it('should ready a friendly Mars creature', function () {

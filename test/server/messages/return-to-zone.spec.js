@@ -45,4 +45,26 @@ describe('Return Messages', function () {
             ]);
         });
     });
+
+    describe('return to deck with empty target', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    hand: ['timequake']
+                },
+                player2: {}
+            });
+        });
+
+        it("should log 'return nothing' when no cards are shuffled into the deck", function () {
+            this.player1.play(this.timequake);
+            expect(this.player1).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Timequake',
+                "player1 uses Timequake's amber bonus icon to gain 1 amber",
+                "player1 uses Timequake to return nothing to their owner's deck"
+            ]);
+        });
+    });
 });

@@ -139,9 +139,9 @@ Triggered abilities that activate when the card is destroyed. These are implemen
 
 Implications for card implementations:
 
-- A `destroyed()` ability that targets "the most powerful enemy creature", "the creature on the opponent's left flank", etc. must consider creatures that are also tagged for destruction during this same window — they have not yet left play. Selectors and direct lookups (`creaturesInPlay`, `cardsInPlay[i]`, neighbors, flank position) surface tagged-for-destruction cards.
-- Per the rules, a player **cannot _choose_** a tagged-for-destruction creature as a target. When the player has a choice (e.g. ties for "most powerful"), tagged cards are filtered out of the selectable set automatically by the stat selectors (`MostStatCardSelector`, `LeastStatCardSelector`). When there is no choice (e.g. "the creature on the left flank", or a single most-powerful creature), the ability still targets the tagged card; the destroy itself becomes a no-op via `DestroyAction`'s event condition (the original destruction will move it to discard once the window closes).
-- `DestroyAction.canAffect` returns true for moribund cards so that selectors can see them. The destroy is short-circuited at event-resolve time, not at target-selection time.
+-   A `destroyed()` ability that targets "the most powerful enemy creature", "the creature on the opponent's left flank", etc. must consider creatures that are also tagged for destruction during this same window — they have not yet left play. Selectors and direct lookups (`creaturesInPlay`, `cardsInPlay[i]`, neighbors, flank position) surface tagged-for-destruction cards.
+-   Per the rules, a player **cannot _choose_** a tagged-for-destruction creature as a target. When the player has a choice (e.g. ties for "most powerful"), tagged cards are filtered out of the selectable set automatically by the stat selectors (`MostStatCardSelector`, `LeastStatCardSelector`). When there is no choice (e.g. "the creature on the left flank", or a single most-powerful creature), the ability still targets the tagged card; the destroy itself becomes a no-op via `DestroyAction`'s event condition (the original destruction will move it to discard once the window closes).
+-   `DestroyAction.canAffect` returns true for moribund cards so that selectors can see them. The destroy is short-circuited at event-resolve time, not at target-selection time.
 
 ```javascript
 // Destroyed: Gain 2A.
@@ -337,7 +337,9 @@ this.interrupt({
 
 ### scrap()
 
-"Scrap:" abilities trigger when the card is discarded from the active player's hand (not from play) during their turn.
+"Scrap:" abilities trigger when the card is discarded from the active player's hand (not from play) during their turn. This includes both voluntary discards (using the "scrap" action) and forced discards (from bonus icons, card effects, etc.).
+
+**Note:** Don't confuse scrap abilities with other ability types. Cards like Helper Bot have Play abilities, not Scrap abilities. Always check the actual card text in the JSON data to verify a card's ability type.
 
 ```javascript
 // Scrap: Deal 3 damage to a creature.
@@ -626,6 +628,61 @@ this.reap({
 ```
 
 Note that `alwaysTriggers: true` is needed on the outer `then` so the optional-discard prompt still appears even when the capture event was cancelled or partial — but the inner `then`'s `condition` then ensures the final effect is gated correctly.
+
+#### Pitfall: `alwaysTriggers` does not bypass legal-target checks
+
+`alwaysTriggers: true` controls whether a `then` block fires when the **preceding** `gameAction` was cancelled or didn't fully resolve. It does **not** override the engine's requirement that the `then` block itself must have at least one legal target for its `gameAction`. If the `then`'s `gameAction` has no legal target, the entire `then` block — including any nested `then` chain inside it — is silently skipped.
+
+This is usually what you want (e.g. drawing 0 cards is a no-op anyway). It becomes a bug when the `then` block has a **nested** `then` chain that should still run regardless of whether the outer `gameAction` had a target — for example, a card that reveals from hand and then draws, where the draw should happen even with an empty hand.
+
+The fix is to use a function-form `then` that branches on the empty case and returns a no-`gameAction` object:
+
+```javascript
+// BUG: if the player's hand is empty, the reveal has no legal target,
+// the entire then is skipped, and the draw never happens.
+this.play({
+    gameAction: ability.actions.destroy(/* ... */),
+    then: {
+        alwaysTriggers: true,
+        gameAction: ability.actions.reveal((context) => ({ target: context.player.hand })),
+        then: {
+            alwaysTriggers: true,
+            gameAction: ability.actions.draw({ amount: 1 })
+        }
+    }
+});
+
+// FIX: wrap the reveal in a function-form then. When the hand is empty,
+// return an object with no gameAction (so meetsRequirements passes) and
+// the nested then-chain still runs.
+this.play({
+    gameAction: ability.actions.destroy(/* ... */),
+    then: {
+        alwaysTriggers: true,
+        then: (preThenContext) =>
+            preThenContext.player.hand.length === 0
+                ? {
+                      alwaysTriggers: true,
+                      message: '{0} reveals nothing',
+                      messageArgs: () => [preThenContext.player],
+                      then: {
+                          alwaysTriggers: true,
+                          gameAction: ability.actions.draw({ amount: 1 })
+                      }
+                  }
+                : {
+                      alwaysTriggers: true,
+                      gameAction: ability.actions.reveal({ target: preThenContext.player.hand }),
+                      then: {
+                          alwaysTriggers: true,
+                          gameAction: ability.actions.draw({ amount: 1 })
+                      }
+                  }
+    }
+});
+```
+
+The engine includes a test-mode assertion that throws when this pattern is detected: a function-form `then` whose returned `gameAction` has no legal target while its outer `alwaysTriggers: true` block has a further nested `then`-chain. If you see this error, refactor the function-form `then` to return a no-`gameAction` object on the empty case (as shown above) so the inner chain still runs.
 
 #### Guarding `preThenContext.target` access
 

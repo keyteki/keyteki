@@ -14,7 +14,11 @@ class SpaceInvaders extends Card {
                 cardType: 'creature',
                 gameAction: ability.actions.makeTokenCreature()
             },
-            effect: 'reveal and tokenize {0}'
+            effect: '{1}',
+            effectArgs: (context) =>
+                context.target.length
+                    ? `reveal and tokenize ${context.target.map((c) => c.name).join(', ')}`
+                    : 'reveal no creatures from their hand'
         });
     }
 }

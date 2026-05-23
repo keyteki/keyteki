@@ -1014,6 +1014,11 @@ module.exports.init = function (server, options) {
 
             user.blockList.push(lowerCaseUser);
 
+            userService.emit('onBlocklistChanged', {
+                username: user.username,
+                blockList: user.blockList
+            });
+
             let updatedUser = await userService.getUserById(user.id);
 
             res.send({
@@ -1063,6 +1068,11 @@ module.exports.init = function (server, options) {
 
             user.blockList = _.reject(user.blockList, (user) => {
                 return user === lowerCaseUser;
+            });
+
+            userService.emit('onBlocklistChanged', {
+                username: user.username,
+                blockList: user.blockList
             });
 
             let updatedUser = await userService.getUserById(user.id);

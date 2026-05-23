@@ -125,6 +125,10 @@ class GameServer {
 
         this.healthServer = new HealthServer(this);
         this.healthServer.start();
+
+        if (process.env.SCENARIO) {
+            require('../devtools/scenario/host.js').install(this, process.env.SCENARIO);
+        }
     }
 
     debugDump() {

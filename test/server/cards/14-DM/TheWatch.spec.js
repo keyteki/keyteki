@@ -14,8 +14,9 @@ describe('The Watch', function () {
         });
 
         it('prevents amber from being stolen while exhausted', function () {
-            this.theWatch.exhausted = true;
+            this.theWatch.exhaust();
             this.player1.endTurn();
+            this.player1.clickCard(this.theWatch);
             this.player1.clickPrompt('done');
             this.player2.clickPrompt('shadows');
             this.player2.play(this.urchin);

@@ -56,8 +56,10 @@ describe('Talent Scout', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this.player1.player.cardsInPlay).not.toContain(this.talentScout);
             expect(this.player2.player.cardsInPlay).toContain(this.talentScout);
-            expect(this).toHaveRecentChatMessage('Talent Scout reveals Too Much to Protect', 2);
-            expect(this).toHaveRecentChatMessage('Talent Scout reveals Ring of Invisibility', 2);
+            expect(this).toHaveRecentChatMessage(
+                'Talent Scout reveals Ring of Invisibility and Too Much to Protect',
+                2
+            );
         });
 
         it('allows player to return to own deck with Bubbles', function () {
