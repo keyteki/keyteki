@@ -17,7 +17,14 @@ class DestroyAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        return !card.moribund && card.location === 'play area' && super.canAffect(card, context);
+        // Tagged-for-destruction cards remain in play until the
+        // destroyed-ability window closes, so they should still be visible to
+        // selectors and direct-target lookups (e.g. Soulkeeper's "most
+        // powerful enemy creature", Soleft's "left-flank creature"). The
+        // destroy event itself becomes a no-op for an already-moribund card
+        // (see getEvent's `condition`), since the original destruction will
+        // move the card to discard once the window closes.
+        return card.location === 'play area' && super.canAffect(card, context);
     }
 
     getEvent(card, context) {
@@ -25,7 +32,13 @@ class DestroyAction extends CardGameAction {
             card: card,
             context: context,
             damageEvent: this.damageEvent,
-            isRedirected: this.damageEvent ? this.damageEvent.isRedirected : false
+            isRedirected: this.damageEvent ? this.damageEvent.isRedirected : false,
+            // If the card is already tagged for destruction by an earlier
+            // event in this window, this destroy is a no-op.
+            // Skipping prevents duplicate "destroyed" messages,
+            // duplicate destroyed-ability triggers, and a duplicate
+            // leavesPlay sub-event.
+            condition: (event) => !event.card.moribund
         };
 
         const event = super.createEvent(EVENTS.onCardDestroyed, params, (event) => {
