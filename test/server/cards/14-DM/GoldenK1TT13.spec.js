@@ -43,6 +43,7 @@ describe('Golden K1-TT13', function () {
         it('does not grant reap-gain-1 to an enemy creature while exhausted', function () {
             this.player1.clickPrompt('mars');
             this.player1.endTurn();
+            this.player1.clickCard(this.goldenK1Tt13);
             this.player1.clickPrompt('Done');
             this.player2.clickPrompt('untamed');
             this.player2.reap(this.flaxia);
