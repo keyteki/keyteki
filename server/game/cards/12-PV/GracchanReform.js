@@ -7,7 +7,6 @@ class GracchanReform extends Card {
         this.play({
             condition: (context) => !!context.player.opponent,
             gameAction: ability.actions.playCard((context) => ({
-                revealOnIllegalTarget: true,
                 target: context.player.opponent.deck[0]
             }))
         });

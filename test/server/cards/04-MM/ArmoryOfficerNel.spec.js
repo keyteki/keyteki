@@ -1,36 +1,58 @@
 describe('Armory Officer Nel', function () {
-    describe("Armory Officer Nel's ability", function () {
+    describe("Armory Officer Nel's reaction", function () {
         beforeEach(function () {
             this.setupTest({
                 player1: {
                     house: 'staralliance',
-                    inPlay: ['armory-officer-nel', 'scout-pete'],
-                    hand: ['officer-s-blaster']
+                    inPlay: ['armory-officer-nel', 'stealthster'],
+                    hand: ['z-ray-blaster']
+                },
+                player2: {}
+            });
+        });
+
+        it('draws a card after an upgrade enters play', function () {
+            const handBefore = this.player1.hand.length;
+            this.player1.playUpgrade(this.zRayBlaster, this.stealthster);
+            expect(this.zRayBlaster.parent).toBe(this.stealthster);
+            expect(this.player1.hand.length).toBe(handBefore);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('does not draw a card when upgrade play is cancelled', function () {
+            const handBefore = this.player1.hand.length;
+            this.player1.clickCard(this.zRayBlaster);
+            this.player1.clickPrompt('Play this upgrade');
+            expect(this.player1).toHavePromptButton('Cancel');
+            this.player1.clickPrompt('Cancel');
+            expect(this.zRayBlaster.location).toBe('hand');
+            expect(this.player1.hand.length).toBe(handBefore);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('when an opponent plays an upgrade', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    inPlay: ['armory-officer-nel']
                 },
                 player2: {
-                    inPlay: ['lamindra']
+                    house: 'staralliance',
+                    inPlay: ['stealthster'],
+                    hand: ['z-ray-blaster']
                 }
             });
         });
 
-        it('should draw a card when an upgrade enters play', function () {
-            const handSize = this.player1.player.hand.length;
-            this.player1.playUpgrade(this.officerSBlaster, this.scoutPete);
-            expect(this.officerSBlaster.parent).toBe(this.scoutPete);
-            // Hand should be: handSize - 1 (played upgrade) + 1 (Nel draws) = handSize
-            expect(this.player1.player.hand.length).toBe(handSize);
-            expect(this.player1).isReadyToTakeAction();
-        });
-
-        it('should not draw a card when upgrade play is cancelled', function () {
-            const handSize = this.player1.player.hand.length;
-            this.player1.clickCard(this.officerSBlaster);
-            this.player1.clickPrompt('Play this upgrade');
-            expect(this.player1).toHavePromptButton('Cancel');
-            this.player1.clickPrompt('Cancel');
-            expect(this.officerSBlaster.location).toBe('hand');
-            expect(this.player1.player.hand.length).toBe(handSize);
-            expect(this.player1).isReadyToTakeAction();
+        it('also draws a card', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('staralliance');
+            const handBefore = this.player1.hand.length;
+            this.player2.playUpgrade(this.zRayBlaster, this.stealthster);
+            expect(this.player1.hand.length).toBe(handBefore + 1);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });
