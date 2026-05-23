@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import CardPilePopup from './CardPilePopup';
 import CardImage from './CardImage';
+import CardPilePopup from './CardPilePopup';
 
 const CardPileLink = ({
     cardBack,
@@ -31,8 +31,14 @@ const CardPileLink = ({
 }) => {
     const [showPopup, setShowPopup] = useState(false);
     const [manualPopup, setManualPopup] = useState(false);
+    const showPopupRef = useRef(false);
     const updatePopupVisibility = useCallback(
         (value) => {
+            if (showPopupRef.current === value) {
+                return;
+            }
+
+            showPopupRef.current = value;
             setShowPopup(value);
 
             onPopupChange && onPopupChange({ source: source, visible: value });
