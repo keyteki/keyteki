@@ -689,6 +689,8 @@
     "howtoplay.cmd.discardtopofdeck": "당신의 덱 맨 위에서 카드 x장을 버립니다.",
     "howtoplay.cmd.firstplayer": "시작 손을 그리기 전에 첫 번째 플레이어를 변경하십시오.",
     "howtoplay.cmd.mutespectators": "관중 음소거 전환",
+    "howtoplay.cmd.revealhand": "당신의 패를 게임 로그에 공개합니다",
+    "howtoplay.cmd.help": "수동 모드 명령 목록을 게임 로그에 표시합니다",
     "howtoplay.cmd.shuffle": "덱을 섞으세요",
     "howtoplay.cmd.tokencreature": "당신의 덱 맨 위 카드로 토큰 생물을 만드세요",
     "about.colors": "<0>사용자 이름 색상의 의미</0><p>일부 사용자 이름은 다른 색상을 가지고 있으며 플랫폼의 지지자를 인정하기 위한 의도입니다.</p><2><0><0>admin</0> - 사이트 관리자</0><1><0>기고자</0> - 플랫폼에 상당한 개발 기여를 한 사람들 site</1><2><0>supporter</0> - Patreon Supporters</2><3><0>winner</0> - 현재 토너먼트 우승자</3><4><0>이전 우승자</0> - 전 토너먼트 우승자</4></2>",

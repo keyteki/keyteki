@@ -689,6 +689,8 @@
     "howtoplay.cmd.discardtopofdeck": "从牌库顶弃掉 x 张牌",
     "howtoplay.cmd.firstplayer": "在开始抽牌之前，更换第一位玩家",
     "howtoplay.cmd.mutespectators": "切换观众静音",
+    "howtoplay.cmd.revealhand": "在游戏日志中显示你的手牌",
+    "howtoplay.cmd.help": "在游戏日志中显示手动模式命令列表",
     "howtoplay.cmd.shuffle": "洗牌你的牌组",
     "howtoplay.cmd.tokencreature": "用你牌组顶牌制作一个衍生物生物",
     "about.colors": "<0>用户名颜色的含义</0><p>一些用户名具有不同的颜色，目的是感谢平台的支持者：</p><2><0><0>admin</0> - 站点管理员</0><1><0>contributor</0> - 对平台做出重大开发贡献的人site</1><2><0>支持者</0> - 赞助人支持者</2><3><0>winner</0> - 当前锦标赛获胜者</3><4><0>上一获胜者</0> - 前锦标赛获胜者</4></2>",
