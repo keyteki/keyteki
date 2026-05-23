@@ -15,6 +15,7 @@ describe('Noxious Ionox', function () {
         it('destroys an enemy creature at start of turn if exhausted', function () {
             this.noxiousIonox.exhaust();
             this.player1.endTurn();
+            this.player1.clickCard(this.noxiousIonox);
             this.player1.clickPrompt('Done');
             this.player2.clickPrompt('brobnar');
             this.player2.endTurn();

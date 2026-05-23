@@ -191,3 +191,36 @@ describe('Mulligan', function () {
         });
     });
 });
+
+describe('Mulligan with chains', function () {
+    beforeEach(function () {
+        const deckBuilder = new DeckBuilder();
+        this.player1.selectDeck(
+            deckBuilder.customDeck({
+                hand: ['troll', 'anger', 'punch', 'bumpsy', 'headhunter', 'smith', 'earthshaker']
+            })
+        );
+        this.player2.selectDeck(
+            deckBuilder.customDeck({
+                hand: [
+                    'dust-pixie',
+                    'hunting-witch',
+                    'flaxia',
+                    'silvertooth',
+                    'urchin',
+                    'bad-penny'
+                ]
+            })
+        );
+        this.player1.player.chains = 3;
+        this.startGame();
+    });
+
+    it('should not shed chains when player1 mulligans', function () {
+        expect(this.player1.chains).toBe(2);
+        this.player1.clickPrompt('Mulligan');
+        this.player2.clickPrompt('Keep Hand');
+        expect(this.player1.hand.length).toBe(5);
+        expect(this.player1.chains).toBe(2);
+    });
+});
