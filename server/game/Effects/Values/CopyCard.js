@@ -25,13 +25,17 @@ class CopyCard extends EffectValue {
         this.abilitiesForTargets = {};
         if (cascadeEffects && card.anyEffect('copyCard')) {
             this.value = card.mostRecentEffect('copyCard');
-            this.actions = this.value.actions.map(
+            // Pull from `abilities.*` (printed-only) rather than the card's
+            // `actions`/`reactions`/`persistentEffects` getters, which also
+            // include abilities granted to the intermediate card by upgrades.
+            // Matches the printed-only behavior of the non-cascading branch.
+            this.actions = this.value.abilities.actions.map(
                 (action) => new GainAbility('action', action, true)
             );
-            this.reactions = this.value.reactions.map(
+            this.reactions = this.value.abilities.reactions.map(
                 (ability) => new GainAbility(ability.abilityType, ability, true)
             );
-            this.persistentEffects = this.value.persistentEffects.map(
+            this.persistentEffects = this.value.abilities.persistentEffects.map(
                 (properties) => new GainAbility('persistentEffect', properties)
             );
         } else {
