@@ -6,7 +6,6 @@ class RandomPlayCardAction extends PlayerAction {
     setDefaultProperties() {
         this.amount = 1;
         this.location = 'deck'; // deck, discard, hand, archives
-        this.revealOnIllegalTarget = false;
     }
 
     setup() {
@@ -36,11 +35,7 @@ class RandomPlayCardAction extends PlayerAction {
                 } else {
                     event.cards = _.shuffle(player.hand).slice(0, event.amount);
                 }
-                context.game.actions
-                    .playCard({
-                        revealOnIllegalTarget: this.revealOnIllegalTarget
-                    })
-                    .resolve(event.cards, context);
+                context.game.actions.playCard().resolve(event.cards, context);
             }
         );
     }
