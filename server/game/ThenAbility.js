@@ -23,7 +23,13 @@ class ThenAbility extends BaseAbility {
     }
 
     checkThenAbilities() {
-        return this.properties.then && this.properties.then.alwaysTriggers;
+        const then = this.properties.then;
+        // For function-form `then`, we can't safely inspect `alwaysTriggers`
+        // without invoking the callback (which may register listeners or
+        // otherwise mutate state). Assume it may always-trigger; the final
+        // gating happens in resolveThenIfNeeded after the function is called
+        // for real.
+        return !!then && (typeof then === 'function' || then.alwaysTriggers);
     }
 
     displayMessage(context) {
