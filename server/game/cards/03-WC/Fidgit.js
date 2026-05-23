@@ -28,7 +28,6 @@ class Fidgit extends Card {
                         card = context.preThenEvent.cards && context.preThenEvent.cards[0];
                     }
                     return {
-                        revealOnIllegalTarget: true,
                         target: card && card.type === 'action' ? card : []
                     };
                 })
