@@ -322,4 +322,44 @@ describe('Chat Commands', function () {
             expect(this.player1.inPlay.length).toBe(0);
         });
     });
+
+    describe('/reveal-hand', function () {
+        it('reveals the player hand to the game log', function () {
+            const before = this.game.messages.length;
+            expect(this.player1.executeCommand('/reveal-hand')).toBe(true);
+            const newMessages = this.game.messages.slice(before);
+            const alert = newMessages.find((m) => m.message && m.message.alert);
+            expect(alert).toBeDefined();
+            const text = JSON.stringify(alert.message);
+            expect(text).toContain('reveals their hand');
+            expect(text).toContain('Titan Mechanic');
+            expect(text).toContain('Hunting Witch');
+            expect(text).toContain('Lamindra');
+        });
+
+        it('reveals an empty hand as nothing', function () {
+            this.player1.player.hand = [];
+            const before = this.game.messages.length;
+            expect(this.player1.executeCommand('/reveal-hand')).toBe(true);
+            const newMessages = this.game.messages.slice(before);
+            const alert = newMessages.find((m) => m.message && m.message.alert);
+            expect(alert).toBeDefined();
+            const text = JSON.stringify(alert.message);
+            expect(text).toContain('reveals their hand');
+            expect(text).toContain('nothing');
+        });
+    });
+
+    describe('/help', function () {
+        it('logs the manual mode command list', function () {
+            const before = this.game.messages.length;
+            expect(this.player1.executeCommand('/help')).toBe(true);
+            const newMessages = this.game.messages.slice(before);
+            const text = JSON.stringify(newMessages);
+            expect(text).toContain('requests the manual mode command list');
+            expect(text).toContain('/reveal-hand');
+            expect(text).toContain('/active-house');
+            expect(text).toContain('/help');
+        });
+    });
 });
