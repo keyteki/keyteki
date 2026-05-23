@@ -15,7 +15,8 @@ describe('Caspart', function () {
         it('exhausts 2 other creatures at end of turn if exhausted', function () {
             this.caspart.exhaust();
             this.player1.endTurn();
-            // Ready phase prompts to ready entrenched creatures
+            // Ready phase prompts to keep entrenched creatures exhausted
+            this.player1.clickCard(this.caspart);
             this.player1.clickPrompt('Done');
             expect(this.player1).toHavePrompt('Choose 2 creatures');
             this.player1.clickCard(this.troll);
@@ -31,6 +32,7 @@ describe('Caspart', function () {
         it('does not allow exhausting fewer than 2 other creatures', function () {
             this.caspart.exhaust();
             this.player1.endTurn();
+            this.player1.clickCard(this.caspart);
             this.player1.clickPrompt('Done');
             this.player1.clickCard(this.troll);
             expect(this.troll.exhausted).toBe(false);
