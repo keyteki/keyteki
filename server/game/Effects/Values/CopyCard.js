@@ -6,10 +6,18 @@ const GainAbility = require('./GainAbility');
  * Mirror Shell, and Mimic Gel. This does not modify the card data itself;
  * {@link Card} consults `copyCard` effects at the appropriate places.
  *
- * If the source card is itself currently copying something, the abilities of
- * that copy cascade through. Otherwise we copy the source card's own printed
- * abilities, taking care to exclude abilities previously injected by other
- * `copyCard` effects on that card.
+ * When `cascadeEffects` is true (the default) and the source is itself
+ * currently copying another card, we chain through to that copy's abilities so
+ * a copy-of-a-copy resolves to the original. Otherwise we copy the source's
+ * own printed abilities, filtering out any abilities that were themselves
+ * injected by a `copyCard` effect on the source — without this, un-tokenizing
+ * (or copying a card that is being copied) would re-inject the same abilities.
+ *
+ * Concrete example: a token creature has been Mirror Shelled to become a copy
+ * of creature X. If something then makes a new copy of that token creature,
+ * the new copy should resolve to X's abilities (via the cascade), but not
+ * inherit the Mirror Shell `copyCard` effect itself — otherwise the new copy
+ * would carry its own copy-of-X layer, compounding on every subsequent copy.
  */
 class CopyCard extends EffectValue {
     constructor(card, cascadeEffects = true) {
