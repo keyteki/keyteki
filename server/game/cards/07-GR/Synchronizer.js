@@ -10,10 +10,16 @@ class Synchronizer extends Card {
         this.persistentEffect({
             match: (card) => card.hasTrait('clock'),
             effect: ability.effects.gainAbility('destroyed', {
-                gameAction: ability.actions.addTimeCounter((context) => ({
-                    target: this,
-                    amount: Math.ceil(context.source.tokens['time'] * 0.5)
-                }))
+                gameAction: [
+                    ability.actions.removeTimeCounter((context) => ({
+                        target: context.source,
+                        amount: Math.ceil((context.source.tokens['time'] || 0) * 0.5)
+                    })),
+                    ability.actions.addTimeCounter((context) => ({
+                        target: this,
+                        amount: Math.ceil((context.source.tokens['time'] || 0) * 0.5)
+                    }))
+                ]
             })
         });
 
