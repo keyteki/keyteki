@@ -18,7 +18,7 @@ class UntrumsSerenity extends Card {
                     ? context.player.opponent.artifactsInPlay
                     : 'none'
             ],
-            gameAction: [
+            gameAction: ability.actions.sequential([
                 ability.actions.destroy((context) => ({
                     target: context.game.cardsInPlay
                 })),
@@ -30,7 +30,7 @@ class UntrumsSerenity extends Card {
                     location: 'hand',
                     target: [context.player, context.player.opponent]
                 }))
-            ],
+            ]),
             then: {
                 alwaysTriggers: true,
                 gameAction: [
