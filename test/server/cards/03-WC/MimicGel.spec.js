@@ -901,7 +901,7 @@ describe('Mimic Gel', function () {
             expect(this.mimicGel.name).toBe('Mimic Gel as Dextre');
             expect(this.mimicGel.isOnFlank()).toBe(false);
             this.mimicGel.ready();
-            this.mimicGel.reap();
+            this.player1.reap(this.mimicGel);
             expect(this.player1.hand.length).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });

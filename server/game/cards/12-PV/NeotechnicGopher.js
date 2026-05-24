@@ -6,21 +6,18 @@ class NeotechnicGopher extends Card {
     setupCardAbilities(ability) {
         this.play({
             reap: true,
+            preferActionPromptMessage: true,
             target: {
                 activePromptTitle: 'Choose a card to discard',
                 location: 'hand',
                 controller: 'self',
                 gameAction: ability.actions.discard()
             },
-            effect: 'discard {1}{2}',
-            effectArgs: (context) => [
-                context.target ? context.target.name : 'nothing',
-                context.player.hand.length <= 1 ? ' and gain 1 amber' : ''
-            ],
             then: {
                 alwaysTriggers: true,
                 condition: (context) => context.player.hand.length === 0,
-                gameAction: ability.actions.gainAmber()
+                gameAction: ability.actions.gainAmber(),
+                message: '{0} uses {1} to gain 1 amber'
             }
         });
 
