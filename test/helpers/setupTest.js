@@ -44,6 +44,14 @@ function applySetupTest(options, ctx) {
     player1.selectDeck(player1Deck);
     player2.selectDeck(player2Deck);
 
+    // Set chains before game start so they affect the first-player draw
+    if (options.player1.setupChains) {
+        player1.player.chains = options.player1.setupChains;
+    }
+    if (options.player2.setupChains) {
+        player2.player.chains = options.player2.setupChains;
+    }
+
     startGame();
     keepCards();
 
