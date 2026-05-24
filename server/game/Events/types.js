@@ -326,32 +326,24 @@ const EVENTS = /** @type {const} */ ({
     onCardPurged: 'onCardPurged',
 
     /**
-     * Triggered when a card is made ready as the result of another card effect
-     * or during the Ready phase at the end of the turn.
+     * Triggered any time one or more cards are being readied. Fires as a
+     * single bulk event covering every card that readies in that operation:
+     * once from the “ready cards” step of the ready phase (every card the
+     * active player would ready that turn), and once per {@link ReadyAction}
+     * call.
      *
-     * **NOTE:** Can trigger on cards that are already ready. Check the
-     * `exhausted` param if you’re listening for cases where the card is
-     * actually being readied from exhausted.
+     * Only cards that are actually transitioning from exhausted to ready
+     * appear in `cards`; already-ready cards are pre-filtered out, so
+     * listeners do not need to check exhausted state. Cards in `cards` may
+     * belong to either player, so there is intentionally no `event.player`.
+     *
+     * Listeners that want a per-card effect should iterate `event.cards`
+     * inside their `gameAction`.
      *
      * Params:
-     * * `card` — The {@link Card}.
-     * * `exhausted` — True if the card was exhausted before this event’s action
-     *   was applied.
+     * * `cards` — Array of cards being readied.
      *
      * @see ReadyAction
-     */
-    onCardReadied: 'onCardReadied',
-
-    /**
-     * Event for the start of the “ready cards” step at the end of the turn.
-     * Provided so that cards can substitute the entire ready phase (currently
-     * this is just The Chosen One).
-     *
-     * Params:
-     * * `player` — The {@link Player} whose turn it is.
-     * * `cards` — All of the cards `player` has in play, regardless of
-     *   exhausted / ready state.
-     *
      * @see ReadyPhase
      */
     onCardsReadied: 'onCardsReadied',

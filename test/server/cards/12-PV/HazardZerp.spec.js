@@ -50,4 +50,38 @@ describe('Hazard Zerp', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe("Hazard Zerp's scrap sequencing", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['hazard-zerp', 'gaius'],
+                    inPlay: ['helper-bot', 'dextre']
+                },
+                player2: {
+                    inPlay: ['krump']
+                }
+            });
+        });
+
+        it('should resolve discarded card Scrap before dealing damage', function () {
+            this.player1.scrap(this.hazardZerp);
+            // Discard Gaius
+            this.player1.clickCard(this.gaius);
+            // Gaius's Scrap triggers - ward a friendly creature
+            this.player1.clickCard(this.helperBot);
+            expect(this.helperBot.warded).toBe(true);
+            // Now damage target prompt - target the warded helper-bot
+            this.player1.clickCard(this.helperBot);
+            // Ward absorbed the damage
+            expect(this.helperBot.warded).toBe(false);
+            expect(this.helperBot.damage).toBe(0);
+            expect(this.helperBot.location).toBe('play area');
+            expect(this.dextre.warded).toBe(false);
+            expect(this.dextre.damage).toBe(0);
+            expect(this.krump.damage).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
