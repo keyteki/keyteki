@@ -59,6 +59,7 @@ const Actions = {
     exhaust: (propertyFactory) => new GameActions.ExhaustAction(propertyFactory),
     fight: (propertyFactory) => new GameActions.FightGameAction(propertyFactory),
     flip: (propertyFactory) => new GameActions.FlipAction(propertyFactory),
+    gainsTextBox: (propertyFactory) => new GameActions.GainsTextBoxAction(propertyFactory),
     graft: (propertyFactory) => new GameActions.PlaceUnderAction(propertyFactory, true),
     heal: (propertyFactory) => new GameActions.HealAction(propertyFactory),
     moveCard: (propertyFactory) => new GameActions.MoveCardAction(propertyFactory), // destination, switch = false, shuffle = false
