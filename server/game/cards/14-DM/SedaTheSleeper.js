@@ -12,7 +12,7 @@ class SedaTheSleeper extends Card {
 
         this.reaction({
             when: {
-                onCardReadied: (event, context) => event.card === context.source
+                onCardsReadied: (event, context) => event.cards.includes(context.source)
             },
             optional: true,
             gameAction: ability.actions.dealDamage((context) => ({
