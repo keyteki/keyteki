@@ -41,7 +41,6 @@ describe('Graft Messages', function () {
                 'player1: 0 amber (0 keys) player2: 0 amber (0 keys)',
                 'player2 does not forge a key.  They have 0 amber.  The current cost is 6 amber',
                 'player2 chooses untamed as their active house this turn',
-                'player2 readies their cards',
                 'player2 draws 6 cards to refill their hand to 6 cards',
                 'player1: 0 amber (0 keys) player2: 0 amber (0 keys)',
                 'player1 does not forge a key.  They have 0 amber.  The current cost is 6 amber',
