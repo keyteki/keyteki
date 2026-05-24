@@ -61,6 +61,7 @@ describe('Ditch the Loot', function () {
         it('leaves the amber on the creature when there is no other creature to receive it', function () {
             this.player1.play(this.ditchTheLoot);
             expect(this.urchin.amber).toBe(3);
+            expect(this.player1.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
     });
