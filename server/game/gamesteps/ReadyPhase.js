@@ -52,35 +52,53 @@ class ReadyPhase extends Phase {
         });
     }
 
+    // A card readies in the ready phase only if it's currently exhausted,
+    // is not an entrenched creature the player declined to ready, has no
+    // per-card ready restriction (doesNotReady, cardCannot('ready'), etc.),
+    // and passes the player-level ready restriction.
+    wouldReadyThisPhase(card, context) {
+        return (
+            card.exhausted &&
+            (!card.hasKeyword('entrench') || !this.entrenchedToKeepExhausted.has(card)) &&
+            card.readiesDuringReadyPhase() &&
+            card.checkRestrictions('ready', context)
+        );
+    }
+
     readyCards() {
+        const player = this.game.activePlayer;
+        const context = this.game.getFrameworkContext(player);
+        if (!player.checkRestrictions('ready', context)) {
+            return;
+        }
+        // Pre-filter to only cards that would actually ready. Doing this
+        // BEFORE raising onCardsReadied means listeners (e.g. The Chosen
+        // One) only fire when at least one card actually readies — they
+        // don't trigger on a phase where everything is blocked by Storm
+        // Surge / Thermal Depletion / Frost Giant / etc.
+        const cards = player.cardsInPlay.filter((card) => this.wouldReadyThisPhase(card, context));
+        if (cards.length === 0) {
+            return;
+        }
+        // Raise a single onCardsReadied event covering every card that's
+        // about to ready this step. Step-level listeners (e.g. The Chosen
+        // One) can interrupt to mutate or empty `event.cards`; per-card
+        // listeners (e.g. Cosmicrux, Giltspine Mesmerist) iterate over
+        // `event.cards` in their gameAction.
         this.game.raiseEvent(
             EVENTS.onCardsReadied,
             {
-                player: this.game.activePlayer,
-                cards: this.game.activePlayer.cardsInPlay,
-                context: this.game.getFrameworkContext(this.game.activePlayer)
+                cards,
+                context
             },
             (event) => {
-                if (
-                    !event.player.checkRestrictions('ready', event.context) ||
-                    event.cards.length === 0
-                ) {
+                if (event.cards.length === 0) {
                     return;
                 }
-
-                const cards = event.cards.filter(
-                    (card) =>
-                        !card.hasKeyword('entrench') ||
-                        !card.exhausted ||
-                        !this.entrenchedToKeepExhausted.has(card)
-                );
-
-                if (cards.length === 0) {
-                    return;
+                this.game.addMessage('{0} readies their cards', player);
+                for (const card of event.cards) {
+                    card.ready();
                 }
-
-                this.game.addMessage('{0} readies their cards', event.player);
-                this.game.actions.ready().resolve(cards, event.player);
             }
         );
     }
