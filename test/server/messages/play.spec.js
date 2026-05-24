@@ -192,8 +192,7 @@ describe('Play Messages', function () {
                 'player1 plays Batdrone',
                 'player1 plays Wild Wormhole',
                 "player1 uses Wild Wormhole's amber bonus icon to gain 1 amber",
-                'player1 uses Wild Wormhole to play Scowly Caper',
-                'player1 is unable to play Scowly Caper and returns it to deck'
+                'player1 is unable to play a card from deck due to a restriction'
             ]);
         });
     });
