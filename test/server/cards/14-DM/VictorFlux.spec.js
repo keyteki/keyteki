@@ -15,9 +15,21 @@ describe('Victor Flux', function () {
         });
 
         it('prevents creatures and allows other types after purging a creature', function () {
+            const messageCountBefore = this.game.messages.length;
             this.player1.reap(this.victorFlux);
             this.player1.clickCard(this.urchin);
             expect(this.urchin.location).toBe('purged');
+            const alert = this.game.messages
+                .slice(messageCountBefore)
+                .find((entry) => entry.message && entry.message.alert);
+            expect(alert).toBeDefined();
+            expect(alert.message.alert.type).toBe('bell');
+            const alertText = JSON.stringify(alert.message);
+            expect(alertText).toContain('"name":"player1"');
+            expect(alertText).toContain('Victor Flux');
+            expect(alertText).toContain('"name":"player2"');
+            expect(alertText).toContain('from playing cards of type');
+            expect(alertText).toContain('creature');
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
 
@@ -103,11 +115,16 @@ describe('Victor Flux', function () {
         });
 
         it('does nothing if no card is purged', function () {
+            const messageCountBefore = this.game.messages.length;
             this.player1.moveCard(this.urchin, 'hand');
             this.player1.moveCard(this.dimensionDoor, 'hand');
             this.player1.moveCard(this.cannon, 'hand');
             this.player1.moveCard(this.phoenixHeart, 'hand');
             this.player1.reap(this.victorFlux);
+            const alert = this.game.messages
+                .slice(messageCountBefore)
+                .find((entry) => entry.message && entry.message.alert);
+            expect(alert).toBeUndefined();
             this.player1.endTurn();
             this.player2.clickPrompt('brobnar');
             this.player2.play(this.troll);
