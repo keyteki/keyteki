@@ -83,4 +83,28 @@ describe('Whirlpool', function () {
             expect(this.krump.controller).toBe(this.player2.player);
         });
     });
+
+    describe('Whirlpool overrides Collar of Subordination', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: ['collar-of-subordination'],
+                    inPlay: ['whirlpool']
+                },
+                player2: {
+                    inPlay: ['krump']
+                }
+            });
+        });
+
+        it('changes control of a collared creature to the opponent at end of turn', function () {
+            this.player1.playUpgrade(this.collarOfSubordination, this.krump);
+            expect(this.krump.controller).toBe(this.player1.player);
+            expect(this.krump.upgrades).toContain(this.collarOfSubordination);
+            this.player1.endTurn();
+            expect(this.krump.controller).toBe(this.player2.player);
+            expect(this.krump.upgrades).toContain(this.collarOfSubordination);
+        });
+    });
 });
