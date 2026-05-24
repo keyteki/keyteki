@@ -166,9 +166,10 @@ describe('Cannot Play Messages', function () {
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Traumatic Echo',
                 'player1 uses Traumatic Echo to purge Searine',
+                'player1 uses Traumatic Echo to prevent player2 from playing creature cards next turn',
                 'player1 draws 6 cards to refill their hand to 6 cards',
                 'player1: 0 amber (0 keys) player2: 0 amber (0 keys)',
-                'player2 does not forge a key.  They have 0 amber.  The current cost is 6 amber ',
+                'player2 does not forge a key. They have 0 amber. The current cost is 6 amber',
                 'player2 chooses logos as their active house this turn',
                 'player2 plays Wild Wormhole',
                 "player2 gains an amber due to Wild Wormhole's bonus icon",
