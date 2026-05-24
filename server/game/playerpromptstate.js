@@ -13,6 +13,7 @@ class PlayerPromptState {
         this.selectableCards = [];
         this.cardDamage = {};
         this.selectedCards = [];
+        this.promptedPiles = [];
     }
 
     setSelectedCards(cards) {
@@ -29,6 +30,14 @@ class PlayerPromptState {
 
     clearSelectableCards() {
         this.selectableCards = [];
+    }
+
+    setPromptedPiles(piles) {
+        this.promptedPiles = piles;
+    }
+
+    clearPromptedPiles() {
+        this.promptedPiles = [];
     }
 
     setPrompt(prompt) {
@@ -58,6 +67,7 @@ class PlayerPromptState {
         this.menuTitle = '';
         this.buttons = [];
         this.controls = [];
+        this.promptedPiles = [];
     }
 
     getCardSelectionState(card) {
@@ -83,7 +93,8 @@ class PlayerPromptState {
             menuTitle: this.menuTitle,
             promptTitle: this.promptTitle,
             buttons: this.buttons,
-            controls: this.controls
+            controls: this.controls,
+            promptedPiles: this.promptedPiles
         };
     }
 }
