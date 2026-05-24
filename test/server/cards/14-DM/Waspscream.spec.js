@@ -15,6 +15,7 @@ describe('Waspscream', function () {
         it('takes control of an enemy creature at start of turn when exhausted', function () {
             this.waspscream.exhaust();
             this.player1.endTurn();
+            this.player1.clickCard(this.waspscream);
             this.player1.clickPrompt('Done');
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
@@ -26,6 +27,7 @@ describe('Waspscream', function () {
             expect(this.player1).isReadyToTakeAction();
 
             this.player1.endTurn();
+            this.player1.clickCard(this.waspscream);
             this.player1.clickPrompt('Done');
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
