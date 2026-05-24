@@ -716,6 +716,14 @@ class Player extends GameObject {
         this.promptState.clearSelectableCards();
     }
 
+    setPromptedPiles(piles) {
+        this.promptState.setPromptedPiles(piles);
+    }
+
+    clearPromptedPiles() {
+        this.promptState.clearPromptedPiles();
+    }
+
     getSummaryForCardList(list, activePlayer, hideWhenFaceup) {
         return list.map((card) => {
             return card.getSummary(activePlayer, hideWhenFaceup);
