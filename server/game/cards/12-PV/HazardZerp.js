@@ -19,22 +19,20 @@ class HazardZerp extends Card {
         });
 
         this.scrap({
-            effect: 'discard {1} and deal 3 damage to {2}',
-            effectArgs: (context) => [
-                context.targets.discard ? context.targets.discard : 'nothing',
-                context.targets.damage ? context.targets.damage : 'nothing'
-            ],
-            targets: {
-                discard: {
-                    activePromptTitle: 'Choose a card to discard',
-                    location: 'hand',
-                    controller: 'self',
-                    gameAction: ability.actions.discard({ chatMessage: false })
-                },
-                damage: {
+            preferActionPromptMessage: true,
+            target: {
+                activePromptTitle: 'Choose a card to discard',
+                location: 'hand',
+                controller: 'self',
+                gameAction: ability.actions.discard()
+            },
+            then: {
+                alwaysTriggers: true,
+                target: {
                     cardType: 'creature',
                     gameAction: ability.actions.dealDamage({ amount: 3 })
-                }
+                },
+                message: '{0} uses {1} to deal 3 damage to {2}'
             }
         });
     }
