@@ -13,8 +13,8 @@ class VictorFlux extends Card {
                 const purgedType = preThenContext.target && preThenContext.target.type;
                 return {
                     condition: () => !!purgedType,
-                    effect: 'stop {1} from playing cards of type {2}',
-                    effectArgs: (context) => [context.player.opponent, purgedType],
+                    message: '{0} uses {1} to stop {3} from playing cards of type {4}',
+                    messageArgs: (context) => [context.player.opponent, purgedType],
                     effectAlert: true,
                     gameAction: ability.actions.duringOpponentNextTurn({
                         targetController: 'opponent',

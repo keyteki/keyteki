@@ -93,6 +93,7 @@ class Game extends EventEmitter {
         this.cardsPlayedThisPhase = [];
         this.effectsUsedThisPhase = [];
         this.propheciesActivatedThisPhase = [];
+        this.gainsTextBoxSourcesThisPhase = [];
         this.activePlayer = null;
         this.firstPlayer = null;
         this.playedRoundsAfterTime = [];
@@ -1465,6 +1466,7 @@ class Game extends EventEmitter {
         this.cardsPlayedThisPhase = [];
         this.cardsUsedThisPhase = [];
         this.propheciesActivatedThisPhase = [];
+        this.gainsTextBoxSourcesThisPhase = [];
     }
 
     effectUsed(card) {
