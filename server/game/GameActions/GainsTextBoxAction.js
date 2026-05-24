@@ -120,10 +120,28 @@ class GainsTextBoxAction extends CardGameAction {
         // the new source. Includes CopyCard-base abilities (token
         // creatures, Mimic Gel) and abilities the source itself gained
         // via upgrades or earlier gainsTextBox effects.
+        //
+        // We pull from the `reactions`/`persistentEffects` getters (so
+        // CopyCard cascades and gainAbility effects are included), but
+        // explicitly drop entries that come from the engine-defined
+        // `keywordReactions` / `keywordPersistentEffects` buckets
+        // (Assault, Hazardous, Warded, Taunt, Enraged, …). Those are
+        // installed on every Card via `setupKeywordAbilities` and read
+        // their numeric trigger from the card's current keyword totals
+        // — which we already convey through the `addKeyword`
+        // aggregation above. Re-emitting them as `gainAbility` effects
+        // would make fight-related keyword damage resolve twice
+        // (target's own copy + the gained copy).
+        const keywordReactionSet = new Set(textBoxSource.abilities.keywordReactions);
+        const keywordPersistentEffectSet = new Set(
+            textBoxSource.abilities.keywordPersistentEffects
+        );
         const sourceAbilities = [
             ...textBoxSource.actions,
-            ...textBoxSource.reactions,
-            ...textBoxSource.persistentEffects
+            ...textBoxSource.reactions.filter((reaction) => !keywordReactionSet.has(reaction)),
+            ...textBoxSource.persistentEffects.filter(
+                (persistentEffect) => !keywordPersistentEffectSet.has(persistentEffect)
+            )
         ];
         for (const sourceAbility of sourceAbilities) {
             const abilityType = sourceAbility.abilityType;
