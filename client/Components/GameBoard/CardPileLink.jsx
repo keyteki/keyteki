@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import classNames from 'classnames';
 
-import CardPilePopup from './CardPilePopup';
 import CardImage from './CardImage';
+import CardPilePopup from './CardPilePopup';
 
 const CardPileLink = ({
     cardBack,
