@@ -79,11 +79,17 @@ const DecksComponent = () => {
     // deck already in Redux (e.g. retained from a previous visit, or selected
     // on a wide layout where the back button was never invoked) reveals the
     // detail panel when the viewport shrinks below `lg`.
+    //
+    // Depend on the deck's id, not the object reference, so routine refetches
+    // (filter/pagination/`getDecks` polling) that replace the cached deck
+    // object with a fresh one for the SAME id don't override the user's
+    // choice to go Back to the list on narrow viewports.
+    const selectedDeckId = selectedDeck ? selectedDeck.id : null;
     useEffect(() => {
-        if (selectedDeck) {
+        if (selectedDeckId) {
             setShowListOnNarrow(false);
         }
-    }, [selectedDeck]);
+    }, [selectedDeckId]);
 
     useEffect(() => {
         if (!selectedDeck || showListOnNarrow) {
