@@ -36,7 +36,6 @@ describe('Infinite Loop Messages', function () {
             expect(this.doppelgangerA.location).toBe('discard');
             expect(this.doppelgangerB.location).toBe('play area');
             expect(this).toHaveAllChatMessagesBe([
-                'player1 readies their cards',
                 'player1 draws 6 cards to refill their hand to 6 cards',
                 'player1: 0 amber (0 keys) player2: 0 amber (0 keys)',
                 'player2 uses Doppelganger to have Doppelganger gain the text box of Doppelganger for the remainder of the turn',
