@@ -1141,6 +1141,7 @@ class Lobby {
             player.deck = [];
 
             newGame.join(socket.id, player.user);
+            socket.joinChannel(newGame.id);
         }
 
         for (let player of Object.values(game.getPlayers())) {
