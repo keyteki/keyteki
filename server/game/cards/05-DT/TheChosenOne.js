@@ -5,7 +5,10 @@ class TheChosenOne extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onCardsReadied: (event, context) => event.player === context.player.opponent
+                onCardsReadied: (event, context) =>
+                    context.game.currentPhase === 'ready' &&
+                    context.game.activePlayer === context.player.opponent &&
+                    event.cards.some((card) => card.type === 'creature')
             },
             gameAction: [
                 ability.actions.changeEvent((context) => ({
