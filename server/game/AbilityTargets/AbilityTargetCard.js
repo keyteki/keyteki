@@ -39,6 +39,14 @@ class AbilityTargetCard extends AbilityTarget {
     }
 
     hasLegalTarget(context) {
+        if (
+            this.properties.revealTargets &&
+            Optional.EvalOptional(context, this.properties.optional) &&
+            this.selector.findPossibleCards(context).length > 0
+        ) {
+            return super.hasLegalTarget(context);
+        }
+
         return this.selector.hasEnoughTargets(context) && super.hasLegalTarget(context);
     }
 

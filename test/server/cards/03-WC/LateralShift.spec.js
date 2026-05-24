@@ -101,5 +101,52 @@ describe('Lateral Shift', function () {
             expect(this.collarOfSubordination.controller).toBe(this.player1.player);
             expect(this.spyyyder.controller).toBe(this.player1.player);
         });
+
+        it('should not have a Done button when playable cards exist', function () {
+            this.player1.play(this.lateralShift);
+            expect(this.player1).toHavePrompt('Lateral Shift');
+            expect(this.player1).not.toHavePromptButton('Done');
+        });
+    });
+
+    describe('Lateral Shift with Befuddle', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'unfathomable',
+                    hand: ['befuddle', 'corrode', 'hypoxia']
+                },
+                player2: {
+                    hand: ['lateral-shift', 'helper-bot', 'dimension-door']
+                }
+            });
+        });
+
+        beforeEach(function () {
+            this.player1.play(this.befuddle);
+            this.player1.clickPrompt('brobnar');
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+        });
+
+        it('should still reveal hand when no cards are playable', function () {
+            this.player2.play(this.lateralShift);
+            expect(this.player2).toHavePrompt('Lateral Shift');
+            expect(this.player1.player.hand.length).toBeGreaterThan(0);
+            for (let card of this.player1.player.hand) {
+                expect(this.player2.game.isCardVisible(card, this.player2.player)).toBe(true);
+            }
+            expect(this.player2).toHavePromptButton('Done');
+            this.player2.clickPrompt('Done');
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('should log the revealed cards when no cards are playable', function () {
+            this.player2.play(this.lateralShift);
+            expect(this).toHaveRecentChatMessage(
+                'player2 uses Lateral Shift to reveal Corrode, Hypoxia, Hookmaster, Hookmaster, Hookmaster, and Hookmaster'
+            );
+            this.player2.clickPrompt('Done');
+        });
     });
 });
