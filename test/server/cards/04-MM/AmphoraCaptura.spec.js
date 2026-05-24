@@ -71,5 +71,13 @@ describe('Amphora Captura', function () {
             expect(this.player2.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();
         });
+
+        it('should not offer to resolve house enhancements when replacing bonus icons with capture', function () {
+            this.ancientBear.enhancements = ['capture', 'untamed'];
+            this.player1.play(this.ancientBear);
+            this.player1.clickCard(this.senatorShrix);
+            expect(this.player1).not.toHavePrompt('How do you wish to resolve this untamed icon?');
+            expect(this.player1).isReadyToTakeAction();
+        });
     });
 });
