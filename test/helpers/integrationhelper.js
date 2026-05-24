@@ -311,6 +311,14 @@ beforeEach(function () {
         this.player1.selectDeck(deckBuilder.customDeck(options.player1));
         this.player2.selectDeck(deckBuilder.customDeck(options.player2));
 
+        // Set chains before game start so they affect the first player draw
+        if (options.player1.setupChains) {
+            this.player1.player.chains = options.player1.setupChains;
+        }
+        if (options.player2 && options.player2.setupChains) {
+            this.player2.player.chains = options.player2.setupChains;
+        }
+
         this.startGame();
         //Setup phase
 

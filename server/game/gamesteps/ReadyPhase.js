@@ -8,7 +8,7 @@ class ReadyPhase extends Phase {
      */
     constructor(game) {
         super(game, 'ready');
-        this.entrenchedToReady = new Set();
+        this.entrenchedToKeepExhausted = new Set();
         this.initialise([
             new SimpleStep(game, () => this.promptForEntrenched()),
             new SimpleStep(game, () => this.readyCards())
@@ -16,7 +16,7 @@ class ReadyPhase extends Phase {
     }
 
     promptForEntrenched() {
-        this.entrenchedToReady = new Set();
+        this.entrenchedToKeepExhausted = new Set();
         const player = this.game.activePlayer;
         const context = this.game.getFrameworkContext(player);
         if (!player.checkRestrictions('ready', context)) {
@@ -34,7 +34,7 @@ class ReadyPhase extends Phase {
         }
 
         this.game.promptForSelect(player, {
-            activePromptTitle: 'Select entrenched creatures to ready',
+            activePromptTitle: 'Select entrenched creatures to keep exhausted',
             source: 'Entrench',
             controls: [],
             mode: 'unlimited',
@@ -44,7 +44,7 @@ class ReadyPhase extends Phase {
             buttons: [{ text: 'Done', arg: 'done' }],
             onSelect: (_player, cards) => {
                 for (const card of cards) {
-                    this.entrenchedToReady.add(card);
+                    this.entrenchedToKeepExhausted.add(card);
                 }
                 return true;
             },
@@ -59,7 +59,7 @@ class ReadyPhase extends Phase {
     wouldReadyThisPhase(card, context) {
         return (
             card.exhausted &&
-            (!card.hasKeyword('entrench') || this.entrenchedToReady.has(card)) &&
+            (!card.hasKeyword('entrench') || !this.entrenchedToKeepExhausted.has(card)) &&
             card.readiesDuringReadyPhase() &&
             card.checkRestrictions('ready', context)
         );

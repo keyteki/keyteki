@@ -190,8 +190,10 @@ describe('The Chosen One', function () {
             this.player1.endTurn();
         });
 
-        it('does not trigger The Chosen One when no entrenched creature is selected to ready', function () {
-            expect(this.player1).toHavePrompt('Select entrenched creatures to ready');
+        it('does not trigger The Chosen One when all entrenched creatures are kept exhausted', function () {
+            expect(this.player1).toHavePrompt('Select entrenched creatures to keep exhausted');
+            this.player1.clickCard(this.cabochon);
+            this.player1.clickCard(this.remmiHound);
             this.player1.clickPrompt('done');
 
             expect(this.cabochon.exhausted).toBe(true);
@@ -202,8 +204,8 @@ describe('The Chosen One', function () {
             expect(this.player2).isReadyToTakeAction();
         });
 
-        it('triggers The Chosen One when at least one entrenched creature is selected to ready', function () {
-            expect(this.player1).toHavePrompt('Select entrenched creatures to ready');
+        it('triggers The Chosen One when at least one entrenched creature readies', function () {
+            expect(this.player1).toHavePrompt('Select entrenched creatures to keep exhausted');
             this.player1.clickCard(this.cabochon);
             this.player1.clickPrompt('done');
 
