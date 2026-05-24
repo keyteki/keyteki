@@ -658,6 +658,13 @@ class Card extends EffectSource {
             .filter((e) => Constants.Houses.includes(e.toLowerCase()));
     }
 
+    getResolvableBonusIcons() {
+        return this.bonusIcons.filter((icon) => {
+            const normalized = icon.replace(/\s/g, '').toLowerCase();
+            return !Constants.Houses.includes(normalized);
+        });
+    }
+
     getHouses() {
         let combinedHouses = [];
 
