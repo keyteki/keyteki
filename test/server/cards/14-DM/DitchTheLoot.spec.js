@@ -44,4 +44,24 @@ describe('Ditch the Loot', function () {
             expect(this.player1).toBeAbleToSelect(this.troll);
         });
     });
+
+    describe('Ditch the Loot with only one creature in play that has amber', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    hand: ['ditch-the-loot'],
+                    inPlay: ['urchin']
+                },
+                player2: {}
+            });
+            this.urchin.amber = 3;
+        });
+
+        it('leaves the amber on the creature when there is no other creature to receive it', function () {
+            this.player1.play(this.ditchTheLoot);
+            expect(this.urchin.amber).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

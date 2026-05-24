@@ -5,6 +5,12 @@ class DitchTheLoot extends Card {
     // Play: Move all amber from one creature to another creature.
     setupCardAbilities(ability) {
         this.play({
+            condition: (context) =>
+                context.player.creaturesInPlay.length +
+                    (context.player.opponent
+                        ? context.player.opponent.creaturesInPlay.length
+                        : 0) >=
+                2,
             target: {
                 cardType: 'creature',
                 gameAction: ability.actions.removeAmber({ all: true })
