@@ -742,6 +742,32 @@ class Card extends EffectSource {
         this.elusiveUsed = false;
     }
 
+    /**
+     * Returns true if this card has any reaction whose target step resolves
+     * a `GainsTextBoxAction` (i.e. a Doppelganger-style “copy a neighbor’s
+     * text box” ability). Uses the runtime reactions list so abilities granted
+     * via CopyCard (e.g. tokens, Mimic Gel copies) or gainAbility effects are
+     * also detected. Used to spot infinite copy loops (e.g. two Doppelgangers
+     * next to each other) so the infinite-loop rule can be applied.
+     */
+    hasGainsTextBoxAbility() {
+        if (this.isBlank()) {
+            return false;
+        }
+        const GainsTextBoxAction = require('./GameActions/GainsTextBoxAction');
+        const isGainsTextBox = (action) => action instanceof GainsTextBoxAction;
+        return this.getReactions(true).some(
+            (reaction) =>
+                reaction.targets &&
+                reaction.targets.some(
+                    (target) =>
+                        target.properties &&
+                        Array.isArray(target.properties.gameAction) &&
+                        target.properties.gameAction.some(isGainsTextBox)
+                )
+        );
+    }
+
     updateAbilityEvents(from, to) {
         _.each(this.getReactions(true), (reaction) => {
             if (reaction.location.includes(to) && !reaction.location.includes(from)) {
