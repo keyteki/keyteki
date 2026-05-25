@@ -7,10 +7,10 @@ class GiltspineMesmerist extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardReadied: (event) => event.exhausted
+                onCardsReadied: () => true
             },
+            multiTriggerEvent: (event) => event.cards,
             autoResolve: true,
-            condition: (context) => context.game.activePlayer.deck.length > 0,
             gameAction: ability.actions.discard((context) => ({
                 target: context.game.activePlayer.deck[0]
             }))

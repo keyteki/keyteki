@@ -74,4 +74,32 @@ describe('Custom Virus', function () {
             this.player1.endTurn();
         });
     });
+
+    describe('when warded after becoming a creature', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['custom-virus', 'animator', 'doc-bookton'],
+                    hand: ['dextre']
+                },
+                player2: {}
+            });
+        });
+
+        it('still purges but does not destroy creatures sharing a trait when ward prevents Custom Virus from being destroyed', function () {
+            this.player1.useAction(this.animator);
+            this.player1.clickCard(this.customVirus);
+            this.player1.clickPrompt('Left');
+            expect(this.customVirus.type).toBe('creature');
+            this.customVirus.ward();
+            this.player1.useOmni(this.customVirus);
+            this.player1.clickCard(this.dextre);
+            expect(this.dextre.location).toBe('purged');
+            expect(this.customVirus.location).toBe('play area');
+            expect(this.customVirus.warded).toBe(false);
+            expect(this.docBookton.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

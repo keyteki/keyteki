@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react';
 import classNames from 'classnames';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import CardPilePopup from './CardPilePopup';
 import CardImage from './CardImage';
+import CardPilePopup from './CardPilePopup';
 
 const CardPileLink = ({
     cardBack,
@@ -14,6 +14,7 @@ const CardPileLink = ({
     hasActiveHouse,
     houses,
     isMe,
+    isPromptTarget,
     isSpectating,
     manualMode,
     numDeckCards,
@@ -33,8 +34,14 @@ const CardPileLink = ({
 }) => {
     const [showPopup, setShowPopup] = useState(false);
     const [manualPopup, setManualPopup] = useState(false);
+    const showPopupRef = useRef(false);
     const updatePopupVisibility = useCallback(
         (value) => {
+            if (showPopupRef.current === value) {
+                return;
+            }
+
+            showPopupRef.current = value;
             setShowPopup(value);
 
             onPopupChange && onPopupChange({ source: source, visible: value });
@@ -47,12 +54,12 @@ const CardPileLink = ({
             return;
         }
 
-        if (cards?.some((card) => card.selectable)) {
+        if (isPromptTarget || cards?.some((card) => card.selectable)) {
             updatePopupVisibility(true);
         } else {
             updatePopupVisibility(false);
         }
-    }, [cards, manualPopup, updatePopupVisibility]);
+    }, [cards, isPromptTarget, manualPopup, updatePopupVisibility]);
 
     let classNameStr = classNames('card-pile-link', className, {
         horizontal: orientation === 'horizontal' || orientation === 'exhausted',
