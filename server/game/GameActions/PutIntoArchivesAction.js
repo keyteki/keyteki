@@ -13,11 +13,11 @@ class PutIntoArchivesAction extends CardGameAction {
         if (
             this.target.every((card) => ['play area', 'discard', 'purged'].includes(card.location))
         ) {
-            this.effectMsg = 'put {0} into archives';
+            this.effectMsg = 'put {0} into their archives';
         } else if (this.target.length === 1) {
-            this.effectMsg = 'put a card into archives';
+            this.effectMsg = 'put a card into their archives';
         } else {
-            this.effectMsg = 'put ' + this.target.length.toString() + ' cards into archives';
+            this.effectMsg = 'put ' + this.target.length.toString() + ' cards into their archives';
         }
     }
 
