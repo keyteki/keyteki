@@ -133,6 +133,21 @@ const EVENTS = /** @type {const} */ ({
     onCardArchived: 'onCardArchived',
 
     /**
+     * Triggered when a card is being put into archives via an effect that uses
+     * “put into archives” phrasing (as opposed to the “archive” phrasing). This
+     * includes {@link AbductAction} as well. Effects that only listen for the
+     * archive event (e.g. {@link TheArchivist}) should not listen for this
+     * event.
+     *
+     * Params:
+     * * `card` — The {@link Card} being put into archives.
+     *
+     * @see PutIntoArchivesAction
+     * @see AbductAction
+     */
+    onCardPutIntoArchives: 'onCardPutIntoArchives',
+
+    /**
      * Triggered when an Upgrade is attached to a Creature or Artifact.
      *
      * Params:
