@@ -255,6 +255,74 @@ const customMatchers = {
 // Register custom matchers with vitest's expect.extend
 expect.extend(customMatchers);
 
+// Card / Player / Game objects have huge, deeply-cyclic reference graphs
+// (Card -> controller -> game -> all players -> all cards -> events -> ...).
+// When a `toEqual`/`toContain`/etc. assertion fails involving one of these,
+// vitest's pretty-format diff serializer can take seconds to minutes and
+// blow the heap trying to walk the graph.
+//
+// 1. addEqualityTesters: short-circuit equality with reference identity for
+//    these classes. Two Cards are equal iff they are the same instance —
+//    deep-equal of Card fields is meaningless and ruinously expensive.
+// 2. addSnapshotSerializer: render them as short identifiers in any
+//    serialized output (assertion diffs, snapshots) instead of recursing.
+const Card = require('../../server/game/Card.js');
+const Player = require('../../server/game/player.js');
+const Game = require('../../server/game/game.js');
+
+expect.addEqualityTesters([
+    function gameObjectIdentityTester(a, b) {
+        const isGameObject = (v) => v instanceof Card || v instanceof Player || v instanceof Game;
+        if (isGameObject(a) || isGameObject(b)) {
+            return a === b;
+        }
+        return undefined; // fall back to default deep equality
+    }
+]);
+
+expect.addSnapshotSerializer({
+    test: (val) => val instanceof Card || val instanceof Player || val instanceof Game,
+    serialize: (val) => {
+        if (val instanceof Card) {
+            return `Card(${val.name}${val.location ? ' @ ' + val.location : ''})`;
+        }
+        if (val instanceof Player) {
+            return `Player(${val.name})`;
+        }
+        return 'Game';
+    }
+});
+
+// `addSnapshotSerializer` only affects snapshot matchers (toMatchSnapshot
+// etc.) — assertion-failure diffs go through @vitest/utils' diff.js, which
+// uses a fixed pretty-format plugin list with no extension hook. To prevent
+// failure diffs from recursing through the entire game object graph (and
+// blowing the heap when a `toEqual` against e.g. `cardsInPlay` fails), we
+// install our serializer by wrapping one of the existing plugin references
+// imported from @vitest/pretty-format. The plugin objects are shared by
+// reference with diff.js's PLUGINS array, so mutating their `test`/
+// `serialize` methods here is observed by both diff and snapshot paths.
+const prettyFormatPlugins = require('@vitest/pretty-format').plugins;
+const isGameObject = (v) => v instanceof Card || v instanceof Player || v instanceof Game;
+const serializeGameObject = (val) => {
+    if (val instanceof Card) {
+        return `Card(${val.name}${val.location ? ' @ ' + val.location : ''})`;
+    }
+    if (val instanceof Player) {
+        return `Player(${val.name})`;
+    }
+    return 'Game';
+};
+const targetPlugin = prettyFormatPlugins.AsymmetricMatcher;
+if (!targetPlugin.__keytekiWrapped) {
+    const originalTest = targetPlugin.test.bind(targetPlugin);
+    const originalSerialize = targetPlugin.serialize.bind(targetPlugin);
+    targetPlugin.test = (val) => isGameObject(val) || originalTest(val);
+    targetPlugin.serialize = (val, ...rest) =>
+        isGameObject(val) ? serializeGameObject(val) : originalSerialize(val, ...rest);
+    targetPlugin.__keytekiWrapped = true;
+}
+
 beforeEach(function () {
     // Clear previous test context
     for (let key of Object.keys(testContext)) {
@@ -310,6 +378,14 @@ beforeEach(function () {
         //Build decks
         this.player1.selectDeck(deckBuilder.customDeck(options.player1));
         this.player2.selectDeck(deckBuilder.customDeck(options.player2));
+
+        // Set chains before game start so they affect the first player draw
+        if (options.player1.setupChains) {
+            this.player1.player.chains = options.player1.setupChains;
+        }
+        if (options.player2 && options.player2.setupChains) {
+            this.player2.player.chains = options.player2.setupChains;
+        }
 
         this.startGame();
         //Setup phase

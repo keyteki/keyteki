@@ -32,6 +32,7 @@ module.exports = {
     FlipProphecyAction: require('./FlipProphecyAction'),
     ForgeAction: require('./ForgeAction'),
     FulfillProphecyAction: require('./FulfillProphecyAction'),
+    GainsTextBoxAction: require('./GainsTextBoxAction'),
     HealAction: require('./HealAction'),
     JointGameAction: require('./JointGameAction'),
     LastingEffectAction: require('./LastingEffectAction'),

@@ -26,6 +26,7 @@ This document describes how card abilities are defined in Keyteki. All card abil
     -   [Optional](#optional)
     -   [Targeting](#targeting)
     -   [Chaining Effects with "then"](#chaining-effects-with-then)
+    -   [Guarding `preThenContext.target` access](#guarding-prethencontexttarget-access)
 
 ## Basic Structure
 
@@ -133,6 +134,14 @@ this.beforeFight({
 ### destroyed()
 
 Triggered abilities that activate when the card is destroyed. These are implemented as interrupts that trigger before any cards leave play due to destruction.
+
+**Destruction timing.** When a card is destroyed it is first _tagged for destruction_ (its `moribund` flag is set to `true`) but it stays in play (`location === 'play area'`). All `destroyed()` abilities triggered by the same destruction window resolve while every tagged card is still in play. Only after the destroyed-ability window closes do the tagged cards move to discard via `onCardLeavesPlay`.
+
+Implications for card implementations:
+
+- A `destroyed()` ability that targets "the most powerful enemy creature", "the creature on the opponent's left flank", etc. must consider creatures that are also tagged for destruction during this same window — they have not yet left play. Selectors and direct lookups (`creaturesInPlay`, `cardsInPlay[i]`, neighbors, flank position) surface tagged-for-destruction cards.
+- Per the rules, a player **cannot _choose_** a tagged-for-destruction creature as a target. When the player has a choice (e.g. ties for "most powerful"), tagged cards are filtered out of the selectable set automatically by the stat selectors (`MostStatCardSelector`, `LeastStatCardSelector`). When there is no choice (e.g. "the creature on the left flank", or a single most-powerful creature), the ability still targets the tagged card; the destroy itself becomes a no-op via `DestroyAction`'s event condition (the original destruction will move it to discard once the window closes).
+- `DestroyAction.canAffect` returns true for moribund cards so that selectors can see them. The destroy is short-circuited at event-resolve time, not at target-selection time.
 
 ```javascript
 // Destroyed: Gain 2A.
@@ -617,3 +626,152 @@ this.reap({
 ```
 
 Note that `alwaysTriggers: true` is needed on the outer `then` so the optional-discard prompt still appears even when the capture event was cancelled or partial — but the inner `then`'s `condition` then ensures the final effect is gated correctly.
+
+#### Pitfall: `alwaysTriggers` does not bypass legal-target checks
+
+`alwaysTriggers: true` controls whether a `then` block fires when the **preceding** `gameAction` was cancelled or didn't fully resolve. It does **not** override the engine's requirement that the `then` block itself must have at least one legal target for its `gameAction`. If the `then`'s `gameAction` has no legal target, the entire `then` block — including any nested `then` chain inside it — is silently skipped.
+
+This is usually what you want (e.g. drawing 0 cards is a no-op anyway). It becomes a bug when the `then` block has a **nested** `then` chain that should still run regardless of whether the outer `gameAction` had a target — for example, a card that reveals from hand and then draws, where the draw should happen even with an empty hand.
+
+The fix is to use a function-form `then` that branches on the empty case and returns a no-`gameAction` object:
+
+```javascript
+// BUG: if the player's hand is empty, the reveal has no legal target,
+// the entire then is skipped, and the draw never happens.
+this.play({
+    gameAction: ability.actions.destroy(/* ... */),
+    then: {
+        alwaysTriggers: true,
+        gameAction: ability.actions.reveal((context) => ({ target: context.player.hand })),
+        then: {
+            alwaysTriggers: true,
+            gameAction: ability.actions.draw({ amount: 1 })
+        }
+    }
+});
+
+// FIX: wrap the reveal in a function-form then. When the hand is empty,
+// return an object with no gameAction (so meetsRequirements passes) and
+// the nested then-chain still runs.
+this.play({
+    gameAction: ability.actions.destroy(/* ... */),
+    then: {
+        alwaysTriggers: true,
+        then: (preThenContext) =>
+            preThenContext.player.hand.length === 0
+                ? {
+                      alwaysTriggers: true,
+                      message: '{0} reveals nothing',
+                      messageArgs: () => [preThenContext.player],
+                      then: {
+                          alwaysTriggers: true,
+                          gameAction: ability.actions.draw({ amount: 1 })
+                      }
+                  }
+                : {
+                      alwaysTriggers: true,
+                      gameAction: ability.actions.reveal({ target: preThenContext.player.hand }),
+                      then: {
+                          alwaysTriggers: true,
+                          gameAction: ability.actions.draw({ amount: 1 })
+                      }
+                  }
+    }
+});
+```
+
+The engine includes a test-mode assertion that throws when this pattern is detected: a function-form `then` whose returned `gameAction` has no legal target while its outer `alwaysTriggers: true` block has a further nested `then`-chain. If you see this error, refactor the function-form `then` to return a no-`gameAction` object on the empty case (as shown above) so the inner chain still runs.
+
+#### Guarding `preThenContext.target` access
+
+Any `then` block that reads `preThenContext.target` must defend against it being `undefined`. This is **not** limited to `target.optional: true` — it also happens in routine cases where the parent ability's target step finds **no eligible card**. Without a guard, the game crashes with `TypeError: Cannot read properties of undefined (reading '<prop>')` and the user sees an error toast mid-ability.
+
+**When `preThenContext.target` is undefined:**
+
+1. **Optional targets.** `target: { optional: true, ... }` and the player declined.
+2. **No eligible target.** The parent `target` declared `cardCondition`/`controller`/`location` restrictions and no card in scope matched (e.g. Replacement Targ played with all neighbors being Soldiers, Inspiring Oration played with no friendly creatures, Placeholder played with no creatures in play).
+3. **Mid-resolution invalidation.** The target was chosen but became invalid (left play, moved zones) before the `then` resolved.
+
+**When does the `then` still fire if there was no target?** Only when `alwaysTriggers: true` is set on the `then`:
+
+| Parent target step                     | `then.alwaysTriggers` | Does `then` fire?            |
+| -------------------------------------- | --------------------- | ---------------------------- |
+| Found a valid target, action resolved  | any                   | yes                          |
+| Found a valid target, action cancelled | `true`                | yes                          |
+| Found a valid target, action cancelled | `false`/absent        | no                           |
+| Found no eligible target               | `true`                | **yes (this is the danger)** |
+| Found no eligible target               | `false`/absent        | no                           |
+
+So the rule is: if your `then` uses `preThenContext.target` **and** sets `alwaysTriggers: true`, you must guard. If your `then` uses `preThenContext.target` **without** `alwaysTriggers`, you're usually safe — but still add a guard if the parent target uses `optional: true`, or if there's any path where the parent's `gameAction` produces events while leaving `target` unset.
+
+**The canonical guard pattern:**
+
+Add (or extend) a `condition` on the `then` that returns `false` when the target is missing. The whole `then` ability is then cleanly skipped:
+
+```javascript
+// Play: Put a neighboring non-Soldier creature into its owner's hand.
+// If you do, the most powerful friendly creature captures 2A.
+this.play({
+    target: {
+        cardType: 'creature',
+        controller: 'self',
+        cardCondition: (card, context) =>
+            !card.hasTrait('soldier') && context.source.neighbors.includes(card),
+        gameAction: ability.actions.returnToHand()
+    },
+    then: (preThenContext) => ({
+        alwaysTriggers: true,
+        // Guard: if no neighbor was eligible, preThenContext.target is undefined
+        condition: () => preThenContext.target && preThenContext.target.location === 'hand',
+        target: {
+            mode: 'mostStat',
+            cardType: 'creature',
+            controller: 'self',
+            numCards: 1,
+            cardStat: (card) => card.power,
+            gameAction: ability.actions.capture({ amount: 2 })
+        }
+    })
+});
+```
+
+If the `then` has no other condition, just add one:
+
+```javascript
+then: (preThenContext) => ({
+    condition: () => !!preThenContext.target,
+    gameAction: ability.actions.gainAmber({
+        amount: 1,
+        target: preThenContext.target && preThenContext.target.controller
+    })
+});
+```
+
+**Inline guarding for property accesses.** Even with a `condition` guard, any expression evaluated **outside** the condition (e.g. inside `messageArgs`, `effectArgs`, or a `gameAction` factory) is also evaluated — sometimes during `then` setup, before the condition fires. Defensively guard each access there too:
+
+```javascript
+// BAD — crashes if no eligible target
+then: (preThenContext) => ({
+    condition: () => !!preThenContext.target,
+    gameAction: ability.actions.draw({
+        amount: 2 * preThenContext.target.neighbors.length // evaluated immediately
+    })
+});
+
+// GOOD
+then: (preThenContext) => ({
+    condition: () => !!preThenContext.target,
+    gameAction: ability.actions.draw({
+        amount: preThenContext.target ? 2 * preThenContext.target.neighbors.length : 0
+    })
+});
+```
+
+The same applies to `preThenContext.preThenEvent` — when the parent produced no events (no eligible target with `alwaysTriggers: true`), `preThenEvent` is `undefined`. Guard `context.preThenEvent && context.preThenEvent.<prop>` whenever you read it.
+
+**Quick checklist when writing a `then` that reads `preThenContext.target`:**
+
+1. Does the parent ability have a `target` or `targets` requirement? → guard needed.
+2. Does the `then` set `alwaysTriggers: true`? → guard is **required**.
+3. Is the parent target `optional: true`? → guard is **required**.
+4. Does any `messageArgs` / `effectArgs` / `gameAction` factory dereference `preThenContext.target.X` outside the `condition`? → inline-guard those accesses too.

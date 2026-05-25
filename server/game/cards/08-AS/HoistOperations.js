@@ -5,6 +5,7 @@ class HoistOperations extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
+                activePromptTitle: 'Choose a creature to archive',
                 cardType: 'creature',
                 controller: 'any',
                 gameAction: ability.actions.putIntoArchives()
