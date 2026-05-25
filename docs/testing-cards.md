@@ -475,7 +475,7 @@ expect(this.myCreature.tokens.damage).toBe(3);
 expect(this.myCreature.tokens.amber).toBeUndefined();
 
 // ❌ Workaround that hides the real issue
-expect((this.myCreature.tokens.damage || 0)).toBe(0);
+expect(this.myCreature.tokens.damage || 0).toBe(0);
 
 // ✅ Use the getter, which is always defined
 expect(this.myCreature.damage).toBe(3);
