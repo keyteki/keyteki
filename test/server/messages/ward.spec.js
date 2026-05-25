@@ -141,7 +141,7 @@ describe('Ward Messages', function () {
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Hoist Operations',
                 "player1 gains an amber due to Hoist Operations's bonus icon",
-                'player1 uses Hoist Operations to put Dextre into archives',
+                'player1 uses Hoist Operations to put Dextre into their archives',
                 'player2 uses Dextre to remove its ward token'
             ]);
         });
