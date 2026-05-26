@@ -117,6 +117,15 @@ describe('Soulkeeper', function () {
             this.player1.playUpgrade(this.soulkeeper, this.oldYurk);
             this.oldYurk.ready();
             this.player1.fightWith(this.oldYurk, this.bilgumAvalanche);
+            // Bilgum Avalanche is the only most-powerful enemy and is already
+            // moribund from the fight. The selector falls back to allowing the
+            // moribund top-power creature so a target exists, and the player
+            // is prompted to confirm it.
+            expect(this.player1).toHavePrompt('Soulkeeper');
+            expect(this.player1).toBeAbleToSelect(this.bilgumAvalanche);
+            expect(this.player1).not.toBeAbleToSelect(this.nexus);
+            expect(this.player1).not.toBeAbleToSelect(this.helperBot);
+            this.player1.clickCard(this.bilgumAvalanche);
             expect(this.oldYurk.location).toBe('discard');
             expect(this.soulkeeper.location).toBe('discard');
             expect(this.bilgumAvalanche.location).toBe('discard');
