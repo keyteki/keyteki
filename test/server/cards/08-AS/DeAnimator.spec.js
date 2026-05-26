@@ -201,37 +201,36 @@ describe('De-Animator', function () {
             });
         });
 
-        it('should keep a mineralized creature as an artifact when Animating Force is attached while De-Animator is in play', function () {
+        it('should let Animating Force override De-Animator when applied after (newest wins)', function () {
             // Mineralize Batdrone
             this.player1.playCreature(this.deAnimator);
             this.player1.clickCard(this.batdrone);
             expect(this.batdrone.type).toBe('artifact');
             expect(this.batdrone.tokens.mineralize).toBe(1);
             expect(this.batdrone.hasKeyword('versatile')).toBe(false);
-            expect(this.batdrone.power).toBe(2); // Not relevant as an artifact, but is still set
             this.player1.endTurn();
 
-            // Animating Force Batdrone - stays an artifact
+            // Animating Force Batdrone - becomes a creature (newest effect wins)
             this.player2.clickPrompt('geistoid');
             this.player2.playUpgrade(this.animatingForce, this.batdrone);
-            expect(this.batdrone.type).toBe('artifact');
+            expect(this.batdrone.type).toBe('creature');
             expect(this.batdrone.tokens.mineralize).toBe(1);
             expect(this.batdrone.hasKeyword('versatile')).toBe(true);
             expect(this.batdrone.power).toBe(4);
             this.player2.endTurn();
 
-            // Remove De-Animator - Batdrone becomes a creature
+            // Remove De-Animator - Batdrone still a creature via Animating Force
             this.player1.clickPrompt('logos');
             this.player1.play(this.positronBolt);
             this.player1.clickCard(this.deAnimator);
-            this.player1.clickPrompt('Right'); // Move Batdrone to battleline
+            this.player1.clickPrompt('Right');
             expect(this.deAnimator.location).toBe('discard');
             expect(this.batdrone.type).toBe('creature');
             expect(this.batdrone.tokens.mineralize).toBe(1);
             expect(this.batdrone.hasKeyword('versatile')).toBe(true);
             expect(this.batdrone.power).toBe(4);
 
-            // De-Animator comes back - Batdrone goes back to being an artifact
+            // De-Animator comes back - newest again, so Batdrone becomes an artifact
             this.player1.moveCard(this.deAnimator, 'hand');
             this.player1.playCreature(this.deAnimator);
             this.player1.clickCard(this.deAnimator);

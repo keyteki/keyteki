@@ -45,6 +45,14 @@ class TriggeredAbility extends CardAbility {
         this.optional = properties.optional;
         this.isLastingAbilityTrigger = !!properties.player;
         this.multipleTrigger = !!properties.multipleTrigger;
+        // Optional: `multiTriggerEvent(event, context) => Card[]` lets a
+        // single bulk event produce one ability trigger per returned
+        // subject card. Each trigger gets its own context with
+        // `context.subject` set, and each is added to the ability window
+        // as a distinct choice the player can order. Used for bulk events
+        // (e.g. onCardsReadied) where a reaction like Cosmicrux fires per
+        // readied creature.
+        this.multiTriggerEvent = properties.multiTriggerEvent;
         if (properties.location === 'any') {
             this.registerEvents();
         }
@@ -69,7 +77,36 @@ class TriggeredAbility extends CardAbility {
 
         let context = this.createContext(player, event);
         if (this.card.reactions.includes(this) || this.isLastingAbilityTrigger) {
-            if (this.isTriggeredByEvent(event, context)) {
+            if (this.multiTriggerEvent) {
+                // For per-subject triggers, only the `when` clause is
+                // evaluated against the bulk context — `condition` and
+                // `meetsRequirements` are evaluated per subject so they
+                // can use `context.subject`.
+                if (!this.when[event.name] || !this.when[event.name](event, context)) {
+                    return;
+                }
+                const subjects = this.multiTriggerEvent(event, context) || [];
+                for (const subject of subjects) {
+                    const perSubjectContext = this.createContext(player, event, subject);
+                    // Skip re-evaluating `when` per subject: it was already
+                    // checked on the bulk context above, and bulk-context
+                    // semantics mean it must not depend on `context.subject`.
+                    if (!this.isTriggeredByEvent(event, perSubjectContext, { skipWhen: true })) {
+                        continue;
+                    }
+                    if (this.meetsRequirements(perSubjectContext, []) === '') {
+                        window.addChoice(perSubjectContext);
+                    } else if (this.properties.destroyed || this.properties.play) {
+                        // Mirror the non-multi path: only `destroyed` and
+                        // `play` reactions defer when targets are illegal,
+                        // because ordering with other triggers may refill
+                        // the deck/discard pile and make the target legal
+                        // by the time it's resolved. Regular reactions are
+                        // silently skipped to match single-subject behavior.
+                        window.addDeferredChoice(perSubjectContext);
+                    }
+                }
+            } else if (this.isTriggeredByEvent(event, context)) {
                 if (this.meetsRequirements(context, []) === '') {
                     // If the ability meets requirements then add it as a choice
                     window.addChoice(context);
@@ -81,9 +118,10 @@ class TriggeredAbility extends CardAbility {
         }
     }
 
-    createContext(player = this.card.controller, event) {
+    createContext(player = this.card.controller, event, subject) {
         return new TriggeredAbilityContext({
             event: event,
+            subject: subject,
             game: this.game,
             source: this.card,
             player: player,
@@ -91,10 +129,13 @@ class TriggeredAbility extends CardAbility {
         });
     }
 
-    isTriggeredByEvent(event, context) {
+    isTriggeredByEvent(event, context, { skipWhen = false } = {}) {
         if (this.properties.condition && !this.properties.condition(context)) {
             return false;
-        } else if (!this.when[event.name] || !this.when[event.name](event, context)) {
+        } else if (
+            !skipWhen &&
+            (!this.when[event.name] || !this.when[event.name](event, context))
+        ) {
             return false;
         } else if (this.properties.play || this.properties.fight || this.properties.reap) {
             if (

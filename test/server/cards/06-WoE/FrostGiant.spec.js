@@ -31,4 +31,32 @@ describe('Frost Giant', function () {
             this.player1.endTurn();
         });
     });
+
+    describe('Frost Giant readied by ability during the ready cards step', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['jargogle', 'ganger-chieftain'],
+                    inPlay: ['frost-giant', 'cosmicrux']
+                },
+                player2: {}
+            });
+        });
+
+        it('readies Frost Giant via Ganger Chieftain after Cosmicrux kills Jargogle', function () {
+            this.frostGiant.exhaust();
+            this.player1.playCreature(this.jargogle);
+            this.player1.clickCard(this.gangerChieftain);
+            this.jargogle.damage = 1;
+            this.player1.endTurn();
+
+            this.player1.clickPrompt('Left'); // Ganger Chieftain
+            this.player1.clickCard(this.frostGiant);
+            expect.soft(this.frostGiant.exhausted).toBe(false);
+            expect(this.frostGiant.damage).toBe(1);
+            this.player2.clickPrompt('untamed');
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
 });

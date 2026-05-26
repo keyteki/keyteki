@@ -6,8 +6,7 @@ class PoisedStrike extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onCardReadied: (event, context) =>
-                    event.card === context.source.parent && event.exhausted
+                onCardsReadied: (event, context) => event.cards.includes(context.source.parent)
             },
             gameAction: ability.actions.destroy((context) => ({ target: context.source.parent }))
         });
@@ -15,7 +14,7 @@ class PoisedStrike extends Card {
         this.fate({
             gameAction: ability.actions.untilPlayerTurnEnd(() => ({
                 targetController: 'player',
-                effect: ability.effects.doesNotReady()
+                effect: ability.effects.skipStep('ready')
             }))
         });
     }
