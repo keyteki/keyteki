@@ -7,7 +7,7 @@ class ReassemblyRequired extends Card {
         this.play({
             target: {
                 cardType: 'creature',
-                gameAction: ability.actions.archive()
+                gameAction: ability.actions.putIntoArchives()
             }
         });
 

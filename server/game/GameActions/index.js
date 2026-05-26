@@ -53,6 +53,7 @@ module.exports = {
     MakeTokenCreatureAction: require('./MakeTokenCreatureAction'),
     PurgeAction: require('./PurgeAction'),
     PutIntoPlayAction: require('./PutIntoPlayAction'),
+    PutIntoArchivesAction: require('./PutIntoArchivesAction'),
     RaiseTideAction: require('./RaiseTideAction'),
     RandomArchiveAction: require('./RandomArchiveAction'),
     RandomDiscardAction: require('./RandomDiscardAction'),

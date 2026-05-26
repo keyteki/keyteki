@@ -89,4 +89,121 @@ describe('Reveal Messages', function () {
             ]);
         });
     });
+
+    describe('Trash Heap reveal messages', function () {
+        it("should log both players' revealed hands", function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    hand: ['trash-heap', 'troll'],
+                    inPlay: ['lamindra']
+                },
+                player2: {
+                    hand: ['krump'],
+                    inPlay: ['echofly']
+                }
+            });
+            this.player1.play(this.trashHeap);
+            this.player1.clickPrompt('Me');
+            expect(this.player1).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Trash Heap',
+                "player1 uses Trash Heap to destroy each creature, reveal each player's hand, and discard each revealed creature",
+                'Lamindra is destroyed',
+                'Echofly is destroyed',
+                'player1 reveals Troll',
+                'player2 reveals Krump',
+                'player1 uses Trash Heap to discard Troll',
+                'player1 uses Trash Heap to discard Krump',
+                'player1 uses Trash Heap to have each player refill their hand',
+                'player1 draws 6 cards to refill their hand to 6 cards',
+                'player2 draws 6 cards to refill their hand to 6 cards'
+            ]);
+        });
+
+        it("should log 'reveals nothing' when the active player's hand is empty", function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    hand: ['trash-heap'],
+                    inPlay: ['lamindra']
+                },
+                player2: {
+                    hand: ['krump'],
+                    inPlay: ['echofly']
+                }
+            });
+            this.player1.play(this.trashHeap);
+            this.player1.clickPrompt('Me');
+            expect(this.player1).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Trash Heap',
+                "player1 uses Trash Heap to destroy each creature, reveal each player's hand, and discard each revealed creature",
+                'Lamindra is destroyed',
+                'Echofly is destroyed',
+                'player1 reveals nothing',
+                'player2 reveals Krump',
+                'player1 uses Trash Heap to discard Krump',
+                'player1 uses Trash Heap to have each player refill their hand',
+                'player1 draws 6 cards to refill their hand to 6 cards',
+                'player2 draws 6 cards to refill their hand to 6 cards'
+            ]);
+        });
+
+        it("should log 'reveals nothing' when the opponent's hand is empty", function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    hand: ['trash-heap', 'troll'],
+                    inPlay: ['lamindra']
+                },
+                player2: {
+                    inPlay: ['echofly']
+                }
+            });
+            this.player2.player.hand.forEach((card) => this.player2.moveCard(card, 'discard'));
+            this.player1.play(this.trashHeap);
+            this.player1.clickPrompt('Me');
+            expect(this.player1).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Trash Heap',
+                "player1 uses Trash Heap to destroy each creature, reveal each player's hand, and discard each revealed creature",
+                'Lamindra is destroyed',
+                'Echofly is destroyed',
+                'player1 reveals Troll',
+                'player2 reveals nothing',
+                'player1 uses Trash Heap to discard Troll',
+                'player1 uses Trash Heap to have each player refill their hand',
+                'player1 draws 6 cards to refill their hand to 6 cards',
+                'player2 draws 6 cards to refill their hand to 6 cards'
+            ]);
+        });
+
+        it("should log 'reveals nothing' for both when both hands are empty", function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    hand: ['trash-heap'],
+                    inPlay: ['lamindra']
+                },
+                player2: {
+                    inPlay: ['echofly']
+                }
+            });
+            this.player2.player.hand.forEach((card) => this.player2.moveCard(card, 'discard'));
+            this.player1.play(this.trashHeap);
+            expect(this.player1).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Trash Heap',
+                "player1 uses Trash Heap to destroy each creature, reveal each player's hand, and discard each revealed creature",
+                'Lamindra is destroyed',
+                'Echofly is destroyed',
+                'player1 reveals nothing',
+                'player2 reveals nothing',
+                'player1 uses Trash Heap to have each player refill their hand',
+                'player1 draws 6 cards to refill their hand to 6 cards',
+                'player2 draws 6 cards to refill their hand to 6 cards'
+            ]);
+        });
+    });
 });
