@@ -27,6 +27,8 @@ class ChatCommands {
             '/mulligan': this.mulligan,
             '/mute-spectators': this.muteSpectators,
             '/rematch': this.rematch,
+            '/rematch-swap-decks': this.rematchSwap,
+            '/rematch-change-decks': this.rematchChange,
             '/reveal-hand': this.revealHand,
             '/shuffle': this.shuffle,
             '/start-clocks': this.startClocks,
@@ -388,6 +390,27 @@ class ChatCommands {
     }
 
     rematch(player) {
+        this.queueRematch(player, 'same');
+    }
+
+    rematchSwap(player) {
+        this.queueRematch(player, 'swap');
+    }
+
+    rematchChange(player) {
+        this.queueRematch(player, 'change');
+    }
+
+    queueRematch(player, mode) {
+        if (mode === 'swap' && this.game.gameFormat === 'adaptive-bo1') {
+            this.game.addAlert(
+                'warning',
+                '{0} cannot start a swap-decks rematch in adaptive: the format manages deck assignment itself',
+                player
+            );
+            return;
+        }
+
         if (this.game.finishedAt) {
             this.game.addAlert('info', '{0} is requesting a rematch', player);
         } else {
@@ -398,7 +421,7 @@ class ChatCommands {
             );
         }
 
-        this.game.queueStep(new RematchPrompt(this.game, player));
+        this.game.queueStep(new RematchPrompt(this.game, player, mode));
     }
 
     firstPlayer(player, args) {
