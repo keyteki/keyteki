@@ -6,6 +6,7 @@ class TheArchivist extends Card {
     setupCardAbilities(ability) {
         this.persistentEffect({
             location: 'any',
+            condition: () => this.archivedFaceup === true,
             effect: ability.effects.visibleIn('archives')
         });
         this.persistentEffect({
@@ -15,6 +16,28 @@ class TheArchivist extends Card {
             location: 'any',
             effect: ability.effects.chooseCardsFromArchives(this)
         });
+        this.reaction({
+            when: {
+                onCardArchived: (event, context) => event.card === context.source
+            },
+            location: 'any',
+            effectAlert: true,
+            message: '{0} archives {1} face up',
+            messageArgs: (context) => [context.event.context.player, context.source],
+            gameAction: ability.actions.changeEvent((context) => ({
+                event: context.event,
+                processEvent: () => {
+                    context.source.archivedFaceup = true;
+                }
+            }))
+        });
+    }
+
+    moveTo(targetLocation) {
+        if (targetLocation !== 'archives' && this.location === 'archives') {
+            this.archivedFaceup = false;
+        }
+        super.moveTo(targetLocation);
     }
 }
 

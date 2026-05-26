@@ -5,7 +5,7 @@ class Kaboom extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.sequential([
-                ability.actions.archive((context) => ({
+                ability.actions.putIntoArchives((context) => ({
                     target: context.game.creaturesInPlay.filter((card) => card.hasHouse('mars'))
                 })),
                 ability.actions.destroy((context) => ({
