@@ -1,60 +1,55 @@
-const AllPlayerPrompt = require('./allplayerprompt');
+const AgreementPrompt = require('./AgreementPrompt');
 
-class RematchPrompt extends AllPlayerPrompt {
+const RematchModes = {
+    same: { description: 'with the same decks' },
+    swap: { description: 'with swapped decks' },
+    change: { description: 'with different decks' }
+};
+
+class RematchPrompt extends AgreementPrompt {
     /**
-     * @param {boolean} swap If true, request is for a rematch with swapped
-     * decks from how they were this game.
+     * @param {string} mode 'same' (default), 'swap' (same decks, but swap
+     * sides), or 'change' (each player picks a different deck).
+     * @param {{onAccept?: () => void, onCancel?: () => void}} [callbacks]
      */
-    constructor(game, requestingPlayer, swap = false) {
-        super(game);
+    constructor(game, requestingPlayer, mode = 'same', callbacks = {}) {
+        super(game, requestingPlayer, callbacks);
 
-        this.requestingPlayer = requestingPlayer;
-        this.completedPlayers = new Set([requestingPlayer]);
-        this.swap = swap;
-        this.cancelled = false;
-    }
-
-    completionCondition(player) {
-        return this.cancelled || this.completedPlayers.has(player);
-    }
-
-    activePrompt() {
-        return {
-            menuTitle: {
-                text: '{{player}} would like a rematch{{swap}}. Allow?',
-                values: {
-                    player: this.requestingPlayer.name,
-                    swap: this.swap ? ' and swap decks' : ''
-                }
-            },
-            buttons: [
-                { arg: 'yes', text: 'Yes' },
-                { arg: 'no', text: 'No' }
-            ]
-        };
-    }
-
-    waitingPrompt() {
-        return {
-            menuTitle: 'Waiting for opponent to agree to rematch'
-        };
-    }
-
-    onMenuCommand(player, arg) {
-        if (arg === 'yes') {
-            this.game.addAlert(
-                'info',
-                '{0} agrees to a rematch{1}, setting it up now',
-                player,
-                this.swap ? ' and swap decks' : ''
-            );
-            this.completedPlayers.add(player);
-        } else {
-            this.game.addAlert('info', '{0} would not like a rematch', player);
-            this.cancelled = true;
+        if (!RematchModes[mode]) {
+            mode = 'same';
         }
+        this.mode = mode;
+    }
 
-        return true;
+    getWaitingTitle() {
+        return 'Waiting for opponent to accept a rematch';
+    }
+
+    getRequestMenuTitle() {
+        return {
+            text: '{{player}} would like a rematch {{description}}. Accept?',
+            values: {
+                player: this.requestingPlayer.name,
+                description: RematchModes[this.mode].description
+            }
+        };
+    }
+
+    addCancelAlert(player) {
+        this.game.addAlert('info', '{0} cancels their rematch request', player);
+    }
+
+    addAcceptAlert(player) {
+        this.game.addAlert(
+            'info',
+            '{0} has agreed to a rematch {1}',
+            player,
+            RematchModes[this.mode].description
+        );
+    }
+
+    addDeclineAlert(player) {
+        this.game.addAlert('info', '{0} has declined a rematch', player);
     }
 
     onCompleted() {
@@ -62,11 +57,12 @@ class RematchPrompt extends AllPlayerPrompt {
             return;
         }
 
-        this.game.rematch(this.swap);
+        this.game.rematch(this.mode);
         this.game.addAlert(
             'danger',
-            '{0} uses /rematch to reset the game and start a rematch',
-            this.requestingPlayer
+            '{0} resets the game and starts a rematch {1}',
+            this.requestingPlayer,
+            RematchModes[this.mode].description
         );
     }
 }

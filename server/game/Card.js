@@ -147,9 +147,12 @@ class Card extends EffectSource {
     }
 
     tokenCard() {
-        return this.game
-            .getPlayers()
-            .find((player) => player.tokenCard && player.tokenCard.name === this.name)?.tokenCard;
+        // Tokens are always created from their owner's own deck,
+        // and each player has at most one token card definition,
+        // so the owner's tokenCard is the canonical resolution.
+        // Avoid looking up by `this.name`, which can be overridden
+        //  by a copyCard effect.
+        return this.owner && this.owner.tokenCard;
     }
 
     isProphecy() {
@@ -1462,6 +1465,16 @@ class Card extends EffectSource {
             cardback: this.owner.deckData.cardback,
             childCards: childCards,
             controlled: this.owner !== this.controller,
+            // Tokens always have a baseline `copyCard(tokenCard)` effect (see
+            // MakeTokenCreatureAction); ignore that self-copy and only flag
+            // `copying` when something else (e.g. Mirror Shell, Mimic Gel)
+            // overrides the card's identity.
+            copying: (() => {
+                const copyEffect = this.mostRecentEffect('copyCard');
+                if (!copyEffect) return false;
+                if (this.isToken() && copyEffect === this.tokenCard()) return false;
+                return true;
+            })(),
             exhausted: this.exhausted,
             facedown: this.facedown,
             location: this.location,
