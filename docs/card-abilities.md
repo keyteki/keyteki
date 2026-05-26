@@ -627,6 +627,61 @@ this.reap({
 
 Note that `alwaysTriggers: true` is needed on the outer `then` so the optional-discard prompt still appears even when the capture event was cancelled or partial — but the inner `then`'s `condition` then ensures the final effect is gated correctly.
 
+#### Pitfall: `alwaysTriggers` does not bypass legal-target checks
+
+`alwaysTriggers: true` controls whether a `then` block fires when the **preceding** `gameAction` was cancelled or didn't fully resolve. It does **not** override the engine's requirement that the `then` block itself must have at least one legal target for its `gameAction`. If the `then`'s `gameAction` has no legal target, the entire `then` block — including any nested `then` chain inside it — is silently skipped.
+
+This is usually what you want (e.g. drawing 0 cards is a no-op anyway). It becomes a bug when the `then` block has a **nested** `then` chain that should still run regardless of whether the outer `gameAction` had a target — for example, a card that reveals from hand and then draws, where the draw should happen even with an empty hand.
+
+The fix is to use a function-form `then` that branches on the empty case and returns a no-`gameAction` object:
+
+```javascript
+// BUG: if the player's hand is empty, the reveal has no legal target,
+// the entire then is skipped, and the draw never happens.
+this.play({
+    gameAction: ability.actions.destroy(/* ... */),
+    then: {
+        alwaysTriggers: true,
+        gameAction: ability.actions.reveal((context) => ({ target: context.player.hand })),
+        then: {
+            alwaysTriggers: true,
+            gameAction: ability.actions.draw({ amount: 1 })
+        }
+    }
+});
+
+// FIX: wrap the reveal in a function-form then. When the hand is empty,
+// return an object with no gameAction (so meetsRequirements passes) and
+// the nested then-chain still runs.
+this.play({
+    gameAction: ability.actions.destroy(/* ... */),
+    then: {
+        alwaysTriggers: true,
+        then: (preThenContext) =>
+            preThenContext.player.hand.length === 0
+                ? {
+                      alwaysTriggers: true,
+                      message: '{0} reveals nothing',
+                      messageArgs: () => [preThenContext.player],
+                      then: {
+                          alwaysTriggers: true,
+                          gameAction: ability.actions.draw({ amount: 1 })
+                      }
+                  }
+                : {
+                      alwaysTriggers: true,
+                      gameAction: ability.actions.reveal({ target: preThenContext.player.hand }),
+                      then: {
+                          alwaysTriggers: true,
+                          gameAction: ability.actions.draw({ amount: 1 })
+                      }
+                  }
+    }
+});
+```
+
+The engine includes a test-mode assertion that throws when this pattern is detected: a function-form `then` whose returned `gameAction` has no legal target while its outer `alwaysTriggers: true` block has a further nested `then`-chain. If you see this error, refactor the function-form `then` to return a no-`gameAction` object on the empty case (as shown above) so the inner chain still runs.
+
 #### Guarding `preThenContext.target` access
 
 Any `then` block that reads `preThenContext.target` must defend against it being `undefined`. This is **not** limited to `target.optional: true` — it also happens in routine cases where the parent ability's target step finds **no eligible card**. Without a guard, the game crashes with `TypeError: Cannot read properties of undefined (reading '<prop>')` and the user sees an error toast mid-ability.
