@@ -59,6 +59,7 @@ const Actions = {
     exhaust: (propertyFactory) => new GameActions.ExhaustAction(propertyFactory),
     fight: (propertyFactory) => new GameActions.FightGameAction(propertyFactory),
     flip: (propertyFactory) => new GameActions.FlipAction(propertyFactory),
+    gainsTextBox: (propertyFactory) => new GameActions.GainsTextBoxAction(propertyFactory),
     graft: (propertyFactory) => new GameActions.PlaceUnderAction(propertyFactory, true),
     heal: (propertyFactory) => new GameActions.HealAction(propertyFactory),
     moveCard: (propertyFactory) => new GameActions.MoveCardAction(propertyFactory), // destination, switch = false, shuffle = false
@@ -73,6 +74,7 @@ const Actions = {
     playUpgradeOnParent: (propertyFactory) =>
         new GameActions.PlayUpgradeOnParentAction(propertyFactory),
     purge: (propertyFactory) => new GameActions.PurgeAction(propertyFactory),
+    putIntoArchives: (propertyFactory) => new GameActions.PutIntoArchivesAction(propertyFactory),
     putIntoPlay: (propertyFactory) => new GameActions.PutIntoPlayAction(propertyFactory),
     ready: (propertyFactory) => new GameActions.ReadyAction(propertyFactory),
     reap: (propertyFactory) => new GameActions.ReapGameAction(propertyFactory),

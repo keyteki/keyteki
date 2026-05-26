@@ -124,11 +124,25 @@ class ThenAbility extends BaseAbility {
     }
 
     createAndResolveThenAbility(then, context, events) {
-        let thenAbility = new ThenAbility(this.game, this.card, then);
-        let thenContext = thenAbility.createContext(context.player);
+        const thenAbility = new ThenAbility(this.game, this.card, then);
+        const thenContext = thenAbility.createContext(context.player);
         thenContext.preThenEvents = events;
         thenContext.preThenEvent = events[0];
-        if (!thenAbility.meetsRequirements(thenContext, []) && thenAbility.condition(thenContext)) {
+        const requirementResult = thenAbility.meetsRequirements(thenContext, []);
+        if (
+            then.alwaysTriggers &&
+            requirementResult === 'condition' &&
+            typeof then.then === 'function' &&
+            process.env.NODE_ENV === 'test'
+        ) {
+            throw new Error(
+                `Then ability for "${this.card.name}" has alwaysTriggers: true but its gameAction has no legal target, ` +
+                    `so its function-form nested then-chain will be silently skipped. ` +
+                    `Refactor the function-form 'then' to return a no-gameAction object when the action would have no target. ` +
+                    `See docs/card-abilities.md "Pitfall: alwaysTriggers does not bypass legal-target checks".`
+            );
+        }
+        if (!requirementResult && thenAbility.condition(thenContext)) {
             this.game.resolveAbility(thenContext);
         }
     }

@@ -54,6 +54,7 @@ const PlayerStats = ({
     showDeckName,
     showManualMode,
     showMessages,
+    promptedPiles,
     side,
     size,
     spectating,
@@ -188,6 +189,13 @@ const PlayerStats = ({
 
     let statsClass = classNames('panel player-stats');
 
+    const isPilePromptTarget = (location) =>
+        promptedPiles?.some(
+            (pile) =>
+                pile.location === location &&
+                (pile.controller === (isMe ? 'self' : 'opponent') || pile.controller === 'any')
+        ) || false;
+
     const pileProps = {
         hasActiveHouse: isMe && Boolean(activeHouse),
         isMe,
@@ -236,6 +244,7 @@ const PlayerStats = ({
             className='discard'
             title={t('Discard')}
             source='discard'
+            isPromptTarget={isPilePromptTarget('discard')}
         />
     );
     const archives = (
@@ -245,6 +254,7 @@ const PlayerStats = ({
             className='archives'
             title={t('Archives')}
             source='archives'
+            isPromptTarget={isPilePromptTarget('archives')}
         />
     );
     const purged = (
@@ -254,6 +264,7 @@ const PlayerStats = ({
             className='purged'
             title={t('Purged')}
             source='purged'
+            isPromptTarget={isPilePromptTarget('purged')}
         />
     );
     const hand = (
@@ -263,6 +274,7 @@ const PlayerStats = ({
             className='hand'
             title={t('Hand')}
             source='hand'
+            isPromptTarget={isPilePromptTarget('hand')}
         />
     );
 

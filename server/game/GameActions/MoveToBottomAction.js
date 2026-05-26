@@ -16,8 +16,10 @@ class MoveToBottomAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent(EVENTS.unnamedEvent, { card: card, context: context }, () => {
+            let oldTopOfDeck = card.owner.deck[0];
             card.owner.deck = card.owner.deck.filter((c) => c !== card);
             card.owner.deck.push(card);
+            card.owner.checkDeckAfterCardMove(oldTopOfDeck);
         });
     }
 }

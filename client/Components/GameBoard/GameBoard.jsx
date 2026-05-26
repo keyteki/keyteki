@@ -298,6 +298,7 @@ export const GameBoard = () => {
                     stats={otherPlayer.stats}
                     tideRequired={thisPlayer.stats.tideRequired || otherPlayer?.stats?.tideRequired}
                     user={otherPlayer.user}
+                    promptedPiles={thisPlayer.promptedPiles}
                 />
             </div>
             <div className='main-window'>
@@ -398,6 +399,7 @@ export const GameBoard = () => {
                 stats={thisPlayer.stats}
                 tideRequired={thisPlayer.stats.tideRequired || otherPlayer?.stats?.tideRequired}
                 user={thisPlayer.user}
+                promptedPiles={thisPlayer.promptedPiles}
             />
         </div>
     );
