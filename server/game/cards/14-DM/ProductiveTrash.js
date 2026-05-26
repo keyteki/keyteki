@@ -13,7 +13,7 @@ class ProductiveTrash extends Card {
                 gameAction: ability.actions.discard()
             },
             then: (preThenContext) => {
-                if (!preThenContext.target) {
+                if (!preThenContext.target || preThenContext.target.bonusIcons.length === 0) {
                     return { alwaysTriggers: true };
                 }
 

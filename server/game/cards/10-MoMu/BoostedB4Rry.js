@@ -35,11 +35,9 @@ class BoostedB4Rry extends GiganticCard {
                         })),
                         ability.actions.cardLastingEffect((context) => ({
                             duration: 'lastingEffect',
-                            until: {
-                                onTakeControl: (event) =>
-                                    event.card === context.targets['Take artifact.choice'] &&
-                                    event.player === context.player.opponent
-                            },
+                            condition: () =>
+                                context.targets['Take artifact.choice'].controller ===
+                                context.player,
                             effect: ability.effects.changeHouse('shadows')
                         }))
                     ]
@@ -50,7 +48,6 @@ class BoostedB4Rry extends GiganticCard {
                 condition: () => preThenContext.selects.action.choice === 'Play archived card',
                 gameAction: ability.actions.playAtRandom((context) => ({
                     location: 'archives',
-                    revealOnIllegalTarget: true,
                     target: context.player.opponent
                 }))
             })

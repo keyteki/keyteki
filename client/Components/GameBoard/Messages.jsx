@@ -280,8 +280,11 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
     const processKeywords = (message) => {
         let messages = [];
         let i = 0;
+        const parts = message.split(' ');
 
-        for (let token of message.split(' ')) {
+        for (let index = 0; index < parts.length; index++) {
+            let token = parts[index];
+            const isLast = index === parts.length - 1;
             let lowerToken = token.toLowerCase();
 
             if (tokens[lowerToken]) {
@@ -324,9 +327,11 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                         src={tokenEntry.imageSrc}
                     />
                 );
-                messages.push(' ');
+                if (!isLast) {
+                    messages.push(' ');
+                }
             } else {
-                messages.push(token + ' ');
+                messages.push(isLast ? token : token + ' ');
             }
         }
 
