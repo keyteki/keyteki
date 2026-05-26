@@ -1299,30 +1299,6 @@ class Lobby {
             }
         }
 
-        // Re-handoff any logged-in users whose started game lives on the
-        // just-(re)connected node. Without this, players stranded in the
-        // lobby after a gamenode restart never get bounced back into
-        // their game — they have to refresh or re-login to trigger the
-        // doPostAuth handoff. The handoff payload is a fresh
-        // JWT and is safe to re-issue if the client is already on /play.
-        for (let game of Object.values(this.games)) {
-            if (!game.node || game.node.identity !== nodeName || !game.started) {
-                continue;
-            }
-            for (let playerName of Object.keys(game.players || {})) {
-                const socket = this.socketsByName[playerName];
-                if (socket) {
-                    this.sendHandoff(socket, game.node, game.id);
-                }
-            }
-            for (let spectatorName of Object.keys(game.spectators || {})) {
-                const socket = this.socketsByName[spectatorName];
-                if (socket) {
-                    this.sendHandoff(socket, game.node, game.id);
-                }
-            }
-        }
-
         this.broadcastGameList();
     }
 }
