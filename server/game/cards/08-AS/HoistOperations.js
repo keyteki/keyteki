@@ -8,7 +8,7 @@ class HoistOperations extends Card {
                 activePromptTitle: 'Choose a creature to archive',
                 cardType: 'creature',
                 controller: 'any',
-                gameAction: ability.actions.archive()
+                gameAction: ability.actions.putIntoArchives()
             }
         });
     }

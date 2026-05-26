@@ -15,7 +15,7 @@ class ScoopUp extends Card {
                     controller: 'self',
                     cardCondition: (card) => !card.hasHouse('mars'),
                     gameAction: [
-                        ability.actions.archive((context) => ({
+                        ability.actions.putIntoArchives((context) => ({
                             target:
                                 context.targets.friendly?.[0]?.owner === context.player
                                     ? context.targets.friendly
