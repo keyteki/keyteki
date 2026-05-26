@@ -40,7 +40,7 @@ describe('Infinite Loop Messages', function () {
                 'player1: 0 amber (0 keys) player2: 0 amber (0 keys)',
                 'player2 uses Doppelganger to have Doppelganger gain the text box of Doppelganger for the remainder of the turn',
                 'player2 resolves the infinite loop by moving Doppelganger to the discard pile',
-                'player2 does not forge a key.  They have 0 amber.  The current cost is 6 amber',
+                'player2 does not forge a key. They have 0 amber. The current cost is 6 amber',
                 'player2 chooses geistoid as their active house this turn'
             ]);
         });
