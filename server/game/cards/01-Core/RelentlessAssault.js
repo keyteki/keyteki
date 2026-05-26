@@ -17,6 +17,11 @@ class RelentlessAssault extends Card {
             ])
         });
 
+        const thenMessage = {
+            message: '{0} uses {1} to ready and fight with {2}',
+            messageArgs: (context) => [context.player, context.source, context.target]
+        };
+
         this.play({
             target: targetProps([]),
             effect: 'ready and fight with {0}',
@@ -24,9 +29,13 @@ class RelentlessAssault extends Card {
                 context1.target
                     ? {
                           target: targetProps([context1.target]),
+                          ...thenMessage,
                           then: (context2) =>
                               context2.target
-                                  ? { target: targetProps([context1.target, context2.target]) }
+                                  ? {
+                                        target: targetProps([context1.target, context2.target]),
+                                        ...thenMessage
+                                    }
                                   : { alwaysTriggers: true }
                       }
                     : { alwaysTriggers: true }

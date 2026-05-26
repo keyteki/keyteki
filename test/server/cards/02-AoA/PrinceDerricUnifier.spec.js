@@ -13,7 +13,7 @@ describe('Prince Derric Unifier', function () {
             });
         });
 
-        it('should not gain ambers since only Derric is in play', function () {
+        it('should not gain amber since only Derric is in play', function () {
             this.player1.playCreature(this.princeDerricUnifier);
             expect(this.player1.amber).toBe(0);
         });
@@ -33,7 +33,7 @@ describe('Prince Derric Unifier', function () {
             });
         });
 
-        it('should not gain ambers since only two houses are in play', function () {
+        it('should not gain amber since only two houses are in play', function () {
             this.player1.playCreature(this.princeDerricUnifier);
             expect(this.player1.amber).toBe(0);
         });
@@ -53,7 +53,7 @@ describe('Prince Derric Unifier', function () {
             });
         });
 
-        it('should gain 3 ambers since three houses are in play', function () {
+        it('should gain 3 amber since three houses are in play', function () {
             this.player1.playCreature(this.princeDerricUnifier);
             expect(this.player1.amber).toBe(3);
         });
@@ -73,7 +73,7 @@ describe('Prince Derric Unifier', function () {
             });
         });
 
-        it('should gain 3 ambers when a Mars-enhanced creature brings the total to four houses', function () {
+        it('should gain 3 amber when a Mars-enhanced creature brings the total to four houses', function () {
             this.helperBot.enhancements = ['mars'];
             this.player1.playCreature(this.princeDerricUnifier);
             expect(this.player1.amber).toBe(3);

@@ -24,7 +24,7 @@ describe('City Gates', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should capture 2 ambers', function () {
+        it('should capture 2 amber', function () {
             this.player1.play(this.legatusRaptor);
             this.player1.useAction(this.cityGates);
             expect(this.player1).toHavePrompt('Choose a creature');
