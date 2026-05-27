@@ -5,7 +5,7 @@ class MindOverMatter extends Card {
     setupCardAbilities(ability) {
         this.play({
             effect: 'archive all creatures',
-            gameAction: ability.actions.archive((context) => ({
+            gameAction: ability.actions.putIntoArchives((context) => ({
                 target: context.game.creaturesInPlay
             }))
         });

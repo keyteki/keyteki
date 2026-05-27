@@ -59,5 +59,18 @@ describe('Siphon Maw', function () {
             expect(this.player2.amber).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
+
+        it('logs the actual amber lost when opponent has fewer amber than bonus icons', function () {
+            this.player2.player.amber = 1;
+            this.troll.enhancements = ['amber', 'amber', 'capture'];
+            this.player1.reap(this.siphonMaw);
+            this.player1.clickPrompt('Mine');
+            expect(this.troll.location).toBe('discard');
+            expect(this.player2.amber).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
+            expect(this.getChatLogs(5)).toContain(
+                'player1 uses Siphon Maw to make player2 lose 1 amber'
+            );
+        });
     });
 });
