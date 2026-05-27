@@ -104,22 +104,11 @@ class CardAction extends CardAbility {
     }
 
     executeHandler(context) {
-        let preActionNeighbors;
-        if (!this.reap && !this.fight) {
-            preActionNeighbors = this.card.neighbors.slice();
-        }
-
         super.executeHandler(context);
         if (!this.reap && !this.fight) {
             context.game.raiseEvent(
                 EVENTS.onUseCard,
-                {
-                    card: this.card,
-                    context: context,
-                    action: true,
-                    omni: this.omni,
-                    preActionNeighbors
-                },
+                { card: this.card, context: context, action: true, omni: this.omni },
                 () => {}
             );
         }
