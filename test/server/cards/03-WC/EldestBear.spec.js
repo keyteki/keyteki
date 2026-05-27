@@ -19,12 +19,14 @@ describe('Eldest Bear', function () {
             this.player1.clickPrompt('Assault');
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(6);
+            expect(this.player1).isReadyToTakeAction();
         });
         it("not have 'Before Fight: Gain 2A' if not in center [2]", function () {
             this.player1.play(this.dustPixie);
             this.player1.fightWith(this.eldestBear, this.troll);
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(6);
+            expect(this.player1).isReadyToTakeAction();
         });
         it("have 'Before Fight: Gain 2A' if in center [2]", function () {
             this.player1.play(this.dustPixie);
@@ -34,6 +36,7 @@ describe('Eldest Bear', function () {
             this.player1.clickPrompt('Assault');
             expect(this.player1.amber).toBe(4);
             expect(this.player2.amber).toBe(6);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 

@@ -58,8 +58,6 @@ describe('Badgemagus', function () {
             expect(this.lamindra.location).toBe('play area');
             expect(this.murkens.location).toBe('play area');
             expect(this.championAnaphiel.damage).toBe(5);
-            // Second use comes from the opposite side (left), if available.
-            // this.player1.clickCard(this.lamindra);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -174,7 +172,7 @@ describe('Badgemagus', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should dynamically select neighbors', function () {
+        it('should resolve Grey Augur triggers for both neighbor fights when chosen each time', function () {
             this.player1.playCreature(this.sanctumGuardian, true);
             this.player1.playCreature(this.greyAugur, false);
 
@@ -218,7 +216,7 @@ describe('Badgemagus', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should dynamically select neighbors', function () {
+        it('should resolve Grey Augur triggers with alternate prompt ordering', function () {
             this.player1.playCreature(this.sanctumGuardian, true);
             this.player1.playCreature(this.greyAugur, false);
 
@@ -259,7 +257,7 @@ describe('Badgemagus', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should dynamically select neighbors', function () {
+        it('should use a creature played mid-resolution as the second neighbor', function () {
             this.player1.deck = [];
             this.player1.moveCard(this.greyAugur, 'deck');
             this.player1.playCreature(this.lightbearerKelvin, true);

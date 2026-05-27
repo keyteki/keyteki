@@ -1393,8 +1393,8 @@ class Card extends EffectSource {
             return undefined;
         }
 
-        let creatures = this.controller.creaturesInPlay;
-        let index = creatures.indexOf(this);
+        const creatures = this.controller.creaturesInPlay;
+        const index = creatures.indexOf(this);
         if (index > 0) {
             return creatures[index - 1];
         } else if (index === -1) {
@@ -1411,8 +1411,8 @@ class Card extends EffectSource {
             return undefined;
         }
 
-        let creatures = this.controller.creaturesInPlay;
-        let index = creatures.indexOf(this);
+        const creatures = this.controller.creaturesInPlay;
+        const index = creatures.indexOf(this);
         if (index >= 0 && index < creatures.length - 1) {
             return creatures[index + 1];
         } else if (index === -1) {

@@ -25,6 +25,7 @@ describe('FyreBreath(WC)', function () {
             expect(this.firespitter.damage).toBe(7);
             expect(this.valdr.damage).toBe(3);
             expect(this.nexus.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 

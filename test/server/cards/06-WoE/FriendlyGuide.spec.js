@@ -25,6 +25,7 @@ describe('Friendly Guide', function () {
             this.player1.clickPrompt('Fight with this creature');
             this.player1.clickCard(this.huntingWitch);
             expect(this.huntingWitch.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow use on fight', function () {
@@ -32,6 +33,7 @@ describe('Friendly Guide', function () {
             expect(this.player1).toHavePrompt('Triggered Abilities');
             this.player1.clickCard(this.friendlyGuide);
             this.player1.clickPrompt('Reap with this creature');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should allow use on fight where attacker dies', function () {
@@ -39,6 +41,7 @@ describe('Friendly Guide', function () {
             expect(this.player1).toHavePrompt('Triggered Abilities');
             this.player1.clickCard(this.friendlyGuide);
             this.player1.clickPrompt('Reap with this creature');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should only work on neighboring creatures', function () {
@@ -67,6 +70,7 @@ describe('Friendly Guide', function () {
             expect(this.player1).toHavePrompt('Triggered Abilities');
             this.player1.clickCard(this.friendlyGuide);
             this.player1.clickPrompt('Reap with this creature');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 

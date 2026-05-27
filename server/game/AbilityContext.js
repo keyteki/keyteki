@@ -33,10 +33,6 @@ class AbilityContext {
         return copy;
     }
 
-    get useNeighbors() {
-        return this.source.getNeighbors();
-    }
-
     getProps() {
         return {
             game: this.game,

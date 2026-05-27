@@ -446,7 +446,6 @@ describe('Prof. Emeritus Kering', function () {
             this.player1.raiseTide();
         });
 
-        // TODO: this is questionable: https://discord.com/channels/563737400275107920/588586239997902858/1509301040980169006
         it('should use the new neighbor if the original other neighbor is destroyed by the first use', function () {
             this.player1.playUpgrade(this.chanSBlaster, this.snufflegator);
             this.player1.reap(this.profEmeritusKering);
