@@ -1,4 +1,5 @@
 const Card = require('../../Card.js');
+const { eachNeighbor } = require('../../helpers/eachNeighbor.js');
 
 class ProfEmeritusKering extends Card {
     // Deploy.
@@ -7,25 +8,10 @@ class ProfEmeritusKering extends Card {
         this.play({
             reap: true,
             fight: true,
-            effect: 'use its neighbors',
-            target: {
-                cardType: 'creature',
-                cardCondition: (card, context) => context.source.neighbors.includes(card),
-                gameAction: ability.actions.use()
-            },
-            then: (preThenContext) => ({
-                condition: (context) => context.player.isTideHigh(),
-                alwaysTriggers: true,
-                gameAction: (() => {
-                    const firstWasLeft =
-                        preThenContext.source.leftNeighbor() === preThenContext.target;
-
-                    return ability.actions.use(() => ({
-                        target: firstWasLeft
-                            ? preThenContext.source.rightNeighbor()
-                            : preThenContext.source.leftNeighbor()
-                    }));
-                })()
+            ...eachNeighbor({
+                effect: 'use its neighbors',
+                gameAction: (props) => ability.actions.use(props),
+                secondCondition: (context) => context.player.isTideHigh()
             })
         });
     }

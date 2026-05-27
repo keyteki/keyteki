@@ -437,7 +437,7 @@ describe('Prof. Emeritus Kering', function () {
             this.setupTest({
                 player1: {
                     house: 'staralliance',
-                    inPlay: ['snufflegator', 'prof-emeritus-kering', 'dust-pixie', 'niffle-ape'],
+                    inPlay: ['snufflegator', 'prof-emeritus-kering', 'dew-faerie', 'niffle-ape'],
                     hand: ['chan-s-blaster']
                 },
                 player2: {}
@@ -446,6 +446,7 @@ describe('Prof. Emeritus Kering', function () {
             this.player1.raiseTide();
         });
 
+        // TODO: this is questionable: https://discord.com/channels/563737400275107920/588586239997902858/1509301040980169006
         it('should use the new neighbor if the original other neighbor is destroyed by the first use', function () {
             this.player1.playUpgrade(this.chanSBlaster, this.snufflegator);
             this.player1.reap(this.profEmeritusKering);
@@ -456,13 +457,13 @@ describe('Prof. Emeritus Kering', function () {
             // Chan's Blaster
             this.player1.clickCard(this.snufflegator);
             this.player1.clickPrompt('Deal 2 damage');
-            this.player1.clickCard(this.dustPixie);
+            this.player1.clickCard(this.dewFaerie);
 
             // Autoresolve reap with Niffle Ape
             expect(this.player1.amber).toBe(4);
             expect(this.snufflegator.exhausted).toBe(true);
             expect(this.profEmeritusKering.exhausted).toBe(true);
-            expect(this.dustPixie.location).toBe('discard');
+            expect(this.dewFaerie.location).toBe('discard');
             expect(this.niffleApe.exhausted).toBe(true);
             expect(this.player1).isReadyToTakeAction();
         });
@@ -479,11 +480,11 @@ describe('Prof. Emeritus Kering', function () {
             this.player1.clickPrompt('Deal 2 damage');
             this.player1.clickCard(this.profEmeritusKering);
 
-            // Autoresolve reap with Niffle Ape
+            // Autoresolve reap with Dew Faerie
             expect(this.player1.amber).toBe(5);
             expect(this.snufflegator.exhausted).toBe(true);
             expect(this.profEmeritusKering.location).toBe('discard');
-            expect(this.dustPixie.exhausted).toBe(true);
+            expect(this.dewFaerie.exhausted).toBe(true);
             expect(this.niffleApe.exhausted).toBe(false);
             expect(this.player1).isReadyToTakeAction();
         });

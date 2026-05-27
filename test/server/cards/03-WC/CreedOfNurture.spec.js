@@ -47,23 +47,42 @@ describe('Creed of Nurture', function () {
             expect(this.player1).toHavePrompt('Triggered Abilities');
             expect(this.player1).toBeAbleToSelect(this.briarGrubbling);
             expect(this.player1).toBeAbleToSelect(this.firespitter);
+
+            // Eldest Bear 2 amber
             this.player1.clickCard(this.firespitter);
             expect(this.player1).toHavePrompt('Which ability would you like to use?');
-            this.player1.clickPrompt('Creed of Nurture');
+            expect(this.player1.currentPrompt().buttons[0].values.card).toBe('Firespitter');
+            expect(this.player1.currentPrompt().buttons[1].text).toBe('Assault');
+            expect(this.player1.currentPrompt().buttons[2].values.card).toBe('Firespitter');
+            expect(this.player1.currentPrompt().buttons[3].text).toBe('Autoresolve');
+            expect(this.player1.currentPrompt().buttons[4].text).toBe('Back');
+            expect(this.player1.currentPrompt().buttons[5]).toBe(undefined);
+            this.player1.clickPrompt('Firespitter', 1); // Eldest Bear's constant ability generated a new ability on Firespitter
             expect(this.player1.amber).toBe(2);
+
+            // Firespitter 1 damage
             expect(this.player1).toHavePrompt('Triggered Abilities');
             expect(this.player1).toBeAbleToSelect(this.briarGrubbling);
             expect(this.player1).toBeAbleToSelect(this.firespitter);
             this.player1.clickCard(this.firespitter);
             expect(this.player1).toHavePrompt('Which ability would you like to use?');
+            expect(this.player1.currentPrompt().buttons[0].values.card).toBe('Firespitter');
+            expect(this.player1.currentPrompt().buttons[1].text).toBe('Assault');
+            expect(this.player1.currentPrompt().buttons[2].text).toBe('Autoresolve');
+            expect(this.player1.currentPrompt().buttons[3].text).toBe('Back');
+            expect(this.player1.currentPrompt().buttons[4]).toBe(undefined);
             this.player1.clickPrompt('Firespitter');
             expect(this.briarGrubbling.damage).toBe(1);
             expect(this.troll.damage).toBe(1);
+
+            // Briar Grubbling hazardous
             expect(this.player1).toHavePrompt('Triggered Abilities');
             expect(this.player1).toBeAbleToSelect(this.briarGrubbling);
             expect(this.player1).toBeAbleToSelect(this.firespitter);
             this.player1.clickCard(this.briarGrubbling);
             expect(this.firespitter.damage).toBe(4);
+
+            // Autoresolve assault, no fight
             expect(this.briarGrubbling.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
