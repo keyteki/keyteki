@@ -103,5 +103,29 @@ describe('Friendly Guide', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('dynamic neighbors after a creature is destroyed', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    inPlay: ['guji-dinosaur-hunter', 'hunting-witch', 'friendly-guide']
+                },
+                player2: {
+                    inPlay: ['dextre']
+                }
+            });
+        });
+
+        it('should trigger when guji kills intervening creature and becomes neighbor', function () {
+            this.player1.useAction(this.gujiDinosaurHunter);
+            this.player1.clickCard(this.huntingWitch);
+            expect(this.huntingWitch.location).toBe('discard');
+            this.player1.clickCard(this.friendlyGuide);
+            expect(this.player1).toHavePromptButton('Reap with this creature');
+            expect(this.player1).toHavePromptButton('Fight with this creature');
+            this.player1.clickPrompt('Reap with this creature');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
-// dynamic on neighbors

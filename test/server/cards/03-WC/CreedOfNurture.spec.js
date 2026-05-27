@@ -57,7 +57,7 @@ describe('Creed of Nurture', function () {
             expect(this.player1.currentPrompt().buttons[3].text).toBe('Autoresolve');
             expect(this.player1.currentPrompt().buttons[4].text).toBe('Back');
             expect(this.player1.currentPrompt().buttons[5]).toBe(undefined);
-            this.player1.clickPrompt('Firespitter', 1); // Eldest Bear's constant ability generated a new ability on Firespitter
+            this.player1.clickPrompt('Firespitter', 1); // Eldest Bear's constant ability generated a new before fight ability on Firespitter
             expect(this.player1.amber).toBe(2);
 
             // Firespitter 1 damage
