@@ -1385,6 +1385,10 @@ class Card extends EffectSource {
         return undefined;
     }
 
+    getNeighbors() {
+        return [this.leftNeighbor(), this.rightNeighbor()].filter(Boolean);
+    }
+
     ignores(trait) {
         return this.getEffects('ignores').includes(trait);
     }

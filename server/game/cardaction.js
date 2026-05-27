@@ -106,11 +106,12 @@ class CardAction extends CardAbility {
     executeHandler(context) {
         super.executeHandler(context);
         if (!this.reap && !this.fight) {
-            context.game.raiseEvent(
+            let event = context.game.getEvent(
                 EVENTS.onUseCard,
                 { card: this.card, context: context, action: true, omni: this.omni },
                 () => {}
             );
+            context.game.openEventWindow([event]);
         }
     }
 
