@@ -16,16 +16,13 @@ class Ghosthawk extends Card {
                 condition: () => !!preThenContext.target,
                 alwaysTriggers: true,
                 gameAction: (() => {
-                    const initialNeighbors = preThenContext.cardStateWhenInitiated.clonedNeighbors;
-                    const firstWasLeft = initialNeighbors[0] === preThenContext.target;
+                    const firstWasLeft =
+                        preThenContext.source.leftNeighbor() === preThenContext.target;
 
                     return ability.actions.reap(() => ({
-                        target:
-                            preThenContext.source.location === 'play area'
-                                ? firstWasLeft
-                                    ? preThenContext.source.rightNeighbor()
-                                    : preThenContext.source.leftNeighbor()
-                                : initialNeighbors.find((card) => card !== preThenContext.target)
+                        target: firstWasLeft
+                            ? preThenContext.source.rightNeighbor()
+                            : preThenContext.source.leftNeighbor()
                     }));
                 })()
             })

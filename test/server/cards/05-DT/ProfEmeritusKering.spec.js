@@ -466,5 +466,26 @@ describe('Prof. Emeritus Kering', function () {
             expect(this.niffleApe.exhausted).toBe(true);
             expect(this.player1).isReadyToTakeAction();
         });
+
+        it('should still use neighbor if Kering is destroyed', function () {
+            this.player1.playUpgrade(this.chanSBlaster, this.snufflegator);
+            this.player1.reap(this.profEmeritusKering);
+
+            // Reap with Snufflegator
+            this.player1.clickCard(this.snufflegator);
+
+            // Chan's Blaster
+            this.player1.clickCard(this.snufflegator);
+            this.player1.clickPrompt('Deal 2 damage');
+            this.player1.clickCard(this.profEmeritusKering);
+
+            // Autoresolve reap with Niffle Ape
+            expect(this.player1.amber).toBe(5);
+            expect(this.snufflegator.exhausted).toBe(true);
+            expect(this.profEmeritusKering.location).toBe('discard');
+            expect(this.dustPixie.exhausted).toBe(true);
+            expect(this.niffleApe.exhausted).toBe(false);
+            expect(this.player1).isReadyToTakeAction();
+        });
     });
 });

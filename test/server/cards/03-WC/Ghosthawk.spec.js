@@ -263,6 +263,7 @@ describe('Ghosthawk', function () {
                     this.player1.clickCard(this.ghosthawk);
                     expect(this.player1.amber).toBe(2);
                     expect(this.ghosthawk.location).toBe('discard');
+                    expect(this.snufflegator.exhausted).toBe(true);
                     expect(this.player1).isReadyToTakeAction();
                 });
 

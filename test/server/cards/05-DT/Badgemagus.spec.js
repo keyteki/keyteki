@@ -214,7 +214,7 @@ describe('Badgemagus', function () {
             this.player1.clickCard(this.badgemagus);
 
             // Grey Augur grants Badgemagus another gain amber after fight which autoresolves
-            expect.soft(this.player1.amber).toBe(4);
+            expect(this.player1.amber).toBe(4);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -255,7 +255,7 @@ describe('Badgemagus', function () {
             this.player1.clickCard(this.badgemagus);
 
             // Grey Augur grants Badgemagus another gain amber after fight which autoresolves
-            expect.soft(this.player1.amber).toBe(3);
+            expect(this.player1.amber).toBe(3);
             expect(this.player1).isReadyToTakeAction();
         });
 
@@ -281,7 +281,7 @@ describe('Badgemagus', function () {
             expect(this.urchin.location).toBe('discard');
 
             // Badgemagus Grey Augur
-            expect.soft(this.player1.amber).toBe(1);
+            expect(this.player1.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
         });
     });
