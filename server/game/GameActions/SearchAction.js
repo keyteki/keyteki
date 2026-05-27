@@ -9,6 +9,7 @@ class SearchAction extends PlayerAction {
         this.cardName = null;
         this.uniqueCardNames = false;
         this.exactly = false;
+        this.putIntoArchives = false;
     }
 
     setup() {
@@ -104,7 +105,13 @@ class SearchAction extends PlayerAction {
                                             .resolve(card, context);
                                         break;
                                     case 'archives':
-                                        context.game.actions.archive().resolve(card, context);
+                                        if (this.putIntoArchives) {
+                                            context.game.actions
+                                                .putIntoArchives()
+                                                .resolve(card, context);
+                                        } else {
+                                            context.game.actions.archive().resolve(card, context);
+                                        }
                                         break;
                                     case 'deck':
                                         context.game.actions.returnToDeck().resolve(card, context);
