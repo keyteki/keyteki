@@ -16,11 +16,16 @@ class ProfEmeritusKering extends Card {
             then: (preThenContext) => ({
                 condition: (context) => context.player.isTideHigh(),
                 alwaysTriggers: true,
-                gameAction: ability.actions.use((context) => ({
-                    target: preThenContext.cardStateWhenInitiated.clonedNeighbors.filter(
-                        (c) => c !== context.preThenEvent.card
-                    )
-                }))
+                gameAction: (() => {
+                    const firstWasLeft =
+                        preThenContext.source.leftNeighbor() === preThenContext.target;
+
+                    return ability.actions.use(() => ({
+                        target: firstWasLeft
+                            ? preThenContext.source.rightNeighbor()
+                            : preThenContext.source.leftNeighbor()
+                    }));
+                })()
             })
         });
     }

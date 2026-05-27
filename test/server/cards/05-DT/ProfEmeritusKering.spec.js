@@ -431,5 +431,40 @@ describe('Prof. Emeritus Kering', function () {
             });
         });
     });
+
+    describe('dynamic neighbor resolution', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    inPlay: ['snufflegator', 'prof-emeritus-kering', 'dust-pixie', 'niffle-ape'],
+                    hand: ['chan-s-blaster']
+                },
+                player2: {}
+            });
+
+            this.player1.raiseTide();
+        });
+
+        it('should use the new neighbor if the original other neighbor is destroyed by the first use', function () {
+            this.player1.playUpgrade(this.chanSBlaster, this.snufflegator);
+            this.player1.reap(this.profEmeritusKering);
+
+            // Reap with Snufflegator
+            this.player1.clickCard(this.snufflegator);
+
+            // Chan's Blaster
+            this.player1.clickCard(this.snufflegator);
+            this.player1.clickPrompt('Deal 2 damage');
+            this.player1.clickCard(this.dustPixie);
+
+            // Autoresolve reap with Niffle Ape
+            expect(this.player1.amber).toBe(4);
+            expect(this.snufflegator.exhausted).toBe(true);
+            expect(this.profEmeritusKering.exhausted).toBe(true);
+            expect(this.dustPixie.location).toBe('discard');
+            expect(this.niffleApe.exhausted).toBe(true);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
-// is this dyamic
