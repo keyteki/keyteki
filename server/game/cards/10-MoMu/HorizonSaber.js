@@ -18,7 +18,8 @@ class HorizonSaber extends GiganticCard {
             gameAction: ability.actions.sequential([
                 ability.actions.search({
                     amount: 1,
-                    destination: 'archives'
+                    destination: 'archives',
+                    putIntoArchives: true
                 }),
                 ability.actions.returnToDeck((context) => ({
                     shuffle: true,
