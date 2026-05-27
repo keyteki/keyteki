@@ -285,4 +285,51 @@ describe('Badgemagus', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('Badgemagus with changing battleline', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    inPlay: ['han-peregrine', 'badgemagus', 'the-terror', 'gub'],
+                    hand: ['soulkeeper']
+                },
+                player2: {
+                    inPlay: ['urchin', 'umbra']
+                }
+            });
+            this.player1.makeMaverick(this.soulkeeper, 'sanctum');
+        });
+
+        it('should still fight with the other neighbor if Badgemagus dies during the first neighbor fight', function () {
+            this.player1.playUpgrade(this.soulkeeper, this.urchin);
+            this.badgemagus.powerCounters = 3;
+
+            // Badgemagus fights
+            this.player1.fightWith(this.badgemagus, this.urchin);
+
+            // Han Peregrine fights
+            this.player1.clickCard(this.hanPeregrine);
+            this.player1.clickCard(this.urchin);
+
+            // Soulkeeper kills Badgemagus
+            this.player1.clickCard(this.badgemagus);
+            expect(this.badgemagus.location).toBe('discard');
+
+            // Han Peregrine exalts
+            this.player1.clickCard(this.hanPeregrine);
+            this.player1.clickCard(this.hanPeregrine);
+            expect(this.hanPeregrine.amber).toBe(1);
+            this.player1.clickCard(this.theTerror);
+            this.player1.clickPrompt('Right');
+
+            // The Terror has moved but still fights
+            expect(this.player1).toBeAbleToSelect(this.umbra);
+            this.player1.clickCard(this.umbra);
+            this.theTerror.exhausted = true;
+            this.theTerror.damage = 2;
+            this.gub.exhausted = false;
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

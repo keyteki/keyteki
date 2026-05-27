@@ -267,8 +267,10 @@ describe('Ghosthawk', function () {
                 });
 
                 it('should be able to destroy the other neighbor', function () {
+                    expect(this.dewFaerie.exhausted).toBe(false);
                     this.player1.clickCard(this.snufflegator);
-                    expect(this.player1.amber).toBe(1);
+                    expect(this.player1.amber).toBe(3);
+                    expect(this.dewFaerie.exhausted).toBe(true);
                     expect(this.snufflegator.location).toBe('discard');
                     expect(this.player1).isReadyToTakeAction();
                 });
@@ -276,5 +278,30 @@ describe('Ghosthawk', function () {
         });
     });
 
-    // bot bookton silvertooth should work
+    describe('dynamic neighbor resolution', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'untamed',
+                    inPlay: ['bot-bookton'],
+                    hand: ['ghosthawk'],
+                    discard: ['silvertooth']
+                },
+                player2: {}
+            });
+
+            this.player1.moveCard(this.silvertooth, 'deck');
+        });
+
+        it('should reap with Bot Bookton first, then reap with newly played Silvertooth', function () {
+            this.player1.play(this.ghosthawk);
+            this.player1.clickCard(this.botBookton);
+            this.player1.clickPrompt('Right');
+            expect(this.botBookton.exhausted).toBe(true);
+            expect(this.silvertooth.location).toBe('play area');
+            expect(this.silvertooth.exhausted).toBe(true);
+            expect(this.player1.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
