@@ -16,18 +16,27 @@ class Badgemagus extends Card {
             },
             then: (preThenContext) => ({
                 alwaysTriggers: true,
-                gameAction: ability.actions.sequential([
-                    ability.actions.ready({
-                        target: preThenContext.cardStateWhenInitiated.clonedNeighbors.filter(
-                            (c) => c !== preThenContext.target
-                        )
-                    }),
-                    ability.actions.fight({
-                        target: preThenContext.cardStateWhenInitiated.clonedNeighbors.filter(
-                            (c) => c !== preThenContext.target
-                        )
-                    })
-                ])
+                gameAction: (() => {
+                    const firstWasLeft =
+                        preThenContext.source.leftNeighbor() === preThenContext.target;
+
+                    return ability.actions.sequential([
+                        ability.actions.ready(() => {
+                            return {
+                                target: firstWasLeft
+                                    ? preThenContext.source.rightNeighbor()
+                                    : preThenContext.source.leftNeighbor()
+                            };
+                        }),
+                        ability.actions.fight(() => {
+                            return {
+                                target: firstWasLeft
+                                    ? preThenContext.source.rightNeighbor()
+                                    : preThenContext.source.leftNeighbor()
+                            };
+                        })
+                    ]);
+                })()
             })
         });
     }

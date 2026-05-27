@@ -27,4 +27,30 @@ describe('FyreBreath(WC)', function () {
             expect(this.nexus.location).toBe('discard');
         });
     });
+
+    describe('does not deal damage', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    hand: ['fyre-breath'],
+                    inPlay: ['batdrone', 'infomorph']
+                },
+                player2: {
+                    inPlay: ['eldest-bear']
+                }
+            });
+        });
+
+        it('if target is killed by assault', function () {
+            this.player1.playUpgrade(this.fyreBreath, this.eldestBear);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.fightWith(this.eldestBear, this.batdrone);
+            this.player2.clickPrompt('Assault');
+            expect(this.infomorph.location).toBe('play area');
+            expect(this.infomorph.damage).toBe(0);
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
 });

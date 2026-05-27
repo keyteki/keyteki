@@ -104,3 +104,4 @@ describe('Friendly Guide', function () {
         });
     });
 });
+// dynamic on neighbors

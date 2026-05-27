@@ -28,4 +28,6 @@ describe('Crewman Jörg', function () {
             expect(this.player2.amber).toBe(4);
         });
     });
+
+    // should work with shadow gloomcoil
 });

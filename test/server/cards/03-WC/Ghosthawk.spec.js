@@ -275,4 +275,6 @@ describe('Ghosthawk', function () {
             });
         });
     });
+
+    // bot bookton silvertooth should work
 });

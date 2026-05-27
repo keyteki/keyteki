@@ -64,4 +64,58 @@ describe("Aero O'Fore", function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('when it leaves and re-enters the center during reap timing', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'skyborn',
+                    hand: ['chan-s-blaster', 'walls--blaster'],
+                    inPlay: ['nexus', 'urchin', 'aero-o-fore', 'umbra', 'dodger']
+                },
+                player2: {
+                    amber: 10
+                }
+            });
+
+            this.player1.makeMaverick(this.chanSBlaster, 'skyborn');
+            this.player1.makeMaverick(this.wallsBlaster, 'skyborn');
+        });
+
+        it('should capture 2 again after regaining center later in the same reap window', function () {
+            this.player1.playUpgrade(this.chanSBlaster, this.aeroOFore);
+            this.player1.playUpgrade(this.wallsBlaster, this.aeroOFore);
+            this.player1.reap(this.aeroOFore);
+
+            // Aero O'Fore capture 4
+            this.player1.clickCard(this.aeroOFore);
+            this.player1.clickPrompt(this.aeroOFore.name);
+            this.player1.clickPrompt('Done');
+            expect(this.nexus.amber).toBe(2);
+            expect(this.dodger.amber).toBe(2);
+            expect(this.player2.amber).toBe(6);
+
+            // Chan's Blaster kill Urchin
+            this.player1.clickCard(this.aeroOFore);
+            this.player1.clickPrompt(this.chanSBlaster.name);
+            this.player1.clickPrompt('Deal 2 damage');
+            this.player1.clickCard(this.urchin);
+            expect(this.urchin.location).toBe('discard');
+            expect(this.aeroOFore.isInCenter()).toBe(false);
+
+            // Wall's Blaster kill Umbra
+            this.player1.clickCard(this.aeroOFore);
+            this.player1.clickPrompt('Deal 2 damage');
+            this.player1.clickCard(this.umbra);
+            expect(this.umbra.location).toBe('discard');
+            expect(this.aeroOFore.isInCenter()).toBe(true);
+
+            // Aero O'Fore capture 2 again
+            this.player1.clickPrompt('Done');
+            expect(this.nexus.amber).toBe(4);
+            expect(this.dodger.amber).toBe(4);
+            expect(this.player2.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
