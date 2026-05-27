@@ -108,11 +108,11 @@ describe('Mirror Shell', function () {
             this.player1.clickPrompt('First Officer Frane');
             this.player1.clickCard(this.questorJarta);
 
-            expect(this.grunt.getShortSummary().id).toBe('grunt');
-            expect(this.grunt.getShortSummary().name).toBe('Grunt');
-            this.player1.reap(this.grunt);
-            this.player1.clickCard(this.grunt);
-            expect(this.grunt.amber).toBe(1);
+            expect(this.rebel.getShortSummary().id).toBe('rebel');
+            expect(this.rebel.getShortSummary().name).toBe('Rebel');
+            this.player1.reap(this.rebel);
+            this.player1.clickCard(this.rebel);
+            expect(this.rebel.amber).toBe(1);
             expect(this.player2.amber).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
