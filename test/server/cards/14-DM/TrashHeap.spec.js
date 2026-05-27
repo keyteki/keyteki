@@ -85,6 +85,117 @@ describe('Trash Heap', function () {
         });
     });
 
+    describe('Trash Heap with empty or partial hands', function () {
+        it('still discards and refills when the active player has no cards in hand', function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    hand: ['trash-heap'],
+                    inPlay: ['troll']
+                },
+                player2: {
+                    hand: ['bumpsy'],
+                    inPlay: ['krump']
+                }
+            });
+            this.player1.play(this.trashHeap);
+            this.player1.clickPrompt('Me');
+            // Creatures are destroyed and the revealed opponent creature is discarded.
+            expect(this.troll.location).toBe('discard');
+            expect(this.krump.location).toBe('discard');
+            expect(this.bumpsy.location).toBe('discard');
+            // Both hands refill to 6.
+            expect(this.player1.player.hand.length).toBe(6);
+            expect(this.player2.player.hand.length).toBe(6);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it("still refills when the opponent's hand is empty", function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    hand: ['trash-heap', 'troll'],
+                    inPlay: ['lamindra']
+                },
+                player2: {
+                    inPlay: ['krump']
+                }
+            });
+            this.player2.player.hand.forEach((card) => this.player2.moveCard(card, 'discard'));
+            this.player1.play(this.trashHeap);
+            this.player1.clickPrompt('Me');
+            expect(this.lamindra.location).toBe('discard');
+            expect(this.krump.location).toBe('discard');
+            expect(this.troll.location).toBe('discard');
+            expect(this.player1.player.hand.length).toBe(6);
+            expect(this.player2.player.hand.length).toBe(6);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('still refills when both hands are empty', function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    hand: ['trash-heap'],
+                    inPlay: ['lamindra']
+                },
+                player2: {
+                    inPlay: ['krump']
+                }
+            });
+            this.player2.player.hand.forEach((card) => this.player2.moveCard(card, 'discard'));
+            this.player1.play(this.trashHeap);
+            expect(this.lamindra.location).toBe('discard');
+            expect(this.krump.location).toBe('discard');
+            expect(this.player1.player.hand.length).toBe(6);
+            expect(this.player2.player.hand.length).toBe(6);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('still refills when no creatures are in play or in hand', function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    hand: ['trash-heap', 'bait-and-switch']
+                },
+                player2: {
+                    hand: ['anger']
+                }
+            });
+            this.player1.play(this.trashHeap);
+            // Nothing to destroy, nothing to discard.
+            expect(this.baitAndSwitch.location).toBe('hand');
+            expect(this.anger.location).toBe('hand');
+            // Both hands refill to 6.
+            expect(this.player1.player.hand.length).toBe(6);
+            expect(this.player2.player.hand.length).toBe(6);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('still refills when no revealed cards are creatures', function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    hand: ['trash-heap', 'bait-and-switch'],
+                    inPlay: ['lamindra']
+                },
+                player2: {
+                    hand: ['anger'],
+                    inPlay: ['krump']
+                }
+            });
+            this.player1.play(this.trashHeap);
+            expect(this.lamindra.location).toBe('discard');
+            expect(this.krump.location).toBe('discard');
+            // Non-creature hand cards are not discarded.
+            expect(this.baitAndSwitch.location).toBe('hand');
+            expect(this.anger.location).toBe('hand');
+            expect(this.player1.player.hand.length).toBe(6);
+            expect(this.player2.player.hand.length).toBe(6);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
     describe('Trash Heap with scrap abilities', function () {
         it('does not discard a creature drawn after a revealed creature was discarded', function () {
             this.setupTest({
