@@ -66,9 +66,7 @@ describe('Spartasaur', function () {
             expect(this.tyaArhĭEsquire.location).toBe('play area');
             expect(this.troll.location).toBe('play area');
             expect(this.player1.player.creaturesInPlay.length).toBe(5);
-            expect(this.player1).toHavePrompt(
-                'Any reactions to Rhetor Gallim being destroyed or Rhetor Gallim being destroyed?'
-            );
+            expect(this.player1).toHavePrompt('Any reactions to Rhetor Gallim being destroyed?');
             expect(this.player1).toHavePromptButton('Autoresolve');
 
             // Wave 1: Spartasaur destroys Esquire and Troll

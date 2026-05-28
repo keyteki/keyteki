@@ -23,8 +23,8 @@ describe('Embered Purse', function () {
         });
 
         it('does not count exhausted Skyborn creatures', function () {
-            this.bosunCreen.exhausted = true;
-            this.hanPeregrine.exhausted = true;
+            this.bosunCreen.exhaust();
+            this.hanPeregrine.exhaust();
             this.player1.play(this.emberedPurse);
             // only flip-stallard is a ready skyborn
             expect(this.player1.amber).toBe(1);
@@ -33,9 +33,9 @@ describe('Embered Purse', function () {
         });
 
         it('steals 0 when no ready Skyborn creatures', function () {
-            this.bosunCreen.exhausted = true;
-            this.flipStallard.exhausted = true;
-            this.hanPeregrine.exhausted = true;
+            this.bosunCreen.exhaust();
+            this.flipStallard.exhaust();
+            this.hanPeregrine.exhaust();
             this.player1.play(this.emberedPurse);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(5);

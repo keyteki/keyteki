@@ -22,7 +22,7 @@ describe('Cannot Play Messages', function () {
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Archimedes',
                 'player1 plays Wild Wormhole',
-                "player1 gains an amber due to Wild Wormhole's bonus icon",
+                "player1 uses Wild Wormhole's amber bonus icon to gain 1 amber",
                 'player1 is unable to play a card from deck due to a restriction'
             ]);
         });
@@ -81,7 +81,7 @@ describe('Cannot Play Messages', function () {
             expect(this.snufflegator.location).toBe('deck');
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Wild Wormhole',
-                "player1 gains an amber due to Wild Wormhole's bonus icon",
+                "player1 uses Wild Wormhole's amber bonus icon to gain 1 amber",
                 'player1 uses Wild Wormhole to play Snufflegator',
                 'player1 is unable to play Snufflegator and returns it to deck'
             ]);
@@ -106,7 +106,7 @@ describe('Cannot Play Messages', function () {
             expect(this.kelifiDragon.location).toBe('deck');
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Wild Wormhole',
-                "player1 gains an amber due to Wild Wormhole's bonus icon",
+                "player1 uses Wild Wormhole's amber bonus icon to gain 1 amber",
                 'player1 uses Wild Wormhole to play Kelifi Dragon',
                 'player1 is unable to play Kelifi Dragon and returns it to deck'
             ]);
@@ -131,7 +131,7 @@ describe('Cannot Play Messages', function () {
             expect(this.wayOfTheBear.location).toBe('deck');
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Wild Wormhole',
-                "player1 gains an amber due to Wild Wormhole's bonus icon",
+                "player1 uses Wild Wormhole's amber bonus icon to gain 1 amber",
                 'player1 uses Wild Wormhole to play Way of the Bear',
                 'player1 is unable to play Way of the Bear and returns it to deck'
             ]);
@@ -166,12 +166,13 @@ describe('Cannot Play Messages', function () {
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Traumatic Echo',
                 'player1 uses Traumatic Echo to purge Searine',
+                'player1 uses Traumatic Echo to prevent player2 from playing creature cards next turn',
                 'player1 draws 6 cards to refill their hand to 6 cards',
                 'player1: 0 amber (0 keys) player2: 0 amber (0 keys)',
-                'player2 does not forge a key.  They have 0 amber.  The current cost is 6 amber ',
+                'player2 does not forge a key. They have 0 amber. The current cost is 6 amber',
                 'player2 chooses logos as their active house this turn',
                 'player2 plays Wild Wormhole',
-                "player2 gains an amber due to Wild Wormhole's bonus icon",
+                "player2 uses Wild Wormhole's amber bonus icon to gain 1 amber",
                 'player2 uses Wild Wormhole to play Dextre',
                 'player2 is unable to play Dextre and returns it to deck'
             ]);

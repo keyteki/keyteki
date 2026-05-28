@@ -332,7 +332,7 @@ describe('Mimicry', function () {
             this.masterTheTheory.enhancements = ['damage'];
         });
 
-        it("should re-evaluate the gained play's condition after the bonus icon resolves", function () {
+        it("should evaluate the gained play's condition after the bonus icon resolves", function () {
             this.player1.play(this.mimicry);
             this.player1.clickCard(this.masterTheTheory);
             expect(this.player1).toHavePrompt('Choose a creature to damage due to bonus icon');

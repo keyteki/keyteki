@@ -11,7 +11,7 @@ class AllHandsOnDeck extends Card {
                     promptForSelect: {
                         cardType: 'creature',
                         message: '{0} uses {1} to destroy {2}',
-                        messageArgs: (cards) => [context.player, context.source.name, cards]
+                        messageArgs: (cards) => [context.player, context.source, cards]
                     }
                 })),
                 falseGameAction: ability.actions.dealDamage((context) => ({
@@ -19,7 +19,7 @@ class AllHandsOnDeck extends Card {
                     promptForSelect: {
                         cardType: 'creature',
                         message: '{0} uses {1} to deal 3 damage to {2}',
-                        messageArgs: (cards) => [context.player, context.source.name, cards]
+                        messageArgs: (cards) => [context.player, context.source, cards]
                     }
                 }))
             }),

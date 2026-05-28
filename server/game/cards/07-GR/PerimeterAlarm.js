@@ -11,12 +11,13 @@ class PerimeterAlarm extends Card {
                 cardCondition: (card) => !card.exhausted && !card.hasHouse('staralliance'),
                 gameAction: ability.actions.use()
             },
-            message: '{0} uses {1} to use {2}{3}',
+            message: '{0} uses {1} to use {2}{3}{4}',
             messageArgs: (context) => [
                 context.player,
                 context.source,
                 context.target ? context.target : 'nothing',
-                context.player.isHaunted() ? ' and archive ' + context.source.name : ''
+                context.player.isHaunted() ? ' and archive ' : '',
+                context.player.isHaunted() ? context.source : ''
             ],
             then: {
                 alwaysTriggers: true,
