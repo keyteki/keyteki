@@ -7,24 +7,19 @@ class MostStatCardSelector extends ExactlyXCardSelector {
     }
 
     canTarget(card, context) {
-        let sorted = this.getSortedCards(context);
-        let minStat = sorted.length < this.numCards ? 0 : this.cardStat(sorted[this.numCards - 1]);
-        // Cards already tagged for destruction set the stat ceiling (so e.g.
-        // "destroy the most powerful enemy creature" still knows the tagged
-        // card is the most powerful) but normally cannot themselves be chosen:
-        // the destroy event would no-op and clicking an already-dying card is
-        // a degenerate prompt. We exclude moribund cards as long as enough
-        // non-moribund cards meet the threshold. If every threshold-meeting
-        // candidate is moribund, fall back to the top `numCards` of the sorted
-        // list (including moribund) so downstream effects referencing the
-        // chosen target still resolve.
-        let nonMoribundAtThreshold = sorted.filter(
-            (c) => !c.moribund && this.cardStat(c) >= minStat
-        );
-        if (nonMoribundAtThreshold.length >= this.numCards) {
-            return !card.moribund && this.cardStat(card) >= minStat && sorted.includes(card);
-        }
-        return sorted.slice(0, this.numCards).includes(card);
+        const { sorted, selectableCards, isFallback } = this.computeThreshold(context);
+        return isFallback
+            ? sorted.slice(0, this.numCards).includes(card)
+            : selectableCards.includes(card);
+    }
+
+    computeThreshold(context) {
+        const sorted = this.getSortedCards(context);
+        const threshold =
+            sorted.length < this.numCards ? 0 : this.cardStat(sorted[this.numCards - 1]);
+        const selectableCards = sorted.filter((c) => !c.moribund && this.cardStat(c) >= threshold);
+        const isFallback = selectableCards.length < this.numCards;
+        return { sorted, threshold, selectableCards, isFallback };
     }
 
     getSortedCards(context) {
@@ -38,19 +33,14 @@ class MostStatCardSelector extends ExactlyXCardSelector {
             return false;
         }
 
-        let sorted = this.getSortedCards(context);
-        let minStat = sorted.length < this.numCards ? 0 : this.cardStat(sorted[this.numCards - 1]);
-        let nonMoribundAtThreshold = sorted.filter(
-            (c) => !c.moribund && this.cardStat(c) >= minStat
-        );
-        if (nonMoribundAtThreshold.length >= this.numCards) {
-            return sorted.every(
-                (card) =>
-                    card.moribund || this.cardStat(card) <= minStat || selectedCards.includes(card)
-            );
+        const { sorted, threshold, isFallback } = this.computeThreshold(context);
+        if (isFallback) {
+            return selectedCards.every((card) => sorted.slice(0, this.numCards).includes(card));
         }
-        let fallback = sorted.slice(0, this.numCards);
-        return selectedCards.every((card) => fallback.includes(card));
+        return sorted.every(
+            (card) =>
+                card.moribund || this.cardStat(card) <= threshold || selectedCards.includes(card)
+        );
     }
 }
 
