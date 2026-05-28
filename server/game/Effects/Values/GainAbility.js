@@ -31,7 +31,12 @@ class GainAbility extends EffectValue {
                 value.ref = target.addEffectToEngine(value);
             }
         } else if (this.type !== 'action') {
-            value.registerEvents();
+            // Don't register destroyed abilities on cards already tagged for
+            // destruction (moribund). Such abilities were not present at
+            // tagging time and must not trigger for the pending destruction.
+            if (!(this.type === 'destroyed' && target.moribund)) {
+                value.registerEvents();
+            }
         }
     }
 
