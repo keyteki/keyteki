@@ -11,7 +11,7 @@ class EcstacySiphon extends Card {
                 numSteps: context.player.opponent ? context.player.opponent.hand.length : 0,
                 damageStep: 1
             })),
-            effect: "deal 1 damage to an enemy creature for each card in {1}'s hand ",
+            effect: "deal 1 damage to an enemy creature for each card in {1}'s hand",
             effectArgs: (context) => context.player.opponent
         });
     }

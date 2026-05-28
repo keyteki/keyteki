@@ -29,7 +29,7 @@ describe('Gambling Den', function () {
             expect(this.player2.amber).toBe(0);
         });
 
-        it('should ask player2 to gamble for house and gain 2 ambers', function () {
+        it('should ask player2 to gamble for house and gain 2 amber', function () {
             this.player2.moveCard(this.troll, 'deck');
             this.player1.endTurn();
             expect(this.player2).toBeAbleToSelect(this.gamblingDen);
@@ -43,7 +43,7 @@ describe('Gambling Den', function () {
             expect(this.player2.amber).toBe(2);
         });
 
-        it('should ask player2 to gamble for house and lose 2 ambers', function () {
+        it('should ask player2 to gamble for house and lose 2 amber', function () {
             this.player2.moveCard(this.troll, 'deck');
             this.player1.endTurn();
             expect(this.player2).toBeAbleToSelect(this.gamblingDen);
@@ -72,7 +72,7 @@ describe('Gambling Den', function () {
             expect(this.player1.amber).toBe(5);
         });
 
-        it('should ask player1 to gamble for house and gain 2 ambers', function () {
+        it('should ask player1 to gamble for house and gain 2 amber', function () {
             this.player1.moveCard(this.lamindra, 'deck');
             this.player2.moveCard(this.troll, 'deck');
             this.player1.endTurn();
@@ -92,7 +92,7 @@ describe('Gambling Den', function () {
             expect(this.player1.amber).toBe(1);
         });
 
-        it('should ask player1 to gamble for house and lose 2 ambers', function () {
+        it('should ask player1 to gamble for house and lose 2 amber', function () {
             this.player1.moveCard(this.lamindra, 'deck');
             this.player2.moveCard(this.troll, 'deck');
             this.player1.endTurn();

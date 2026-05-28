@@ -17,7 +17,10 @@ class MirrorShell extends Card {
                 effect: 'make all friendly token creatures a copy of {0}',
                 gameAction: ability.actions.untilPlayerTurnEnd((context) => ({
                     controller: 'self',
-                    match: (card) => card.isToken(),
+                    // Exclude the source itself, otherwise if Mirror Shell is
+                    // attached to a token creature, copying that token onto
+                    // itself causes an infinite loop in the copy effects.
+                    match: (card) => card.isToken() && card !== context.source,
                     effect: ability.effects.copyCard(context.source)
                 }))
             })

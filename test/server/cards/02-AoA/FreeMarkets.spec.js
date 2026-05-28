@@ -14,7 +14,7 @@ describe('Free Markets', function () {
             });
         });
 
-        it('should gain 5 ambers', function () {
+        it('should gain 5 amber', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('sanctum');
             this.player2.play(this.freeMarkets);
@@ -37,7 +37,7 @@ describe('Free Markets', function () {
             });
         });
 
-        it('should gain 5 ambers due to upgrade', function () {
+        it('should gain 5 amber due to upgrade', function () {
             this.player1.playUpgrade(this.soulkeeper, this.troll);
             this.player1.endTurn();
             this.player2.clickPrompt('sanctum');
