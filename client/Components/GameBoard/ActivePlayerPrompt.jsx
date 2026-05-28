@@ -29,15 +29,16 @@ import CardImage from './CardImage';
 const ActivePlayerPrompt = (props) => {
     const { t, i18n } = useTranslation();
     const [buttonsDisabled, setButtonsDisabled] = useState(false);
+    const [forcePassDisabled, setForcePassDisabled] = useState(false);
     const prevPromptTitle = useRef(null);
+    const prevForcePass = useRef(false);
 
     useEffect(() => {
         const titleText =
             typeof props.promptTitle === 'string' ? props.promptTitle : props.promptTitle?.text;
 
         const delays = {
-            'Game Won': 1500,
-            'Opponent Inactive': 5000
+            'Game Won': 1500
         };
         const delay = delays[titleText];
 
@@ -53,6 +54,22 @@ const ActivePlayerPrompt = (props) => {
 
         prevPromptTitle.current = titleText;
     }, [props.promptTitle]);
+
+    useEffect(() => {
+        if (props.forcePassAvailable && !prevForcePass.current) {
+            setForcePassDisabled(true);
+            const timer = setTimeout(() => setForcePassDisabled(false), 5000);
+            prevForcePass.current = true;
+            return () => {
+                clearTimeout(timer);
+                setForcePassDisabled(false);
+            };
+        }
+
+        if (!props.forcePassAvailable) {
+            prevForcePass.current = false;
+        }
+    }, [props.forcePassAvailable]);
 
     const iconAssetByName = {
         forgedkeyblue: new URL('../../assets/img/forgedkeyblue.png', import.meta.url).href,
@@ -359,6 +376,18 @@ const ActivePlayerPrompt = (props) => {
                     <h4 className='mb-2 text-base font-medium leading-snug'>{promptTexts}</h4>
                     <div className='space-y-1.5'>{getControls()}</div>
                     <div className='mt-2 space-y-1.5'>{getButtons()}</div>
+                    {props.forcePassAvailable && (
+                        <div className='mt-3 border-t border-border/50 pt-3'>
+                            <Button
+                                variant='primary'
+                                className='w-full justify-center whitespace-nowrap text-sm capitalize !px-2 !py-1.5'
+                                onPress={props.onForcePass}
+                                isDisabled={forcePassDisabled}
+                            >
+                                Force Pass Turn
+                            </Button>
+                        </div>
+                    )}
                 </div>
             </Panel>
         </div>

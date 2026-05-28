@@ -344,6 +344,10 @@ export const GameBoard = () => {
                                     onMouseOut={onMouseOut}
                                     user={user}
                                     phase={thisPlayer.phase}
+                                    forcePassAvailable={
+                                        currentGame.forcePassAvailable && !thisPlayer.activePlayer
+                                    }
+                                    onForcePass={() => sendGameMessage('forcePass')}
                                 />
                             )}
                             {timeLimitClock}

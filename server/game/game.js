@@ -131,7 +131,7 @@ class Game extends EventEmitter {
         // any game commands for the threshold, the opponent can force-pass.
         this.inactivityThresholdMs = 5 * 60 * 1000; // 5 minutes
         this.forcePassCount = 0; // how many times force-pass has been used
-        this.inactivityPromptShown = false; // whether we've already shown the prompt this turn
+        this.forcePassAvailable = false; // non-blocking flag exposed in game state
     }
 
     /*
@@ -174,9 +174,9 @@ class Game extends EventEmitter {
 
         player.lastEventAt = Date.now();
 
-        // If the force-pass prompt is showing and the idle player acts, reset
-        if (this.inactivityPromptShown && player === this.activePlayer) {
-            this.inactivityPromptShown = false;
+        // If force-pass is available and the idle player acts, reset
+        if (this.forcePassAvailable && player === this.activePlayer) {
+            this.forcePassAvailable = false;
             this.forcePassCount = 0;
             player.inactive = false;
         }
@@ -193,7 +193,7 @@ class Game extends EventEmitter {
             return false;
         }
 
-        if (this.inactivityPromptShown) {
+        if (this.forcePassAvailable) {
             return false;
         }
 
@@ -206,7 +206,7 @@ class Game extends EventEmitter {
         const lastEvent = activePlayer.lastEventAt || Date.now();
 
         // On the first detection use 5 min; on subsequent force-passed turns
-        // show immediately (the client grays out the button for 5s instead).
+        // trigger immediately (the client grays out the button for 5s instead).
         const threshold = this.forcePassCount > 0 ? 0 : this.inactivityThresholdMs;
 
         if (now - lastEvent < threshold) {
@@ -219,7 +219,7 @@ class Game extends EventEmitter {
             return false;
         }
 
-        this.inactivityPromptShown = true;
+        this.forcePassAvailable = true;
         activePlayer.inactive = true;
         this.addAlert(
             'warning',
@@ -227,9 +227,6 @@ class Game extends EventEmitter {
             activePlayer,
             waitingPlayer
         );
-
-        const ForcePassTurnPrompt = require('./gamesteps/ForcePassTurnPrompt');
-        this.queueStep(new ForcePassTurnPrompt(this, waitingPlayer, activePlayer));
 
         return true;
     }
@@ -1003,7 +1000,7 @@ class Game extends EventEmitter {
         }
 
         // Reset inactivity tracking for the new turn
-        this.inactivityPromptShown = false;
+        this.forcePassAvailable = false;
 
         this.raiseEvent(EVENTS.onTurnStart, { player: this.activePlayer });
         this.activePlayer.beginRound();
@@ -1463,14 +1460,51 @@ class Game extends EventEmitter {
      * Force-passes the active player's turn by clearing the pipeline and ending
      * the round. Used when the opponent triggers the inactivity force-pass.
      */
+    /**
+     * Game command: the waiting player forces the idle player's turn to end.
+     */
+    forcePass(playerName) {
+        if (!this.forcePassAvailable) {
+            return;
+        }
+
+        const player = this.getPlayerByName(playerName);
+        if (!player || player === this.activePlayer) {
+            return;
+        }
+
+        // Re-verify the active player is actually inactive right now
+        const now = Date.now();
+        const lastEvent = this.activePlayer.lastEventAt || now;
+        const threshold = this.forcePassCount > 0 ? 0 : this.inactivityThresholdMs;
+        if (now - lastEvent < threshold) {
+            this.forcePassAvailable = false;
+            this.activePlayer.inactive = false;
+            return;
+        }
+
+        this.addAlert(
+            'warning',
+            '{0} forces {1} to pass their turn due to inactivity',
+            player,
+            this.activePlayer
+        );
+
+        this.forcePassCount++;
+        this.forcePassAvailable = false;
+        this.forcePassTurn();
+    }
+
     forcePassTurn() {
         // Clear all remaining steps in the pipeline (cancels prompts a la manual mode)
         this.pipeline.pipeline = [];
         this.pipeline.queue = [];
 
-        // End the turn and start the next one
-        this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent()));
-        this.queueStep(new SimpleStep(this, () => this.beginRound()));
+        // Set pipeline directly to avoid ordering issues with queueStep
+        this.pipeline.initialise([
+            new SimpleStep(this, () => this.raiseEndRoundEvent()),
+            new SimpleStep(this, () => this.beginRound())
+        ]);
     }
 
     endRound() {
@@ -1670,6 +1704,7 @@ class Game extends EventEmitter {
                 adaptive: this.adaptive,
                 cancelPromptUsed: this.cancelPromptUsed,
                 challonge: this.challonge,
+                forcePassAvailable: this.forcePassAvailable,
                 gameFormat: this.gameFormat,
                 gamePrivate: this.gamePrivate,
                 gameTimeLimitStarted: this.timeLimit.timeLimitStarted,
