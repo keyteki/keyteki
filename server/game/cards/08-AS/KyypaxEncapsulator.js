@@ -5,9 +5,10 @@ class KyypaxEncapsulator extends Card {
     setupCardAbilities(ability) {
         this.reap({
             target: {
+                activePromptTitle: 'Choose a creature to archive',
                 cardType: 'creature',
                 controller: 'opponent',
-                gameAction: ability.actions.archive()
+                gameAction: ability.actions.putIntoArchives()
             }
         });
     }

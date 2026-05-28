@@ -9,8 +9,7 @@ class DonorVox extends Card {
                 cardType: 'creature',
                 controller: 'self',
                 gameAction: ability.actions.addPowerCounter({ amount: 2 })
-            },
-            effect: 'give {0} two +1 power counters'
+            }
         });
     }
 }

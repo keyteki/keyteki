@@ -27,7 +27,6 @@ class NearFutureLens extends Card {
 
         this.omni({
             gameAction: ability.actions.playCard((context) => ({
-                revealOnIllegalTarget: true,
                 target: context.player.deck[0]
             }))
         });

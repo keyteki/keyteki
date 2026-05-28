@@ -79,4 +79,55 @@ describe('Treat Each Action as Your Last', function () {
             expect(this.player2).isReadyToTakeAction();
         });
     });
+
+    describe('Treat Each Action is orderable with Mind Over Matter', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 1,
+                    house: 'saurian',
+                    prophecies: [
+                        'treat-each-action-as-your-last',
+                        'expect-the-unexpected',
+                        'forge-ahead-with-confidence',
+                        'fate-laughs-at-your-plans'
+                    ],
+                    hand: ['plancina-hidden-agent']
+                },
+                player2: {
+                    amber: 1,
+                    house: 'logos',
+                    hand: ['poke', 'mind-over-matter']
+                }
+            });
+        });
+
+        it('lets the active player resolve Treat Each Action first so Mind Over Matter archives Plancina', function () {
+            this.player1.activateProphecy(this.treatEachActionAsYourLast, this.plancinaHiddenAgent);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.poke);
+            this.player2.play(this.mindOverMatter);
+            expect(this.player2).toHavePrompt('Triggered Abilities');
+            this.player2.clickCard(this.treatEachActionAsYourLast);
+            expect(this.plancinaHiddenAgent.location).toBe('archives');
+            expect(this.plancinaHiddenAgent.owner).toBe(this.player1.player);
+            expect(this.mindOverMatter.location).toBe('discard');
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('lets the active player resolve Mind Over Matter first so Plancina enters play afterwards', function () {
+            this.player1.activateProphecy(this.treatEachActionAsYourLast, this.plancinaHiddenAgent);
+            this.player1.endTurn();
+            this.player2.clickPrompt('logos');
+            this.player2.play(this.poke);
+            this.player2.play(this.mindOverMatter);
+            expect(this.player2).toHavePrompt('Triggered Abilities');
+            this.player2.clickPrompt(this.mindOverMatter.name);
+            expect(this.plancinaHiddenAgent.location).toBe('play area');
+            expect(this.plancinaHiddenAgent.controller).toBe(this.player2.player);
+            expect(this.mindOverMatter.location).toBe('discard');
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
 });

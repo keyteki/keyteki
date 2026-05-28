@@ -21,7 +21,7 @@ describe('Power Counter Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Troll',
-                "player1 adds a +1 power counter to Krump due to Troll's bonus icon"
+                "player1 uses Troll's power bonus icon to add a +1 power counter to Krump"
             ]);
         });
     });

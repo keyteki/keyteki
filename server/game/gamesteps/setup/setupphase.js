@@ -16,7 +16,9 @@ class SetupPhase extends Phase {
             new FirstPlayerSelection(game),
             new SimpleStep(game, () => this.setupBegin()),
             new GameStartPrompt(game),
+            new SimpleStep(game, () => this.applyFirstPlayerHandSizeBonus()),
             new SimpleStep(game, () => this.drawStartingHands()),
+            new SimpleStep(game, () => this.removeFirstPlayerHandSizeBonus()),
             new SimpleStep(game, () => this.firstPlayerEffects()),
             new MulliganPrompt(game),
             new SimpleStep(game, () => this.startGame())
@@ -55,19 +57,14 @@ class SetupPhase extends Phase {
         }
     }
 
-    firstPlayerEffects() {
+    applyFirstPlayerHandSizeBonus() {
+        // Temporarily give the first player +1 hand size so their starting
+        // refill draws one extra card (subject to chains) in a single event.
+        const player = this.game.activePlayer;
+        this.firstPlayerBonusContext = this.game.getFrameworkContext(player);
         this.game.actions
-            .draw({ amount: 1 })
-            .resolve(this.game.activePlayer, this.game.getFrameworkContext());
-        this.game.actions
-            .untilPlayerTurnEnd({
-                condition: () =>
-                    !!this.game.cardsUsed.length ||
-                    !!this.game.cardsPlayed.length ||
-                    !!this.game.cardsDiscarded.length,
-                effect: Effects.noActiveHouseForPlay()
-            })
-            .resolve(this.game.activePlayer, this.game.getFrameworkContext(this.game.activePlayer));
+            .untilPlayerTurnEnd({ effect: Effects.modifyHandSize(1) })
+            .resolve(player, this.firstPlayerBonusContext);
     }
 
     drawStartingHands() {
@@ -78,6 +75,29 @@ class SetupPhase extends Phase {
                 .resolve(player, this.game.getFrameworkContext());
         });
         this.game.startingHandsDrawn = true;
+    }
+
+    removeFirstPlayerHandSizeBonus() {
+        const ctx = this.firstPlayerBonusContext;
+        this.game.effectEngine.unapplyAndRemove(
+            (effect) =>
+                effect.effect.type === 'modifyHandSize' &&
+                effect.duration === 'untilPlayerTurnEnd' &&
+                effect.source === ctx.source
+        );
+        this.firstPlayerBonusContext = null;
+    }
+
+    firstPlayerEffects() {
+        this.game.actions
+            .untilPlayerTurnEnd({
+                condition: () =>
+                    !!this.game.cardsUsed.length ||
+                    !!this.game.cardsPlayed.length ||
+                    !!this.game.cardsDiscarded.length,
+                effect: Effects.noActiveHouseForPlay()
+            })
+            .resolve(this.game.activePlayer, this.game.getFrameworkContext(this.game.activePlayer));
     }
 
     startGame() {

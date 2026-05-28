@@ -1,8 +1,10 @@
 const _ = require('underscore');
 
 const CardSelector = require('../CardSelector.js');
+const SingleCardSelector = require('../CardSelectors/SingleCardSelector.js');
 const AbilityTarget = require('./AbilityTarget.js');
 const Optional = require('../optional.js');
+const { EVENTS } = require('../Events/types');
 
 class AbilityTargetCard extends AbilityTarget {
     constructor(name, properties, ability) {
@@ -38,6 +40,14 @@ class AbilityTargetCard extends AbilityTarget {
     }
 
     hasLegalTarget(context) {
+        if (
+            this.properties.revealTargets &&
+            Optional.EvalOptional(context, this.properties.optional) &&
+            this.selector.findPossibleCards(context).length > 0
+        ) {
+            return super.hasLegalTarget(context);
+        }
+
         return this.selector.hasEnoughTargets(context) && super.hasLegalTarget(context);
     }
 
@@ -48,6 +58,44 @@ class AbilityTargetCard extends AbilityTarget {
     resolve(context, targetResults) {
         if (targetResults.cancelled || targetResults.payCostsFirst) {
             return;
+        }
+
+        // Detect infinite-loop scenarios up front so we can skip auto-resolve
+        // and surface the 'Move to discard' escape button on the prompt below.
+        // Each game action class may opt in by exposing a static
+        // `isInfiniteLoop(context, legalTargets)` predicate (see
+        // `GainsTextBoxAction`).
+        const actionClasses = (this.properties.gameAction || [])
+            .map((action) => action && action.constructor)
+            .filter((cls) => cls && typeof cls.isInfiniteLoop === 'function');
+        const legalTargets = this.selector.getAllLegalTargets(context);
+        const infiniteLoopActive =
+            actionClasses.length > 0 &&
+            actionClasses.some((cls) => cls.isInfiniteLoop(context, legalTargets));
+
+        // Auto-resolve when this is a non-optional, non-pretarget single-card target
+        // and there is exactly one legal target. This skips a redundant prompt where
+        // the player has no real choice. Players who prefer to click through every
+        // forced choice can opt out via the `orderForcedAbilities` setting.
+        // Skip auto-resolve when an infinite loop is active so the player gets
+        // the prompt with the 'Move to discard' escape button.
+        // TODO: Remove the orderForcedAbilities setting, which requires updating many tests that expect additional prompts.
+        if (
+            context.stage !== 'pretarget' &&
+            this.selector instanceof SingleCardSelector &&
+            !Optional.EvalOptional(context, this.properties.optional) &&
+            !context.player?.optionSettings?.orderForcedAbilities &&
+            !infiniteLoopActive
+        ) {
+            if (legalTargets.length === 1) {
+                let card = this.selector.formatSelectParam(legalTargets);
+                context.targets[this.name] = card;
+                if (this.name === 'target') {
+                    context.target = card;
+                }
+
+                return;
+            }
         }
 
         let otherProperties = _.omit(this.properties, 'cardCondition', 'player');
@@ -65,6 +113,17 @@ class AbilityTargetCard extends AbilityTarget {
             } else {
                 waitingPromptTitle = 'Waiting for opponent';
             }
+        }
+
+        // The prompt may offer an escape to discard the ability's source so
+        // the player can break out of a detected infinite loop. `infiniteLoopActive`
+        // and `actionClasses` were computed above so the auto-resolve branch
+        // could honor the same escape.
+        if (infiniteLoopActive) {
+            buttons.unshift({
+                text: `Move to discard`,
+                arg: 'discardSelf'
+            });
         }
 
         let promptProperties = {
@@ -87,6 +146,21 @@ class AbilityTargetCard extends AbilityTarget {
             onMenuCommand: (player, arg) => {
                 if (arg === 'costsFirst') {
                     targetResults.costsFirst = true;
+                    return true;
+                }
+
+                if (arg === 'discardSelf' && infiniteLoopActive) {
+                    context.game.addMessage(
+                        '{0} resolves the infinite loop by moving {1} to the discard pile',
+                        player,
+                        context.source
+                    );
+                    context.game.raiseEvent(
+                        EVENTS.onCardLeavesPlay,
+                        { card: context.source, context: context },
+                        () => context.source.owner.moveCard(context.source, 'discard')
+                    );
+                    targetResults.cancelled = true;
                     return true;
                 }
 

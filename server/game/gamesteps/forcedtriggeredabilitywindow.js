@@ -48,7 +48,9 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         if (
             !this.resolvedAbilities.some(
                 (resolved) =>
-                    resolved.ability === context.ability && resolved.event === context.event
+                    resolved.ability === context.ability &&
+                    resolved.event === context.event &&
+                    resolved.subject === context.subject
             )
         ) {
             this.choices.push(context);
@@ -62,11 +64,15 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         if (
             !this.resolvedAbilities.some(
                 (resolved) =>
-                    resolved.ability === context.ability && resolved.event === context.event
+                    resolved.ability === context.ability &&
+                    resolved.event === context.event &&
+                    resolved.subject === context.subject
             ) &&
             !this.deferredChoices.some(
                 (deferred) =>
-                    deferred.ability === context.ability && deferred.event === context.event
+                    deferred.ability === context.ability &&
+                    deferred.event === context.event &&
+                    deferred.subject === context.subject
             )
         ) {
             this.deferredChoices.push(context);
@@ -372,7 +378,12 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     promptBetweenEventCards(choices, addBackButton = true) {
-        if (_.uniq(choices, (context) => context.event.card).length === 1) {
+        // When an ability uses multiTriggerEvent (one trigger per readied
+        // card, per dealt-damage target, etc.) the choices share the same
+        // event but each has its own subject. Disambiguate by subject so
+        // the player can pick which one to resolve next.
+        const choiceCard = (context) => context.subject || context.event.card;
+        if (_.uniq(choices, choiceCard).length === 1) {
             // The events which this ability can respond to only affect a single card
             this.promptBetweenEvents(choices, addBackButton);
             return;
@@ -383,13 +394,13 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             this.currentPlayer,
             _.extend(this.getPromptForSelectProperties(), {
                 activePromptTitle: 'Select a card to affect',
-                cardCondition: (card) => _.any(choices, (context) => context.event.card === card),
+                cardCondition: (card) => _.any(choices, (context) => choiceCard(context) === card),
                 buttons: addBackButton
                     ? [{ text: 'Back', arg: 'back' }]
                     : [{ text: 'Autoresolve', arg: 'autoresolve' }],
                 onSelect: (player, card) => {
                     this.promptBetweenEvents(
-                        choices.filter((context) => context.event.card === card)
+                        choices.filter((context) => choiceCard(context) === card)
                     );
                     return true;
                 },
@@ -408,7 +419,12 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     promptBetweenEvents(choices, addBackButton = true) {
-        choices = _.uniq(choices, (context) => context.event);
+        // For multiTriggerEvent choices the underlying event is identical
+        // but the subject differs — dedup by (event, subject) so per-subject
+        // resolutions aren't collapsed into a single choice.
+        choices = _.uniq(choices, (context) =>
+            context.subject ? context.subject.uuid : context.event
+        );
         if (choices.length === 1) {
             // This card is only being affected by a single event which the chosen ability can respond to
             this.resolveAbility(choices[0]);
@@ -440,7 +456,11 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         if (context.ability.isLastingAbilityTrigger && !context.ability.multipleTrigger) {
             context.ability.unregisterEvents();
         }
-        this.resolvedAbilities.push({ ability: context.ability, event: context.event });
+        this.resolvedAbilities.push({
+            ability: context.ability,
+            event: context.event,
+            subject: context.subject
+        });
     }
 
     emitEvents() {

@@ -1,6 +1,7 @@
 const Game = require('../../server/game/game.js');
 const PlayerInteractionWrapper = require('./playerinteractionwrapper.js');
 const Settings = require('../../server/settings.js');
+const { getChatString } = require('./chat-utils.js');
 
 class GameFlowWrapper {
     constructor(cards) {
@@ -96,31 +97,32 @@ class GameFlowWrapper {
      */
     getChatLogs(numBack = 1, reverse = true) {
         let results = [];
-        for (let i = 0; i < this.game.messages.length && i < numBack; i++) {
+        for (let i = 0; i < this.game.messages.length && results.length < numBack; i++) {
             let result = '';
             let chatMessage = this.game.messages[this.game.messages.length - i - 1];
-            for (let j = 0; j < chatMessage.message.length; j++) {
-                result += getChatString(chatMessage.message[j]);
+            let messageContent = chatMessage.message;
+
+            // Alert messages wrap content in { alert: { type, message } }
+            // Only include 'bell' alerts (card effects); skip structural alerts
+            if (messageContent && messageContent.alert) {
+                if (messageContent.alert.type !== 'bell') {
+                    continue;
+                }
+                messageContent = messageContent.alert.message;
+            }
+
+            if (Array.isArray(messageContent)) {
+                for (let j = 0; j < messageContent.length; j++) {
+                    result += getChatString(messageContent[j]);
+                }
+            } else {
+                result += getChatString(messageContent);
             }
 
             results.push(result);
         }
 
         return reverse ? results.reverse() : results;
-
-        function getChatString(item) {
-            if (Array.isArray(item)) {
-                return item.map((arrItem) => getChatString(arrItem)).join('');
-            } else if (item instanceof Object) {
-                if (item.name) {
-                    return item.name;
-                } else if (item.message) {
-                    return getChatString(item.message);
-                }
-            }
-
-            return item;
-        }
     }
 
     /**

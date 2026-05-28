@@ -144,12 +144,32 @@ class SelectCardPrompt extends UiPrompt {
     highlightSelectableCards() {
         let allCards = this.selector.findPossibleCards(this.context);
         this.choosingPlayer.setSelectableCards(this.selector.getAllLegalTargets(this.context));
+        this.choosingPlayer.setPromptedPiles(this.getPromptedPiles());
 
         if (this.revealTargets && !this.revealFunc) {
             this.revealFunc = (card, player) =>
                 player === this.choosingPlayer && allCards.includes(card);
             this.game.cardVisibility.addRule(this.revealFunc);
         }
+    }
+
+    getPromptedPiles() {
+        const pileLocations = ['hand', 'discard', 'archives', 'purged', 'deck'];
+        const locations = (this.selector.location || []).filter((loc) =>
+            pileLocations.includes(loc)
+        );
+        if (locations.length === 0) {
+            return [];
+        }
+        const controllers =
+            this.selector.controller === 'any' ? ['self', 'opponent'] : [this.selector.controller];
+        const piles = [];
+        for (const location of locations) {
+            for (const controller of controllers) {
+                piles.push({ location, controller });
+            }
+        }
+        return piles;
     }
 
     activeCondition(player) {
@@ -294,6 +314,7 @@ class SelectCardPrompt extends UiPrompt {
         this.selectedCards = [];
         this.choosingPlayer.clearSelectedCards();
         this.choosingPlayer.clearSelectableCards();
+        this.choosingPlayer.clearPromptedPiles();
 
         // Restore previous selections.
         this.choosingPlayer.setSelectedCards(this.previouslySelectedCards);

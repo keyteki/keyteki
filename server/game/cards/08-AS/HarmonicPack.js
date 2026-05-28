@@ -53,7 +53,8 @@ class HarmonicPack extends Card {
                                 amount: dealtFullDamage() ? 3 : 0
                             })),
                             ability.actions.discard((context) => ({
-                                target: context.preThenEvent.card
+                                target: context.preThenEvent.card,
+                                chatMessage: false
                             }))
                         ]),
                         message: '{0} uses {1} to {3}discard {4}',

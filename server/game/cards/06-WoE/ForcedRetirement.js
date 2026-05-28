@@ -9,9 +9,10 @@ class ForcedRetirement extends Card {
                 gameAction: ability.actions.destroy()
             },
             then: (preThenContext) => ({
+                condition: () => !!preThenContext.target,
                 gameAction: ability.actions.gainAmber({
                     amount: 1,
-                    target: preThenContext.target.controller
+                    target: preThenContext.target && preThenContext.target.controller
                 })
             })
         });

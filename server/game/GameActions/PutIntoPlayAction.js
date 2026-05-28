@@ -14,6 +14,7 @@ class PutIntoPlayAction extends CardGameAction {
         this.beingPlayed = false;
         this.controller = null;
         this.numPlayAllowances = 1;
+        this.cancelled = false;
     }
 
     setup() {
@@ -147,8 +148,23 @@ class PutIntoPlayAction extends CardGameAction {
                 context: context,
                 source:
                     this.promptSource || (this.target.length > 0 ? this.target[0] : context.source),
-                choices: choices,
+                choices:
+                    this.beingPlayed &&
+                    card.location === 'hand' &&
+                    card.controller === context.player &&
+                    !context.playedByCardEffect &&
+                    context.player.getAdditionalCosts(context).length === 0
+                        ? // If playing a card from own hand with no costs without using an ability, allow cancelling to stop the play
+                          choices.concat({ text: 'Cancel', type: 'cancel' })
+                        : //   Otherwise, choices with no cancel option
+                          choices,
                 choiceHandler: (choice) => {
+                    if (choice && choice.type === 'cancel') {
+                        this.cancelled = true;
+                        this.cancelInFlightPlay();
+                        return;
+                    }
+
                     let deploy;
                     let flank;
 
@@ -224,14 +240,68 @@ class PutIntoPlayAction extends CardGameAction {
         }
     }
 
+    // Cancel an in-flight play that has reached the flank/deploy prompt.
+    //
+    // This is only called from the flank prompt's Cancel choice, which
+    // can only appear when `beingPlayed && card.location === 'hand'`, the card
+    // belongs to the playing player, the play was not initiated by another
+    // card's effect (i.e. `ability.actions.playCard()`), and there are no
+    // additional costs — i.e. a direct user-initiated play of one's own card
+    // from hand with no irrevocable side-effects.
+    //
+    // The flank prompt is queued during `PlayCreatureAction.addSubEvent` via
+    // `preEventHandler`, which runs synchronously BEFORE `openEventWindow`
+    // opens the `onCardPlayed` event window. The pipeline drains the flank
+    // prompt first, so when Cancel is clicked here the play event, its bonus
+    // icon subevent, and the putIntoPlay child event are all queued but
+    // unresolved. Calling `cancel()` on the tree marks them cancelled, and
+    // the subsequent event window skips them — so the card never enters play,
+    // no bonus icons resolve, and no `onCardPlayed`-driven side-effects fire.
+    //
+    // Hide Cancel when additional costs (e.g. Truebaru's loseAmber(3))
+    // exist because those costs resolve in separate event windows and
+    // refunding them could trigger unintended side-effects.
+    //
+    // We assert below that the root event is not yet resolved to catch any
+    // future change that would re-order the pipeline and make this unsafe.
+    cancelInFlightPlay() {
+        if (!this.event) {
+            return;
+        }
+        let root = this.event;
+        while (root.parentEvent) {
+            root = root.parentEvent;
+        }
+        if (root.resolved) {
+            throw new Error(
+                'PutIntoPlayAction.cancelInFlightPlay called after the play event already resolved'
+            );
+        }
+        const cancelTree = (e) => {
+            e.cancel();
+            if (e.childEvent) {
+                cancelTree(e.childEvent);
+            }
+            if (e.subEvent) {
+                cancelTree(e.subEvent);
+            }
+        };
+        cancelTree(root);
+    }
+
     getEvent(card, context) {
-        return super.createEvent(
+        const event = super.createEvent(
             EVENTS.onCardEntersPlay,
             {
                 card: card,
                 context: context
             },
             (event) => {
+                if (this.cancelled) {
+                    event.cancel();
+                    return;
+                }
+
                 event.playedOnLeftFlank = this.playedOnLeftFlank;
                 event.playedOnRightFlank = this.playedOnRightFlank;
 
@@ -323,15 +393,23 @@ class PutIntoPlayAction extends CardGameAction {
                         .resolve(card, context);
                 }
 
-                // Show play message
-                context.game.addMessage('{0} plays {1}', player, card);
+                // Show play message for tokens only - non-tokens are handled by BasePlayAction
+                if (card.isToken()) {
+                    context.game.addMessage('{0} puts {1} into play', player, card);
+                }
 
                 // Check if creature should go to a different location instead of play area
                 let location = card.mostRecentEffect('cardLocationAfterPlay') || 'play area';
                 if (location !== 'play area') {
+                    // Use context.player (the player attempting to play the
+                    // card) rather than the locally-computed `player` (which
+                    // is the new controller for treachery cards). The
+                    // attempting player is the one whose play is being
+                    // refused, and matches the player referenced by
+                    // BasePlayAction.displayMessage's "X plays Y" message.
                     context.game.addMessage(
                         '{0} is unable to play {1} and returns it to {2}',
-                        player,
+                        context.player,
                         card,
                         location
                     );
@@ -361,6 +439,8 @@ class PutIntoPlayAction extends CardGameAction {
                 }
             }
         );
+        this.event = event;
+        return event;
     }
 }
 

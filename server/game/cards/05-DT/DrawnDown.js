@@ -5,10 +5,14 @@ class DrawnDown extends Card {
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,
-            effect: "look at the top {2} card{3} of {1}'s deck",
+            effect: '{1}',
             effectArgs: (context) => {
                 const count = Math.min(3, context.player.opponent.deck.length);
-                return [context.player.opponent, count, count === 1 ? '' : 's'];
+                return count
+                    ? `look at the top ${count} card${count === 1 ? '' : 's'} of ${
+                          context.player.opponent.name
+                      }'s deck`
+                    : `look at ${context.player.opponent.name}'s deck, but it is empty`;
             },
             gameAction: ability.actions.sequential([
                 ability.actions.conditional({

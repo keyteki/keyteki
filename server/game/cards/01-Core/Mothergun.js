@@ -25,12 +25,20 @@ class Mothergun extends Card {
                     }))
                 }
             },
-            effect: 'reveal {1} from their hand, and deal {2} damage to {3}',
-            effectArgs: (context) => [
-                context.targets.reveal,
-                context.targets.reveal.length,
-                context.targets.damage
-            ]
+            effect: '{1}',
+            effectArgs: (context) => {
+                const revealed = context.targets.reveal;
+                const cards = Array.isArray(revealed) ? revealed : revealed ? [revealed] : [];
+                const n = cards.length;
+                const target = context.targets.damage;
+                return n
+                    ? `reveal ${cards
+                          .map((c) => c.name)
+                          .join(', ')} from their hand and deal ${n} damage to ${
+                          target ? target.name : 'nothing'
+                      }`
+                    : 'reveal no Mars cards from their hand';
+            }
         });
     }
 }
