@@ -14,7 +14,7 @@ describe('Jump Start', function () {
         });
 
         it('readies and uses a flank creature once', function () {
-            this.flipStallard.exhausted = true;
+            this.flipStallard.exhaust();
             this.player1.play(this.jumpStart);
             this.player1.clickCard(this.flipStallard);
             // Player chooses how to use it (e.g. reap)
@@ -39,7 +39,7 @@ describe('Jump Start', function () {
         });
 
         it('repeats the ready and use', function () {
-            this.flipStallard.exhausted = true;
+            this.flipStallard.exhaust();
             this.player1.play(this.jumpStart);
             this.player1.clickCard(this.flipStallard);
             this.player1.clickPrompt('Reap with this creature');

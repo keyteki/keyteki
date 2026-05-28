@@ -27,7 +27,7 @@ class WidespreadCorruption extends Card {
                     }))
                 ])
             },
-            effect: 'capture 1 amber on {1}'
+            effect: 'capture 1 amber on {0}'
         });
     }
 }

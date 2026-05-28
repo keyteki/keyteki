@@ -192,10 +192,10 @@ class Player extends GameObject {
             // Log draws before any shuffle, without the refill suffix if more cards remain
             const suffix = remainingCards > 0 ? '' : options.refillSuffix || '';
             this.game.addMessage(
-                '{0} draws {1} card{2}{3}',
+                '{0} draws {1} {2}{3}',
                 this,
                 numCards,
-                numCards > 1 ? 's' : '',
+                numCards > 1 ? 'cards' : 'card',
                 suffix
             );
         }
