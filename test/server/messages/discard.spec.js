@@ -455,7 +455,7 @@ describe('Discard Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Haunting Measures',
-                "player1 gains an amber due to Haunting Measures's bonus icon",
+                "player1 uses Haunting Measures's amber bonus icon to gain 1 amber",
                 'player1 uses Haunting Measures to discard Troll, Anger, Krump, Punch, Tremor, and Pelf',
                 'player1 uses Haunting Measures to return Troll to hand'
             ]);
