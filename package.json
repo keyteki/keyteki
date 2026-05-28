@@ -17,19 +17,14 @@
         "game": "node server/gamenode",
         "test": "vitest run",
         "test:watch": "vitest",
-        "fmt": "prettier --check --ignore-unknown .",
-        "lint": "eslint --ext=js,jsx,ts,tsx client/ server/ test/",
+        "lint": "prettier --check --ignore-unknown '!**/*.{js,jsx,ts,tsx}' . && eslint --ext=js,jsx,ts,tsx .",
+        "lint:fix": "prettier --write --ignore-unknown '!**/*.{js,jsx,ts,tsx}' . && eslint --fix --ext=js,jsx,ts,tsx .",
         "build": "vite build --config vite.config.mjs",
-        "typecheck:client": "tsc -p client/tsconfig.json --noEmit",
-        "lint:js": "eslint . --ext .js,.jsx,.ts,.tsx",
-        "lint:js:fix": "npm run lint:js -- --fix"
+        "typecheck:client": "tsc -p client/tsconfig.json --noEmit"
     },
     "lint-staged": {
-        "*.{js,jsx,ts,tsx}": [
-            "prettier --write",
-            "eslint --fix"
-        ],
-        "!(*.{js,jsx,ts,tsx})": "prettier --ignore-unknown --write"
+        "!(*.{js,jsx,ts,tsx})": "prettier --ignore-unknown --write",
+        "*.{js,jsx,ts,tsx}": "eslint --fix"
     },
     "husky": {
         "hooks": {

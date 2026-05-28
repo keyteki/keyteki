@@ -49,7 +49,6 @@ jobs:
             - run: npm ci --include=optional
             - name: Typecheck client
               run: npm run typecheck:client
-            - run: npm run fmt
             - run: npm run lint
             - name: Build client
               env:
