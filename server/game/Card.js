@@ -1485,9 +1485,14 @@ class Card extends EffectSource {
             // when un-tokenizing, which is also a baseline self-reference.
             copying: (() => {
                 const copyEffect = this.mostRecentEffect('copyCard');
-                if (!copyEffect) return false;
-                if (this.isToken() && copyEffect === this.tokenCard()) return false;
-                if (copyEffect === this) return false;
+                if (
+                    !copyEffect ||
+                    (this.isToken() && copyEffect === this.tokenCard()) ||
+                    copyEffect === this
+                ) {
+                    return false;
+                }
+
                 return true;
             })(),
             exhausted: this.exhausted,
