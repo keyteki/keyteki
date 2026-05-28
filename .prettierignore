@@ -1,0 +1,4 @@
+.prettierignore
+infrastructure/lobby/templates
+infrastructure/node/templates
+keyteki-json-data
