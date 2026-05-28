@@ -169,7 +169,7 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
      */
     emitEvents() {
         this.choices = [];
-        let events = _.difference(
+        const events = _.difference(
             this.eventWindow.event.getSimultaneousEvents(),
             this.eventsToExclude
         );

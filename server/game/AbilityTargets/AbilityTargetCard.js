@@ -79,6 +79,7 @@ class AbilityTargetCard extends AbilityTarget {
         // forced choice can opt out via the `orderForcedAbilities` setting.
         // Skip auto-resolve when an infinite loop is active so the player gets
         // the prompt with the 'Move to discard' escape button.
+        // TODO: Remove the orderForcedAbilities setting, which requires updating many tests that expect additional prompts.
         if (
             context.stage !== 'pretarget' &&
             !Optional.EvalOptional(context, this.properties.optional) &&
@@ -87,7 +88,7 @@ class AbilityTargetCard extends AbilityTarget {
             legalTargets.length === 1 &&
             !context.player?.optionSettings?.orderForcedAbilities
         ) {
-            let card = this.selector.formatSelectParam(legalTargets);
+            const card = this.selector.formatSelectParam(legalTargets);
             context.targets[this.name] = card;
             if (this.name === 'target') {
                 context.target = card;
