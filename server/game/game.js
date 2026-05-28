@@ -46,6 +46,8 @@ class Game extends EventEmitter {
 
         this.adaptive = { chains: 0, selection: [], biddingWinner: '' };
         this.allowSpectators = details.allowSpectators;
+        this.animationCounter = 0;
+        this.animations = [];
         this.cancelPromptUsed = false;
         this.challonge = details.challonge;
         this.chatCommands = new ChatCommands(this);
@@ -323,6 +325,7 @@ class Game extends EventEmitter {
      * @param {String} cardId - uuid of the card clicked
      */
     cardClicked(sourcePlayer, cardId) {
+        this.animations = [];
         let player = this.getPlayerByName(sourcePlayer);
 
         if (!player) {
@@ -388,6 +391,7 @@ class Game extends EventEmitter {
      * @param {Object} menuItem - { command: String, text: String, arg: String, method: String }
      */
     menuItemClick(sourcePlayer, cardId, menuItem) {
+        this.animations = [];
         let player = this.getPlayerByName(sourcePlayer);
         let card = this.findAnyCardInAnyList(cardId);
         if (!player || !card) {
@@ -786,6 +790,7 @@ class Game extends EventEmitter {
      * @returns {Boolean} this indicates to the server whether the received input is legal or not
      */
     menuButton(playerName, arg, uuid, method) {
+        this.animations = [];
         let player = this.getPlayerByName(playerName);
         if (!player) {
             return false;
@@ -804,6 +809,10 @@ class Game extends EventEmitter {
      * @returns {undefined}
      */
     toggleOptionSetting(playerName, settingName, toggle) {
+        if (settingName === 'enableGameAnimations') {
+            this.animations = [];
+        }
+
         let player = this.getPlayerByName(playerName);
         if (!player) {
             return;
@@ -1573,6 +1582,10 @@ class Game extends EventEmitter {
 
             return {
                 adaptive: this.adaptive,
+                animations:
+                    activePlayer.optionSettings?.enableGameAnimations ?? true
+                        ? this.animations
+                        : [],
                 cancelPromptUsed: this.cancelPromptUsed,
                 challonge: this.challonge,
                 gameFormat: this.gameFormat,

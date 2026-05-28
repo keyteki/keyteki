@@ -26,6 +26,11 @@ const GameConfiguration = ({ optionSettings, onOptionSettingToggle }) => {
             id: 'useHalfSizedCards',
             key: 'useHalfSizedCards',
             label: t('Use half sized card images')
+        },
+        {
+            id: 'enableGameAnimations',
+            key: 'enableGameAnimations',
+            label: t('Enable game animations')
         }
     ];
 

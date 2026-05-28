@@ -92,6 +92,7 @@ class ResolveFightAction extends CardGameAction {
                 damageSource: event.attacker,
                 ignoreArmor: event.attacker.ignores('armor')
             };
+
             if (
                 !event.card.getKeywordValue('elusive') ||
                 event.card.elusiveUsed ||
@@ -147,6 +148,14 @@ class ResolveFightAction extends CardGameAction {
                     );
                 });
             }
+
+            context.game.animations.push({
+                id: context.game.animationCounter++,
+                type: 'fight',
+                attackerUuid: event.attacker.uuid,
+                defenderUuid: event.attackerTarget.uuid,
+                player: context.player.name
+            });
 
             if (damageEvent) {
                 event.card.isFighting = true;

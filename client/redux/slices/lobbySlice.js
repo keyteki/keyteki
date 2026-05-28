@@ -7,10 +7,18 @@ const defaultState = {
     newGameInstance: 0,
     users: [],
     messages: [],
-    windowBlurred: false
+    windowBlurred: false,
+    frozenGame: null,
+    isAnimating: false
 };
 
 const handleGameState = (state, game, username) => {
+    const hasAnimations = game.animations?.length > 0;
+    if (hasAnimations && !state.isAnimating && state.currentGame) {
+        state.frozenGame = jsondiffpatch.clone(state.currentGame);
+        state.isAnimating = true;
+    }
+
     state.currentGame = jsondiffpatch.clone(game);
 
     const currentState = state.currentGame;
@@ -50,6 +58,8 @@ const handleMessage = (state, message, args) => {
             ) {
                 state.currentGame = undefined;
                 state.newGame = false;
+                state.isAnimating = false;
+                state.frozenGame = null;
             }
             break;
         }
@@ -64,6 +74,8 @@ const handleMessage = (state, message, args) => {
             ) {
                 state.currentGame = undefined;
                 state.newGame = false;
+                state.isAnimating = false;
+                state.frozenGame = null;
                 state.gameError = 'The game has timed out and is no longer available.';
             }
             state.games = state.games.filter((game) => !args[0].some((g) => g.id === game.id));
@@ -127,6 +139,8 @@ const handleMessage = (state, message, args) => {
         case 'cleargamestate':
             state.newGame = false;
             state.currentGame = undefined;
+            state.isAnimating = false;
+            state.frozenGame = null;
             break;
     }
 };
@@ -168,6 +182,8 @@ const lobbySlice = createSlice({
             state.currentGame = undefined;
             state.newGame = false;
             state.rootState = undefined;
+            state.isAnimating = false;
+            state.frozenGame = null;
         },
         gameSocketDisconnected: (state) => {
             state.rootState = undefined;
@@ -190,6 +206,8 @@ const lobbySlice = createSlice({
         clearGameState: (state) => {
             state.newGame = false;
             state.currentGame = undefined;
+            state.isAnimating = false;
+            state.frozenGame = null;
         },
         clearGameError: (state) => {
             state.gameError = undefined;
@@ -205,9 +223,18 @@ const lobbySlice = createSlice({
         },
         setRootState: (state, action) => {
             state.rootState = action.payload;
+        },
+        animationsComplete: (state) => {
+            state.isAnimating = false;
+            state.frozenGame = null;
         }
     }
 });
+
+export const selectBoardGame = (state) =>
+    state.lobby.isAnimating && state.lobby.frozenGame
+        ? state.lobby.frozenGame
+        : state.lobby.currentGame;
 
 export const lobbyActions = lobbySlice.actions;
 export default lobbySlice.reducer;

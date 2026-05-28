@@ -24,7 +24,8 @@ const KeyforgeGameSettings = ({ formProps }) => {
     ];
     const displayOptions = [
         ['useHalfSizedCards', t('Use half sized card images')],
-        ['showAccolades', t('Show deck accolades')]
+        ['showAccolades', t('Show deck accolades')],
+        ['enableGameAnimations', t('Enable game animations')]
     ];
 
     const renderOption = ([id, text]) => (
