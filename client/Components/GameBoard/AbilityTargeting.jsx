@@ -50,7 +50,7 @@ const AbilityTargeting = (props) => {
             {renderSimpleCard(props.source)}
             {count > 0 && <Icon icon={faArrowRight} />}
             {count > 0 && (
-                <div className='flex min-w-0 flex-1 flex-row items-center justify-end'>
+                <div className='flex min-w-0 flex-1 flex-row items-center'>
                     {props.targets.map((target, index) => (
                         <React.Fragment key={target.uuid || index}>
                             {renderSimpleCard(target, index > 0 ? overlapMargin : undefined)}
