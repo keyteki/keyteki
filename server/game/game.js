@@ -225,12 +225,17 @@ class Game extends EventEmitter {
 
         this.forcePassAvailable = true;
         activePlayer.inactive = true;
-        this.addAlert(
-            'warning',
-            '{0} has been inactive for 5 minutes. {1} may force them to pass their turn, or leave the game without recording a loss.',
-            activePlayer,
-            waitingPlayer
-        );
+
+        // Only show the alert on the first detection. On re-detection after a
+        // force-pass the opponent already knows; just re-enable the button.
+        if (this.forcePassCount === 0) {
+            this.addAlert(
+                'warning',
+                '{0} has been inactive for 5 minutes. {1} may force them to pass their turn, or leave the game without recording a loss.',
+                activePlayer,
+                waitingPlayer
+            );
+        }
 
         return true;
     }
