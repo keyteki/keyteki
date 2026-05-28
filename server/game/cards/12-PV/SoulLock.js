@@ -39,7 +39,7 @@ class SoulLock extends Card {
                     }))
                 },
                 message:
-                    '{0} uses {1} to place under {2} and prevent {3} from using cards of the same house',
+                    '{0} uses {1} to place {2} under {1} and prevent {3} from using cards of the same house',
                 messageArgs: (context) => [
                     context.player,
                     context.source,

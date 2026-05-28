@@ -14,7 +14,7 @@ class InHereSomewhere extends Card {
                         numCards: 2,
                         mode: 'exactly',
                         message: '{0} uses {1} to archive {2}',
-                        messageArgs: (cards) => [context.player, context.source.name, cards]
+                        messageArgs: (cards) => [context.player, context.source, cards]
                     }
                 })),
                 falseGameAction: ability.actions.discard((context) => ({
