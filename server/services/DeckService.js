@@ -1290,9 +1290,9 @@ class DeckService {
         };
 
         let anomalies = {
-            cosmicrux: { anomalySets: [918, 939], house: 'ouboros' },
+            cosmicrux: { anomalySets: [453, 918, 939], house: 'ouboros' },
             'ecto-charge': { anomalySets: [600], house: 'geistoid' },
-            ignitus: { anomalySets: [918, 939], house: 'ouboros' },
+            ignitus: { anomalySets: [453, 918, 939], house: 'ouboros' },
             'lateral-shift': { anomalySets: [452, 453, 600, 886], house: 'unfathomable' },
             'near-future-lens': { anomalySets: [600], house: 'staralliance' },
             'nizak-the-forgotten': {
@@ -1302,8 +1302,9 @@ class DeckService {
             'orb-of-wonder': { anomalySets: [453], house: 'sanctum' },
             'the-grim-reaper': { anomalySets: [453], house: 'geistoid' },
             'the-red-baron': { anomalySets: [453], house: 'skyborn' },
-            'thermal-depletion': { anomalySets: [918, 939], house: 'ouboros' },
+            'thermal-depletion': { anomalySets: [453, 918, 939], house: 'ouboros' },
             timequake: { anomalySets: [452, 453, 600, 886, 918, 939], house: 'ouboros' },
+            'treok-the-wise': { anomalySets: [453, 939], house: 'ouboros' },
             valoocanth: { anomalySets: [453], house: 'unfathomable' }
         };
 

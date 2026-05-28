@@ -7,7 +7,7 @@ class EmpoweredZark extends Card {
             gameAction: ability.actions.capture({ amount: 2 }),
             then: (preThenContext) => ({
                 alwaysTriggers: true,
-                may: 'move 3 amber from {1} to the common supply and ready each non-Agent Mars creature',
+                may: 'move amber to common supply',
                 condition: () => preThenContext.source.amber >= 3,
                 gameAction: ability.actions.sequential([
                     ability.actions.removeAmber({
