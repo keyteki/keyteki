@@ -22,6 +22,11 @@ class AgreementPrompt extends AllPlayerPrompt {
     }
 
     completionCondition(player) {
+        if (player.left) {
+            this.cancelled = true;
+            this.callbacks.onCancel?.();
+            return true;
+        }
         return this.cancelled || this.completedPlayers.has(player);
     }
 

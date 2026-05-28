@@ -36,15 +36,9 @@ const ActivePlayerPrompt = (props) => {
     useEffect(() => {
         const titleText =
             typeof props.promptTitle === 'string' ? props.promptTitle : props.promptTitle?.text;
-
-        const delays = {
-            'Game Won': 1500
-        };
-        const delay = delays[titleText];
-
-        if (delay && prevPromptTitle.current !== titleText) {
+        if (titleText === 'Game Won' && prevPromptTitle.current !== 'Game Won') {
             setButtonsDisabled(true);
-            const timer = setTimeout(() => setButtonsDisabled(false), delay);
+            const timer = setTimeout(() => setButtonsDisabled(false), 1500);
             prevPromptTitle.current = titleText;
             return () => {
                 clearTimeout(timer);
