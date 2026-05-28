@@ -18,7 +18,7 @@
         "test": "vitest run",
         "test:watch": "vitest",
         "fmt": "prettier --check .",
-        "lint": "eslint .",
+        "lint": "eslint --ext=js --ext=jsx client/ server/ test/",
         "build": "vite build --config vite.config.mjs",
         "typecheck:client": "tsc -p client/tsconfig.json --noEmit",
         "lint:js": "eslint . --ext .js,.jsx,.ts,.tsx",
