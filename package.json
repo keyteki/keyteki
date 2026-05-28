@@ -17,7 +17,7 @@
         "game": "node server/gamenode",
         "test": "vitest run",
         "test:watch": "vitest",
-        "fmt": "prettier --check .",
+        "fmt": "prettier --check --ignore-unknown .",
         "lint": "eslint --ext=js --ext=jsx client/ server/ test/",
         "build": "vite build --config vite.config.mjs",
         "typecheck:client": "tsc -p client/tsconfig.json --noEmit",
