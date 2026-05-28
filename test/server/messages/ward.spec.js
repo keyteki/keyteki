@@ -166,7 +166,7 @@ describe('Ward Messages', function () {
             this.player1.clickCard(this.dextre);
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
-                'player1 uses Soul Lock',
+                'player1 uses Soul Lock to place Dextre under Soul Lock and prevent player2 from using cards of the same house',
                 'player2 uses Dextre to remove its ward token'
             ]);
         });

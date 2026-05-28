@@ -38,8 +38,10 @@ class CardAbility extends ThenAbility {
         // Track events for 'then' condition checking
         allEvents.push(...events);
 
-        // Print effectMsg for this action if it has legal targets
-        if (action.hasLegalTarget(context) && action.effectMsg) {
+        // Print effectMsg for this action if it has legal targets.
+        // Skip when the action defers messaging (it prints its own chat
+        // message during execution) so we don't double-print.
+        if (action.hasLegalTarget(context) && action.effectMsg && !action.defersMessage) {
             this.addMessage(
                 this.getMessageArgs(context, action.effectMsg, [action.target], action.effectArgs)
             );
@@ -187,11 +189,20 @@ class CardAbility extends ThenAbility {
         );
 
         if (!gameActions || gameActions.length === 0) {
+            // If a `then:` block will provide its own messaging, skip the
+            // bare "uses {source}" default; the `then:` ability will speak
+            // for itself.
+            if (this.properties.then) {
+                return;
+            }
             this.addMessage(this.getMessageArgs(context));
             return;
         }
 
         // Skip actions that handle their own messaging during execution
+        // (they set `defersMessage = true` and emit their own chat output).
+        // Cards that want even the inline chat suppressed pass
+        // `chatMessage: false` to the action.
         const messagingActions = gameActions.filter((ga) => !ga.defersMessage);
         if (messagingActions.length === 0) {
             return;

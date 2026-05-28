@@ -12,6 +12,7 @@
         "dev:db": "docker-compose up -d redis postgres",
         "dev:lobby": "NODE_APP_INSTANCE=node nodemon --inspect=0.0.0.0:9229 .",
         "dev:gamenode": "NODE_APP_INSTANCE=node nodemon --inspect=0.0.0.0:9229 server/gamenode",
+        "dev:scenario": "node server/devtools/scenario/cli.js",
         "fetchdata": "node server/scripts/fetchdata",
         "game": "node server/gamenode",
         "test": "vitest run",
