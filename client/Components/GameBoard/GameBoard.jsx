@@ -432,7 +432,10 @@ export const GameBoard = () => {
                             {timeLimitClock}
                         </div>
                     </div>
-                    <div ref={setChatScrollEl} className='chat-scroll'>
+                    <div
+                        ref={setChatScrollEl}
+                        className='chat-scroll bg-[color:color-mix(in_oklab,var(--surface)_94%,transparent)]'
+                    >
                         {showMessages && (
                             <div className='relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden box-border'>
                                 <GameChat
