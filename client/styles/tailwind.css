@@ -584,6 +584,9 @@ pre {
     width: var(--card-half-height);
     border-radius: 10px;
 }
+.game-card.new {
+    --c-ring: #0dcaf0;
+}
 .game-card.controlled {
     --c-ring: #ffdf14;
 }
@@ -610,9 +613,6 @@ pre {
     transform: translateY(-1px);
     --c-ring: #6dd889cc;
     --extra-shadow: 0 0 12px #40c95a38;
-}
-.game-card.new {
-    --c-ring: #0dcaf0;
 }
 .game-card.in-danger {
     --c-ring: red;
