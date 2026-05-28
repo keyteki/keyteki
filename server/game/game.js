@@ -1002,6 +1002,10 @@ class Game extends EventEmitter {
         // Reset inactivity tracking for the new turn
         this.forcePassAvailable = false;
 
+        // If the opponent has already been force-passed before, check immediately
+        // so the button appears without waiting for the next 30s sweep.
+        this.checkInactivity();
+
         this.raiseEvent(EVENTS.onTurnStart, { player: this.activePlayer });
         this.activePlayer.beginRound();
         this.queueStep(new SimpleStep(this, () => this.finalizeBeginRound(0)));
@@ -1317,7 +1321,7 @@ class Game extends EventEmitter {
         } else {
             this.addAlert(
                 'info',
-                '{0} has disconnected. You may leave without recording a loss or wait for them to reconnect.',
+                '{0} has disconnected. You may wait for them to reconnect, or after 30 seconds you may leave without recording a loss.',
                 player
             );
 
@@ -1485,7 +1489,7 @@ class Game extends EventEmitter {
 
         this.addAlert(
             'warning',
-            '{0} forces {1} to pass their turn due to inactivity',
+            '{0} forces {1} to pass their turn due to inactivity.',
             player,
             this.activePlayer
         );
