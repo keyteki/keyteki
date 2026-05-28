@@ -174,11 +174,15 @@ class Game extends EventEmitter {
 
         player.lastEventAt = Date.now();
 
-        // If force-pass is available and the idle player acts, reset
+        // If the player was marked inactive and they just acted, clear the flag
+        if (player.inactive) {
+            player.inactive = false;
+            this.forcePassCount = 0;
+        }
+
+        // If force-pass is available and the active player acts, cancel it
         if (this.forcePassAvailable && player === this.activePlayer) {
             this.forcePassAvailable = false;
-            this.forcePassCount = 0;
-            player.inactive = false;
         }
     }
 
@@ -1002,9 +1006,18 @@ class Game extends EventEmitter {
         // Reset inactivity tracking for the new turn
         this.forcePassAvailable = false;
 
-        // If the opponent has already been force-passed before, check immediately
-        // so the button appears without waiting for the next 30s sweep.
-        this.checkInactivity();
+        // Give the active player a fresh timestamp so they aren't immediately
+        // flagged — unless they were already force-passed (inactive), in which
+        // case keep their old timestamp to enable immediate re-detection.
+        if (!this.activePlayer.inactive) {
+            this.activePlayer.lastEventAt = Date.now();
+        }
+
+        // If the active player was previously force-passed, check immediately
+        // so the opponent gets the button without waiting for the next sweep.
+        if (this.forcePassCount > 0 && this.activePlayer.inactive) {
+            this.checkInactivity();
+        }
 
         this.raiseEvent(EVENTS.onTurnStart, { player: this.activePlayer });
         this.activePlayer.beginRound();
@@ -1319,10 +1332,12 @@ class Game extends EventEmitter {
 
             delete this.playersAndSpectators[playerName];
         } else {
+            const opponent = this.getPlayers().find((p) => p !== player);
             this.addAlert(
                 'info',
                 '{0} has disconnected. {1} may wait for them to reconnect, or after 30 seconds may leave without recording a loss.',
-                player
+                player,
+                opponent
             );
 
             player.disconnectedAt = new Date();
