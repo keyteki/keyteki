@@ -10,6 +10,7 @@ class AllocateDamageAction extends GameAction {
         this.splash = 0;
         this.controller = 'any';
         this.defersMessage = true;
+        this.chatMessage = true;
     }
 
     preEventHandler(context) {
@@ -40,13 +41,15 @@ class AllocateDamageAction extends GameAction {
                                         .dealDamage({ amount: amount })
                                         .getEvent(card, context)
                                 );
-                                context.game.addMessage(
-                                    '{0} uses {1} to deal {2} damage to {3}',
-                                    context.player,
-                                    context.source,
-                                    amount,
-                                    card
-                                );
+                                if (this.chatMessage) {
+                                    context.game.addMessage(
+                                        '{0} uses {1} to deal {2} damage to {3}',
+                                        context.player,
+                                        context.source,
+                                        amount,
+                                        card
+                                    );
+                                }
                             }
                         }
                     }

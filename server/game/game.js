@@ -1589,6 +1589,7 @@ class Game extends EventEmitter {
                 owner: this.owner,
                 players: playerState,
                 previousWinner: this.previousWinner,
+                scenario: this.scenario,
                 showHand: this.showHand,
                 spectators: this.getSpectators().map((spectator) => {
                     return {
@@ -1652,6 +1653,7 @@ class Game extends EventEmitter {
             name: this.name,
             owner: this.owner,
             players: playerSummaries,
+            scenario: this.scenario,
             showHand: this.showHand,
             spectators: this.getSpectators().map((spectator) => {
                 return {
