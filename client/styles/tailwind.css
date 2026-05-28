@@ -2131,18 +2131,4 @@ pre {
     .blocklist td {
         vertical-align: middle !important;
     }
-    
-    /* Ability targeting prompt: spread up to --target-count cards (each w-16)
-     across the remaining space, overlapping as needed when they don't fit. */
-    .ability-target-row {
-        display: flex;
-        min-width: 0;
-        flex: 1 1 0%;
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-end;
-    }
-    .ability-target-row > * + * {
-        margin-left: calc((100% - var(--target-count) * 4rem) / (var(--target-count) - 1));
-    }
 }
