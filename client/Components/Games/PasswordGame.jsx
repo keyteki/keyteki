@@ -1,11 +1,11 @@
+import { Button, Modal as HeroModal, Input } from '@heroui/react';
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
-import { Button, Input, Modal as HeroModal } from '@heroui/react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import AlertPanel from '../Site/AlertPanel';
 import { lobbyActions } from '../../redux/slices/lobbySlice';
 import { lobbySendMessage } from '../../redux/socketActions';
+import AlertPanel from '../Site/AlertPanel';
 
 const PasswordGame = () => {
     const { t } = useTranslation();
@@ -68,6 +68,11 @@ const PasswordGame = () => {
                                     placeholder={t('Password')}
                                     onChange={(event) => setPassword(event.target.value)}
                                     value={password}
+                                    autoComplete='off'
+                                    data-1p-ignore='true'
+                                    data-lpignore='true'
+                                    data-bwignore='true'
+                                    data-form-type='other'
                                 />
                             </form>
                         </div>
