@@ -27,7 +27,7 @@ describe('Quantum Mouse', function () {
             expect(this.player1.amber).toBe(2);
 
             // Draw.
-            expect(this.player1).toHavePrompt('How do you wish to resolve this draw icon?');
+            expect(this.player1).toHavePrompt('How do you wish to resolve this draw bonus icon?');
             expect(this.player1).toHavePromptButton('draw');
             expect(this.player1).toHavePromptButton('discard');
             this.player1.clickPrompt('discard');

@@ -51,4 +51,32 @@ describe('Beta-Forge', function () {
             expect(this.player2).isReadyToTakeAction();
         });
     });
+
+    describe('Beta-Forge with Strange Gizmo', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 6,
+                    house: 'logos',
+                    token: 'alpha-gamma',
+                    inPlay: ['beta-forge', 'strange-gizmo'],
+                    archives: new Array(12).fill('poke')
+                },
+                player2: {
+                    amber: 2,
+                    token: 'blorb'
+                }
+            });
+        });
+
+        it('should still purge itself when Strange Gizmo destroys it mid-resolution', function () {
+            this.player1.useAction(this.betaForge);
+            this.player1.clickPrompt('Yes');
+            this.player1.forgeKey('blue');
+            expect(this.player1.keys.blue).toBe(true);
+            expect(this.strangeGizmo.location).toBe('discard');
+            expect(this.betaForge.location).toBe('purged');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

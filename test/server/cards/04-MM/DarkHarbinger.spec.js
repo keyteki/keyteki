@@ -24,4 +24,28 @@ describe('Dark Harbinger', function () {
             expect(this.darkHarbinger.exhausted).toBe(true);
         });
     });
+
+    describe('Dark Harbinger with Mimicry', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'untamed',
+                    hand: ['mimicry'],
+                    inPlay: ['dark-harbinger']
+                },
+                player2: {
+                    discard: ['neuro-syphon']
+                }
+            });
+        });
+
+        it('should not ready when Mimicry copies a non-Untamed action', function () {
+            this.player1.reap(this.darkHarbinger);
+            this.player1.play(this.mimicry);
+            expect(this.player1).toHavePrompt('Mimicry');
+            this.player1.clickCard(this.neuroSyphon);
+            expect(this.mimicry.location).toBe('discard');
+            expect(this.darkHarbinger.exhausted).toBe(true);
+        });
+    });
 });

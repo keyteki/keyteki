@@ -224,7 +224,7 @@ export const GameBoard = () => {
                             />
                         }
                         cardsInPlay={otherPlayer.cardPiles.cardsInPlay}
-                        hasActiveHouse={false}
+                        hasActiveHouse={Boolean(thisPlayer.activeHouse)}
                         isSpectating={spectating}
                         onCardClick={onCardClick}
                         onMenuItemClick={onMenuItemClick}

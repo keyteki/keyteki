@@ -79,10 +79,11 @@ Enhancements are bonus icons added to cards (shown as pips). They provide additi
     -   `draw`: player draws 1 card
     -   `discard`: player discards 1 card from hand
     -   `plus-power`: player gives a creature a +1 power counter
--   House enhancements: Cards can also have house enhancements that allow that card to be played or used as if it were of that house.
+-   House enhancements: Cards can also have house enhancements that allow that card to be played or used as if it belonged to both its printed house and the enhancement house.
     -   The enhancements array just names the house, e.g. `"enhancements": ["dis"]`
     -   Cards are limited to 1 house enhancement
-    -   House enhancements are not resolveable, they just modify play/use restrictions
+    -   House enhancements are not resolvable bonus icons - they do not trigger when the card is played
+    -   A card with a house enhancement belongs to two houses simultaneously for all purposes (playing, using, effects that check house)
 
 ## Accessing Properties in Code
 
