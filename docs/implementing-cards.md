@@ -260,10 +260,10 @@ this.interrupt({
 
 These events are used in `reaction()` and `interrupt()` abilities:
 
-| Event                 | Description                                          | Key Event Properties                                   |
-| --------------------- | ---------------------------------------------------- | ------------------------------------------------------ |
-| `onCardPlayed`        | When a card is played                                | `event.card`, `event.player`, `event.originalLocation` |
-| `onCardDestroyed`     | When a card is destroyed                             | `event.card`, `event.damageEvent`                      |
+| Event                 | Description                                                                                                                                                                                                                                                                                    | Key Event Properties                                   |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
+| `onCardPlayed`        | When a card is played                                                                                                                                                                                                                                                                          | `event.card`, `event.player`, `event.originalLocation` |
+| `onCardDestroyed`     | When a card is destroyed                                                                                                                                                                                                                                                                       | `event.card`, `event.damageEvent`                      |
 | `onCardEnteringPlay`  | Before a card enters play, prior to any positioning prompt (e.g. flank/deploy choice). Use this when an ability needs to resolve before the card is actually placed in the play area — for example, Mimic Gel choosing a creature to copy. The card is not yet in `play area` when this fires. | `event.card`, `event.context`                          |
 | `onCardEntersPlay`    | When a card enters play                              | `event.card`                                           |
 | `onCardLeavesPlay`    | When a card leaves play                              | `event.card`, `event.triggeringEvent`                  |

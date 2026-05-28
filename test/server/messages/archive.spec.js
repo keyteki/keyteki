@@ -93,7 +93,7 @@ describe('Archive Messages', function () {
                 'player1 uses Barter and Games to reveal a card',
                 'Barter and Games reveals Troll',
                 "player1 chooses option 'Opponent's Hand'",
-                'Barter and Games reveals Anger',
+                "Barter and Games reveals Anger from player2's hand",
                 'player1 uses Barter and Games to gain 0 amber, cause player2 to gain 1 amber, destroy creatures sharing a house with the revealed cards, and discard the revealed cards',
                 'player1 uses Barter and Games to discard Anger and Troll'
             ]);
