@@ -8,7 +8,8 @@ coverage
 *.log
 *.json
 !client/locales/*.json
-!chatCommands.json
+!master-vault-data/**/*.json
+!server/game/chatCommands.json
 server/events.txt
 .DS_Store
 config/local*
