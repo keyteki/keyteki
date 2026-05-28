@@ -13,6 +13,14 @@ class MostStatCardSelector extends ExactlyXCardSelector {
             : selectableCards.includes(card);
     }
 
+    // Determines the minimum stat value a card must have to be a valid
+    // selection for "choose the creature(s) with the most X". The threshold
+    // is the stat of the Nth-highest card (where N = numCards). All non-
+    // moribund cards at or above that value are selectable. If fewer than
+    // numCards non-moribund cards meet the threshold (e.g. ties were removed
+    // by concurrent destruction), isFallback is set and callers fall back to
+    // a positional slice of the sorted list that includes moribund cards,
+    // ensuring the selector still returns a non-empty target set.
     computeThreshold(context) {
         const sorted = this.getSortedCards(context);
         const threshold =

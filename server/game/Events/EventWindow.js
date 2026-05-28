@@ -40,9 +40,9 @@ class EventWindow extends BaseStepWithPipeline {
             // If this destruction was triggered by another card's Destroyed:
             // ability, batch its triggers into the outer destruction window
             // instead of opening a nested one. The outer window picks up the
-            // new triggers via emitEvents on its next iteration (the batched
+            // new triggers via emitEvents on its next iteration and the batched
             // leavesPlay event is appended to the outer window's anchor event
-            // by DestroyedAbilityWindow).
+            // by DestroyedAbilityWindow.
             if (this.game.currentDestructionWindow) {
                 return;
             }
