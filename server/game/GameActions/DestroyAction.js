@@ -21,7 +21,7 @@ class DestroyAction extends CardGameAction {
         // destroyed-ability window closes, so they should still be visible to
         // selectors and direct-target lookups (e.g. Soulkeeper's "most
         // powerful enemy creature", Soleft's "left-flank creature"). The
-        // destroy event itself becomes a no-op for an already-moribund card
+        // destroy event itself becomes a no-op for an already-tagged card
         // (see getEvent's `condition`), since the original destruction will
         // move the card to discard once the window closes.
         return card.location === 'play area' && super.canAffect(card, context);
@@ -59,12 +59,8 @@ class DestroyAction extends CardGameAction {
                     isRedirected: this.damageEvent ? this.damageEvent.isRedirected : false
                 },
                 isBatched
-                    ? // No-op when batched: the outer DestroyedAbilityWindow will
-                      // emit onCardLeavesPlay:interrupt for this event and call
-                      // moveCard during processBatchedDestroyEvents. Running
-                      // moveCard here would unregister the card's destroyed:
-                      // ability before its trigger gets a chance to be queued
-                      // in the outer window.
+                    ? // No-op: the outer DestroyedAbilityWindow handles the
+                      // move in discardAllTaggedCards after triggers resolve.
                       () => true
                     : (leavesPlayEvent) => {
                           leavesPlayEvent.card.owner.moveCard(event.card, 'discard');

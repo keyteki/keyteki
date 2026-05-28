@@ -139,9 +139,9 @@ describe('Destroyed: ability window', function () {
             expect(this.player1).not.toBeAbleToSelect(this.mender);
             this.player1.clickCard(this.kaspara);
 
-            // Skullion (the only most-powerful friendly) is already moribund,
+            // Skullion (the only most-powerful friendly) is already tagged for destruction,
             // but downstream effects need a target so the selector falls back
-            // to allowing the moribund top-power creature(s) to be chosen.
+            // to allowing the tagged-for-destruction top-power creature(s) to be chosen.
             expect(this.player1).toHavePrompt('Choose a friendly creature to not destroy');
             expect(this.player1).toBeAbleToSelect(this.skullion);
             expect(this.batdrone.location).toBe('play area');
@@ -269,7 +269,7 @@ describe('Destroyed: ability window', function () {
             expect(this.player1).toHavePrompt('Champion’s Challenge');
             expect(this.player1).toHavePrompt('Choose an enemy creature to not destroy');
             this.player1.clickCard(this.thoughtcatcher);
-            // Skullion (the only most-powerful friendly) is moribund; the
+            // Skullion (the only most-powerful friendly) is tagged for destruction; the
             // selector falls back to allowing it so downstream effects have a
             // target.
             expect(this.player1).toHavePrompt('Choose a friendly creature to not destroy');

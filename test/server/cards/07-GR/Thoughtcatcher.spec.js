@@ -57,7 +57,7 @@ describe('Thoughtcatcher', function () {
             });
         });
 
-        it('does not draw a card when a moribund friendly creature gains amber via Parasitic Arachnoid capture during the same destruction window', function () {
+        it('does not draw a card when a tagged-for-destruction friendly creature gains amber via Parasitic Arachnoid capture during the same destruction window', function () {
             this.player1.play(this.gatewayToDis);
             this.player1.clickCard(this.batdrone);
 
