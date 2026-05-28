@@ -1,6 +1,7 @@
 const Game = require('../../server/game/game.js');
 const PlayerInteractionWrapper = require('./playerinteractionwrapper.js');
 const Settings = require('../../server/settings.js');
+const { getChatString } = require('./chat-utils.js');
 
 class GameFlowWrapper {
     constructor(cards) {
@@ -107,20 +108,6 @@ class GameFlowWrapper {
         }
 
         return reverse ? results.reverse() : results;
-
-        function getChatString(item) {
-            if (Array.isArray(item)) {
-                return item.map((arrItem) => getChatString(arrItem)).join('');
-            } else if (item instanceof Object) {
-                if (item.name) {
-                    return item.name;
-                } else if (item.message) {
-                    return getChatString(item.message);
-                }
-            }
-
-            return item;
-        }
     }
 
     /**
