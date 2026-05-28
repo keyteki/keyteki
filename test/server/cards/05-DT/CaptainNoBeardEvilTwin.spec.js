@@ -53,7 +53,7 @@ describe('Captain No-Beard', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('when opponent has more than 2 ambers, both neighbors should capture', function () {
+        it('when opponent has more than 2 amber, both neighbors should capture', function () {
             this.player1.fightWith(this.narp, this.captainNoBeardEvilTwin);
             expect(this.captainNoBeardEvilTwin.location).toBe('discard');
             expect(this.lamindra.amber).toBe(0);

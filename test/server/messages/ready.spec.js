@@ -65,4 +65,42 @@ describe('Ready Messages', function () {
             ]);
         });
     });
+
+    describe('ready and fight with multiple creatures', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    hand: ['relentless-assault'],
+                    inPlay: ['umbra', 'troll', 'ganger-chieftain']
+                },
+                player2: {
+                    inPlay: ['batdrone', 'mother', 'zorg']
+                }
+            });
+        });
+
+        it('should log a ready-and-fight message for each creature', function () {
+            this.player1.play(this.relentlessAssault);
+            this.player1.clickCard(this.umbra);
+            this.player1.clickCard(this.batdrone);
+            this.player1.clickCard(this.troll);
+            this.player1.clickCard(this.mother);
+            this.player1.clickCard(this.gangerChieftain);
+            this.player1.clickCard(this.zorg);
+            expect(this.player1).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Relentless Assault',
+                'player1 uses Relentless Assault to ready and fight with Umbra',
+                'player1 uses Umbra to make Umbra fight Batdrone',
+                'Batdrone is destroyed',
+                'player1 uses Relentless Assault to ready and fight with Troll',
+                'player1 uses Troll to make Troll fight Mother',
+                'Mother is destroyed',
+                'player1 uses Relentless Assault to ready and fight with Ganger Chieftain',
+                'player1 uses Ganger Chieftain to make Ganger Chieftain fight Zorg',
+                'Ganger Chieftain is destroyed'
+            ]);
+        });
+    });
 });
