@@ -207,7 +207,7 @@ class Game extends EventEmitter {
         }
 
         const now = Date.now();
-        const lastEvent = activePlayer.lastEventAt || Date.now();
+        const lastEvent = activePlayer.lastEventAt || 0;
 
         // On the first detection use 5 min; on subsequent force-passed turns
         // trigger immediately (the client grays out the button for 5s instead).
@@ -1495,7 +1495,7 @@ class Game extends EventEmitter {
 
         // Re-verify the active player is actually inactive right now
         const now = Date.now();
-        const lastEvent = this.activePlayer.lastEventAt || now;
+        const lastEvent = this.activePlayer.lastEventAt || 0;
         const threshold = this.forcePassCount > 0 ? 0 : this.inactivityThresholdMs;
         if (now - lastEvent < threshold) {
             this.forcePassAvailable = false;
@@ -1512,10 +1512,7 @@ class Game extends EventEmitter {
 
         this.forcePassCount++;
         this.forcePassAvailable = false;
-        this.forcePassTurn();
-    }
 
-    forcePassTurn() {
         // Clear all remaining steps in the pipeline (cancels prompts a la manual mode)
         this.pipeline.pipeline = [];
         this.pipeline.queue = [];
