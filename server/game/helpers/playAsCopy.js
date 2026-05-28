@@ -134,6 +134,12 @@ function buildPlayAsCopyEffects({ context, ability, additionalEffects = [] }) {
         if (copiedCard.hasKeyword('omega')) {
             effects.push(ability.effects.addKeyword({ omega: 1 }));
         }
+        // Treat the copying card as having the copied card's house so that
+        // house-checking reactions on play (e.g. Dark Harbinger) see the
+        // copied card's house rather than the copying card's printed house.
+        if (copiedCard.printedHouse && copiedCard.printedHouse !== sourceCard.printedHouse) {
+            effects.push(ability.effects.changeHouse(copiedCard.printedHouse));
+        }
         effects = effects.concat(
             copiedCard.abilities.reactions
                 .filter((a) => a.properties.name === 'Play')

@@ -47,8 +47,9 @@ const AbilityWindowTitles = {
         }
 
         let abilityWord = AbilityTypeToWord[abilityType] || abilityType;
+        let uniqueEvents = _.uniq(events);
         let titles = _.filter(
-            _.map(events, (event) => {
+            _.map(uniqueEvents, (event) => {
                 let func = EventToTitleFunc[event.name];
                 if (func) {
                     return func(event);

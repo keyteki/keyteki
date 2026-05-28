@@ -80,6 +80,7 @@ class Game extends EventEmitter {
         this.timeLimit = new TimeLimit(this);
         this.useGameTimeLimit = details.useGameTimeLimit;
         this.startingHandsDrawn = false;
+        this.continuePlaying = false;
 
         this.cardNamesPlayedOrUsed = [];
         this.cardsUsed = [];
@@ -93,6 +94,7 @@ class Game extends EventEmitter {
         this.cardsPlayedThisPhase = [];
         this.effectsUsedThisPhase = [];
         this.propheciesActivatedThisPhase = [];
+        this.gainsTextBoxSourcesThisPhase = [];
         this.activePlayer = null;
         this.firstPlayer = null;
         this.playedRoundsAfterTime = [];
@@ -124,6 +126,12 @@ class Game extends EventEmitter {
         this.highTide = null;
 
         this.lastManualMode = null;
+
+        // Server-side inactivity tracking: when the active player hasn't sent
+        // any game commands for the threshold, the opponent can force-pass.
+        this.inactivityThresholdMs = 5 * 60 * 1000; // 5 minutes
+        this.forcePassCount = 0; // how many times force-pass has been used
+        this.inactivityPromptShown = false; // whether we've already shown the prompt this turn
     }
 
     /*
@@ -155,76 +163,75 @@ class Game extends EventEmitter {
     }
 
     /**
-     * Records that a player has interacted with the game. Clears the idle flag
-     * (and posts an alert) if the player was previously flagged as idle.
+     * Records that a player has sent a game command. Used to track inactivity.
      * @param {String} playerName
-     * @returns {Boolean} true if the idle flag was cleared as a result
      */
-    noteActivity(playerName) {
+    notePlayerEvent(playerName) {
         const player = this.playersAndSpectators[playerName];
         if (!player || this.isSpectator(player)) {
-            return false;
+            return;
         }
 
-        player.lastActivityAt = Date.now();
+        player.lastEventAt = Date.now();
 
-        if (player.idle) {
-            player.idle = false;
-            if (!this.finishedAt) {
-                this.addAlert('info', '{0} is no longer inactive', player);
-            }
-            return true;
+        // If the force-pass prompt is showing and the idle player acts, reset
+        if (this.inactivityPromptShown && player === this.activePlayer) {
+            this.inactivityPromptShown = false;
+            this.forcePassCount = 0;
+            player.inactive = false;
         }
-
-        return false;
     }
 
     /**
-     * Re-evaluates the idle state for each player. A player is considered idle
-     * when they have a pending prompt requiring their input and they have not
-     * sent any activity for the configured threshold.
-     * @param {Number} thresholdMs
-     * @returns {Boolean} true if any player's idle flag changed
+     * Called periodically by the game server sweep. Checks if the active player
+     * has been inactive and, if so, alerts chat and gives the opponent a prompt
+     * to force-pass the turn.
+     * @returns {Boolean} true if game state changed (caller should push state)
      */
-    updateIdleState(thresholdMs = 2 * 60 * 1000) {
-        if (this.finishedAt) {
+    checkInactivity() {
+        if (this.finishedAt || !this.started || !this.activePlayer) {
+            return false;
+        }
+
+        if (this.inactivityPromptShown) {
+            return false;
+        }
+
+        const activePlayer = this.activePlayer;
+        if (activePlayer.left || activePlayer.disconnectedAt) {
             return false;
         }
 
         const now = Date.now();
-        let changed = false;
+        const lastEvent = activePlayer.lastEventAt || Date.now();
 
-        for (const player of this.getPlayers()) {
-            if (player.left || player.disconnectedAt) {
-                continue;
-            }
+        // On the first detection use 5 min; on subsequent force-passed turns
+        // show immediately (the client grays out the button for 5s instead).
+        const threshold = this.forcePassCount > 0 ? 0 : this.inactivityThresholdMs;
 
-            const promptState = player.promptState;
-            const hasPendingPrompt =
-                (Array.isArray(promptState.buttons) && promptState.buttons.length > 0) ||
-                promptState.selectCard ||
-                (Array.isArray(promptState.controls) && promptState.controls.length > 0);
-
-            const newIdle = hasPendingPrompt && now - player.lastActivityAt > thresholdMs;
-
-            if (newIdle && !player.idle) {
-                player.idle = true;
-                this.addAlert(
-                    'info',
-                    '{0} has been inactive - you may leave the game without recording a loss',
-                    player
-                );
-                changed = true;
-            }
-            // Note: we do not clear the idle flag here when the prompt context
-            // goes away. Once a player has been flagged as inactive, only real
-            // activity from them (handled in noteActivity) should clear it —
-            // otherwise the flag would flicker off as soon as the game advanced
-            // to a phase where they aren't being prompted, even though they're
-            // still actually AFK.
+        if (now - lastEvent < threshold) {
+            return false;
         }
 
-        return changed;
+        // Find the waiting player
+        const waitingPlayer = this.getPlayers().find((p) => p !== activePlayer);
+        if (!waitingPlayer || waitingPlayer.left) {
+            return false;
+        }
+
+        this.inactivityPromptShown = true;
+        activePlayer.inactive = true;
+        this.addAlert(
+            'warning',
+            '{0} has been inactive. {1} may force them to pass their turn, or leave the game without recording a loss.',
+            activePlayer,
+            waitingPlayer
+        );
+
+        const ForcePassTurnPrompt = require('./gamesteps/ForcePassTurnPrompt');
+        this.queueStep(new ForcePassTurnPrompt(this, waitingPlayer, activePlayer));
+
+        return true;
     }
 
     get messages() {
@@ -589,6 +596,14 @@ class Game extends EventEmitter {
      * Check to see if either player has won/lost the game due to keys or time
      */
     checkWinCondition() {
+        // Once a winner has been recorded, don't re-fire passive win checks.
+        // An explicit concede goes through recordWinner directly and will
+        // re-open the post-game menu if the players are continuing past the
+        // original win.
+        if (this.winner) {
+            return;
+        }
+
         for (const player of this.getPlayers()) {
             if (Object.values(player.keys).every((key) => key)) {
                 this.recordWinner(player, 'keys');
@@ -613,6 +628,15 @@ class Game extends EventEmitter {
      */
     recordWinner(winner, reason) {
         if (this.winner) {
+            // Game was already won but the players chose to continue. Re-open
+            // the post-game menu (without re-recording stats) so they can
+            // pick rematch/continue again. The displayed winner reflects the
+            // most recent concession even though the recorded winner stays
+            // as the original.
+            if (this.continuePlaying) {
+                this.continuePlaying = false;
+                this.queueStep(new GameWonPrompt(this, winner));
+            }
             return;
         }
 
@@ -978,6 +1002,9 @@ class Game extends EventEmitter {
             return;
         }
 
+        // Reset inactivity tracking for the new turn
+        this.inactivityPromptShown = false;
+
         this.raiseEvent(EVENTS.onTurnStart, { player: this.activePlayer });
         this.activePlayer.beginRound();
         this.queueStep(new SimpleStep(this, () => this.finalizeBeginRound(0)));
@@ -1304,31 +1331,27 @@ class Game extends EventEmitter {
     }
 
     /**
-     * @param {boolean} swapDecks If true, swap decks in the rematch from what
-     * they were this game. Note that if the current game was a rematch with
-     * swapped decks, swapping for the 2nd rematch puts them back to where they
-     * were originally.
+     * @param {'same'|'swap'|'change'} mode 'same' replays with the same decks
+     * on the same sides; 'swap' replays with the decks swapped between
+     * players; 'change' lets each player pick a different deck.
      */
-    rematch(swapDecks = false) {
+    rematch(mode = 'same') {
         if (!this.finishedAt) {
             this.finishedAt = new Date();
             this.winReason = 'rematch';
         }
 
-        if (swapDecks) {
+        if (mode === 'change') {
+            this.swap = false;
+            this.router.rematchWithNewDecks(this);
+            return;
+        }
+
+        if (mode === 'swap') {
             this.swap = !this.swap;
         }
 
         this.router.rematch(this);
-    }
-
-    rematchWithNewDecks() {
-        if (!this.finishedAt) {
-            this.finishedAt = new Date();
-            this.winReason = 'rematch';
-        }
-
-        this.router.rematchWithNewDecks(this);
     }
 
     timeExpired() {
@@ -1436,6 +1459,20 @@ class Game extends EventEmitter {
         });
     }
 
+    /**
+     * Force-passes the active player's turn by clearing the pipeline and ending
+     * the round. Used when the opponent triggers the inactivity force-pass.
+     */
+    forcePassTurn() {
+        // Clear all remaining steps in the pipeline (cancels prompts a la manual mode)
+        this.pipeline.pipeline = [];
+        this.pipeline.queue = [];
+
+        // End the turn and start the next one
+        this.queueStep(new SimpleStep(this, () => this.raiseEndRoundEvent()));
+        this.queueStep(new SimpleStep(this, () => this.beginRound()));
+    }
+
     endRound() {
         if (this.activePlayer.canForgeKey()) {
             this.addAlert('success', '{0} declares Check!', this.activePlayer);
@@ -1538,6 +1575,7 @@ class Game extends EventEmitter {
         this.cardsPlayedThisPhase = [];
         this.cardsUsedThisPhase = [];
         this.propheciesActivatedThisPhase = [];
+        this.gainsTextBoxSourcesThisPhase = [];
     }
 
     effectUsed(card) {
@@ -1646,6 +1684,7 @@ class Game extends EventEmitter {
                 owner: this.owner,
                 players: playerState,
                 previousWinner: this.previousWinner,
+                scenario: this.scenario,
                 showHand: this.showHand,
                 spectators: this.getSpectators().map((spectator) => {
                     return {
@@ -1709,6 +1748,7 @@ class Game extends EventEmitter {
             name: this.name,
             owner: this.owner,
             players: playerSummaries,
+            scenario: this.scenario,
             showHand: this.showHand,
             spectators: this.getSpectators().map((spectator) => {
                 return {

@@ -1,5 +1,5 @@
 import { Button, Tooltip } from '@heroui/react';
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Panel from '../Site/Panel';
 import AbilityTargeting from './AbilityTargeting';
@@ -28,6 +28,32 @@ import CardImage from './CardImage';
  */
 const ActivePlayerPrompt = (props) => {
     const { t, i18n } = useTranslation();
+    const [buttonsDisabled, setButtonsDisabled] = useState(false);
+    const prevPromptTitle = useRef(null);
+
+    useEffect(() => {
+        const titleText =
+            typeof props.promptTitle === 'string' ? props.promptTitle : props.promptTitle?.text;
+
+        const delays = {
+            'Game Won': 1500,
+            'Opponent Inactive': 5000
+        };
+        const delay = delays[titleText];
+
+        if (delay && prevPromptTitle.current !== titleText) {
+            setButtonsDisabled(true);
+            const timer = setTimeout(() => setButtonsDisabled(false), delay);
+            prevPromptTitle.current = titleText;
+            return () => {
+                clearTimeout(timer);
+                setButtonsDisabled(false);
+            };
+        }
+
+        prevPromptTitle.current = titleText;
+    }, [props.promptTitle]);
+
     const iconAssetByName = {
         forgedkeyblue: new URL('../../assets/img/forgedkeyblue.png', import.meta.url).href,
         forgedkeyred: new URL('../../assets/img/forgedkeyred.png', import.meta.url).href,
@@ -148,7 +174,7 @@ const ActivePlayerPrompt = (props) => {
                     }
                     onMouseOver={() => onMouseOver(button.card)}
                     onMouseOut={() => onMouseOut(button.card)}
-                    isDisabled={button.disabled}
+                    isDisabled={button.disabled || buttonsDisabled}
                 >
                     {hasIcon ? (
                         <span className='inline-flex min-w-0 items-center justify-center gap-2'>

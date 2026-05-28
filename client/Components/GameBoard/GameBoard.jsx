@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { Trans, useTranslation } from 'react-i18next';
@@ -65,72 +65,6 @@ export const GameBoard = () => {
             navigate('/');
         }
     }, [navigate, user]);
-
-    // Send a lightweight activity heartbeat while the player is interacting with
-    // the page. This drives the server-side idle detector so an opponent can
-    // leave without penalty after a configured inactivity threshold.
-    const lastInputAtRef = useRef(0);
-    const lastSentAtRef = useRef(0);
-    const gameStarted = !!currentGame?.started;
-    const isSpectator = currentGame && user ? isSpectating(currentGame, user) : true;
-
-    useEffect(() => {
-        if (!gameStarted || isSpectator) {
-            return undefined;
-        }
-
-        const sendActivity = () => {
-            sendGameMessage('activity');
-            lastSentAtRef.current = Date.now();
-        };
-
-        const markInput = () => {
-            const now = Date.now();
-            lastInputAtRef.current = now;
-            // Throttle to once every 2s — keeps clear-idle latency low without
-            // flooding the socket during normal play.
-            if (now - lastSentAtRef.current > 2000) {
-                sendActivity();
-            }
-        };
-        const onVisibilityChange = () => {
-            if (document.visibilityState !== 'visible') {
-                return;
-            }
-            // Returning to the tab is a clear sign of activity; send immediately
-            // so the opponent sees the idle flag clear quickly.
-            lastInputAtRef.current = Date.now();
-            sendActivity();
-        };
-
-        document.addEventListener('mousemove', markInput, { passive: true });
-        document.addEventListener('mousedown', markInput, { passive: true });
-        document.addEventListener('keydown', markInput, { passive: true });
-        document.addEventListener('touchstart', markInput, { passive: true });
-        document.addEventListener('visibilitychange', onVisibilityChange);
-
-        const interval = setInterval(() => {
-            if (document.visibilityState !== 'visible') {
-                return;
-            }
-            const now = Date.now();
-            if (
-                lastInputAtRef.current > lastSentAtRef.current &&
-                now - lastSentAtRef.current > 30000
-            ) {
-                sendActivity();
-            }
-        }, 30000);
-
-        return () => {
-            document.removeEventListener('mousemove', markInput);
-            document.removeEventListener('mousedown', markInput);
-            document.removeEventListener('keydown', markInput);
-            document.removeEventListener('touchstart', markInput);
-            document.removeEventListener('visibilitychange', onVisibilityChange);
-            clearInterval(interval);
-        };
-    }, [gameStarted, isSpectator, sendGameMessage]);
 
     if (Object.values(cards).length === 0 || !currentGame?.started) {
         return (
@@ -290,7 +224,7 @@ export const GameBoard = () => {
                             />
                         }
                         cardsInPlay={otherPlayer.cardPiles.cardsInPlay}
-                        hasActiveHouse={false}
+                        hasActiveHouse={Boolean(thisPlayer.activeHouse)}
                         isSpectating={spectating}
                         onCardClick={onCardClick}
                         onMenuItemClick={onMenuItemClick}
@@ -369,6 +303,7 @@ export const GameBoard = () => {
                     stats={otherPlayer.stats}
                     tideRequired={thisPlayer.stats.tideRequired || otherPlayer?.stats?.tideRequired}
                     user={otherPlayer.user}
+                    promptedPiles={thisPlayer.promptedPiles}
                 />
             </div>
             <div className='main-window'>
@@ -470,6 +405,7 @@ export const GameBoard = () => {
                 stats={thisPlayer.stats}
                 tideRequired={thisPlayer.stats.tideRequired || otherPlayer?.stats?.tideRequired}
                 user={thisPlayer.user}
+                promptedPiles={thisPlayer.promptedPiles}
             />
         </div>
     );

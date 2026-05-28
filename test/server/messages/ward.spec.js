@@ -140,8 +140,8 @@ describe('Ward Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Hoist Operations',
-                "player1 gains an amber due to Hoist Operations's bonus icon",
-                'player1 uses Hoist Operations to archive Dextre',
+                "player1 uses Hoist Operations's amber bonus icon to gain 1 amber",
+                'player1 uses Hoist Operations to put Dextre into their archives',
                 'player2 uses Dextre to remove its ward token'
             ]);
         });
@@ -166,7 +166,7 @@ describe('Ward Messages', function () {
             this.player1.clickCard(this.dextre);
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
-                'player1 uses Soul Lock',
+                'player1 uses Soul Lock to place Dextre under Soul Lock and prevent player2 from using cards of the same house',
                 'player2 uses Dextre to remove its ward token'
             ]);
         });

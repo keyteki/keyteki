@@ -26,7 +26,7 @@ describe('Achromatic Basilisk', function () {
         });
 
         it('can target an already-exhausted enemy creature', function () {
-            this.krump.exhausted = true;
+            this.krump.exhaust();
             this.player1.fightWith(this.achromaticBasilisk, this.troll);
             expect(this.player1).toHavePrompt('Choose a creature');
             expect(this.player1).toBeAbleToSelect(this.krump);

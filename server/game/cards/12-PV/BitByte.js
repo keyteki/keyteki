@@ -6,7 +6,7 @@ class BitByte extends Card {
     // Fate: Your opponent archives the bottom card of their deck.
     setupCardAbilities(ability) {
         this.fight({
-            gameAction: ability.actions.archive((context) => ({
+            gameAction: ability.actions.putIntoArchives((context) => ({
                 target: context.event.card.location === 'play area' ? context.event.card : []
             }))
         });

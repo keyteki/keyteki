@@ -56,7 +56,7 @@ describe('Æmberfin Shark', function () {
                             this.player1.endTurn();
                         });
 
-                        it('should have no power counters and players gained 2 ambers each', function () {
+                        it('should have no power counters and players gained 2 amber each', function () {
                             expect(this.æmberfinShark.powerCounters).toBe(0);
                             expect(this.player1.amber).toBe(4);
                             expect(this.player2.amber).toBe(5);
