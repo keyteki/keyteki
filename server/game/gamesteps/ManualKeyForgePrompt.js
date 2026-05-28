@@ -52,7 +52,7 @@ class ManualKeyForgePrompt extends AllPlayerPrompt {
 
         this.game.addAlert(
             'danger',
-            '{0} forges the {1} ',
+            '{0} forges the {1}',
             this.requestingPlayer,
             `forgedkey${this.color}`
         );

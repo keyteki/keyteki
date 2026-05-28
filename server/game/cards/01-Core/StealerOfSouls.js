@@ -5,9 +5,7 @@ class StealerOfSouls extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             message: '{0} uses {1} to purge {2} and gain 1 amber',
-            messageArgs: (context) => {
-                return [context.player, context.source, context.target];
-            },
+            messageArgs: (context) => [context.player, context.source, context.event.card],
             when: {
                 onCardDestroyed: (event, context) =>
                     event.destroyedFighting && event.damageEvent.damageSource === context.source

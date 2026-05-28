@@ -83,7 +83,7 @@ describe('Harmonic Ritual', function () {
                     this.player1.clickCard(this.barristerJoya);
                 });
 
-                it('should gain 2 ambers', function () {
+                it('should gain 2 amber', function () {
                     expect(this.player1.amber).toBe(5);
                     expect(this.player1).isReadyToTakeAction();
                 });

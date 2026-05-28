@@ -15,8 +15,15 @@ class OrbitalBombardment extends Card {
                     damageStep: 2
                 }))
             },
-            effect: 'reveal {0} to deal 2 damage to a creature {1} times',
-            effectArgs: (context) => context.target.length
+            effect: '{1}',
+            effectArgs: (context) => {
+                const n = context.target.length;
+                return n
+                    ? `reveal ${n} Mars card${
+                          n === 1 ? '' : 's'
+                      } and deal 2 damage to a creature ${n} time${n === 1 ? '' : 's'}`
+                    : 'reveal no Mars cards from their hand';
+            }
         });
     }
 }

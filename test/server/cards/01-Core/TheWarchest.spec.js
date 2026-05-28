@@ -67,7 +67,7 @@ describe('The Warchest', function () {
             });
         });
 
-        it('should destroy The Warchest and gain ambers after fighting', function () {
+        it('should destroy The Warchest and gain amber after fighting', function () {
             this.player1.fightWith(this.stealerOfSouls, this.redlock);
             expect(this.stealerOfSouls.damage).toBe(3);
             expect(this.redlock.location).toBe('purged');

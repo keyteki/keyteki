@@ -76,7 +76,7 @@ describe('Reveal Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Cladogenesis',
-                "player1 gains an amber due to Cladogenesis's bonus icon",
+                "player1 uses Cladogenesis's amber bonus icon to gain 1 amber",
                 "player1 uses Cladogenesis to discard the top card of each player's deck, reveal each player's hand, and discard cards belonging to each player's discarded card's house",
                 "player1 uses Cladogenesis to discard Anger from the top of player1's deck",
                 "player1 uses Cladogenesis to discard Nerve Blast from the top of player2's deck",
