@@ -547,7 +547,6 @@ class Player extends GameObject {
         // rule. Directional snapshots back the leftNeighbor()/rightNeighbor() fallbacks
         // used by cards like Badgemagus / Prof. Emeritus Kering / Ghosthawk.
         if (card.location === 'play area' && card.type === 'creature') {
-            card.neighborsBeforeLeavingPlay = card.neighbors?.slice() || [];
             card.leftNeighborBeforeLeavingPlay = card.leftNeighbor();
             card.rightNeighborBeforeLeavingPlay = card.rightNeighbor();
         }

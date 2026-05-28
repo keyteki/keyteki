@@ -71,7 +71,6 @@ class Card extends EffectSource {
         this.clonedType = null;
         this.clonedNeighbors = null;
         this.clonedPurgedCards = null;
-        this.neighborsBeforeLeavingPlay = null;
         this.leftNeighborBeforeLeavingPlay = null;
         this.rightNeighborBeforeLeavingPlay = null;
 
