@@ -246,8 +246,8 @@ class GameServer {
             this.closeGame(game);
         }
 
-        // Check for player inactivity in active games and show the force-pass
-        // prompt if needed. Piggybacks on the existing 30s sweep.
+        // Check for player inactivity in active games. Piggybacks on the
+        // existing 30s sweep to set the forcePassAvailable flag.
         for (const game of Object.values(this.games)) {
             if (game.finishedAt) {
                 continue;

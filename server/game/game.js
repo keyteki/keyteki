@@ -223,7 +223,7 @@ class Game extends EventEmitter {
         activePlayer.inactive = true;
         this.addAlert(
             'warning',
-            '{0} has been inactive. {1} may force them to pass their turn, or leave the game without recording a loss.',
+            '{0} has been inactive for 5 minutes. {1} may force them to pass their turn, or leave the game without recording a loss.',
             activePlayer,
             waitingPlayer
         );
@@ -1321,7 +1321,7 @@ class Game extends EventEmitter {
         } else {
             this.addAlert(
                 'info',
-                '{0} has disconnected. You may wait for them to reconnect, or after 30 seconds you may leave without recording a loss.',
+                '{0} has disconnected. {1} may wait for them to reconnect, or after 30 seconds may leave without recording a loss.',
                 player
             );
 
@@ -1460,10 +1460,6 @@ class Game extends EventEmitter {
         });
     }
 
-    /**
-     * Force-passes the active player's turn by clearing the pipeline and ending
-     * the round. Used when the opponent triggers the inactivity force-pass.
-     */
     /**
      * Game command: the waiting player forces the idle player's turn to end.
      */

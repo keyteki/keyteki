@@ -406,7 +406,7 @@ class ChatCommands {
         if (opponentLeft) {
             this.game.addAlert(
                 'warning',
-                '{0} tried to start a rematch, but their opponent has left the game',
+                '{0} tried to start a rematch, but their opponent has left the game.',
                 player
             );
             return;
@@ -415,7 +415,7 @@ class ChatCommands {
         if (mode === 'swap' && this.game.gameFormat === 'adaptive-bo1') {
             this.game.addAlert(
                 'warning',
-                '{0} cannot start a swap-decks rematch in adaptive: the format manages deck assignment itself',
+                '{0} cannot start a swap-decks rematch in adaptive: the format manages deck assignment itself.',
                 player
             );
             return;
