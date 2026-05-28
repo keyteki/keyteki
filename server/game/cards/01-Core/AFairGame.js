@@ -5,22 +5,24 @@ class AFairGame extends Card {
     setupCardAbilities(ability) {
         this.play({
             condition: (context) => !!context.player.opponent,
-            effect: "discard the top card of {1}'s deck:{2} and reveal their hand: {3}, gaining {4} amber. Then {1} discards the top card of {5}'s deck: {6} and reveals their hand:{7}, gaining {8} amber",
+            effect: "discard the top card of {1}'s deck ({2}) and reveal their hand ({3}), gaining {4} amber. Then {1} discards the top card of {5}'s deck ({6}) and reveals their hand ({7}), gaining {8} amber",
             effectArgs: (context) => {
                 let oppTop =
-                    context.player.opponent.deck.length > 0 ? context.player.opponent.deck[0] : '';
+                    context.player.opponent.deck.length > 0
+                        ? context.player.opponent.deck[0]
+                        : null;
                 let oppHand = context.player.opponent.hand.map((card) => card).sort();
-                let myTop = context.player.deck.length > 0 ? context.player.deck[0] : '';
+                let myTop = context.player.deck.length > 0 ? context.player.deck[0] : null;
                 let myHand = context.player.hand.map((card) => card).sort();
                 return [
                     context.player.opponent,
-                    oppTop,
+                    oppTop || 'nothing',
                     oppHand,
                     oppTop
                         ? oppHand.filter((card) => card.hasHouse(oppTop.printedHouse)).length
                         : 0,
                     context.player,
-                    myTop,
+                    myTop || 'nothing',
                     myHand,
                     myTop ? myHand.filter((card) => card.hasHouse(myTop.printedHouse)).length : 0
                 ];

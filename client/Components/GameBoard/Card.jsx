@@ -201,7 +201,7 @@ const Card = ({
             return <div />;
         }
 
-        const shouldMuteCannotPlay = !isSpectating && isMe && hasActiveHouse;
+        const shouldMuteCannotPlay = !isSpectating && hasActiveHouse;
         let statusClass = getStatusClass();
 
         let cardClass = classNames(

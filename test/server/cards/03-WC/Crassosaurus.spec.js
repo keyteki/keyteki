@@ -157,9 +157,7 @@ describe('Crassosaurus', function () {
             this.player1.amber = 1;
             this.player2.amber = 3;
             this.player1.play(this.crassosaurus);
-            expect(this.player1).toHavePrompt(
-                'Any reactions to Crassosaurus being played or Crassosaurus being played?'
-            );
+            expect(this.player1).toHavePrompt('Any reactions to Crassosaurus being played?');
             this.player1.clickCard(this.crassosaurus);
 
             expect(this.player1).toHavePrompt('Choose how many to capture from opponent');
@@ -175,9 +173,7 @@ describe('Crassosaurus', function () {
             this.player1.amber = 5;
             this.player2.amber = 5;
             this.player1.play(this.crassosaurus);
-            expect(this.player1).toHavePrompt(
-                'Any reactions to Crassosaurus being played or Crassosaurus being played?'
-            );
+            expect(this.player1).toHavePrompt('Any reactions to Crassosaurus being played?');
             this.player1.clickCard(this.crassosaurus);
 
             expect(this.player1).toHavePrompt('Choose how many to capture from opponent');
@@ -198,9 +194,7 @@ describe('Crassosaurus', function () {
             this.player1.amber = 5;
             this.player2.amber = 6;
             this.player1.play(this.crassosaurus);
-            expect(this.player1).toHavePrompt(
-                'Any reactions to Crassosaurus being played or Crassosaurus being played?'
-            );
+            expect(this.player1).toHavePrompt('Any reactions to Crassosaurus being played?');
             this.player1.clickCard(this.sciOfficerMorpheus);
 
             expect(this.player1).toHavePrompt('Choose how many to capture from opponent');
@@ -222,9 +216,7 @@ describe('Crassosaurus', function () {
             this.player1.amber = 5;
             this.player2.amber = 16;
             this.player1.play(this.crassosaurus);
-            expect(this.player1).toHavePrompt(
-                'Any reactions to Crassosaurus being played or Crassosaurus being played?'
-            );
+            expect(this.player1).toHavePrompt('Any reactions to Crassosaurus being played?');
             this.player1.clickCard(this.crassosaurus);
 
             expect(this.player1).toHavePrompt('Choose how many to capture from opponent');

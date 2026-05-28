@@ -13,6 +13,12 @@ class HealthServer {
     }
 
     setupSignalHandlers() {
+        // In scenario dev mode the CLI owns the lifecycle and sends SIGINT
+        // when the user wants to exit. Skip the graceful drain — there's a
+        // permanent scenario game that will keep the drain spinning forever.
+        if (process.env.SCENARIO) {
+            return;
+        }
         process.on('SIGTERM', () => {
             logger.info('Received SIGTERM - starting graceful shutdown');
             this.startDraining();

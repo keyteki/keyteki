@@ -192,10 +192,10 @@ class Player extends GameObject {
             // Log draws before any shuffle, without the refill suffix if more cards remain
             const suffix = remainingCards > 0 ? '' : options.refillSuffix || '';
             this.game.addMessage(
-                '{0} draws {1} card{2}{3}',
+                '{0} draws {1} {2}{3}',
                 this,
                 numCards,
-                numCards > 1 ? 's' : '',
+                numCards > 1 ? 'cards' : 'card',
                 suffix
             );
         }
@@ -771,13 +771,16 @@ class Player extends GameObject {
 
     getAvailableHouses() {
         let availableHouses = this.hand.concat(this.cardsInPlay).reduce((houses, card) => {
-            let cardForHouses = card.isToken() && card.tokenCard() ? card.tokenCard() : card;
-
             // Only cards in play can use their house enhancements to control what houses are available.
-            let cardHouses =
-                cardForHouses.location === 'play area'
-                    ? cardForHouses.getHouses()
-                    : [cardForHouses.printedHouse];
+            // For in-play tokens, resolve houses via the in-play instance (not owner.tokenCard),
+            // so copyCard effects and house enhancements on the live card are respected.
+            let cardHouses;
+            if (card.location === 'play area') {
+                cardHouses = card.getHouses();
+            } else {
+                let cardForHouses = card.isToken() && card.tokenCard() ? card.tokenCard() : card;
+                cardHouses = [cardForHouses.printedHouse];
+            }
 
             if (card.anyEffect('changeHouse')) {
                 cardHouses = card.getEffects('changeHouse');

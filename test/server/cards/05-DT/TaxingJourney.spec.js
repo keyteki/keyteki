@@ -58,14 +58,14 @@ describe('Taxing Journey', function () {
                     expect(this.player2.amber).toBe(0);
                 });
 
-                it('should not prompt to capture more ambers', function () {
+                it('should not prompt to capture more amber', function () {
                     expect(this.barristerJoya.amber).toBe(0);
                     expect(this.player1).isReadyToTakeAction();
                 });
             });
         });
 
-        describe('when opponent has 2 ambers', function () {
+        describe('when opponent has 2 amber', function () {
             beforeEach(function () {
                 this.player2.amber = 2;
             });
@@ -85,7 +85,7 @@ describe('Taxing Journey', function () {
                         expect(this.angryMob.amber).toBe(1);
                     });
 
-                    it('should not prompt to capture more ambers', function () {
+                    it('should not prompt to capture more amber', function () {
                         expect(this.barristerJoya.amber).toBe(1);
                         expect(this.player2.amber).toBe(0);
                         expect(this.player1).isReadyToTakeAction();
@@ -124,7 +124,7 @@ describe('Taxing Journey', function () {
             });
         });
 
-        describe('when opponent has 3 ambers', function () {
+        describe('when opponent has 3 amber', function () {
             beforeEach(function () {
                 this.player2.amber = 3;
             });
@@ -144,7 +144,7 @@ describe('Taxing Journey', function () {
                         expect(this.angryMob.amber).toBe(1);
                     });
 
-                    it('should not prompt to capture more ambers', function () {
+                    it('should not prompt to capture more amber', function () {
                         expect(this.barristerJoya.amber).toBe(1);
                         expect(this.player2.amber).toBe(1);
                         expect(this.player1).isReadyToTakeAction();
@@ -176,7 +176,7 @@ describe('Taxing Journey', function () {
                         expect(this.angryMob.amber).toBe(1);
                     });
 
-                    it('should capture ambers on both neighbors', function () {
+                    it('should capture amber on both neighbors', function () {
                         expect(this.barristerJoya.amber).toBe(1);
                         expect(this.challeTheSafeguard.amber).toBe(1);
                         expect(this.player2.amber).toBe(0);

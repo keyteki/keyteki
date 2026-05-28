@@ -14,7 +14,7 @@ describe('Berinon', function () {
             });
         });
 
-        it('should capture two ambers after reaping', function () {
+        it('should capture two amber after reaping', function () {
             this.player1.reap(this.berinon);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(2);

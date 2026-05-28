@@ -11,7 +11,7 @@ class Painmail extends Card {
                 effect: 'archive {1} and destroy {2}',
                 effectArgs: (context) => [this, context.source],
                 gameAction: ability.actions.sequential([
-                    ability.actions.archive({
+                    ability.actions.putIntoArchives({
                         target: this
                     }),
                     ability.actions.destroy((context) => ({
