@@ -630,9 +630,9 @@ class GameServer {
             return;
         }
 
-        game.notePlayerEvent(socket.user.username);
-
         this.runAndCatchErrors(game, () => {
+            game.notePlayerEvent(socket.user.username);
+
             game[command](socket.user.username, ...args);
 
             game.continue();
