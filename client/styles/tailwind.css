@@ -2071,35 +2071,35 @@ pre {
 }
 
 .btn-stat {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 22px;
-  height: 22px;
-  padding: 0;
-  border-radius: 50%;
-  background-color: var(--foreground);
-  color: #000000;
-  border: 1.5px solid #000000;
-  font-size: 12px;
-  line-height: 1;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    padding: 0;
+    border-radius: 50%;
+    background-color: oklch(0.9 0.004 286);
+    color: black;
+    border: 1.5px solid var(--table-header-border);
+    font-size: 12px;
+    line-height: 1;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
 }
 .btn-stat svg {
-  color: #000000 !important;
-  fill: #000000 !important;
-  stroke: #000000 !important;
-  stroke-width: 40 !important;
+    color: black !important;
+    fill: black !important;
+    stroke: black !important;
+    stroke-width: 40 !important;
 }
 .btn-stat:hover {
-  background-color: #f5c518;
+    background-color: #ffc107;
 }
 .btn-stat.btn-stat--minus:hover {
-  background-color: #dc3545;
+    background-color: #dc3545;
 }
-.btn-stat:focus {
-  outline: 0;
-}
+/* .btn-stat:focus {
+    outline: 0;
+} */
 
 .active-player .state svg {
     color: var(--foreground);
