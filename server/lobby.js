@@ -1225,7 +1225,9 @@ class Lobby {
 
         // Send targeted removals for newly blocked users
         for (let blockedName of added) {
-            let blockedUser = this.users[blockedName];
+            let blockedUser = Object.values(this.users).find(
+                (u) => u.username.toLowerCase() === blockedName
+            );
             if (blockedUser) {
                 socket.send('userleft', blockedUser.getShortSummary());
             }
@@ -1233,7 +1235,9 @@ class Lobby {
 
         // Send targeted additions for newly unblocked users
         for (let unblockedName of removed) {
-            let unblockedUser = this.users[unblockedName];
+            let unblockedUser = Object.values(this.users).find(
+                (u) => u.username.toLowerCase() === unblockedName
+            );
             if (unblockedUser) {
                 socket.send('newuser', unblockedUser.getShortSummary());
             }
