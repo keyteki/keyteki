@@ -115,6 +115,14 @@ class MenuCommands {
                 }
 
                 break;
+            case 'returnToHand': {
+                if (!game.manualMode || card.location !== 'play area' || !card.parent) {
+                    break;
+                }
+                game.addAlert('danger', '{0} manually returns {1} to their hand', player, card);
+                card.owner.moveCard(card, 'hand');
+                break;
+            }
         }
     }
 }

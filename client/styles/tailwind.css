@@ -829,7 +829,7 @@ pre {
     top: -5px;
     font-size: 12px;
     line-height: 16px;
-    z-index: 120;
+    z-index: 200;
 }
 
 .menu-item {
