@@ -11,7 +11,7 @@ class Commpod extends Card {
                 location: 'hand',
                 cardCondition: (card) => card.hasHouse('mars'),
                 gameAction: ability.actions.sequentialForEach((context) => ({
-                    num: context.target.length,
+                    num: (context.target || []).length,
                     action: ability.actions.ready({
                         promptForSelect: {
                             optional: true,
