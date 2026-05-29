@@ -1,6 +1,7 @@
 const ActivateProphecyAction = require('./GameActions/ActivateProphecyAction');
 const DeactivateProphecyAction = require('./GameActions/DeactivateProphecyAction');
 const FulfillProphecyAction = require('./GameActions/FulfillProphecyAction');
+const PlaceUnderAction = require('./GameActions/PlaceUnderAction');
 
 class MenuCommands {
     static cardMenuClick(menuItem, game, player, card) {
@@ -115,6 +116,82 @@ class MenuCommands {
                 }
 
                 break;
+            case 'placeFaceup':
+            case 'placeFacedown': {
+                if (!game.manualMode || card.location !== 'play area') {
+                    break;
+                }
+                const facedown = menuItem.command === 'placeFacedown';
+                game.promptForSelect(player, {
+                    activePromptTitle:
+                        'Select a card from your hand to place ' +
+                        (facedown ? 'facedown ' : 'faceup ') +
+                        'under ' +
+                        card.name,
+                    location: 'hand',
+                    controller: 'self',
+                    cardCondition: (selected) => selected !== card && selected.parent !== card,
+                    source: card,
+                    onSelect: (p, selectedCard) => {
+                        const placeUnderAction = new PlaceUnderAction({
+                            parent: card,
+                            facedown
+                        });
+                        const context = game.getFrameworkContext(p);
+                        context.source = card;
+                        if (placeUnderAction.canAffect(selectedCard, context)) {
+                            game.addAlert(
+                                'danger',
+                                '{0} manually places {1} ' +
+                                    (facedown ? 'facedown ' : 'faceup ') +
+                                    'under {2}',
+                                p,
+                                facedown ? 'a card' : selectedCard,
+                                card
+                            );
+                            placeUnderAction.resolve(selectedCard, context);
+                        }
+                        return true;
+                    }
+                });
+                break;
+            }
+            case 'takeChild': {
+                if (!game.manualMode || card.location !== 'play area') {
+                    break;
+                }
+                // Only the controller of the parent card may pull cards
+                // out from under it. The menu also hides this option
+                // for opponents; this is the server-side backstop.
+                if (card.controller !== player) {
+                    break;
+                }
+                const child = card.childCards.find((c) => c.uuid === menuItem.arg);
+                if (!child) {
+                    break;
+                }
+                game.addAlert(
+                    'danger',
+                    '{0} manually takes {1} from under {2} into their hand',
+                    player,
+                    child.facedown ? 'a facedown card' : child,
+                    card
+                );
+                // moveCard delegates through removeCardFromPile, which
+                // already detaches `parent.childCards` and clears
+                // `card.parent`. Send to the owner's hand so opponent
+                // cards return correctly.
+                child.owner.moveCard(child, 'hand');
+                break;
+            }
+            case 'returnToHand': {
+                if (!game.manualMode || card.location !== 'play area' || !card.parent) {
+                    break;
+                }
+                game.addAlert('danger', '{0} manually returns {1} to their hand', player, card);
+                card.owner.moveCard(card, 'hand');
+                break;
+            }
         }
     }
 }
