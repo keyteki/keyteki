@@ -41,7 +41,7 @@ function checkAllMessages(context, expectedMessages) {
             };
         }
 
-        if (!relevantLogs[i].includes(expectedMessages[i])) {
+        if (relevantLogs[i] !== expectedMessages[i]) {
             return {
                 pass: false,
                 message: () =>

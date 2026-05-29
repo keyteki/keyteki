@@ -1,4 +1,4 @@
-const BlasterCard = require('./BlasterCard.js');
+const BlasterCard = require('./_BlasterCard.js');
 
 class QincansBlaster extends BlasterCard {
     // This creature gains, Fight/Reap: You may deal 2D to a creature, or attach Qincans Blaster to Sci. Officer Qincan.

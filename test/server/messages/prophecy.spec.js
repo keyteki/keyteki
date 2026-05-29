@@ -51,10 +51,9 @@ describe('Prophecy Messages', function () {
                 'player1 activates their prophecy Expect the Unexpected',
                 'player1 draws 6 cards to refill their hand to 6 cards',
                 'player1: 0 amber (0 keys) player2: 0 amber (0 keys)',
-                'player2 does not forge a key.  They have 0 amber.  The current cost is 6 amber',
+                'player2 does not forge a key. They have 0 amber. The current cost is 6 amber',
                 'player2 chooses untamed as their active house this turn',
                 'player2 plays Spoo-key Charge',
-                'player2 uses Spoo-key Charge',
                 "player2 fulfills Expect the Unexpected's prophecy",
                 'player2 resolves the fate effect of Parasitic Arachnoid'
             ]);
@@ -87,10 +86,9 @@ describe('Prophecy Messages', function () {
                 'player1 activates their prophecy Expect the Unexpected',
                 'player1 draws 6 cards to refill their hand to 6 cards',
                 'player1: 0 amber (0 keys) player2: 0 amber (0 keys)',
-                'player2 does not forge a key.  They have 0 amber.  The current cost is 6 amber',
+                'player2 does not forge a key. They have 0 amber. The current cost is 6 amber',
                 'player2 chooses untamed as their active house this turn',
                 'player2 plays Spoo-key Charge',
-                'player2 uses Spoo-key Charge',
                 "player2 fulfills Expect the Unexpected's prophecy",
                 'player2 resolves the fate effect of Ancient Bear'
             ]);
@@ -121,7 +119,7 @@ describe('Prophecy Messages', function () {
                 'player1 activates their prophecy Overreach',
                 'player1 draws 6 cards to refill their hand to 6 cards',
                 'player1: 0 amber (0 keys) player2: 0 amber (0 keys)',
-                'player2 does not forge a key.  They have 0 amber.  The current cost is 6 amber',
+                'player2 does not forge a key. They have 0 amber. The current cost is 6 amber',
                 'player2 chooses brobnar as their active house this turn',
                 'player2 uses Krump to reap with Krump',
                 "player2 fulfills Overreach's prophecy",

@@ -34,6 +34,7 @@ You will need two pieces of information up front:
 ### Other notes
 
 -   **Set icon images** — drop two PNGs keyed by `ExpansionId` into `client/assets/img/`:
+
     -   `client/assets/img/idbacks/<ExpansionId>.png` — small set icon (used on card backs and in compact lists)
     -   `client/assets/img/<ExpansionId>.png` — larger deck icon (used in the lobby and deck lists)
 

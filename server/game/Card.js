@@ -34,6 +34,19 @@ class Card extends EffectSource {
         this.tokens = {};
         this.gigantic = false;
 
+        /**
+         * Abilities that this card has.
+         *
+         * **IMPORTANT NOTE:** These arrays will include the _sum_ of abilities
+         * put on the card. Specifically, if a card is copying another card (for
+         * example, it’s face-down as a token creature), these arrays will have
+         * both the original card’s effects and the token creature’s effects.
+         *
+         * You in general will want to look at the
+         * actions/reactions/persistentEffects properties instead, as those will
+         * reflect what is actually active in the game, since they are sensitive
+         * both to text box blanking effects as well as copy card effects.
+         */
         this.abilities = {
             actions: [],
             reactions: [],
@@ -147,9 +160,12 @@ class Card extends EffectSource {
     }
 
     tokenCard() {
-        return this.game
-            .getPlayers()
-            .find((player) => player.tokenCard && player.tokenCard.name === this.name)?.tokenCard;
+        // Tokens are always created from their owner's own deck,
+        // and each player has at most one token card definition,
+        // so the owner's tokenCard is the canonical resolution.
+        // Avoid looking up by `this.name`, which can be overridden
+        //  by a copyCard effect.
+        return this.owner && this.owner.tokenCard;
     }
 
     isProphecy() {
@@ -676,6 +692,13 @@ class Card extends EffectSource {
             .filter((e) => Constants.Houses.includes(e.toLowerCase()));
     }
 
+    getResolvableBonusIcons() {
+        return this.bonusIcons.filter((icon) => {
+            const normalized = icon.replace(/\s/g, '').toLowerCase();
+            return !Constants.Houses.includes(normalized);
+        });
+    }
+
     getHouses() {
         let combinedHouses = [];
 
@@ -758,6 +781,32 @@ class Card extends EffectSource {
     endRound() {
         this.armorUsed = 0;
         this.elusiveUsed = false;
+    }
+
+    /**
+     * Returns true if this card has any reaction whose target step resolves
+     * a `GainsTextBoxAction` (i.e. a Doppelganger-style “copy a neighbor’s
+     * text box” ability). Uses the runtime reactions list so abilities granted
+     * via CopyCard (e.g. tokens, Mimic Gel copies) or gainAbility effects are
+     * also detected. Used to spot infinite copy loops (e.g. two Doppelgangers
+     * next to each other) so the infinite-loop rule can be applied.
+     */
+    hasGainsTextBoxAbility() {
+        if (this.isBlank()) {
+            return false;
+        }
+        const GainsTextBoxAction = require('./GameActions/GainsTextBoxAction');
+        const isGainsTextBox = (action) => action instanceof GainsTextBoxAction;
+        return this.getReactions(true).some(
+            (reaction) =>
+                reaction.targets &&
+                reaction.targets.some(
+                    (target) =>
+                        target.properties &&
+                        Array.isArray(target.properties.gameAction) &&
+                        target.properties.gameAction.some(isGainsTextBox)
+                )
+        );
     }
 
     updateAbilityEvents(from, to) {
@@ -1447,6 +1496,16 @@ class Card extends EffectSource {
             cardback: this.owner.deckData.cardback,
             childCards: childCards,
             controlled: this.owner !== this.controller,
+            // Tokens always have a baseline `copyCard(tokenCard)` effect (see
+            // MakeTokenCreatureAction); ignore that self-copy and only flag
+            // `copying` when something else (e.g. Mirror Shell, Mimic Gel)
+            // overrides the card's identity.
+            copying: (() => {
+                const copyEffect = this.mostRecentEffect('copyCard');
+                if (!copyEffect) return false;
+                if (this.isToken() && copyEffect === this.tokenCard()) return false;
+                return true;
+            })(),
             exhausted: this.exhausted,
             facedown: this.facedown,
             location: this.location,

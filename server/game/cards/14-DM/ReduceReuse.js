@@ -12,14 +12,14 @@ class ReduceReuse extends Card {
                     promptForSelect: {
                         cardType: 'creature',
                         message: '{0} uses {1} to deal 5 damage to {2}',
-                        messageArgs: (cards) => [context.player, context.source.name, cards]
+                        messageArgs: (cards) => [context.player, context.source, cards]
                     }
                 })),
                 falseGameAction: ability.actions.returnToHand((context) => ({
                     promptForSelect: {
                         cardType: 'creature',
                         message: "{0} uses {1} to return {2} to its owner's hand",
-                        messageArgs: (cards) => [context.player, context.source.name, cards]
+                        messageArgs: (cards) => [context.player, context.source, cards]
                     }
                 }))
             })

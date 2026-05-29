@@ -1,6 +1,6 @@
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
 import { Button, Input } from '@heroui/react';
+import PropTypes from 'prop-types';
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 import Messages from './Messages';
 
@@ -181,7 +181,7 @@ const GameChat = (props) => {
                 </Button>
             ) : null}
             <form
-                className='shrink-0 border-t border-[color:color-mix(in_oklab,var(--border)_88%,transparent)] bg-[color:color-mix(in_oklab,var(--surface)_94%,transparent)] p-1'
+                className='shrink-0 bg-[color:color-mix(in_oklab,var(--surface)_94%,transparent)] p-1'
                 onSubmit={onSubmit}
             >
                 <Input

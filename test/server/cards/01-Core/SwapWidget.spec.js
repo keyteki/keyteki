@@ -11,7 +11,7 @@ describe('Swap Widget', function () {
         });
 
         it('should return ready Mars creature and put different Mars creature into play readied', function () {
-            this.zorg.exhausted = true;
+            this.zorg.exhaust();
             this.player1.useAction(this.swapWidget);
             expect(this.player1).toHavePrompt('Swap Widget');
             expect(this.player1).toBeAbleToSelect(this.mindwarper);
@@ -32,8 +32,8 @@ describe('Swap Widget', function () {
         });
 
         it('should not target exhausted Mars creatures', function () {
-            this.zorg.exhausted = true;
-            this.mindwarper.exhausted = true;
+            this.zorg.exhaust();
+            this.mindwarper.exhaust();
             this.player1.useAction(this.swapWidget);
             expect(this.player1).not.toBeAbleToSelect(this.zorg);
             expect(this.player1).not.toBeAbleToSelect(this.mindwarper);

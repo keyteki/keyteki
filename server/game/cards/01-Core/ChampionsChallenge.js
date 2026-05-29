@@ -37,12 +37,21 @@ class ChampionsChallenge extends Card {
                     }))
                 }
             },
-            effect: 'destroy all enemy creatures except {1}{2}{3}',
-            effectArgs: (context) => [
-                context.targets.enemy,
-                context.targets.friendly ? ' and all friendly creatures except ' : '',
-                context.targets.friendly
-            ],
+            effect: '{1}{2}{3}{4}',
+            effectArgs: (context) => {
+                const enemy = context.targets.enemy;
+                const friendly = context.targets.friendly;
+                if (!enemy && !friendly) return ['do nothing', '', '', ''];
+                if (enemy && friendly)
+                    return [
+                        'destroy all enemy creatures except ',
+                        enemy,
+                        ' and all friendly creatures except ',
+                        friendly
+                    ];
+                if (enemy) return ['destroy all enemy creatures except ', enemy, '', ''];
+                return ['destroy all friendly creatures except ', friendly, '', ''];
+            },
             then: {
                 alwaysTriggers: true,
                 condition: (context) => context.player.creaturesInPlay.length,

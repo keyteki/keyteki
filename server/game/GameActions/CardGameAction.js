@@ -136,6 +136,37 @@ class CardGameAction extends GameAction {
         );
     }
 
+    isBlockedWithoutReveal(card, context, playActions) {
+        // True only when a card-independent player-level restriction
+        // (e.g. Ember Imp's per-turn play limit) blocks the play. Such a
+        // block is determined without inspecting the card, so the card
+        // can fizzle without being revealed. Card-specific restrictions
+        // (those carrying a condition predicate that inspects the card)
+        // require the card to be revealed before the block can be known.
+        playActions =
+            playActions ||
+            card.getActions(card.location).filter((action) => action.title.includes('Play'));
+        if (playActions.length === 0) {
+            return false;
+        }
+        const actionContext = playActions[0].createContext(context.player);
+        actionContext.ignoreHouse = true;
+        if (actionContext.player.checkRestrictions('play', actionContext)) {
+            return false;
+        }
+        return context.player.effects.some((effect) => {
+            if (effect.type !== 'abilityRestrictions') {
+                return false;
+            }
+            const restriction = effect.getValue && effect.getValue(context.player);
+            return (
+                restriction &&
+                !restriction.condition &&
+                restriction.checkRestriction('play', actionContext, null, effect.context)
+            );
+        });
+    }
+
     // eslint-disable-next-line no-unused-vars
     targetsCanChangeViaSimultaneousAction(context) {
         return false;

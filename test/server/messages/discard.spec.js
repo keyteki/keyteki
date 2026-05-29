@@ -33,10 +33,7 @@ describe('Discard Messages', function () {
             this.player1.useAction(this.feedingPit);
             this.player1.clickCard(this.troll);
             expect(this.player1).isReadyToTakeAction();
-            expect(this).toHaveAllChatMessagesBe([
-                'player1 uses Feeding Pit',
-                'player1 uses Feeding Pit to discard Troll'
-            ]);
+            expect(this).toHaveAllChatMessagesBe(['player1 uses Feeding Pit to discard Troll']);
         });
     });
 
@@ -58,7 +55,7 @@ describe('Discard Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 discards Donor Vox',
-                'player1 uses Donor Vox to give Zorg two +1 power counters'
+                'player1 uses Donor Vox to place 2 +1 power counters on Zorg'
             ]);
         });
     });
@@ -81,7 +78,7 @@ describe('Discard Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Mind Barb',
-                "player1 gains an amber due to Mind Barb's bonus icon",
+                "player1 uses Mind Barb's amber bonus icon to gain 1 amber",
                 "player1 uses Mind Barb to randomly discard 1 card from player2's hand",
                 'player2 randomly discards Troll from hand'
             ]);
@@ -225,6 +222,152 @@ describe('Discard Messages', function () {
         });
     });
 
+    describe('discard bonus icons', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['anomaly-exploiter', 'dextre', 'batdrone', 'brillix-ponder']
+                },
+                player2: {}
+            });
+        });
+
+        it('should log correct message when discarding 1 card', function () {
+            this.anomalyExploiter.enhancements = ['discard'];
+            this.player1.play(this.anomalyExploiter);
+            this.player1.clickCard(this.dextre);
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Anomaly Exploiter',
+                "player1 uses Anomaly Exploiter's discard bonus icon to discard Dextre"
+            ]);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should log correct message when discarding 2 cards', function () {
+            this.anomalyExploiter.enhancements = ['discard', 'discard'];
+            this.player1.play(this.anomalyExploiter);
+            this.player1.clickCard(this.dextre);
+            this.player1.clickCard(this.batdrone);
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Anomaly Exploiter',
+                "player1 uses Anomaly Exploiter's discard bonus icon to discard Dextre",
+                "player1 uses Anomaly Exploiter's discard bonus icon to discard Batdrone"
+            ]);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should log correct message in bonus icon order', function () {
+            this.anomalyExploiter.enhancements = ['logos', 'discard', 'amber', 'discard'];
+            this.player1.play(this.anomalyExploiter);
+            this.player1.clickCard(this.dextre);
+            this.player1.clickCard(this.batdrone);
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Anomaly Exploiter',
+                "player1 uses Anomaly Exploiter's discard bonus icon to discard Dextre",
+                "player1 uses Anomaly Exploiter's amber bonus icon to gain 1 amber",
+                "player1 uses Anomaly Exploiter's discard bonus icon to discard Batdrone"
+            ]);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should log correct message when discarding triggers scrap ability', function () {
+            this.anomalyExploiter.enhancements = ['discard'];
+            this.player1.play(this.anomalyExploiter);
+            this.player1.clickCard(this.brillixPonder);
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Anomaly Exploiter',
+                "player1 uses Anomaly Exploiter's discard bonus icon to discard Brillix Ponder",
+                'player1 uses Brillix Ponder to draw 1 card',
+                'player1 draws 1 card'
+            ]);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('amphora captura replacing discard bonus icon', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['anomaly-exploiter', 'dextre'],
+                    inPlay: ['amphora-captura', 'batdrone']
+                },
+                player2: {
+                    amber: 3
+                }
+            });
+        });
+
+        it('should log correct message when discard bonus icon is replaced with capture', function () {
+            this.anomalyExploiter.enhancements = ['discard'];
+            this.player1.play(this.anomalyExploiter);
+            this.player1.clickPrompt('capture');
+            this.player1.clickCard(this.batdrone);
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Anomaly Exploiter',
+                "player1 uses Amphora Captura to resolve Anomaly Exploiter's discard bonus icon as a capture bonus icon",
+                "player1 uses Anomaly Exploiter's capture bonus icon to capture 1 amber onto Batdrone"
+            ]);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('discard hand', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: ['infernal-terran', 'ember-imp', 'shooler']
+                },
+                player2: {
+                    amber: 3
+                }
+            });
+        });
+
+        it('should log correct message when discarding hand', function () {
+            this.player1.scrap(this.infernalTerran);
+            this.player1.clickCard(this.emberImp);
+            this.player1.clickCard(this.shooler);
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 discards Infernal Terran',
+                "player1 uses Infernal Terran to discard player1's hand",
+                'player1 discards Ember Imp from hand',
+                'player1 discards Shooler from hand'
+            ]);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('discard hand with scrap draw', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: ['infernal-terran', 'brillix-ponder']
+                },
+                player2: {
+                    amber: 3
+                }
+            });
+        });
+
+        it('should log correct message when discarding hand triggers scrap ability', function () {
+            this.player1.scrap(this.infernalTerran);
+            this.player1.clickCard(this.brillixPonder);
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 discards Infernal Terran',
+                "player1 uses Infernal Terran to discard player1's hand",
+                'player1 discards Brillix Ponder from hand',
+                'player1 uses Brillix Ponder to draw 1 card',
+                'player1 draws 1 card',
+                'player1 discards Hand of Dis from hand'
+            ]);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
     describe('discard top of deck', function () {
         beforeEach(function () {
             this.setupTest({
@@ -246,9 +389,101 @@ describe('Discard Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Brine Reckoning',
-                "player1 gains an amber due to Brine Reckoning's bonus icon",
+                "player1 uses Brine Reckoning's amber bonus icon to gain 1 amber",
                 "player1 uses Brine Reckoning to discard Urchin, Urchin, Urchin, Urchin, and Urchin from the top of player1's deck",
                 "player1 uses Brine Reckoning to discard Troll, Troll, Troll, Troll, and Troll from the top of player2's deck"
+            ]);
+        });
+    });
+
+    describe('reaction with discard target (Wraith Construct)', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    hand: ['troll'],
+                    inPlay: ['wraith-construct']
+                },
+                player2: {
+                    inPlay: ['bumpsy']
+                }
+            });
+        });
+
+        it('logs a single discard message for an unconditional discard reaction', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.endTurn();
+            this.player1.clickCard(this.troll);
+            this.player1.clickPrompt('geistoid');
+            expect(this.player1).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 draws 5 cards to refill their hand to 6 cards',
+                'player1: 0 amber (0 keys) player2: 0 amber (0 keys)',
+                'player2 does not forge a key. They have 0 amber. The current cost is 6 amber',
+                'player2 chooses brobnar as their active house this turn',
+                'player2 draws 6 cards to refill their hand to 6 cards',
+                'player1: 0 amber (0 keys) player2: 0 amber (0 keys)',
+                'player1 uses Wraith Construct to discard Troll',
+                'player1 does not forge a key. They have 0 amber. The current cost is 6 amber',
+                'player1 chooses geistoid as their active house this turn'
+            ]);
+        });
+    });
+
+    describe('discard then optional follow-up (Haunting Measures)', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    hand: ['haunting-measures'],
+                    discard: ['troll', 'anger', 'krump', 'punch', 'tremor', 'pelf']
+                },
+                player2: {}
+            });
+        });
+
+        it('logs the discard and the optional return-to-hand message', function () {
+            this.player1.moveCard(this.pelf, 'deck');
+            this.player1.moveCard(this.tremor, 'deck');
+            this.player1.moveCard(this.punch, 'deck');
+            this.player1.moveCard(this.krump, 'deck');
+            this.player1.moveCard(this.anger, 'deck');
+            this.player1.moveCard(this.troll, 'deck');
+            this.player1.play(this.hauntingMeasures);
+            this.player1.clickCard(this.troll);
+            expect(this.player1).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 plays Haunting Measures',
+                "player1 uses Haunting Measures's amber bonus icon to gain 1 amber",
+                'player1 uses Haunting Measures to discard Troll, Anger, Krump, Punch, Tremor, and Pelf',
+                'player1 uses Haunting Measures to return Troll to hand'
+            ]);
+        });
+    });
+
+    describe('discard with then gain amber (Munchling)', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['eyegor'],
+                    inPlay: ['munchling']
+                },
+                player2: {
+                    inPlay: ['helper-bot']
+                }
+            });
+        });
+
+        it('logs the discard once when used in a fight', function () {
+            this.player1.fightWith(this.munchling, this.helperBot);
+            this.player1.clickCard(this.eyegor);
+            expect(this.player1).isReadyToTakeAction();
+            expect(this).toHaveAllChatMessagesBe([
+                'player1 uses Munchling to make Munchling fight Helper Bot',
+                'Helper Bot is destroyed',
+                'player1 uses Munchling to discard Eyegor'
             ]);
         });
     });

@@ -108,4 +108,128 @@ describe('Near-Future Lens', function () {
             expect(this).toHaveRecentChatMessage('player2 uses Near-Future Lens to reveal Gub');
         });
     });
+
+    describe('reveal on deck change from Cauldron', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'untamed',
+                    inPlay: ['cauldron', 'near-future-lens'],
+                    discard: ['snufflegator', 'troll']
+                },
+                player2: {}
+            });
+            this.player1.moveCard(this.troll, 'deck');
+            this.player1.moveCard(this.snufflegator, 'deck');
+        });
+
+        it('should reveal the new top card when Cauldron places top card under itself', function () {
+            this.player1.useOmni(this.cauldron);
+            expect(this.snufflegator.location).toBe('under');
+            expect(this.player1.deck[0]).toBe(this.troll);
+            expect(this.troll.getSummary(this.player2.player).facedown).toBe(false);
+            expect(this).toHaveRecentChatMessage('player1 uses Near-Future Lens to reveal Troll');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('reveal on deck change from Future Booster', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    inPlay: ['future-booster', 'near-future-lens'],
+                    discard: ['snufflegator', 'troll']
+                },
+                player2: {}
+            });
+            this.player1.moveCard(this.troll, 'deck');
+            this.player1.moveCard(this.snufflegator, 'deck');
+        });
+
+        it('should reveal the new top card when Future Booster moves the top card to the bottom', function () {
+            this.player1.useOmni(this.futureBooster);
+            this.player1.clickPrompt('snufflegator');
+            expect(this.player1.deck[0]).toBe(this.troll);
+            expect(this.troll.getSummary(this.player2.player).facedown).toBe(false);
+            expect(this).toHaveRecentChatMessage(
+                'player1 uses Near-Future Lens to reveal Troll',
+                2
+            );
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should not reveal when Future Booster leaves the top card on top', function () {
+            this.player1.useOmni(this.futureBooster);
+            this.player1.clickPrompt('Leave on top of deck');
+            expect(this.player1.deck[0]).toBe(this.snufflegator);
+            expect(this).not.toHaveRecentChatMessage(
+                'player1 uses Near-Future Lens to reveal Snufflegator'
+            );
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('reveal on deck change from Explorer', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    token: 'explorer',
+                    house: 'staralliance',
+                    hand: ['cxo-taber'],
+                    inPlay: ['explorer:anger', 'near-future-lens'],
+                    discard: ['snufflegator', 'troll']
+                },
+                player2: {}
+            });
+            this.player1.moveCard(this.troll, 'deck');
+            this.player1.moveCard(this.snufflegator, 'deck');
+        });
+
+        it('should reveal the new top card when Explorer discards the top card', function () {
+            this.player1.reap(this.explorer);
+            this.player1.clickPrompt('snufflegator');
+            expect(this.snufflegator.location).toBe('discard');
+            expect(this.player1.deck[0]).toBe(this.troll);
+            expect(this.troll.getSummary(this.player2.player).facedown).toBe(false);
+            expect(this).toHaveRecentChatMessage('player1 uses Near-Future Lens to reveal Troll');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should not reveal when Explorer leaves the top card on top', function () {
+            this.player1.reap(this.explorer);
+            this.player1.clickPrompt('Leave on top of deck');
+            expect(this.snufflegator.location).toBe('deck');
+            expect(this.player1.deck[0]).toBe(this.snufflegator);
+            expect(this).not.toHaveRecentChatMessage(
+                'player1 uses Near-Future Lens to reveal Snufflegator'
+            );
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe('reveal when a card is added to the top of the deck', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    inPlay: ['dextre', 'near-future-lens'],
+                    discard: ['snufflegator']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+            this.player1.moveCard(this.snufflegator, 'deck');
+        });
+
+        it('should reveal Dextre as the new top card when it is destroyed and returns to deck', function () {
+            this.player1.fightWith(this.dextre, this.troll);
+            expect(this.dextre.location).toBe('deck');
+            expect(this.player1.deck[0]).toBe(this.dextre);
+            expect(this.dextre.getSummary(this.player2.player).facedown).toBe(false);
+            expect(this).toHaveRecentChatMessage('player1 uses Near-Future Lens to reveal Dextre');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
