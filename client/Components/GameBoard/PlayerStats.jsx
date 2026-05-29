@@ -6,18 +6,18 @@ import { toast } from '@heroui/react';
 import classNames from 'classnames';
 import Icon from '../Icon';
 import {
+    faCogs,
+    faComment,
+    faCopy,
     faEye,
     faEyeSlash,
-    faCopy,
-    faWrench,
-    faCogs,
-    faComment
+    faMinus,
+    faPlus,
+    faWrench
 } from '@fortawesome/free-solid-svg-icons';
 
 import Avatar from '../Site/Avatar';
 import { Constants } from '../../constants';
-import Minus from '../../assets/img/Minus.png';
-import Plus from '../../assets/img/Plus.png';
 
 import Keys from './Keys';
 import IdentityCard from './IdentityCard';
@@ -85,12 +85,12 @@ const PlayerStats = ({
                 {showControls ? (
                     <a
                         href='#'
-                        className='btn-stat'
+                        className='btn-stat btn-stat--minus'
                         onClick={() => {
                             dispatch(gameSendMessage('changeStat', statToSet, -1));
                         }}
                     >
-                        <img src={Minus} title='-' alt='-' />
+                        <Icon icon={faMinus} title='-' />
                     </a>
                 ) : null}
                 <div className='stat-value'>{getStatValueOrDefault(stat)}</div>
@@ -98,12 +98,12 @@ const PlayerStats = ({
                 {showControls ? (
                     <a
                         href='#'
-                        className='btn-stat'
+                        className='btn-stat btn-stat--plus'
                         onClick={() => {
                             dispatch(gameSendMessage('changeStat', statToSet, 1));
                         }}
                     >
-                        <img src={Plus} title='+' alt='+' />
+                        <Icon icon={faPlus} title='+' />
                     </a>
                 ) : null}
             </div>
