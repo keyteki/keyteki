@@ -74,6 +74,15 @@ const PlayerStats = ({
         return stats[stat] || 0;
     };
 
+    const renderStatValue = (value) =>
+        String(value)
+            .split('')
+            .map((ch, i) => (
+                <span key={i} className='stat-digit'>
+                    {ch}
+                </span>
+            ));
+
     const getHouse = (house) => {
         let houseTitle = t(house);
         return houseTitle[0].toUpperCase() + houseTitle.slice(1);
@@ -93,7 +102,7 @@ const PlayerStats = ({
                         <img src={Minus} title='-' alt='-' />
                     </a>
                 ) : null}
-                <div className='stat-value'>{getStatValueOrDefault(stat)}</div>
+                <div className='stat-value'>{renderStatValue(getStatValueOrDefault(stat))}</div>
                 <div className={`stat-image ${stat}`} />
                 {showControls ? (
                     <a
@@ -113,7 +122,9 @@ const PlayerStats = ({
     const getKeyCost = () => {
         return (
             <div className='state' title={t('Current Key Cost')}>
-                <div className='stat-value'>{getStatValueOrDefault('keyCost')}</div>
+                <div className='stat-value'>
+                    {renderStatValue(getStatValueOrDefault('keyCost'))}
+                </div>
                 <div className='stat-image keyCost' />
             </div>
         );

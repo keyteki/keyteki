@@ -946,24 +946,61 @@ export const buildCard = async (
         }
         //tokens
         const printTokens = getCountersForCard({ ...card, tokens });
-        if (tokens) {
+        if (tokens && printTokens.length > 0) {
+            // Define the card-art region tokens are allowed to occupy. On full
+            // cards the art sits above the name banner (~y=245); on halfSize
+            // cards the rendered image is just the art.
+            const artTop = 30;
+            const artBottom = 200;
+            const artLeft = 30;
+            const artRight = 270;
+            const artWidth = artRight - artLeft;
+            const artHeight = artBottom - artTop;
+            const centerX = (artLeft + artRight) / 2;
+            const centerY = (artTop + artBottom) / 2;
+
+            const total = printTokens.length;
+            const preferredTokenWidth = 90;
+
+            // Choose (cols, rows) that maximizes the token size that fits
+            // inside the art box, capped at preferredTokenWidth. We enumerate
+            // all column counts from 1..total and pick the row count that
+            // covers all tokens, then keep the layout with the largest
+            // resulting token size (ties broken by fewer rows, then fewer
+            // cols for a more compact arrangement).
+            let cols = 1;
+            let rows = total;
+            let tokenWidth = -Infinity;
+            for (let c = 1; c <= total; c++) {
+                const r = Math.ceil(total / c);
+                const tw = Math.min(preferredTokenWidth, artWidth / c, artHeight / r);
+                if (
+                    tw > tokenWidth ||
+                    (tw === tokenWidth && (r < rows || (r === rows && c < cols)))
+                ) {
+                    cols = c;
+                    rows = r;
+                    tokenWidth = tw;
+                }
+            }
+
+            const startY = centerY - ((rows - 1) * tokenWidth) / 2;
+
             for (const [index, { name, count, fade, showValue }] of printTokens.entries()) {
                 if (!Tokens[name]) {
                     Tokens[name] = await loadImage(imageUrl(`${name}.png`));
                 }
 
+                const row = Math.floor(index / cols);
+                const colIndex = index % cols;
+                const tokensInRow = Math.min(cols, total - row * cols);
+                const rowStartX = centerX - ((tokensInRow - 1) * tokenWidth) / 2;
+                const left = rowStartX + colIndex * tokenWidth;
+                const top = startY + row * tokenWidth;
+
                 const TokenImage = new fabric.Image(Tokens[name].toCanvasElement(), imgOptions);
                 TokenImage.set({ originX: 'center', originY: 'center', opacity: fade ? 0.6 : 1 });
-                TokenImage.scaleToWidth(106);
-                let top, left;
-                const position = [50, 150, 250];
-                if (Object.keys(printTokens).length <= 2) {
-                    top = (index + 1) * 95;
-                    left = 150;
-                } else {
-                    top = (Math.floor(index / 3) + 1) * 95;
-                    left = position[index % 3];
-                }
+                TokenImage.scaleToWidth(tokenWidth);
                 TokenImage.set({
                     top,
                     left,
@@ -976,11 +1013,14 @@ export const buildCard = async (
                 });
                 canvas.add(TokenImage);
                 if (showValue) {
-                    const TokenText = new fabric.Text(count.toString(), tokenFontProps);
+                    const scale = tokenWidth / 106;
+                    const TokenText = new fabric.Text(count.toString(), {
+                        ...tokenFontProps,
+                        fontSize: 50 * scale
+                    });
                     TokenText.set({
                         top,
-                        left: left + (name === 'power' ? 4 : -1),
-                        fontSize: 50,
+                        left: left + (name === 'power' ? 4 : -1) * scale,
                         shadow: new fabric.Shadow(shadowProps)
                     });
                     canvas.add(TokenText);

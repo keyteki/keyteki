@@ -2068,6 +2068,16 @@ pre {
 .stat-value {
     font-family: Bombardier, serif;
     font-size: 1.8rem;
+    display: inline-flex;
+    align-items: baseline;
+    justify-content: center;
+}
+
+.stat-digit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 0.55em;
 }
 
 .active-player .state svg {
