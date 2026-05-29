@@ -952,6 +952,7 @@ The same rule applies to prompt titles (see [`activePromptTitle`](#using-target)
 ## Best Practices
 
 -   **Pass card objects, not `.name`** - In `messageArgs`/`effectArgs`, always pass `context.source` (the card object), never `context.source.name` (a plain string). Card objects render as hoverable links in the game log; strings render as plain text. If you need the card name in a string concatenation, split the message template into separate placeholders instead:
+
     ```javascript
     // Bad - card name is plain text, not hoverable
     messageArgs: (cards) => [context.player, context.source.name, cards]
@@ -970,6 +971,7 @@ The same rule applies to prompt titles (see [`activePromptTitle`](#using-target)
         context.player.isHaunted() ? ' and archive ' : '',
         context.player.isHaunted() ? context.source : '']
     ```
+
 -   **Show actual values, not descriptions** - Instead of "lose half their amber", show "lose 3 amber".
 -   **Guard against undefined opponents** - Use `context.player.opponent ? ... : 0` for solo play compatibility.
 -   **List affected cards** - When destroying/affecting multiple cards, list them: "({3}), gaining a total of {4} amber".

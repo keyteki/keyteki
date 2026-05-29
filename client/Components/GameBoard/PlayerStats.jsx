@@ -1,10 +1,3 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
-import { gameSendMessage } from '../../redux/socketActions';
-import { toast } from '@heroui/react';
-import classNames from 'classnames';
-import Icon from '../Icon';
 import {
     faCogs,
     faComment,
@@ -15,15 +8,22 @@ import {
     faPlus,
     faWrench
 } from '@fortawesome/free-solid-svg-icons';
+import { toast } from '@heroui/react';
+import classNames from 'classnames';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { gameSendMessage } from '../../redux/socketActions';
+import Icon from '../Icon';
 
-import Avatar from '../Site/Avatar';
 import { Constants } from '../../constants';
+import Avatar from '../Site/Avatar';
 
-import Keys from './Keys';
-import IdentityCard from './IdentityCard';
 import CardPileLink from './CardPileLink';
-import Droppable from './Droppable';
 import DrawDeck from './DrawDeck';
+import Droppable from './Droppable';
+import IdentityCard from './IdentityCard';
+import Keys from './Keys';
 
 const PlayerStats = ({
     activeHouse,
@@ -74,6 +74,15 @@ const PlayerStats = ({
         return stats[stat] || 0;
     };
 
+    const renderStatValue = (value) =>
+        String(value)
+            .split('')
+            .map((ch, i) => (
+                <span key={i} className='stat-digit'>
+                    {ch}
+                </span>
+            ));
+
     const getHouse = (house) => {
         let houseTitle = t(house);
         return houseTitle[0].toUpperCase() + houseTitle.slice(1);
@@ -93,7 +102,7 @@ const PlayerStats = ({
                         <Icon icon={faMinus} title='-' />
                     </a>
                 ) : null}
-                <div className='stat-value'>{getStatValueOrDefault(stat)}</div>
+                <div className='stat-value'>{renderStatValue(getStatValueOrDefault(stat))}</div>{' '}
                 <div className={`stat-image ${stat}`} />
                 {showControls ? (
                     <a
@@ -113,7 +122,9 @@ const PlayerStats = ({
     const getKeyCost = () => {
         return (
             <div className='state' title={t('Current Key Cost')}>
-                <div className='stat-value'>{getStatValueOrDefault('keyCost')}</div>
+                <div className='stat-value'>
+                    {renderStatValue(getStatValueOrDefault('keyCost'))}
+                </div>
                 <div className='stat-image keyCost' />
             </div>
         );
