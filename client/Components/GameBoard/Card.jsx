@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
 import classNames from 'classnames';
+import React, { useState } from 'react';
 import { useDrag } from 'react-dnd';
 
-import CardMenu from './CardMenu';
-import CardImage from './CardImage';
 import { ItemTypes } from '../../constants';
+import CardImage from './CardImage';
+import CardMenu from './CardMenu';
 import SquishableCardPanel from './SquishableCardPanel';
 
 import { useTranslation } from 'react-i18next';
