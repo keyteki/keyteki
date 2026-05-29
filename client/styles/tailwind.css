@@ -2100,15 +2100,12 @@ pre {
     stroke: black !important;
     stroke-width: 40 !important;
 }
-.btn-stat:hover {
+.btn-stat.btn-stat--plus:hover {
     background-color: #ffc107;
 }
 .btn-stat.btn-stat--minus:hover {
     background-color: #dc3545;
 }
-/* .btn-stat:focus {
-    outline: 0;
-} */
 
 .active-player .state svg {
     color: var(--foreground);
