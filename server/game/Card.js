@@ -466,7 +466,7 @@ class Card extends EffectSource {
         // the active player (who triggered the prophecy fulfillment) rather
         // than the fate card's controller, without altering context.player so
         // that card targeting (e.g. controller: 'opponent') is unaffected.
-        let wrapped = Object.assign({}, properties);
+        const wrapped = Object.assign({}, properties);
         if (wrapped.effect && !wrapped.message) {
             const origEffect = wrapped.effect;
             const origEffectArgs = wrapped.effectArgs;
@@ -476,7 +476,7 @@ class Card extends EffectSource {
                     typeof origEffectArgs === 'function'
                         ? origEffectArgs(context)
                         : origEffectArgs || [];
-                return [context.game.activePlayer, context.source, ...extra];
+                return [context.game.activePlayer, context.source, ...[].concat(extra)];
             };
             delete wrapped.effect;
             delete wrapped.effectArgs;
