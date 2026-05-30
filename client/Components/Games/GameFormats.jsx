@@ -95,19 +95,6 @@ const GameFormats = ({
                                 variant='ghost'
                                 onPress={() => {
                                     setAllExpansions(false);
-                                    for (const name of ['cota', 'aoa', 'wc', 'mm', 'dt']) {
-                                        formProps.setFieldValue(name, true);
-                                    }
-                                }}
-                            >
-                                <Trans>FFG Sets</Trans>
-                            </Button>
-                            <Button
-                                className='h-auto min-h-0 rounded-md px-2 py-1 text-xs font-medium text-muted hover:bg-[var(--table-row-hover)] hover:text-[color:var(--brand)]'
-                                size='sm'
-                                variant='ghost'
-                                onPress={() => {
-                                    setAllExpansions(false);
                                     for (const name of [
                                         'momu',
                                         'woe',
@@ -128,6 +115,19 @@ const GameFormats = ({
                                 }}
                             >
                                 <Trans>GG Sets</Trans>
+                            </Button>
+                            <Button
+                                className='h-auto min-h-0 rounded-md px-2 py-1 text-xs font-medium text-muted hover:bg-[var(--table-row-hover)] hover:text-[color:var(--brand)]'
+                                size='sm'
+                                variant='ghost'
+                                onPress={() => {
+                                    setAllExpansions(false);
+                                    for (const name of ['cota', 'aoa', 'wc', 'mm', 'dt']) {
+                                        formProps.setFieldValue(name, true);
+                                    }
+                                }}
+                            >
+                                <Trans>FFG Sets</Trans>
                             </Button>
                             <Button
                                 className='h-auto min-h-0 rounded-md px-2 py-1 text-xs font-medium text-muted hover:bg-[var(--table-row-hover)] hover:text-[color:var(--brand)]'
