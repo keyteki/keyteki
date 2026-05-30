@@ -105,7 +105,7 @@ Constants.Expansions = [
         label: 'GR',
         tideRequired: false,
         tokenRequired: false,
-        prophecySupported: true
+        prophecySupported: false
     },
     {
         id: 737,
