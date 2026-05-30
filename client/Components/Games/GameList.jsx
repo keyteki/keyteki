@@ -202,7 +202,7 @@ const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
                             const players = Object.values(game.players || {});
                             const iconClass = 'h-5 w-5 object-contain invert-[0.9]';
                             const formatStyle =
-                                gameFormatStyles[game.gameFormat] || gameFormatStyles.normal;
+                                gameFormatStyles[game.gameFormat] || gameFormatStyles.archon;
                             const formatMeta = gameFormatIconMap[game.gameFormat];
                             const rowTone =
                                 game.node && isAdmin
