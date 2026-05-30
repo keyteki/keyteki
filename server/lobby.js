@@ -749,8 +749,9 @@ class Lobby {
                     verified: true
                 };
 
-                if (!game.selectDeck(socket.user.username, deck)) {
-                    socket.emit('gameerror', 'That deck is not from an allowed expansion');
+                const selectError = game.selectDeck(socket.user.username, deck);
+                if (selectError) {
+                    socket.emit('gameerror', selectError);
                     return;
                 }
 
@@ -834,8 +835,9 @@ class Lobby {
                     deck.name = 'Alliance Deck';
                 }
 
-                if (!game.selectDeck(socket.user.username, deck)) {
-                    socket.emit('gameerror', 'That deck is not from an allowed expansion');
+                const selectError = game.selectDeck(socket.user.username, deck);
+                if (selectError) {
+                    socket.emit('gameerror', selectError);
                     return;
                 }
 

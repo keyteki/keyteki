@@ -244,7 +244,7 @@ class PendingGame {
     selectDeck(playerName, deck) {
         var player = this.getPlayerByName(playerName);
         if (!player) {
-            return false;
+            return;
         }
 
         if (this.expansions && this.gameFormat !== 'unchained') {
@@ -257,7 +257,7 @@ class PendingGame {
                 logger.info(
                     `Player ${playerName} attempted to select deck from expansion ${deck.expansion} which is not allowed`
                 );
-                return false;
+                return 'That deck is not from an allowed expansion';
             }
         }
 
@@ -267,7 +267,6 @@ class PendingGame {
 
         player.deck = deck;
         player.deck.selected = true;
-        return true;
     }
 
     // interrogators
