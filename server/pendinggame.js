@@ -16,7 +16,7 @@ class PendingGame {
         this.createdAt = new Date();
         this.expansions = details.expansions;
         this.gameChat = new GameChat(this);
-        this.gameFormat = details.gameFormat;
+        this.gameFormat = details.gameFormat === 'normal' ? 'archon' : details.gameFormat;
         this.gamePrivate = !!details.gamePrivate;
         this.gameTimeLimit = details.gameTimeLimit;
         this.gameType = details.gameType;
