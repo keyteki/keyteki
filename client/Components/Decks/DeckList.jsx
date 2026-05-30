@@ -89,9 +89,10 @@ const DeckList = ({
             const allExpansionValues = Array.isArray(expansions)
                 ? expansions.map((expansion) => expansion.value)
                 : [];
+            const isSubsetOfAll = expansions.length < Constants.Expansions.length;
             const hasPartialExpansionFilter =
                 selectedExpansionValues.length > 0 &&
-                selectedExpansionValues.length < allExpansionValues.length;
+                (selectedExpansionValues.length < allExpansionValues.length || isSubsetOfAll);
             const hasNoExpansionSelection =
                 Array.isArray(expansionValues) && expansionValues.length === 0;
 

@@ -1,17 +1,17 @@
 /**
- * @typedef {'canEditNews' | 
-    'canManageUsers' | 
-    'canManagePermissions' | 
-    'canManageGames' | 
+ * @typedef {'canEditNews' |
+    'canManageUsers' |
+    'canManagePermissions' |
+    'canManageGames' |
     'canManageNodes' |
-    'canModerateChat' | 
-    'canVerifyDecks' | 
-    'canManageBanlist' | 
-    'canManageMotd' | 
-    'canManageTournaments' | 
-    'isAdmin' | 
-    'isContributor' | 
-    'isSupporter' | 
+    'canModerateChat' |
+    'canVerifyDecks' |
+    'canManageBanlist' |
+    'canManageMotd' |
+    'canManageTournaments' |
+    'isAdmin' |
+    'isContributor' |
+    'isSupporter' |
     'isWinner'} Permission
  */
 
@@ -27,11 +27,11 @@
  */
 
 /**
- * @typedef {'normal' | 'sealed'| 'reversal' | 'adaptive-bo1'} GameFormat
+ * @typedef {'archon' | 'alliance' | 'sealed' | 'adaptive-bo1' | 'reversal' | 'unchained'} GameFormat
  */
 
 /**
- * @typedef {'casual' | 'beginner'| 'competitive' | 'adaptive-bo1'} GameType
+ * @typedef {'casual' | 'beginner'| 'competitive'} GameType
  */
 
 /**

@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Button, Checkbox, Input, Popover } from '@heroui/react';
 import Icon from '../Icon';
 import { faChevronDown, faChevronUp, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { Constants } from '../../constants';
 
 const DeckSetFilter = ({ expansions = [], selectedExpansions = [], onChange, label, t }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -17,9 +18,9 @@ const DeckSetFilter = ({ expansions = [], selectedExpansions = [], onChange, lab
         }
 
         return expansions.filter((expansion) =>
-            String(expansion.label || expansion.name || expansion.value)
-                .toLowerCase()
-                .includes(query)
+            [expansion.fullName, expansion.label, expansion.name, expansion.value]
+                .filter(Boolean)
+                .some((field) => field.toLowerCase().includes(query))
         );
     }, [expansions, search]);
 
@@ -117,7 +118,10 @@ const DeckSetFilter = ({ expansions = [], selectedExpansions = [], onChange, lab
                         <div className='max-h-56 space-y-1 overflow-y-auto pr-1'>
                             {filteredExpansions.map((expansion) => {
                                 const expansionLabel =
-                                    expansion.label || expansion.name || expansion.value;
+                                    expansion.fullName ||
+                                    expansion.label ||
+                                    expansion.name ||
+                                    expansion.value;
                                 const checked = isSetSelected(expansion.value);
 
                                 return (
@@ -132,7 +136,12 @@ const DeckSetFilter = ({ expansions = [], selectedExpansions = [], onChange, lab
                                         variant='tertiary'
                                         onChange={(isSelected) => toggleSet(expansion, isSelected)}
                                     >
-                                        <span className='text-foreground dark:text-zinc-100'>
+                                        <span className='inline-flex items-center gap-1.5 text-foreground dark:text-zinc-100'>
+                                            <img
+                                                src={Constants.DeckIconPaths[expansion.value]}
+                                                alt=''
+                                                className='h-4 w-4 object-contain'
+                                            />
                                             {expansionLabel}
                                         </span>
                                     </Checkbox>

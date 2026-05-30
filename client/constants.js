@@ -47,134 +47,172 @@ export const Constants = {
     Locales: ['de', 'en', 'es', 'fr', 'it', 'ko', 'pt', 'pl', 'th', 'zhhans', 'zhhant'],
     Expansions: [
         {
+            name: 'cota',
             value: '341',
             label: 'CotA',
+            fullName: 'Call of the Archons',
             tideRequired: false,
             tokenRequired: false,
             prophecySupported: false
         },
         {
+            name: 'aoa',
             value: '435',
             label: 'AoA',
+            fullName: 'Age of Ascension',
             tideRequired: false,
             tokenRequired: false,
             prophecySupported: false
         },
         {
+            name: 'wc',
             value: '452',
             label: 'WC',
+            fullName: 'Worlds Collide',
             tideRequired: false,
             tokenRequired: false,
             prophecySupported: false
         },
         {
+            name: 'mm',
             value: '479',
             label: 'MM',
+            fullName: 'Mass Mutation',
             tideRequired: false,
             tokenRequired: false,
             prophecySupported: false
         },
         {
+            name: 'momu',
+            value: '874',
+            label: 'MoMu',
+            fullName: 'More Mutation',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            name: 'dt',
             value: '496',
             label: 'DT',
+            fullName: 'Dark Tidings',
             tideRequired: true,
             tokenRequired: false,
             prophecySupported: false
         },
         {
+            name: 'woe',
             value: '600',
             label: 'WoE',
+            fullName: 'Winds of Exchange',
             tideRequired: false,
             tokenRequired: true,
             prophecySupported: false
         },
         {
-            value: '601',
-            label: 'UC2022',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
-            value: '609',
-            label: 'VM2023',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
+            name: 'gr',
             value: '700',
             label: 'GR',
+            fullName: 'Grim Reminders',
             tideRequired: false,
             tokenRequired: false,
             prophecySupported: false
         },
         {
-            value: '737',
-            label: 'VM2024',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
+            name: 'as',
             value: '800',
             label: 'AS',
+            fullName: 'Aember Skies',
             tideRequired: false,
             tokenRequired: false,
             prophecySupported: false
         },
         {
+            name: 'toc',
             value: '855',
             label: 'ToC',
+            fullName: 'Tokens of Change',
             tideRequired: false,
             tokenRequired: true,
             prophecySupported: false
         },
         {
-            value: '874',
-            label: 'MoMu',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
-            value: '907',
-            label: 'DISC',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
-            value: '939',
-            label: 'VM2025',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
+            name: 'pv',
             value: '886',
             label: 'PV',
+            fullName: 'Prophetic Visions',
             tideRequired: false,
             tokenRequired: false,
             prophecySupported: true
         },
         {
+            name: 'cc',
             value: '918',
             label: 'CC',
+            fullName: 'Crucible Clash',
             tideRequired: false,
             tokenRequired: false,
             prophecySupported: false
         },
         {
+            name: 'dm',
             value: '928',
             label: 'DM',
+            fullName: 'Draconian Measures',
             tideRequired: false,
             tokenRequired: false,
             prophecySupported: false
         },
         {
+            name: 'disc',
+            value: '907',
+            label: 'DISC',
+            fullName: 'Discovery',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            name: 'uc2022',
+            value: '601',
+            label: 'UC2022',
+            fullName: 'Unchained 2022',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            name: 'vm2023',
+            value: '609',
+            label: 'VM2023',
+            fullName: 'Vault Masters 2023',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            name: 'vm2024',
+            value: '737',
+            label: 'VM2024',
+            fullName: 'Vault Masters 2024',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            name: 'vm2025',
+            value: '939',
+            label: 'VM2025',
+            fullName: 'Vault Masters 2025',
+            tideRequired: false,
+            tokenRequired: false,
+            prophecySupported: false
+        },
+        {
+            name: 'vm2026',
             value: '964',
             label: 'VM2026',
+            fullName: 'Vault Masters 2026',
             tideRequired: false,
             tokenRequired: false,
             prophecySupported: false

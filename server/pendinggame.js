@@ -2,8 +2,11 @@ const { randomUUID } = require('node:crypto');
 const _ = require('underscore');
 const crypto = require('crypto');
 
+const Constants = require('./constants');
 const GameChat = require('./game/gamechat.js');
 const logger = require('./log');
+
+const expansionNameToId = Object.fromEntries(Constants.Expansions.map((e) => [e.name, e.id]));
 
 class PendingGame {
     constructor(owner, details) {
@@ -13,7 +16,7 @@ class PendingGame {
         this.createdAt = new Date();
         this.expansions = details.expansions;
         this.gameChat = new GameChat(this);
-        this.gameFormat = details.gameFormat;
+        this.gameFormat = details.gameFormat === 'normal' ? 'archon' : details.gameFormat;
         this.gamePrivate = !!details.gamePrivate;
         this.gameTimeLimit = details.gameTimeLimit;
         this.gameType = details.gameType;
@@ -244,6 +247,20 @@ class PendingGame {
             return;
         }
 
+        if (this.expansions && this.gameFormat !== 'unchained') {
+            const allowedIds = Object.entries(this.expansions)
+                .filter(([, allowed]) => allowed)
+                .map(([name]) => expansionNameToId[name])
+                .filter(Boolean);
+
+            if (allowedIds.length > 0 && !allowedIds.includes(deck.expansion)) {
+                logger.info(
+                    `Player ${playerName} attempted to select deck from expansion ${deck.expansion} which is not allowed`
+                );
+                return 'That deck is not from an allowed expansion';
+            }
+        }
+
         if (player.deck) {
             player.deck.selected = false;
         }
@@ -344,6 +361,7 @@ class PendingGame {
             allowSpectators: this.allowSpectators,
             challonge: this.challonge,
             createdAt: this.createdAt,
+            expansions: this.expansions,
             gameFormat: this.gameFormat,
             gamePrivate: this.gamePrivate,
             gameType: this.gameType,

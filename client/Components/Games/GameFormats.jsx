@@ -1,6 +1,7 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Button, Label, Switch } from '@heroui/react';
+import { Constants } from '../../constants';
 
 const GameFormats = ({
     formProps,
@@ -11,34 +12,15 @@ const GameFormats = ({
     const { t } = useTranslation();
 
     const formats = [
-        { name: 'normal', label: t('Normal') },
-        { name: 'unchained', label: t('Unchained') },
+        { name: 'archon', label: t('Archon') },
+        { name: 'alliance', label: t('Alliance') },
         { name: 'sealed', label: t('Sealed') },
-        { name: 'reversal', label: t('Reversal') },
         { name: 'adaptive-bo1', label: t('Adaptive - Best of 1') },
-        { name: 'alliance', label: t('Alliance') }
+        { name: 'reversal', label: t('Reversal') },
+        { name: 'unchained', label: t('Unchained') }
     ];
 
-    const expansions = [
-        { name: 'cota', label: t('Call of the Archons') },
-        { name: 'aoa', label: t('Age of Ascension') },
-        { name: 'wc', label: t('Worlds Collide') },
-        { name: 'mm', label: t('Mass Mutation') },
-        { name: 'dt', label: t('Dark Tidings') },
-        { name: 'woe', label: t('Winds of Exchange') },
-        { name: 'gr', label: t('Grim Reminders') },
-        { name: 'as', label: t('Aember Skies') },
-        { name: 'toc', label: t('Tokens of Change') },
-        { name: 'momu', label: t('More Mutation') },
-        { name: 'disc', label: t('Discovery') },
-        { name: 'vm2023', label: t('Vault Masters 2023') },
-        { name: 'vm2024', label: t('Vault Masters 2024') },
-        { name: 'vm2025', label: t('Vault Masters 2025') },
-        { name: 'vm2026', label: t('Vault Masters 2026') },
-        { name: 'pv', label: t('Prophetic Visions') },
-        { name: 'cc', label: t('Crucible Clash') },
-        { name: 'dm', label: t('Draconian Measures') }
-    ];
+    const expansions = Constants.Expansions.filter((e) => e.name !== 'uc2022');
     const expansionNames = expansions.map((expansion) => expansion.name);
 
     const setAllExpansions = (nextValue) => {
@@ -52,7 +34,7 @@ const GameFormats = ({
             {showGameMode && (
                 <div>
                     <div className='mb-1 text-sm font-semibold text-foreground'>
-                        <Trans>Game mode</Trans>
+                        <Trans>Game format</Trans>
                     </div>
                     <div className='grid gap-x-3.5 gap-y-1 sm:grid-cols-2 lg:grid-cols-3'>
                         {formats.map((format) => (
@@ -81,7 +63,7 @@ const GameFormats = ({
                 </div>
             )}
 
-            {showAllowedSets && formProps.values.gameFormat === 'sealed' && (
+            {showAllowedSets && formProps.values.gameFormat !== 'unchained' && (
                 <div>
                     <div
                         className={`mb-0.5 ${
@@ -92,10 +74,12 @@ const GameFormats = ({
                     >
                         <Trans>Allowed sets</Trans>
                     </div>
+                    {formProps.errors.allowedSets ? (
+                        <div className='mt-0.5 mb-1 text-xs text-red-300'>
+                            {formProps.errors.allowedSets}
+                        </div>
+                    ) : null}
                     <div className='mb-1.5 flex items-center justify-between gap-3'>
-                        <p className='text-xs leading-tight text-foreground/80'>
-                            <Trans>Select which sets can be used for sealed decks.</Trans>
-                        </p>
                         <div className='flex items-center gap-2'>
                             <Button
                                 className='h-auto min-h-0 rounded-md px-2 py-1 text-xs font-medium text-muted hover:bg-[var(--table-row-hover)] hover:text-[color:var(--brand)]'
@@ -109,19 +93,68 @@ const GameFormats = ({
                                 className='h-auto min-h-0 rounded-md px-2 py-1 text-xs font-medium text-muted hover:bg-[var(--table-row-hover)] hover:text-[color:var(--brand)]'
                                 size='sm'
                                 variant='ghost'
+                                onPress={() => {
+                                    setAllExpansions(false);
+                                    for (const name of [
+                                        'momu',
+                                        'woe',
+                                        'gr',
+                                        'as',
+                                        'toc',
+                                        'pv',
+                                        'cc',
+                                        'dm',
+                                        'disc',
+                                        'vm2023',
+                                        'vm2024',
+                                        'vm2025',
+                                        'vm2026'
+                                    ]) {
+                                        formProps.setFieldValue(name, true);
+                                    }
+                                }}
+                            >
+                                <Trans>GG Sets</Trans>
+                            </Button>
+                            <Button
+                                className='h-auto min-h-0 rounded-md px-2 py-1 text-xs font-medium text-muted hover:bg-[var(--table-row-hover)] hover:text-[color:var(--brand)]'
+                                size='sm'
+                                variant='ghost'
+                                onPress={() => {
+                                    setAllExpansions(false);
+                                    for (const name of ['cota', 'aoa', 'wc', 'mm', 'dt']) {
+                                        formProps.setFieldValue(name, true);
+                                    }
+                                }}
+                            >
+                                <Trans>FFG Sets</Trans>
+                            </Button>
+                            <Button
+                                className='h-auto min-h-0 rounded-md px-2 py-1 text-xs font-medium text-muted hover:bg-[var(--table-row-hover)] hover:text-[color:var(--brand)]'
+                                size='sm'
+                                variant='ghost'
                                 onPress={() => setAllExpansions(false)}
                             >
                                 <Trans>Clear all</Trans>
                             </Button>
                         </div>
                     </div>
-                    <div className='grid gap-x-2 gap-y-1.5 sm:grid-cols-2 lg:grid-cols-4'>
+                    <div className='columns-1 gap-x-2 space-y-1.5 sm:columns-2 lg:columns-4'>
                         {expansions.map((expansion) => (
                             <div
                                 key={expansion.name}
-                                className='flex items-center justify-between gap-2 rounded-md bg-surface-secondary/70 px-3 py-0.5'
+                                className='break-inside-avoid flex items-center justify-between gap-2 rounded-md bg-surface-secondary/70 px-3 py-0.5'
                             >
-                                <Label className='text-sm text-foreground'>{expansion.label}</Label>
+                                <span className='flex items-center gap-1.5'>
+                                    <img
+                                        src={Constants.DeckIconPaths[expansion.value]}
+                                        alt=''
+                                        className='h-5 w-5 object-contain'
+                                    />
+                                    <Label className='text-sm text-foreground'>
+                                        {t(expansion.fullName)}
+                                    </Label>
+                                </span>
                                 <Switch
                                     id={expansion.name}
                                     name={expansion.name}

@@ -42,7 +42,7 @@ const createMockLobbyGames = () => {
         allowSpectators: true,
         createdAt: new Date(Date.now() - 1000 * 60 * 9).toISOString(),
         full: false,
-        gameFormat: 'normal',
+        gameFormat: 'archon',
         gamePrivate: false,
         gameType: 'casual',
         id: `mock-${Math.random().toString(36).slice(2, 10)}`,
@@ -72,9 +72,9 @@ const createMockLobbyGames = () => {
     return [
         withDemoNode(
             makeGame({
-                gameFormat: 'normal',
+                gameFormat: 'archon',
                 gameType: 'beginner',
-                name: 'Beginner Open Normal',
+                name: 'Beginner Open Archon',
                 players: { admin: mockPlayers.admin }
             })
         ),
@@ -125,7 +125,7 @@ const createMockLobbyGames = () => {
         ),
         withDemoNode(
             makeGame({
-                gameFormat: 'normal',
+                gameFormat: 'archon',
                 gameType: 'casual',
                 name: 'Everything On',
                 needsPassword: true,
@@ -146,11 +146,11 @@ const GameLobby = ({ gameId }) => {
             { name: 'beginner', label: t('Beginner') },
             { name: 'casual', label: t('Casual') },
             { name: 'competitive', label: t('Competitive') },
-            { name: 'normal', label: t('Normal') },
-            { name: 'sealed', label: t('Sealed') },
-            { name: 'reversal', label: t('Reversal') },
-            { name: 'adaptive-bo1', label: t('Adaptive (Bo1)') },
+            { name: 'archon', label: t('Archon') },
             { name: 'alliance', label: t('Alliance') },
+            { name: 'sealed', label: t('Sealed') },
+            { name: 'adaptive-bo1', label: t('Adaptive (Bo1)') },
+            { name: 'reversal', label: t('Reversal') },
             { name: 'unchained', label: t('Unchained') }
         ],
         [t]

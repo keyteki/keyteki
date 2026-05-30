@@ -749,7 +749,11 @@ class Lobby {
                     verified: true
                 };
 
-                game.selectDeck(socket.user.username, deck);
+                const selectError = game.selectDeck(socket.user.username, deck);
+                if (selectError) {
+                    socket.emit('gameerror', selectError);
+                    return;
+                }
 
                 this.sendGameState(game);
             })
@@ -831,7 +835,11 @@ class Lobby {
                     deck.name = 'Alliance Deck';
                 }
 
-                game.selectDeck(socket.user.username, deck);
+                const selectError = game.selectDeck(socket.user.username, deck);
+                if (selectError) {
+                    socket.emit('gameerror', selectError);
+                    return;
+                }
 
                 this.sendGameState(game);
             })
