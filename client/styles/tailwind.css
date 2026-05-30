@@ -2077,6 +2077,7 @@ pre {
     align-items: center;
     justify-content: center;
     width: 0.55em;
+    padding: 0;
 }
 
 .btn-stat {
