@@ -248,4 +248,47 @@ describe('Gargantodon', function () {
             });
         });
     });
+
+    describe("Gargantodon's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 13,
+                    house: 'staralliance',
+                    hand: ['essence-entangler'],
+                    inPlay: ['gargantodon']
+                },
+                player2: {
+                    inPlay: ['dodger', 'urchin'],
+                    hand: ['too-much-to-protect']
+                }
+            });
+        });
+
+        it('replaces mass steal simultaneously', function () {
+            this.player1.playUpgrade(this.essenceEntangler, this.dodger);
+            expect(this.player1.amber).toBe(14);
+            this.player1.endTurn();
+            this.player2.clickPrompt('Shadows');
+
+            // Steal 8 into capture without being forced to capture onto Urchin
+            this.player2.play(this.tooMuchToProtect);
+            expect(this.player2).toBeAbleToSelect(this.dodger);
+            this.player2.clickCard(this.dodger);
+            this.player2.clickCard(this.dodger);
+            this.player2.clickCard(this.dodger);
+            this.player2.clickCard(this.dodger);
+            this.player2.clickCard(this.dodger);
+            this.player2.clickCard(this.dodger);
+            this.player2.clickCard(this.dodger);
+            this.player2.clickCard(this.dodger);
+            expect(this.player2).isReadyToTakeAction();
+
+            expect(this.dodger.amber).toBe(0);
+            expect(this.urchin.amber).toBe(0);
+            expect(this.dodger.location).toBe('discard');
+            expect(this.player1.amber).toBe(14);
+            expect(this.player2.amber).toBe(1);
+        });
+    });
 });
