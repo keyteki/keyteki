@@ -5,6 +5,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
 
+import { Constants } from '../../constants';
 import { lobbyActions } from '../../redux/slices/lobbySlice';
 import { lobbySendMessage } from '../../redux/socketActions';
 import Panel from '../Site/Panel';
@@ -67,12 +68,14 @@ const NewGame = ({
         password: '',
         requirePassword: false,
         allowSpectators: true,
-        gameFormat: 'normal',
+        gameFormat: 'archon',
         gameType: defaultGameType || 'casual',
         useGameTimeLimit: !!defaultTimeLimit,
         gameTimeLimit: defaultTimeLimit || 45,
         gamePrivate: defaultPrivate,
-        pv: true
+        ...Object.fromEntries(
+            Constants.Expansions.filter((e) => e.name !== 'uc2022').map((e) => [e.name, true])
+        )
     };
 
     if (!lobbySocket) {
@@ -161,7 +164,7 @@ const NewGame = ({
                             }
 
                             if (
-                                formProps.values.gameFormat === 'sealed' &&
+                                formProps.values.gameFormat !== 'unchained' &&
                                 !formProps.values.aoa &&
                                 !formProps.values.cota &&
                                 !formProps.values.wc &&
@@ -182,7 +185,7 @@ const NewGame = ({
                                 !formProps.values.dm
                             ) {
                                 formProps.setFieldError(
-                                    'gameFormat',
+                                    'allowedSets',
                                     t('You must select at least one expansion')
                                 );
 
@@ -195,7 +198,7 @@ const NewGame = ({
                         {quickJoin && (
                             <div className='rounded-md border border-border/45 bg-surface-secondary/32 px-3 py-1.5 text-xs text-muted'>
                                 <Trans>
-                                    Choose a game mode and type. We&apos;ll match you to an open
+                                    Choose a game format and type. We&apos;ll match you to an open
                                     game or create one with default options.
                                 </Trans>
                             </div>

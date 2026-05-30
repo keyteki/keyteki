@@ -2,8 +2,11 @@ const { randomUUID } = require('node:crypto');
 const _ = require('underscore');
 const crypto = require('crypto');
 
+const Constants = require('./constants');
 const GameChat = require('./game/gamechat.js');
 const logger = require('./log');
+
+const expansionNameToId = Object.fromEntries(Constants.Expansions.map((e) => [e.name, e.id]));
 
 class PendingGame {
     constructor(owner, details) {
@@ -244,6 +247,20 @@ class PendingGame {
             return;
         }
 
+        if (this.expansions && this.gameFormat !== 'unchained') {
+            const allowedIds = Object.entries(this.expansions)
+                .filter(([, allowed]) => allowed)
+                .map(([name]) => expansionNameToId[name])
+                .filter(Boolean);
+
+            if (allowedIds.length > 0 && !allowedIds.includes(deck.expansion)) {
+                logger.info(
+                    `Player ${playerName} attempted to select deck from expansion ${deck.expansion} which is not allowed`
+                );
+                return;
+            }
+        }
+
         if (player.deck) {
             player.deck.selected = false;
         }
@@ -344,6 +361,7 @@ class PendingGame {
             allowSpectators: this.allowSpectators,
             challonge: this.challonge,
             createdAt: this.createdAt,
+            expansions: this.expansions,
             gameFormat: this.gameFormat,
             gamePrivate: this.gamePrivate,
             gameType: this.gameType,

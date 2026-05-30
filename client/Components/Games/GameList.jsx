@@ -9,6 +9,7 @@ import { faLock, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import Avatar from '../Site/Avatar';
 import AlertPanel from '../Site/AlertPanel';
+import { Constants } from '../../constants';
 import { lobbyActions } from '../../redux/slices/lobbySlice';
 import TimeLimitIcon from '../../assets/img/Timelimit.png';
 import ShowHandIcon from '../../assets/img/ShowHandIcon.png';
@@ -27,18 +28,18 @@ const typeBadgeClass = {
 };
 
 const gameFormatIcons = [
-    ['sealed', { src: SealedIcon, title: 'Sealed game format', noInvert: false }],
     ['alliance', { src: AllianceIcon, title: 'Alliance game format', noInvert: true }],
-    ['reversal', { src: ReversalIcon, title: 'Reversal game format', noInvert: false }],
+    ['sealed', { src: SealedIcon, title: 'Sealed game format', noInvert: false }],
     [
         'adaptive-bo1',
         { src: AdaptiveIcon, title: 'Adaptive (Best of 1) game format', noInvert: false }
     ],
+    ['reversal', { src: ReversalIcon, title: 'Reversal game format', noInvert: false }],
     ['unchained', { src: UnchainedIcon, title: 'Unchained game format', noInvert: false }]
 ];
 
 const gameFormatStyles = {
-    normal: {
+    archon: {
         pillClass: 'bg-surface/55 text-foreground/85 border-border/70',
         iconClass: 'invert-[0.72]'
     },
@@ -240,6 +241,26 @@ const GameList = ({ gameFilter = {}, games = [], onJoinOrWatchClick }) => {
                                                     ) : null}
                                                     {t(game.gameFormat)}
                                                 </span>
+                                                {game.expansions &&
+                                                Object.values(game.expansions).some((v) => !v) ? (
+                                                    <span className='inline-flex items-center gap-0.5 rounded-sm border border-border/50 bg-surface-secondary/55 px-1 py-0.5'>
+                                                        {Constants.Expansions.filter(
+                                                            (e) =>
+                                                                e.name !== 'uc2022' &&
+                                                                game.expansions[e.name]
+                                                        ).map((e) => (
+                                                            <img
+                                                                key={e.value}
+                                                                src={
+                                                                    Constants.DeckIconPaths[e.value]
+                                                                }
+                                                                className='h-4 w-4 object-contain'
+                                                                alt={e.label}
+                                                                title={e.fullName}
+                                                            />
+                                                        ))}
+                                                    </span>
+                                                ) : null}
                                                 {game.gamePrivate && isAdmin ? (
                                                     <span className='rounded-sm border border-border/70 bg-overlay/80 px-1.5 py-0.5 text-xs uppercase tracking-wide text-muted'>
                                                         Private

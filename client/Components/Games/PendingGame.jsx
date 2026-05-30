@@ -126,6 +126,9 @@ const PendingGame = () => {
         expansions = Constants.Expansions.filter((e) => e.value === '601');
     } else {
         expansions = Constants.Expansions.filter((e) => e.value !== '601');
+        if (currentGame.expansions) {
+            expansions = expansions.filter((e) => currentGame.expansions[e.name]);
+        }
     }
 
     deckFilter.expansion = expansions;
@@ -328,6 +331,22 @@ const PendingGame = () => {
                         <span className='rounded-md border border-border/60 bg-surface-secondary/42 px-2 py-0.5 text-xs text-foreground/75'>
                             {formatLabel(currentGame.gameType)}
                         </span>
+                        {currentGame.expansions &&
+                            Object.values(currentGame.expansions).some((v) => !v) && (
+                                <span className='inline-flex items-center gap-0.5 rounded-md border border-border/60 bg-surface-secondary/42 px-1.5 py-0.5'>
+                                    {Constants.Expansions.filter(
+                                        (e) => e.name !== 'uc2022' && currentGame.expansions[e.name]
+                                    ).map((e) => (
+                                        <img
+                                            key={e.value}
+                                            src={Constants.DeckIconPaths[e.value]}
+                                            className='h-4 w-4 object-contain'
+                                            alt={e.label}
+                                            title={e.fullName}
+                                        />
+                                    ))}
+                                </span>
+                            )}
                         <span className='rounded-md border border-border/60 bg-surface-secondary/42 px-2 py-0.5 text-xs text-foreground/75'>
                             {t('{{players}} / 2 players', { players: playerCountInGame })}
                         </span>
