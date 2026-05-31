@@ -20,14 +20,7 @@ class FadingApparition extends Card {
                 cardCondition: (card) => card.amber > 0,
                 gameAction: ability.actions.removeAmber({ amount: 1 })
             },
-            effect: 'take 1 amber from {0} instead of the common supply',
-            gameAction: ability.actions.sequential([
-                ability.actions.changeEvent((context) => ({
-                    event: context.event,
-                    amount: 0
-                })),
-                ability.actions.gainAmber()
-            ])
+            effect: 'take 1 amber from {0} instead of the common supply'
         });
     }
 }

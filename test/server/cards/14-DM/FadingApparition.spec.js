@@ -79,7 +79,7 @@ describe('Fading Apparition', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('replaces the reap gain (transfers amber from creature to player) rather than removing it after', function () {
+        it('removes amber from a creature while the reap gain still resolves normally', function () {
             this.fadingApparition.exhaust();
             this.boiler.amber = 1;
             this.player1.reap(this.jahneerie);
@@ -167,6 +167,48 @@ describe('Fading Apparition', function () {
             expect(this.player2).not.toBeAbleToSelect(this.boiler);
             expect(this.player2).isReadyToTakeAction();
             expect(this.boiler.amber).toBe(2);
+            expect(this.player2.amber).toBe(1);
+        });
+    });
+
+    describe("Fading Apparition's ability with reap amber abilities", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    inPlay: ['widespread-corruption', 'dodger']
+                },
+                player2: {
+                    inPlay: ['fading-apparition', 'boiler', 'jahneerie']
+                }
+            });
+        });
+
+        it('does trigger Widespread corruption when taking from friendly creatures', function () {
+            this.fadingApparition.exhaust();
+            this.boiler.amber = 2;
+            this.player1.endTurn();
+            this.player2.clickPrompt('Geistoid');
+            this.player2.reap(this.boiler);
+            this.player2.clickCard(this.boiler); // Fading Apparition
+            this.player2.clickCard(this.dodger); // Widespread Corruption
+            expect(this.player2).isReadyToTakeAction();
+            expect(this.boiler.amber).toBe(0);
+            expect(this.dodger.amber).toBe(1);
+            expect(this.player2.amber).toBe(1);
+        });
+
+        it('does trigger Widespread corruption when taking from common supply', function () {
+            this.fadingApparition.exhaust();
+            this.boiler.amber = 2;
+            this.player1.endTurn();
+            this.player2.clickPrompt('Geistoid');
+            this.player2.reap(this.boiler);
+            this.player2.clickPrompt('Done'); // Fading Apparition
+            this.player2.clickCard(this.dodger); // Widespread Corruption
+            expect(this.player2).isReadyToTakeAction();
+            expect(this.boiler.amber).toBe(1);
+            expect(this.dodger.amber).toBe(1);
             expect(this.player2.amber).toBe(1);
         });
     });
