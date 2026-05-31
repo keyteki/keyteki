@@ -4,12 +4,21 @@ describe('Fading Apparition', function () {
             this.setupTest({
                 player1: {
                     house: 'geistoid',
-                    inPlay: ['fading-apparition', 'boiler', 'jahneerie']
+                    inPlay: [
+                        'fading-apparition',
+                        'boiler',
+                        'jahneerie',
+                        'ælbia-stray',
+                        'precocious-fragment'
+                    ],
+                    hand: ['moon-light-special', 'poltergeistoids'],
+                    discard: new Array(10).fill('aurascope')
                 },
                 player2: {
                     inPlay: ['troll']
                 }
             });
+            this.player1.makeMaverick(this.moonLightSpecial, 'geistoid');
         });
 
         it('prompts to redirect when a friendly creature reaps while Fading Apparition is exhausted', function () {
@@ -87,40 +96,20 @@ describe('Fading Apparition', function () {
         });
 
         it('prompts before the reap event resolves so chosen amber is moved before after-reap reactions fire', function () {
-            // Construct a scenario: the chosen creature is also an after-reap trigger source.
-            // The replacement must happen first so the amber is already moved when the
-            // after-reap window opens. With the old reaction-based implementation, ordering
-            // could be exploited to destroy/move the source creature before its amber was
-            // taken, double-dipping.
-            this.fadingApparition.exhaust();
             this.boiler.amber = 1;
-            this.player1.reap(this.jahneerie);
-            // At the prompt time, the reap's gain handler has not yet executed.
-            expect(this.player1.amber).toBe(0);
-            expect(this.boiler.amber).toBe(1);
-            expect(this.player1).toHavePrompt('Fading Apparition');
+            this.player2.amber = 1;
+            this.player1.moveCard(this.jahneerie, 'hand');
+            this.fadingApparition.exhaust();
+            this.player1.reap(this.ælbiaStray);
+            expect(this.player1).toBeAbleToSelect(this.boiler);
+            expect(this.ælbiaStray.amber).toBe(0);
+            expect(this.player1).not.toBeAbleToSelect(this.ælbiaStray);
             this.player1.clickCard(this.boiler);
-            // After clicking, the replacement runs and the reap event resolves with the
-            // replaced handler. The boiler's amber is now on the player and any subsequent
-            // after-reap reactions would observe boiler.amber === 0.
-            expect(this.boiler.amber).toBe(0);
             expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(0);
+            expect(this.boiler.amber).toBe(0);
+            expect(this.ælbiaStray.amber).toBe(1);
             expect(this.player1).isReadyToTakeAction();
-        });
-    });
-
-    describe("Fading Apparition's reaction does not trigger on enemy reaps", function () {
-        beforeEach(function () {
-            this.setupTest({
-                player1: {
-                    house: 'geistoid',
-                    inPlay: ['fading-apparition', 'boiler']
-                },
-                player2: {
-                    house: 'brobnar',
-                    inPlay: ['troll']
-                }
-            });
         });
 
         it('does nothing when an enemy creature reaps while Fading Apparition is exhausted', function () {
@@ -133,6 +122,52 @@ describe('Fading Apparition', function () {
             expect(this.boiler.amber).toBe(2);
             expect(this.player2.amber).toBe(1);
             expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('does not trigger from actions that gain amber', function () {
+            this.fadingApparition.exhaust();
+            this.boiler.amber = 2;
+            this.player1.play(this.moonLightSpecial);
+            expect(this.boiler.amber).toBe(2);
+            expect(this.player1.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('does not trigger from after reap abilities', function () {
+            this.fadingApparition.exhaust();
+            this.boiler.amber = 2;
+            this.player1.reap(this.precociousFragment);
+            this.player1.clickCard(this.boiler);
+            expect(this.boiler.amber).toBe(1);
+            expect(this.player1.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe("Fading Apparition's ability while blanked", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'ekwidon',
+                    hand: ['fortune-reverser']
+                },
+                player2: {
+                    inPlay: ['fading-apparition', 'boiler', 'jahneerie']
+                }
+            });
+        });
+
+        it('does not trigger when blanked by Fortune Reverser', function () {
+            this.fadingApparition.exhaust();
+            this.boiler.amber = 2;
+            this.player1.playUpgrade(this.fortuneReverser, this.fadingApparition);
+            this.player1.endTurn();
+            this.player2.clickPrompt('Geistoid');
+            this.player2.reap(this.jahneerie);
+            expect(this.player2).not.toBeAbleToSelect(this.boiler);
+            expect(this.player2).isReadyToTakeAction();
+            expect(this.boiler.amber).toBe(2);
+            expect(this.player2.amber).toBe(1);
         });
     });
 });
