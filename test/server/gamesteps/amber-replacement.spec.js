@@ -17,6 +17,11 @@
  *   + Dimension Door:    steal 1 amber from opponent's pool to player's pool
  *   + Ether Spider:      capture 1 amber from opponent's pool onto Ether Spider
  *
+ * Relevant FAQs:
+ * - [Dimension Door and Sir Marrows](https://www.archonarcana.com/wiki/Dimension_Door)
+ * - [Gargantodon and Discombobulator](https://www.archonarcana.com/wiki/Gargantodon)
+ * - [Po's Pixies and Nerve Blast](https://www.archonarcana.com/wiki/Po%E2%80%99s_Pixies)
+ *
  * The tests below cover each path in the diagram in order, where each
  * arrow (►) is a replacement. Book of Malefaction and Kretchee are included
  * in the tests as indicators for detecting whether steal or capture happened.
