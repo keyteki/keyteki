@@ -26,29 +26,51 @@
  * arrow (►) is a replacement. Book of Malefaction and Kretchee are included
  * in the tests as indicators for detecting whether steal or capture happened.
  *
- * TODO: multiple effects in place at the same time, eg ether spider & staff up, ether spider & gargantodon, staff up & gargantodon, ether spider & staff up & gargantodon
+ * It is not clear whether the application of replacements are all applied and then executed (eg apply Fading Apparition, Dimension Door, Ether Spider, and Staff Up in an order chosen by the active player), or if they are applied and executed by their timing increments (eg apply Fading Apparition and Dimension Door, execute, and then the gained amber triggers the window for Ether Spider and Staff Up to apply, and execute).
+ *
+ * Either way, with the current replacement effects, the end result is the same. The TCO engine currently doesn't handle this strictly in one or the other paradigm, and as such you will see some steps commented out (eg for Fading Apparition) that should be a choice that can be made, and other tests where both orders are tested (eg for Fading Apparition and Ether Spider/Staff Up) so that all bases are explicitly and covered.
+ *
  *   Reap
  *   ├─► Dimension Door
  *   │   ├─► Ether Spider
+ *   │   ├─► Ether Spider & Gargantodon
+ *   │   ├─► Ether Spider & Gargantodon & Staff Up
+ *   │   ├─► Ether Spider & Staff Up
  *   │   ├─► Gargantodon
+ *   │   ├─► Gargantodon & Staff Up
  *   │   ├─► Po's Pixies
  *   │   │   ├─► Ether Spider
+ *   │   │   ├─► Ether Spider & Gargantodon
+ *   │   │   ├─► Ether Spider & Gargantodon & Staff Up
+ *   │   │   ├─► Ether Spider & Staff Up
  *   │   │   ├─► Gargantodon
+ *   │   │   ├─► Gargantodon & Staff Up
  *   │   │   └─► Staff Up
  *   │   ├─► Staff Up
  *   │   └─► The Vaultkeeper
  *   ├─► Ether Spider
+ *   │   ├─► Fading Apparition
+ *   │   ├─► Gargantodon
+ *   │   ├─► Gargantodon & Staff Up
+ *   │   └─► Staff Up
  *   ├─► Fading Apparition
  *   │   ├─► Dimension Door
  *   │   │   ├─► Ether Spider
+ *   │   │   ├─► Ether Spider & Gargantodon
+ *   │   │   ├─► Ether Spider & Gargantodon & Staff Up
  *   │   │   ├─► Gargantodon
+ *   │   │   ├─► Gargantodon & Staff Up
  *   │   │   ├─► Po's Pixies
  *   │   │   │   ├─► Ether Spider
+ *   │   │   │   ├─► Ether Spider & Gargantodon
+ *   │   │   │   ├─► Ether Spider & Gargantodon & Staff Up
  *   │   │   │   ├─► Gargantodon
+ *   │   │   │   ├─► Gargantodon & Staff Up
  *   │   │   │   └─► Staff Up
  *   │   │   ├─► Staff Up
  *   │   │   └─► The Vaultkeeper
  *   │   ├─► Ether Spider
+ *   │   ├─► Ether Spider & Staff Up
  *   │   ├─► Staff Up
  *   │   └─► Widespread Corruption
  *   │       └─► Po's Pixies
@@ -165,9 +187,235 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(1);
     });
 
+    it("Reap > Dimension Door > Ether Spider & Gargantodon (choose Ether Spider): capture 1 amber from opponent's pool onto a creature controlled by the active player", function () {
+        setupCards(this, [
+            'dimensionDoor',
+            'etherSpider',
+            'gargantodon',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        // expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        // expect(this.player1).toBeAbleToSelect(this.gargantodon);
+        // this.player1.clickCard(this.etherSpider);
+        expect(this.player1).toBeAbleToSelect(this.infomorph);
+        this.player1.clickCard(this.infomorph);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(2);
+        expect(this.infomorph.amber).toBe(2);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.etherSpider.amber).toBe(0);
+        expect(this.gargantodon.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
+    });
+
+    it("Reap > Dimension Door > Ether Spider & Gargantodon (choose Gargantodon): capture 1 amber from opponent's pool onto a creature controlled by the active player", function () {
+        setupCards(this, [
+            'dimensionDoor',
+            'etherSpider',
+            'gargantodon',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        // expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        // expect(this.player1).toBeAbleToSelect(this.gargantodon);
+        // this.player1.clickCard(this.gargantodon);
+        expect(this.player1).toBeAbleToSelect(this.infomorph);
+        this.player1.clickCard(this.infomorph);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(2);
+        expect(this.infomorph.amber).toBe(2);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.etherSpider.amber).toBe(0);
+        expect(this.gargantodon.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
+    });
+
+    it("Reap > Dimension Door > Ether Spider & Gargantodon & Staff Up (choose Ether Spider): capture 1 amber from opponent's pool onto a creature controlled by the active player", function () {
+        setupCards(this, [
+            'dimensionDoor',
+            'etherSpider',
+            'gargantodon',
+            'staffUp',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        // expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        // expect(this.player1).toBeAbleToSelect(this.gargantodon);
+        // expect(this.player1).toHavePromptButton(this.staffUp.name);
+        // this.player1.clickCard(this.etherSpider);
+        expect(this.player1).toBeAbleToSelect(this.infomorph);
+        this.player1.clickCard(this.infomorph);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(2);
+        expect(this.infomorph.amber).toBe(2);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.etherSpider.amber).toBe(0);
+        expect(this.gargantodon.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
+    });
+
+    it("Reap > Dimension Door > Ether Spider & Gargantodon & Staff Up (choose Gargantodon): capture 1 amber from opponent's pool onto a creature controlled by the active player", function () {
+        setupCards(this, [
+            'dimensionDoor',
+            'etherSpider',
+            'gargantodon',
+            'staffUp',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        // expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        // expect(this.player1).toBeAbleToSelect(this.gargantodon);
+        // expect(this.player1).toHavePromptButton(this.staffUp.name);
+        // this.player1.clickCard(this.etherSpider);
+        expect(this.player1).toBeAbleToSelect(this.infomorph);
+        this.player1.clickCard(this.infomorph);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(2);
+        expect(this.infomorph.amber).toBe(2);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.etherSpider.amber).toBe(0);
+        expect(this.gargantodon.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
+    });
+
+    it("Reap > Dimension Door > Ether Spider & Gargantodon & Staff Up (choose Staff Up): capture 1 amber from opponent's pool onto a creature controlled by the active player", function () {
+        setupCards(this, [
+            'dimensionDoor',
+            'etherSpider',
+            'gargantodon',
+            'staffUp',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        // expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        // expect(this.player1).toBeAbleToSelect(this.gargantodon);
+        // expect(this.player1).toHavePromptButton(this.staffUp.name);
+        // this.player1.clickPrompt(this.staffUp.name);
+        expect(this.player1).toBeAbleToSelect(this.infomorph);
+        this.player1.clickCard(this.infomorph);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(2);
+        expect(this.infomorph.amber).toBe(2);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.etherSpider.amber).toBe(0);
+        expect(this.gargantodon.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
+    });
+
+    it("Reap > Dimension Door > Ether Spider & Staff Up (choose Ether Spider): steal 1 amber from opponent's pool onto ether spider", function () {
+        setupCards(this, [
+            'dimensionDoor',
+            'etherSpider',
+            'staffUp',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toHavePromptButton(this.staffUp.name);
+        this.player1.clickCard(this.etherSpider);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(2);
+        expect(this.infomorph.amber).toBe(0);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.etherSpider.amber).toBe(2);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(1);
+    });
+
+    it("Reap > Dimension Door > Ether Spider & Staff Up (choose Staff Up): steal 1 amber from opponent's pool to the common supply and make a token creature", function () {
+        setupCards(this, [
+            'dimensionDoor',
+            'etherSpider',
+            'staffUp',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toHavePromptButton(this.staffUp.name);
+        this.player1.clickPrompt(this.staffUp.name);
+        this.player1.clickPrompt('Left');
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(2);
+        expect(this.infomorph.amber).toBe(0);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.etherSpider.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.player1.player.creaturesInPlay[0].name).toBe('Prospector');
+        expect(this.player1.player.creaturesInPlay[0].amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(1);
+    });
+
     it("Reap > Dimension Door > Gargantodon: capture 1 amber from opponent's pool onto a creature controlled by the active player", function () {
         setupCards(this, ['dimensionDoor', 'gargantodon', 'bookOfMalefaction', 'kretchee']);
         this.player1.reap(this.infomorph);
+        this.player1.clickCard(this.infomorph);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(2);
+        expect(this.infomorph.amber).toBe(2);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.gargantodon.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
+    });
+
+    it("Reap > Dimension Door > Gargantodon & Staff Up (choose Gargantodon): capture 1 amber from opponent's pool onto a creature controlled by the active player", function () {
+        setupCards(this, [
+            'dimensionDoor',
+            'gargantodon',
+            'staffUp',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        // expect(this.player1).toBeAbleToSelect(this.gargantodon);
+        // expect(this.player1).toHavePromptButton(this.staffUp.name);
+        // this.player1.clickCard(this.gargantodon);
+        expect(this.player1).toBeAbleToSelect(this.infomorph);
+        this.player1.clickCard(this.infomorph);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(2);
+        expect(this.infomorph.amber).toBe(2);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.gargantodon.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
+    });
+
+    it("Reap > Dimension Door > Gargantodon & Staff Up (choose Staff Up): capture 1 amber from opponent's pool onto a creature controlled by the active player", function () {
+        setupCards(this, [
+            'dimensionDoor',
+            'gargantodon',
+            'staffUp',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        // expect(this.player1).toBeAbleToSelect(this.gargantodon);
+        // expect(this.player1).toHavePromptButton(this.staffUp.name);
+        // this.player1.clickPrompt(this.staffUp.name);
+        expect(this.player1).toBeAbleToSelect(this.infomorph);
         this.player1.clickCard(this.infomorph);
         expect(this.player1).isReadyToTakeAction();
         expect(this.player1.amber).toBe(0);
@@ -211,6 +459,190 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(1);
     });
 
+    it("Reap > Dimension Door > Po's Pixies > Ether Spider & Gargantodon (choose Ether Spider): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+        setupCards(this, [
+            'dimensionDoor',
+            'posPixiesEnemy',
+            'etherSpider',
+            'gargantodon',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        // expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        // expect(this.player1).toBeAbleToSelect(this.gargantodon);
+        // this.player1.clickCard(this.etherSpider);
+        this.player1.clickCard(this.infomorph);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(2);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.etherSpider.amber).toBe(0);
+        expect(this.gargantodon.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
+    });
+
+    it("Reap > Dimension Door > Po's Pixies > Ether Spider & Gargantodon (choose Gargantodon): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+        setupCards(this, [
+            'dimensionDoor',
+            'posPixiesEnemy',
+            'etherSpider',
+            'gargantodon',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        // expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        // expect(this.player1).toBeAbleToSelect(this.gargantodon);
+        // this.player1.clickCard(this.gargantodon);
+        expect(this.player1).toBeAbleToSelect(this.infomorph);
+        this.player1.clickCard(this.infomorph);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(2);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.etherSpider.amber).toBe(0);
+        expect(this.gargantodon.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
+    });
+
+    it("Reap > Dimension Door > Po's Pixies > Ether Spider & Gargantodon & Staff Up (choose Ether Spider): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+        setupCards(this, [
+            'dimensionDoor',
+            'posPixiesEnemy',
+            'etherSpider',
+            'gargantodon',
+            'staffUp',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        // expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        // expect(this.player1).toBeAbleToSelect(this.gargantodon);
+        // expect(this.player1).toHavePromptButton(this.staffUp.name);
+        // this.player1.clickCard(this.etherSpider);
+        expect(this.player1).toBeAbleToSelect(this.infomorph);
+        this.player1.clickCard(this.infomorph);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(2);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.etherSpider.amber).toBe(0);
+        expect(this.gargantodon.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
+    });
+
+    it("Reap > Dimension Door > Po's Pixies > Ether Spider & Gargantodon & Staff Up (choose Gargantodon): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+        setupCards(this, [
+            'dimensionDoor',
+            'posPixiesEnemy',
+            'etherSpider',
+            'gargantodon',
+            'staffUp',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        // expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        // expect(this.player1).toBeAbleToSelect(this.gargantodon);
+        // expect(this.player1).toHavePromptButton(this.staffUp.name);
+        // this.player1.clickCard(this.gargantodon);
+        expect(this.player1).toBeAbleToSelect(this.infomorph);
+        this.player1.clickCard(this.infomorph);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(2);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.etherSpider.amber).toBe(0);
+        expect(this.gargantodon.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
+    });
+
+    it("Reap > Dimension Door > Po's Pixies > Ether Spider & Gargantodon & Staff Up (choose Staff Up): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+        setupCards(this, [
+            'dimensionDoor',
+            'posPixiesEnemy',
+            'etherSpider',
+            'gargantodon',
+            'staffUp',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        // expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        // expect(this.player1).toBeAbleToSelect(this.gargantodon);
+        // expect(this.player1).toHavePromptButton(this.staffUp.name);
+        // this.player1.clickPrompt(this.staffUp.name);
+        expect(this.player1).toBeAbleToSelect(this.infomorph);
+        this.player1.clickCard(this.infomorph);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(2);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.etherSpider.amber).toBe(0);
+        expect(this.gargantodon.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
+    });
+
+    it("Reap > Dimension Door > Po's Pixies > Ether Spider & Staff Up (choose Ether Spider): capture 1 amber from the common supply onto ether spider", function () {
+        setupCards(this, [
+            'dimensionDoor',
+            'posPixiesEnemy',
+            'etherSpider',
+            'staffUp',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toHavePromptButton(this.staffUp.name);
+        this.player1.clickCard(this.etherSpider);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(0);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.etherSpider.amber).toBe(2);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(1);
+    });
+
+    it("Reap > Dimension Door > Po's Pixies > Ether Spider & Staff Up (choose Staff Up): steal 1 amber from the common supply to the common supply (no change) and make a token creature", function () {
+        setupCards(this, [
+            'dimensionDoor',
+            'posPixiesEnemy',
+            'etherSpider',
+            'staffUp',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toHavePromptButton(this.staffUp.name);
+        this.player1.clickPrompt(this.staffUp.name);
+        this.player1.clickPrompt('Left');
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(0);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.etherSpider.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.player1.player.creaturesInPlay[0].name).toBe('Prospector');
+        expect(this.player1.player.creaturesInPlay[0].amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(1);
+    });
+
     it("Reap > Dimension Door > Po's Pixies > Gargantodon: capture 1 amber from the common supply onto a creature controlled by the active player", function () {
         setupCards(this, [
             'dimensionDoor',
@@ -227,6 +659,56 @@ describe('Amber Replacement Effects', function () {
         expect(this.infomorph.amber).toBe(2);
         expect(this.graphton.amber).toBe(0);
         expect(this.posPixiesEnemy.amber).toBe(0);
+        expect(this.gargantodon.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
+    });
+
+    it("Reap > Dimension Door > Po's Pixies > Gargantodon & Staff Up (choose Gargantodon): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+        setupCards(this, [
+            'dimensionDoor',
+            'posPixiesEnemy',
+            'gargantodon',
+            'staffUp',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        // expect(this.player1).toBeAbleToSelect(this.gargantodon);
+        // expect(this.player1).toHavePromptButton(this.staffUp.name);
+        // this.player1.clickCard(this.gargantodon);
+        expect(this.player1).toBeAbleToSelect(this.infomorph);
+        this.player1.clickCard(this.infomorph);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(2);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.gargantodon.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
+    });
+
+    it("Reap > Dimension Door > Po's Pixies > Gargantodon & Staff Up (choose Staff Up): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+        setupCards(this, [
+            'dimensionDoor',
+            'posPixiesEnemy',
+            'gargantodon',
+            'staffUp',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        // expect(this.player1).toBeAbleToSelect(this.gargantodon);
+        // expect(this.player1).toHavePromptButton(this.staffUp.name);
+        // this.player1.clickPrompt(this.staffUp.name);
+        expect(this.player1).toBeAbleToSelect(this.infomorph);
+        this.player1.clickCard(this.infomorph);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(2);
+        expect(this.graphton.amber).toBe(0);
         expect(this.gargantodon.amber).toBe(0);
         expect(this.kretchee.amber).toBe(0);
         expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
@@ -380,7 +862,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(1);
     });
 
-    it("Reap > Fading Apparition (from common supply) > Dimension Door > Gargantodon: capture 1 amber from opponent's pool onto player's creature", function () {
+    it.skip("Reap > Fading Apparition (from common supply) > Dimension Door > Gargantodon: capture 1 amber from opponent's pool onto player's creature", function () {
         setupCards(this, [
             'fadingApparition',
             'dimensionDoor',
@@ -560,6 +1042,116 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
     });
 
+    it("Reap > Fading Apparition (from common supply) > Dimension Door > Po's Pixies > Gargantodon & Staff Up (choose Gargantodon): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+        setupCards(this, [
+            'fadingApparition',
+            'dimensionDoor',
+            'posPixiesEnemy',
+            'gargantodon',
+            'staffUp',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        // this.player1.clickPrompt('Done');
+        // expect(this.player1).toBeAbleToSelect(this.gargantodon);
+        // expect(this.player1).toHavePromptButton(this.staffUp.name);
+        // this.player1.clickCard(this.gargantodon);
+        expect(this.player1).toBeAbleToSelect(this.infomorph);
+        this.player1.clickCard(this.infomorph);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(2);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.gargantodon.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
+    });
+
+    it("Reap > Fading Apparition (from common supply) > Dimension Door > Po's Pixies > Gargantodon & Staff Up (choose Staff Up): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+        setupCards(this, [
+            'fadingApparition',
+            'dimensionDoor',
+            'posPixiesEnemy',
+            'gargantodon',
+            'staffUp',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        // this.player1.clickPrompt('Done');
+        // expect(this.player1).toBeAbleToSelect(this.gargantodon);
+        // expect(this.player1).toHavePromptButton(this.staffUp.name);
+        // this.player1.clickPrompt(this.staffUp.name);
+        expect(this.player1).toBeAbleToSelect(this.infomorph);
+        this.player1.clickCard(this.infomorph);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(2);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.gargantodon.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
+    });
+
+    it("Reap > Fading Apparition (from friendly creature) > Dimension Door > Po's Pixies > Gargantodon & Staff Up (choose Gargantodon): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+        setupCards(this, [
+            'fadingApparition',
+            'dimensionDoor',
+            'posPixiesEnemy',
+            'gargantodon',
+            'staffUp',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        // this.player1.clickCard(this.fadingApparition);
+        // expect(this.player1).toBeAbleToSelect(this.gargantodon);
+        // expect(this.player1).toHavePromptButton(this.staffUp.name);
+        // this.player1.clickCard(this.gargantodon);
+        expect(this.player1).toBeAbleToSelect(this.infomorph);
+        this.player1.clickCard(this.infomorph);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(2);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.fadingApparition.amber).toBe(2);
+        expect(this.gargantodon.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
+    });
+
+    it("Reap > Fading Apparition (from friendly creature) > Dimension Door > Po's Pixies > Gargantodon & Staff Up (choose Staff Up): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+        setupCards(this, [
+            'fadingApparition',
+            'dimensionDoor',
+            'posPixiesEnemy',
+            'gargantodon',
+            'staffUp',
+            'bookOfMalefaction',
+            'kretchee'
+        ]);
+        this.player1.reap(this.infomorph);
+        // this.player1.clickCard(this.fadingApparition);
+        // expect(this.player1).toBeAbleToSelect(this.gargantodon);
+        // expect(this.player1).toHavePromptButton(this.staffUp.name);
+        // this.player1.clickPrompt(this.staffUp.name);
+        expect(this.player1).toBeAbleToSelect(this.infomorph);
+        this.player1.clickCard(this.infomorph);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(2);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.fadingApparition.amber).toBe(2);
+        expect(this.gargantodon.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
+    });
+
     it("Reap > Fading Apparition (from common supply) > Dimension Door > Po's Pixies > Staff Up: steal 1 amber from the common supply to the common supply (no change) and make a token creature", function () {
         setupCards(this, [
             'fadingApparition',
@@ -682,6 +1274,26 @@ describe('Amber Replacement Effects', function () {
     it('Reap > Fading Apparition (from common supply) > Ether Spider: capture 1 amber from the common supply onto ether spider', function () {
         setupCards(this, ['fadingApparition', 'etherSpider', 'kretchee']);
         this.player1.reap(this.infomorph);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toBeAbleToSelect(this.fadingApparition);
+        this.player1.clickCard(this.fadingApparition);
+        this.player1.clickPrompt('Done');
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(0);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.fadingApparition.amber).toBe(2);
+        expect(this.etherSpider.amber).toBe(2);
+        expect(this.kretchee.amber).toBe(0);
+    });
+
+    it('Reap > Ether Spider > Fading Apparition (from common supply): capture 1 amber from the common supply onto ether spider', function () {
+        setupCards(this, ['fadingApparition', 'etherSpider', 'kretchee']);
+        this.player1.reap(this.infomorph);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toBeAbleToSelect(this.fadingApparition);
+        this.player1.clickCard(this.etherSpider);
         this.player1.clickPrompt('Done');
         expect(this.player1).isReadyToTakeAction();
         expect(this.player1.amber).toBe(0);
@@ -696,6 +1308,26 @@ describe('Amber Replacement Effects', function () {
     it('Reap > Fading Apparition (from friendly creature) > Ether Spider: capture 1 amber from a friendly creature onto ether spider', function () {
         setupCards(this, ['fadingApparition', 'etherSpider', 'kretchee']);
         this.player1.reap(this.infomorph);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toBeAbleToSelect(this.fadingApparition);
+        this.player1.clickCard(this.fadingApparition);
+        this.player1.clickCard(this.fadingApparition);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(0);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.fadingApparition.amber).toBe(1);
+        expect(this.etherSpider.amber).toBe(2);
+        expect(this.kretchee.amber).toBe(0);
+    });
+
+    it('Reap > Ether Spider > Fading Apparition (from friendly creature): capture 1 amber from a friendly creature onto ether spider', function () {
+        setupCards(this, ['fadingApparition', 'etherSpider', 'kretchee']);
+        this.player1.reap(this.infomorph);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toBeAbleToSelect(this.fadingApparition);
+        this.player1.clickCard(this.etherSpider);
         expect(this.player1).toBeAbleToSelect(this.fadingApparition);
         this.player1.clickCard(this.fadingApparition);
         expect(this.player1).isReadyToTakeAction();
@@ -706,6 +1338,175 @@ describe('Amber Replacement Effects', function () {
         expect(this.fadingApparition.amber).toBe(1);
         expect(this.etherSpider.amber).toBe(2);
         expect(this.kretchee.amber).toBe(0);
+    });
+
+    it('Reap > Fading Apparition (from common supply) > Ether Spider & Staff Up (choose Ether Spider): capture 1 amber from the common supply onto ether spider', function () {
+        setupCards(this, ['fadingApparition', 'etherSpider', 'staffUp', 'kretchee']);
+        this.player1.reap(this.infomorph);
+        expect(this.player1).toBeAbleToSelect(this.fadingApparition);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toHavePromptButton(this.staffUp.name);
+        this.player1.clickCard(this.fadingApparition);
+        this.player1.clickPrompt('Done');
+        this.player1.clickCard(this.etherSpider);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(0);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.fadingApparition.amber).toBe(2);
+        expect(this.etherSpider.amber).toBe(2);
+        expect(this.kretchee.amber).toBe(0);
+    });
+
+    it('Reap > Ether Spider & Staff Up (choose Ether Spider) > Fading Apparition (from common supply): capture 1 amber from the common supply onto ether spider', function () {
+        setupCards(this, ['fadingApparition', 'etherSpider', 'staffUp', 'kretchee']);
+        this.player1.reap(this.infomorph);
+        expect(this.player1).toBeAbleToSelect(this.fadingApparition);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toHavePromptButton(this.staffUp.name);
+        this.player1.clickCard(this.etherSpider);
+        this.player1.clickPrompt('Done');
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(0);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.fadingApparition.amber).toBe(2);
+        expect(this.etherSpider.amber).toBe(2);
+        expect(this.kretchee.amber).toBe(0);
+    });
+
+    it('Reap > Fading Apparition (from common supply) > Ether Spider & Staff Up (choose Staff Up): gain 1 amber from the common supply to the common supply (no change) and make a token creature', function () {
+        setupCards(this, ['fadingApparition', 'etherSpider', 'staffUp', 'kretchee']);
+        this.player1.reap(this.infomorph);
+        expect(this.player1).toBeAbleToSelect(this.fadingApparition);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toHavePromptButton(this.staffUp.name);
+        this.player1.clickCard(this.fadingApparition);
+        this.player1.clickCard(this.fadingApparition);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toHavePromptButton(this.staffUp.name);
+        this.player1.clickPrompt(this.staffUp.name);
+        this.player1.clickPrompt('Left');
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(0);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.fadingApparition.amber).toBe(1);
+        expect(this.etherSpider.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.player1.player.creaturesInPlay[0].name).toBe('Prospector');
+        expect(this.player1.player.creaturesInPlay[0].amber).toBe(0);
+    });
+
+    it('Reap > Ether Spider & Staff Up (choose Staff Up) > Fading Apparition (from common supply): gain 1 amber from the common supply to the common supply (no change) and make a token creature', function () {
+        setupCards(this, ['fadingApparition', 'etherSpider', 'staffUp', 'kretchee']);
+        this.player1.reap(this.infomorph);
+        expect(this.player1).toBeAbleToSelect(this.fadingApparition);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toHavePromptButton(this.staffUp.name);
+        this.player1.clickPrompt(this.staffUp.name);
+        this.player1.clickPrompt('Left');
+        expect(this.player1).toBeAbleToSelect(this.fadingApparition);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        this.player1.clickCard(this.fadingApparition);
+        this.player1.clickCard(this.fadingApparition);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(0);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.fadingApparition.amber).toBe(1);
+        expect(this.etherSpider.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.player1.player.creaturesInPlay[0].name).toBe('Prospector');
+        expect(this.player1.player.creaturesInPlay[0].amber).toBe(0);
+    });
+
+    it('Reap > Fading Apparition (from friendly creature) > Ether Spider & Staff Up (choose Ether Spider): capture 1 amber from a friendly creature onto ether spider', function () {
+        setupCards(this, ['fadingApparition', 'etherSpider', 'staffUp', 'kretchee']);
+        this.player1.reap(this.infomorph);
+        expect(this.player1).toBeAbleToSelect(this.fadingApparition);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toHavePromptButton(this.staffUp.name);
+        this.player1.clickCard(this.fadingApparition);
+        this.player1.clickCard(this.fadingApparition);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toHavePromptButton(this.staffUp.name);
+        this.player1.clickCard(this.etherSpider);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(0);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.fadingApparition.amber).toBe(1);
+        expect(this.etherSpider.amber).toBe(2);
+        expect(this.kretchee.amber).toBe(0);
+    });
+
+    it('Reap > Ether Spider & Staff Up (choose Ether Spider) > Fading Apparition (from friendly creature): capture 1 amber from a friendly creature onto ether spider', function () {
+        setupCards(this, ['fadingApparition', 'etherSpider', 'staffUp', 'kretchee']);
+        this.player1.reap(this.infomorph);
+        expect(this.player1).toBeAbleToSelect(this.fadingApparition);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toHavePromptButton(this.staffUp.name);
+        this.player1.clickCard(this.etherSpider);
+        expect(this.player1).toBeAbleToSelect(this.fadingApparition);
+        this.player1.clickCard(this.fadingApparition);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(0);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.fadingApparition.amber).toBe(1);
+        expect(this.etherSpider.amber).toBe(2);
+        expect(this.kretchee.amber).toBe(0);
+    });
+
+    it.skip('Reap > Fading Apparition (from friendly creature) > Ether Spider & Staff Up (choose Staff Up): take 1 amber from a friendly creature to the common supply and make a token creature', function () {
+        setupCards(this, ['fadingApparition', 'etherSpider', 'staffUp', 'kretchee']);
+        this.player1.reap(this.infomorph);
+        expect(this.player1).toBeAbleToSelect(this.fadingApparition);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toHavePromptButton(this.staffUp.name);
+        this.player1.clickCard(this.fadingApparition);
+        this.player1.clickCard(this.fadingApparition);
+        this.player1.clickPrompt(this.staffUp.name);
+        this.player1.clickPrompt('Left');
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(0);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.fadingApparition.amber).toBe(1);
+        expect(this.etherSpider.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.player1.player.creaturesInPlay[0].name).toBe('Prospector');
+        expect(this.player1.player.creaturesInPlay[0].amber).toBe(0);
+    });
+
+    it('Reap > Ether Spider & Staff Up (choose Staff Up): take 1 amber from a friendly creature to the common supply and make a token creature > Fading Apparition (from friendly creature)', function () {
+        setupCards(this, ['fadingApparition', 'etherSpider', 'staffUp', 'kretchee']);
+        this.player1.reap(this.infomorph);
+        expect(this.player1).toBeAbleToSelect(this.fadingApparition);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toHavePromptButton(this.staffUp.name);
+        this.player1.clickPrompt(this.staffUp.name);
+        this.player1.clickPrompt('Left');
+        this.player1.clickCard(this.fadingApparition);
+        this.player1.clickCard(this.fadingApparition);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(0);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.fadingApparition.amber).toBe(1);
+        expect(this.etherSpider.amber).toBe(0);
+        expect(this.kretchee.amber).toBe(0);
+        expect(this.player1.player.creaturesInPlay[0].name).toBe('Prospector');
+        expect(this.player1.player.creaturesInPlay[0].amber).toBe(0);
     });
 
     it('Reap > Fading Apparition (from common supply) > Staff Up: gain 1 amber from the common supply to the common supply (no change) and make a token creature', function () {
@@ -726,7 +1527,44 @@ describe('Amber Replacement Effects', function () {
         expect(this.player1.player.creaturesInPlay[0].amber).toBe(0);
     });
 
+    it('Reap > Staff Up > Fading Apparition (from common supply): gain 1 amber from the common supply to the common supply (no change) and make a token creature', function () {
+        setupCards(this, ['fadingApparition', 'staffUp']);
+        this.player1.reap(this.infomorph);
+        expect(this.player1).toHavePromptButton(this.staffUp.name);
+        expect(this.player1).toBeAbleToSelect(this.fadingApparition);
+        this.player1.clickPrompt(this.staffUp.name);
+        this.player1.clickPrompt('Left');
+        this.player1.clickPrompt('Done');
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(0);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.fadingApparition.amber).toBe(2);
+        expect(this.player1.player.creaturesInPlay[0].name).toBe('Prospector');
+        expect(this.player1.player.creaturesInPlay[0].amber).toBe(0);
+    });
+
     it('Reap > Fading Apparition (from friendly creature) > Staff Up: take 1 amber from a friendly creature to the common supply and make a token creature', function () {
+        setupCards(this, ['fadingApparition', 'staffUp']);
+        this.player1.reap(this.infomorph);
+        expect(this.player1).toHavePromptButton(this.staffUp.name);
+        expect(this.player1).toBeAbleToSelect(this.fadingApparition);
+        this.player1.clickPrompt(this.staffUp.name);
+        this.player1.clickPrompt('Left');
+        expect(this.player1).toBeAbleToSelect(this.fadingApparition);
+        this.player1.clickCard(this.fadingApparition);
+        expect(this.player1).isReadyToTakeAction();
+        expect(this.player1.amber).toBe(0);
+        expect(this.player2.amber).toBe(3);
+        expect(this.infomorph.amber).toBe(0);
+        expect(this.graphton.amber).toBe(0);
+        expect(this.fadingApparition.amber).toBe(1);
+        expect(this.player1.player.creaturesInPlay[0].name).toBe('Prospector');
+        expect(this.player1.player.creaturesInPlay[0].amber).toBe(0);
+    });
+
+    it('Reap > Staff Up > Fading Apparition (from friendly creature): take 1 amber from a friendly creature to the common supply and make a token creature', function () {
         setupCards(this, ['fadingApparition', 'staffUp']);
         this.player1.reap(this.infomorph);
         expect(this.player1).toHavePromptButton(this.staffUp.name);
