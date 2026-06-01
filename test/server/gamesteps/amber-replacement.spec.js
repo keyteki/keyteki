@@ -13,9 +13,9 @@
  * For example:
  *
  *   Unmodified Reap:     gain 1 amber from the common supply to player's pool
- *   + Fading Apparition: take 1 amber from a friendly creature to player's pool
+ *   + Fading Apparition: gain 1 amber from a friendly creature to player's pool
  *   + Dimension Door:    steal 1 amber from opponent's pool to player's pool
- *   + Ether Spider:      capture 1 amber from opponent's pool onto Ether Spider
+ *   + Ether Spider:      steal 1 amber from opponent's pool onto Ether Spider
  *
  * Relevant FAQs:
  * - [Dimension Door and Sir Marrows](https://www.archonarcana.com/wiki/Dimension_Door)
@@ -26,9 +26,19 @@
  * arrow (►) is a replacement. Book of Malefaction and Kretchee are included
  * in the tests as indicators for detecting whether steal or capture happened.
  *
- * It is not clear whether the application of replacements are all applied and then executed (eg apply Fading Apparition, Dimension Door, Ether Spider, and Staff Up in an order chosen by the active player), or if they are applied and executed by their timing increments (eg apply Fading Apparition and Dimension Door, execute, and then the gained amber triggers the window for Ether Spider and Staff Up to apply, and execute).
+ * It is not clear whether the application of replacements are all applied and
+ * then executed (eg apply Fading Apparition, Dimension Door, Ether Spider, and
+ * Staff Up in an order chosen by the active player), or if they are applied and
+ * executed by their timing increments (eg apply Fading Apparition and Dimension
+ * Door, execute, and then the gained amber triggers the window for Ether Spider
+ * and Staff Up to apply, and execute).
  *
- * Either way, with the current replacement effects, the end result is the same. The TCO engine currently doesn't handle this strictly in one or the other paradigm, and as such you will see some steps commented out (eg for Fading Apparition) that should be a choice that can be made, and other tests where both orders are tested (eg for Fading Apparition and Ether Spider/Staff Up) so that all bases are explicitly and covered.
+ * Either way, with the current replacement effects, the end result is the same.
+ * The TCO engine currently doesn't handle this strictly in one or the other
+ * paradigm, and as such you will see some steps commented out (eg for Fading
+ * Apparition) that should be a choice that can be made, and other tests where
+ * both orders are tested (eg for Fading Apparition and Ether Spider/Staff Up)
+ * so that all bases are explicitly covered.
  *
  *   Reap
  *   ├─► Dimension Door
@@ -175,7 +185,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(1);
     });
 
-    it("Reap > Dimension Door > Ether Spider: capture 1 amber from opponent's pool onto ether spider", function () {
+    it("Reap > Dimension Door > Ether Spider: steal 1 amber from opponent's pool onto ether spider", function () {
         setupCards(this, ['dimensionDoor', 'etherSpider', 'bookOfMalefaction', 'kretchee']);
         this.player1.reap(this.infomorph);
         expect(this.player1).isReadyToTakeAction();
@@ -187,7 +197,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(1);
     });
 
-    it("Reap > Dimension Door > Ether Spider & Gargantodon (choose Ether Spider): capture 1 amber from opponent's pool onto a creature controlled by the active player", function () {
+    it("Reap > Dimension Door > Ether Spider & Gargantodon (choose Ether Spider): capture 1 amber from opponent's pool onto player's creature", function () {
         setupCards(this, [
             'dimensionDoor',
             'etherSpider',
@@ -212,7 +222,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
     });
 
-    it("Reap > Dimension Door > Ether Spider & Gargantodon (choose Gargantodon): capture 1 amber from opponent's pool onto a creature controlled by the active player", function () {
+    it("Reap > Dimension Door > Ether Spider & Gargantodon (choose Gargantodon): capture 1 amber from opponent's pool onto player's creature", function () {
         setupCards(this, [
             'dimensionDoor',
             'etherSpider',
@@ -237,7 +247,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
     });
 
-    it("Reap > Dimension Door > Ether Spider & Gargantodon & Staff Up (choose Ether Spider): capture 1 amber from opponent's pool onto a creature controlled by the active player", function () {
+    it("Reap > Dimension Door > Ether Spider & Gargantodon & Staff Up (choose Ether Spider): capture 1 amber from opponent's pool onto player's creature", function () {
         setupCards(this, [
             'dimensionDoor',
             'etherSpider',
@@ -264,7 +274,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
     });
 
-    it("Reap > Dimension Door > Ether Spider & Gargantodon & Staff Up (choose Gargantodon): capture 1 amber from opponent's pool onto a creature controlled by the active player", function () {
+    it("Reap > Dimension Door > Ether Spider & Gargantodon & Staff Up (choose Gargantodon): capture 1 amber from opponent's pool onto player's creature", function () {
         setupCards(this, [
             'dimensionDoor',
             'etherSpider',
@@ -291,7 +301,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
     });
 
-    it("Reap > Dimension Door > Ether Spider & Gargantodon & Staff Up (choose Staff Up): capture 1 amber from opponent's pool onto a creature controlled by the active player", function () {
+    it("Reap > Dimension Door > Ether Spider & Gargantodon & Staff Up (choose Staff Up): capture 1 amber from opponent's pool onto player's creature", function () {
         setupCards(this, [
             'dimensionDoor',
             'etherSpider',
@@ -365,7 +375,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(1);
     });
 
-    it("Reap > Dimension Door > Gargantodon: capture 1 amber from opponent's pool onto a creature controlled by the active player", function () {
+    it("Reap > Dimension Door > Gargantodon: capture 1 amber from opponent's pool onto player's creature", function () {
         setupCards(this, ['dimensionDoor', 'gargantodon', 'bookOfMalefaction', 'kretchee']);
         this.player1.reap(this.infomorph);
         this.player1.clickCard(this.infomorph);
@@ -379,7 +389,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
     });
 
-    it("Reap > Dimension Door > Gargantodon & Staff Up (choose Gargantodon): capture 1 amber from opponent's pool onto a creature controlled by the active player", function () {
+    it("Reap > Dimension Door > Gargantodon & Staff Up (choose Gargantodon): capture 1 amber from opponent's pool onto player's creature", function () {
         setupCards(this, [
             'dimensionDoor',
             'gargantodon',
@@ -403,7 +413,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
     });
 
-    it("Reap > Dimension Door > Gargantodon & Staff Up (choose Staff Up): capture 1 amber from opponent's pool onto a creature controlled by the active player", function () {
+    it("Reap > Dimension Door > Gargantodon & Staff Up (choose Staff Up): capture 1 amber from opponent's pool onto player's creature", function () {
         setupCards(this, [
             'dimensionDoor',
             'gargantodon',
@@ -459,7 +469,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(1);
     });
 
-    it("Reap > Dimension Door > Po's Pixies > Ether Spider & Gargantodon (choose Ether Spider): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+    it("Reap > Dimension Door > Po's Pixies > Ether Spider & Gargantodon (choose Ether Spider): capture 1 amber from the common supply onto player's creature", function () {
         setupCards(this, [
             'dimensionDoor',
             'posPixiesEnemy',
@@ -472,6 +482,7 @@ describe('Amber Replacement Effects', function () {
         // expect(this.player1).toBeAbleToSelect(this.etherSpider);
         // expect(this.player1).toBeAbleToSelect(this.gargantodon);
         // this.player1.clickCard(this.etherSpider);
+        expect(this.player1).toBeAbleToSelect(this.infomorph);
         this.player1.clickCard(this.infomorph);
         expect(this.player1).isReadyToTakeAction();
         expect(this.player1.amber).toBe(0);
@@ -484,7 +495,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
     });
 
-    it("Reap > Dimension Door > Po's Pixies > Ether Spider & Gargantodon (choose Gargantodon): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+    it("Reap > Dimension Door > Po's Pixies > Ether Spider & Gargantodon (choose Gargantodon): capture 1 amber from the common supply onto player's creature", function () {
         setupCards(this, [
             'dimensionDoor',
             'posPixiesEnemy',
@@ -510,7 +521,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
     });
 
-    it("Reap > Dimension Door > Po's Pixies > Ether Spider & Gargantodon & Staff Up (choose Ether Spider): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+    it("Reap > Dimension Door > Po's Pixies > Ether Spider & Gargantodon & Staff Up (choose Ether Spider): capture 1 amber from the common supply onto player's creature", function () {
         setupCards(this, [
             'dimensionDoor',
             'posPixiesEnemy',
@@ -538,7 +549,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
     });
 
-    it("Reap > Dimension Door > Po's Pixies > Ether Spider & Gargantodon & Staff Up (choose Gargantodon): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+    it("Reap > Dimension Door > Po's Pixies > Ether Spider & Gargantodon & Staff Up (choose Gargantodon): capture 1 amber from the common supply onto player's creature", function () {
         setupCards(this, [
             'dimensionDoor',
             'posPixiesEnemy',
@@ -566,7 +577,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
     });
 
-    it("Reap > Dimension Door > Po's Pixies > Ether Spider & Gargantodon & Staff Up (choose Staff Up): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+    it("Reap > Dimension Door > Po's Pixies > Ether Spider & Gargantodon & Staff Up (choose Staff Up): capture 1 amber from the common supply onto player's creature", function () {
         setupCards(this, [
             'dimensionDoor',
             'posPixiesEnemy',
@@ -643,7 +654,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(1);
     });
 
-    it("Reap > Dimension Door > Po's Pixies > Gargantodon: capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+    it("Reap > Dimension Door > Po's Pixies > Gargantodon: capture 1 amber from the common supply onto player's creature", function () {
         setupCards(this, [
             'dimensionDoor',
             'posPixiesEnemy',
@@ -664,7 +675,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
     });
 
-    it("Reap > Dimension Door > Po's Pixies > Gargantodon & Staff Up (choose Gargantodon): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+    it("Reap > Dimension Door > Po's Pixies > Gargantodon & Staff Up (choose Gargantodon): capture 1 amber from the common supply onto player's creature", function () {
         setupCards(this, [
             'dimensionDoor',
             'posPixiesEnemy',
@@ -689,7 +700,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
     });
 
-    it("Reap > Dimension Door > Po's Pixies > Gargantodon & Staff Up (choose Staff Up): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+    it("Reap > Dimension Door > Po's Pixies > Gargantodon & Staff Up (choose Staff Up): capture 1 amber from the common supply onto player's creature", function () {
         setupCards(this, [
             'dimensionDoor',
             'posPixiesEnemy',
@@ -862,7 +873,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(1);
     });
 
-    it.skip("Reap > Fading Apparition (from common supply) > Dimension Door > Gargantodon: capture 1 amber from opponent's pool onto player's creature", function () {
+    it("Reap > Fading Apparition (from common supply) > Dimension Door > Gargantodon: capture 1 amber from opponent's pool onto player's creature", function () {
         setupCards(this, [
             'fadingApparition',
             'dimensionDoor',
@@ -1042,7 +1053,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
     });
 
-    it("Reap > Fading Apparition (from common supply) > Dimension Door > Po's Pixies > Gargantodon & Staff Up (choose Gargantodon): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+    it("Reap > Fading Apparition (from common supply) > Dimension Door > Po's Pixies > Gargantodon & Staff Up (choose Gargantodon): capture 1 amber from the common supply onto player's creature", function () {
         setupCards(this, [
             'fadingApparition',
             'dimensionDoor',
@@ -1069,7 +1080,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
     });
 
-    it("Reap > Fading Apparition (from common supply) > Dimension Door > Po's Pixies > Gargantodon & Staff Up (choose Staff Up): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+    it("Reap > Fading Apparition (from common supply) > Dimension Door > Po's Pixies > Gargantodon & Staff Up (choose Staff Up): capture 1 amber from the common supply onto player's creature", function () {
         setupCards(this, [
             'fadingApparition',
             'dimensionDoor',
@@ -1096,7 +1107,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
     });
 
-    it("Reap > Fading Apparition (from friendly creature) > Dimension Door > Po's Pixies > Gargantodon & Staff Up (choose Gargantodon): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+    it("Reap > Fading Apparition (from friendly creature) > Dimension Door > Po's Pixies > Gargantodon & Staff Up (choose Gargantodon): capture 1 amber from the common supply onto player's creature", function () {
         setupCards(this, [
             'fadingApparition',
             'dimensionDoor',
@@ -1124,7 +1135,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
     });
 
-    it("Reap > Fading Apparition (from friendly creature) > Dimension Door > Po's Pixies > Gargantodon & Staff Up (choose Staff Up): capture 1 amber from the common supply onto a creature controlled by the active player", function () {
+    it("Reap > Fading Apparition (from friendly creature) > Dimension Door > Po's Pixies > Gargantodon & Staff Up (choose Staff Up): capture 1 amber from the common supply onto player's creature", function () {
         setupCards(this, [
             'fadingApparition',
             'dimensionDoor',
@@ -1348,6 +1359,8 @@ describe('Amber Replacement Effects', function () {
         expect(this.player1).toHavePromptButton(this.staffUp.name);
         this.player1.clickCard(this.fadingApparition);
         this.player1.clickPrompt('Done');
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toHavePromptButton(this.staffUp.name);
         this.player1.clickCard(this.etherSpider);
         expect(this.player1).isReadyToTakeAction();
         expect(this.player1.amber).toBe(0);
@@ -1377,7 +1390,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.kretchee.amber).toBe(0);
     });
 
-    it('Reap > Fading Apparition (from common supply) > Ether Spider & Staff Up (choose Staff Up): gain 1 amber from the common supply to the common supply (no change) and make a token creature', function () {
+    it('Reap > Fading Apparition (from friendly creature) > Ether Spider & Staff Up (choose Staff Up): take 1 amber from a friendly creature to the common supply and make a token creature', function () {
         setupCards(this, ['fadingApparition', 'etherSpider', 'staffUp', 'kretchee']);
         this.player1.reap(this.infomorph);
         expect(this.player1).toBeAbleToSelect(this.fadingApparition);
@@ -1401,7 +1414,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.player1.player.creaturesInPlay[0].amber).toBe(0);
     });
 
-    it('Reap > Ether Spider & Staff Up (choose Staff Up) > Fading Apparition (from common supply): gain 1 amber from the common supply to the common supply (no change) and make a token creature', function () {
+    it('Reap > Ether Spider & Staff Up (choose Staff Up) > Fading Apparition (from friendly creature): take 1 amber from a friendly creature to the common supply and make a token creature', function () {
         setupCards(this, ['fadingApparition', 'etherSpider', 'staffUp', 'kretchee']);
         this.player1.reap(this.infomorph);
         expect(this.player1).toBeAbleToSelect(this.fadingApparition);
@@ -1465,7 +1478,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.kretchee.amber).toBe(0);
     });
 
-    it.skip('Reap > Fading Apparition (from friendly creature) > Ether Spider & Staff Up (choose Staff Up): take 1 amber from a friendly creature to the common supply and make a token creature', function () {
+    it('Reap > Fading Apparition (from friendly creature) > Ether Spider & Staff Up (choose Staff Up): take 1 amber from a friendly creature to the common supply and make a token creature', function () {
         setupCards(this, ['fadingApparition', 'etherSpider', 'staffUp', 'kretchee']);
         this.player1.reap(this.infomorph);
         expect(this.player1).toBeAbleToSelect(this.fadingApparition);
@@ -1473,6 +1486,8 @@ describe('Amber Replacement Effects', function () {
         expect(this.player1).toHavePromptButton(this.staffUp.name);
         this.player1.clickCard(this.fadingApparition);
         this.player1.clickCard(this.fadingApparition);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
+        expect(this.player1).toHavePromptButton(this.staffUp.name);
         this.player1.clickPrompt(this.staffUp.name);
         this.player1.clickPrompt('Left');
         expect(this.player1).isReadyToTakeAction();
@@ -1495,6 +1510,8 @@ describe('Amber Replacement Effects', function () {
         expect(this.player1).toHavePromptButton(this.staffUp.name);
         this.player1.clickPrompt(this.staffUp.name);
         this.player1.clickPrompt('Left');
+        expect(this.player1).toBeAbleToSelect(this.fadingApparition);
+        expect(this.player1).toBeAbleToSelect(this.etherSpider);
         this.player1.clickCard(this.fadingApparition);
         this.player1.clickCard(this.fadingApparition);
         expect(this.player1).isReadyToTakeAction();
