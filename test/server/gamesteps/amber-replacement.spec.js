@@ -679,7 +679,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.bookOfMalefaction.tokens.warrant).toBe(undefined);
     });
 
-    it.skip('Reap > Fading Apparition (from common supply) > Ether Spider: capture 1 amber from the common supply onto ether spider', function () {
+    it('Reap > Fading Apparition (from common supply) > Ether Spider: capture 1 amber from the common supply onto ether spider', function () {
         setupCards(this, ['fadingApparition', 'etherSpider', 'kretchee']);
         this.player1.reap(this.infomorph);
         this.player1.clickPrompt('Done');
@@ -693,7 +693,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.kretchee.amber).toBe(0);
     });
 
-    it.skip('Reap > Fading Apparition (from friendly creature) > Ether Spider: capture 1 amber from a friendly creature onto ether spider', function () {
+    it('Reap > Fading Apparition (from friendly creature) > Ether Spider: capture 1 amber from a friendly creature onto ether spider', function () {
         setupCards(this, ['fadingApparition', 'etherSpider', 'kretchee']);
         this.player1.reap(this.infomorph);
         expect(this.player1).toBeAbleToSelect(this.fadingApparition);
