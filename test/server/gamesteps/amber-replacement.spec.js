@@ -13,7 +13,7 @@
  * For example:
  *
  *   Unmodified Reap:     gain 1 amber from the common supply to player's pool
- *   + Fading Apparition: gain 1 amber from a friendly creature to player's pool
+ *   + Fading Apparition: take 1 amber from a friendly creature to player's pool
  *   + Dimension Door:    steal 1 amber from opponent's pool to player's pool
  *   + Ether Spider:      capture 1 amber from opponent's pool onto Ether Spider
  *
@@ -290,7 +290,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.fadingApparition.amber).toBe(2);
     });
 
-    it("Reap > Fading Apparition (from friendly creature): gain 1 amber from a friendly creature to player's pool", function () {
+    it("Reap > Fading Apparition (from friendly creature): take 1 amber from a friendly creature to player's pool", function () {
         setupCards(this, ['fadingApparition']);
         this.player1.reap(this.infomorph);
         this.player1.clickCard(this.fadingApparition);
@@ -695,7 +695,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.player1.player.creaturesInPlay[0].amber).toBe(0);
     });
 
-    it('Reap > Fading Apparition (from friendly creature) > Staff Up: gain 1 amber from a friendly creature to the common supply and make a token creature', function () {
+    it('Reap > Fading Apparition (from friendly creature) > Staff Up: take 1 amber from a friendly creature to the common supply and make a token creature', function () {
         setupCards(this, ['fadingApparition', 'staffUp']);
         this.player1.reap(this.infomorph);
         this.player1.clickCard(this.fadingApparition);
@@ -724,7 +724,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.kretchee.amber).toBe(0);
     });
 
-    it("Reap > Fading Apparition (from friendly creature) > Widespread Corruption: gain 1 amber from a friendly creature to player's pool and capture 1 amber from player's pool onto enemy creature", function () {
+    it("Reap > Fading Apparition (from friendly creature) > Widespread Corruption: take 1 amber from a friendly creature to player's pool and capture 1 amber from player's pool onto enemy creature", function () {
         setupCards(this, ['fadingApparition', 'widespreadCorruption', 'kretchee']);
         this.player1.reap(this.infomorph);
         this.player1.clickCard(this.fadingApparition);
@@ -754,7 +754,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.kretchee.amber).toBe(0);
     });
 
-    it("Reap > Fading Apparition (from friendly creature) > Widespread Corruption > Po's Pixies: gain 1 amber from a friendly creature to player's pool and capture 1 amber from the common supply onto enemy creature", function () {
+    it("Reap > Fading Apparition (from friendly creature) > Widespread Corruption > Po's Pixies: take 1 amber from a friendly creature to player's pool and capture 1 amber from the common supply onto enemy creature", function () {
         setupCards(this, ['fadingApparition', 'widespreadCorruption', 'posPixies', 'kretchee']);
         this.game.takeControl(this.player1.player, this.posPixies);
         this.player1.reap(this.infomorph);
