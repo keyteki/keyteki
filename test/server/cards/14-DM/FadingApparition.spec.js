@@ -212,4 +212,50 @@ describe('Fading Apparition', function () {
             expect(this.player2.amber).toBe(1);
         });
     });
+
+    describe("Fading Apparition's ability while amber gain is replaced", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    hand: ['ether-spider']
+                },
+                player2: {
+                    token: 'prospector',
+                    inPlay: ['fading-apparition', 'pen-pal'],
+                    hand: ['staff-up']
+                }
+            });
+        });
+
+        it('does not trigger when Staff Up replaces the amber gain', function () {
+            this.fadingApparition.exhaust();
+            this.penPal.amber = 2;
+            this.player1.endTurn();
+            this.player2.clickPrompt('Ekwidon');
+            this.player2.play(this.staffUp);
+            this.player2.reap(this.penPal);
+            expect(this.player2).not.toBeAbleToSelect(this.fadingApparition);
+            expect(this.player2).not.toBeAbleToSelect(this.penPal);
+            this.player2.clickPrompt('Right');
+            expect(this.player2).isReadyToTakeAction();
+            expect(this.penPal.amber).toBe(2);
+            expect(this.player2.amber).toBe(0);
+        });
+
+        it('does not trigger when Ether Spider replaces the amber destination', function () {
+            this.fadingApparition.exhaust();
+            this.penPal.amber = 2;
+            this.player1.play(this.etherSpider);
+            this.player1.endTurn();
+            this.player2.clickPrompt('Ekwidon');
+            this.player2.reap(this.penPal);
+            expect(this.player2).not.toBeAbleToSelect(this.fadingApparition);
+            expect(this.player2).not.toBeAbleToSelect(this.penPal);
+            expect(this.player2).isReadyToTakeAction();
+            expect(this.penPal.amber).toBe(1);
+            expect(this.etherSpider.amber).toBe(1);
+            expect(this.player2.amber).toBe(0);
+        });
+    });
 });

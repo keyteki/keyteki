@@ -700,6 +700,25 @@ const EVENTS = /** @type {const} */ ({
     onModifyAmber: 'onModifyAmber',
 
     /**
+     * Triggered as a sub-event of `onModifyAmber` after the parent event’s
+     * handler executes, whenever a player’s æmber actually increased (i.e.
+     * `event.amount > 0` after any `onModifyAmber` interrupts have resolved).
+     *
+     * This hook is for effects that modify the source of amber going to
+     * a player’s pool (e.g. Fading Apparition) — they will not register
+     * when the parent gain is cancelled or zeroed by a replacement
+     * effect (e.g. Staff Up).
+     *
+     * Params:
+     * * `player` — The {@link Player} who gained the æmber.
+     * * `amount` — The amount of æmber that was added to the pool.
+     * * `reap` — `true` if the gain came from a reap action.
+     *
+     * @see ModifyAmberAction
+     */
+    onAmberGained: 'onAmberGained',
+
+    /**
      * Triggered when a player gains chains due to a card effect or raising the
      * tide.
      *

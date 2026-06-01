@@ -6,9 +6,8 @@ class FadingApparition extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onModifyAmber: (event, context) =>
+                onAmberGained: (event, context) =>
                     event.reap &&
-                    event.amount > 0 &&
                     event.player === context.source.controller &&
                     context.source.exhausted
             },
