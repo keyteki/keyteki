@@ -26,16 +26,6 @@ class ModifyAmberAction extends PlayerAction {
 
         return super.createEvent(EVENTS.onModifyAmber, params, (event) => {
             event.player.modifyAmber(event.amount);
-            if (event.amount > 0) {
-                event.addSubEvent(
-                    context.game.getEvent(EVENTS.onAmberGained, {
-                        player: event.player,
-                        amount: event.amount,
-                        reap: event.reap,
-                        context: event.context
-                    })
-                );
-            }
         });
     }
 }
