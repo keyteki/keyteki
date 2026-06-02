@@ -89,21 +89,23 @@ const About = () => {
                     </p>
                     <ul className='list-disc pl-6'>
                         <li>
-                            <span className='role-admin'>admin</span> - site administrator
+                            <span className='username role-admin'>admin</span> - site administrator
                         </li>
                         <li>
-                            <span className='role-contributor'>contributor</span> - people who have
-                            made significant development contributions to the site
+                            <span className='username role-contributor'>contributor</span> - people
+                            who have made significant development contributions to the site
                         </li>
                         <li>
-                            <span className='role-supporter'>supporter</span> - patreon supporters
+                            <span className='username role-supporter'>supporter</span> - patreon
+                            supporters
                         </li>
                         <li>
-                            <span className='role-winner'>winner</span> - current tournament winner
-                        </li>
-                        <li>
-                            <span className='role-previouswinner'>previous winner</span> - former
+                            <span className='username role-winner'>winner</span> - current
                             tournament winner
+                        </li>
+                        <li>
+                            <span className='username role-previouswinner'>previous winner</span> -
+                            former tournament winner
                         </li>
                     </ul>
                 </Trans>
