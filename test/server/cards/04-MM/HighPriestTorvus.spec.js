@@ -25,6 +25,7 @@ describe('High Priest Torvus', function () {
         it('should not return an action card to hand before reaping', function () {
             this.player1.play(this.triumph);
             expect(this.triumph.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not return an action card to hand if not opt to exalt Priest', function () {
@@ -32,6 +33,7 @@ describe('High Priest Torvus', function () {
             this.player1.clickPrompt('Done');
             this.player1.play(this.triumph);
             expect(this.triumph.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not return an action card to hand if opt to exalt Priest', function () {
@@ -47,6 +49,7 @@ describe('High Priest Torvus', function () {
             expect(this.imperium.location).toBe('discard');
             this.player1.play(this.triumph);
             expect(this.triumph.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not return a creature to hand', function () {
@@ -55,6 +58,7 @@ describe('High Priest Torvus', function () {
             expect(this.highPriestTorvus.amber).toBe(1);
             this.player1.play(this.galeatops);
             expect(this.galeatops.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not return an artifact to hand', function () {
@@ -63,6 +67,7 @@ describe('High Priest Torvus', function () {
             expect(this.highPriestTorvus.amber).toBe(1);
             this.player1.play(this.cityGates);
             expect(this.cityGates.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not return an already resolving action to hand', function () {
