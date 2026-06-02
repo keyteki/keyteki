@@ -48,8 +48,8 @@ function validateUserName(username) {
         return 'You must specify a username';
     }
 
-    if (username.length < 3 || username.length > 15) {
-        return 'Username must be at least 3 characters and no more than 15 characters long';
+    if (username.length < 3 || username.length > 20) {
+        return 'Username must be at least 3 characters and no more than 20 characters long';
     }
 
     if (!username.match(/^[A-Za-z0-9_-]+$/)) {

@@ -227,7 +227,7 @@
     "Enter your username or email address": "사용자 이름이나 이메일 주소를 입력하세요",
     "To start the password recovery process, please enter your username or email address and click the submit button.": "비밀번호 복구 프로세스를 시작하려면 사용자 이름이나 이메일 주소를 입력하고 제출 버튼을 클릭하세요.",
     "You must specify a username": "유저 이름을 확인해주세요",
-    "Username must be at least 3 characters and no more than 15 characters long": "유저 이름은 3문자 이상 15문자 이하여야 합니다",
+    "Username must be at least 3 characters and no more than 20 characters long": "유저 이름은 3문자 이상 20문자 이하여야 합니다",
     "Usernames must only use the characters a-z, 0-9, _ and -": "유저이름은 알파벳 a-z, 숫자 0-9, 특수문자 _과 -로만 이루어져야 합니다",
     "You must specify a password": "비밀번호를 확인해주세요",
     "Password must be at least 6 characters": "비밀번호는 최소 6문자 이상이어야 합니다",

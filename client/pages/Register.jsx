@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react';
-import { Formik } from 'formik';
-import * as yup from 'yup';
 import { Button, Input, Label, toast } from '@heroui/react';
+import { Formik } from 'formik';
+import React, { useEffect } from 'react';
+import * as yup from 'yup';
 
+import Link from '../Components/Navigation/Link.jsx';
 import AlertPanel from '../Components/Site/AlertPanel.jsx';
 import Panel from '../Components/Site/Panel.jsx';
-import Link from '../Components/Navigation/Link.jsx';
 import { useRegisterAccountMutation } from '../redux/api';
 
 import { Trans, useTranslation } from 'react-i18next';
@@ -38,10 +38,10 @@ const Register = () => {
         username: yup
             .string()
             .required(t('You must specify a username'))
-            .min(3, t('Username must be at least 3 characters and no more than 15 characters long'))
+            .min(3, t('Username must be at least 3 characters and no more than 20 characters long'))
             .max(
-                15,
-                t('Username must be at least 3 characters and no more than 15 characters long')
+                20,
+                t('Username must be at least 3 characters and no more than 20 characters long')
             )
             .matches(
                 /^[A-Za-z0-9_-]+$/,

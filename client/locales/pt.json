@@ -227,7 +227,7 @@
     "Enter your username or email address": "Entre com seu usuário ou e-mail",
     "To start the password recovery process, please enter your username or email address and click the submit button.": "Para iniciar o processo de recuperação de senha, por favor entre com seu usuário ou e-mail e clique no botão Enviar.",
     "You must specify a username": "Você deve informar um nome de usuário",
-    "Username must be at least 3 characters and no more than 15 characters long": "Nome de usuário deve ter pelo menos 3 e no máximo 15 caracteres",
+    "Username must be at least 3 characters and no more than 20 characters long": "Nome de usuário deve ter pelo menos 3 e no máximo 20 caracteres",
     "Usernames must only use the characters a-z, 0-9, _ and -": "Nome de usuário só pode conter os caracteres a-z, 0-9, _ e -",
     "You must specify a password": "Você deve informar uma senha",
     "Password must be at least 6 characters": "A senha deve ter pelo menos 6 caracteres",

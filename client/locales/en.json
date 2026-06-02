@@ -227,7 +227,7 @@
     "Enter your username or email address": "Enter your username or email address",
     "To start the password recovery process, please enter your username or email address and click the submit button.": "To start the password recovery process, please enter your username or email address and click the submit button.",
     "You must specify a username": "You must specify a username",
-    "Username must be at least 3 characters and no more than 15 characters long": "Username must be at least 3 characters and no more than 15 characters long",
+    "Username must be at least 3 characters and no more than 20 characters long": "Username must be at least 3 characters and no more than 20 characters long",
     "Usernames must only use the characters a-z, 0-9, _ and -": "Usernames must only use the characters a-z, 0-9, _ and -",
     "You must specify a password": "You must specify a password",
     "Password must be at least 6 characters": "Password must be at least 6 characters",

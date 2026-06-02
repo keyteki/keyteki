@@ -227,7 +227,7 @@
     "Enter your username or email address": "Nhập tên tài khoản hoặc địa chỉ email của bạn",
     "To start the password recovery process, please enter your username or email address and click the submit button.": "Để bắt đầu quá trình khôi phục mật khẩu, xin hãy nhập tên tài khoản hoặc địa chỉ email của bạn và chọn nút xác nhận.",
     "You must specify a username": "Tên người dùng bạn điền phải được xác thực",
-    "Username must be at least 3 characters and no more than 15 characters long": "Tên tài khoản phải có ít nhất 3 kí tự và không nhiều hơn 15 kí tự",
+    "Username must be at least 3 characters and no more than 20 characters long": "Tên tài khoản phải có ít nhất 3 kí tự và không nhiều hơn 20 kí tự",
     "Usernames must only use the characters a-z, 0-9, _ and -": "Tên tài khoản chỉ sử dụng các kí tự a-z, 0-9,_ và -",
     "You must specify a password": "Mật khẩu phải được xác thực",
     "Password must be at least 6 characters": "Mật khẩu phải chứa ít nhất 6 kí tự",

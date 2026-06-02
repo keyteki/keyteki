@@ -227,7 +227,7 @@
     "Enter your username or email address": "กรอกชื่อผู้ใช้หรือที่อยู่อีเมลของคุณ",
     "To start the password recovery process, please enter your username or email address and click the submit button.": "หากต้องการเริ่มกระบวนการกู้คืนรหัสผ่าน โปรดป้อนชื่อผู้ใช้หรือที่อยู่อีเมลของคุณแล้วคลิกปุ่มส่ง",
     "You must specify a username": "คุณต้องระบุชื่อผู้ใช้",
-    "Username must be at least 3 characters and no more than 15 characters long": "ชื่อผู้ใช้จะต้องมีอย่างน้อย 3 ตัวอักษรและไม่เกิน 15 ตัวอักษร",
+    "Username must be at least 3 characters and no more than 20 characters long": "ชื่อผู้ใช้จะต้องมีอย่างน้อย 3 ตัวอักษรและไม่เกิน 20 ตัวอักษร",
     "Usernames must only use the characters a-z, 0-9, _ and -": "ชื่อผู้ใช้ต้องใช้อักขระ a-z, 0-9, _ และ - เท่านั้น",
     "You must specify a password": "คุณต้องระบุรหัสผ่าน",
     "Password must be at least 6 characters": "รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร",

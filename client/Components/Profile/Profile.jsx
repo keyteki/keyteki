@@ -156,7 +156,7 @@ const Profile = ({ onSubmit, isLoading }) => {
             .string()
             .required(t('You must specify a username'))
             .min(3, t('Your username must be at least 3 characters long'))
-            .max(15, t('Your username cannot be more than 15 charcters'))
+            .max(20, t('Your username cannot be more than 20 characters'))
             .matches(
                 /^[A-Za-z0-9_-]+$/,
                 t('Usernames must only use the characters a-z, 0-9, _ and -')

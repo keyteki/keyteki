@@ -227,7 +227,7 @@
     "Enter your username or email address": "輸入您的使用者名稱或電子郵件地址",
     "To start the password recovery process, please enter your username or email address and click the submit button.": "若要開始密碼恢復流程，請輸入您的使用者名稱或電子郵件地址，然後按一下提交按鈕。",
     "You must specify a username": "必須輸入使用者名稱",
-    "Username must be at least 3 characters and no more than 15 characters long": "使用者名稱長度需介於 3 到 15 個字",
+    "Username must be at least 3 characters and no more than 20 characters long": "使用者名稱長度需介於 3 到 20 個字",
     "Usernames must only use the characters a-z, 0-9, _ and -": "使用者名稱僅能包含 a-z, 0-9, _ 與 -",
     "You must specify a password": "必須輸入密碼",
     "Password must be at least 6 characters": "密碼長度最短為 6 個字",
