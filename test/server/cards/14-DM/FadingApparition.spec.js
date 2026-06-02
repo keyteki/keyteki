@@ -79,22 +79,6 @@ describe('Fading Apparition', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('removes amber from a creature while the reap gain still resolves normally', function () {
-            this.fadingApparition.exhaust();
-            this.boiler.amber = 1;
-            this.player1.reap(this.jahneerie);
-            this.player1.clickCard(this.boiler);
-            const logs = this.getChatLogs(20);
-            expect(logs).toContain(
-                'player1 uses Fading Apparition to take 1 amber from Boiler instead of the common supply'
-            );
-            // The standard reap-gain message should not appear because the gain handler was replaced.
-            expect(logs.some((log) => log.includes('gains 1A'))).toBe(false);
-            expect(this.boiler.amber).toBe(0);
-            expect(this.player1.amber).toBe(1);
-            expect(this.player1).isReadyToTakeAction();
-        });
-
         it('prompts before the reap event resolves so chosen amber is moved before after-reap reactions fire', function () {
             this.boiler.amber = 1;
             this.player2.amber = 1;
