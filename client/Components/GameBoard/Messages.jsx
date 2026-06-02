@@ -6,6 +6,7 @@ import AmberImage from '../../assets/img/amber.png';
 import CardBackImage from '../../assets/img/idbacks/cardback.jpg';
 import TideImage from '../../assets/img/tide/tide.png';
 import { Constants } from '../../constants';
+import { getRoleClass } from '../../util';
 import AlertPanel from '../Site/AlertPanel';
 import Avatar from '../Site/Avatar';
 import CardImage from './CardImage';
@@ -18,18 +19,6 @@ for (const colour of ['red', 'blue', 'yellow']) {
         unforged: new URL(`../../assets/img/unforgedkey${colour}.png`, import.meta.url).href
     };
 }
-
-const getRoleClass = (role) => {
-    const key = (role || '').toLowerCase();
-    const classes = {
-        admin: 'role-admin',
-        contributor: 'role-contributor',
-        supporter: 'role-supporter',
-        winner: 'role-winner',
-        previouswinner: 'role-previouswinner'
-    };
-    return classes[key] || 'font-semibold text-foreground';
-};
 
 const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
     const compactChatAlertClass =

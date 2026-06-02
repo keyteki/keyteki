@@ -4,6 +4,7 @@ import Icon from '../Icon';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import Avatar from '../Site/Avatar';
+import { getRoleClass } from '../../util';
 
 const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
@@ -17,18 +18,6 @@ const containsUserMention = (messageText, username) => {
         'i'
     );
     return mentionRegex.test(messageText);
-};
-
-const getRoleClass = (role) => {
-    const key = (role || '').toLowerCase();
-    const classes = {
-        admin: 'role-admin',
-        contributor: 'role-contributor',
-        supporter: 'role-supporter',
-        winner: 'role-winner',
-        previouswinner: 'role-previouswinner'
-    };
-    return classes[key] || 'font-semibold text-foreground';
 };
 
 const LobbyChat = ({
