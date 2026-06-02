@@ -28,7 +28,7 @@ const getRoleClass = (role) => {
         winner: 'role-winner',
         previouswinner: 'role-previouswinner'
     };
-    return classes[key] || 'text-foreground';
+    return classes[key] || 'font-semibold text-foreground';
 };
 
 const LobbyChat = ({
