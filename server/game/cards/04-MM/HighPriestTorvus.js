@@ -7,22 +7,29 @@ class HighPriestTorvus extends Card {
             optional: true,
             gameAction: ability.actions.exalt(),
             then: {
-                gameAction: ability.actions.untilPlayerTurnEnd((context) => ({
-                    when: {
-                        onCardPlayed: (event) =>
-                            event.player === context.player && event.card.type === 'action'
-                    },
-                    effect: 'return {1} to hand instead of placing it in discard pile',
-                    effectArgs: (context) => context.event.card,
-                    multipleTrigger: false,
-                    gameAction: ability.actions.cardLastingEffect((context) => ({
-                        // We don’t know where the action card will be played from, so
-                        // we allow any location.
-                        allowedLocations: 'any',
-                        target: context.event.card,
-                        effect: ability.effects.cardLocationAfterPlay('hand')
-                    }))
-                }))
+                gameAction: ability.actions.untilPlayerTurnEnd((context) => {
+                    // Capture all cards currently resolving (in 'being played')
+                    // so we don't return them to hand — only the NEXT action counts.
+                    const excludeCards = context.game.allCards.filter(
+                        (c) => c.location === 'being played'
+                    );
+                    return {
+                        when: {
+                            onCardPlayed: (event) =>
+                                event.player === context.player &&
+                                event.card.type === 'action' &&
+                                !excludeCards.includes(event.card)
+                        },
+                        effect: 'return {1} to hand instead of placing it in discard pile',
+                        effectArgs: (context) => context.event.card,
+                        multipleTrigger: false,
+                        gameAction: ability.actions.cardLastingEffect((context) => ({
+                            allowedLocations: 'any',
+                            target: context.event.card,
+                            effect: ability.effects.cardLocationAfterPlay('hand')
+                        }))
+                    };
+                })
             }
         });
     }

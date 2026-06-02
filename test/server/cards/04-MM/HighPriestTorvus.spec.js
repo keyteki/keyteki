@@ -5,7 +5,15 @@ describe('High Priest Torvus', function () {
                 player1: {
                     house: 'saurian',
                     inPlay: ['high-priest-torvus', 'senator-shrix'],
-                    hand: ['siren-horn', 'galeatops', 'imperium', 'triumph', 'city-gates']
+                    hand: [
+                        'siren-horn',
+                        'galeatops',
+                        'imperium',
+                        'triumph',
+                        'city-gates',
+                        'decadence',
+                        'wild-wormhole'
+                    ]
                 },
                 player2: {
                     inPlay: ['troll', 'flaxia'],
@@ -55,6 +63,26 @@ describe('High Priest Torvus', function () {
             expect(this.highPriestTorvus.amber).toBe(1);
             this.player1.play(this.cityGates);
             expect(this.cityGates.location).toBe('play area');
+        });
+
+        it('should not return an already resolving action to hand', function () {
+            this.player1.makeMaverick(this.wildWormhole, 'saurian');
+            this.player1.moveCard(this.decadence, 'deck');
+            this.player1.play(this.wildWormhole);
+            this.player1.clickCard(this.highPriestTorvus);
+            this.player1.clickPrompt('Exalt, ready and use');
+            this.player1.clickCard(this.highPriestTorvus);
+            expect(this.highPriestTorvus.amber).toBe(1);
+            this.player1.clickPrompt('Reap with this creature');
+            this.player1.clickCard(this.highPriestTorvus);
+            expect(this.highPriestTorvus.amber).toBe(2);
+            expect.soft(this.wildWormhole.location).toBe('discard');
+            expect.soft(this.decadence.location).toBe('discard');
+            this.player1.play(this.triumph);
+            expect.soft(this.triumph.location).toBe('hand');
+            expect.soft(this.wildWormhole.location).toBe('discard');
+            expect.soft(this.decadence.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });
