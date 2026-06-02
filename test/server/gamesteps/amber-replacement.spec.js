@@ -910,7 +910,7 @@ describe('Amber Replacement Effects', function () {
         expect(this.player1).isReadyToTakeAction();
         expect(this.player1.amber).toBe(0);
         expect(this.player2.amber).toBe(2);
-        expect.soft(this.infomorph.amber).toBe(2);
+        expect(this.infomorph.amber).toBe(2);
         expect(this.graphton.amber).toBe(0);
         expect(this.fadingApparition.amber).toBe(2);
         expect(this.gargantodon.amber).toBe(0);
@@ -1700,7 +1700,7 @@ describe('Amber Replacement Effects', function () {
         this.player1.reap(this.infomorph);
         this.player1.clickCard(this.graphton);
         expect(this.player1).isReadyToTakeAction();
-        expect.soft(this.player1.amber).toBe(1);
+        expect(this.player1.amber).toBe(1);
         expect(this.player2.amber).toBe(3);
         expect(this.infomorph.amber).toBe(0);
         expect(this.graphton.amber).toBe(2);
