@@ -19,21 +19,16 @@ const containsUserMention = (messageText, username) => {
     return mentionRegex.test(messageText);
 };
 
-const getRoleTextClass = (role) => {
-    switch ((role || '').toLowerCase()) {
-        case 'admin':
-            return 'text-red-500 dark:text-red-400';
-        case 'contributor':
-            return 'text-cyan-600 dark:text-cyan-400';
-        case 'supporter':
-            return 'text-emerald-600 dark:text-emerald-400';
-        case 'winner':
-            return 'text-amber-600 dark:text-amber-400';
-        case 'previouswinner':
-            return 'text-fuchsia-600 dark:text-fuchsia-400';
-        default:
-            return 'text-foreground';
-    }
+const getRoleClass = (role) => {
+    const key = (role || '').toLowerCase();
+    const classes = {
+        admin: 'role-admin',
+        contributor: 'role-contributor',
+        supporter: 'role-supporter',
+        winner: 'role-winner',
+        previouswinner: 'role-previouswinner'
+    };
+    return classes[key] || 'text-foreground';
 };
 
 const LobbyChat = ({
@@ -272,7 +267,7 @@ const LobbyChat = ({
                 );
             });
 
-            const userClass = `username font-semibold ${getRoleTextClass(firstMessage.user.role)}`;
+            const userClass = `username ${getRoleClass(firstMessage.user.role)}`;
 
             return (
                 <div
