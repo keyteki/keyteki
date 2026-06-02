@@ -76,12 +76,12 @@ describe('High Priest Torvus', function () {
             this.player1.clickPrompt('Reap with this creature');
             this.player1.clickCard(this.highPriestTorvus);
             expect(this.highPriestTorvus.amber).toBe(2);
-            expect.soft(this.wildWormhole.location).toBe('discard');
-            expect.soft(this.decadence.location).toBe('discard');
+            expect(this.wildWormhole.location).toBe('discard');
+            expect(this.decadence.location).toBe('discard');
             this.player1.play(this.triumph);
-            expect.soft(this.triumph.location).toBe('hand');
-            expect.soft(this.wildWormhole.location).toBe('discard');
-            expect.soft(this.decadence.location).toBe('discard');
+            expect(this.triumph.location).toBe('hand');
+            expect(this.wildWormhole.location).toBe('discard');
+            expect(this.decadence.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
         });
     });
