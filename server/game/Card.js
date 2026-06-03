@@ -1503,11 +1503,18 @@ class Card extends EffectSource {
             // Tokens always have a baseline `copyCard(tokenCard)` effect (see
             // MakeTokenCreatureAction); ignore that self-copy and only flag
             // `copying` when something else (e.g. Mirror Shell, Mimic Gel)
-            // overrides the card's identity.
+            // overrides the card's identity. FlipAction uses `copyCard(card)`
+            // when un-tokenizing, which is also a baseline self-reference.
             copying: (() => {
                 const copyEffect = this.mostRecentEffect('copyCard');
-                if (!copyEffect) return false;
-                if (this.isToken() && copyEffect === this.tokenCard()) return false;
+                if (
+                    !copyEffect ||
+                    (this.isToken() && copyEffect === this.tokenCard()) ||
+                    copyEffect === this
+                ) {
+                    return false;
+                }
+
                 return true;
             })(),
             exhausted: this.exhausted,

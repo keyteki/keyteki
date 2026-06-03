@@ -281,6 +281,7 @@ const Card = ({
                 unselectable: card.unselectable,
                 dragging: isDragging,
                 controlled: card.controlled,
+                copying: card.copying,
                 taunt: card.taunt && source === 'play area'
             }
         );
