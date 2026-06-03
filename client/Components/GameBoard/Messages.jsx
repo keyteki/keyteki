@@ -7,6 +7,7 @@ import AmberImage from '../../assets/img/amber.png';
 import CardBackImage from '../../assets/img/idbacks/cardback.jpg';
 import TideImage from '../../assets/img/tide/tide.png';
 import { Constants } from '../../constants';
+import { getRoleClass } from '../../util';
 import AlertPanel from '../Site/AlertPanel';
 import Avatar from '../Site/Avatar';
 import CardImage from './CardImage';
@@ -19,23 +20,6 @@ for (const colour of ['red', 'blue', 'yellow']) {
         unforged: new URL(`../../assets/img/unforgedkey${colour}.png`, import.meta.url).href
     };
 }
-
-const getRoleTextClass = (role) => {
-    switch ((role || '').toLowerCase()) {
-        case 'admin':
-            return 'text-red-500';
-        case 'contributor':
-            return 'text-cyan-600 dark:text-cyan-400';
-        case 'supporter':
-            return 'text-emerald-600 dark:text-emerald-400';
-        case 'winner':
-            return 'text-amber-600 dark:text-amber-400';
-        case 'previouswinner':
-            return 'text-fuchsia-600 dark:text-fuchsia-400';
-        default:
-            return 'text-foreground';
-    }
-};
 
 const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
     const { i18n } = useTranslation();
@@ -252,7 +236,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                     </span>
                 );
             } else if (fragment.name && fragment.argType === 'player') {
-                const userClass = `username font-semibold ${getRoleTextClass(fragment.role)}`;
+                const userClass = `username ${getRoleClass(fragment.role)}`;
 
                 messages.push(
                     <div key={index++} className='message-chat flex items-center gap-1.5'>
@@ -263,7 +247,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                     </div>
                 );
             } else if (fragment.argType === 'nonAvatarPlayer') {
-                const userClass = `username font-semibold ${getRoleTextClass(fragment.role)}`;
+                const userClass = `username ${getRoleClass(fragment.role)}`;
 
                 messages.push(
                     <span key={index++} className={userClass}>

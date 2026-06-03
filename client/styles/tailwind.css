@@ -2131,4 +2131,20 @@ pre {
     .blocklist td {
         vertical-align: middle !important;
     }
+
+    .role-admin {
+        @apply font-semibold text-red-500 dark:text-red-400;
+    }
+    .role-contributor {
+        @apply font-semibold text-cyan-600 dark:text-cyan-400;
+    }
+    .role-supporter {
+        @apply font-semibold text-emerald-600 dark:text-emerald-400;
+    }
+    .role-winner {
+        @apply font-semibold text-amber-600 dark:text-amber-400;
+    }
+    .role-previouswinner {
+        @apply font-semibold text-fuchsia-600 dark:text-fuchsia-400;
+    }
 }
