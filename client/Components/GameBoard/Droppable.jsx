@@ -1,6 +1,6 @@
+import classNames from 'classnames';
 import React from 'react';
 import { useDrop } from 'react-dnd';
-import classNames from 'classnames';
 
 import { ItemTypes } from '../../constants';
 
