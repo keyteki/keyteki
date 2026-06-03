@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import AmberImage from '../../assets/img/amber.png';
@@ -37,6 +38,7 @@ const getRoleTextClass = (role) => {
 };
 
 const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
+    const { i18n } = useTranslation();
     const compactChatAlertClass =
         '!mb-1 !rounded-xl !px-3 !py-2 text-sm [&_svg]:text-base [&_[data-slot="alert-content"]]:gap-0.5 [&_[data-slot="alert-description"]]:text-sm';
 
@@ -232,6 +234,10 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                     </a>
                 );
             } else if (fragment.image && fragment.label) {
+                const cardLabel =
+                    i18n.language !== 'en' && fragment.locale && fragment.locale[i18n.language]
+                        ? fragment.locale[i18n.language].name
+                        : fragment.label;
                 messages.push(
                     <span
                         key={index++}
@@ -242,7 +248,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                         })}
                         onMouseOut={onCardMouseOut.bind(this)}
                     >
-                        {fragment.label}
+                        {cardLabel}
                     </span>
                 );
             } else if (fragment.name && fragment.argType === 'player') {
