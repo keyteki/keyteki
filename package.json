@@ -17,17 +17,14 @@
         "game": "node server/gamenode",
         "test": "vitest run",
         "test:watch": "vitest",
-        "lint": "eslint --ext=js --ext=jsx client/ server/ test/",
+        "lint": "prettier --check --ignore-unknown '!**/*.{js,jsx,ts,tsx}' . && eslint --ext=js,jsx,ts,tsx .",
+        "lint:fix": "prettier --write --ignore-unknown '!**/*.{js,jsx,ts,tsx}' . && eslint --fix --ext=js,jsx,ts,tsx .",
         "build": "vite build --config vite.config.mjs",
-        "typecheck:client": "tsc -p client/tsconfig.json --noEmit",
-        "lint:js": "eslint . --ext .js,.jsx,.ts,.tsx",
-        "lint:js:fix": "npm run lint:js -- --fix"
+        "typecheck:client": "tsc -p client/tsconfig.json --noEmit"
     },
     "lint-staged": {
-        "*.{js,jsx,ts,tsx}": [
-            "prettier --write",
-            "eslint --fix"
-        ]
+        "!(*.{js,jsx,ts,tsx})": "prettier --ignore-unknown --write",
+        "*.{js,jsx,ts,tsx}": "eslint --fix"
     },
     "husky": {
         "hooks": {
@@ -73,7 +70,7 @@
         "eslint-config-prettier": "^6.11.0",
         "eslint-plugin-prettier": "^3.1.3",
         "event-source-polyfill": "^1.0.12",
-        "express": "^4.19.2",
+        "express": "^4.22.2",
         "fabric": "^5.5.2",
         "formik": "^2.1.4",
         "helmet": "^3.22.0",
@@ -136,7 +133,7 @@
         "@types/node": "^22.19.11",
         "@vitejs/plugin-react": "^5.1.4",
         "autoprefixer": "^10.4.16",
-        "body-parser": "^1.18.2",
+        "body-parser": "^1.20.5",
         "command-line-args": "^6.0.1",
         "ejs": "^3.1.10",
         "eslint": "^7.1.0",
@@ -149,6 +146,6 @@
         "precss": "^4.0.0",
         "typescript": "^5.4.5",
         "vite": "^7.3.2",
-        "vitest": "4.0.18"
+        "vitest": "4.1.0"
     }
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Button, Label, Switch } from '@heroui/react';
+import { Button, Switch } from '@heroui/react';
 
 const GameFormats = ({
     formProps,
@@ -117,24 +117,21 @@ const GameFormats = ({
                     </div>
                     <div className='grid gap-x-2 gap-y-1.5 sm:grid-cols-2 lg:grid-cols-4'>
                         {expansions.map((expansion) => (
-                            <div
+                            <Switch
                                 key={expansion.name}
-                                className='flex items-center justify-between gap-2 rounded-md bg-surface-secondary/70 px-3 py-0.5'
+                                id={expansion.name}
+                                name={expansion.name}
+                                isSelected={!!formProps.values[expansion.name]}
+                                onChange={(isSelected) =>
+                                    formProps.setFieldValue(expansion.name, isSelected)
+                                }
+                                className='flex w-full cursor-pointer items-center justify-between gap-2 rounded-md bg-surface-secondary/70 px-3 py-0.5'
                             >
-                                <Label className='text-sm text-foreground'>{expansion.label}</Label>
-                                <Switch
-                                    id={expansion.name}
-                                    name={expansion.name}
-                                    isSelected={!!formProps.values[expansion.name]}
-                                    onChange={(isSelected) =>
-                                        formProps.setFieldValue(expansion.name, isSelected)
-                                    }
-                                >
-                                    <Switch.Control>
-                                        <Switch.Thumb />
-                                    </Switch.Control>
-                                </Switch>
-                            </div>
+                                <span className='text-sm text-foreground'>{expansion.label}</span>
+                                <Switch.Control>
+                                    <Switch.Thumb />
+                                </Switch.Control>
+                            </Switch>
                         ))}
                     </div>
                 </div>
