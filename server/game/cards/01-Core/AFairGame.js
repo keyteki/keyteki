@@ -19,12 +19,18 @@ class AFairGame extends Card {
                     oppTop || 'nothing',
                     oppHand,
                     oppTop
-                        ? oppHand.filter((card) => card.hasHouse(oppTop.printedHouse)).length
+                        ? oppHand.filter((card) =>
+                              oppTop.getHouses().some((house) => card.hasHouse(house))
+                          ).length
                         : 0,
                     context.player,
                     myTop || 'nothing',
                     myHand,
-                    myTop ? myHand.filter((card) => card.hasHouse(myTop.printedHouse)).length : 0
+                    myTop
+                        ? myHand.filter((card) =>
+                              myTop.getHouses().some((house) => card.hasHouse(house))
+                          ).length
+                        : 0
                 ];
             },
             gameAction: [
@@ -42,7 +48,7 @@ class AFairGame extends Card {
                     if (oppTop) {
                         return {
                             amount: context.player.opponent.hand.filter((card) =>
-                                card.hasHouse(oppTop.printedHouse)
+                                oppTop.getHouses().some((house) => card.hasHouse(house))
                             ).length
                         };
                     }
@@ -55,7 +61,7 @@ class AFairGame extends Card {
                         return {
                             target: context.player.opponent,
                             amount: context.player.hand.filter((card) =>
-                                card.hasHouse(myTop.printedHouse)
+                                myTop.getHouses().some((house) => card.hasHouse(house))
                             ).length
                         };
                     }

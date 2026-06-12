@@ -15,7 +15,7 @@ class OlPaddyEvilTwin extends Card {
                     controller: 'any',
                     cardCondition: (card, context) =>
                         context.preThenEvents.some((event) =>
-                            card.hasHouse(event.card.printedHouse)
+                            event.card.getHouses().some((house) => card.hasHouse(house))
                         ),
                     gameAction: ability.actions.destroy()
                 }

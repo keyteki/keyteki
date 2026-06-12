@@ -33,7 +33,7 @@ class IntoTheWarp extends Card {
                     target: context.game.creaturesInPlay.filter((c) =>
                         context.preThenEvents
                             .filter((e) => e.name === 'onCardDiscarded')
-                            .map((e) => e.card.printedHouse)
+                            .flatMap((e) => e.card.getHouses())
                             .some((h) => c.hasHouse(h))
                     )
                 })),
@@ -43,7 +43,7 @@ class IntoTheWarp extends Card {
                     context.game.creaturesInPlay.filter((c) =>
                         context.preThenEvents
                             .filter((e) => e.name === 'onCardDiscarded')
-                            .map((e) => e.card.printedHouse)
+                            .flatMap((e) => e.card.getHouses())
                             .some((h) => c.hasHouse(h))
                     )
                 ]

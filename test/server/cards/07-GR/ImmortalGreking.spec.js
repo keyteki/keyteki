@@ -48,6 +48,17 @@ describe('Immortal Greking', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
+        it('makes the stolen creature also belong to house enhancements of Greking', function () {
+            this.immortalGreking.enhancements = ['logos'];
+            this.player1.playCreature(this.immortalGreking);
+            this.player1.clickCard(this.batdrone);
+            this.player1.clickCard(this.echofly);
+            this.player1.clickPrompt('Left');
+            expect(this.batdrone.hasHouse('geistoid')).toBe(true);
+            expect(this.batdrone.hasHouse('logos')).toBe(true);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
         describe('after play', function () {
             beforeEach(function () {
                 this.player1.playCreature(this.immortalGreking);

@@ -783,7 +783,7 @@ class Player extends GameObject {
             }
 
             if (card.anyEffect('changeHouse')) {
-                cardHouses = card.getEffects('changeHouse');
+                cardHouses = card.getEffects('changeHouse').flat();
             }
 
             for (let house of cardHouses) {
