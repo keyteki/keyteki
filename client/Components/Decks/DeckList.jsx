@@ -314,7 +314,7 @@ const DeckList = ({
     return (
         <div className='flex h-full min-h-0 flex-col pt-4'>
             {!standaloneDecks ? (
-                <div className='mb-3 flex items-end gap-3'>
+                <div className='mb-3 flex items-end gap-3 px-1'>
                     <div className='min-w-0 flex-1'>
                         <label className='mb-1 block text-sm text-foreground'>{t('Name')}</label>
                         <Input
