@@ -41,4 +41,33 @@ describe('Thoughtcatcher', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe("Thoughtcatcher's gained Destroyed: ability does not retroactively trigger on a creature already tagged for destruction", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 1,
+                    house: 'dis',
+                    hand: ['gateway-to-dis'],
+                    inPlay: ['thoughtcatcher', 'batdrone']
+                },
+                player2: {
+                    inPlay: ['parasitic-arachnoid']
+                }
+            });
+        });
+
+        it('does not draw a card when a tagged-for-destruction friendly creature gains amber via Parasitic Arachnoid capture during the same destruction window', function () {
+            this.player1.play(this.gatewayToDis);
+            this.player1.clickCard(this.batdrone);
+
+            expect(this.player1.player.hand.length).toBe(0);
+            expect(this.player1.amber).toBe(0);
+            expect(this.batdrone.amber).toBe(0);
+            expect(this.batdrone.location).toBe('discard');
+            expect(this.thoughtcatcher.location).toBe('discard');
+            expect(this.parasiticArachnoid.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

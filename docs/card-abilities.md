@@ -137,11 +137,20 @@ Triggered abilities that activate when the card is destroyed. These are implemen
 
 **Destruction timing.** When a card is destroyed it is first _tagged for destruction_ (its `moribund` flag is set to `true`) but it stays in play (`location === 'play area'`). All `destroyed()` abilities triggered by the same destruction window resolve while every tagged card is still in play. Only after the destroyed-ability window closes do the tagged cards move to discard via `onCardLeavesPlay`.
 
+**Cascaded destructions.** When a `Destroyed:` ability causes further destructions (e.g. Soulkeeper's "Destroyed: destroy the most powerful enemy creature"), those cascaded destructions are **batched into the same destruction window** rather than opening a nested one. This means:
+
+- The active player gets a single ordering prompt across the entire cascade
+- Every card tagged for destruction stays on the board until the whole batch resolves
+- Cascaded cards' own `Destroyed:` abilities are queued as additional orderable choices in the same window
+
+**Lock-in semantics.** A card's `Destroyed:` triggers are captured at the moment it is tagged for destruction. Abilities granted _after_ tagging (e.g. via a persistent effect that becomes eligible mid-window) do **not** retroactively trigger on already-tagged cards. This prevents dynamically-granted `Destroyed:` abilities from picking up cards that didn't have those abilities at tagging time.
+
 Implications for card implementations:
 
 -   A `destroyed()` ability that targets "the most powerful enemy creature", "the creature on the opponent's left flank", etc. must consider creatures that are also tagged for destruction during this same window — they have not yet left play. Selectors and direct lookups (`creaturesInPlay`, `cardsInPlay[i]`, neighbors, flank position) surface tagged-for-destruction cards.
 -   Per the rules, a player **cannot _choose_** a tagged-for-destruction creature as a target. When the player has a choice (e.g. ties for "most powerful"), tagged cards are filtered out of the selectable set automatically by the stat selectors (`MostStatCardSelector`, `LeastStatCardSelector`). When there is no choice (e.g. "the creature on the left flank", or a single most-powerful creature), the ability still targets the tagged card; the destroy itself becomes a no-op via `DestroyAction`'s event condition (the original destruction will move it to discard once the window closes).
--   `DestroyAction.canAffect` returns true for moribund cards so that selectors can see them. The destroy is short-circuited at event-resolve time, not at target-selection time.
+-   When every candidate meeting the stat threshold is tagged for destruction, the selectors fall back to the top `numCards` of the sorted list (including tagged-for-destruction cards) so downstream effects that reference the chosen target still resolve.
+-   `DestroyAction.canAffect` returns true for cards tagged for destruction so that selectors can see them. The destroy is short-circuited at event-resolve time, not at target-selection time.
 
 ```javascript
 // Destroyed: Gain 2A.
