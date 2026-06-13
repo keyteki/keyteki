@@ -111,4 +111,36 @@ describe('Ditch the Loot', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe("Ditch the Loot's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    hand: ['essence-entangler'],
+                    inPlay: ['cxo-taber']
+                },
+                player2: {
+                    hand: ['ditch-the-loot'],
+                    inPlay: ['urchin']
+                }
+            });
+            this.cxoTaber.amber = 2;
+            this.urchin.amber = 3;
+        });
+
+        it('moves all amber simultaneously', function () {
+            this.player1.playUpgrade(this.essenceEntangler, this.cxoTaber);
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+            this.player2.play(this.ditchTheLoot);
+            this.player2.clickCard(this.urchin);
+            this.player2.clickCard(this.cxoTaber);
+            expect(this.urchin.amber).toBe(0);
+            expect(this.cxoTaber.location).toBe('discard');
+            expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(6);
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
 });
