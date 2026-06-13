@@ -102,8 +102,12 @@ const CardPilePopup = ({
             // maverick/anomaly are a house name when set from the deck list, but
             // boolean true on live game summaries — fall back to printedHouse in
             // that case so the card is still counted.
-            if (typeof card.maverick === 'string') return card.maverick;
-            if (typeof card.anomaly === 'string') return card.anomaly;
+            if (typeof card.maverick === 'string') {
+                return card.maverick;
+            }
+            if (typeof card.anomaly === 'string') {
+                return card.anomaly;
+            }
             return card.printedHouse;
         };
         const counts = houses.map((house) => ({
