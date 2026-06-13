@@ -442,7 +442,7 @@ function ReactTable({
                             </span>
                         </Button>
                     ))}
-                    {refetch ? (
+                    {refetch && !refetchRef ? (
                         <Button isIconOnly size='md' variant='tertiary' onPress={() => refetch()}>
                             <Icon icon={faRefresh} />
                         </Button>
@@ -450,7 +450,7 @@ function ReactTable({
                 </div>
             </div>
         ),
-        [buttons, refetch]
+        [buttons, refetch, refetchRef]
     );
 
     if (isLoading) {
