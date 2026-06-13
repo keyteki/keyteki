@@ -96,9 +96,8 @@ const CardPilePopup = ({
 
     let popupTitle = title;
     const titleText = playerName ? `${title} • ${playerName}` : title;
-    if (houses && houses.length > 0 && cards) {
-        const hasHiddenCards = cards.some((card) => card.facedown);
-        const visibleCards = cards.filter((card) => !card.facedown);
+    const allFacedown = cards && cards.every((card) => card.facedown);
+    if (houses && houses.length > 0 && cards && !allFacedown) {
         const cardHouse = (card) => {
             // maverick/anomaly are a house name when set from the deck list, but
             // boolean true on live game summaries — fall back to printedHouse in
@@ -109,9 +108,7 @@ const CardPilePopup = ({
         };
         const counts = houses.map((house) => ({
             house,
-            count: hasHiddenCards
-                ? '?'
-                : visibleCards.filter((card) => cardHouse(card) === house).length
+            count: cards.filter((card) => !card.facedown && cardHouse(card) === house).length
         }));
 
         popupTitle = (
