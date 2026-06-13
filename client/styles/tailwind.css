@@ -1109,10 +1109,10 @@ pre {
     top: 5px;
 }
 .card-zoom.from-chat {
-  /* Anchor the zoom card to the left of the chat panel so chat hovers don't
+    /* Anchor the zoom card to the left of the chat panel so chat hovers don't
      cover the messages. `--chat-left` is set by GameBoard from the chat
      element's bounding rect. */
-  right: calc(100vw - var(--chat-left, 320px) + 12px);
+    right: calc(100vw - var(--chat-left, 320px) + 12px);
 }
 
 .card-zoom > img,
