@@ -1320,7 +1320,7 @@ class Game extends EventEmitter {
             let modifiedControl = false;
             for (const player of this.getPlayers()) {
                 for (const card of [...player.cardsInPlay]) {
-                    let newController = card.getModifiedController();
+                    const newController = card.getModifiedController();
                     if (newController && newController !== player && newController.cardsInPlay) {
                         this.takeControl(newController, card, modifiedByPlayer);
                         modifiedControl = true;
