@@ -60,6 +60,16 @@
         "description": "Start over a new game with the current opponent"
     },
     {
+        "usage": "/rematch-swap-decks",
+        "i18nKey": "howtoplay.cmd.rematchswap",
+        "description": "Start over a new game with the current opponent, swapping decks"
+    },
+    {
+        "usage": "/rematch-change-decks",
+        "i18nKey": "howtoplay.cmd.rematchchange",
+        "description": "Start over a new game with the current opponent, each picking a different deck"
+    },
+    {
         "usage": "/reveal-hand",
         "i18nKey": "howtoplay.cmd.revealhand",
         "description": "Reveal your hand to the game log"

@@ -49,7 +49,6 @@ describe('Reveal Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Ezra Paws',
-                'player1 uses Ezra Paws',
                 'player1 draws 1 card'
             ]);
         });
@@ -60,7 +59,7 @@ describe('Reveal Messages', function () {
             this.setupTest({
                 player1: {
                     house: 'untamed',
-                    hand: ['cladogenesis', 'troll'],
+                    hand: ['cladogenesis', 'troll', 'bumpsy'],
                     deck: ['anger']
                 },
                 player2: {
@@ -77,12 +76,13 @@ describe('Reveal Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 plays Cladogenesis',
-                "player1 gains an amber due to Cladogenesis's bonus icon",
-                "player1 uses Cladogenesis to discard Anger and Nerve Blast, reveal each player's hand, and discard cards belonging to each player's discarded card's house",
-                'player1 uses Cladogenesis to discard Anger and Nerve Blast',
-                'Cladogenesis reveals Troll',
-                'Cladogenesis reveals Krump',
-                'player1 uses Cladogenesis to discard Troll',
+                "player1 uses Cladogenesis's amber bonus icon to gain 1 amber",
+                "player1 uses Cladogenesis to discard the top card of each player's deck, reveal each player's hand, and discard cards belonging to each player's discarded card's house",
+                "player1 uses Cladogenesis to discard Anger from the top of player1's deck",
+                "player1 uses Cladogenesis to discard Nerve Blast from the top of player2's deck",
+                "Cladogenesis reveals Troll and Bumpsy from player1's hand",
+                "Cladogenesis reveals Krump from player2's hand",
+                'player1 uses Cladogenesis to discard Troll and Bumpsy',
                 'player1 uses Cladogenesis to have each player refill their hand',
                 'player1 draws 6 cards to refill their hand to 6 cards',
                 'player2 draws 5 cards to refill their hand to 6 cards'

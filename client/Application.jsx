@@ -142,6 +142,15 @@ const Application = () => {
     const path = location?.pathname || '/';
     const gameBoardVisible = currentGame && currentGame.started && path === '/play';
 
+    // Scenario dev mode: the gamenode auto-joins test0/test1 to a game on
+    // startup and on `r` reset. Bounce the client to /play so they don't have
+    // to manually refresh from the lobby.
+    useEffect(() => {
+        if (currentGame && currentGame.scenario && path !== '/play') {
+            navigate('/play', { replace: true });
+        }
+    }, [currentGame, navigate, path]);
+
     useEffect(() => {
         if (!bgRef.current) {
             return;

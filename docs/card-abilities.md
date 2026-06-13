@@ -139,9 +139,9 @@ Triggered abilities that activate when the card is destroyed. These are implemen
 
 Implications for card implementations:
 
-- A `destroyed()` ability that targets "the most powerful enemy creature", "the creature on the opponent's left flank", etc. must consider creatures that are also tagged for destruction during this same window — they have not yet left play. Selectors and direct lookups (`creaturesInPlay`, `cardsInPlay[i]`, neighbors, flank position) surface tagged-for-destruction cards.
-- Per the rules, a player **cannot _choose_** a tagged-for-destruction creature as a target. When the player has a choice (e.g. ties for "most powerful"), tagged cards are filtered out of the selectable set automatically by the stat selectors (`MostStatCardSelector`, `LeastStatCardSelector`). When there is no choice (e.g. "the creature on the left flank", or a single most-powerful creature), the ability still targets the tagged card; the destroy itself becomes a no-op via `DestroyAction`'s event condition (the original destruction will move it to discard once the window closes).
-- `DestroyAction.canAffect` returns true for moribund cards so that selectors can see them. The destroy is short-circuited at event-resolve time, not at target-selection time.
+-   A `destroyed()` ability that targets "the most powerful enemy creature", "the creature on the opponent's left flank", etc. must consider creatures that are also tagged for destruction during this same window — they have not yet left play. Selectors and direct lookups (`creaturesInPlay`, `cardsInPlay[i]`, neighbors, flank position) surface tagged-for-destruction cards.
+-   Per the rules, a player **cannot _choose_** a tagged-for-destruction creature as a target. When the player has a choice (e.g. ties for "most powerful"), tagged cards are filtered out of the selectable set automatically by the stat selectors (`MostStatCardSelector`, `LeastStatCardSelector`). When there is no choice (e.g. "the creature on the left flank", or a single most-powerful creature), the ability still targets the tagged card; the destroy itself becomes a no-op via `DestroyAction`'s event condition (the original destruction will move it to discard once the window closes).
+-   `DestroyAction.canAffect` returns true for moribund cards so that selectors can see them. The destroy is short-circuited at event-resolve time, not at target-selection time.
 
 ```javascript
 // Destroyed: Gain 2A.
@@ -337,7 +337,9 @@ this.interrupt({
 
 ### scrap()
 
-"Scrap:" abilities trigger when the card is discarded from the active player's hand (not from play) during their turn.
+"Scrap:" abilities trigger when the card is discarded from the active player's hand (not from play) during their turn. This includes both voluntary discards (using the "scrap" action) and forced discards (from bonus icons, card effects, etc.).
+
+**Note:** Don't confuse scrap abilities with other ability types. Cards like Helper Bot have Play abilities, not Scrap abilities. Always check the actual card text in the JSON data to verify a card's ability type.
 
 ```javascript
 // Scrap: Deal 3 damage to a creature.

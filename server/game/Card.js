@@ -34,6 +34,19 @@ class Card extends EffectSource {
         this.tokens = {};
         this.gigantic = false;
 
+        /**
+         * Abilities that this card has.
+         *
+         * **IMPORTANT NOTE:** These arrays will include the _sum_ of abilities
+         * put on the card. Specifically, if a card is copying another card (for
+         * example, it’s face-down as a token creature), these arrays will have
+         * both the original card’s effects and the token creature’s effects.
+         *
+         * You in general will want to look at the
+         * actions/reactions/persistentEffects properties instead, as those will
+         * reflect what is actually active in the game, since they are sensitive
+         * both to text box blanking effects as well as copy card effects.
+         */
         this.abilities = {
             actions: [],
             reactions: [],
@@ -147,9 +160,12 @@ class Card extends EffectSource {
     }
 
     tokenCard() {
-        return this.game
-            .getPlayers()
-            .find((player) => player.tokenCard && player.tokenCard.name === this.name)?.tokenCard;
+        // Tokens are always created from their owner's own deck,
+        // and each player has at most one token card definition,
+        // so the owner's tokenCard is the canonical resolution.
+        // Avoid looking up by `this.name`, which can be overridden
+        //  by a copyCard effect.
+        return this.owner && this.owner.tokenCard;
     }
 
     isProphecy() {
@@ -892,9 +908,31 @@ class Card extends EffectSource {
             return [{ command: 'reveal', text: 'Reveal', menu: 'main' }];
         }
 
+        // Upgrades should only be returned to hand - they cannot be otherwise interacted with while attached to a creature, and don't need their own menu options
+        if (this.parent) {
+            menu.push({ command: 'click', text: 'Select Card', menu: 'main' });
+            menu.push({ command: 'returnToHand', text: 'Return to hand', menu: 'main' });
+            return menu;
+        }
+
         menu.push({ command: 'click', text: 'Select Card', menu: 'main' });
         if (this.location === 'play area') {
-            menu = menu.concat(this.menu);
+            // Render the static menu, but rewrite a few toggle entries to
+            // reflect the card's current state instead of the generic
+            // 'X/Remove X' wording.
+            const dynamicLabels = {
+                exhaust: this.exhausted ? 'Ready' : 'Exhaust',
+                stun: this.stunned ? 'Remove Stun' : 'Stun',
+                ward: this.warded ? 'Remove Ward' : 'Ward',
+                enrage: this.enraged ? 'Remove Enrage' : 'Enrage'
+            };
+            menu = menu.concat(
+                this.menu.map((item) =>
+                    dynamicLabels[item.command]
+                        ? { ...item, text: dynamicLabels[item.command] }
+                        : item
+                )
+            );
         }
 
         return menu;
@@ -1462,6 +1500,23 @@ class Card extends EffectSource {
             cardback: this.owner.deckData.cardback,
             childCards: childCards,
             controlled: this.owner !== this.controller,
+            // Tokens always have a baseline `copyCard(tokenCard)` effect (see
+            // MakeTokenCreatureAction); ignore that self-copy and only flag
+            // `copying` when something else (e.g. Mirror Shell, Mimic Gel)
+            // overrides the card's identity. FlipAction uses `copyCard(card)`
+            // when un-tokenizing, which is also a baseline self-reference.
+            copying: (() => {
+                const copyEffect = this.mostRecentEffect('copyCard');
+                if (
+                    !copyEffect ||
+                    (this.isToken() && copyEffect === this.tokenCard()) ||
+                    copyEffect === this
+                ) {
+                    return false;
+                }
+
+                return true;
+            })(),
             exhausted: this.exhausted,
             facedown: this.facedown,
             location: this.location,

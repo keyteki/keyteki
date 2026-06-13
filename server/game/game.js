@@ -80,6 +80,7 @@ class Game extends EventEmitter {
         this.timeLimit = new TimeLimit(this);
         this.useGameTimeLimit = details.useGameTimeLimit;
         this.startingHandsDrawn = false;
+        this.continuePlaying = false;
 
         this.cardNamesPlayedOrUsed = [];
         this.cardsUsed = [];
@@ -517,6 +518,14 @@ class Game extends EventEmitter {
      * Check to see if either player has won/lost the game due to keys or time
      */
     checkWinCondition() {
+        // Once a winner has been recorded, don't re-fire passive win checks.
+        // An explicit concede goes through recordWinner directly and will
+        // re-open the post-game menu if the players are continuing past the
+        // original win.
+        if (this.winner) {
+            return;
+        }
+
         for (const player of this.getPlayers()) {
             if (Object.values(player.keys).every((key) => key)) {
                 this.recordWinner(player, 'keys');
@@ -541,6 +550,15 @@ class Game extends EventEmitter {
      */
     recordWinner(winner, reason) {
         if (this.winner) {
+            // Game was already won but the players chose to continue. Re-open
+            // the post-game menu (without re-recording stats) so they can
+            // pick rematch/continue again. The displayed winner reflects the
+            // most recent concession even though the recorded winner stays
+            // as the original.
+            if (this.continuePlaying) {
+                this.continuePlaying = false;
+                this.queueStep(new GameWonPrompt(this, winner));
+            }
             return;
         }
 
@@ -1232,31 +1250,27 @@ class Game extends EventEmitter {
     }
 
     /**
-     * @param {boolean} swapDecks If true, swap decks in the rematch from what
-     * they were this game. Note that if the current game was a rematch with
-     * swapped decks, swapping for the 2nd rematch puts them back to where they
-     * were originally.
+     * @param {'same'|'swap'|'change'} mode 'same' replays with the same decks
+     * on the same sides; 'swap' replays with the decks swapped between
+     * players; 'change' lets each player pick a different deck.
      */
-    rematch(swapDecks = false) {
+    rematch(mode = 'same') {
         if (!this.finishedAt) {
             this.finishedAt = new Date();
             this.winReason = 'rematch';
         }
 
-        if (swapDecks) {
+        if (mode === 'change') {
+            this.swap = false;
+            this.router.rematchWithNewDecks(this);
+            return;
+        }
+
+        if (mode === 'swap') {
             this.swap = !this.swap;
         }
 
         this.router.rematch(this);
-    }
-
-    rematchWithNewDecks() {
-        if (!this.finishedAt) {
-            this.finishedAt = new Date();
-            this.winReason = 'rematch';
-        }
-
-        this.router.rematchWithNewDecks(this);
     }
 
     timeExpired() {
@@ -1575,6 +1589,7 @@ class Game extends EventEmitter {
                 owner: this.owner,
                 players: playerState,
                 previousWinner: this.previousWinner,
+                scenario: this.scenario,
                 showHand: this.showHand,
                 spectators: this.getSpectators().map((spectator) => {
                     return {
@@ -1638,6 +1653,7 @@ class Game extends EventEmitter {
             name: this.name,
             owner: this.owner,
             players: playerSummaries,
+            scenario: this.scenario,
             showHand: this.showHand,
             spectators: this.getSpectators().map((spectator) => {
                 return {

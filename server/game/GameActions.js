@@ -74,6 +74,7 @@ const Actions = {
     playUpgradeOnParent: (propertyFactory) =>
         new GameActions.PlayUpgradeOnParentAction(propertyFactory),
     purge: (propertyFactory) => new GameActions.PurgeAction(propertyFactory),
+    putIntoArchives: (propertyFactory) => new GameActions.PutIntoArchivesAction(propertyFactory),
     putIntoPlay: (propertyFactory) => new GameActions.PutIntoPlayAction(propertyFactory),
     ready: (propertyFactory) => new GameActions.ReadyAction(propertyFactory),
     reap: (propertyFactory) => new GameActions.ReapGameAction(propertyFactory),

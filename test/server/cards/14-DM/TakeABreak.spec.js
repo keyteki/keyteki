@@ -39,9 +39,9 @@ describe('Take a Break', function () {
         });
 
         it('can select an already-exhausted creature', function () {
-            this.urchin.exhausted = true;
-            this.troll.exhausted = true;
-            this.krump.exhausted = true;
+            this.urchin.exhaust();
+            this.troll.exhaust();
+            this.krump.exhaust();
             this.player1.play(this.takeABreak);
             expect(this.player1).toBeAbleToSelect(this.urchin);
             this.player1.clickCard(this.urchin);

@@ -32,8 +32,7 @@ class AddTokenAction extends CardGameAction {
                 this.amount +
                 ' ' +
                 (this.type === 'power' ? token : this.type) +
-                ' on {0} ' +
-                (this.multiplier > 1 ? 'for each ' + token + ' on {0}' : '');
+                ' on {0}';
         }
     }
 

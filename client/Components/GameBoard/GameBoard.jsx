@@ -224,7 +224,7 @@ export const GameBoard = () => {
                             />
                         }
                         cardsInPlay={otherPlayer.cardPiles.cardsInPlay}
-                        hasActiveHouse={false}
+                        hasActiveHouse={Boolean(thisPlayer.activeHouse)}
                         isSpectating={spectating}
                         onCardClick={onCardClick}
                         onMenuItemClick={onMenuItemClick}
@@ -349,7 +349,7 @@ export const GameBoard = () => {
                             {timeLimitClock}
                         </div>
                     </div>
-                    <div className='chat-scroll border-l border-[color:color-mix(in_oklab,var(--border)_88%,transparent)] bg-[color:color-mix(in_oklab,var(--surface)_94%,transparent)]'>
+                    <div className='chat-scroll bg-[color:color-mix(in_oklab,var(--surface)_94%,transparent)]'>
                         {showMessages && (
                             <div className='relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden box-border'>
                                 <GameChat

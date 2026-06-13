@@ -75,6 +75,7 @@ class DiscardCardAction extends CardGameAction {
     setup() {
         super.setup();
         this.cost = 'discarding {0}';
+        this.defersMessage = true;
     }
 
     setDefaultProperties() {
