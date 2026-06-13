@@ -132,4 +132,49 @@ describe('Lord Invidius', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('when it leaves and re-enters the centre of the battle line', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    hand: ['chan-s-blaster'],
+                    inPlay: ['urchin', 'umbra']
+                },
+                player2: {
+                    house: 'dis',
+                    inPlay: ['lord-invidius']
+                }
+            });
+        });
+
+        it('should regain its gained reap ability after returning to the centre', function () {
+            this.player1.playUpgrade(this.chanSBlaster, this.lordInvidius);
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+
+            // Take Urchin
+            expect(this.lordInvidius.isInCenter()).toBe(true);
+            this.player2.reap(this.lordInvidius);
+            this.player2.clickPrompt(this.lordInvidius.name);
+            expect(this.player2).toHavePrompt('Choose a creature');
+            this.player2.clickCard(this.urchin);
+            this.player2.clickPrompt('Left');
+            expect(this.urchin.controller).toBe(this.player2.player);
+            expect(this.lordInvidius.isInCenter()).toBe(false);
+
+            // Kill Urchin
+            expect(this.player2).toHavePrompt('Triggered Abilities');
+            this.player2.clickCard(this.lordInvidius);
+            this.player2.clickPrompt('Deal 2 damage');
+            this.player2.clickCard(this.urchin);
+
+            // Take Umbra
+            expect(this.player2).toHavePrompt('Choose a creature');
+            this.player2.clickCard(this.umbra);
+            this.player2.clickPrompt('Left');
+            expect(this.umbra.controller).toBe(this.player2.player);
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
 });

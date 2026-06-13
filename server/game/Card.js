@@ -84,6 +84,8 @@ class Card extends EffectSource {
         this.clonedType = null;
         this.clonedNeighbors = null;
         this.clonedPurgedCards = null;
+        this.leftNeighborBeforeLeavingPlay = null;
+        this.rightNeighborBeforeLeavingPlay = null;
 
         this.powerPrinted = cardData.power;
         this.armorPrinted = cardData.armor;
@@ -1421,27 +1423,40 @@ class Card extends EffectSource {
     }
 
     leftNeighbor() {
-        let neighbor;
-        if (this.type === 'creature') {
-            let creatures = this.controller.creaturesInPlay;
-            let index = creatures.indexOf(this);
-            if (index > 0) {
-                neighbor = creatures[index - 1];
-            }
+        if (this.type !== 'creature') {
+            return undefined;
         }
-        return neighbor;
+
+        const creatures = this.controller.creaturesInPlay;
+        const index = creatures.indexOf(this);
+        if (index > 0) {
+            return creatures[index - 1];
+        } else if (index === -1) {
+            // Source is no longer in play. Per the rules, later instructions in
+            // the same ability refer to cards as they were immediately prior to
+            // leaving play, so fall back to the snapshot captured on leave.
+            return this.leftNeighborBeforeLeavingPlay || undefined;
+        }
+        return undefined;
     }
 
     rightNeighbor() {
-        let neighbor;
-        if (this.type === 'creature') {
-            let creatures = this.controller.creaturesInPlay;
-            let index = creatures.indexOf(this);
-            if (index < creatures.length - 1) {
-                neighbor = creatures[index + 1];
-            }
+        if (this.type !== 'creature') {
+            return undefined;
         }
-        return neighbor;
+
+        const creatures = this.controller.creaturesInPlay;
+        const index = creatures.indexOf(this);
+        if (index >= 0 && index < creatures.length - 1) {
+            return creatures[index + 1];
+        } else if (index === -1) {
+            return this.rightNeighborBeforeLeavingPlay || undefined;
+        }
+        return undefined;
+    }
+
+    getNeighbors() {
+        return [this.leftNeighbor(), this.rightNeighbor()].filter(Boolean);
     }
 
     ignores(trait) {
