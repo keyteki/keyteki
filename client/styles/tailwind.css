@@ -2045,46 +2045,24 @@ pre {
 }
 
 .stat-value {
-    font-family: Bombardier, serif;
-    font-size: 1.8rem;
-    display: inline-flex;
-    align-items: baseline;
-    justify-content: center;
+    @apply inline-flex items-baseline justify-center font-[Bombardier,serif] text-[1.8rem];
 }
 .stat-digit {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 0.55em;
-    padding: 0;
+    @apply inline-flex items-center justify-center w-[0.55em] p-0;
 }
 
 .btn-stat {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 22px;
-    height: 22px;
-    padding: 0;
-    border-radius: 50%;
-    background-color: oklch(0.9 0.004 286);
-    color: black;
-    border: 1.5px solid var(--table-header-border);
-    font-size: 12px;
-    line-height: 1;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
+    @apply inline-flex items-center justify-center w-5.5 h-5.5 p-0 rounded-full text-black text-xs leading-none shadow-sm bg-[oklch(0.9_0.004_286)] border-[1.5px] border-solid border-(--table-header-border);
 }
 .btn-stat svg {
-    color: black !important;
-    fill: black !important;
-    stroke: black !important;
+    @apply text-black! fill-black! stroke-black!;
     stroke-width: 40 !important;
 }
 .btn-stat.btn-stat--plus:hover {
-    background-color: #ffc107;
+    @apply bg-[#ffc107];
 }
 .btn-stat.btn-stat--minus:hover {
-    background-color: #dc3545;
+    @apply bg-[#dc3545];
 }
 
 .active-player .state svg {
