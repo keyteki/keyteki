@@ -11,11 +11,14 @@ class GrowthSurge extends Card {
                     gameAction: [
                         ability.actions.addPowerCounter({ amount: 3 }),
                         ability.actions.addPowerCounter((context) => ({
-                            target: context.targets.flank.neighbors,
-                            amount: context.targets.flank.neighbors.length !== 1 ? 0 : 2
+                            target: context.targets.flank?.neighbors,
+                            amount: context.targets.flank?.neighbors?.length !== 1 ? 0 : 2
                         })),
                         ability.actions.addPowerCounter((context) => {
-                            if (context.targets.flank.neighbors.length !== 1) {
+                            if (
+                                !context.targets.flank?.neighbors ||
+                                context.targets.flank.neighbors.length !== 1
+                            ) {
                                 return { amount: 0 };
                             }
 

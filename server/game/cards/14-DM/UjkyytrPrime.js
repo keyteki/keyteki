@@ -13,7 +13,9 @@ class UjkyytrPrime extends Card {
                 gameAction: ability.actions.conditional((context) => ({
                     condition: context.player.isOverwhelmed(),
                     trueGameAction: ability.actions.stun({
-                        target: [context.target].concat(context.target.neighbors)
+                        target: context.target
+                            ? [context.target].concat(context.target.neighbors)
+                            : []
                     }),
                     falseGameAction: ability.actions.stun({ target: context.target })
                 }))

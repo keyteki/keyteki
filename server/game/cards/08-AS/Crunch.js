@@ -12,7 +12,7 @@ class Crunch extends Card {
                 cardCondition: (card, context) => context.source.neighbors.includes(card),
                 gameAction: ability.actions.addPowerCounter((context) => ({
                     target: context.source,
-                    amount: context.target.power
+                    amount: context.target?.power || 0
                 }))
             }
         });

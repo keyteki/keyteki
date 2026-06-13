@@ -9,9 +9,9 @@ class MarkOfDis extends Card {
                 gameAction: ability.actions.sequential([
                     ability.actions.dealDamage({ amount: 2 }),
                     ability.actions.conditional((context) => ({
-                        condition: () => context.target.location === 'play area',
+                        condition: () => context.target?.location === 'play area',
                         trueGameAction:
-                            context.player === context.target.controller
+                            context.target && context.player === context.target.controller
                                 ? ability.actions.untilPlayerNextTurnEnd({
                                       targetController: 'current',
                                       effect: ability.effects.restrictHouseChoice(
@@ -21,7 +21,7 @@ class MarkOfDis extends Card {
                                 : ability.actions.duringOpponentNextTurn({
                                       targetController: 'opponent',
                                       effect: ability.effects.restrictHouseChoice(
-                                          context.target.getHouses()
+                                          context.target?.getHouses() || []
                                       )
                                   })
                     }))
