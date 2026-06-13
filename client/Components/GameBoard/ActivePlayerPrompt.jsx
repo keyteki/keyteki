@@ -162,7 +162,11 @@ const ActivePlayerPrompt = (props) => {
             const normalizedButtonText = buttonText.trim().toLowerCase();
             const isCancel =
                 normalizedButtonText === 'cancel' ||
+                normalizedButtonText === 'cancel prompt' ||
                 String(button.command || '')
+                    .toLowerCase()
+                    .includes('cancel') ||
+                String(button.arg || '')
                     .toLowerCase()
                     .includes('cancel');
             const hasIcon = Boolean(button.icon);

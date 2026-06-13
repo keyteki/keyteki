@@ -737,8 +737,9 @@ export const buildCard = async (
         paintFirst: 'stroke'
     };
 
-    if (!DeckCards[halfSize ? 'halfSize' : 'cards'][image]) {
-        DeckCards[halfSize ? 'halfSize' : 'cards'][image] = await loadImage(url);
+    const cacheKey = url || image;
+    if (!DeckCards[halfSize ? 'halfSize' : 'cards'][cacheKey]) {
+        DeckCards[halfSize ? 'halfSize' : 'cards'][cacheKey] = await loadImage(url);
     }
 
     const width = 300;
@@ -754,7 +755,7 @@ export const buildCard = async (
     canvas.setDimensions({ width, height }, { backstoreOnly: true });
 
     const cardImage = new fabric.Image(
-        DeckCards[halfSize ? 'halfSize' : 'cards'][image].toCanvasElement(),
+        DeckCards[halfSize ? 'halfSize' : 'cards'][cacheKey].toCanvasElement(),
         imgOptions
     );
     cardImage.scaleToWidth(width);

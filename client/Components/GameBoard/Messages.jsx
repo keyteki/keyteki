@@ -1,11 +1,13 @@
 import classNames from 'classnames';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useSelector } from 'react-redux';
 
 import AmberImage from '../../assets/img/amber.png';
 import CardBackImage from '../../assets/img/idbacks/cardback.jpg';
 import TideImage from '../../assets/img/tide/tide.png';
 import { Constants } from '../../constants';
+import { getRoleClass } from '../../util';
 import AlertPanel from '../Site/AlertPanel';
 import Avatar from '../Site/Avatar';
 import CardImage from './CardImage';
@@ -19,24 +21,8 @@ for (const colour of ['red', 'blue', 'yellow']) {
     };
 }
 
-const getRoleTextClass = (role) => {
-    switch ((role || '').toLowerCase()) {
-        case 'admin':
-            return 'text-red-500';
-        case 'contributor':
-            return 'text-cyan-600 dark:text-cyan-400';
-        case 'supporter':
-            return 'text-emerald-600 dark:text-emerald-400';
-        case 'winner':
-            return 'text-amber-600 dark:text-amber-400';
-        case 'previouswinner':
-            return 'text-fuchsia-600 dark:text-fuchsia-400';
-        default:
-            return 'text-foreground';
-    }
-};
-
 const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
+    const { i18n } = useTranslation();
     const compactChatAlertClass =
         '!mb-1 !rounded-xl !px-3 !py-2 text-sm [&_svg]:text-base [&_[data-slot="alert-content"]]:gap-0.5 [&_[data-slot="alert-description"]]:text-sm';
 
@@ -239,6 +225,10 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                     </a>
                 );
             } else if (fragment.image && fragment.label) {
+                const cardLabel =
+                    i18n.language !== 'en' && fragment.locale && fragment.locale[i18n.language]
+                        ? fragment.locale[i18n.language].name
+                        : fragment.label;
                 messages.push(
                     <span
                         key={index++}
@@ -249,11 +239,11 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                         })}
                         onMouseOut={onCardMouseOut.bind(this)}
                     >
-                        {fragment.label}
+                        {cardLabel}
                     </span>
                 );
             } else if (fragment.name && fragment.argType === 'player') {
-                const userClass = `username font-semibold ${getRoleTextClass(fragment.role)}`;
+                const userClass = `username ${getRoleClass(fragment.role)}`;
 
                 messages.push(
                     <div key={index++} className='message-chat flex items-center gap-1.5'>
@@ -264,7 +254,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                     </div>
                 );
             } else if (fragment.argType === 'nonAvatarPlayer') {
-                const userClass = `username font-semibold ${getRoleTextClass(fragment.role)}`;
+                const userClass = `username ${getRoleClass(fragment.role)}`;
 
                 messages.push(
                     <span key={index++} className={userClass}>
