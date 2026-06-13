@@ -20,24 +20,17 @@ class Fetchdrones extends Card {
                         : [];
                 return {
                     condition: () => cards.filter((card) => card.hasHouse('logos')).length > 0,
-                    gameAction: ability.actions.sequentialForEach({
-                        num: cards.filter((card) => card.hasHouse('logos')).length,
-                        action: ability.actions.capture((context) => ({
-                            amount: 2,
-                            promptForSelect: {
-                                activePromptTitle: 'Choose a creature',
-                                cardType: 'creature',
-                                controller: 'self',
-                                message: '{0} uses {1} to capture {2} amber onto {3}',
-                                messageArgs: (card) => [
-                                    context.player,
-                                    context.source,
-                                    Math.min(2, context.player.opponent?.amber || 0),
-                                    card
-                                ]
-                            }
-                        }))
-                    })
+                    gameAction: ability.actions.allocateCapture((context) => ({
+                        amberStep: 2,
+                        numSteps: Math.min(
+                            cards.filter((card) => card.hasHouse('logos')).length,
+                            Math.ceil(
+                                (context.player.opponent ? context.player.opponent.amber : 0) / 2
+                            )
+                        ),
+                        controller: 'self',
+                        menuTitle: 'Choose a creature to capture 2 amber'
+                    }))
                 };
             }
         });
