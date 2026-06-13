@@ -1318,11 +1318,13 @@ class Game extends EventEmitter {
             this.checkWinCondition();
             // if the state has changed, check for:
             let modifiedControl = false;
-            for (const player of this.getPlayers()) {
+            const allPlayers = this.getPlayers();
+            for (const player of allPlayers) {
                 _.each(player.cardsInPlay, (card) => {
-                    if (card.getModifiedController() !== player) {
+                    const newController = card.getModifiedController();
+                    if (newController !== player && allPlayers.includes(newController)) {
                         // any card being controlled by the wrong player
-                        this.takeControl(card.getModifiedController(), card, modifiedByPlayer);
+                        this.takeControl(newController, card, modifiedByPlayer);
                         modifiedControl = true;
                     }
                 });
