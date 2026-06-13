@@ -172,10 +172,11 @@ class MenuCommands {
                 }
                 game.addAlert(
                     'danger',
-                    '{0} manually takes {1} from under {2} into their hand',
+                    "{0} manually takes {1} from under {2} into {3}'s hand",
                     player,
                     child.facedown ? 'a facedown card' : child,
-                    card
+                    card,
+                    child.owner
                 );
                 // moveCard delegates through removeCardFromPile, which
                 // already detaches `parent.childCards` and clears

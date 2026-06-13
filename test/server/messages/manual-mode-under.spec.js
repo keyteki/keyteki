@@ -99,7 +99,7 @@ describe('Manual Mode Place/Take Under Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 manually places Titan Mechanic faceup under Niffle Ape',
-                'player1 manually takes Titan Mechanic from under Niffle Ape into their hand'
+                "player1 manually takes Titan Mechanic from under Niffle Ape into player1's hand"
             ]);
         });
 
@@ -120,7 +120,7 @@ describe('Manual Mode Place/Take Under Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 manually places a card facedown under Niffle Ape',
-                'player1 manually takes a facedown card from under Niffle Ape into their hand'
+                "player1 manually takes a facedown card from under Niffle Ape into player1's hand"
             ]);
         });
 
@@ -141,7 +141,7 @@ describe('Manual Mode Place/Take Under Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 manually places Titan Mechanic faceup under Snufflegator',
-                'player2 manually takes Titan Mechanic from under Snufflegator into their hand'
+                "player2 manually takes Titan Mechanic from under Snufflegator into player1's hand"
             ]);
         });
 
@@ -159,7 +159,7 @@ describe('Manual Mode Place/Take Under Messages', function () {
             expect(this.player1).isReadyToTakeAction();
             expect(this).toHaveAllChatMessagesBe([
                 'player1 manually places a card facedown under Snufflegator',
-                'player2 manually takes a facedown card from under Snufflegator into their hand'
+                "player2 manually takes a facedown card from under Snufflegator into player1's hand"
             ]);
         });
 
