@@ -1,10 +1,10 @@
 {
-    "name": "keyteki-json-data",
+    "name": "master-vault-data",
     "version": "1.0.0",
-    "description": "Card data for The Crucible",
+    "description": "Card data for The Crucible Online",
     "repository": {
         "type": "git",
-        "url": "https://github.com/keyteki/keyteki-json-data"
+        "url": "https://github.com/keyteki/keyteki"
     },
     "license": "MIT",
     "scripts": {
