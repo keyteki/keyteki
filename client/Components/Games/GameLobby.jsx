@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Button, Label, Switch, toast } from '@heroui/react';
+import { Button, Switch, toast } from '@heroui/react';
 import { Trans, useTranslation } from 'react-i18next';
 
 import NewGame from './NewGame';
@@ -295,43 +295,35 @@ const GameLobby = ({ gameId }) => {
                     >
                         <div className='grid gap-x-3 gap-y-2 sm:grid-cols-2 lg:grid-cols-3'>
                             {filters.map((filter) => (
-                                <div
+                                <Switch
                                     key={filter.name}
-                                    className='flex items-center justify-between gap-2 rounded border border-border/45 bg-surface-secondary/45 px-2 py-1.5'
+                                    id={filter.name}
+                                    isSelected={!!currentFilter[filter.name]}
+                                    onChange={(isSelected) =>
+                                        onFilterChecked(filter.name, isSelected)
+                                    }
+                                    className='flex w-full cursor-pointer items-center justify-between gap-2 rounded border border-border/45 bg-surface-secondary/45 px-2 py-1.5'
                                 >
-                                    <Label className='text-sm text-foreground'>
-                                        {filter.label}
-                                    </Label>
-                                    <Switch
-                                        id={filter.name}
-                                        isSelected={!!currentFilter[filter.name]}
-                                        onChange={(isSelected) =>
-                                            onFilterChecked(filter.name, isSelected)
-                                        }
-                                    >
-                                        <Switch.Control>
-                                            <Switch.Thumb />
-                                        </Switch.Control>
-                                    </Switch>
-                                </div>
+                                    <span className='text-sm text-foreground'>{filter.label}</span>
+                                    <Switch.Control>
+                                        <Switch.Thumb />
+                                    </Switch.Control>
+                                </Switch>
                             ))}
                         </div>
-                        <div className='mt-2 flex items-center justify-between gap-2 rounded border border-border/45 bg-surface-secondary/45 px-2 py-1.5'>
-                            <Label className='text-sm text-foreground'>
+                        <Switch
+                            id='onlyShowNew'
+                            isSelected={!!currentFilter.onlyShowNew}
+                            onChange={(isSelected) => onFilterChecked('onlyShowNew', isSelected)}
+                            className='mt-2 flex w-full cursor-pointer items-center justify-between gap-2 rounded border border-border/45 bg-surface-secondary/45 px-2 py-1.5'
+                        >
+                            <span className='text-sm text-foreground'>
                                 {t('Only show new games')}
-                            </Label>
-                            <Switch
-                                id='onlyShowNew'
-                                isSelected={!!currentFilter.onlyShowNew}
-                                onChange={(isSelected) =>
-                                    onFilterChecked('onlyShowNew', isSelected)
-                                }
-                            >
-                                <Switch.Control>
-                                    <Switch.Thumb />
-                                </Switch.Control>
-                            </Switch>
-                        </div>
+                            </span>
+                            <Switch.Control>
+                                <Switch.Thumb />
+                            </Switch.Control>
+                        </Switch>
                     </Panel>
                 </div>
 

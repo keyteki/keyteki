@@ -71,3 +71,15 @@ export const toBase64 = (file) =>
         reader.onload = () => resolve(reader.result.toString().split(',')[1]);
         reader.onerror = (error) => reject(error);
     });
+
+export function getRoleClass(role) {
+    const key = (role || '').toLowerCase();
+    const classes = {
+        admin: 'role-admin',
+        contributor: 'role-contributor',
+        supporter: 'role-supporter',
+        winner: 'role-winner',
+        previouswinner: 'role-previouswinner'
+    };
+    return classes[key] || 'font-semibold text-foreground';
+}
