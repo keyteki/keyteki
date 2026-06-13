@@ -27,7 +27,9 @@ function walk(dir, pattern, out = []) {
         return out;
     }
     for (const entry of entries) {
-        if (entry.name.startsWith('.') || entry.name === 'node_modules') continue;
+        if (entry.name.startsWith('.') || entry.name === 'node_modules') {
+            continue;
+        }
         const full = path.join(dir, entry.name);
         if (entry.isDirectory()) {
             walk(full, pattern, out);
@@ -66,24 +68,36 @@ function collectFiles() {
 // order. Returns null for no match, otherwise { score, positions }. Lower
 // score = better (consecutive matches, earlier position, word starts).
 function fuzzyMatch(haystack, needle) {
-    if (!needle) return { score: 0, positions: [] };
+    if (!needle) {
+        return { score: 0, positions: [] };
+    }
     const hs = haystack.toLowerCase();
     // Ignore spaces in the query so "mimic gel" matches "mimicgel".
     const ne = needle.toLowerCase().replace(/\s+/g, '');
-    if (!ne) return { score: 0, positions: [] };
+    if (!ne) {
+        return { score: 0, positions: [] };
+    }
     const positions = [];
     let hi = 0;
     let score = 0;
     let lastIdx = -2;
     for (let ni = 0; ni < ne.length; ni++) {
         const ch = ne[ni];
-        while (hi < hs.length && hs[hi] !== ch) hi++;
-        if (hi >= hs.length) return null;
+        while (hi < hs.length && hs[hi] !== ch) {
+            hi++;
+        }
+        if (hi >= hs.length) {
+            return null;
+        }
         positions.push(hi);
         // Bonus for consecutive matches
-        if (hi !== lastIdx + 1) score += hi - lastIdx;
+        if (hi !== lastIdx + 1) {
+            score += hi - lastIdx;
+        }
         // Bonus for word starts
-        if (hi === 0 || /[/\s_\-.]/.test(hs[hi - 1])) score -= 2;
+        if (hi === 0 || /[/\s_\-.]/.test(hs[hi - 1])) {
+            score -= 2;
+        }
         lastIdx = hi;
         hi++;
     }
@@ -91,7 +105,9 @@ function fuzzyMatch(haystack, needle) {
 }
 
 function filterAndRank(items, query, getText) {
-    if (!query) return items.map((item) => ({ item, positions: [] }));
+    if (!query) {
+        return items.map((item) => ({ item, positions: [] }));
+    }
 
     // Items with `.fullText` + `.sep` participate in a tree: match against the
     // full path, then distribute the match positions across the ancestor
@@ -101,7 +117,9 @@ function filterAndRank(items, query, getText) {
         const ranked = [];
         for (const item of items) {
             const m = fuzzyMatch(getText(item), query);
-            if (m) ranked.push({ item, score: m.score, positions: m.positions });
+            if (m) {
+                ranked.push({ item, score: m.score, positions: m.positions });
+            }
         }
         ranked.sort((a, b) => a.score - b.score);
         return ranked;
@@ -110,9 +128,13 @@ function filterAndRank(items, query, getText) {
     const matches = new Map();
     for (let i = 0; i < items.length; i++) {
         const item = items[i];
-        if (!item || item.header) continue;
+        if (!item || item.header) {
+            continue;
+        }
         const m = fuzzyMatch(item.fullText, query);
-        if (m) matches.set(i, m);
+        if (m) {
+            matches.set(i, m);
+        }
     }
     const keep = new Set();
     const positionsByIdx = new Map();
@@ -153,7 +175,9 @@ function filterAndRank(items, query, getText) {
     }
     const out = [];
     for (let i = 0; i < items.length; i++) {
-        if (!keep.has(i)) continue;
+        if (!keep.has(i)) {
+            continue;
+        }
         out.push({ item: items[i], positions: positionsByIdx.get(i) || [] });
     }
     return out;
@@ -175,12 +199,16 @@ function highlight(text, positions, maxLen) {
             out += text[i];
         }
     }
-    if (truncated) out += '…';
+    if (truncated) {
+        out += '…';
+    }
     return out;
 }
 
 function truncatePlain(text, maxLen) {
-    if (text.length <= maxLen) return text;
+    if (text.length <= maxLen) {
+        return text;
+    }
     return text.slice(0, Math.max(0, maxLen - 1)) + '…';
 }
 
@@ -301,13 +329,17 @@ function pick({ title, items, getText, renderText }) {
             const probe = (from, step) => {
                 let i = from;
                 while (i >= 0 && i < rankedList.length) {
-                    if (!isHeader(rankedList[i])) return i;
+                    if (!isHeader(rankedList[i])) {
+                        return i;
+                    }
                     i += step;
                 }
                 return -1;
             };
             const forward = probe(start, dir);
-            if (forward !== -1) return forward;
+            if (forward !== -1) {
+                return forward;
+            }
             const backward = probe(start, -dir);
             return backward === -1 ? 0 : backward;
         };
@@ -320,14 +352,21 @@ function pick({ title, items, getText, renderText }) {
                 selectedIdx = 0;
                 viewOffset = 0;
             } else {
-                if (selectedIdx >= ranked.length) selectedIdx = ranked.length - 1;
-                if (selectedIdx < 0) selectedIdx = 0;
+                if (selectedIdx >= ranked.length) {
+                    selectedIdx = ranked.length - 1;
+                }
+                if (selectedIdx < 0) {
+                    selectedIdx = 0;
+                }
                 if (isHeader(ranked[selectedIdx])) {
                     selectedIdx = snapToSelectable(ranked, selectedIdx, 1);
                 }
-                if (selectedIdx < viewOffset) viewOffset = selectedIdx;
-                if (selectedIdx >= viewOffset + maxVisible)
+                if (selectedIdx < viewOffset) {
+                    viewOffset = selectedIdx;
+                }
+                if (selectedIdx >= viewOffset + maxVisible) {
                     viewOffset = selectedIdx - maxVisible + 1;
+                }
             }
 
             const hint = 'Type to filter · ↑/↓ navigate · Enter select · Esc back · Ctrl+C exit';
@@ -387,7 +426,9 @@ function pick({ title, items, getText, renderText }) {
         let ranked = render();
 
         const onKey = (str, key) => {
-            if (!key) return;
+            if (!key) {
+                return;
+            }
             if (key.ctrl && key.name === 'c') {
                 cleanup();
                 stdout.write('\n');
@@ -408,10 +449,14 @@ function pick({ title, items, getText, renderText }) {
             }
             if (key.name === 'up') {
                 const next = snapToSelectable(ranked, selectedIdx - 1, -1);
-                if (next !== -1 && next < selectedIdx) selectedIdx = next;
+                if (next !== -1 && next < selectedIdx) {
+                    selectedIdx = next;
+                }
             } else if (key.name === 'down') {
                 const next = snapToSelectable(ranked, selectedIdx + 1, 1);
-                if (next !== -1 && next > selectedIdx) selectedIdx = next;
+                if (next !== -1 && next > selectedIdx) {
+                    selectedIdx = next;
+                }
             } else if (key.name === 'backspace') {
                 query = query.slice(0, -1);
                 selectedIdx = 0;
@@ -452,7 +497,9 @@ function runGamenode(scenarioArg) {
 
         const stdin = process.stdin;
         readline.emitKeypressEvents(stdin, { escapeCodeTimeout: 50 });
-        if (stdin.isTTY) stdin.setRawMode(true);
+        if (stdin.isTTY) {
+            stdin.setRawMode(true);
+        }
         stdin.resume();
 
         // Resolves once the child has actually exited. Anything that wants
@@ -469,9 +516,13 @@ function runGamenode(scenarioArg) {
 
         let resolved = false;
         const finish = async (back) => {
-            if (resolved) return;
+            if (resolved) {
+                return;
+            }
             resolved = true;
-            if (stdin.isTTY) stdin.setRawMode(false);
+            if (stdin.isTTY) {
+                stdin.setRawMode(false);
+            }
             stdin.pause();
             stdin.removeListener('keypress', onKey);
             // Just SIGKILL — graceful shutdown doesn't matter in dev mode,
@@ -488,7 +539,9 @@ function runGamenode(scenarioArg) {
         };
 
         const onKey = (_str, key) => {
-            if (!key) return;
+            if (!key) {
+                return;
+            }
             if (key.ctrl && key.name === 'c') {
                 // Wait for the child to actually exit before terminating
                 // the parent, or the child gets orphaned and keeps port 9000.
@@ -605,7 +658,9 @@ async function main() {
 main().catch((err) => {
     // Restore terminal in case we crashed inside the picker.
     process.stdout.write('\x1b[?1049l\x1b[?25h');
-    if (process.stdin.isTTY) process.stdin.setRawMode(false);
+    if (process.stdin.isTTY) {
+        process.stdin.setRawMode(false);
+    }
     console.error(err);
     process.exit(1);
 });

@@ -145,7 +145,9 @@ class GainsTextBoxAction extends CardGameAction {
         ];
         for (const sourceAbility of sourceAbilities) {
             const abilityType = sourceAbility.abilityType;
-            if (!abilityType) continue;
+            if (!abilityType) {
+                continue;
+            }
             const properties = sourceAbility.properties ? sourceAbility.properties : sourceAbility;
             if (abilityType === 'persistentEffect') {
                 // Printed keywords also live in `persistentEffects` as
