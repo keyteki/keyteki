@@ -908,9 +908,31 @@ class Card extends EffectSource {
             return [{ command: 'reveal', text: 'Reveal', menu: 'main' }];
         }
 
+        // Upgrades should only be returned to hand - they cannot be otherwise interacted with while attached to a creature, and don't need their own menu options
+        if (this.parent) {
+            menu.push({ command: 'click', text: 'Select Card', menu: 'main' });
+            menu.push({ command: 'returnToHand', text: 'Return to hand', menu: 'main' });
+            return menu;
+        }
+
         menu.push({ command: 'click', text: 'Select Card', menu: 'main' });
         if (this.location === 'play area') {
-            menu = menu.concat(this.menu);
+            // Render the static menu, but rewrite a few toggle entries to
+            // reflect the card's current state instead of the generic
+            // 'X/Remove X' wording.
+            const dynamicLabels = {
+                exhaust: this.exhausted ? 'Ready' : 'Exhaust',
+                stun: this.stunned ? 'Remove Stun' : 'Stun',
+                ward: this.warded ? 'Remove Ward' : 'Ward',
+                enrage: this.enraged ? 'Remove Enrage' : 'Enrage'
+            };
+            menu = menu.concat(
+                this.menu.map((item) =>
+                    dynamicLabels[item.command]
+                        ? { ...item, text: dynamicLabels[item.command] }
+                        : item
+                )
+            );
         }
 
         return menu;
@@ -1481,11 +1503,18 @@ class Card extends EffectSource {
             // Tokens always have a baseline `copyCard(tokenCard)` effect (see
             // MakeTokenCreatureAction); ignore that self-copy and only flag
             // `copying` when something else (e.g. Mirror Shell, Mimic Gel)
-            // overrides the card's identity.
+            // overrides the card's identity. FlipAction uses `copyCard(card)`
+            // when un-tokenizing, which is also a baseline self-reference.
             copying: (() => {
                 const copyEffect = this.mostRecentEffect('copyCard');
-                if (!copyEffect) return false;
-                if (this.isToken() && copyEffect === this.tokenCard()) return false;
+                if (
+                    !copyEffect ||
+                    (this.isToken() && copyEffect === this.tokenCard()) ||
+                    copyEffect === this
+                ) {
+                    return false;
+                }
+
                 return true;
             })(),
             exhausted: this.exhausted,
