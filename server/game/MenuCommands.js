@@ -179,7 +179,7 @@ class MenuCommands {
                 );
                 // moveCard delegates through removeCardFromPile, which
                 // already detaches `parent.childCards` and clears
-                // `card.parent`. Send to the owner's hand so opponent
+                // `card.parent`. Send to its owner's hand so opponent
                 // cards return correctly.
                 child.owner.moveCard(child, 'hand');
                 break;
@@ -188,7 +188,12 @@ class MenuCommands {
                 if (!game.manualMode || card.location !== 'play area' || !card.parent) {
                     break;
                 }
-                game.addAlert('danger', '{0} manually returns {1} to their hand', player, card);
+                game.addAlert(
+                    'danger',
+                    "{0} manually returns {1} to its owner's hand",
+                    player,
+                    card
+                );
                 card.owner.moveCard(card, 'hand');
                 break;
             }
