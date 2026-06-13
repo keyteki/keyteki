@@ -2047,7 +2047,7 @@ pre {
 .stat-value {
     @apply inline-flex items-baseline justify-center font-[Bombardier,serif] text-[1.8rem];
 }
-.stat-digit {
+span.stat-digit {
     @apply inline-flex items-center justify-center w-[0.55em] p-0;
 }
 
