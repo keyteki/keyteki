@@ -103,9 +103,13 @@ class GameFlowWrapper {
             let messageContent = chatMessage.message;
 
             // Alert messages wrap content in { alert: { type, message } }
-            // Only include 'bell' alerts (card effects); skip structural alerts
+            // Only include 'bell' alerts (card effects) and 'danger' alerts
+            // (manual mode); skip structural alerts
             if (messageContent && messageContent.alert) {
-                if (messageContent.alert.type !== 'bell') {
+                if (
+                    messageContent.alert.type !== 'bell' &&
+                    messageContent.alert.type !== 'danger'
+                ) {
                     continue;
                 }
                 messageContent = messageContent.alert.message;
