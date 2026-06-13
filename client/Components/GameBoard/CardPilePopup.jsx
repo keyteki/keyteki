@@ -110,7 +110,7 @@ const CardPilePopup = ({
             }
             return card.printedHouse;
         };
-        const counts = houses.map((house) => ({
+        const counts = [...houses].sort().map((house) => ({
             house,
             count: cards.filter((card) => !card.facedown && cardHouse(card) === house).length
         }));
