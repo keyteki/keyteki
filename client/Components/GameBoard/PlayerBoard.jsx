@@ -1,10 +1,10 @@
-import React, { useMemo } from 'react';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import PropTypes from 'prop-types';
+import React, { useMemo } from 'react';
 
 import Card from './Card';
-import PlayerRow from './PlayerRow';
 import Droppable from './Droppable';
+import PlayerRow from './PlayerRow';
 
 const PlayerBoard = (props) => {
     const rows = useMemo(() => {

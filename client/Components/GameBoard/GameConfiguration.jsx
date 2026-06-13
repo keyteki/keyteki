@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Label, Switch } from '@heroui/react';
+import { Switch } from '@heroui/react';
 
 import Panel from '../Site/Panel';
 
@@ -33,23 +33,18 @@ const GameConfiguration = ({ optionSettings, onOptionSettingToggle }) => {
         <Panel title={t('Game Settings')} compactHeader>
             <div className='grid gap-2'>
                 {options.map((option) => (
-                    <div
+                    <Switch
                         key={option.id}
-                        className='flex items-center justify-between gap-2 rounded bg-surface-secondary/70 px-2 py-1.5'
+                        id={option.id}
+                        isSelected={!!optionSettings[option.key]}
+                        onChange={(isSelected) => toggleOption(option.key, isSelected)}
+                        className='flex w-full cursor-pointer items-center justify-between gap-2 rounded bg-surface-secondary/70 px-2 py-1.5'
                     >
-                        <Label htmlFor={option.id} className='text-sm'>
-                            {option.label}
-                        </Label>
-                        <Switch
-                            id={option.id}
-                            isSelected={!!optionSettings[option.key]}
-                            onChange={(isSelected) => toggleOption(option.key, isSelected)}
-                        >
-                            <Switch.Control>
-                                <Switch.Thumb />
-                            </Switch.Control>
-                        </Switch>
-                    </div>
+                        <span className='text-sm'>{option.label}</span>
+                        <Switch.Control>
+                            <Switch.Thumb />
+                        </Switch.Control>
+                    </Switch>
                 ))}
             </div>
         </Panel>
