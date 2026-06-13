@@ -87,24 +87,24 @@ const About = () => {
                         Some usernames have different colors and the intent is to acknowledge the
                         supporters of the platform:
                     </p>
-                    <ul>
+                    <ul className='list-disc pl-6'>
                         <li>
-                            <span className='username admin-role'>admin</span> - site administrator
+                            <span className='username role-admin'>admin</span> - site administrator
                         </li>
                         <li>
-                            <span className='username contributor-role'>contributor</span> - people
+                            <span className='username role-contributor'>contributor</span> - people
                             who have made significant development contributions to the site
                         </li>
                         <li>
-                            <span className='username supporter-role'>supporter</span> - patreon
+                            <span className='username role-supporter'>supporter</span> - patreon
                             supporters
                         </li>
                         <li>
-                            <span className='username winner-role'>winner</span> - current
+                            <span className='username role-winner'>winner</span> - current
                             tournament winner
                         </li>
                         <li>
-                            <span className='username previouswinner-role'>previous winner</span> -
+                            <span className='username role-previouswinner'>previous winner</span> -
                             former tournament winner
                         </li>
                     </ul>

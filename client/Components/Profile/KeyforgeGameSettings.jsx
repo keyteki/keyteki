@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Label, Switch } from '@heroui/react';
+import { Switch } from '@heroui/react';
 import Panel from '../Site/Panel';
 
 /**
@@ -28,21 +28,18 @@ const KeyforgeGameSettings = ({ formProps }) => {
     ];
 
     const renderOption = ([id, text]) => (
-        <div
+        <Switch
             key={id}
-            className='flex items-center justify-between gap-2 rounded bg-surface-secondary/70 px-2 py-1.5'
+            id={id}
+            isSelected={formProps.values.gameOptions[id]}
+            onChange={(isSelected) => formProps.setFieldValue(`gameOptions.${id}`, isSelected)}
+            className='flex w-full cursor-pointer items-center justify-between gap-2 rounded bg-surface-secondary/70 px-2 py-1.5'
         >
-            <Label className='text-sm'>{text}</Label>
-            <Switch
-                id={id}
-                isSelected={formProps.values.gameOptions[id]}
-                onChange={(isSelected) => formProps.setFieldValue(`gameOptions.${id}`, isSelected)}
-            >
-                <Switch.Control>
-                    <Switch.Thumb />
-                </Switch.Control>
-            </Switch>
-        </div>
+            <span className='text-sm'>{text}</span>
+            <Switch.Control>
+                <Switch.Thumb />
+            </Switch.Control>
+        </Switch>
     );
 
     return (
