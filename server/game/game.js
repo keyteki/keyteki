@@ -1319,13 +1319,13 @@ class Game extends EventEmitter {
             // if the state has changed, check for:
             let modifiedControl = false;
             for (const player of this.getPlayers()) {
-                _.each(player.cardsInPlay, (card) => {
-                    if (card.getModifiedController() !== player) {
-                        // any card being controlled by the wrong player
-                        this.takeControl(card.getModifiedController(), card, modifiedByPlayer);
+                for (const card of [...player.cardsInPlay]) {
+                    let newController = card.getModifiedController();
+                    if (newController && newController !== player && newController.cardsInPlay) {
+                        this.takeControl(newController, card, modifiedByPlayer);
                         modifiedControl = true;
                     }
-                });
+                }
             }
 
             if (modifiedControl) {
