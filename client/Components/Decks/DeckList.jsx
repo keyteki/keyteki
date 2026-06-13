@@ -1,18 +1,24 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import {
+    faCheck,
+    faFileImport,
+    faPlus,
+    faRefresh,
+    faTrash
+} from '@fortawesome/free-solid-svg-icons';
+import { Button, Input } from '@heroui/react';
+import debounce from 'lodash.debounce';
 import moment from 'moment';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
-import debounce from 'lodash.debounce';
-import { Input } from '@heroui/react';
 import Icon from '../Icon';
-import { faCheck, faFileImport, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
+import { Constants } from '../../constants';
+import { useGetDecksQuery, useGetStandaloneDecksQuery } from '../../redux/api';
+import { cardsActions } from '../../redux/slices/cardsSlice';
+import ReactTable from '../Table/ReactTable';
 import CardBack from './CardBack';
 import DeckSetFilter from './DeckSetFilter';
-import ReactTable from '../Table/ReactTable';
-import { cardsActions } from '../../redux/slices/cardsSlice';
-import { useGetDecksQuery, useGetStandaloneDecksQuery } from '../../redux/api';
-import { Constants } from '../../constants';
 
 /**
  * @typedef DeckListProps
@@ -59,7 +65,9 @@ const DeckList = ({
     const [activeFilters, setActiveFilters] = useState(
         deckFilter ? Object.entries(deckFilter).map(normalizeFilterEntry) : []
     );
+    const [isRefreshing, setIsRefreshing] = useState(false);
     const nameFilterValue = useRef('');
+    const refetchRef = useRef(null);
 
     const decks = useSelector((state) =>
         standaloneDecks ? state.cards.standaloneDecks : state.cards.decks
@@ -306,8 +314,8 @@ const DeckList = ({
     return (
         <div className='flex h-full min-h-0 flex-col pt-4'>
             {!standaloneDecks ? (
-                <div className='mb-3 grid gap-3 lg:grid-cols-2'>
-                    <div>
+                <div className='mb-3 flex items-end gap-3'>
+                    <div className='min-w-0 flex-1'>
                         <label className='mb-1 block text-sm text-foreground'>{t('Name')}</label>
                         <Input
                             className='w-full'
@@ -320,13 +328,30 @@ const DeckList = ({
                             }}
                         />
                     </div>
-                    <DeckSetFilter
-                        expansions={expansions}
-                        label={t('Expansion')}
-                        selectedExpansions={selectedExpansions}
-                        t={t}
-                        onChange={onSetsChange}
-                    />
+                    <div className='min-w-0 flex-1'>
+                        <DeckSetFilter
+                            expansions={expansions}
+                            label={t('Expansion')}
+                            selectedExpansions={selectedExpansions}
+                            t={t}
+                            onChange={onSetsChange}
+                        />
+                    </div>
+                    {shouldUseRemoteDecks ? (
+                        <Button
+                            className='shrink-0'
+                            isIconOnly
+                            size='md'
+                            variant='tertiary'
+                            onPress={() => {
+                                setIsRefreshing(true);
+                                refetchRef.current?.();
+                                setTimeout(() => setIsRefreshing(false), 500);
+                            }}
+                        >
+                            <Icon icon={faRefresh} className={isRefreshing ? 'animate-spin' : ''} />
+                        </Button>
+                    ) : null}
                 </div>
             ) : null}
 
@@ -348,6 +373,7 @@ const DeckList = ({
                     isStriped
                     maxVisibleRows={15}
                     pageSizeOptions={[15, 25, 50]}
+                    refetchRef={refetchRef}
                     remote={shouldUseRemoteDecks}
                     defaultSort={[{ id: 'lastUpdated', desc: true }]}
                     selectedRows={selectedRows}

@@ -1,21 +1,21 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import {
-    Button,
-    Checkbox,
-    Input,
-    ListBox,
-    Popover,
-    Select,
-    Spinner,
-    Pagination,
-    Table
-} from '@heroui/react';
 import {
     faArrowDownWideShort,
     faArrowUpShortWide,
     faFilter,
     faRefresh
 } from '@fortawesome/free-solid-svg-icons';
+import {
+    Button,
+    Checkbox,
+    Input,
+    ListBox,
+    Pagination,
+    Popover,
+    Select,
+    Spinner,
+    Table
+} from '@heroui/react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import Icon from '../Icon';
 import AlertPanel from '../Site/AlertPanel';
@@ -190,6 +190,7 @@ function ReactTable({
     onRowClick,
     onRowSelectionChange,
     pageSizeOptions = [10, 25, 50],
+    refetchRef,
     remote = false,
     getRowClassName,
     selectedRows,
@@ -259,6 +260,10 @@ function ReactTable({
     const isLoading = remote ? queryResult?.isLoading : localIsLoading;
     const isError = remote ? queryResult?.isError : localIsError;
     const refetch = remote ? queryResult?.refetch || onRefresh : onRefresh;
+
+    if (refetchRef) {
+        refetchRef.current = refetch;
+    }
 
     const remoteRows = remote ? response?.[dataProperty] || [] : [];
     const localRows = remote ? [] : data || [];
