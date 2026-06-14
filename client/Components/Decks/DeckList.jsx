@@ -3,7 +3,7 @@ import moment from 'moment';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import debounce from 'lodash.debounce';
-import { Input } from '@heroui/react';
+import { Button, Input } from '@heroui/react';
 import Icon from '../Icon';
 import { faCheck, faFileImport, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons';
 
@@ -304,9 +304,31 @@ const DeckList = ({
     ]);
 
     return (
-        <div className='flex h-full min-h-0 flex-col pt-4'>
+        <div className='flex h-full min-h-0 flex-col'>
+            {!standaloneDecks && tableButtons.length > 0 ? (
+                <div className='mb-2 flex flex-wrap gap-2'>
+                    {tableButtons.map((button) => (
+                        <Button
+                            key={button.label}
+                            className={`whitespace-nowrap ${button.className || ''}`}
+                            isDisabled={button.disabled}
+                            isPending={button.isLoading}
+                            onPress={button.onPress}
+                            size={button.size || 'md'}
+                            variant={button.variant}
+                        >
+                            <span className='inline-flex items-center gap-2'>
+                                {button.icon ? (
+                                    <span className='inline-flex'>{button.icon}</span>
+                                ) : null}
+                                <span>{button.label}</span>
+                            </span>
+                        </Button>
+                    ))}
+                </div>
+            ) : null}
             {!standaloneDecks ? (
-                <div className='mb-3 grid gap-3 lg:grid-cols-2'>
+                <div className='mb-2 grid gap-3 lg:grid-cols-2'>
                     <div>
                         <label className='mb-1 block text-sm text-foreground'>{t('Name')}</label>
                         <Input
@@ -352,7 +374,8 @@ const DeckList = ({
                     defaultSort={[{ id: 'lastUpdated', desc: true }]}
                     selectedRows={selectedRows}
                     startPageSize={15}
-                    tableClassName='table-fixed'
+                    tableClassName='table-fixed [&_thead_th]:sticky [&_thead_th]:top-0 [&_thead_th]:z-20 [&_thead_th]:bg-[var(--table-header-bg)]'
+                    hideButtons={!standaloneDecks}
                     getRowClassName={(row) => {
                         const isSelected = selectedDeck && row.original.id === selectedDeck.id;
                         const isInvalid = row.original.status?.basicRules === false;

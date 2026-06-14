@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -69,11 +69,66 @@ const DecksComponent = () => {
         setSelectedDecks([]);
     }, [isDeckDeleted]);
 
+    const [showListOnNarrow, setShowListOnNarrow] = useState(!selectedDeck);
+
+    const handleBackToList = () => {
+        setShowListOnNarrow(true);
+    };
+
+    // Keep the narrow-viewport view in sync with the selected deck so that a
+    // deck already in Redux (e.g. retained from a previous visit, or selected
+    // on a wide layout where the back button was never invoked) reveals the
+    // detail panel when the viewport shrinks below `lg`.
+    //
+    // Depend on the deck's id, not the object reference, so routine refetches
+    // (filter/pagination/`getDecks` polling) that replace the cached deck
+    // object with a fresh one for the SAME id don't override the user's
+    // choice to go Back to the list on narrow viewports.
+    const selectedDeckId = selectedDeck ? selectedDeck.id : null;
+    useEffect(() => {
+        if (selectedDeckId) {
+            setShowListOnNarrow(false);
+        }
+    }, [selectedDeckId]);
+
+    useEffect(() => {
+        if (!selectedDeck || showListOnNarrow) {
+            return;
+        }
+
+        const handleKeyDown = (event) => {
+            if (event.key !== 'Escape') {
+                return;
+            }
+            // Bail out when a modal/overlay is open so Escape closes it instead of navigating back
+            if (event.defaultPrevented) {
+                return;
+            }
+            if (document.querySelector('[role="dialog"], [role="alertdialog"]')) {
+                return;
+            }
+            // Only navigate back on narrow viewports; on wide layouts both panels are visible
+            if (window.matchMedia('(min-width: 1024px)').matches) {
+                return;
+            }
+            handleBackToList();
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [selectedDeck, showListOnNarrow]);
+
+    const isDetailViewOnNarrow = selectedDeck && !showListOnNarrow;
+
     return (
         <div className='flex h-[calc(100dvh-65px)] flex-col overflow-hidden'>
             <ApiStatus state={apiState} onClose={() => dispatch(cardsActions.clearDeckStatus())} />
             <div className='grid min-h-0 flex-1 gap-3 lg:grid-cols-2'>
-                <div className='min-h-0'>
+                <div
+                    className={`min-w-0 min-h-0 ${
+                        isDetailViewOnNarrow ? 'hidden lg:block' : 'block'
+                    }`}
+                >
                     <Panel
                         className='h-full !mb-0'
                         title={t('Your decks')}
@@ -84,6 +139,7 @@ const DecksComponent = () => {
                             onDeleteDecks={() => setShowDeleteModal(true)}
                             onImportDeck={() => setShowImportModal(true)}
                             onNavigateAllianceDeck={() => navigate('/decks/alliance')}
+                            onDeckSelected={() => setShowListOnNarrow(false)}
                             onSelectionChange={(nextDecks) => {
                                 setSelectedDecks((currentDecks) => {
                                     const currentIds = currentDecks
@@ -106,8 +162,14 @@ const DecksComponent = () => {
                         />
                     </Panel>
                 </div>
-                <div className='min-h-0'>
-                    {selectedDeck ? <ViewDeck deck={selectedDeck} /> : null}
+                <div
+                    className={`@container min-w-0 min-h-0 ${
+                        isDetailViewOnNarrow ? 'block' : 'hidden lg:block'
+                    }`}
+                >
+                    {selectedDeck ? (
+                        <ViewDeck deck={selectedDeck} onBack={handleBackToList} />
+                    ) : null}
                 </div>
             </div>
 

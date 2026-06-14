@@ -158,6 +158,37 @@
     border: 1px solid color-mix(in oklab, var(--border) 72%, transparent);
 }
 
+/* HeroUI consistency overrides
+   Keep components stable across breakpoints rather than shrinking at the
+   md (≥768px) and sm (≥640px) responsive jumps that HeroUI ships by default. */
+@media (min-width: 768px) {
+  .button { height: 2.5rem; }       /* size='md' default — was md:h-9 */
+  .button--sm { height: 2.25rem; }  /* size='sm' — was md:h-8 */
+  .button--lg { height: 3rem; }     /* size='lg' — was md:h-11 */
+  .pagination__link,
+  .pagination__ellipsis { height: 2.25rem; width: 2.25rem; }                   /* default — was md:size-8 */
+  .pagination--sm .pagination__link,
+  .pagination--sm .pagination__ellipsis { height: 2rem; width: 2rem; }         /* sm — was md:size-7 */
+  .pagination--lg .pagination__link,
+  .pagination--lg .pagination__ellipsis { height: 2.5rem; width: 2.5rem; }     /* lg — was md:size-9 */
+}
+
+.input,
+.select__value {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+/* Let the outer table container's border-radius define the table's shape
+   instead of HeroUI's rounded-2xl on the first/last body row corner cells,
+   which mismatches our rounded-lg container. */
+.table__body tr:first-child td:first-child,
+.table__body tr:first-child td:last-child,
+.table__body tr:last-child td:first-child,
+.table__body tr:last-child td:last-child {
+  border-radius: 0;
+}
+
 .panel-header {
     position: absolute;
     top: 0;

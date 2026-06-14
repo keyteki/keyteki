@@ -3,7 +3,7 @@ import { useTranslation, Trans } from 'react-i18next';
 import { Button, Modal as HeroModal } from '@heroui/react';
 import { useSelector } from 'react-redux';
 import Icon from '../Icon';
-import { faSync } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faSync, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 import DeckSummary from './DeckSummary';
 import Panel from '../Site/Panel';
@@ -17,7 +17,7 @@ import { useDeleteDeckMutation, useRefreshAccoladesMutation } from '../../redux/
 /**
  * @param {ViewDeckProps} props
  */
-const ViewDeck = ({ deck }) => {
+const ViewDeck = ({ deck, onBack }) => {
     const [deleteDeck] = useDeleteDeckMutation();
     const [refreshAccolades] = useRefreshAccoladesMutation();
     const { t } = useTranslation();
@@ -48,13 +48,26 @@ const ViewDeck = ({ deck }) => {
             headerVariant='context'
             titleClass='text-sm font-semibold tracking-wide'
         >
-            <div className='mb-2 text-center'>
-                <div className='inline-flex gap-2'>
+            <div className='mb-2'>
+                <div className='flex flex-wrap gap-2'>
+                    {onBack ? (
+                        <Button
+                            variant='primary'
+                            onPress={onBack}
+                            className='lg:hidden whitespace-nowrap'
+                        >
+                            <span className='inline-flex items-center gap-2'>
+                                <Icon icon={faArrowLeft} />
+                                <span>{t('Back to deck list')}</span>
+                            </span>
+                        </Button>
+                    ) : null}
                     {showAccolades ? (
                         <Button
                             variant='tertiary'
                             onPress={handleRefreshAccolades}
                             isDisabled={isRefreshing}
+                            className='whitespace-nowrap'
                         >
                             <span className='inline-flex items-center gap-2'>
                                 <Icon icon={faSync} spin={isRefreshing} />
@@ -62,8 +75,17 @@ const ViewDeck = ({ deck }) => {
                             </span>
                         </Button>
                     ) : null}
-                    <Button variant='danger' onPress={() => setIsDeleteModalOpen(true)}>
-                        <Trans>Delete</Trans>
+                    <Button
+                        variant='danger'
+                        onPress={() => setIsDeleteModalOpen(true)}
+                        className='whitespace-nowrap'
+                    >
+                        <span className='inline-flex items-center gap-2'>
+                            <Icon icon={faTrash} />
+                            <span>
+                                <Trans>Delete</Trans>
+                            </span>
+                        </span>
                     </Button>
                 </div>
             </div>

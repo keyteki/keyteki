@@ -254,7 +254,7 @@ const GameLobby = ({ gameId }) => {
     }, [currentGame, dispatch, gameError, t]);
 
     return (
-        <div className='mx-auto w-full max-w-6xl' ref={topRef}>
+        <div className='mx-auto w-full max-w-6xl space-y-3 pb-3' ref={topRef}>
             {newGame && <NewGame key={`new-game-${newGameInstance}`} quickJoin={quickJoin} />}
             {currentGame?.started === false && <PendingGame />}
             {passwordGame && <PasswordGame />}

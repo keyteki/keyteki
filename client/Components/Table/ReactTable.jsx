@@ -196,7 +196,8 @@ function ReactTable({
     startPageNumber = 0,
     startPageSize = 10,
     tableClassName = '',
-    fillHeight = false
+    fillHeight = false,
+    hideButtons = false
 }) {
     const [pageSize, setPageSize] = useState(startPageSize);
     const [page, setPage] = useState(startPageNumber);
@@ -415,28 +416,34 @@ function ReactTable({
         onPageSizeChanged?.(nextPageSize);
     };
 
-    const topContent = useMemo(
-        () => (
+    const topContent = useMemo(() => {
+        const showButtons = !hideButtons && buttons.length > 0;
+        if (!showButtons && !refetch) {
+            return null;
+        }
+        return (
             <div className='mb-2 flex flex-wrap items-center justify-between gap-2'>
                 <div className='flex flex-wrap gap-2'>
-                    {buttons.map((button) => (
-                        <Button
-                            key={button.label}
-                            className={button.className}
-                            isDisabled={button.disabled}
-                            isPending={button.isLoading}
-                            onPress={button.onPress}
-                            size={button.size || 'md'}
-                            variant={button.variant || getButtonVariant(button.color)}
-                        >
-                            <span className='inline-flex items-center gap-2'>
-                                {button.icon ? (
-                                    <span className='inline-flex'>{button.icon}</span>
-                                ) : null}
-                                <span>{button.label}</span>
-                            </span>
-                        </Button>
-                    ))}
+                    {showButtons
+                        ? buttons.map((button) => (
+                              <Button
+                                  key={button.label}
+                                  className={button.className}
+                                  isDisabled={button.disabled}
+                                  isPending={button.isLoading}
+                                  onPress={button.onPress}
+                                  size={button.size || 'md'}
+                                  variant={button.variant || getButtonVariant(button.color)}
+                              >
+                                  <span className='inline-flex items-center gap-2'>
+                                      {button.icon ? (
+                                          <span className='inline-flex'>{button.icon}</span>
+                                      ) : null}
+                                      <span>{button.label}</span>
+                                  </span>
+                              </Button>
+                          ))
+                        : null}
                     {refetch ? (
                         <Button isIconOnly size='md' variant='tertiary' onPress={() => refetch()}>
                             <Icon icon={faRefresh} />
@@ -444,9 +451,8 @@ function ReactTable({
                     ) : null}
                 </div>
             </div>
-        ),
-        [buttons, refetch]
-    );
+        );
+    }, [buttons, hideButtons, refetch]);
 
     if (isLoading) {
         return (
@@ -474,7 +480,7 @@ function ReactTable({
                 aria-label='Data table'
                 className={`${
                     fillHeight ? 'flex min-h-0 flex-1 flex-col overflow-hidden' : ''
-                } rounded-lg border border-[color:var(--table-border)] bg-[var(--surface)] dark:border-zinc-700/60 dark:bg-black/35 ${tableClassName}`}
+                } overflow-hidden rounded-lg border border-[color:var(--table-border)] bg-[var(--surface)] dark:border-zinc-700/60 dark:bg-black/35 ${tableClassName}`}
             >
                 <Table.ScrollContainer className={fillHeight ? 'min-h-0 flex-1 overflow-auto' : ''}>
                     <Table.Content
