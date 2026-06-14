@@ -27,6 +27,7 @@ describe('Into the Warp', function () {
             expect(this.troll.location).toBe('play area');
             expect(this.poke.location).toBe('discard');
             expect(this.noddyTheThief.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('destroys creatures when only opponent discards', function () {
@@ -37,6 +38,7 @@ describe('Into the Warp', function () {
             expect(this.mother.location).toBe('play area');
             expect(this.troll.location).toBe('play area');
             expect(this.noddyTheThief.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('destroys creatures when only player discards', function () {
@@ -47,6 +49,7 @@ describe('Into the Warp', function () {
             expect(this.mother.location).toBe('discard');
             expect(this.troll.location).toBe('play area');
             expect(this.poke.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('does nothing when no player discards', function () {
@@ -57,6 +60,7 @@ describe('Into the Warp', function () {
             expect(this.urchin.location).toBe('play area');
             expect(this.mother.location).toBe('play area');
             expect(this.troll.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('destroys no creatures when no creatures are in play', function () {
@@ -67,6 +71,7 @@ describe('Into the Warp', function () {
             this.player1.play(this.intoTheWarp);
             expect(this.poke.location).toBe('discard');
             expect(this.noddyTheThief.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('destroys no creatures when no creatures match the houses', function () {
@@ -78,6 +83,19 @@ describe('Into the Warp', function () {
             expect(this.troll.location).toBe('play area');
             expect(this.flaxia.location).toBe('discard');
             expect(this.noddyTheThief.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('destroys creatures matching house enhancements of discarded cards', function () {
+            this.poke.enhancements = ['brobnar'];
+            this.player1.play(this.intoTheWarp);
+            expect(this.batdrone.location).toBe('discard');
+            expect(this.urchin.location).toBe('discard');
+            expect(this.mother.location).toBe('discard');
+            expect(this.troll.location).toBe('discard');
+            expect(this.noddyTheThief.location).toBe('discard');
+            expect(this.poke.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

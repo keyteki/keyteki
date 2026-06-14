@@ -26,12 +26,16 @@ class ImmortalGreking extends Card {
                         until: {
                             onCardLeavesPlay: (event) => event.card === context.source
                         },
-                        effect: ability.effects.changeHouse(context.source.printedHouse)
+                        effect: ability.effects.changeHouse(context.source.getHouses())
                     }))
                 ])
             },
             effect: 'take control of {1} and place it anywhere in their battleline, making it belong to {2} until {3} leaves play',
-            effectArgs: (context) => [context.target, context.source.printedHouse, context.source]
+            effectArgs: (context) => [
+                context.target,
+                context.source.getHouses().join(' and '),
+                context.source
+            ]
         });
 
         this.destroyed({
