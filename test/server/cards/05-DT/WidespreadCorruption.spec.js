@@ -144,4 +144,31 @@ describe('Widespread Corruption', function () {
             expect(this.player2.amber).toBe(3);
         });
     });
+
+    describe('Widespread Corruption and Urxym, the Diplomat interaction', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    amber: 0,
+                    inPlay: ['urxym-the-diplomat']
+                },
+                player2: {
+                    inPlay: ['widespread-corruption', 'halacor', 'flaxia']
+                }
+            });
+        });
+
+        it('should capture before resolving after reap abilities', function () {
+            this.player1.reap(this.urxymTheDiplomat);
+            expect(this.player1).toBeAbleToSelect(this.halacor);
+            expect(this.player1).toBeAbleToSelect(this.flaxia);
+            this.player1.clickCard(this.halacor);
+            expect(this.halacor.amber).toBe(1);
+            expect(this.flaxia.amber).toBe(0);
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

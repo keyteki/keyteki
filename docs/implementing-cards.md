@@ -270,7 +270,7 @@ These events are used in `reaction()` and `interrupt()` abilities:
 | `onCardDiscarded`     | When a card is discarded                                                                                                                                                                                                                                                                       | `event.card`, `event.location`                         |
 | `onReap`              | When a creature reaps                                                                                                                                                                                                                                                                          | `event.card`                                           |
 | `onFight`             | When a creature fights (and survives to deal damage)                                                                                                                                                                                                                                           | `event.card` (defender), `event.attacker`              |
-| `onUseCard`           | When a card is used (fight, reap, action, unstun)                                                                                                                                                                                                                                              | `event.card`, `event.fight`, `event.fightEvent`        |
+| `onUseCard`           | When a card is used (fight, reap, action, unstun). For fights/reaps, fires as a child event in the same event window. For action abilities, fires in a separate event window **after** the action's game actions have fully resolved (damage dealt, creatures destroyed, etc.).                | `event.card`, `event.fight`, `event.fightEvent`        |
 | `onDamageDealt`       | When damage is dealt to a creature                                                                                                                                                                                                                                                             | `event.card`, `event.amount`, `event.damageSource`     |
 | `onDamageApplied`     | When damage tokens are applied                                                                                                                                                                                                                                                                 | `event.card`, `event.amount`, `event.destroyEvent`     |
 | `onModifyAmber`       | When a player gains or loses aember                                                                                                                                                                                                                                                            | `event.player`, `event.amount`, `event.reap`           |
@@ -372,6 +372,27 @@ cardCondition: (card) => card.isOnFlank();
 
 // Target a neighbor of this creature
 cardCondition: (card, context) => context.source.neighbors.includes(card);
+```
+
+**Neighbor access methods:**
+
+Cards have several ways to access neighbors. Choose based on context:
+
+| Method                 | Returns                                             | Fallback when card left play      | Use when                                                        |
+| ---------------------- | --------------------------------------------------- | --------------------------------- | --------------------------------------------------------------- |
+| `card.neighbors`       | Array of 0–2 neighbors                              | `[]` (no fallback)                | Persistent effects, target selection while source is in play    |
+| `card.leftNeighbor()`  | Left neighbor or `undefined`                        | `leftNeighborBeforeLeavingPlay`   | Directional resolution (e.g. eachNeighbor helper)               |
+| `card.rightNeighbor()` | Right neighbor or `undefined`                       | `rightNeighborBeforeLeavingPlay`  | Directional resolution (e.g. eachNeighbor helper)               |
+| `card.getNeighbors()`  | `[leftNeighbor(), rightNeighbor()].filter(Boolean)` | Falls back via left/right methods | Reactions where the source may have left play during resolution |
+
+When a creature leaves play, `player.js` snapshots `leftNeighborBeforeLeavingPlay` and `rightNeighborBeforeLeavingPlay`. The `leftNeighbor()` / `rightNeighbor()` / `getNeighbors()` methods fall back to these snapshots when the card is no longer in the battleline (`indexOf === -1`). This supports the rule: "later instructions in the same ability refer to cards as they were immediately prior to leaving play."
+
+```javascript
+// In a reaction where the source might have died (e.g. onUseCard after an action):
+event.context.source.getNeighbors().includes(context.source);
+
+// For directional "do X to each neighbor one at a time" patterns, use the eachNeighbor helper:
+const { eachNeighbor } = require('../../helpers/eachNeighbor');
 ```
 
 **Excluding the source card:**

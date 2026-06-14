@@ -6,22 +6,6 @@ class ShardOfHope extends Card {
     setupCardAbilities(ability) {
         this.action({
             condition: (context) => !!context.player.opponent,
-            gameAction: ability.actions.sequentialForEach((context) => ({
-                num: Math.min(
-                    context.player.opponent.amber,
-                    1 +
-                        context.player.cardsInPlay.filter(
-                            (card) => card !== context.source && card.hasTrait('shard')
-                        ).length
-                ),
-                action: ability.actions.capture({
-                    promptForSelect: {
-                        activePromptTitle: 'Choose a creature to capture',
-                        cardType: 'creature',
-                        controller: 'self'
-                    }
-                })
-            })),
             effect: 'capture {1} amber from {2}',
             effectArgs: (context) => [
                 Math.min(
@@ -32,7 +16,18 @@ class ShardOfHope extends Card {
                         ).length
                 ),
                 context.player.opponent
-            ]
+            ],
+            gameAction: ability.actions.allocateCapture((context) => ({
+                numAmber: Math.min(
+                    context.player.opponent.amber,
+                    1 +
+                        context.player.cardsInPlay.filter(
+                            (card) => card !== context.source && card.hasTrait('shard')
+                        ).length
+                ),
+                controller: 'self',
+                menuTitle: 'Choose a creature to capture 1 amber'
+            }))
         });
     }
 }

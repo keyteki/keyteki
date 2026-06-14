@@ -5,7 +5,8 @@ class EvenSwap extends Card {
     setupCardAbilities(ability) {
         const giveTarget = () => ({
             mode: 'exactly',
-            numCards: (context) => (context.player.creaturesInPlay.length >= 1 ? 1 : 0),
+            numCards: (context) =>
+                context.player.opponent && context.player.creaturesInPlay.length >= 1 ? 1 : 0,
             cardType: 'creature',
             controller: 'self',
             gameAction: ability.actions.cardLastingEffect((context) => ({

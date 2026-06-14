@@ -8,13 +8,15 @@ class Ruination extends Card {
                 cardType: ['creature', 'artifact', 'upgrade'],
                 location: 'play area',
                 gameAction: ability.actions.destroy((context) => ({
-                    target: context.game.cardsInPlay
-                        .filter((card) => card.name === context.target.name)
-                        .concat(
-                            context.game.cardsInPlay
-                                .flatMap((card) => card.upgrades || [])
-                                .filter((upgrade) => upgrade.name === context.target.name)
-                        )
+                    target: context.target
+                        ? context.game.cardsInPlay
+                              .filter((card) => card.name === context.target.name)
+                              .concat(
+                                  context.game.cardsInPlay
+                                      .flatMap((card) => card.upgrades || [])
+                                      .filter((upgrade) => upgrade.name === context.target.name)
+                              )
+                        : []
                 }))
             },
             effect: 'destroy {1} and each card with the same name',

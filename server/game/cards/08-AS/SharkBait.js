@@ -11,7 +11,7 @@ class SharkBait extends Card {
                 gameAction: ability.actions.sequential([
                     ability.actions.dealDamage({ amount: 2 }),
                     ability.actions.conditional((context) => ({
-                        condition: () => context.target.location === 'play area',
+                        condition: () => context.target?.location === 'play area',
                         trueGameAction: ability.actions.capture({
                             target: context.target,
                             amount: 2

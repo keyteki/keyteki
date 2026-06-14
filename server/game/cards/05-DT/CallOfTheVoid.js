@@ -7,13 +7,13 @@ class CallOfTheVoid extends Card {
             target: {
                 cardType: 'creature',
                 gameAction: ability.actions.conditional({
-                    condition: (context) => !context.target.exhausted,
+                    condition: (context) => !context.target?.exhausted,
                     trueGameAction: ability.actions.exhaust(),
                     falseGameAction: [
                         ability.actions.destroy(),
                         ability.actions.loseAmber((context) => ({
                             amount: 1,
-                            target: context.target.controller
+                            target: context.target?.controller
                         }))
                     ]
                 })

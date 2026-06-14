@@ -53,7 +53,7 @@ describe('Frost Giant', function () {
 
             this.player1.clickPrompt('Left'); // Ganger Chieftain
             this.player1.clickCard(this.frostGiant);
-            expect.soft(this.frostGiant.exhausted).toBe(false);
+            expect(this.frostGiant.exhausted).toBe(false);
             expect(this.frostGiant.damage).toBe(1);
             this.player2.clickPrompt('untamed');
             expect(this.player2).isReadyToTakeAction();

@@ -5,7 +5,15 @@ describe('High Priest Torvus', function () {
                 player1: {
                     house: 'saurian',
                     inPlay: ['high-priest-torvus', 'senator-shrix'],
-                    hand: ['siren-horn', 'galeatops', 'imperium', 'triumph', 'city-gates']
+                    hand: [
+                        'siren-horn',
+                        'galeatops',
+                        'imperium',
+                        'triumph',
+                        'city-gates',
+                        'decadence',
+                        'wild-wormhole'
+                    ]
                 },
                 player2: {
                     inPlay: ['troll', 'flaxia'],
@@ -17,6 +25,7 @@ describe('High Priest Torvus', function () {
         it('should not return an action card to hand before reaping', function () {
             this.player1.play(this.triumph);
             expect(this.triumph.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not return an action card to hand if not opt to exalt Priest', function () {
@@ -24,6 +33,7 @@ describe('High Priest Torvus', function () {
             this.player1.clickPrompt('Done');
             this.player1.play(this.triumph);
             expect(this.triumph.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not return an action card to hand if opt to exalt Priest', function () {
@@ -39,6 +49,7 @@ describe('High Priest Torvus', function () {
             expect(this.imperium.location).toBe('discard');
             this.player1.play(this.triumph);
             expect(this.triumph.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not return a creature to hand', function () {
@@ -47,6 +58,7 @@ describe('High Priest Torvus', function () {
             expect(this.highPriestTorvus.amber).toBe(1);
             this.player1.play(this.galeatops);
             expect(this.galeatops.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not return an artifact to hand', function () {
@@ -55,6 +67,27 @@ describe('High Priest Torvus', function () {
             expect(this.highPriestTorvus.amber).toBe(1);
             this.player1.play(this.cityGates);
             expect(this.cityGates.location).toBe('play area');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should not return an already resolving action to hand', function () {
+            this.player1.makeMaverick(this.wildWormhole, 'saurian');
+            this.player1.moveCard(this.decadence, 'deck');
+            this.player1.play(this.wildWormhole);
+            this.player1.clickCard(this.highPriestTorvus);
+            this.player1.clickPrompt('Exalt, ready and use');
+            this.player1.clickCard(this.highPriestTorvus);
+            expect(this.highPriestTorvus.amber).toBe(1);
+            this.player1.clickPrompt('Reap with this creature');
+            this.player1.clickCard(this.highPriestTorvus);
+            expect(this.highPriestTorvus.amber).toBe(2);
+            expect(this.wildWormhole.location).toBe('discard');
+            expect(this.decadence.location).toBe('discard');
+            this.player1.play(this.triumph);
+            expect(this.triumph.location).toBe('hand');
+            expect(this.wildWormhole.location).toBe('discard');
+            expect(this.decadence.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

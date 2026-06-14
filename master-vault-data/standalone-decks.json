@@ -1,0 +1,1921 @@
+[
+    {
+        "username": "_Standard_",
+        "standaloneId": 1,
+        "uuid": "f5d9a675-f60b-4b47-9f81-41d4a5461dfe",
+        "identity": "rapidly-ever-changing-sadao",
+        "expansion": 479,
+        "cardback": "",
+        "name": "Rapipdly Ever Changing Sadao",
+        "banned": false,
+        "flagged": false,
+        "verified": true,
+        "includeInSealed": false,
+        "houses": ["sanctum", "saurian", "untamed"],
+        "cards": [
+            {
+                "id": "commandeer",
+                "count": 1
+            },
+            {
+                "id": "fangs-of-gizelhart",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "font-of-the-eye",
+                "count": 1
+            },
+            {
+                "id": "general-xalvador",
+                "count": 1
+            },
+            {
+                "id": "gizelhart-s-zealot",
+                "count": 3
+            },
+            {
+                "id": "gorm-of-omm",
+                "count": 1,
+                "enhancements": ["amber"]
+            },
+            {
+                "id": "scrivener-favian",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "scrivener-favian",
+                "count": 1
+            },
+            {
+                "id": "the-spirit-s-way",
+                "count": 1
+            },
+            {
+                "id": "mad-prophet-gizelhart",
+                "count": 1,
+                "enhancements": ["amber", "capture"]
+            },
+            {
+                "id": "axiom-of-grisk",
+                "count": 1
+            },
+            {
+                "id": "consul-primus",
+                "count": 1,
+                "enhancements": ["amber"]
+            },
+            {
+                "id": "consul-primus",
+                "count": 1
+            },
+            {
+                "id": "galeatops",
+                "count": 1
+            },
+            {
+                "id": "hedonistic-intent",
+                "count": 2
+            },
+            {
+                "id": "humble",
+                "count": 1,
+                "enhancements": ["amber"]
+            },
+            {
+                "id": "terrordactyl",
+                "count": 1
+            },
+            {
+                "id": "good-of-the-many",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "lyco-saurus",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "monument-to-primus",
+                "count": 1
+            },
+            {
+                "id": "sacro-saurus",
+                "count": 1
+            },
+            {
+                "id": "floomf",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "floomf",
+                "count": 1
+            },
+            {
+                "id": "gloriana-s-attendant",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "keyfrog",
+                "count": 1
+            },
+            {
+                "id": "reclaimed-by-nature",
+                "count": 2
+            },
+            {
+                "id": "resurgence",
+                "count": 1
+            },
+            {
+                "id": "savage-clash",
+                "count": 1
+            },
+            {
+                "id": "mushroom-with-a-view",
+                "count": 1,
+                "enhancements": ["capture", "draw"]
+            },
+            {
+                "id": "wild-bounty",
+                "count": 1
+            },
+            {
+                "id": "mercy-malkin-queen",
+                "count": 1
+            },
+            {
+                "id": "word-of-returning",
+                "count": 1
+            }
+        ]
+    },
+    {
+        "username": "_Standard_",
+        "standaloneId": 2,
+        "uuid": "5880471d-6486-4942-9d1d-e758b4136c90",
+        "identity": "cyclonium-chamber-agent",
+        "expansion": 479,
+        "cardback": "",
+        "name": "Cylconium, Chamber Agent",
+        "banned": false,
+        "flagged": false,
+        "verified": true,
+        "includeInSealed": false,
+        "houses": ["dis", "logos", "shadows"],
+        "cards": [
+            {
+                "id": "bonesaw",
+                "count": 1,
+                "enhancements": ["damage"]
+            },
+            {
+                "id": "dark-minion",
+                "count": 2
+            },
+            {
+                "id": "gateway-to-dis",
+                "count": 1
+            },
+            {
+                "id": "imp-losion",
+                "count": 2
+            },
+            {
+                "id": "break-key",
+                "count": 1
+            },
+            {
+                "id": "double-doom",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "desire",
+                "count": 1
+            },
+            {
+                "id": "envy",
+                "count": 1
+            },
+            {
+                "id": "pride",
+                "count": 1
+            },
+            {
+                "id": "wrath",
+                "count": 1
+            },
+            {
+                "id": "eclectic-inquiry",
+                "count": 1,
+                "enhancements": ["damage"]
+            },
+            {
+                "id": "effervescent-principle",
+                "count": 1
+            },
+            {
+                "id": "q-mechs",
+                "count": 2
+            },
+            {
+                "id": "standardized-testing",
+                "count": 2
+            },
+            {
+                "id": "chronus",
+                "count": 1
+            },
+            {
+                "id": "mutagenic-serum",
+                "count": 1
+            },
+            {
+                "id": "neuro-syphon",
+                "count": 1,
+                "enhancements": ["draw"]
+            },
+            {
+                "id": "mind-over-matter",
+                "count": 1
+            },
+            {
+                "id": "skippy-timehog",
+                "count": 1
+            },
+            {
+                "id": "umbra-bot",
+                "count": 1
+            },
+            {
+                "id": "dark-wave",
+                "count": 1
+            },
+            {
+                "id": "look-over-there",
+                "count": 2
+            },
+            {
+                "id": "rad-penny",
+                "count": 1,
+                "enhancements": ["draw"]
+            },
+            {
+                "id": "rad-penny",
+                "count": 1
+            },
+            {
+                "id": "subtle-otto",
+                "count": 1
+            },
+            {
+                "id": "tempting-offer",
+                "count": 1,
+                "enhancements": ["damage"]
+            },
+            {
+                "id": "miasma-bomb",
+                "count": 1
+            },
+            {
+                "id": "reckless-rizzo",
+                "count": 1
+            },
+            {
+                "id": "safe-house",
+                "count": 1
+            },
+            {
+                "id": "mole",
+                "count": 1
+            },
+            {
+                "id": "lyco-thief",
+                "count": 1
+            }
+        ]
+    },
+    {
+        "username": "_Standard_",
+        "standaloneId": 3,
+        "uuid": "46b37303-d88d-40f3-956b-4e931d779068",
+        "identity": "wu-the-naturalist-of-car-keys",
+        "expansion": 479,
+        "cardback": "",
+        "name": "Wu, the Naturalist of Car Keys",
+        "banned": false,
+        "flagged": false,
+        "verified": true,
+        "includeInSealed": false,
+        "houses": ["logos", "saurian", "staralliance"],
+        "cards": [
+            {
+                "id": "bot-bookton",
+                "count": 1
+            },
+            {
+                "id": "dæmo-bot",
+                "count": 1
+            },
+            {
+                "id": "diametric-charge",
+                "count": 1,
+                "enhancements": ["amber"]
+            },
+            {
+                "id": "lethologica",
+                "count": 1,
+                "enhancements": ["draw"]
+            },
+            {
+                "id": "munchling",
+                "count": 1
+            },
+            {
+                "id": "opposition-research",
+                "count": 1,
+                "enhancements": ["draw"]
+            },
+            {
+                "id": "q-mechs",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "standardized-testing",
+                "count": 1,
+                "enhancements": ["amber"]
+            },
+            {
+                "id": "dimension-door",
+                "count": 1
+            },
+            {
+                "id": "novu-dynamo",
+                "count": 1
+            },
+            {
+                "id": "cyber-clone",
+                "count": 1
+            },
+            {
+                "id": "mind-over-matter",
+                "count": 1
+            },
+            {
+                "id": "it-s-coming",
+                "count": 1,
+                "enhancements": ["damage"]
+            },
+            {
+                "id": "consul-primus",
+                "count": 1
+            },
+            {
+                "id": "faust-the-great",
+                "count": 1
+            },
+            {
+                "id": "faust-the-great",
+                "count": 1,
+                "enhancements": ["draw"]
+            },
+            {
+                "id": "spoils-of-battle",
+                "count": 1
+            },
+            {
+                "id": "hedonistic-intent",
+                "count": 1
+            },
+            {
+                "id": "saurian-egg",
+                "count": 1
+            },
+            {
+                "id": "stomp",
+                "count": 1
+            },
+            {
+                "id": "amphora-captura",
+                "count": 1,
+                "enhancements": ["damage"]
+            },
+            {
+                "id": "techno-saurus",
+                "count": 1
+            },
+            {
+                "id": "deusillus",
+                "count": 1
+            },
+            {
+                "id": "deusillus2",
+                "count": 1
+            },
+            {
+                "id": "blast-shielding",
+                "count": 1
+            },
+            {
+                "id": "securi-droid",
+                "count": 2
+            },
+            {
+                "id": "sensor-chief-garcia",
+                "count": 2
+            },
+            {
+                "id": "subdue",
+                "count": 1
+            },
+            {
+                "id": "survey",
+                "count": 1
+            },
+            {
+                "id": "particle-sweep",
+                "count": 1
+            },
+            {
+                "id": "quintrino-flux",
+                "count": 1
+            },
+            {
+                "id": "stunner",
+                "count": 1
+            },
+            {
+                "id": "xenotraining",
+                "count": 1
+            },
+            {
+                "id": "quixxle-stone",
+                "count": 1,
+                "enhancements": ["damage"]
+            }
+        ]
+    },
+    {
+        "username": "_Standard_",
+        "uuid": "2c793aa2-a679-427b-a2b8-daaf07f77959",
+        "standaloneId": 4,
+        "identity": "mehitable-host-of-the-hustling-repository",
+        "expansion": 479,
+        "cardback": "",
+        "name": "Mehitable, Host of the Rustling Repository",
+        "banned": false,
+        "flagged": false,
+        "verified": true,
+        "includeInSealed": false,
+        "houses": ["dis", "sanctum", "staralliance"],
+        "cards": [
+            {
+                "id": "bonesaw",
+                "count": 1
+            },
+            {
+                "id": "impspector",
+                "count": 1
+            },
+            {
+                "id": "sinder",
+                "count": 1,
+                "enhancements": ["draw"]
+            },
+            {
+                "id": "snarette",
+                "count": 2
+            },
+            {
+                "id": "stirring-grave",
+                "count": 1
+            },
+            {
+                "id": "stirring-grave",
+                "count": 1,
+                "enhancements": ["capture", "draw"]
+            },
+            {
+                "id": "waking-nightmare",
+                "count": 1
+            },
+            {
+                "id": "double-doom",
+                "count": 1
+            },
+            {
+                "id": "essence-scale",
+                "count": 1
+            },
+            {
+                "id": "dance-of-doom",
+                "count": 1
+            },
+            {
+                "id": "umbra-fiend",
+                "count": 1
+            },
+            {
+                "id": "bull-wark",
+                "count": 1
+            },
+            {
+                "id": "champion-anaphiel",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "champion-anaphiel",
+                "count": 1
+            },
+            {
+                "id": "cleansing-wave",
+                "count": 1
+            },
+            {
+                "id": "font-of-the-eye",
+                "count": 1
+            },
+            {
+                "id": "seeker-of-truth",
+                "count": 1,
+                "enhancements": ["draw"]
+            },
+            {
+                "id": "squire-alys",
+                "count": 1,
+                "enhancements": ["damage"]
+            },
+            {
+                "id": "squire-alys",
+                "count": 1
+            },
+            {
+                "id": "barrister-joya",
+                "count": 1
+            },
+            {
+                "id": "shoulder-armor",
+                "count": 1
+            },
+            {
+                "id": "exchange-officer",
+                "count": 1,
+                "enhancements": ["amber"],
+                "maverick": "sanctum"
+            },
+            {
+                "id": "matter-maker",
+                "count": 1,
+                "maverick": "sanctum"
+            },
+            {
+                "id": "champion-anaphiel",
+                "count": 1,
+                "maverick": "staralliance"
+            },
+            {
+                "id": "access-denied",
+                "count": 1
+            },
+            {
+                "id": "commander-chan",
+                "count": 1
+            },
+            {
+                "id": "scout-pete",
+                "count": 1
+            },
+            {
+                "id": "securi-droid",
+                "count": 1
+            },
+            {
+                "id": "subject-kirby",
+                "count": 1
+            },
+            {
+                "id": "survey",
+                "count": 1,
+                "enhancements": ["draw"]
+            },
+            {
+                "id": "teleporter-chief-tink",
+                "count": 1
+            },
+            {
+                "id": "ant1-10ny",
+                "count": 1
+            },
+            {
+                "id": "away-team",
+                "count": 1
+            },
+            {
+                "id": "mutagenesis-researcher",
+                "count": 1
+            },
+            {
+                "id": "ensign-el-samra",
+                "count": 1,
+                "enhancements": ["draw"]
+            }
+        ]
+    },
+    {
+        "username": "_Standard_",
+        "uuid": "FDA1A345-F748-4EB1-A624-53CC7D554884",
+        "standaloneId": 5,
+        "identity": "affluent-gumshoe-ricci",
+        "expansion": 479,
+        "cardback": "",
+        "name": "Affuent “Gumshoe” Ricci",
+        "banned": false,
+        "flagged": false,
+        "verified": true,
+        "includeInSealed": false,
+        "houses": ["brobnar", "sanctum", "staralliance"],
+        "cards": [
+            {
+                "id": "ganger-chieftain",
+                "count": 1
+            },
+            {
+                "id": "groke",
+                "count": 1
+            },
+            {
+                "id": "gron-nine-toes",
+                "count": 1
+            },
+            {
+                "id": "warriors--refrain",
+                "count": 2
+            },
+            {
+                "id": "fyre-breath",
+                "count": 1
+            },
+            {
+                "id": "gravelguts",
+                "count": 1
+            },
+            {
+                "id": "power-of-fire",
+                "count": 1
+            },
+            {
+                "id": "the-flex",
+                "count": 1
+            },
+            {
+                "id": "cybergiant-rig",
+                "count": 1
+            },
+            {
+                "id": "mega-gron-nine-toes",
+                "count": 1
+            },
+            {
+                "id": "gron-s-brew",
+                "count": 1
+            },
+            {
+                "id": "blast-shielding",
+                "count": 1
+            },
+            {
+                "id": "red-alert",
+                "count": 1
+            },
+            {
+                "id": "armory-officer-nel",
+                "count": 1
+            },
+            {
+                "id": "hayden-oswin",
+                "count": 1,
+                "enhancements": ["draw"]
+            },
+            {
+                "id": "stealthster",
+                "count": 1
+            },
+            {
+                "id": "transporter-platform",
+                "count": 1
+            },
+            {
+                "id": "commander-dhrxgar",
+                "count": 1
+            },
+            {
+                "id": "encounter-suit",
+                "count": 1
+            },
+            {
+                "id": "z-force-agent-14",
+                "count": 1
+            },
+            {
+                "id": "z-particle-tracker",
+                "count": 1
+            },
+            {
+                "id": "z-ray-blaster",
+                "count": 1
+            },
+            {
+                "id": "z-wave-emitter",
+                "count": 1
+            },
+            {
+                "id": "aubade-the-grim",
+                "count": 2
+            },
+            {
+                "id": "golden-aura",
+                "count": 1
+            },
+            {
+                "id": "healing-blast",
+                "count": 1
+            },
+            {
+                "id": "maruck-the-marked",
+                "count": 1
+            },
+            {
+                "id": "protect-the-weak",
+                "count": 1
+            },
+            {
+                "id": "doorstep-to-heaven",
+                "count": 1
+            },
+            {
+                "id": "gatekeeper",
+                "count": 1
+            },
+            {
+                "id": "rothais-the-fierce",
+                "count": 1
+            },
+            {
+                "id": "armageddon-cloak",
+                "count": 1
+            },
+            {
+                "id": "one-stood-against-many",
+                "count": 1
+            },
+            {
+                "id": "seraphic-armor",
+                "count": 1
+            }
+        ]
+    },
+    {
+        "username": "_Standard_",
+        "uuid": "7749E997-6A45-48B7-9F22-F38E920E1BE4",
+        "standaloneId": 6,
+        "identity": "baivory-the-stalker-of-plasma",
+        "expansion": 479,
+        "cardback": "",
+        "name": "Baivory, the Stalker of Plasma",
+        "banned": false,
+        "flagged": false,
+        "verified": true,
+        "includeInSealed": false,
+        "houses": ["mars", "saurian", "brobnar"],
+        "cards": [
+            {
+                "id": "mars-needs-æmber",
+                "count": 2
+            },
+            {
+                "id": "mothergun",
+                "count": 1
+            },
+            {
+                "id": "skybooster-squadron",
+                "count": 1
+            },
+            {
+                "id": "tyxl-beambuckler",
+                "count": 2
+            },
+            {
+                "id": "zysysyx-shockworm",
+                "count": 1
+            },
+            {
+                "id": "mothership-support",
+                "count": 1
+            },
+            {
+                "id": "orbital-bombardment",
+                "count": 1
+            },
+            {
+                "id": "storm-crawler",
+                "count": 1
+            },
+            {
+                "id": "entropic-manipulator",
+                "count": 1
+            },
+            {
+                "id": "martian-hounds",
+                "count": 1,
+                "enhancements": ["damage"]
+            },
+            {
+                "id": "beware-the-ides",
+                "count": 1
+            },
+            {
+                "id": "cornicen-octavia",
+                "count": 3
+            },
+            {
+                "id": "defense-initiative",
+                "count": 1
+            },
+            {
+                "id": "sagittarii-s-gaze",
+                "count": 1,
+                "enhancements": ["damage"]
+            },
+            {
+                "id": "sagittarii-s-gaze",
+                "count": 1
+            },
+            {
+                "id": "ancient-power",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "dark-centurion",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "senator-quintina",
+                "count": 2
+            },
+            {
+                "id": "legion-s-march",
+                "count": 1
+            },
+            {
+                "id": "burn-the-stockpile",
+                "count": 1
+            },
+            {
+                "id": "punch",
+                "count": 1
+            },
+            {
+                "id": "autocannon",
+                "count": 1
+            },
+            {
+                "id": "iron-obelisk",
+                "count": 1
+            },
+            {
+                "id": "bumpsy",
+                "count": 1
+            },
+            {
+                "id": "firespitter",
+                "count": 1
+            },
+            {
+                "id": "headhunter",
+                "count": 2
+            },
+            {
+                "id": "hebe-the-huge",
+                "count": 1
+            },
+            {
+                "id": "krump",
+                "count": 2
+            },
+            {
+                "id": "wardrummer",
+                "count": 1
+            }
+        ]
+    },
+    {
+        "username": "_Standard_",
+        "uuid": "7437CFAF-56FB-4FB4-B859-EEBBDE43CD5D",
+        "standaloneId": 7,
+        "identity": "bigmark-coal-wickner-hoodlum",
+        "expansion": 479,
+        "cardback": "",
+        "name": "Bigmark Coal-Wickner, Hoodlum",
+        "banned": false,
+        "flagged": false,
+        "verified": true,
+        "includeInSealed": false,
+        "houses": ["brobnar", "saurian", "sanctum"],
+        "cards": [
+            {
+                "id": "coward-s-end",
+                "count": 1
+            },
+            {
+                "id": "gauntlet-of-command",
+                "count": 2
+            },
+            {
+                "id": "groggins",
+                "count": 2
+            },
+            {
+                "id": "into-the-fray",
+                "count": 2
+            },
+            {
+                "id": "lollop-the-titanic",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "lollop-the-titanic",
+                "count": 1
+            },
+            {
+                "id": "little-rapscal",
+                "count": 1
+            },
+            {
+                "id": "the-warchest",
+                "count": 1
+            },
+            {
+                "id": "pile-of-skulls",
+                "count": 1
+            },
+            {
+                "id": "axiom-of-grisk",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "brutodon-auxiliary",
+                "count": 2
+            },
+            {
+                "id": "thero-centurion",
+                "count": 2
+            },
+            {
+                "id": "tribute",
+                "count": 1
+            },
+            {
+                "id": "draco-praeco",
+                "count": 1
+            },
+            {
+                "id": "orator-hissaro",
+                "count": 2
+            },
+            {
+                "id": "tribune-pompitus",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "primus-unguis",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "triumph",
+                "count": 1
+            },
+            {
+                "id": "bull-wark",
+                "count": 2
+            },
+            {
+                "id": "cleansing-wave",
+                "count": 1
+            },
+            {
+                "id": "general-xalvador",
+                "count": 2
+            },
+            {
+                "id": "lieutenant-gorvenal",
+                "count": 1
+            },
+            {
+                "id": "æmberheart",
+                "count": 1
+            },
+            {
+                "id": "barrister-joya",
+                "count": 1
+            },
+            {
+                "id": "bring-low",
+                "count": 1
+            },
+            {
+                "id": "gizelhart-s-standard",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "one-stood-against-many",
+                "count": 1
+            },
+            {
+                "id": "dino-knight",
+                "count": 1
+            }
+        ]
+    },
+    {
+        "username": "_Standard_",
+        "uuid": "7C651D01-F087-45C8-935C-60E7C1D8C51A",
+        "standaloneId": 8,
+        "identity": "finally-smooth-simone",
+        "expansion": 479,
+        "cardback": "",
+        "name": "Finally Smooth Simone",
+        "banned": false,
+        "flagged": false,
+        "verified": true,
+        "includeInSealed": false,
+        "houses": ["mars", "sanctum", "staralliance"],
+        "cards": [
+            {
+                "id": "collector-worm",
+                "count": 2
+            },
+            {
+                "id": "ixxyxli-fixfinger",
+                "count": 2
+            },
+            {
+                "id": "mars-first",
+                "count": 2
+            },
+            {
+                "id": "hypnobeam",
+                "count": 1
+            },
+            {
+                "id": "nyzyk-resonator",
+                "count": 2
+            },
+            {
+                "id": "zorg",
+                "count": 1
+            },
+            {
+                "id": "grommid",
+                "count": 1
+            },
+            {
+                "id": "martian-generosity",
+                "count": 1
+            },
+            {
+                "id": "terms-of-redress",
+                "count": 1
+            },
+            {
+                "id": "bulwark",
+                "count": 3
+            },
+            {
+                "id": "champion-tabris",
+                "count": 2
+            },
+            {
+                "id": "grey-monk",
+                "count": 2
+            },
+            {
+                "id": "raiding-knight",
+                "count": 1
+            },
+            {
+                "id": "sequis",
+                "count": 2
+            },
+            {
+                "id": "gatekeeper",
+                "count": 1
+            },
+            {
+                "id": "blast-shielding",
+                "count": 3
+            },
+            {
+                "id": "commander-chan",
+                "count": 1
+            },
+            {
+                "id": "observ-u-max",
+                "count": 2
+            },
+            {
+                "id": "subject-kirby",
+                "count": 1
+            },
+            {
+                "id": "ant1-10ny",
+                "count": 1
+            },
+            {
+                "id": "detention-coil",
+                "count": 1
+            },
+            {
+                "id": "stealthster",
+                "count": 1
+            },
+            {
+                "id": "xenotraining",
+                "count": 1
+            },
+            {
+                "id": "galactic-census",
+                "count": 1
+            }
+        ]
+    },
+    {
+        "username": "_Standard_",
+        "uuid": "12D179AF-D844-4327-B461-C37C7D9E13E7",
+        "standaloneId": 9,
+        "identity": "franz-h-greenform-senior",
+        "expansion": 479,
+        "cardback": "",
+        "name": "Franz H. Greenform, Senior",
+        "banned": false,
+        "flagged": false,
+        "verified": true,
+        "includeInSealed": false,
+        "houses": ["mars", "saurian", "staralliance"],
+        "cards": [
+            {
+                "id": "mothergun",
+                "count": 2
+            },
+            {
+                "id": "skybooster-squadron",
+                "count": 3
+            },
+            {
+                "id": "xanthyx-harvester",
+                "count": 2
+            },
+            {
+                "id": "yxilx-dominator",
+                "count": 1
+            },
+            {
+                "id": "zysysyx-shockworm",
+                "count": 1
+            },
+            {
+                "id": "key-abduction",
+                "count": 1,
+                "enhancements": ["draw", "draw"]
+            },
+            {
+                "id": "invasion-portal",
+                "count": 1
+            },
+            {
+                "id": "yzphyz-knowdrone",
+                "count": 1
+            },
+            {
+                "id": "axiom-of-grisk",
+                "count": 1
+            },
+            {
+                "id": "brutodon-auxiliary",
+                "count": 2
+            },
+            {
+                "id": "imperium",
+                "count": 2
+            },
+            {
+                "id": "tricerian-legionary",
+                "count": 2
+            },
+            {
+                "id": "gargantodon",
+                "count": 1
+            },
+            {
+                "id": "philophosaurus",
+                "count": 2
+            },
+            {
+                "id": "auto-legionary",
+                "count": 1
+            },
+            {
+                "id": "primus-unguis",
+                "count": 1
+            },
+            {
+                "id": "scout-pete",
+                "count": 2
+            },
+            {
+                "id": "survey",
+                "count": 2
+            },
+            {
+                "id": "lay-of-the-land",
+                "count": 2
+            },
+            {
+                "id": "new-frontiers",
+                "count": 2
+            },
+            {
+                "id": "universal-translator",
+                "count": 1
+            },
+            {
+                "id": "hold-the-line",
+                "count": 1
+            },
+            {
+                "id": "jon-cargo",
+                "count": 1
+            },
+            {
+                "id": "lyco-alien",
+                "count": 1
+            }
+        ]
+    },
+    {
+        "username": "_Standard_",
+        "uuid": "BBFB2DE7-F1C0-459A-8AC7-1A0B265A04B5",
+        "standaloneId": 10,
+        "identity": "hale-the-cutthroat-of-ideas",
+        "expansion": 479,
+        "cardback": "",
+        "name": "Hale, the Cutthroat of Ideas",
+        "banned": false,
+        "flagged": false,
+        "verified": true,
+        "includeInSealed": false,
+        "houses": ["mars", "staralliance", "shadows"],
+        "cards": [
+            {
+                "id": "glyxl-proliferator",
+                "count": 2
+            },
+            {
+                "id": "mars-needs-æmber",
+                "count": 2
+            },
+            {
+                "id": "mindwarper",
+                "count": 2
+            },
+            {
+                "id": "tyxl-beambuckler",
+                "count": 1
+            },
+            {
+                "id": "nyzyk-resonator",
+                "count": 1
+            },
+            {
+                "id": "mothership-support",
+                "count": 1
+            },
+            {
+                "id": "zorg",
+                "count": 1
+            },
+            {
+                "id": "hypnotic-command",
+                "count": 1
+            },
+            {
+                "id": "yxlyx-stimrager",
+                "count": 1
+            },
+            {
+                "id": "com-officer-kirby",
+                "count": 1
+            },
+            {
+                "id": "commander-chan",
+                "count": 1
+            },
+            {
+                "id": "sci-officer-qincan",
+                "count": 1
+            },
+            {
+                "id": "sensor-chief-garcia",
+                "count": 2
+            },
+            {
+                "id": "information-officer-gray",
+                "count": 1
+            },
+            {
+                "id": "sci-officer-morpheus",
+                "count": 2
+            },
+            {
+                "id": "disruption-field",
+                "count": 1
+            },
+            {
+                "id": "special-agent-fingers",
+                "count": 1
+            },
+            {
+                "id": "chan-s-blaster",
+                "count": 1
+            },
+            {
+                "id": "garcia-s-blaster",
+                "count": 1
+            },
+            {
+                "id": "ghostly-hand",
+                "count": 1
+            },
+            {
+                "id": "nerve-blast",
+                "count": 1
+            },
+            {
+                "id": "relentless-whispers",
+                "count": 2
+            },
+            {
+                "id": "too-much-to-protect",
+                "count": 1
+            },
+            {
+                "id": "seeker-needle",
+                "count": 1
+            },
+            {
+                "id": "faygin",
+                "count": 1
+            },
+            {
+                "id": "urchin",
+                "count": 4
+            },
+            {
+                "id": "duskrunner",
+                "count": 1
+            }
+        ]
+    },
+    {
+        "username": "_Standard_",
+        "uuid": "D3D54E38-15FF-4205-A495-855EF10C4820",
+        "standaloneId": 11,
+        "identity": "hershey-the-oak-of-amalchasm",
+        "expansion": 479,
+        "cardback": "",
+        "name": "Hershey, the Oak of Amalchasm",
+        "banned": false,
+        "flagged": false,
+        "verified": true,
+        "includeInSealed": false,
+        "houses": ["mars", "saurian", "untamed"],
+        "cards": [
+            {
+                "id": "carpet-phloxem",
+                "count": 1
+            },
+            {
+                "id": "mars-first",
+                "count": 2
+            },
+            {
+                "id": "xanthyx-harvester",
+                "count": 3
+            },
+            {
+                "id": "yxilx-dominator",
+                "count": 3
+            },
+            {
+                "id": "key-abduction",
+                "count": 1
+            },
+            {
+                "id": "martian-generosity",
+                "count": 1
+            },
+            {
+                "id": "total-recall",
+                "count": 1
+            },
+            {
+                "id": "legatus-raptor",
+                "count": 2
+            },
+            {
+                "id": "questor-jarta",
+                "count": 2
+            },
+            {
+                "id": "senator-shrix",
+                "count": 2
+            },
+            {
+                "id": "the-golden-spiral",
+                "count": 2
+            },
+            {
+                "id": "exile",
+                "count": 1
+            },
+            {
+                "id": "orator-hissaro",
+                "count": 1
+            },
+            {
+                "id": "the-callipygian-ideal",
+                "count": 1
+            },
+            {
+                "id": "senator-bracchus",
+                "count": 1
+            },
+            {
+                "id": "full-moon",
+                "count": 1
+            },
+            {
+                "id": "key-charge",
+                "count": 1
+            },
+            {
+                "id": "nature-s-call",
+                "count": 1
+            },
+            {
+                "id": "regrowth",
+                "count": 1
+            },
+            {
+                "id": "chota-hazri",
+                "count": 1
+            },
+            {
+                "id": "dew-faerie",
+                "count": 1
+            },
+            {
+                "id": "dust-pixie",
+                "count": 2
+            },
+            {
+                "id": "fuzzy-gruen",
+                "count": 1
+            },
+            {
+                "id": "teliga",
+                "count": 1
+            },
+            {
+                "id": "hunting-witch",
+                "count": 2
+            }
+        ]
+    },
+    {
+        "username": "_Standard_",
+        "uuid": "48ED97C7-1766-4FBD-BF05-33FE3727FE31",
+        "standaloneId": 12,
+        "identity": "hodak-the-bookish",
+        "expansion": 479,
+        "cardback": "",
+        "name": "Hodak the Bookish",
+        "banned": false,
+        "flagged": false,
+        "verified": true,
+        "includeInSealed": false,
+        "houses": ["mars", "staralliance", "logos"],
+        "cards": [
+            {
+                "id": "battle-fleet",
+                "count": 2
+            },
+            {
+                "id": "martians-make-bad-allies",
+                "count": 1
+            },
+            {
+                "id": "orbital-bombardment",
+                "count": 1
+            },
+            {
+                "id": "shatter-storm",
+                "count": 1
+            },
+            {
+                "id": "ether-spider",
+                "count": 1
+            },
+            {
+                "id": "grabber-jammer",
+                "count": 1
+            },
+            {
+                "id": "phylyx-the-disintegrator",
+                "count": 1
+            },
+            {
+                "id": "tunk",
+                "count": 1
+            },
+            {
+                "id": "yxili-marauder",
+                "count": 1
+            },
+            {
+                "id": "yxili-marauder",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "brain-stem-antenna",
+                "count": 1
+            },
+            {
+                "id": "commander-chan",
+                "count": 1
+            },
+            {
+                "id": "crewman-jörg",
+                "count": 1
+            },
+            {
+                "id": "dæmo-alien",
+                "count": 1
+            },
+            {
+                "id": "red-alert",
+                "count": 2
+            },
+            {
+                "id": "subject-kirby",
+                "count": 2
+            },
+            {
+                "id": "lay-of-the-land",
+                "count": 1
+            },
+            {
+                "id": "new-frontiers",
+                "count": 1
+            },
+            {
+                "id": "captain-val-jericho",
+                "count": 1
+            },
+            {
+                "id": "forging-an-alliance",
+                "count": 1
+            },
+            {
+                "id": "quixxle-stone",
+                "count": 1
+            },
+            {
+                "id": "archimedes",
+                "count": 1
+            },
+            {
+                "id": "binate-rupture",
+                "count": 2
+            },
+            {
+                "id": "eyegor",
+                "count": 2
+            },
+            {
+                "id": "labwork",
+                "count": 2
+            },
+            {
+                "id": "standardized-testing",
+                "count": 1
+            },
+            {
+                "id": "titan-librarian",
+                "count": 1
+            },
+            {
+                "id": "director-of-zyx",
+                "count": 1
+            },
+            {
+                "id": "eureka",
+                "count": 1
+            },
+            {
+                "id": "sloppy-labwork",
+                "count": 1
+            }
+        ]
+    },
+    {
+        "username": "_Standard_",
+        "uuid": "374F2FFD-DA25-4E81-9BD3-63CCE5D9BF1B",
+        "standaloneId": 13,
+        "identity": "layton-theintently-hyperbolic",
+        "expansion": 479,
+        "cardback": "",
+        "name": "Layton the Intently Hyperbolic",
+        "banned": false,
+        "flagged": false,
+        "verified": true,
+        "includeInSealed": false,
+        "houses": ["mars", "saurian", "dis"],
+        "cards": [
+            {
+                "id": "agent-hoo-man",
+                "count": 2
+            },
+            {
+                "id": "mars-first",
+                "count": 1
+            },
+            {
+                "id": "mindworm",
+                "count": 1
+            },
+            {
+                "id": "vezyma-thinkdrone",
+                "count": 2
+            },
+            {
+                "id": "æmber-conduction-unit",
+                "count": 1
+            },
+            {
+                "id": "combat-pheromones",
+                "count": 2
+            },
+            {
+                "id": "nyzyk-resonator",
+                "count": 1
+            },
+            {
+                "id": "zorg",
+                "count": 1
+            },
+            {
+                "id": "grommid",
+                "count": 1
+            },
+            {
+                "id": "citizen-shrix",
+                "count": 2
+            },
+            {
+                "id": "consul-primus",
+                "count": 1
+            },
+            {
+                "id": "cornicen-octavia",
+                "count": 1
+            },
+            {
+                "id": "faust-the-great",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "faust-the-great",
+                "count": 1
+            },
+            {
+                "id": "monument-to-ludo",
+                "count": 1
+            },
+            {
+                "id": "praefectus-ludo",
+                "count": 1
+            },
+            {
+                "id": "monument-to-faust",
+                "count": 1
+            },
+            {
+                "id": "monument-to-octavia",
+                "count": 1
+            },
+            {
+                "id": "monument-to-primus",
+                "count": 1
+            },
+            {
+                "id": "monument-to-shrix",
+                "count": 1
+            },
+            {
+                "id": "harbinger-of-doom",
+                "count": 2
+            },
+            {
+                "id": "impspector",
+                "count": 2
+            },
+            {
+                "id": "not-finished-with-you",
+                "count": 1
+            },
+            {
+                "id": "obsidian-forge",
+                "count": 1
+            },
+            {
+                "id": "skullion",
+                "count": 1
+            },
+            {
+                "id": "snag",
+                "count": 1
+            },
+            {
+                "id": "soulkeeper",
+                "count": 1
+            },
+            {
+                "id": "key-to-dis",
+                "count": 1
+            },
+            {
+                "id": "snag-s-mirror",
+                "count": 1
+            },
+            {
+                "id": "snaglet",
+                "count": 1
+            }
+        ]
+    },
+    {
+        "username": "_Standard_",
+        "uuid": "5CFE6158-3118-4917-BB13-B10E8A85DD21",
+        "standaloneId": 14,
+        "identity": "ambersmith-of-tyrsville-sanctum",
+        "expansion": 479,
+        "cardback": "",
+        "name": "Æmbersmith of Tyrsville Sanctum",
+        "banned": false,
+        "flagged": false,
+        "verified": true,
+        "includeInSealed": false,
+        "houses": ["mars", "sanctum", "saurian"],
+        "cards": [
+            {
+                "id": "ixxyxli-fixfinger",
+                "count": 3
+            },
+            {
+                "id": "mars-needs-æmber",
+                "count": 1
+            },
+            {
+                "id": "mindwarper",
+                "count": 1
+            },
+            {
+                "id": "tyxl-beambuckler",
+                "count": 1
+            },
+            {
+                "id": "yxilx-dominator",
+                "count": 2
+            },
+            {
+                "id": "exterminate-exterminate",
+                "count": 1
+            },
+            {
+                "id": "storm-crawler",
+                "count": 1
+            },
+            {
+                "id": "uxlyx-the-zookeeper",
+                "count": 1
+            },
+            {
+                "id": "hypnotic-command",
+                "count": 1
+            },
+            {
+                "id": "champion-anaphiel",
+                "count": 1
+            },
+            {
+                "id": "fangs-of-gizelhart",
+                "count": 2
+            },
+            {
+                "id": "font-of-the-eye",
+                "count": 1
+            },
+            {
+                "id": "general-xalvador",
+                "count": 2
+            },
+            {
+                "id": "squire-alys",
+                "count": 1
+            },
+            {
+                "id": "æmberheart",
+                "count": 1
+            },
+            {
+                "id": "bring-low",
+                "count": 2
+            },
+            {
+                "id": "equalize",
+                "count": 1
+            },
+            {
+                "id": "gizelhart-s-standard",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "axiom-of-grisk",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "chant-of-hubris",
+                "count": 2
+            },
+            {
+                "id": "senator-shrix",
+                "count": 1,
+                "enhancements": ["capture", "capture"]
+            },
+            {
+                "id": "senator-shrix",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "the-golden-spiral",
+                "count": 2
+            },
+            {
+                "id": "ancient-power",
+                "count": 1
+            },
+            {
+                "id": "city-state-interest",
+                "count": 2
+            },
+            {
+                "id": "exile",
+                "count": 1,
+                "enhancements": ["capture"]
+            },
+            {
+                "id": "senator-bracchus",
+                "count": 1
+            }
+        ]
+    }
+]

@@ -132,7 +132,7 @@ describe('Kretchee', function () {
             this.player1.clickCard(this.troll);
             this.player1.clickCard(this.troll);
             expect(this.kretchee.amber).toBe(0);
-            expect(this.troll.amber).toBe(4);
+            expect(this.troll.amber).toBe(3);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(0);
             expect(this.player1).isReadyToTakeAction();

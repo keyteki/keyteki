@@ -68,6 +68,23 @@ describe("Ol' Paddy Evil Twin", function () {
                 });
             });
 
+            describe('when tide is not high and discarded card has house enhancement', function () {
+                beforeEach(function () {
+                    this.dustPixie.enhancements = ['shadows'];
+                    this.player1.reap(this.olPaddyEvilTwin);
+                });
+
+                it('should also match house enhancements of discarded card', function () {
+                    expect(this.player1).toBeAbleToSelect(this.tantadlin);
+                    expect(this.player1).toBeAbleToSelect(this.flaxia);
+                    expect(this.player1).toBeAbleToSelect(this.murmook);
+                    expect(this.player1).toBeAbleToSelect(this.chainGang);
+                    expect(this.player1).not.toBeAbleToSelect(this.senatorShrix);
+                    this.player1.clickCard(this.tantadlin);
+                    expect(this.player1).isReadyToTakeAction();
+                });
+            });
+
             describe('when tide is high and reap', function () {
                 beforeEach(function () {
                     this.player1.raiseTide();

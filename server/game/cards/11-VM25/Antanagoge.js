@@ -23,7 +23,7 @@ class Antanagoge extends Card {
                 cardCondition: (card, context) =>
                     card.type === 'creature' && card.parent === context.source,
                 gameAction: ability.actions.dealDamage((context) => ({
-                    amount: context.target.power,
+                    amount: context.target?.power || 0,
                     target: context.game.creaturesInPlay
                 }))
             }

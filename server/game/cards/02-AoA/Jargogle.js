@@ -1,3 +1,5 @@
+const _ = require('underscore');
+
 const Card = require('../../Card.js');
 
 class Jargogle extends Card {
@@ -17,27 +19,41 @@ class Jargogle extends Card {
         });
 
         this.destroyed({
+            condition: (context) => context.source.childCards.length > 0,
             effect: '{1}{2}',
-            effectArgs: (context) => [
-                context.game.activePlayer === context.player ? 'play ' : 'archive ',
-                context.game.activePlayer === context.player
-                    ? context.source.childCards[0]
-                    : 'a card'
-            ],
-            gameAction: [
-                ability.actions.playCard((context) => ({
-                    target:
-                        context.game.activePlayer === context.player
-                            ? context.source.childCards
-                            : []
-                })),
-                ability.actions.archive((context) => ({
-                    target:
-                        context.game.activePlayer !== context.player
-                            ? context.source.childCards
-                            : []
+            effectArgs: (context) => {
+                const isActive = context.game.activePlayer === context.player;
+                if (!isActive) {
+                    return ['archive ', 'a card'];
+                }
+
+                if (context.source.childCards.length === 1) {
+                    return ['play ', context.source.childCards[0]];
+                }
+
+                return ['play a card from under ', context.source];
+            },
+            gameAction: ability.actions.conditional({
+                condition: (context) => context.game.activePlayer === context.player,
+                trueGameAction: ability.actions.conditional({
+                    condition: (context) => context.source.childCards.length === 1,
+                    trueGameAction: ability.actions.playCard((context) => ({
+                        target: context.source.childCards
+                    })),
+                    falseGameAction: ability.actions.playCard({
+                        promptForSelect: {
+                            activePromptTitle: 'Choose a card to play',
+                            location: 'any',
+                            controller: 'any',
+                            cardCondition: (card, context) =>
+                                context.source.childCards.includes(card)
+                        }
+                    })
+                }),
+                falseGameAction: ability.actions.archive((context) => ({
+                    target: _.sample(context.source.childCards)
                 }))
-            ]
+            })
         });
     }
 }

@@ -29,6 +29,7 @@ describe('FOF Transponder', function () {
             expect(this.player1.player.creaturesInPlay.length).toBe(1);
             let token = this.player1.player.creaturesInPlay[0];
             expect(token.upgrades).toContain(this.fofTransponder);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should work on opponents turn', function () {
@@ -42,6 +43,7 @@ describe('FOF Transponder', function () {
             expect(this.player1.player.creaturesInPlay.length).toBe(1);
             let token = this.player1.player.creaturesInPlay[0];
             expect(token.upgrades).toContain(this.fofTransponder);
+            expect(this.player2).isReadyToTakeAction();
         });
 
         it('should stack', function () {
@@ -60,6 +62,7 @@ describe('FOF Transponder', function () {
             let token2 = this.player1.player.creaturesInPlay[1];
             expect(token1.upgrades).toContain(this.fofTransponder);
             expect(token2.upgrades).toContain(this.fofTransponder2);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not work if token immediately dies', function () {
@@ -69,12 +72,16 @@ describe('FOF Transponder', function () {
             this.player2.play(this.autocannon);
             this.player2.endTurn();
             this.player1.clickPrompt('staralliance');
+            const topOfDeck = this.player1.player.deck[0];
             this.player1.play(this.particleSweep);
             this.player1.clickCard(this.helmsmanSpears);
             this.player1.clickPrompt('Right');
+            expect(this.player1).not.toHavePrompt('B0-T');
             expect(this.helmsmanSpears.location).toBe('discard');
             expect(this.fofTransponder.location).toBe('discard');
+            expect(topOfDeck.location).toBe('discard');
             expect(this.player1.player.creaturesInPlay.length).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 

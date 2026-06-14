@@ -121,5 +121,57 @@ describe('Jargogle', function () {
             expect(this.duskwitch.exhausted).toBe(false);
             expect(this.player1).isReadyToTakeAction();
         });
+
+        it('with two cards underneath, on destruction the active player picks one to play and the other is discarded', function () {
+            this.player1.play(this.jargogle);
+            this.player1.clickCard(this.deepwoodDruid);
+            expect(this.jargogle.childCards).toContain(this.deepwoodDruid);
+
+            this.player1.player.removeCardFromPile(this.duskwitch);
+            this.duskwitch.parent = this.jargogle;
+            this.duskwitch.facedown = true;
+            this.jargogle.childCards.push(this.duskwitch);
+            expect(this.jargogle.childCards.length).toBe(2);
+
+            this.jargogle.ready();
+            this.player1.fightWith(this.jargogle, this.shorty);
+            expect(this.player1).toHavePrompt('Choose a card to play');
+            expect(this.player1).toBeAbleToSelect(this.deepwoodDruid);
+            expect(this.player1).toBeAbleToSelect(this.duskwitch);
+            this.player1.clickCard(this.deepwoodDruid);
+
+            // Resolve Deepwood Druid's deploy + play-effect prompts.
+            this.player1.clickPrompt('Deploy Left');
+            this.player1.clickCard(this.dharna);
+            this.player1.clickCard(this.dharna);
+
+            expect(this.jargogle.location).toBe('discard');
+            expect(this.deepwoodDruid.location).toBe('play area');
+            expect(this.duskwitch.location).toBe('discard');
+        });
+
+        it("with two cards underneath, on opponent's-turn destruction one is randomly archived and the other discarded", function () {
+            this.player1.play(this.jargogle);
+            this.player1.clickCard(this.deepwoodDruid);
+
+            this.player1.player.removeCardFromPile(this.duskwitch);
+            this.duskwitch.parent = this.jargogle;
+            this.duskwitch.facedown = true;
+            this.jargogle.childCards.push(this.duskwitch);
+            expect(this.jargogle.childCards.length).toBe(2);
+
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.fightWith(this.shorty, this.jargogle);
+
+            expect(this.jargogle.location).toBe('discard');
+            const archived = this.player1.player.archives;
+            expect(archived.length).toBe(1);
+            expect([this.deepwoodDruid, this.duskwitch]).toContain(archived[0]);
+            const discarded = [this.deepwoodDruid, this.duskwitch].filter(
+                (c) => c !== archived[0]
+            )[0];
+            expect(discarded.location).toBe('discard');
+        });
     });
 });

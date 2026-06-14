@@ -18,14 +18,14 @@ class HunterOrHunted extends Card {
                     gameAction: [
                         ability.actions.ward((context) => ({
                             target:
-                                context.selects.action.choice === 'Ward a creature'
-                                    ? context.targets.creature
+                                context.selects?.action?.choice === 'Ward a creature'
+                                    ? context.targets?.creature
                                     : []
                         })),
                         ability.actions.removeWardToken((context) => ({
                             target:
-                                context.selects.action.choice === 'Move a ward'
-                                    ? context.targets.creature
+                                context.selects?.action?.choice === 'Move a ward'
+                                    ? context.targets?.creature
                                     : []
                         }))
                     ]
