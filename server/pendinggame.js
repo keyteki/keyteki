@@ -192,11 +192,11 @@ class PendingGame {
         }
 
         if (this.players[playerName]) {
+            this.removeAndResetOwner(playerName);
+
             if (this.started) {
                 this.players[playerName].left = true;
             } else {
-                this.removeAndResetOwner(playerName);
-
                 delete this.players[playerName];
             }
         }
