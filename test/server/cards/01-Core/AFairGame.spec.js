@@ -20,6 +20,7 @@ describe('A Fair Game', function () {
             this.player1.play(this.aFairGame);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it("should give the correct amount when one player doesn't have a matching card", function () {
@@ -28,6 +29,7 @@ describe('A Fair Game', function () {
             this.player1.play(this.aFairGame);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not discard a card when the discard is empty, and should give no amber', function () {
@@ -39,6 +41,18 @@ describe('A Fair Game', function () {
             this.player1.play(this.aFairGame);
             expect(this.player1.amber).toBe(3);
             expect(this.player2.amber).toBe(0);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should give each player the correct amount of amber when discarding a card which matches house enhancements', function () {
+            this.player1.moveCard(this.tocsin, 'deck');
+            this.player2.moveCard(this.flaxia, 'deck');
+            this.tocsin.enhancements = ['logos'];
+            this.flaxia.enhancements = ['shadows'];
+            this.player1.play(this.aFairGame);
+            expect(this.player1.amber).toBe(3);
+            expect(this.player2.amber).toBe(4);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

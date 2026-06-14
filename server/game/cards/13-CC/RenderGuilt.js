@@ -10,7 +10,7 @@ class RenderGuilt extends Card {
                 gameAction: ability.actions.sequential([
                     ability.actions.capture(),
                     ability.actions.allocateDamage((context) => ({
-                        numSteps: context.target.amber || 0
+                        numSteps: context.target?.amber || 0
                     }))
                 ])
             },

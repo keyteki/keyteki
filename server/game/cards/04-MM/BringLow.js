@@ -10,15 +10,12 @@ class BringLow extends Card {
                 context.player.opponent ? Math.max(context.player.opponent.amber - 5, 0) : 0,
                 context.player.opponent
             ],
-            gameAction: ability.actions.sequentialForEach((context) => ({
-                num: context.player.opponent ? Math.max(context.player.opponent.amber - 5, 0) : 0,
-                action: ability.actions.capture({
-                    promptForSelect: {
-                        activePromptTitle: 'Choose a creature to capture 1 amber',
-                        cardType: 'creature',
-                        controller: 'self'
-                    }
-                })
+            gameAction: ability.actions.allocateCapture((context) => ({
+                numAmber: context.player.opponent
+                    ? Math.max(context.player.opponent.amber - 5, 0)
+                    : 0,
+                controller: 'self',
+                menuTitle: 'Choose a creature to capture 1 amber'
             }))
         });
     }

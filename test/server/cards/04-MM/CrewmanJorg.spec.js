@@ -18,6 +18,7 @@ describe('Crewman Jörg', function () {
             this.player1.useAction(this.crewmanJörg);
             expect(this.player1.amber).toBe(1);
             expect(this.player2.amber).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should not steal 1A if it has at least one star alliance neighbor', function () {
@@ -26,6 +27,30 @@ describe('Crewman Jörg', function () {
             this.player1.useAction(this.crewmanJörg);
             expect(this.player1.amber).toBe(0);
             expect(this.player2.amber).toBe(4);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe("Crewman Jörg's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    inPlay: ['shadow-gloomcoil', 'medic-ingram', 'crewman-jörg']
+                },
+                player2: {
+                    amber: 4
+                }
+            });
+        });
+
+        it('is not in the after use window', function () {
+            this.medicIngram.damage = 2;
+            this.player1.useAction(this.crewmanJörg);
+            expect(this.medicIngram.location).toBe('discard');
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(4);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });

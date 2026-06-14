@@ -245,7 +245,11 @@ class PlayerInteractionWrapper {
     }
 
     menuClick(card, command) {
-        this.game.menuItemClick(this.player.name, card.uuid, { command });
+        // Accept either a bare command string or a full menuItem object so
+        // that tests can exercise commands that depend on extra fields
+        // (e.g. `arg` for the dynamic takeChild manual-mode entries).
+        const menuItem = typeof command === 'string' ? { command } : command;
+        this.game.menuItemClick(this.player.name, card.uuid, menuItem);
         this.game.checkGameState(true);
         this.game.continue();
         this.checkUnserializableGameState();

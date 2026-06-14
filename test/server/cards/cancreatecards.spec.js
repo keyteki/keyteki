@@ -6,6 +6,7 @@ const localeEn = require('../../../client/locales/en.json');
 
 const card = {
     hasHouse: () => true,
+    getHouses: () => ['brobnar'],
     isOnFlank: () => true,
     neighbors: [],
     childCards: [],

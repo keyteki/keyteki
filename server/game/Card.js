@@ -84,6 +84,8 @@ class Card extends EffectSource {
         this.clonedType = null;
         this.clonedNeighbors = null;
         this.clonedPurgedCards = null;
+        this.leftNeighborBeforeLeavingPlay = null;
+        this.rightNeighborBeforeLeavingPlay = null;
 
         this.powerPrinted = cardData.power;
         this.armorPrinted = cardData.armor;
@@ -109,7 +111,11 @@ class Card extends EffectSource {
             { command: 'remAmber', text: 'Remove 1 amber', menu: 'tokens' },
             { command: 'stun', text: 'Stun/Remove Stun', menu: 'tokens' },
             { command: 'ward', text: 'Ward/Remove Ward', menu: 'tokens' },
-            { command: 'enrage', text: 'Enrage/Remove Enrage', menu: 'tokens' }
+            { command: 'enrage', text: 'Enrage/Remove Enrage', menu: 'tokens' },
+            { command: 'under', text: 'Modify cards under', menu: 'main' },
+            { command: 'main', text: 'Back', menu: 'under' },
+            { command: 'placeFaceup', text: 'Place card faceup', menu: 'under' },
+            { command: 'placeFacedown', text: 'Place card facedown', menu: 'under' }
         ];
 
         this.endRound();
@@ -685,7 +691,7 @@ class Card extends EffectSource {
         let combinedHouses = [];
 
         if (this.anyEffect('changeHouse')) {
-            combinedHouses = combinedHouses.concat(this.getEffects('changeHouse'));
+            combinedHouses = combinedHouses.concat(this.getEffects('changeHouse').flat());
         } else {
             let copyEffect = this.mostRecentEffect('copyCard');
             combinedHouses.push(copyEffect ? copyEffect.printedHouse : this.printedHouse);
@@ -875,7 +881,7 @@ class Card extends EffectSource {
         }
     }
 
-    getMenu() {
+    getMenu(activePlayer) {
         var menu = [];
 
         // Special handling for prophecy cards in manual mode
@@ -908,9 +914,49 @@ class Card extends EffectSource {
             return [{ command: 'reveal', text: 'Reveal', menu: 'main' }];
         }
 
+        // Upgrades should only be returned to hand - they cannot be otherwise interacted with while attached to a creature, and don't need their own menu options
+        if (this.parent) {
+            menu.push({ command: 'click', text: 'Select Card', menu: 'main' });
+            menu.push({ command: 'returnToHand', text: 'Return to hand', menu: 'main' });
+            return menu;
+        }
+
         menu.push({ command: 'click', text: 'Select Card', menu: 'main' });
         if (this.location === 'play area') {
-            menu = menu.concat(this.menu);
+            // Render the static menu, but rewrite a few toggle entries to
+            // reflect the card's current state instead of the generic
+            // 'X/Remove X' wording.
+            const dynamicLabels = {
+                exhaust: this.exhausted ? 'Ready' : 'Exhaust',
+                stun: this.stunned ? 'Remove Stun' : 'Stun',
+                ward: this.warded ? 'Remove Ward' : 'Ward',
+                enrage: this.enraged ? 'Remove Enrage' : 'Enrage'
+            };
+            menu = menu.concat(
+                this.menu.map((item) =>
+                    dynamicLabels[item.command]
+                        ? { ...item, text: dynamicLabels[item.command] }
+                        : item
+                )
+            );
+            // Dynamic 'take' entries, one per card currently placed
+            // beneath this card. Players can see facedown cards they
+            // placed themselves, so always label by name in the menu;
+            // log lines hide the name for opponent visibility.
+            // Only the controller of the host card can take cards out
+            // from under it: opponents can place cards under enemy
+            // creatures but cannot take them, and shouldn't be able to
+            // see what cards are under a card.
+            if (!activePlayer || activePlayer === this.controller) {
+                for (const child of this.childCards) {
+                    menu.push({
+                        command: 'takeChild',
+                        arg: child.uuid,
+                        text: 'Take ' + child.name,
+                        menu: 'under'
+                    });
+                }
+            }
         }
 
         return menu;
@@ -1399,27 +1445,40 @@ class Card extends EffectSource {
     }
 
     leftNeighbor() {
-        let neighbor;
-        if (this.type === 'creature') {
-            let creatures = this.controller.creaturesInPlay;
-            let index = creatures.indexOf(this);
-            if (index > 0) {
-                neighbor = creatures[index - 1];
-            }
+        if (this.type !== 'creature') {
+            return undefined;
         }
-        return neighbor;
+
+        const creatures = this.controller.creaturesInPlay;
+        const index = creatures.indexOf(this);
+        if (index > 0) {
+            return creatures[index - 1];
+        } else if (index === -1) {
+            // Source is no longer in play. Per the rules, later instructions in
+            // the same ability refer to cards as they were immediately prior to
+            // leaving play, so fall back to the snapshot captured on leave.
+            return this.leftNeighborBeforeLeavingPlay || undefined;
+        }
+        return undefined;
     }
 
     rightNeighbor() {
-        let neighbor;
-        if (this.type === 'creature') {
-            let creatures = this.controller.creaturesInPlay;
-            let index = creatures.indexOf(this);
-            if (index < creatures.length - 1) {
-                neighbor = creatures[index + 1];
-            }
+        if (this.type !== 'creature') {
+            return undefined;
         }
-        return neighbor;
+
+        const creatures = this.controller.creaturesInPlay;
+        const index = creatures.indexOf(this);
+        if (index >= 0 && index < creatures.length - 1) {
+            return creatures[index + 1];
+        } else if (index === -1) {
+            return this.rightNeighborBeforeLeavingPlay || undefined;
+        }
+        return undefined;
+    }
+
+    getNeighbors() {
+        return [this.leftNeighbor(), this.rightNeighbor()].filter(Boolean);
     }
 
     ignores(trait) {
@@ -1481,11 +1540,18 @@ class Card extends EffectSource {
             // Tokens always have a baseline `copyCard(tokenCard)` effect (see
             // MakeTokenCreatureAction); ignore that self-copy and only flag
             // `copying` when something else (e.g. Mirror Shell, Mimic Gel)
-            // overrides the card's identity.
+            // overrides the card's identity. FlipAction uses `copyCard(card)`
+            // when un-tokenizing, which is also a baseline self-reference.
             copying: (() => {
                 const copyEffect = this.mostRecentEffect('copyCard');
-                if (!copyEffect) return false;
-                if (this.isToken() && copyEffect === this.tokenCard()) return false;
+                if (
+                    !copyEffect ||
+                    (this.isToken() && copyEffect === this.tokenCard()) ||
+                    copyEffect === this
+                ) {
+                    return false;
+                }
+
                 return true;
             })(),
             exhausted: this.exhausted,
@@ -1493,7 +1559,7 @@ class Card extends EffectSource {
             location: this.location,
             locale: this.locale,
             number: tokenCardOrThis.cardData.number,
-            menu: this.getMenu(),
+            menu: this.getMenu(activePlayer),
             name: this.name,
             new: this.new,
             printedHouse: tokenCardOrThis.printedHouse,

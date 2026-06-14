@@ -32,7 +32,7 @@ class ImprovisedAviation extends Card {
                                         cardType: 'artifact',
                                         controller: 'any',
                                         gameAction: ability.actions.returnToDeck((context) => ({
-                                            shufflePlayer: context.target.owner,
+                                            shufflePlayer: context.target?.owner,
                                             shuffle: true
                                         }))
                                     }

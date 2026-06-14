@@ -18,8 +18,10 @@ class PlaceUnderAction extends CardGameAction {
         this.effectArgs = this.parent;
         if (this.isGraft) {
             this.effectMsg = 'graft {0} onto {1}';
+        } else if (this.facedown) {
+            this.effectMsg = 'place a card facedown under {1}';
         } else {
-            this.effectMsg = 'place ' + (this.facedown ? 'a card' : '{0}') + ' under {1}';
+            this.effectMsg = 'place {0} faceup under {1}';
         }
     }
 

@@ -81,7 +81,7 @@ describe('Menu Commands', function () {
     });
 
     describe('damage', function () {
-        it('player 1 can add and remove damage tokens from a creature', function () {
+        it('player 1 can add and remove damage tokens from a friendly creature', function () {
             this.player1.menuClick(this.niffleApe, 'addDamage');
             this.player1.menuClick(this.niffleApe, 'addDamage');
             expect(this.niffleApe.damage).toBe(2);
@@ -89,16 +89,16 @@ describe('Menu Commands', function () {
             expect(this.niffleApe.damage).toBe(1);
         });
 
-        it('player 2 can add and remove damage tokens from a creature', function () {
+        it('player 2 can add and remove damage tokens from an enemy creature', function () {
             this.player2.menuClick(this.batdrone, 'addDamage');
             expect(this.batdrone.damage).toBe(1);
             this.player2.menuClick(this.batdrone, 'remDamage');
-            expect(this.niffleApe.damage).toBe(0);
+            expect(this.batdrone.damage).toBe(0);
         });
     });
 
     describe('power', function () {
-        it('player 1 can add and remove power tokens from a creature', function () {
+        it('player 1 can add and remove power tokens from a friendly creature', function () {
             this.player1.menuClick(this.niffleApe, 'addPower');
             this.player1.menuClick(this.niffleApe, 'addPower');
             expect(this.niffleApe.powerCounters).toBe(2);
@@ -106,16 +106,16 @@ describe('Menu Commands', function () {
             expect(this.niffleApe.powerCounters).toBe(1);
         });
 
-        it('player 2 can add and remove power tokens from a creature', function () {
+        it('player 2 can add and remove power tokens from an enemy creature', function () {
             this.player2.menuClick(this.batdrone, 'addPower');
             expect(this.batdrone.powerCounters).toBe(1);
             this.player2.menuClick(this.batdrone, 'remPower');
-            expect(this.niffleApe.powerCounters).toBe(0);
+            expect(this.batdrone.powerCounters).toBe(0);
         });
     });
 
     describe('amber', function () {
-        it('player 1 can add and remove amber tokens from a creature', function () {
+        it('player 1 can add and remove amber tokens from a friendly creature', function () {
             this.player1.menuClick(this.niffleApe, 'addAmber');
             this.player1.menuClick(this.niffleApe, 'addAmber');
             expect(this.niffleApe.amber).toBe(2);
@@ -123,11 +123,11 @@ describe('Menu Commands', function () {
             expect(this.niffleApe.amber).toBe(1);
         });
 
-        it('player 2 can add and remove power tokens from a creature', function () {
+        it('player 2 can add and remove amber tokens from an enemy creature', function () {
             this.player2.menuClick(this.batdrone, 'addAmber');
             expect(this.batdrone.amber).toBe(1);
             this.player2.menuClick(this.batdrone, 'remAmber');
-            expect(this.niffleApe.amber).toBe(0);
+            expect(this.batdrone.amber).toBe(0);
         });
     });
 

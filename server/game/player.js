@@ -541,9 +541,14 @@ class Player extends GameObject {
         let oldTopOfDeck = card.owner.deck[0];
 
         // Snapshot neighbors before removing from battleline - needed for cards like Smite
-        // that reference "neighbors of the attacked creature" after it's destroyed
+        // that reference "neighbors of the attacked creature" after it's destroyed, and for
+        // the "If cards leave play while resolving an ability, later instructions in the
+        // same ability refer to the cards as they were immediately prior to leaving play"
+        // rule. Directional snapshots back the leftNeighbor()/rightNeighbor() fallbacks
+        // used by cards like Badgemagus / Prof. Emeritus Kering / Ghosthawk.
         if (card.location === 'play area' && card.type === 'creature') {
-            card.neighborsBeforeLeavingPlay = card.neighbors?.slice() || [];
+            card.leftNeighborBeforeLeavingPlay = card.leftNeighbor();
+            card.rightNeighborBeforeLeavingPlay = card.rightNeighbor();
         }
 
         this.removeCardFromPile(card);
@@ -783,7 +788,7 @@ class Player extends GameObject {
             }
 
             if (card.anyEffect('changeHouse')) {
-                cardHouses = card.getEffects('changeHouse');
+                cardHouses = card.getEffects('changeHouse').flat();
             }
 
             for (let house of cardHouses) {

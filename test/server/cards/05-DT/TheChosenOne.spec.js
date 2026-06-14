@@ -304,6 +304,7 @@ describe('The Chosen One', function () {
             this.player2.clickCard(this.jargogle);
 
             // Jargogle plays Ganger Chieftain
+            this.player2.clickCard(this.jargogle.name);
             this.player2.clickPrompt('left');
             this.player2.clickCard(this.frostGiant);
 

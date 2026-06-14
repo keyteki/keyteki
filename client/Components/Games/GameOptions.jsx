@@ -1,6 +1,6 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
-import { Button, Input, Label, Switch, toast } from '@heroui/react';
+import { Button, Input, Switch, toast } from '@heroui/react';
 
 const GameOptions = ({ formProps, gameLink }) => {
     const { t } = useTranslation();
@@ -9,19 +9,19 @@ const GameOptions = ({ formProps, gameLink }) => {
         'flex-1 rounded-md border border-[color:color-mix(in_oklab,var(--border)_72%,transparent)] bg-[color:var(--section)] px-3 py-3.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]';
 
     const renderToggle = (name, label) => (
-        <div className='flex min-h-10 items-center justify-between gap-3 px-1' key={name}>
-            <Label className='text-sm text-foreground'>{label}</Label>
-            <Switch
-                id={name}
-                name={name}
-                isSelected={!!formProps.values[name]}
-                onChange={(isSelected) => formProps.setFieldValue(name, isSelected)}
-            >
-                <Switch.Control>
-                    <Switch.Thumb />
-                </Switch.Control>
-            </Switch>
-        </div>
+        <Switch
+            id={name}
+            name={name}
+            isSelected={!!formProps.values[name]}
+            onChange={(isSelected) => formProps.setFieldValue(name, isSelected)}
+            className='flex min-h-10 w-full cursor-pointer items-center justify-between gap-3 px-1'
+            key={name}
+        >
+            <span className='text-sm text-foreground'>{label}</span>
+            <Switch.Control>
+                <Switch.Thumb />
+            </Switch.Control>
+        </Switch>
     );
 
     const handleCopyLink = async () => {
@@ -47,26 +47,27 @@ const GameOptions = ({ formProps, gameLink }) => {
                     <Trans>Visibility</Trans>
                 </div>
                 <div className={sectionBlockClass}>
-                    <div className='flex items-center justify-between gap-3'>
-                        <Label className='text-sm text-foreground'>
-                            {t('Unlisted (link only)')}
-                        </Label>
-                        <Switch
-                            id='gamePrivate'
-                            name='gamePrivate'
-                            isSelected={!!formProps.values.gamePrivate}
-                            onChange={(isSelected) =>
-                                formProps.setFieldValue('gamePrivate', isSelected)
-                            }
-                        >
-                            <Switch.Control>
-                                <Switch.Thumb />
-                            </Switch.Control>
-                        </Switch>
-                    </div>
-                    <p className='text-xs text-foreground/78'>
-                        {t("Won't appear in Current Games.")}
-                    </p>
+                    <Switch
+                        id='gamePrivate'
+                        name='gamePrivate'
+                        isSelected={!!formProps.values.gamePrivate}
+                        onChange={(isSelected) =>
+                            formProps.setFieldValue('gamePrivate', isSelected)
+                        }
+                        className='flex w-full cursor-pointer items-center justify-between gap-3'
+                    >
+                        <div className='flex flex-col'>
+                            <span className='text-sm text-foreground'>
+                                {t('Unlisted (link only)')}
+                            </span>
+                            <span className='text-xs text-foreground/78'>
+                                {t("Won't appear in Current Games.")}
+                            </span>
+                        </div>
+                        <Switch.Control>
+                            <Switch.Thumb />
+                        </Switch.Control>
+                    </Switch>
                     {formProps.values.gamePrivate && gameLink && (
                         <div>
                             <Button
@@ -135,9 +136,9 @@ const GameOptions = ({ formProps, gameLink }) => {
                 </div>
                 <div className={sectionBlockClass}>
                     <div className='divide-y divide-[color:color-mix(in_oklab,var(--border)_58%,transparent)]'>
-                        {renderToggle('requirePassword', t('Require password'))}
+                        {renderToggle('hideDeckLists', t('Hide deck lists'))}
                         <div className='pt-1'>
-                            {renderToggle('hideDeckLists', t('Hide deck lists'))}
+                            {renderToggle('requirePassword', t('Require password'))}
                         </div>
                     </div>
                     {formProps.values.requirePassword && (
@@ -157,6 +158,11 @@ const GameOptions = ({ formProps, gameLink }) => {
                                 value={formProps.values.password}
                                 onBlur={formProps.handleBlur}
                                 onChange={formProps.handleChange}
+                                autoComplete='off'
+                                data-1p-ignore='true'
+                                data-lpignore='true'
+                                data-bwignore='true'
+                                data-form-type='other'
                             />
                         </div>
                     )}
