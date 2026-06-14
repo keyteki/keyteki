@@ -9,6 +9,12 @@ class EmpoweredZark extends Card {
                 alwaysTriggers: true,
                 may: 'move amber to common supply',
                 condition: () => preThenContext.source.amber >= 3,
+                message: '{0} uses {1} to move 3 amber from {1} to the common supply and ready {3}',
+                messageArgs: (context) => [
+                    context.game.creaturesInPlay.filter(
+                        (card) => card.hasHouse('mars') && !card.hasTrait('agent')
+                    )
+                ],
                 gameAction: ability.actions.sequential([
                     ability.actions.removeAmber({
                         target: preThenContext.source,
