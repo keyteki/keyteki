@@ -82,20 +82,19 @@ class AbilityTargetCard extends AbilityTarget {
         // TODO: Remove the orderForcedAbilities setting, which requires updating many tests that expect additional prompts.
         if (
             context.stage !== 'pretarget' &&
-            this.selector instanceof SingleCardSelector &&
             !Optional.EvalOptional(context, this.properties.optional) &&
-            !context.player?.optionSettings?.orderForcedAbilities &&
-            !infiniteLoopActive
+            !infiniteLoopActive &&
+            this.selector instanceof SingleCardSelector &&
+            legalTargets.length === 1 &&
+            !context.player?.optionSettings?.orderForcedAbilities
         ) {
-            if (legalTargets.length === 1) {
-                let card = this.selector.formatSelectParam(legalTargets);
-                context.targets[this.name] = card;
-                if (this.name === 'target') {
-                    context.target = card;
-                }
-
-                return;
+            const card = this.selector.formatSelectParam(legalTargets);
+            context.targets[this.name] = card;
+            if (this.name === 'target') {
+                context.target = card;
             }
+
+            return;
         }
 
         let otherProperties = _.omit(this.properties, 'cardCondition', 'player');

@@ -15,17 +15,12 @@ class HallowedEveFestival extends Card {
                         (event) => !!event.card && event.card.hasHouse('geistoid')
                     ).length
                 ],
-                gameAction: ability.actions.sequentialForEach((context) => ({
-                    num: context.preThenEvents.filter(
+                gameAction: ability.actions.allocateCapture((context) => ({
+                    numAmber: context.preThenEvents.filter(
                         (event) => !!event.card && event.card.hasHouse('geistoid')
                     ).length,
-                    action: ability.actions.capture({
-                        promptForSelect: {
-                            activePromptTitle: 'Choose a creature to capture 1 amber',
-                            cardType: 'creature',
-                            controller: 'self'
-                        }
-                    })
+                    controller: 'self',
+                    menuTitle: 'Choose a creature to capture 1 amber'
                 }))
             }
         });

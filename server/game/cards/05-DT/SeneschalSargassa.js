@@ -11,7 +11,7 @@ class SeneschalSargassa extends Card {
                 cardType: 'creature',
                 cardCondition: (card) => card.controller.isTideHigh(),
                 gameAction: ability.actions.capture((context) => ({
-                    player: context.target.controller.opponent,
+                    player: context.target?.controller?.opponent,
                     amount: 2
                 }))
             }

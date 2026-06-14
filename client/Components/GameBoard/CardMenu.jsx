@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import classNames from 'classnames';
@@ -6,9 +6,10 @@ import classNames from 'classnames';
 const CardMenu = (props) => {
     const { t } = useTranslation();
     const [submenu, setSubmenu] = useState('main');
+    const ref = useRef(null);
 
     const onMenuItemClick = (menuItem) => {
-        if (['main', 'tokens'].includes(menuItem.command)) {
+        if (['main', 'tokens', 'under'].includes(menuItem.command)) {
             setSubmenu(menuItem.command);
         } else if (props.onMenuItemClick) {
             props.onMenuItemClick(menuItem);
@@ -35,7 +36,27 @@ const CardMenu = (props) => {
         })
         .filter(Boolean);
 
-    return <div className='panel menu'>{menuItems}</div>;
+    // After layout, if the menu would extend below the viewport, shift it
+    // upward by exactly the overflow amount (plus a small margin) so it
+    // bottoms out at the viewport edge instead of being clipped.
+    useLayoutEffect(() => {
+        const node = ref.current;
+        if (!node) {
+            return;
+        }
+        node.style.transform = '';
+        const rect = node.getBoundingClientRect();
+        const overflow = rect.bottom - window.innerHeight;
+        if (overflow > 0) {
+            node.style.transform = `translateY(${-overflow - 8}px)`;
+        }
+    }, [menuItems.length, submenu]);
+
+    return (
+        <div ref={ref} className='panel menu' onMouseDown={(e) => e.stopPropagation()}>
+            {menuItems}
+        </div>
+    );
 };
 
 CardMenu.displayName = 'CardMenu';

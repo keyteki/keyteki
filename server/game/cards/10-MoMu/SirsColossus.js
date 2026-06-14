@@ -15,15 +15,10 @@ class SirsColossus extends GiganticCard {
         this.play({
             effect: "capture all of {1}'s amber onto friendly creatures",
             effectArgs: (context) => [context.player.opponent],
-            gameAction: ability.actions.sequentialForEach((context) => ({
-                num: context.player.opponent ? context.player.opponent.amber : 0,
-                action: ability.actions.capture({
-                    promptForSelect: {
-                        activePromptTitle: 'Choose a creature to capture 1 amber',
-                        cardType: 'creature',
-                        controller: 'self'
-                    }
-                })
+            gameAction: ability.actions.allocateCapture((context) => ({
+                numAmber: context.player.opponent ? context.player.opponent.amber : 0,
+                controller: 'self',
+                menuTitle: 'Choose a creature to capture 1 amber'
             }))
         });
 

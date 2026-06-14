@@ -11,10 +11,10 @@ class EnergyVampirism extends Card {
                 gameAction: ability.actions.sequential([
                     ability.actions.capture((context) => ({
                         amount: 1,
-                        player: context.target.controller
+                        player: context.target && context.target.controller
                     })),
                     ability.actions.allocateDamage((context) => ({
-                        numSteps: context.target.amber || 0
+                        numSteps: (context.target && context.target.amber) || 0
                     }))
                 ])
             },

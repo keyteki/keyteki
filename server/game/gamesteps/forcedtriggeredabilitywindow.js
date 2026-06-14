@@ -252,6 +252,8 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
                 let event = context.event;
                 if (context.target) {
                     targets = targets.concat(context.target);
+                } else if (context.subject) {
+                    targets = targets.concat(context.subject);
                 } else if (event.card && event.card !== context.source) {
                     targets = targets.concat(event.card);
                 } else if (event.card) {

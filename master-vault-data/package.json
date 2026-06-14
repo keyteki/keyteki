@@ -1,0 +1,23 @@
+{
+    "name": "master-vault-data",
+    "version": "1.0.0",
+    "description": "Card data for The Crucible Online",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/keyteki/keyteki"
+    },
+    "license": "MIT",
+    "scripts": {
+        "export": "node scripts/export.js",
+        "import": "node scripts/import.js",
+        "lint": "eslint src/ scripts/",
+        "test": "npm run validate",
+        "validate": "node scripts/validate.js"
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "eslint": "^4.18.2",
+        "jsonschema": "^1.2.2",
+        "request": "^2.87.0"
+    }
+}

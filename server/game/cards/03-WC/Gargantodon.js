@@ -25,24 +25,12 @@ class Gargantodon extends Card {
             })),
             then: (preThenContext) => ({
                 alwaysTriggers: true,
-                gameAction: ability.actions.sequentialForEach((context) => ({
-                    num: preThenContext.event.amount,
-                    action: ability.actions.capture((captureContext) => ({
-                        amount: 1,
-                        player: preThenContext.event.player,
-                        promptForSelect: {
-                            activePromptTitle: 'Choose a creature to capture amber',
-                            cardType: 'creature',
-                            cardCondition: (card) =>
-                                card.controller === captureContext.game.activePlayer,
-                            message: '{0} uses {1} to capture 1 amber on {2}',
-                            messageArgs: (cards) => [
-                                captureContext.game.activePlayer,
-                                context.source,
-                                cards
-                            ]
-                        }
-                    }))
+                gameAction: ability.actions.allocateCapture(() => ({
+                    numAmber: preThenContext.event.amount,
+                    player: preThenContext.event.player,
+                    cardCondition: (card) => card.controller === preThenContext.game.activePlayer,
+                    controller: 'any',
+                    menuTitle: 'Choose a creature to capture amber'
                 }))
             })
         });

@@ -14,7 +14,7 @@ class TheFlex extends Card {
                     ability.actions.exhaust(),
                     ability.actions.gainAmber((context) => ({
                         target: context.player,
-                        amount: Math.floor(context.target.power / 2)
+                        amount: Math.floor((context.target?.power || 0) / 2)
                     }))
                 ]
             }

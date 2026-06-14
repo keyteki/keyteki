@@ -13,8 +13,8 @@ class CognitiveAssumptions extends Card {
                 location: 'hand',
                 cardCondition: (card) => card.hasHouse('logos'),
                 gameAction: ability.actions.makeTokenCreature((context) => ({
-                    target: context.player.deck.slice(0, context.target.length),
-                    amount: context.target.length
+                    target: context.player.deck.slice(0, (context.target || []).length),
+                    amount: (context.target || []).length
                 }))
             },
             effect: 'reveal {1} and make {2} token creature{3}',
