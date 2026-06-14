@@ -111,7 +111,11 @@ class Card extends EffectSource {
             { command: 'remAmber', text: 'Remove 1 amber', menu: 'tokens' },
             { command: 'stun', text: 'Stun/Remove Stun', menu: 'tokens' },
             { command: 'ward', text: 'Ward/Remove Ward', menu: 'tokens' },
-            { command: 'enrage', text: 'Enrage/Remove Enrage', menu: 'tokens' }
+            { command: 'enrage', text: 'Enrage/Remove Enrage', menu: 'tokens' },
+            { command: 'under', text: 'Modify cards under', menu: 'main' },
+            { command: 'main', text: 'Back', menu: 'under' },
+            { command: 'placeFaceup', text: 'Place card faceup', menu: 'under' },
+            { command: 'placeFacedown', text: 'Place card facedown', menu: 'under' }
         ];
 
         this.endRound();
@@ -877,7 +881,7 @@ class Card extends EffectSource {
         }
     }
 
-    getMenu() {
+    getMenu(activePlayer) {
         var menu = [];
 
         // Special handling for prophecy cards in manual mode
@@ -935,6 +939,24 @@ class Card extends EffectSource {
                         : item
                 )
             );
+            // Dynamic 'take' entries, one per card currently placed
+            // beneath this card. Players can see facedown cards they
+            // placed themselves, so always label by name in the menu;
+            // log lines hide the name for opponent visibility.
+            // Only the controller of the host card can take cards out
+            // from under it: opponents can place cards under enemy
+            // creatures but cannot take them, and shouldn't be able to
+            // see what cards are under a card.
+            if (!activePlayer || activePlayer === this.controller) {
+                for (const child of this.childCards) {
+                    menu.push({
+                        command: 'takeChild',
+                        arg: child.uuid,
+                        text: 'Take ' + child.name,
+                        menu: 'under'
+                    });
+                }
+            }
         }
 
         return menu;
@@ -1537,7 +1559,7 @@ class Card extends EffectSource {
             location: this.location,
             locale: this.locale,
             number: tokenCardOrThis.cardData.number,
-            menu: this.getMenu(),
+            menu: this.getMenu(activePlayer),
             name: this.name,
             new: this.new,
             printedHouse: tokenCardOrThis.printedHouse,

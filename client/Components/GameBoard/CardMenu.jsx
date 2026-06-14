@@ -9,7 +9,7 @@ const CardMenu = (props) => {
     const ref = useRef(null);
 
     const onMenuItemClick = (menuItem) => {
-        if (['main', 'tokens'].includes(menuItem.command)) {
+        if (['main', 'tokens', 'under'].includes(menuItem.command)) {
             setSubmenu(menuItem.command);
         } else if (props.onMenuItemClick) {
             props.onMenuItemClick(menuItem);

@@ -24,7 +24,7 @@ describe('Upgrade Messages (manual mode)', function () {
                 "player1 uses Kirby’s Blaster's amber bonus icon to gain 1 amber",
                 'player1 uses Kirby’s Blaster to draw 2 cards',
                 'player1 draws 2 cards',
-                'player1 manually returns Kirby’s Blaster to their hand'
+                "player1 manually returns Kirby’s Blaster to its owner's hand"
             ]);
         });
     });
