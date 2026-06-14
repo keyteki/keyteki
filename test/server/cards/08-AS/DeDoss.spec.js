@@ -97,4 +97,28 @@ describe('De-Doss', function () {
             expect(this.player2).isReadyToTakeAction();
         });
     });
+
+    describe("De-Doss's ability vs variable power creatures", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'logos',
+                    hand: ['de-doss'],
+                    inPlay: ['daughter']
+                },
+                player2: {
+                    hand: ['mushroom-man']
+                }
+            });
+        });
+
+        it('should not prevent opponent from playing creatures as upgrades', function () {
+            this.player1.playUpgrade(this.deDoss, this.daughter);
+            this.player1.endTurn();
+            this.player2.clickPrompt('untamed');
+            this.player2.playCreature(this.mushroomMan);
+            expect(this.mushroomMan.location).toBe('play area');
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
 });
