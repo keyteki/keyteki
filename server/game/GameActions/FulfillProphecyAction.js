@@ -34,7 +34,7 @@ class FulfillProphecyAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        context.game.addAlert('bell', "{0} fulfills {1}'s prophecy", player, this.card);
+        context.game.addMessage("{0} fulfills {1}'s prophecy", player, this.card);
         return super.createEvent(
             EVENTS.onFulfillProphecy,
             { player: player, card: this.card, context: context },

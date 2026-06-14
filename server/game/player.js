@@ -1589,7 +1589,7 @@ class Player extends GameObject {
         prophecyCard.activeProphecy = true;
         this.game.raiseEvent(EVENTS.onProphecyActivated, { prophecyCard: prophecyCard });
 
-        this.game.addAlert('bell', '{0} activates their prophecy {1}', this, prophecyCard);
+        this.game.addMessage('{0} activates their prophecy {1}', this, prophecyCard);
 
         return true;
     }
