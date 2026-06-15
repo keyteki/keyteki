@@ -222,8 +222,8 @@ class Lobby {
     mapGamesToGameSummaries(games) {
         return games
             .map((game) => game.getSummary())
-            .sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1))
-            .sort((a, b) => (a.started > b.started ? 1 : -1))
+            .sort((a, b) => (a.createdAt > b.createdAt ? 1 : a.createdAt < b.createdAt ? -1 : 0))
+            .sort((a, b) => (a.started > b.started ? 1 : a.started < b.started ? -1 : 0))
             .reverse();
     }
 
