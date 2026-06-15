@@ -30,9 +30,9 @@ function createDataSource(options) {
 }
 
 function loadCardFiles(id, dir, result) {
-    let files = fs.readdirSync(dir);
+    const files = fs.readdirSync(dir);
 
-    for (let file of files) {
+    for (const file of files) {
         if (fs.statSync(path.join(dir, file)).isDirectory()) {
             if (loadCardFiles(id, path.join(dir, file), result)) {
                 return true;
@@ -46,7 +46,7 @@ function loadCardFiles(id, dir, result) {
                     return true;
                 }
             } else {
-                let match = content.toString().match(/\.id = '(.*)';/);
+                const match = content.toString().match(/\.id = '(.*)';/);
                 if (match) {
                     result[match[1]] = filepath;
                 }
@@ -57,7 +57,7 @@ function loadCardFiles(id, dir, result) {
 }
 
 function prepareText(text) {
-    let lines = text
+    const lines = text
         .replace(/\uf360/g, 'A')
         .replace(/\uf361/g, 'D')
         .replace(/\uf565/g, 'PT')
@@ -66,24 +66,24 @@ function prepareText(text) {
         .replace(/\uFEFF/g, '')
         .split(/\r?\n|\r/g);
     let output = '';
-    for (let line of lines) {
+    for (const line of lines) {
         output += '    // ' + line + '\n';
     }
     return output;
 }
 
-let options = commandLineArgs(optionsDefinition);
-let cardId = options['card-id'];
-let dataSource = createDataSource(options);
-let cards = dataSource.cards;
+const options = commandLineArgs(optionsDefinition);
+const cardId = options['card-id'];
+const dataSource = createDataSource(options);
+const cards = dataSource.cards;
 
 function processFile(file, card) {
     const content = fs.readFileSync(file).toString();
     let output = '';
     let foundClass = false;
     let foundSetupCardAbilities = false;
-    let lines = content.toString().split(/\n|\r\n/);
-    for (let line of lines) {
+    const lines = content.toString().split(/\n|\r\n/);
+    for (const line of lines) {
         if (foundSetupCardAbilities) {
             output += line + '\n';
             continue;
@@ -122,12 +122,12 @@ function processFile(file, card) {
     fs.writeFileSync(file, output);
 }
 
-let result = {};
+const result = {};
 
 loadCardFiles(cardId, options['cards-dir'], result);
 
-for (let id of Object.keys(result)) {
-    let file = result[id];
+for (const id of Object.keys(result)) {
+    const file = result[id];
     if (file.includes(options['pack'])) {
         processFile(
             file,

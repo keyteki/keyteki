@@ -81,9 +81,9 @@ class SelectCardPrompt extends UiPrompt {
                 this.properties.gameAction = [properties.gameAction];
             }
 
-            let cardCondition = this.properties.cardCondition;
+            const cardCondition = this.properties.cardCondition;
             this.properties.cardCondition = (card, context) => {
-                let x =
+                const x =
                     cardCondition(card, context) &&
                     this.properties.gameAction.some((gameAction) =>
                         gameAction.canAffect(card, context)
@@ -146,7 +146,7 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     highlightSelectableCards() {
-        let allCards = this.selector.findPossibleCards(this.context);
+        const allCards = this.selector.findPossibleCards(this.context);
         this.choosingPlayer.setSelectableCards(this.selector.getAllLegalTargets(this.context));
         this.choosingPlayer.setPromptedPiles(this.getPromptedPiles());
 
@@ -279,7 +279,7 @@ class SelectCardPrompt extends UiPrompt {
     }
 
     fireOnSelect() {
-        let cardParam = this.selector.formatSelectParam(this.selectedCards);
+        const cardParam = this.selector.formatSelectParam(this.selectedCards);
         if (this.properties.onSelect(this.choosingPlayer, cardParam)) {
             this.complete();
             return true;

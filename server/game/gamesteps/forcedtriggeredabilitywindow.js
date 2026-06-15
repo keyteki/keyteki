@@ -120,7 +120,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     promptBetweenSources(choices) {
-        let lastingTriggers = _.uniq(
+        const lastingTriggers = _.uniq(
             choices.filter(
                 (context) =>
                     context.ability.isLastingAbilityTrigger ||
@@ -128,7 +128,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             ),
             (context) => context.ability
         );
-        let lastingTriggerCards = lastingTriggers.map((context) => context.source);
+        const lastingTriggerCards = lastingTriggers.map((context) => context.source);
         if (lastingTriggerCards.length === 0) {
             if (
                 choices.some(
@@ -159,15 +159,15 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             }
         }
 
-        let buttons = lastingTriggerCards.map((card, i) => ({
+        const buttons = lastingTriggerCards.map((card, i) => ({
             text: '{{card}}',
             card: card,
             values: { card: card.name },
             arg: i.toString()
         }));
 
-        let defaultProperties = this.getPromptForSelectProperties();
-        let properties = Object.assign({}, defaultProperties);
+        const defaultProperties = this.getPromptForSelectProperties();
+        const properties = Object.assign({}, defaultProperties);
         properties.buttons = buttons.concat(defaultProperties.buttons);
         properties.cardCondition = (card) =>
             !lastingTriggerCards.includes(card) &&
@@ -197,7 +197,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     getPromptForSelectProperties() {
-        let buttons = [];
+        const buttons = [];
         if (
             this.choices.every(
                 (context) =>
@@ -210,7 +210,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             buttons.push({ text: 'Autoresolve', arg: 'autoresolve' });
         }
 
-        let properties = {
+        const properties = {
             buttons: buttons,
             location: 'any',
             cardType: ['action', 'artifact', 'creature', 'upgrade'],
@@ -245,11 +245,11 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     getPromptControls() {
-        let map = new Map();
-        for (let context of this.choices) {
+        const map = new Map();
+        for (const context of this.choices) {
             if (context && context.source) {
                 let targets = map.get(context.source) || [];
-                let event = context.event;
+                const event = context.event;
                 if (context.target) {
                     targets = targets.concat(context.target);
                 } else if (context.subject) {
@@ -316,7 +316,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
             };
         }
 
-        let generatingEffectSource = this.game.getEffectSource(context);
+        const generatingEffectSource = this.game.getEffectSource(context);
         if (generatingEffectSource) {
             return {
                 key: generatingEffectSource.uuid + eventToAppend,
@@ -335,7 +335,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     promptBetweenAbilities(choices, addBackButton = true) {
-        let menuChoices = _.uniq(
+        const menuChoices = _.uniq(
             choices.map((context) => this.getAbilityButton(context)),
             (button) => button.key
         );
@@ -346,7 +346,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         }
 
         // This card has multiple abilities which can be used in this window - prompt the player to pick one
-        let handlers = menuChoices.map(
+        const handlers = menuChoices.map(
             (button) => () =>
                 this.promptBetweenEventCards(
                     choices.filter((context) => this.getAbilityButton(context).key === button.key)
@@ -434,10 +434,10 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         }
 
         // Several events affect this card and the chosen ability can respond to more than one of them - prompt player to pick one
-        let menuChoices = choices.map((context) =>
+        const menuChoices = choices.map((context) =>
             TriggeredAbilityWindowTitles.getAction(context.event)
         );
-        let handlers = choices.map((context) => () => this.resolveAbility(context));
+        const handlers = choices.map((context) => () => this.resolveAbility(context));
         if (addBackButton) {
             menuChoices.push('Back');
             handlers.push(() => this.promptBetweenSources(this.choices));
@@ -467,7 +467,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
     emitEvents() {
         this.choices = [];
-        let events = _.difference(
+        const events = _.difference(
             this.eventWindow.event.getSimultaneousEvents(),
             this.eventsToExclude
         );

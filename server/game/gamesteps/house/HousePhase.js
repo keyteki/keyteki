@@ -12,7 +12,7 @@ class HousePhase extends Phase {
     }
 
     chooseHouse() {
-        let choices = this.game.activePlayer.getAvailableHouses().map((house) => {
+        const choices = this.game.activePlayer.getAvailableHouses().map((house) => {
             return { text: house, icon: house };
         });
         if (choices.length > 0) {
@@ -48,7 +48,7 @@ class HousePhase extends Phase {
         }
 
         if (this.game.activePlayer.archives.length) {
-            let oppCannotLeave = this.game.activePlayer.anyEffect(
+            const oppCannotLeave = this.game.activePlayer.anyEffect(
                 'opponentCardsCannotLeaveArchives'
             );
             let theyOwn = '';
@@ -76,7 +76,7 @@ class HousePhase extends Phase {
                                 this.game.activePlayer,
                                 theyOwn
                             );
-                            for (let card of this.game.activePlayer.archives) {
+                            for (const card of this.game.activePlayer.archives) {
                                 if (oppCannotLeave && card.owner !== this.game.activePlayer) {
                                     continue;
                                 }
@@ -95,7 +95,7 @@ class HousePhase extends Phase {
                                 this.game.activePlayer,
                                 theyOwn
                             );
-                            for (let card of cardParam) {
+                            for (const card of cardParam) {
                                 if (oppCannotLeave && card.owner !== this.game.activePlayer) {
                                     continue;
                                 }
@@ -123,7 +123,7 @@ class HousePhase extends Phase {
                                 this.game.activePlayer,
                                 theyOwn
                             );
-                            for (let card of this.game.activePlayer.archives) {
+                            for (const card of this.game.activePlayer.archives) {
                                 if (oppCannotLeave && card.owner !== this.game.activePlayer) {
                                     continue;
                                 }

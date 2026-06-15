@@ -61,7 +61,7 @@ class CopyCard extends EffectValue {
 
     applyValue(target, abilities, states, context) {
         const result = new Array(abilities.length);
-        for (var i = 0; i < abilities.length; ++i) {
+        for (let i = 0; i < abilities.length; ++i) {
             states[i] = {};
             abilities[i].apply(target, states[i], context);
             result[i] = abilities[i].getValue(target, states[i]);
@@ -70,7 +70,7 @@ class CopyCard extends EffectValue {
     }
 
     unapplyValue(target, abilities, states) {
-        for (var i = 0; i < abilities.length; ++i) {
+        for (let i = 0; i < abilities.length; ++i) {
             abilities[i].unapply(target, states[i]);
         }
     }

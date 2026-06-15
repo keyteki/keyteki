@@ -16,7 +16,7 @@ class CardGenerator {
         this.comments = comments;
         try {
             console.log('Starting card parser');
-            let grammar = fs.readFileSync(path.join(__dirname, 'keyforgeGrammar.pegjs'), 'utf8');
+            const grammar = fs.readFileSync(path.join(__dirname, 'keyforgeGrammar.pegjs'), 'utf8');
             this.parser = peg.generate(grammar);
             console.log('Card parser started');
         } catch (err) {
@@ -44,7 +44,7 @@ class CardGenerator {
         let cards = await this.dataSource.getCards();
         cards = cards.sort((a, b) => ((a.expansion || 999) > (b.expansion || 999) ? -1 : 1));
 
-        let expansionPaths = {
+        const expansionPaths = {
             CotA: '01-Core',
             AoA: '02-AoA',
             WC: '03-WC',
@@ -53,7 +53,7 @@ class CardGenerator {
             WoE: '06-WoE'
         };
 
-        let cardsById = _.groupBy(cards, (card) => card.id);
+        const cardsById = _.groupBy(cards, (card) => card.id);
         cards = Object.values(cardsById).map((duplicates) =>
             Object.assign(duplicates[0], {
                 folder: expansionPaths[duplicates[duplicates.length - 1].packCode]
@@ -61,7 +61,7 @@ class CardGenerator {
         );
 
         //We are not generating HTML and we are not using an input that is a very sensible attack vector so there's not much point escaping everything.
-        var env = new nunjucks.Environment(new nunjucks.FileSystemLoader(__dirname), {
+        const env = new nunjucks.Environment(new nunjucks.FileSystemLoader(__dirname), {
             autoescape: false
         });
 
@@ -79,23 +79,23 @@ class CardGenerator {
 
         console.log('Card information loaded');
 
-        let allAbilities = {};
-        for (let card of cards) {
+        const allAbilities = {};
+        for (const card of cards) {
             if (card.id === '') {
                 card.id = `${card.packCode}-${card.number}`;
                 card.name = `${card.packCode}${card.number}`;
             } else if (this.camelCase(card.name) === '') {
                 card.name = card.id;
             }
-            let baseName = card.name.replace(/ *\(Evil Twin\)/, '');
-            let simplifiedText = card.text
+            const baseName = card.name.replace(/ *\(Evil Twin\)/, '');
+            const simplifiedText = card.text
                 .split(baseName)
                 .join('$this')
                 //.replace(/[\f\v\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]/g, '\n')
                 .replace(/[\u202f\ufeff]/g, ' ')
                 .replace(/[\v]/g, '\n');
-            let abilities = this.parseAbilities(simplifiedText);
-            let data = {
+            const abilities = this.parseAbilities(simplifiedText);
+            const data = {
                 name: this.camelCase(card.name),
                 card: card,
                 abilities: abilities,
@@ -113,19 +113,19 @@ class CardGenerator {
 
             allAbilities[card.name] = data.abilities;
 
-            let complete = isComplete(data.abilities);
-            let skippable = ['reminderText', 'keywords'];
+            const complete = isComplete(data.abilities);
+            const skippable = ['reminderText', 'keywords'];
             if (complete && data.abilities.every((ability) => skippable.includes(ability.name))) {
                 this.skipped++;
                 continue;
             }
 
-            let dir = complete ? this.fullOutputDir : this.partialOutputDir;
-            let filename = path.join(dir, card.folder, `${data.name}.js`);
-            let a = this;
+            const dir = complete ? this.fullOutputDir : this.partialOutputDir;
+            const filename = path.join(dir, card.folder, `${data.name}.js`);
+            const a = this;
 
             try {
-                var str = env.render(this.template, data);
+                const str = env.render(this.template, data);
                 ensureDirectoryExistence(filename);
                 fs.writeFileSync(filename, str);
                 if (complete) a.complete++;
@@ -157,7 +157,7 @@ class CardGenerator {
     }
 
     camelCase(name) {
-        let digitStrings = [
+        const digitStrings = [
             'zero',
             'one',
             'two',
@@ -187,7 +187,7 @@ function replacer(key, value) {
 }
 
 function ensureDirectoryExistence(filePath) {
-    var dirname = path.dirname(filePath);
+    const dirname = path.dirname(filePath);
     if (fs.existsSync(dirname)) {
         return true;
     }
@@ -254,7 +254,7 @@ Implicit weak sequencing: Important action like ready + fight.
 step 2 - using that, construct card abilities, then, targets, arrays etc.*/
 
 function isTargetted(effect) {
-    let untargettedModes = ['all', 'self', 'this', 'it'];
+    const untargettedModes = ['all', 'self', 'this', 'it'];
     return effect.target && !untargettedModes.includes(effect.target.mode);
 }
 
@@ -295,7 +295,7 @@ function check(refs, card) {
 }
 
 function then(refs) {
-    let thenDepth = refs.thenDepth + 1;
+    const thenDepth = refs.thenDepth + 1;
     return Object.assign({}, refs, {
         thenDepth,
         thenContext: refs.nextThenContext,
@@ -317,7 +317,7 @@ function filteredController(refs, filteredController = true) {
 
 function findEventListeners(abilities) {
     if (abilities === null || typeof abilities !== 'object') return [];
-    let listeners = Object.values(abilities).flatMap(findEventListeners);
+    const listeners = Object.values(abilities).flatMap(findEventListeners);
     if (abilities.name === 'eventCount') listeners.push(abilities.action);
     return _.uniq(listeners);
 }

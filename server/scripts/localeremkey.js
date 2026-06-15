@@ -12,25 +12,25 @@ const optionsDefinition = [
     { name: 'key', type: String }
 ];
 
-let options = commandLineArgs(optionsDefinition);
+const options = commandLineArgs(optionsDefinition);
 
 function addKey(localeDir, key) {
-    let languages = ['de', 'en', 'es', 'fr', 'it', 'ko', 'pl', 'pt', 'th', 'zhhans', 'zhhant'];
-    let locales = {};
+    const languages = ['de', 'en', 'es', 'fr', 'it', 'ko', 'pl', 'pt', 'th', 'zhhans', 'zhhant'];
+    const locales = {};
 
-    for (let language of languages) {
-        let file = path.join(localeDir, language + '.json');
+    for (const language of languages) {
+        const file = path.join(localeDir, language + '.json');
         locales[language] = JSON.parse(fs.readFileSync(file));
-        for (let localeKey of Object.keys(locales[language])) {
+        for (const localeKey of Object.keys(locales[language])) {
             if (localeKey !== key && localeKey.toLowerCase() === key.toLowerCase()) {
                 console.log('key: [' + key + '] exists in file ' + file + ' with different case.');
             }
         }
     }
 
-    for (let language of languages) {
-        let file = path.join(localeDir, language + '.json');
-        let locale = locales[language];
+    for (const language of languages) {
+        const file = path.join(localeDir, language + '.json');
+        const locale = locales[language];
         delete locale[key];
 
         fs.writeFile(file, JSON.stringify(locale, undefined, 4), 'utf8', function (err) {

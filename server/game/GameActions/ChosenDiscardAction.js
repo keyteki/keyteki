@@ -24,7 +24,7 @@ class ChosenDiscardAction extends PlayerAction {
     getEvent(player, context) {
         return super.createEvent(EVENTS.unnamedEvent, {}, () => {
             if (player.hand.length > 0) {
-                let amount = Math.min(player.hand.length, this.amount);
+                const amount = Math.min(player.hand.length, this.amount);
                 if (amount > 0) {
                     context.game.promptForSelect(context.game.activePlayer, {
                         activePromptTitle:

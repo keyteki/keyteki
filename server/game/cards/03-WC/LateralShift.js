@@ -13,7 +13,7 @@ class LateralShift extends Card {
                 target: {
                     optional: (context) =>
                         context.player.opponent.hand.every((card) => {
-                            let action = ability.actions.playCard();
+                            const action = ability.actions.playCard();
                             action.setDefaultTarget(() => card);
                             action.update(context);
                             return !action.canAffect(card, context);

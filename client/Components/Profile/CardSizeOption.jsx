@@ -5,7 +5,7 @@ import classNames from 'classnames';
 import IdentityDefault from '../../assets/img/idbacks/identity.jpg';
 
 function CardSizeOption(props) {
-    let { name, label, selected, onSelect } = props;
+    const { name, label, selected, onSelect } = props;
 
     const handleClick = () => {
         if (onSelect) {

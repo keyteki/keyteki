@@ -16,7 +16,7 @@ class EffectSource extends GameObject {
      * Applies an immediate effect which lasts until the end of the phase.
      */
     untilPhaseEnd(propertyFactory) {
-        var properties = propertyFactory(AbilityDsl);
+        const properties = propertyFactory(AbilityDsl);
         return this.addEffectToEngine(
             Object.assign({ duration: 'untilPhaseEnd', location: 'any' }, properties)
         );
@@ -26,14 +26,14 @@ class EffectSource extends GameObject {
      * Applies an immediate effect which lasts until the end of the turn.
      */
     untilPlayerTurnEnd(propertyFactory) {
-        var properties = propertyFactory(AbilityDsl);
+        const properties = propertyFactory(AbilityDsl);
         return this.addEffectToEngine(
             Object.assign({ duration: 'untilPlayerTurnEnd', location: 'any' }, properties)
         );
     }
 
     untilPlayerNextTurnStart(propertyFactory) {
-        let properties = propertyFactory(AbilityDsl);
+        const properties = propertyFactory(AbilityDsl);
         return this.addEffectToEngine(
             Object.assign({ duration: 'untilPlayerNextTurnStart', location: 'any' }, properties)
         );
@@ -44,7 +44,7 @@ class EffectSource extends GameObject {
      * `until` property for the effect has occurred.
      */
     lastingEffect(propertyFactory) {
-        let properties = propertyFactory(AbilityDsl);
+        const properties = propertyFactory(AbilityDsl);
         return this.addEffectToEngine(
             Object.assign({ duration: 'custom', location: 'any' }, properties)
         );
@@ -54,7 +54,7 @@ class EffectSource extends GameObject {
      * Applies a delayed effect
      */
     delayedEffect(propertyFactory) {
-        let effect = new DelayedEffect(this.game, this, propertyFactory(AbilityDsl));
+        const effect = new DelayedEffect(this.game, this, propertyFactory(AbilityDsl));
         this.game.effectEngine.addDelayedEffect(effect);
         return effect;
     }
@@ -63,7 +63,7 @@ class EffectSource extends GameObject {
      * Applies a terminal condition
      */
     terminalCondition(propertyFactory) {
-        let effect = new TerminalCondition(this.game, this, propertyFactory(AbilityDsl));
+        const effect = new TerminalCondition(this.game, this, propertyFactory(AbilityDsl));
         this.game.effectEngine.addTerminalCondition(effect);
         return effect;
     }

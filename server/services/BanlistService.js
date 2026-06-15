@@ -54,7 +54,7 @@ class UserService {
     }
 
     async addBanlistEntry(entry) {
-        let added = new Date();
+        const added = new Date();
         let res;
 
         try {

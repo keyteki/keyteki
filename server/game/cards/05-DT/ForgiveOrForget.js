@@ -5,7 +5,7 @@ class ForgiveOrForget extends Card {
     //  Archive 2 cards of different types from your discard pile.
     //  Purge up to 2 cards from each discard pile.
     reduceTargets(context) {
-        let targets = context.targets
+        const targets = context.targets
             ? Object.values(context.targets).reduce((acc, target) => acc.concat(target), [])
             : [];
         return targets.length === 0 ? 'nothing' : targets;

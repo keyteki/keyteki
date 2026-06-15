@@ -16,8 +16,8 @@ class Friendship extends Card {
             gameAction: ability.actions.changeEvent((context) => ({
                 event: context.event,
                 processEvent: (event, context) => {
-                    let neighbors = context.source.parent.neighbors;
-                    let damagePerNeighbor = event.amount / neighbors.length;
+                    const neighbors = context.source.parent.neighbors;
+                    const damagePerNeighbor = event.amount / neighbors.length;
                     if (neighbors[0]) {
                         event.addChildEvent(
                             ability.actions
@@ -61,8 +61,8 @@ class Friendship extends Card {
                 gameAction: ability.actions.changeEvent((context) => ({
                     event: context.event,
                     processEvent: (event, context) => {
-                        let neighbors = context.source.parent.neighbors;
-                        let damagePerNeighbor = Math.floor(event.amount / 2);
+                        const neighbors = context.source.parent.neighbors;
+                        const damagePerNeighbor = Math.floor(event.amount / 2);
                         event.addChildEvent(
                             ability.actions
                                 .applyDamage({

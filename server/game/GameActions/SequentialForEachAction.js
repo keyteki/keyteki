@@ -29,7 +29,7 @@ class SequentialForEachAction extends GameAction {
         return [
             super.createEvent(EVENTS.unnamedEvent, {}, () => {
                 if (this.forEach.length > 0) {
-                    for (let element of this.forEach) {
+                    for (const element of this.forEach) {
                         let action = this.action;
                         if (typeof action === 'function') {
                             action = action(element);

@@ -40,7 +40,7 @@ class ReturnAmberAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        let params = {
+        const params = {
             card: card,
             context: context,
             amount: this.all ? card.amber : Math.min(this.amount, card.amber),

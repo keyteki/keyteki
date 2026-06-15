@@ -17,7 +17,7 @@ module.exports.init = function (server) {
     });
 
     server.get('/api/factions', function (req, res) {
-        let factions = Constants.Houses.map(function (house, i) {
+        const factions = Constants.Houses.map(function (house, i) {
             return { name: Constants.HousesNames[i], value: house };
         });
         res.send({ success: true, factions: factions });

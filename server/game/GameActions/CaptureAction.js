@@ -19,7 +19,7 @@ class CaptureAction extends CardAction {
     }
 
     canAffect(card, context) {
-        let player = this.player || context.player.opponent;
+        const player = this.player || context.player.opponent;
         return (
             player &&
             player.checkRestrictions('capture', context) &&
@@ -34,7 +34,7 @@ class CaptureAction extends CardAction {
         super.preEventHandler(context);
         context.game.queueSimpleStep(() => {
             if (this.target.length > 1) {
-                let player = this.player || context.player.opponent;
+                const player = this.player || context.player.opponent;
                 if (player.amber === 0) {
                     return;
                 }
@@ -56,8 +56,8 @@ class CaptureAction extends CardAction {
     }
 
     getEvent(card, context) {
-        let player = this.player || context.player.opponent;
-        let params = {
+        const player = this.player || context.player.opponent;
+        const params = {
             context: context,
             card: card,
             amount: Math.min(this.amount, player.amber)

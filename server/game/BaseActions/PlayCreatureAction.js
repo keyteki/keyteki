@@ -9,7 +9,7 @@ class PlayCreatureAction extends BasePlayAction {
 
     addSubEvent(event, context) {
         super.addSubEvent(event, context);
-        let action = context.game.actions.putIntoPlay({
+        const action = context.game.actions.putIntoPlay({
             myControl: true,
             deploy: this.deploy,
             beingPlayed: true
@@ -21,7 +21,7 @@ class PlayCreatureAction extends BasePlayAction {
 
     executeHandler(context) {
         if (context.source.giganticBottom && !context.source.composedPart) {
-            let parts = context.source.controller
+            const parts = context.source.controller
                 .getSourceList(context.source.location)
                 .filter((part) => context.source.compositeId === part.id);
 

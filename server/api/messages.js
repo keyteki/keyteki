@@ -4,7 +4,7 @@ const ServiceFactory = require('../services/ServiceFactory.js');
 
 const logger = require('../log.js');
 
-let messageService = ServiceFactory.messageService();
+const messageService = ServiceFactory.messageService();
 
 module.exports.init = function (server) {
     server.delete(

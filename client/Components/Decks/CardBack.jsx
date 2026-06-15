@@ -10,7 +10,7 @@ const CardBack = ({ className, imageClassName, deck, showDeckName = true, zoom =
             className={className}
             onMouseMove={(event) => {
                 let y = event.clientY;
-                let yPlusHeight = y + 364;
+                const yPlusHeight = y + 364;
 
                 if (yPlusHeight >= window.innerHeight) {
                     y -= yPlusHeight - window.innerHeight;

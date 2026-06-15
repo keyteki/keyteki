@@ -3,8 +3,8 @@ const _ = require('underscore');
 const monk = require('monk');
 const DeckService = require('../services/DeckService.js');
 
-let db = monk('mongodb://127.0.0.1:27017/keyforge');
-let deckService = new DeckService(db);
+const db = monk('mongodb://127.0.0.1:27017/keyforge');
+const deckService = new DeckService(db);
 deckService.decks
     .aggregate([{ $match: { includeInSealed: false } }, { $sortByCount: '$uuid' }])
     .then((results) =>

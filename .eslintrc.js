@@ -19,7 +19,7 @@ module.exports = {
         'plugin:react/recommended',
         'plugin:prettier/recommended'
     ],
-    rules: { 'react/prop-types': 'off' },
+    rules: { 'react/prop-types': 'off', 'prefer-const': 'error', 'no-var': 'error' },
     settings: {
         react: {
             version: 'detect'

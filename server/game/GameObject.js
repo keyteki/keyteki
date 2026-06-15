@@ -32,14 +32,14 @@ class GameObject {
     }
 
     getEffects(type, predicate = () => true) {
-        let filteredEffects = this.effects.filter(
+        const filteredEffects = this.effects.filter(
             (effect) => effect.type === type && predicate(effect)
         );
         return filteredEffects.map((effect) => effect.getValue(this));
     }
 
     sumEffects(type) {
-        let filteredEffects = this.effects.filter((effect) => effect.type === type);
+        const filteredEffects = this.effects.filter((effect) => effect.type === type);
         return filteredEffects.reduce((total, effect) => total + effect.getValue(this), 0);
     }
 

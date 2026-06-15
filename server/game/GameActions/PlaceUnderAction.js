@@ -30,8 +30,8 @@ class PlaceUnderAction extends CardGameAction {
     }
 
     placeUnder(card) {
-        let controller = card.controller;
-        let oldTopOfDeck = controller.deck[0];
+        const controller = card.controller;
+        const oldTopOfDeck = controller.deck[0];
         card.controller.removeCardFromPile(card);
         if (card.location === 'play area') {
             card.clearDependentCards();

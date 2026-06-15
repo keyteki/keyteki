@@ -4,8 +4,8 @@ import Icon from '../Icon';
 import { faTimes, faCheck } from '@fortawesome/free-solid-svg-icons';
 
 const DeckStatusSummary = ({ status }) => {
-    let { flagged, verified, noUnreleasedCards, basicRules } = status;
-    let items = [
+    const { flagged, verified, noUnreleasedCards, basicRules } = status;
+    const items = [
         { title: 'Only released cards', value: noUnreleasedCards },
         { title: 'Enhancements set', value: basicRules }
     ];

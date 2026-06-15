@@ -25,7 +25,7 @@ class AbilityContext {
     }
 
     copy(newProps) {
-        let copy = new AbilityContext(Object.assign({}, this.getProps(), newProps));
+        const copy = new AbilityContext(Object.assign({}, this.getProps(), newProps));
         for (const property of ['target', 'select', 'house', 'preThenEvent', 'preThenEvents']) {
             copy[property] = this[property];
         }

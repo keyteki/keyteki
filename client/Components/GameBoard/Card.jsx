@@ -134,8 +134,8 @@ const Card = ({
             return null;
         }
 
-        let upgrades = card.upgrades.map((upgrade, index) => {
-            let returnedupgrade = (
+        const upgrades = card.upgrades.map((upgrade, index) => {
+            const returnedupgrade = (
                 <Card
                     key={upgrade.uuid}
                     source={source}
@@ -168,12 +168,12 @@ const Card = ({
         // TODO: Right now it is assumed that all cards in the childCards array
         // are being placed underneath the current card. In the future there may
         // be other types of cards in this array and it should be filtered.
-        let underneathCards = card.childCards;
+        const underneathCards = card.childCards;
         if (!underneathCards || underneathCards.length === 0) {
             return;
         }
 
-        let maxCards = 1 + (underneathCards.length - 1) / 6;
+        const maxCards = 1 + (underneathCards.length - 1) / 6;
         // Each upgrade adds an effective -15px to the wrapper's vertical flow,
         // which would pull the underneath panel up by 15px per upgrade and eat
         // into the bottom peek. Visually translate it back down so the peek is
@@ -227,8 +227,8 @@ const Card = ({
 
         let style = {};
         if (dragOffset && isDragging) {
-            let x = dragOffset.x;
-            let y = dragOffset.y;
+            const x = dragOffset.x;
+            const y = dragOffset.y;
             style = {
                 left: x,
                 top: y
@@ -257,9 +257,9 @@ const Card = ({
         }
 
         const shouldMuteCannotPlay = !isSpectating && hasActiveHouse;
-        let statusClass = getStatusClass();
+        const statusClass = getStatusClass();
 
-        let cardClass = classNames(
+        const cardClass = classNames(
             'game-card',
             `card-type-${card.type}`,
             className,
@@ -285,10 +285,16 @@ const Card = ({
                 taunt: card.taunt && source === 'play area'
             }
         );
-        let imageClass = classNames('card-image vertical', sizeClass, halfSize ? 'halfSize' : '', {
-            exhausted: orientation === 'exhausted' || card.exhausted || orientation === 'horizontal'
-        });
-        let image = card ? (
+        const imageClass = classNames(
+            'card-image vertical',
+            sizeClass,
+            halfSize ? 'halfSize' : '',
+            {
+                exhausted:
+                    orientation === 'exhausted' || card.exhausted || orientation === 'horizontal'
+            }
+        );
+        const image = card ? (
             <div className={imageClass}>
                 <CardImage card={card} cardBack={cardBack} size={size} halfSize={halfSize} />
             </div>
@@ -362,7 +368,7 @@ const Card = ({
         return undefined;
     };
 
-    let styleCopy = Object.assign({}, style);
+    const styleCopy = Object.assign({}, style);
     if (card.upgrades) {
         styleCopy.top = card.upgrades.length * (15 * getCardSizeMultiplier());
     }

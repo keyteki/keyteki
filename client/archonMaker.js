@@ -29,10 +29,10 @@ let MaverickIcon;
 let TCOIcon;
 let DefaultCard;
 let MaverickCornerImage;
-let Tokens = {};
+const Tokens = {};
 let cacheLoaded = false;
 let cachePromise;
-let Rarities = {};
+const Rarities = {};
 
 const imgOptions = {
     selectable: false,
@@ -398,9 +398,9 @@ export const buildDeckList = async (
     }
 
     // Process cards first to determine if we have prophecies
-    let cardList = [];
-    let nonDeckCards = [];
-    let prophecyCards = [];
+    const cardList = [];
+    const nonDeckCards = [];
+    const prophecyCards = [];
 
     for (const { count, card } of deck.cards) {
         if (!card || card.isNonDeck) {
@@ -637,7 +637,7 @@ export const buildCardBack = async (canvas, deck, size, showDeckName) => {
 
     const evil = deck.cards.some((card) => card.card && card.card.rarity === 'Evil Twin');
 
-    let hash = deck.name.split('').reduce(function (a, b) {
+    const hash = deck.name.split('').reduce(function (a, b) {
         a = (a << 5) - a + b.charCodeAt(0);
         return a & a;
     }, 0);
@@ -816,7 +816,7 @@ export const buildCard = async (
             EnhancementBaseImages[enhancements.length].toCanvasElement(),
             imgOptions
         );
-        let top = 59 + (amber ? amber * 30 : 0);
+        const top = 59 + (amber ? amber * 30 : 0);
 
         if (gigantic2s.some((x) => x === card.id) && !image.includes('complete')) {
             baseImage.set({ left: width - top, top: 14, angle: 90 });
@@ -827,7 +827,7 @@ export const buildCard = async (
         canvas.add(baseImage);
 
         for (const [index, pip] of enhancements.entries()) {
-            let pipKey = pip.replace(/[ ]/gi, ''); // "star alliance" -> "staralliance"
+            const pipKey = pip.replace(/[ ]/gi, ''); // "star alliance" -> "staralliance"
             const pipImage = new fabric.Image(
                 EnhancementPipImages[pipKey].toCanvasElement(),
                 imgOptions
@@ -883,7 +883,7 @@ export const buildCard = async (
     if (card.location === 'play area') {
         if (card.type === 'creature') {
             //dynamic power overlay
-            let totalPower = modifiedPower - (tokens.power ? tokens.power : 0);
+            const totalPower = modifiedPower - (tokens.power ? tokens.power : 0);
             if (modifiedPower && totalPower !== card.powerPrinted) {
                 const modifiedPowerToken = new fabric.Image(
                     Tokens.ModifiedPower.toCanvasElement(),
@@ -1068,8 +1068,8 @@ const getCircularText = (
         return;
     }
 
-    let textHeight = 40,
-        startAngle = 0;
+    const textHeight = 40;
+    let startAngle = 0;
 
     canvas.width = width;
     canvas.height = height;
@@ -1085,14 +1085,14 @@ const getCircularText = (
     ctx.textAlign = 'center'; // Ensure we draw in exact center
 
     for (let j = 0; j < text.length; j++) {
-        let charWid = ctx.measureText(text[j]).width;
+        const charWid = ctx.measureText(text[j]).width;
         startAngle += charWid / (diameter / 2 - textHeight) / 2;
     }
 
     ctx.rotate(startAngle);
 
     for (let j = 0; j < text.length; j++) {
-        let charWid = ctx.measureText(text[j]).width; // half letter
+        const charWid = ctx.measureText(text[j]).width; // half letter
         ctx.rotate((charWid / 2 / (diameter / 2 - textHeight)) * -1);
         ctx.strokeText(text[j], 0, 0 - diameter / 2 + textHeight / 2);
         ctx.fillText(text[j], 0, 0 - diameter / 2 + textHeight / 2);

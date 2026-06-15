@@ -63,7 +63,7 @@ class AbilityResolver extends BaseStepWithPipeline {
         }
 
         if (this.costEventsThatCanFail) {
-            for (let e of this.costEventsThatCanFail) {
+            for (const e of this.costEventsThatCanFail) {
                 if (e.cancelled) {
                     this.cancelled = true;
                     return;

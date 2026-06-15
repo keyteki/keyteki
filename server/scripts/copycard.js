@@ -11,15 +11,15 @@ const optionsDefinition = [
     { name: 'tpack', type: String, defaultValue: '03-WC' }
 ];
 
-let options = commandLineArgs(optionsDefinition);
+const options = commandLineArgs(optionsDefinition);
 
 function findFile(dirPath, targetFile) {
-    var files = fs.readdirSync(dirPath);
-    for (var i = 0; i < files.length; ++i) {
-        var filename = path.join(dirPath, files[i]);
-        var stat = fs.lstatSync(filename);
+    const files = fs.readdirSync(dirPath);
+    for (let i = 0; i < files.length; ++i) {
+        const filename = path.join(dirPath, files[i]);
+        const stat = fs.lstatSync(filename);
         if (stat.isDirectory()) {
-            let foundFile = findFile(filename, targetFile);
+            const foundFile = findFile(filename, targetFile);
             if (foundFile) {
                 return foundFile;
             }
@@ -32,7 +32,7 @@ function findFile(dirPath, targetFile) {
 }
 
 function copyCard(cardsDir, source, target, tid, tpack) {
-    let sourceName = source + '.js';
+    const sourceName = source + '.js';
     let card = findFile(cardsDir, sourceName);
 
     if (!card) {
@@ -43,7 +43,7 @@ function copyCard(cardsDir, source, target, tid, tpack) {
     card = card.replace(new RegExp(source, 'g'), target);
     card = card.replace(new RegExp(target + "\\.id = '.*';", 'g'), target + ".id = '" + tid + "';");
 
-    let targetFile = path.join(cardsDir, tpack, target + '.js');
+    const targetFile = path.join(cardsDir, tpack, target + '.js');
 
     fs.writeFileSync(targetFile, card);
     console.log('File saved: ' + targetFile);

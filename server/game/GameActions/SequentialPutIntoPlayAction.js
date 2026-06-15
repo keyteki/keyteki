@@ -30,7 +30,7 @@ class SequentialPutIntoPlayAction extends GameAction {
     }
 
     queueActionSteps(context, element) {
-        let action = context.game.actions.putIntoPlay({
+        const action = context.game.actions.putIntoPlay({
             controller: this.controller,
             ready: this.ready,
             numPlayAllowances: this.numPlayAllowances
@@ -47,7 +47,7 @@ class SequentialPutIntoPlayAction extends GameAction {
     }
 
     filterAndApplyAction(context, forEach) {
-        let filteredForEach = forEach.filter(
+        const filteredForEach = forEach.filter(
             (card) => !card.gigantic || forEach.some((part) => part.id === card.compositeId)
         );
 

@@ -59,7 +59,7 @@ const Costs = {
                     return true;
                 }
 
-                let houseEffects = context.player.effects.filter(
+                const houseEffects = context.player.effects.filter(
                     (effect) =>
                         (HouseUseEffects.includes(effect.type) ||
                             NonHouseUseEffects.includes(effect.type) ||
@@ -68,7 +68,7 @@ const Costs = {
                             NonHouseFightEffects.includes(effect.type)) &&
                         !context.game.effectsUsed.includes(effect)
                 );
-                let effect = houseEffects.find(
+                const effect = houseEffects.find(
                     (effect) =>
                         (HouseUseEffects.includes(effect.type) &&
                             context.source.hasHouse(effect.getValue(context.player))) ||
@@ -110,7 +110,7 @@ const Costs = {
                 return true;
             }
 
-            let effects = context.player.effects.filter(
+            const effects = context.player.effects.filter(
                 (effect) =>
                     (HousePlayEffects.includes(effect.type) ||
                         NonHousePlayEffects.includes(effect.type)) &&
@@ -242,7 +242,7 @@ const Costs = {
         payEvent: (context) => {
             context.game.addMessage('{0} pays {1} to their opponent', context.player, amount);
 
-            let action = context.game.actions.transferAmber({ amount: amount });
+            const action = context.game.actions.transferAmber({ amount: amount });
             action.name = 'pay';
             return action.getEvent(context.player, context);
         }
@@ -261,9 +261,9 @@ const Costs = {
         canFail: true,
         canPay: (context) => context.game.activePlayer.creaturesInPlay.length > 0,
         payEvent: (context) => {
-            let event = context.game.getEvent('unnamedEvent', {});
+            const event = context.game.getEvent('unnamedEvent', {});
 
-            let t = new ThenAbility(context.game, context.source, {
+            const t = new ThenAbility(context.game, context.source, {
                 target: {
                     controller: 'self',
                     cardType: 'creature',

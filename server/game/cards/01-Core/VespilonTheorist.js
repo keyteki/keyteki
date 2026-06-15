@@ -11,8 +11,8 @@ class VespilonTheorist extends Card {
             },
             effect: 'choose {1}, reveal {2}{3} and {4}',
             effectArgs: (context) => {
-                let card = context.player.deck[0];
-                let args = [context.house, card];
+                const card = context.player.deck[0];
+                const args = [context.house, card];
                 if (card.hasHouse(context.house)) {
                     return args.concat(', archive it', 'gain 1 amber');
                 }

@@ -31,7 +31,7 @@ class DeactivateProphecyAction extends PlayerAction {
         return super.createEvent(EVENTS.onDeactivateProphecy, { player, context }, (event) => {
             // Discard any cards under the prophecy
             if (this.prophecyCard.childCards && this.prophecyCard.childCards.length > 0) {
-                let childCard = this.prophecyCard.childCards[0];
+                const childCard = this.prophecyCard.childCards[0];
                 context.game.actions.discard({ chatMessage: false }).resolve(childCard, context);
             }
 

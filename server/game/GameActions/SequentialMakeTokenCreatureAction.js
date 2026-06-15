@@ -28,7 +28,7 @@ class SequentialMakeTokenCreatureAction extends GameAction {
     }
 
     queueActionSteps(context, element) {
-        let action = context.game.actions.makeTokenCreature();
+        const action = context.game.actions.makeTokenCreature();
 
         context.game.queueSimpleStep(() => {
             action.setDefaultTarget(() => element);
@@ -41,7 +41,7 @@ class SequentialMakeTokenCreatureAction extends GameAction {
     }
 
     filterAndApplyAction(context, forEach) {
-        let filteredForEach = forEach.filter(
+        const filteredForEach = forEach.filter(
             (card) => !card.gigantic || forEach.some((part) => part.id === card.compositeId)
         );
 

@@ -11,7 +11,7 @@ class Fetchdrones extends Card {
                         : []
             })),
             then: (preThenContext) => {
-                let cards =
+                const cards =
                     preThenContext.player.deck.length > 0
                         ? preThenContext.player.deck.slice(
                               0,

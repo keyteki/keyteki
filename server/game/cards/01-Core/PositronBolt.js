@@ -63,7 +63,7 @@ class PositronBolt extends Card {
                     return [null, null, null, null, null];
                 }
 
-                let neighbors = context.targets.flank.neighbors;
+                const neighbors = context.targets.flank.neighbors;
 
                 if (neighbors.length === 0) {
                     return [context.targets.flank, null, null, null, null];

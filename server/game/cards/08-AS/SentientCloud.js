@@ -8,7 +8,7 @@ class SentientCloud extends Card {
             targetController: 'current',
             condition: (context) => context.player.creaturesInPlay.length > 0,
             match: (card, context) => {
-                let highestPower = context.player.creaturesInPlay.sort(
+                const highestPower = context.player.creaturesInPlay.sort(
                     (a, b) => b.power - a.power
                 )[0].power;
                 return card.type === 'creature' && card.power === highestPower;

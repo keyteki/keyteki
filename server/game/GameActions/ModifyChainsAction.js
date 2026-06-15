@@ -25,7 +25,7 @@ class ModifyChainsAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        let params = {
+        const params = {
             player: player,
             amount: this.amount,
             context: context

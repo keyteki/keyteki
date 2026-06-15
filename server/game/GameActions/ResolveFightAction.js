@@ -39,7 +39,7 @@ class ResolveFightAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        let params = {
+        const params = {
             card: card,
             context: context,
             condition: (event) =>
@@ -54,7 +54,7 @@ class ResolveFightAction extends CardGameAction {
             destroyed: [],
             cancelFight: false
         };
-        let fightEvent = super.createEvent(EVENTS.onFight, params, (event) => {
+        const fightEvent = super.createEvent(EVENTS.onFight, params, (event) => {
             if (!this.canAffect(event.card, event.context)) {
                 return;
             }
@@ -68,7 +68,7 @@ class ResolveFightAction extends CardGameAction {
                 );
             }
 
-            let defenderParams = {
+            const defenderParams = {
                 amount: defenderAmount,
                 fightEvent: event,
                 damageSource: event.card,
@@ -86,7 +86,7 @@ class ResolveFightAction extends CardGameAction {
                 );
             }
 
-            let attackerParams = {
+            const attackerParams = {
                 amount: attackerAmount,
                 fightEvent: event,
                 damageSource: event.attacker,
@@ -109,7 +109,7 @@ class ResolveFightAction extends CardGameAction {
                 }
 
                 if (event.attacker.checkRestrictions('dealFightDamage')) {
-                    let attackerDamageEvent = context.game.actions
+                    const attackerDamageEvent = context.game.actions
                         .dealDamage(attackerParams)
                         .getEvent(event.attackerTarget, context);
 
@@ -129,7 +129,7 @@ class ResolveFightAction extends CardGameAction {
             }
 
             // Splash damage resolves regardless of elusive.
-            let splashAttackAmount = event.attacker.getKeywordValue('splash-attack');
+            const splashAttackAmount = event.attacker.getKeywordValue('splash-attack');
             if (splashAttackAmount > 0 && event.attackerTarget.neighbors.length > 0) {
                 if (!damageEvent) {
                     attackerParams.amount = 0;
@@ -137,7 +137,7 @@ class ResolveFightAction extends CardGameAction {
                         .dealDamage(attackerParams)
                         .getEvent(event.attackerTarget, context);
                 }
-                let splashParams = Object.assign({}, attackerParams, {
+                const splashParams = Object.assign({}, attackerParams, {
                     amount: splashAttackAmount,
                     damageType: 'splash-attack'
                 });

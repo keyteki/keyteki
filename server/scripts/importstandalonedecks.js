@@ -17,8 +17,10 @@ class ImportStandaloneDecks {
         try {
             this.cards = await this.cardService.getAllCards();
 
-            for (let deck of this.loadDecks()) {
-                let existingDeck = await this.deckService.getStandaloneDeckById(deck.standaloneId);
+            for (const deck of this.loadDecks()) {
+                const existingDeck = await this.deckService.getStandaloneDeckById(
+                    deck.standaloneId
+                );
                 if (!existingDeck) {
                     console.log('Importing', deck.name);
                     await this.deckService.createStandalone(deck);
@@ -32,12 +34,12 @@ class ImportStandaloneDecks {
     }
 
     loadDecks() {
-        let data = fs.readFileSync(
+        const data = fs.readFileSync(
             path.join(__dirname, '../../keyteki-json-data/standalone-decks.json')
         );
         return JSON.parse(data);
     }
 }
 
-let importer = new ImportStandaloneDecks();
+const importer = new ImportStandaloneDecks();
 importer.import();

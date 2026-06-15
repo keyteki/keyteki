@@ -91,7 +91,7 @@ class AllocateDamagePrompt extends UiPrompt {
         }
 
         if (this.properties.splash) {
-            for (let neighbor of card.neighbors) {
+            for (const neighbor of card.neighbors) {
                 if (!this.cardDamage[neighbor.uuid]) {
                     this.cardDamage[neighbor.uuid] = {
                         damage: 0,

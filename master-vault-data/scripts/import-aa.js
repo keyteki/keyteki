@@ -1,7 +1,7 @@
 const path = require('path');
 const ArchonArcanaApiToKeytekiConverter = require('../src/ArchonArcanaApiToKeytekiConverter');
 
-let converter = new ArchonArcanaApiToKeytekiConverter();
+const converter = new ArchonArcanaApiToKeytekiConverter();
 
 converter
     .convert({

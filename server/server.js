@@ -36,7 +36,7 @@ class Server {
             });
         }
 
-        var opts = {};
+        const opts = {};
         opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
         opts.secretOrKey = this.configService.getValue('secret');
 
@@ -112,7 +112,7 @@ class Server {
     }
 
     run() {
-        let port =
+        const port =
             process.env.PORT || this.configService.getValueForSection('lobby', 'port') || 4000;
 
         this.server.listen(port, '0.0.0.0', function onStart(err) {

@@ -9,8 +9,8 @@ class ReapGameAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        let reapAction = card.stunned ? card.getRemoveStunAction() : card.getReapAction();
-        let newContext = reapAction.createContext(context.player);
+        const reapAction = card.stunned ? card.getRemoveStunAction() : card.getReapAction();
+        const newContext = reapAction.createContext(context.player);
         newContext.ignoreHouse = true;
         if (reapAction.meetsRequirements(newContext, ['exhausted', 'stunned'])) {
             return false;
@@ -26,8 +26,8 @@ class ReapGameAction extends CardGameAction {
         if (event.card.exhausted) {
             return false;
         }
-        let reapAction = event.card.getReapAction();
-        let newContext = reapAction.createContext(event.context.player);
+        const reapAction = event.card.getReapAction();
+        const newContext = reapAction.createContext(event.context.player);
         newContext.ignoreHouse = true;
         return (
             this.canAffect(event.card, event.context) &&
@@ -39,10 +39,10 @@ class ReapGameAction extends CardGameAction {
         return super.createEvent(EVENTS.unnamedEvent, { card, context }, () => {
             let newContext;
             if (card.stunned) {
-                let removeStunAction = card.getActions().find((action) => action.unstun);
+                const removeStunAction = card.getActions().find((action) => action.unstun);
                 newContext = removeStunAction.createContext(context.player);
             } else {
-                let reapAction = card.getReapAction();
+                const reapAction = card.getReapAction();
                 newContext = reapAction.createContext(context.player);
             }
 

@@ -26,8 +26,8 @@ class ChangeActiveHouseAction extends GameAction {
 
         // If house is an array with more than one element, prompt for selection
         if (Array.isArray(this.house) && this.house.length > 1) {
-            let choices = this.house.map((house) => ({ text: house, icon: house }));
-            let handlers = this.house.map((house) => () => {
+            const choices = this.house.map((house) => ({ text: house, icon: house }));
+            const handlers = this.house.map((house) => () => {
                 this.house = house;
                 this.effectMsg = 'change their active house to ' + house;
             });

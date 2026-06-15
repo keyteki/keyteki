@@ -17,18 +17,18 @@ const HouseSelect = (props) => {
     const baseIconClasses = 'ms-1 h-6 w-6 bg-cover bg-center bg-no-repeat';
 
     const getHouse = (house) => {
-        let houseTitle = t(house);
+        const houseTitle = t(house);
         return houseTitle[0].toUpperCase() + houseTitle.slice(1);
     };
 
     let icons = [];
-    let iconRows = [];
-    let houses = Constants.Houses;
+    const iconRows = [];
+    const houses = Constants.Houses;
     let i = 0;
     let j = 0;
 
-    for (let house of houses) {
-        let houseButton = props.buttons.find((b) => b.text === house);
+    for (const house of houses) {
+        const houseButton = props.buttons.find((b) => b.text === house);
         if (houseButton) {
             icons.push(
                 <div

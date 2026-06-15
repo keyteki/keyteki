@@ -34,21 +34,21 @@ class SwapAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent(EVENTS.onSwap, { card: card, context: context }, () => {
-            let originIndex = this.origin.controller.cardsInPlay.indexOf(this.origin);
-            let cardIndex = card.controller.cardsInPlay.indexOf(card);
+            const originIndex = this.origin.controller.cardsInPlay.indexOf(this.origin);
+            const cardIndex = card.controller.cardsInPlay.indexOf(card);
             if (originIndex >= 0 && cardIndex >= 0) {
                 this.origin.controller.cardsInPlay.splice(originIndex, 1, card);
                 card.controller.cardsInPlay.splice(cardIndex, 1, this.origin);
             }
 
             if (this.swapTokens) {
-                let originTokens = this.origin.tokens;
+                const originTokens = this.origin.tokens;
                 this.origin.tokens = card.tokens;
                 card.tokens = originTokens;
             }
 
             if (this.swapUpgrades) {
-                let originUpgrades = this.origin.upgrades;
+                const originUpgrades = this.origin.upgrades;
                 this.origin.upgrades = card.upgrades;
                 card.upgrades = originUpgrades;
 

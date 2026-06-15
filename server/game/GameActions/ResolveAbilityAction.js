@@ -36,14 +36,14 @@ class ResolveAbilityAction extends CardAction {
         return super.createEvent(EVENTS.onAction, { card: card, context: context }, () => {
             let ability = this.ability;
             if (typeof ability === 'function') {
-                let cardAbilites = card.actions.concat(card.reactions);
-                let filteredAbilities = cardAbilites.filter(
+                const cardAbilites = card.actions.concat(card.reactions);
+                const filteredAbilities = cardAbilites.filter(
                     (a) => ability(a) && a.condition(context)
                 );
                 if (filteredAbilities.length > 1) {
-                    let choices = [];
-                    let handlers = [];
-                    for (let a of filteredAbilities) {
+                    const choices = [];
+                    const handlers = [];
+                    for (const a of filteredAbilities) {
                         const generatingEffect = context.game.effectEngine.effects.find(
                             (effect) => effect.effect.getValue(card) === a
                         );
@@ -74,7 +74,7 @@ class ResolveAbilityAction extends CardAction {
 
             context.game.queueSimpleStep(() => {
                 if (ability && ability.condition(context)) {
-                    let newContext = Object.assign(ability.createContext(context.player), {
+                    const newContext = Object.assign(ability.createContext(context.player), {
                         isResolveAbility: true,
                         secondResolution: this.secondResolution
                     });

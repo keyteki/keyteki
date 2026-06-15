@@ -46,11 +46,11 @@ const AbilityWindowTitles = {
             events = [events];
         }
 
-        let abilityWord = AbilityTypeToWord[abilityType] || abilityType;
-        let uniqueEvents = _.uniq(events);
-        let titles = _.filter(
+        const abilityWord = AbilityTypeToWord[abilityType] || abilityType;
+        const uniqueEvents = _.uniq(events);
+        const titles = _.filter(
             _.map(uniqueEvents, (event) => {
-                let func = EventToTitleFunc[event.name];
+                const func = EventToTitleFunc[event.name];
                 if (func) {
                     return func(event);
                 }
@@ -73,7 +73,7 @@ const AbilityWindowTitles = {
         return 'Any ' + abilityWord + 's?';
     },
     getAction: function (event) {
-        let func = EventToTitleFunc[event.name];
+        const func = EventToTitleFunc[event.name];
         if (func) {
             return func(event);
         }

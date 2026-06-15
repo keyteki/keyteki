@@ -16,7 +16,7 @@ class SwallowWhole extends Card {
                     activePromptTitle: 'Choose a creature to purge',
                     cardType: 'creature',
                     cardCondition: (card, context) => {
-                        let orderedCreatures = context.game.creaturesInPlay.sort(
+                        const orderedCreatures = context.game.creaturesInPlay.sort(
                             (a, b) => b.power - a.power
                         );
                         return (

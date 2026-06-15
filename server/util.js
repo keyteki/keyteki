@@ -93,14 +93,14 @@ async function httpRequest(url, options = {}) {
         }
     }
 
-    let response = await fetch(requestUrl, {
+    const response = await fetch(requestUrl, {
         method,
         headers,
         body: requestBody
     });
 
     if (response.status !== 200) {
-        let error = new Error('Request failed');
+        const error = new Error('Request failed');
         error.statusCode = response.status;
         throw error;
     }
@@ -131,14 +131,14 @@ function detectBinary(state, path = '', results = []) {
         return results;
     }
 
-    let type = state.constructor.name;
+    const type = state.constructor.name;
 
     if (!allowedTypes.includes(type)) {
         results.push({ path: path, type: type });
     }
 
     if (type === 'Object') {
-        for (let key in state) {
+        for (const key in state) {
             detectBinary(state[key], `${path}.${key}`, results);
         }
     } else if (type === 'Array') {

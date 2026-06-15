@@ -36,7 +36,7 @@ class Phase extends BaseStepWithPipeline {
             }
         });
 
-        for (let step of this.steps) {
+        for (const step of this.steps) {
             this.game.queueStep(step);
         }
     }

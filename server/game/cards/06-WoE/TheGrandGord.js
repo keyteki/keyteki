@@ -12,11 +12,11 @@ class TheGrandGord extends Card {
                         return false;
                     }
 
-                    let max = Math.max.apply(
+                    const max = Math.max.apply(
                         Math,
                         this.game.creaturesInPlay.map((card) => card.power)
                     );
-                    let myMax = Math.max.apply(
+                    const myMax = Math.max.apply(
                         Math,
                         context.player.creaturesInPlay.map((card) => card.power)
                     );

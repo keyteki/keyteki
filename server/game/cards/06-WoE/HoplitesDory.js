@@ -5,7 +5,7 @@ class HoplitesDory extends Card {
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: ability.effects.modifyPower((card) => {
-                let i = card.controller.creaturesInPlay.indexOf(card);
+                const i = card.controller.creaturesInPlay.indexOf(card);
                 return (
                     2 *
                     card.controller.creaturesInPlay.slice(0, i).filter((card) => card.exhausted)

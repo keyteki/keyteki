@@ -22,7 +22,7 @@ class ModifyAmberAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        let params = { player: player, amount: this.amount, reap: this.reap, context: context };
+        const params = { player: player, amount: this.amount, reap: this.reap, context: context };
 
         return super.createEvent(EVENTS.onModifyAmber, params, (event) => {
             event.player.modifyAmber(event.amount);

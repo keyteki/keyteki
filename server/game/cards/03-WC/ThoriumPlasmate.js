@@ -13,10 +13,10 @@ class ThoriumPlasmate extends Card {
             },
             then: {
                 gameAction: ability.actions.dealDamage((context) => {
-                    let card = context.preThenEvent.card;
-                    let houses = card.getHouses();
+                    const card = context.preThenEvent.card;
+                    const houses = card.getHouses();
 
-                    let neighborsSharingHouses = card.neighbors.filter((c) =>
+                    const neighborsSharingHouses = card.neighbors.filter((c) =>
                         c.getHouses().some((h) => houses.includes(h))
                     );
 

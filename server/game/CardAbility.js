@@ -99,7 +99,7 @@ class CardAbility extends ThenAbility {
         previousMessageArgs = null,
         last = false
     ) {
-        let messageArgs = previousMessageArgs || [
+        const messageArgs = previousMessageArgs || [
             context.player,
             context.source.type === 'event' ? ' plays ' : ' uses ',
             context.source

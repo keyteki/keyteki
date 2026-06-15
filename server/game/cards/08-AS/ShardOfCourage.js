@@ -30,7 +30,7 @@ class ShardOfCourage extends Card {
                         }
 
                         // Get the most recent target from the previous action.
-                        let prevAction = context.ability.gameAction[0].action.gameActions[0];
+                        const prevAction = context.ability.gameAction[0].action.gameActions[0];
                         return { target: prevAction.target[prevAction.target.length - 1] };
                     })
                 ])

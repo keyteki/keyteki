@@ -8,8 +8,8 @@ class ActionWindow extends UiPrompt {
     onCardClicked(player, card) {
         if (player === this.game.activePlayer && card.controller === player) {
             if (card.location === 'play area') {
-                let useAction = new UseAction({ ignoreHouse: false });
-                let context = this.game.getFrameworkContext(player);
+                const useAction = new UseAction({ ignoreHouse: false });
+                const context = this.game.getFrameworkContext(player);
                 if (useAction.canAffect(card, context)) {
                     useAction.resolve(card, context);
                     this.game.queueSimpleStep(() => this.checkForPhaseEnding());
@@ -45,8 +45,8 @@ class ActionWindow extends UiPrompt {
                     });
                 }
             } else if (to === 'discard') {
-                let discardAction = new DiscardAction(card);
-                let context = discardAction.createContext(player);
+                const discardAction = new DiscardAction(card);
+                const context = discardAction.createContext(player);
                 if (!discardAction.meetsRequirements(context, [])) {
                     this.game.resolveAbility(context);
                 }
@@ -62,11 +62,11 @@ class ActionWindow extends UiPrompt {
     }
 
     onTideClicked(player) {
-        let raiseTideAction = new RaiseTideAction({
+        const raiseTideAction = new RaiseTideAction({
             showMessage: true,
             chainCost: 3 + player.sumEffects('modifyTideCost')
         });
-        let context = this.game.getFrameworkContext(player);
+        const context = this.game.getFrameworkContext(player);
         if (raiseTideAction.canAffect(player, context)) {
             this.game.promptWithHandlerMenu(player, {
                 activePromptTitle: 'Raise the Tide?',
@@ -85,8 +85,8 @@ class ActionWindow extends UiPrompt {
     }
 
     onProphecyClicked(player, prophecyCard) {
-        let activateProphecyAction = new ActivateProphecyAction({ prophecyCard: prophecyCard });
-        let context = this.game.getFrameworkContext(player);
+        const activateProphecyAction = new ActivateProphecyAction({ prophecyCard: prophecyCard });
+        const context = this.game.getFrameworkContext(player);
         context.source = prophecyCard;
         if (activateProphecyAction.canAffect(player, context)) {
             this.game.promptWithHandlerMenu(player, {
@@ -124,7 +124,7 @@ class ActionWindow extends UiPrompt {
     }
 
     activePrompt() {
-        let buttons = [{ text: 'End Turn', arg: 'done' }];
+        const buttons = [{ text: 'End Turn', arg: 'done' }];
 
         return {
             menuTitle: 'Choose a card to play, discard or use',
@@ -160,9 +160,9 @@ class ActionWindow extends UiPrompt {
         }
 
         if (choice === 'done') {
-            let cards = player.cardsInPlay.concat(player.hand);
-            let hasPlayableCards = cards.some((card) => card.getLegalActions(player).length > 0);
-            let hasAvailableProphecies = this.hasAvailableProphecies(player);
+            const cards = player.cardsInPlay.concat(player.hand);
+            const hasPlayableCards = cards.some((card) => card.getLegalActions(player).length > 0);
+            const hasAvailableProphecies = this.hasAvailableProphecies(player);
 
             if (hasPlayableCards || hasAvailableProphecies) {
                 this.game.promptWithHandlerMenu(player, {

@@ -62,7 +62,7 @@ class GrowthSurge extends Card {
             },
             effect: 'add 3 power counters to to {1}{2}{3}{4}{5}',
             effectArgs: (context) => {
-                let neighbors = context.targets.flank.neighbors;
+                const neighbors = context.targets.flank.neighbors;
 
                 if (neighbors.length === 0) {
                     return [context.targets.flank, null, null, null, null];

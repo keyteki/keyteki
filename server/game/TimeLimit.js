@@ -31,7 +31,7 @@ class TimeLimit {
 
     checkForTimeLimitReached() {
         if (this.game.useGameTimeLimit && !this.isTimeLimitReached) {
-            let differenceBetweenStartOfTimerAndNow = moment.duration(
+            const differenceBetweenStartOfTimerAndNow = moment.duration(
                 moment().diff(this.timeLimitStartedAt)
             );
             if (differenceBetweenStartOfTimerAndNow.asSeconds() / 60 >= this.timeLimitInMinutes) {

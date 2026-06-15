@@ -22,7 +22,7 @@ class Tealnar extends Card {
             then: {
                 message: '{0} uses {1} to give {0} {3} amber',
                 messageArgs: (context) => {
-                    let successfulEvents = context.preThenEvents.filter(
+                    const successfulEvents = context.preThenEvents.filter(
                         (event) => !event.cancelled && event.amount > 0
                     );
                     return [successfulEvents.length];

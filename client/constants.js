@@ -224,20 +224,20 @@ export const Constants = {
     MaverickCornerImage: imageUrl('maverick/maverick-corner.png')
 };
 
-for (let locale of Constants.Locales) {
+for (const locale of Constants.Locales) {
     Constants.TideImages.card[locale] = imageUrl(`tide/tide-card-${locale}.png`);
 }
 
-for (let expansion of Constants.Expansions) {
+for (const expansion of Constants.Expansions) {
     Constants.SetIconPaths[expansion.value] = imageUrl(`idbacks/${expansion.value}.png`);
     Constants.DeckIconPaths[expansion.value] = imageUrl(`${expansion.value}.png`);
 }
 
-for (let type of Constants.CardTypes) {
+for (const type of Constants.CardTypes) {
     Constants.CardTypesPaths[type] = imageUrl(`idbacks/${type}.png`);
 }
 
-for (let house of Constants.Houses) {
+for (const house of Constants.Houses) {
     Constants.HouseIconPaths[house] = imageUrl(`house/${house}.png`);
     Constants.IdBackHousePaths[house] = imageUrl(`idbacks/idback_houses/${house}.png`);
     Constants.HouseBgPaths[house] = imageUrl(`bgs/${house}.png`);

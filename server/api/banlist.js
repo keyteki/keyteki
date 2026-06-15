@@ -3,7 +3,7 @@ const passport = require('passport');
 const BanlistService = require('../services/BanlistService');
 const { wrapAsync } = require('../util');
 
-let banlistService = new BanlistService();
+const banlistService = new BanlistService();
 
 module.exports.init = function (server) {
     server.get(
@@ -14,7 +14,7 @@ module.exports.init = function (server) {
                 return res.status(403);
             }
 
-            let banlist = await banlistService.getBanList();
+            const banlist = await banlistService.getBanList();
 
             return res.send({ success: true, banlist: banlist });
         })

@@ -59,7 +59,7 @@ const CardPileLink = ({
         }
     }, [cards, isPromptTarget, manualPopup, updatePopupVisibility]);
 
-    let classNameStr = classNames('card-pile-link', className, {
+    const classNameStr = classNames('card-pile-link', className, {
         horizontal: orientation === 'horizontal' || orientation === 'exhausted',
         vertical: orientation === 'vertical'
     });
@@ -68,7 +68,7 @@ const CardPileLink = ({
         if (cards.length === 0) {
             return;
         }
-        let card = cards[0];
+        const card = cards[0];
         if (!card.facedown && card.location !== 'deck') {
             return card;
         }

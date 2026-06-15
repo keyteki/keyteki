@@ -7,11 +7,11 @@ class WormholeTechnician extends Card {
             condition: (context) => context.player.deck.length > 0,
             effect: 'reveal {1}{2}',
             effectArgs: (context) => {
-                let card = context.player.deck[0];
+                const card = context.player.deck[0];
                 if (!card) {
                     return [];
                 }
-                let args = [card];
+                const args = [card];
                 if (card.hasHouse('logos')) {
                     return args.concat(', which is a Logos card, and play it');
                 }

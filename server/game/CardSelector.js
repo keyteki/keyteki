@@ -34,7 +34,7 @@ class CardSelector {
     static for(properties) {
         properties = CardSelector.getDefaultedProperties(properties);
 
-        let factory = ModeToSelector[properties.mode];
+        const factory = ModeToSelector[properties.mode];
 
         if (!factory) {
             throw new Error(`Unknown card selector mode of ${properties.mode}`);

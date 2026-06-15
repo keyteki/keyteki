@@ -14,14 +14,14 @@ class ChangeEventAction extends GameAction {
     getEventArray(context) {
         return [
             super.createEvent(EVENTS.unnamedEvent, {}, () => {
-                let properties = this.propertyFactory(context);
+                const properties = this.propertyFactory(context);
                 if (properties.cancel) {
                     properties.event.cancel();
                 } else {
                     if (properties.processEvent) {
                         properties.processEvent(properties.event, context);
                     } else {
-                        for (let param of Object.keys(properties).filter(
+                        for (const param of Object.keys(properties).filter(
                             (key) => key !== 'event'
                         )) {
                             properties.event[param] = properties[param];

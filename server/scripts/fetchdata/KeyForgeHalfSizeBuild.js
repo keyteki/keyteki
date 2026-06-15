@@ -108,7 +108,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
         fontSize: 20,
         shadow: new fabric.Shadow(shadowProps)
     });
-    let cardType = new fabric.Text(
+    const cardType = new fabric.Text(
         card.type === 'creature1' ? 'CREATURE' : card.type.toUpperCase(),
         {
             fill: '#fdfbfa',
@@ -197,7 +197,7 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
             });
             canvasFinal.add(barCanvas, Name, Power, Armor, cardType);
             if (card.rarity === 'Evil Twin') {
-                let EvilTwin = new fabric.Text('EVIL TWIN', {
+                const EvilTwin = new fabric.Text('EVIL TWIN', {
                     fill: '#fdfbfa',
                     shadow: new fabric.Shadow({ ...shadowProps, offsetX: 1, offsetY: 1, blur: 1 }),
                     fontFamily: 'TeutonFett',
@@ -294,9 +294,9 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
 const getCircularText = (text = '', diameter, yOffset = 0) => {
     const canvas = fabric.util.createCanvasElement();
 
-    let ctx = canvas.getContext('2d');
-    let textHeight = 40,
-        startAngle = 0;
+    const ctx = canvas.getContext('2d');
+    const textHeight = 40;
+    let startAngle = 0;
     canvas.width = 300;
     canvas.height = 262.5;
     ctx.fillStyle = '#fdfbfa';
@@ -314,14 +314,14 @@ const getCircularText = (text = '', diameter, yOffset = 0) => {
     ctx.textAlign = 'center'; // Ensure we draw in exact center
 
     for (let j = 0; j < text.length; j++) {
-        let charWid = ctx.measureText(text[j]).width;
+        const charWid = ctx.measureText(text[j]).width;
         startAngle += charWid / (diameter / 2 - textHeight) / 2;
     }
 
     ctx.rotate(startAngle);
 
     for (let j = 0; j < text.length; j++) {
-        let charWid = ctx.measureText(text[j]).width; // half letter
+        const charWid = ctx.measureText(text[j]).width; // half letter
         ctx.rotate((charWid / 2 / (diameter / 2 - textHeight)) * -1);
         ctx.fillText(text[j], 0, 0 - diameter / 2 + textHeight / 2);
         ctx.rotate((charWid / 2 / (diameter / 2 - textHeight)) * -1); // rotate half letter

@@ -17,7 +17,7 @@ const isSafeUrl = (value) => {
 
 export function tryParseJSON(jsonString) {
     try {
-        var retObject = JSON.parse(jsonString);
+        const retObject = JSON.parse(jsonString);
 
         // Handle non-exception-throwing cases:
         // Neither JSON.parse(false) or JSON.parse(1234) throw errors, hence the type-checking,
@@ -34,10 +34,10 @@ export function tryParseJSON(jsonString) {
 }
 
 export function getMessageWithLinks(message) {
-    let tokens = message.split(/\s/);
+    const tokens = message.split(/\s/);
 
     let i = 0;
-    let parts = tokens.map((token) => {
+    const parts = tokens.map((token) => {
         if (isSafeUrl(token)) {
             return (
                 <a key={`link-${i++}`} href={token} target='_blank' rel='noopener noreferrer'>

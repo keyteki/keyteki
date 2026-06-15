@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Card from './Card';
 
 function CardTiledList(props) {
-    let cardList =
+    const cardList =
         props.cards &&
         props.cards.map((card, index) => {
             return (
@@ -28,7 +28,7 @@ function CardTiledList(props) {
             );
         });
 
-    let title =
+    const title =
         props.title && props.cards
             ? `${props.title} (${props.titleCount || props.cards.length})`
             : props.title;

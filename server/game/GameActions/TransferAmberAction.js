@@ -22,7 +22,7 @@ class TransferAmberAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        let params = {
+        const params = {
             context: context,
             player: player,
             amount: Math.min(this.amount, player.amber)

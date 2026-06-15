@@ -26,10 +26,13 @@ class ComOfficerGross extends Card {
                         target: []
                     };
                 }
-                let creaturesInPlay = context.player.creaturesInPlay;
-                let idxS = creaturesInPlay.indexOf(context.source);
-                let idxT = creaturesInPlay.indexOf(context.target);
-                let targets = creaturesInPlay.slice(Math.min(idxS, idxT) + 1, Math.max(idxS, idxT));
+                const creaturesInPlay = context.player.creaturesInPlay;
+                const idxS = creaturesInPlay.indexOf(context.source);
+                const idxT = creaturesInPlay.indexOf(context.target);
+                const targets = creaturesInPlay.slice(
+                    Math.min(idxS, idxT) + 1,
+                    Math.max(idxS, idxT)
+                );
                 return {
                     target: targets
                 };

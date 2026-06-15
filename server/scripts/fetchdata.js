@@ -54,8 +54,8 @@ const optionsDefinition = [
 ];
 
 function createDataSource(options) {
-    let codes = options['code'].split(',').filter(Boolean);
-    let ids = options['id'].split(',').filter(Boolean);
+    const codes = options['code'].split(',').filter(Boolean);
+    const ids = options['id'].split(',').filter(Boolean);
     switch (options['card-source']) {
         case 'json':
             return new JsonCardSource(options['card-dir'], codes, ids);
@@ -79,12 +79,12 @@ function createImageSource(options) {
     throw new Error(`Unknown image source '${options['image-source']}'`);
 }
 
-let options = commandLineArgs(optionsDefinition);
+const options = commandLineArgs(optionsDefinition);
 
-let dataSource = createDataSource(options);
-let imageSource = createImageSource(options);
+const dataSource = createDataSource(options);
+const imageSource = createImageSource(options);
 
-let cardImport = new CardImport(
+const cardImport = new CardImport(
     dataSource,
     imageSource,
     options['image-dir'],

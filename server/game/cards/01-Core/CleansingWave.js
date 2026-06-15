@@ -12,7 +12,7 @@ class CleansingWave extends Card {
             then: {
                 message: '{1} heals {3}, gaining {0} {4} amber',
                 messageArgs: (context) => {
-                    let successfulEvents = context.preThenEvents.filter(
+                    const successfulEvents = context.preThenEvents.filter(
                         (event) => !event.cancelled && event.amount > 0
                     );
                     return [successfulEvents.map((event) => event.card), successfulEvents.length];

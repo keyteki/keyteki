@@ -41,7 +41,7 @@ class GameRouter extends EventEmitter {
      * @param {import("./pendinggame.js")} game
      */
     startGame(game) {
-        let node = this.getNextAvailableGameNode();
+        const node = this.getNextAvailableGameNode();
         if (!node) {
             logger.error('Could not find new node for game');
 
@@ -114,7 +114,7 @@ class GameRouter extends EventEmitter {
      * @param {string} nodeName
      */
     disableNode(nodeName) {
-        let worker = this.workers[nodeName];
+        const worker = this.workers[nodeName];
         if (!worker) {
             return false;
         }
@@ -128,7 +128,7 @@ class GameRouter extends EventEmitter {
      * @param {string} nodeName
      */
     enableNode(nodeName) {
-        let worker = this.workers[nodeName];
+        const worker = this.workers[nodeName];
         if (!worker) {
             return false;
         }
@@ -142,7 +142,7 @@ class GameRouter extends EventEmitter {
      * @param {string} nodeName
      */
     toggleNode(nodeName) {
-        let worker = this.workers[nodeName];
+        const worker = this.workers[nodeName];
         if (!worker) {
             return false;
         }
@@ -156,7 +156,7 @@ class GameRouter extends EventEmitter {
      * @param {string} nodeName
      */
     restartNode(nodeName) {
-        let worker = this.workers[nodeName];
+        const worker = this.workers[nodeName];
         if (!worker) {
             return false;
         }
@@ -317,7 +317,7 @@ class GameRouter extends EventEmitter {
      * @param {string} command
      */
     sendCommand(channel, command, arg = {}) {
-        let object = {
+        const object = {
             command: command,
             arg: arg
         };
@@ -327,7 +327,7 @@ class GameRouter extends EventEmitter {
             objectStr = JSON.stringify(object);
         } catch (err) {
             logger.error('Failed to stringify node data', err);
-            for (let obj of Object.values(detectBinary(arg))) {
+            for (const obj of Object.values(detectBinary(arg))) {
                 logger.error(`Path: ${obj.path}, Type: ${obj.type}`);
             }
 

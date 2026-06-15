@@ -5,13 +5,13 @@ const ConfigService = require('./services/ConfigService');
 const configService = new ConfigService();
 
 async function runServer() {
-    let options = { configService: configService };
+    const options = { configService: configService };
 
     options.userService = new UserService(options.configService);
 
-    let server = new Server(process.env.NODE_ENV !== 'production');
-    let httpServer = await server.init(options);
-    let lobby = new Lobby(httpServer, options);
+    const server = new Server(process.env.NODE_ENV !== 'production');
+    const httpServer = await server.init(options);
+    const lobby = new Lobby(httpServer, options);
 
     await lobby.init();
 

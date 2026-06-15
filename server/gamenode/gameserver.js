@@ -31,11 +31,13 @@ class GameServer {
         this.games = {};
         this.protocol = 'https';
 
+        let privateKey;
+        let certificate;
         try {
-            var privateKey = fs
+            privateKey = fs
                 .readFileSync(this.configService.getValueForSection('gameNode', 'keyPath'))
                 .toString();
-            var certificate = fs
+            certificate = fs
                 .readFileSync(this.configService.getValueForSection('gameNode', 'certPath'))
                 .toString();
         } catch (e) {
@@ -60,7 +62,7 @@ class GameServer {
         this.gameSocket.on('onCloseGame', this.onCloseGame.bind(this));
         this.gameSocket.on('onCardData', this.onCardData.bind(this));
 
-        var server = undefined;
+        let server = undefined;
 
         if (!privateKey || !certificate) {
             server = http.createServer();
@@ -72,7 +74,7 @@ class GameServer {
 
         server.listen(process.env.PORT || socketioPort, '0.0.0.0');
 
-        let options = {
+        const options = {
             perMessageDeflate: false,
             pingTimeout: 15000
         };
@@ -173,10 +175,10 @@ class GameServer {
         try {
             logger.error(e);
 
-            let debugData = /** @type {Record<string, any>} */ ({});
+            const debugData = /** @type {Record<string, any>} */ ({});
 
             try {
-                let gameState = game.getState();
+                const gameState = game.getState();
 
                 if (e.message.includes('Maximum call stack')) {
                     debugData.badSerializaton = detectBinary(gameState);
@@ -289,7 +291,7 @@ class GameServer {
                 continue;
             }
 
-            let state = game.getState(player.name);
+            const state = game.getState(player.name);
 
             let stateToSend = state;
 
@@ -341,7 +343,7 @@ class GameServer {
     rematch(game) {
         this.gameSocket.send('REMATCH', { game: game.getSaveState() });
 
-        for (let player of Object.values(game.getPlayersAndSpectators())) {
+        for (const player of Object.values(game.getPlayersAndSpectators())) {
             if (player.left || player.disconnectedAt || !player.socket) {
                 continue;
             }
@@ -360,7 +362,7 @@ class GameServer {
     rematchWithNewDecks(game) {
         this.gameSocket.send('REMATCHWITHNEWDECKS', { game: game.getSaveState() });
 
-        for (let player of Object.values(game.getPlayersAndSpectators())) {
+        for (const player of Object.values(game.getPlayersAndSpectators())) {
             if (player.left || player.disconnectedAt || !player.socket) {
                 continue;
             }
@@ -377,7 +379,7 @@ class GameServer {
      * @param {import("../pendinggame")} pendingGame
      */
     onStartGame(pendingGame) {
-        let game = new Game(pendingGame, { router: this, cardData: this.cardData });
+        const game = new Game(pendingGame, { router: this, cardData: this.cardData });
 
         game.on('onTimeExpired', () => {
             this.sendGameState(game);
@@ -385,7 +387,7 @@ class GameServer {
         this.games[pendingGame.id] = game;
 
         game.started = true;
-        for (let player of Object.values(pendingGame.players)) {
+        for (const player of Object.values(pendingGame.players)) {
             let playerName = player.name;
             game.setWins(playerName, player.wins);
 
@@ -393,7 +395,7 @@ class GameServer {
                 (pendingGame.gameFormat === 'reversal' || pendingGame.swap) &&
                 !(pendingGame.gameFormat === 'reversal' && pendingGame.swap)
             ) {
-                let otherPlayer = game.getOtherPlayer(player);
+                const otherPlayer = game.getOtherPlayer(player);
                 if (otherPlayer) {
                     playerName = otherPlayer.name;
                 }
@@ -425,7 +427,7 @@ class GameServer {
 
     onGameSync(callback) {
         const gameSummaries = Object.values(this.games).map((game) => {
-            var retGame = game.getSummary(undefined, { fullData: true });
+            const retGame = game.getSummary(undefined, { fullData: true });
             retGame.password = game.password;
 
             return retGame;
@@ -461,12 +463,12 @@ class GameServer {
      * @param {string} gameId
      */
     onCloseGame(gameId) {
-        let game = this.games[gameId];
+        const game = this.games[gameId];
         if (!game) {
             return;
         }
 
-        for (let player of Object.values(game.getPlayersAndSpectators())) {
+        for (const player of Object.values(game.getPlayersAndSpectators())) {
             player.socket.send('cleargamestate');
             player.socket.leaveChannel(game.id);
         }
@@ -487,16 +489,16 @@ class GameServer {
             return;
         }
 
-        let game = this.findGameForUser(ioSocket.request.user.username);
+        const game = this.findGameForUser(ioSocket.request.user.username);
         if (!game) {
             logger.info(`No game for ${ioSocket.request.user.username} disconnecting`);
             ioSocket.disconnect();
             return;
         }
 
-        let socket = new Socket(ioSocket, { configService: this.configService });
+        const socket = new Socket(ioSocket, { configService: this.configService });
 
-        let player = game.playersAndSpectators[socket.user.username];
+        const player = game.playersAndSpectators[socket.user.username];
         if (!player) {
             return;
         }
@@ -528,19 +530,19 @@ class GameServer {
     }
 
     onSocketDisconnected(socket, reason) {
-        let game = this.findGameForUser(socket.user.username);
+        const game = this.findGameForUser(socket.user.username);
         if (!game) {
             return;
         }
 
         logger.info(`user '${socket.user.username}' disconnected from a game: ${reason}`);
 
-        let player = game.playersAndSpectators[socket.user.username];
+        const player = game.playersAndSpectators[socket.user.username];
         if (player.id !== socket.id) {
             return;
         }
 
-        let isSpectator = player && player.isSpectator();
+        const isSpectator = player && player.isSpectator();
 
         game.disconnect(socket.user.username);
 
@@ -563,13 +565,13 @@ class GameServer {
     }
 
     onLeaveGame(socket) {
-        let game = this.findGameForUser(socket.user.username);
+        const game = this.findGameForUser(socket.user.username);
         if (!game) {
             return;
         }
 
-        let player = game.playersAndSpectators[socket.user.username];
-        let isSpectator = player.isSpectator();
+        const player = game.playersAndSpectators[socket.user.username];
+        const isSpectator = player.isSpectator();
 
         game.leave(socket.user.username);
 
@@ -593,7 +595,7 @@ class GameServer {
     }
 
     onGameMessage(socket, command, ...args) {
-        let game = this.findGameForUser(socket.user.username);
+        const game = this.findGameForUser(socket.user.username);
 
         if (!game) {
             return;

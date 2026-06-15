@@ -49,12 +49,12 @@ function createDataSource(options) {
     throw new Error(`Unknown card source '${options['card-source']}'`);
 }
 
-let options = commandLineArgs(optionsDefinition);
+const options = commandLineArgs(optionsDefinition);
 
-let dataSource = createDataSource(options);
+const dataSource = createDataSource(options);
 
 let fullOutputDir = options['full-output-dir'];
-let partialOutputDir = options['partial-output-dir'];
+const partialOutputDir = options['partial-output-dir'];
 
 if (options.overwrite) {
     execSync('git diff --quiet');
@@ -64,7 +64,7 @@ if (options.overwrite) {
 }
 fs.rmdirSync(partialOutputDir, { recursive: true });
 
-let cardImport = new CardGenerator(dataSource, fullOutputDir, partialOutputDir, options.comments);
+const cardImport = new CardGenerator(dataSource, fullOutputDir, partialOutputDir, options.comments);
 
 const doImport = async () => {
     await cardImport.generate();

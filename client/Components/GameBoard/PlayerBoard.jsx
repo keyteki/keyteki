@@ -18,7 +18,7 @@ const PlayerBoard = (props) => {
         const creatures = groupedCards['creature'] || [];
         let other = [];
 
-        for (let key of Object.keys(groupedCards).filter(
+        for (const key of Object.keys(groupedCards).filter(
             (k) => !['artifact', 'creature'].includes(k)
         )) {
             other = other.concat(groupedCards[key]);

@@ -56,7 +56,7 @@ class PendingGame {
     }
 
     getSaveState() {
-        let players = _.map(this.getPlayers(), (player) => {
+        const players = _.map(this.getPlayers(), (player) => {
             return {
                 houses: player.houses,
                 name: player.name,
@@ -142,7 +142,7 @@ class PendingGame {
         this.addPlayer(id, user);
 
         if (!this.isOwner(this.owner.username)) {
-            let otherPlayer = Object.values(this.players).find(
+            const otherPlayer = Object.values(this.players).find(
                 (player) => player.name !== this.owner.username
             );
 
@@ -182,7 +182,7 @@ class PendingGame {
     }
 
     leave(playerName) {
-        let player = this.getPlayerOrSpectator(playerName);
+        const player = this.getPlayerOrSpectator(playerName);
         if (!player) {
             return;
         }
@@ -207,7 +207,7 @@ class PendingGame {
     }
 
     disconnect(playerName) {
-        let player = this.getPlayerOrSpectator(playerName);
+        const player = this.getPlayerOrSpectator(playerName);
         if (!player) {
             return;
         }
@@ -228,7 +228,7 @@ class PendingGame {
     }
 
     chat(playerName, message) {
-        let player = this.getPlayerOrSpectator(playerName);
+        const player = this.getPlayerOrSpectator(playerName);
         if (!player) {
             return;
         }
@@ -239,7 +239,7 @@ class PendingGame {
     }
 
     selectDeck(playerName, deck) {
-        var player = this.getPlayerByName(playerName);
+        const player = this.getPlayerByName(playerName);
         if (!player) {
             return;
         }
@@ -260,7 +260,7 @@ class PendingGame {
     }
 
     isOwner(playerName) {
-        let player = this.players[playerName];
+        const player = this.players[playerName];
 
         if (!player || !player.owner) {
             return false;
@@ -271,7 +271,7 @@ class PendingGame {
 
     removeAndResetOwner(playerName) {
         if (this.isOwner(playerName)) {
-            let otherPlayer = _.find(this.players, (player) => player.name !== playerName);
+            const otherPlayer = _.find(this.players, (player) => player.name !== playerName);
 
             if (otherPlayer) {
                 this.owner = otherPlayer.user;
@@ -298,7 +298,7 @@ class PendingGame {
             return true;
         }
 
-        let players = Object.values(this.players);
+        const players = Object.values(this.players);
         return (
             !this.owner.hasUserBlocked(user) &&
             !user.hasUserBlocked(this.owner) &&
@@ -308,8 +308,8 @@ class PendingGame {
 
     // Summary
     getSummary(activePlayer) {
-        let playerSummaries = {};
-        let playersInGame = _.filter(this.players, (player) => !player.left);
+        const playerSummaries = {};
+        const playersInGame = _.filter(this.players, (player) => !player.left);
 
         _.each(playersInGame, (player) => {
             let deck;
@@ -373,7 +373,7 @@ class PendingGame {
     getStartGameDetails() {
         const players = {};
 
-        for (let playerDetails of Object.values(this.players)) {
+        for (const playerDetails of Object.values(this.players)) {
             const { name, user, ...rest } = playerDetails;
             players[name] = {
                 name,
@@ -383,7 +383,7 @@ class PendingGame {
         }
 
         const spectators = {};
-        for (let spectatorDetails of Object.values(this.spectators)) {
+        for (const spectatorDetails of Object.values(this.spectators)) {
             const { name, user, ...rest } = spectatorDetails;
             spectators[name] = {
                 name,

@@ -8,10 +8,10 @@ class MenuCommands {
         switch (menuItem.command) {
             case 'activateProphecy':
                 if (game.manualMode && card.isProphecy()) {
-                    let activateProphecyAction = new ActivateProphecyAction({
+                    const activateProphecyAction = new ActivateProphecyAction({
                         prophecyCard: card
                     });
-                    let context = game.getFrameworkContext(player);
+                    const context = game.getFrameworkContext(player);
                     context.source = card;
                     if (activateProphecyAction.canAffect(player, context)) {
                         activateProphecyAction.resolve(player, context);
@@ -20,10 +20,10 @@ class MenuCommands {
                 break;
             case 'deactivateProphecy':
                 if (game.manualMode && card.isProphecy()) {
-                    let deactivateProphecyAction = new DeactivateProphecyAction({
+                    const deactivateProphecyAction = new DeactivateProphecyAction({
                         prophecyCard: card
                     });
-                    let context = game.getFrameworkContext(player);
+                    const context = game.getFrameworkContext(player);
                     context.source = card;
                     if (deactivateProphecyAction.canAffect(player, context)) {
                         deactivateProphecyAction.resolve(player, context);
@@ -32,8 +32,8 @@ class MenuCommands {
                 break;
             case 'fulfillProphecy':
                 if (game.manualMode && card.isProphecy()) {
-                    let fulfillProphecyAction = new FulfillProphecyAction({ card: card });
-                    let context = game.getFrameworkContext(player);
+                    const fulfillProphecyAction = new FulfillProphecyAction({ card: card });
+                    const context = game.getFrameworkContext(player);
                     context.source = card;
                     // The fulfill prophecy action targets the active player (opponent)
                     if (fulfillProphecyAction.canAffect(game.activePlayer, context)) {

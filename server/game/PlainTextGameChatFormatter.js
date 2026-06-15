@@ -29,7 +29,7 @@ class PlainTextGameChatFormatter {
             }
 
             if (key === 'alert') {
-                let message = this.formatMessageFragment(fragment.message);
+                const message = this.formatMessageFragment(fragment.message);
 
                 switch (fragment.type) {
                     case 'endofturn':

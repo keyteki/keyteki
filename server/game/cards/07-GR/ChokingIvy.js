@@ -10,8 +10,9 @@ class ChokingIvy extends Card {
                     return { target: [] };
                 }
 
-                let lowestPower = context.game.creaturesInPlay.sort((a, b) => a.power - b.power)[0]
-                    .power;
+                const lowestPower = context.game.creaturesInPlay.sort(
+                    (a, b) => a.power - b.power
+                )[0].power;
 
                 return {
                     target: context.game.creaturesInPlay.filter(
@@ -27,7 +28,7 @@ class ChokingIvy extends Card {
                         return { target: [] };
                     }
 
-                    let lowestPower = context.game.creaturesInPlay.sort(
+                    const lowestPower = context.game.creaturesInPlay.sort(
                         (a, b) => a.power - b.power
                     )[0].power;
 

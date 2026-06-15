@@ -58,7 +58,7 @@ function httpRequest(url, options = {}) {
             }
 
             if (res.statusCode !== 200) {
-                let err = new Error('Request failed');
+                const err = new Error('Request failed');
                 if (res) {
                     err.statusCode = res.statusCode;
                     err.res = res;
@@ -80,7 +80,7 @@ class KeyforgeApiToKeytekiConverter {
     async convert({ pathToPackFile, language, cyclePrefix, pagesToFetch }) {
         console.log('Loading ' + language + ' cards...');
 
-        let pack = JSON.parse(fs.readFileSync(pathToPackFile));
+        const pack = JSON.parse(fs.readFileSync(pathToPackFile));
 
         this.cyclePrefix = cyclePrefix;
 
@@ -123,16 +123,16 @@ class KeyforgeApiToKeytekiConverter {
         const apiUrl = 'https://www.keyforgegame.com/api/decks';
         const apiLocale = toApiLocale(language);
 
-        let packCardMap = pack.cards.reduce(function (map, obj) {
-            let cardKey = `${obj.number}/${obj.type}/${obj.house}/${obj.rarity.toLowerCase()}`;
+        const packCardMap = pack.cards.reduce(function (map, obj) {
+            const cardKey = `${obj.number}/${obj.type}/${obj.house}/${obj.rarity.toLowerCase()}`;
 
             map[cardKey] = obj;
             return map;
         }, {});
 
         let response;
-        let cards = {};
-        let pageErrors = [];
+        const cards = {};
+        const pageErrors = [];
         let pagesWithNewCards = null;
         let pageIteration;
 
@@ -154,11 +154,11 @@ class KeyforgeApiToKeytekiConverter {
                     });
                     responseReceived = true;
                 } catch (err) {
-                    let res = err.res;
+                    const res = err.res;
 
                     if (res && res.statusCode === 429) {
-                        let timeoutMatch = res.body.detail.match(/(\d+)/);
-                        let timeout = timeoutMatch[1] * 2;
+                        const timeoutMatch = res.body.detail.match(/(\d+)/);
+                        const timeout = timeoutMatch[1] * 2;
 
                         console.info(`API calls being throttled, sleeping for ${timeout} seconds`);
 
@@ -172,8 +172,8 @@ class KeyforgeApiToKeytekiConverter {
                 }
             }
 
-            let deckCount = response.count;
-            let totalPages = Math.ceil(deckCount / pageSize);
+            const deckCount = response.count;
+            const totalPages = Math.ceil(deckCount / pageSize);
             pageIteration = { type: 'full', totalPages };
             pagesWithNewCards = new Set();
 
@@ -181,7 +181,7 @@ class KeyforgeApiToKeytekiConverter {
             console.info(`Looking for ${pack.cardCount} cards`);
         }
 
-        let stupidCards = { MM341: true, MoMu324: true };
+        const stupidCards = { MM341: true, MoMu324: true };
 
         let pageNumbers;
         if (pageIteration.type === 'partial') {
@@ -201,11 +201,11 @@ class KeyforgeApiToKeytekiConverter {
                     { json: true, headers: { 'Accept-Language': apiLocale } }
                 );
             } catch (err) {
-                let res = err.res;
+                const res = err.res;
 
                 if (res && res.statusCode === 429) {
-                    let timeoutMatch = res.body.detail.match(/(\d+)/);
-                    let timeout = timeoutMatch[1] * 2;
+                    const timeoutMatch = res.body.detail.match(/(\d+)/);
+                    const timeout = timeoutMatch[1] * 2;
 
                     console.info(`API calls being throttled, sleeping for ${timeout} seconds`);
 
@@ -228,7 +228,7 @@ class KeyforgeApiToKeytekiConverter {
                 continue;
             }
 
-            for (let card of response._linked.cards) {
+            for (const card of response._linked.cards) {
                 // Fix the house of an anomalies and other special
                 // cards to brobnar so that we can test them until
                 // they get a real house
@@ -240,10 +240,10 @@ class KeyforgeApiToKeytekiConverter {
                     card.rarity = 'Special';
                 }
 
-                let cardKey = `${card.card_number}/${card.card_type}/${
+                const cardKey = `${card.card_number}/${card.card_type}/${
                     card.house
                 }/${card.rarity.toLowerCase()}`;
-                let stupidKey = pack.code + card.card_number;
+                const stupidKey = pack.code + card.card_number;
                 if (
                     !pack.ids.includes('' + card.expansion) ||
                     cards[cardKey] ||
@@ -310,7 +310,7 @@ class KeyforgeApiToKeytekiConverter {
                         type = 'Creature';
                     }
 
-                    let cardKey = `${card.card_number}/${type.toLowerCase()}/${card.house
+                    const cardKey = `${card.card_number}/${type.toLowerCase()}/${card.house
                         .toLowerCase()
                         .replace(' ', '')}/${card.rarity.toLowerCase()}`;
                     newCard = packCardMap[cardKey];
@@ -362,7 +362,7 @@ class KeyforgeApiToKeytekiConverter {
             }
         }
 
-        for (let card of Object.values(cards)) {
+        for (const card of Object.values(cards)) {
             if (card.type === 'creature1') {
                 card.type = 'creature';
             } else if (card.type === 'creature2') {
@@ -371,7 +371,7 @@ class KeyforgeApiToKeytekiConverter {
                     card.id += '2';
                 }
 
-                let cardKey = `${card.number}/Creature1/${
+                const cardKey = `${card.number}/Creature1/${
                     card.house.charAt(0).toUpperCase() + card.house.slice(1)
                 }`;
 
@@ -403,7 +403,7 @@ class KeyforgeApiToKeytekiConverter {
                     h = 'Star Alliance';
                 }
 
-                let keys = [
+                const keys = [
                     `${card.number}/creature/${card.house}/rare`,
                     `${card.number}/Creature/${h}/rare`,
                     `${card.number}/Gigantic Creature Art/${h}/rare`,
@@ -412,7 +412,7 @@ class KeyforgeApiToKeytekiConverter {
                 ];
 
                 let topHalf = null;
-                for (let k of keys) {
+                for (const k of keys) {
                     if (cards[k]) {
                         topHalf = cards[k];
                         break;
@@ -443,16 +443,16 @@ class KeyforgeApiToKeytekiConverter {
     }
 
     parseKeywords(text) {
-        let lines = text.split(/[\n\r\v]/);
+        const lines = text.split(/[\n\r\v]/);
         let potentialKeywords = [];
 
-        for (let line of lines) {
+        for (const line of lines) {
             potentialKeywords = potentialKeywords.concat(
                 line.split('.').map((k) => k.toLowerCase().trim().replace(' ', ':'))
             );
         }
 
-        let printedKeywords = potentialKeywords.filter((potentialKeyword) => {
+        const printedKeywords = potentialKeywords.filter((potentialKeyword) => {
             return ValidKeywords.some((keyword) => potentialKeyword.indexOf(keyword) === 0);
         });
 

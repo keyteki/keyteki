@@ -15,16 +15,16 @@ const optionsDefinition = [
     { name: 'replace', type: String, defaultValue: '' }
 ];
 
-let options = commandLineArgs(optionsDefinition);
+const options = commandLineArgs(optionsDefinition);
 
 function addKey(localeDir, key, value, after, replace) {
-    let languages = ['de', 'en', 'es', 'fr', 'it', 'ko', 'pl', 'pt', 'th', 'zhhans', 'zhhant'];
-    let locales = {};
+    const languages = ['de', 'en', 'es', 'fr', 'it', 'ko', 'pl', 'pt', 'th', 'zhhans', 'zhhant'];
+    const locales = {};
 
-    for (let language of languages) {
-        let file = path.join(localeDir, language + '.json');
+    for (const language of languages) {
+        const file = path.join(localeDir, language + '.json');
         locales[language] = JSON.parse(fs.readFileSync(file, 'utf8'));
-        for (let localeKey of Object.keys(locales[language])) {
+        for (const localeKey of Object.keys(locales[language])) {
             if (localeKey === key) {
                 console.log(
                     'key: [' + key + '] already exists in file ' + file + '. Verify consistency'
@@ -39,8 +39,8 @@ function addKey(localeDir, key, value, after, replace) {
         }
     }
 
-    for (let language of languages) {
-        let file = path.join(localeDir, language + '.json');
+    for (const language of languages) {
+        const file = path.join(localeDir, language + '.json');
         let locale = locales[language];
 
         if (!after && !replace) {
@@ -50,8 +50,8 @@ function addKey(localeDir, key, value, after, replace) {
                 console.log('key: [' + after + '] does not exist in ' + file + '.');
                 return;
             }
-            let newLocale = {};
-            for (let cur of Object.keys(locale)) {
+            const newLocale = {};
+            for (const cur of Object.keys(locale)) {
                 newLocale[cur] = locale[cur];
                 if (cur === after) {
                     newLocale[key] = value ? value : key;
@@ -63,8 +63,8 @@ function addKey(localeDir, key, value, after, replace) {
                 console.log('key: [' + after + '] does not exist in ' + file + '.');
                 return;
             }
-            let newLocale = {};
-            for (let cur of Object.keys(locale)) {
+            const newLocale = {};
+            for (const cur of Object.keys(locale)) {
                 if (cur === replace) {
                     newLocale[key] = value ? value : key === locale[cur] ? key : locale[cur];
                 } else {

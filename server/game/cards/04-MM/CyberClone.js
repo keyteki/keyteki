@@ -16,7 +16,7 @@ class CyberClone extends Card {
                         };
                     }),
                     ability.actions.cardLastingEffect((context) => {
-                        let clone = context.event.targetClone;
+                        const clone = context.event.targetClone;
 
                         let effects = [
                             ability.effects.modifyPower(clone.powerPrinted - 1),

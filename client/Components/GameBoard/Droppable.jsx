@@ -17,7 +17,7 @@ const Droppable = ({ children, manualMode, onDragDrop, source }) => {
     const [{ canDrop, isOver, itemSource }, drop] = useDrop({
         accept: ItemTypes.CARD,
         canDrop: (_, monitor) => {
-            let item = monitor.getItem();
+            const item = monitor.getItem();
 
             if (manualMode) {
                 return (
@@ -36,7 +36,7 @@ const Droppable = ({ children, manualMode, onDragDrop, source }) => {
             return false;
         },
         collect: (monitor) => {
-            let item = monitor.getItem();
+            const item = monitor.getItem();
 
             return {
                 isOver: monitor.isOver(),
@@ -45,21 +45,21 @@ const Droppable = ({ children, manualMode, onDragDrop, source }) => {
             };
         },
         drop: (_, monitor) => {
-            let item = monitor.getItem();
+            const item = monitor.getItem();
 
             if (onDragDrop) {
                 onDragDrop(item.card, item.source, source);
             }
         }
     });
-    let className = classNames('overlay', {
+    const className = classNames('overlay', {
         'drop-ok': isOver && canDrop,
         'no-drop': isOver && !canDrop && source !== itemSource,
         'can-drop': !isOver && canDrop,
         [source]: true
     });
 
-    let dropClass = classNames('drop-target', {
+    const dropClass = classNames('drop-target', {
         [source]: source !== 'play area'
     });
 

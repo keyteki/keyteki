@@ -13,8 +13,8 @@ const bannedDecks = [
     'khyrmn-hierophant-of-the-nihilistic-haunt'
 ];
 
-let db = monk(config.dbPath);
-let gameService = new GameService(db);
+const db = monk(config.dbPath);
+const gameService = new GameService(db);
 /*
 let args = process.argv.slice(2);
 
@@ -26,23 +26,23 @@ if(_.size(args) < 2) {
 }
 */
 
-let start = new Date('2018-08-26T13:00:00');
-let end = new Date();
+const start = new Date('2018-08-26T13:00:00');
+const end = new Date();
 //console.info('Running stats between', args[0], 'and', args[1]);
 console.info('Running stats between', start, 'and', end);
 
 gameService
     .getAllGames(start, end)
     .then((games) => {
-        let rejected = { singlePlayer: 0, noWinner: 0, banned: 0, mirror: 0 };
+        const rejected = { singlePlayer: 0, noWinner: 0, banned: 0, mirror: 0 };
 
         console.info('' + _.size(games), 'total games');
 
-        let players = {};
-        let decks = {};
-        let fpWinRates = { first: 0, second: 0 };
-        let houses = {};
-        for (let house of Constants.Houses) {
+        const players = {};
+        const decks = {};
+        const fpWinRates = { first: 0, second: 0 };
+        const houses = {};
+        for (const house of Constants.Houses) {
             houses[house] = { name: house, wins: 0, losses: 0 };
         }
 
@@ -83,8 +83,8 @@ gameService
                     decks[player.deck] = { name: player.deck, wins: 0, losses: 0 };
                 }
 
-                var playerStat = players[player.name];
-                var deckStat = decks[player.deck];
+                const playerStat = players[player.name];
+                const deckStat = decks[player.deck];
 
                 if (player.name === game.winner) {
                     playerStat.wins++;
@@ -98,15 +98,15 @@ gameService
             });
         });
 
-        let winners = _.chain(players)
+        const winners = _.chain(players)
             .sortBy((player) => {
                 return -player.wins;
             })
             .first(10)
             .value();
 
-        let winRates = _.map(winners, (player) => {
-            let games = player.wins + player.losses;
+        const winRates = _.map(winners, (player) => {
+            const games = player.wins + player.losses;
 
             return {
                 name: player.name,
@@ -116,7 +116,7 @@ gameService
             };
         });
 
-        let winRateStats = _.chain(winRates)
+        const winRateStats = _.chain(winRates)
             .sortBy((player) => {
                 return -player.winRate;
             })
@@ -127,8 +127,8 @@ gameService
         //     return -faction.wins;
         // });
 
-        let deckWinRates = _.map(decks, (deck) => {
-            let games = deck.wins + deck.losses;
+        const deckWinRates = _.map(decks, (deck) => {
+            const games = deck.wins + deck.losses;
 
             return {
                 name: deck.name,
@@ -138,9 +138,9 @@ gameService
             };
         });
 
-        let houseWinRates = _.map(houses, (house) => {
+        const houseWinRates = _.map(houses, (house) => {
             // eslint-disable-line no-unused-vars
-            let games = house.wins + house.losses;
+            const games = house.wins + house.losses;
 
             return {
                 name: house.name,
@@ -150,7 +150,7 @@ gameService
             };
         });
 
-        let deckWinRateStats = _.sortBy(deckWinRates, (deck) => {
+        const deckWinRateStats = _.sortBy(deckWinRates, (deck) => {
             return -deck.winRate;
         });
 

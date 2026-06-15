@@ -21,8 +21,8 @@ class MoveOnBattlelineAction extends CardGameAction {
     preEventHandler(context) {
         super.preEventHandler(context);
 
-        let card = this.target.length > 0 ? this.target[0] : context.source;
-        let player = this.player || context.player.opponent;
+        const card = this.target.length > 0 ? this.target[0] : context.source;
+        const player = this.player || context.player.opponent;
 
         if (!player) {
             return;
@@ -37,7 +37,7 @@ class MoveOnBattlelineAction extends CardGameAction {
                     card.controller === player &&
                     card.type === 'creature',
                 onSelect: (p, card) => {
-                    let choices = ['Left', 'Right'];
+                    const choices = ['Left', 'Right'];
 
                     this.moveIndex = card.controller.cardsInPlay.indexOf(card);
 
@@ -65,9 +65,9 @@ class MoveOnBattlelineAction extends CardGameAction {
             EVENTS.onCardMovedInBattleline,
             { card: card, context: context },
             () => {
-                let player = card.controller;
-                let cardIndex = player.cardsInPlay.indexOf(card);
-                let cardInsertionIndex =
+                const player = card.controller;
+                const cardIndex = player.cardsInPlay.indexOf(card);
+                const cardInsertionIndex =
                     this.moveIndex > cardIndex ? this.moveIndex - 1 : this.moveIndex;
 
                 player.cardsInPlay.splice(cardIndex, 1);

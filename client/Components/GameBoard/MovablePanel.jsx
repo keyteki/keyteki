@@ -59,13 +59,13 @@ const MovablePanel = ({ children, name, onCloseClick, side, title, size }) => {
 
     useEffect(() => {
         if (isDragging && dragOffset) {
-            let style = getStyle(dragOffset);
+            const style = getStyle(dragOffset);
 
             setPosition(style);
         }
     }, [dragOffset, isDragging]);
 
-    let content = (
+    const content = (
         <div
             ref={popupRef}
             className={`panel relative flex flex-col overflow-hidden rounded-md border border-border/70 bg-[color:color-mix(in_oklab,var(--surface)_92%,transparent)] text-foreground ${size}`}

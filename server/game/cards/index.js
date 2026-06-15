@@ -3,20 +3,20 @@ const fs = require('fs');
 const path = require('path');
 
 function getDirectories(srcpath) {
-    let fullPath = path.join(__dirname, srcpath);
+    const fullPath = path.join(__dirname, srcpath);
     return fs.readdirSync(fullPath).filter(function (file) {
         return fs.statSync(path.join(fullPath, file)).isDirectory();
     });
 }
 
 function loadFiles(directory) {
-    let fullPath = path.join(__dirname, directory);
-    let files = fs.readdirSync(fullPath).filter((file) => {
+    const fullPath = path.join(__dirname, directory);
+    const files = fs.readdirSync(fullPath).filter((file) => {
         return !fs.statSync(path.join(fullPath, file)).isDirectory();
     });
 
-    for (let file of files) {
-        let card = require('./' + directory + '/' + file);
+    for (const file of files) {
+        const card = require('./' + directory + '/' + file);
 
         cards[card.id] = card;
     }
@@ -35,9 +35,9 @@ function loadCards(directory) {
 }
 
 let cards = {};
-let directories = getDirectories('.');
+const directories = getDirectories('.');
 
-for (let directory of directories) {
+for (const directory of directories) {
     cards = Object.assign(cards, loadCards(directory));
 }
 

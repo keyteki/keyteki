@@ -11,7 +11,7 @@ const defaultSettings = {
 };
 
 function getUserWithDefaultsSet(user) {
-    let userToReturn = user;
+    const userToReturn = user;
 
     if (!userToReturn) {
         return userToReturn;

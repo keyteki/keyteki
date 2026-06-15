@@ -14,25 +14,25 @@ const optionsDefinition = [
     { name: 'verbose', type: String, defaultValue: '1' }
 ];
 
-let options = commandLineArgs(optionsDefinition);
+const options = commandLineArgs(optionsDefinition);
 
 function verifyLocale(localeDir, sourceLanguage, targetLanguage) {
-    let sourceLanguageFile = path.join(localeDir, sourceLanguage + '.json');
-    let targetLanguageFile = path.join(localeDir, targetLanguage.replace('-', '') + '.json');
+    const sourceLanguageFile = path.join(localeDir, sourceLanguage + '.json');
+    const targetLanguageFile = path.join(localeDir, targetLanguage.replace('-', '') + '.json');
 
-    let sourceLocale = JSON.parse(fs.readFileSync(sourceLanguageFile));
-    let targetLocale = JSON.parse(fs.readFileSync(targetLanguageFile));
+    const sourceLocale = JSON.parse(fs.readFileSync(sourceLanguageFile));
+    const targetLocale = JSON.parse(fs.readFileSync(targetLanguageFile));
 
-    let sourceLocaleKeys = Object.keys(sourceLocale);
-    let targetLocaleKeys = Object.keys(targetLocale);
+    const sourceLocaleKeys = Object.keys(sourceLocale);
+    const targetLocaleKeys = Object.keys(targetLocale);
 
-    let sourceLocaleLength = sourceLocaleKeys.length;
-    let targetLocaleLength = targetLocaleKeys.length;
+    const sourceLocaleLength = sourceLocaleKeys.length;
+    const targetLocaleLength = targetLocaleKeys.length;
 
-    let uniqueKeys = [];
-    let uniqueKeysLower = [];
+    const uniqueKeys = [];
+    const uniqueKeysLower = [];
 
-    for (let key of targetLocaleKeys) {
+    for (const key of targetLocaleKeys) {
         if (uniqueKeys.includes(key)) {
             console.log(targetLanguage + ' locale contains duplicate key: ' + key);
         }
@@ -66,12 +66,12 @@ function verifyLocale(localeDir, sourceLanguage, targetLanguage) {
     }
 
     // Check source keys not in target
-    let missingKeys = sourceLocaleKeys.filter((value) => !targetLocaleKeys.includes(value));
+    const missingKeys = sourceLocaleKeys.filter((value) => !targetLocaleKeys.includes(value));
     if (missingKeys.length !== 0) {
         console.log('>> There are ' + missingKeys.length + ' missing keys in ' + targetLanguage);
 
         if (options['verbose'] === '1') {
-            for (let key of missingKeys) {
+            for (const key of missingKeys) {
                 console.log('    "' + key + '": "' + sourceLocale[key] + '",');
             }
         }
@@ -80,7 +80,7 @@ function verifyLocale(localeDir, sourceLanguage, targetLanguage) {
     }
 
     // A target key not in source
-    let extraKeys = targetLocaleKeys.filter((value) => !sourceLocaleKeys.includes(value));
+    const extraKeys = targetLocaleKeys.filter((value) => !sourceLocaleKeys.includes(value));
     if (extraKeys.length !== 0) {
         console.log('>> There are ' + extraKeys.length + ' extra keys in ' + targetLanguage);
         if (options['verbose'] === '1') {
@@ -95,7 +95,7 @@ function verifyLocale(localeDir, sourceLanguage, targetLanguage) {
     }
 
     if (options['verbose'] === '2') {
-        for (let key of sourceLocaleKeys) {
+        for (const key of sourceLocaleKeys) {
             if (sourceLocale[key] === targetLocale[key]) {
                 console.log(
                     'W: value for key [' + key + '] are equal, confirm: ' + sourceLocale[key]

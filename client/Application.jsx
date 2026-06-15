@@ -58,8 +58,8 @@ const Application = () => {
             setIncompatibleBrowser(true);
         } else {
             try {
-                let token = localStorage.getItem('token');
-                let refreshToken = localStorage.getItem('refreshToken');
+                const token = localStorage.getItem('token');
+                const refreshToken = localStorage.getItem('refreshToken');
                 if (refreshToken) {
                     const parsedToken = tryParseJSON(refreshToken);
                     if (parsedToken) {
@@ -112,11 +112,11 @@ const Application = () => {
             user &&
             activePlayer.name === user.username
         ) {
-            let oldTitle = document.title;
-            let msg = 'Alert!';
+            const oldTitle = document.title;
+            const msg = 'Alert!';
             let timeoutId = false;
 
-            let blink = function () {
+            const blink = function () {
                 document.title = document.title === msg ? oldTitle : msg;
 
                 if (document.hasFocus()) {
@@ -158,7 +158,7 @@ const Application = () => {
 
         if (gameBoardVisible && user && user.settings) {
             let background = 'keyforge';
-            let houseIndex = Constants.HousesNames.indexOf(user.settings.background);
+            const houseIndex = Constants.HousesNames.indexOf(user.settings.background);
             if (houseIndex === -1) {
                 background = `${user?.settings?.background}`;
             } else {

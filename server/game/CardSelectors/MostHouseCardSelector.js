@@ -11,19 +11,19 @@ class MostHouseCardSelector extends ExactlyXCardSelector {
     }
 
     getCardsFromMostHouseInPlay(context) {
-        let possibleCards = this.findPossibleCards(context);
+        const possibleCards = this.findPossibleCards(context);
         if (possibleCards.length === 0) {
             return [];
         }
 
-        let countMap = {};
+        const countMap = {};
         Constants.Houses.forEach(
             (house) =>
                 (countMap[house] = context.game.creaturesInPlay.filter((card) =>
                     card.hasHouse(house)
                 ).length)
         );
-        let houseStats = Object.entries(countMap);
+        const houseStats = Object.entries(countMap);
 
         let mostHouseCount = -1;
         houseStats.forEach((entry) => {
@@ -44,7 +44,7 @@ class MostHouseCardSelector extends ExactlyXCardSelector {
             return false;
         }
 
-        let allowedCards = this.getCardsFromMostHouseInPlay(context);
+        const allowedCards = this.getCardsFromMostHouseInPlay(context);
         return allowedCards.length <= this.numCards;
     }
 }

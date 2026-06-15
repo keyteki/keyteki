@@ -10,7 +10,7 @@ class GameService {
         await db.query('BEGIN');
 
         try {
-            let newGame = await db.query(
+            const newGame = await db.query(
                 'INSERT INTO "Games" ("GameId", "GameType", "GameFormat", "StartedAt") VALUES ($1, $2, $3, $4) RETURNING "Id"',
                 [game.gameId, game.gameType, game.gameFormat, game.startedAt]
             );
@@ -31,7 +31,7 @@ class GameService {
             throw new Error('Failed to create game');
         }
 
-        for (let player of game.players) {
+        for (const player of game.players) {
             try {
                 await db.query(
                     'INSERT INTO "GamePlayers" ("GameId", "PlayerId", "DeckId") VALUES ' +
@@ -64,7 +64,7 @@ class GameService {
             throw new Error('Failed to update game');
         }
 
-        for (let player of game.players) {
+        for (const player of game.players) {
             let keys = 0;
 
             if (player.keys && player.keys.red !== undefined) {
@@ -118,7 +118,7 @@ class GameService {
     }
 
     async findByUserName(username) {
-        let games = await this.games.aggregate([
+        const games = await this.games.aggregate([
             {
                 $lookup: {
                     from: 'decks',
@@ -161,13 +161,13 @@ class GameService {
                 game.decks[1]
             ) {
                 if (game.players[1].name === username) {
-                    let opponent = game.players[0];
+                    const opponent = game.players[0];
                     game.players[0] = game.players[1];
                     game.players[1] = opponent;
                 }
 
                 if (game.players[0].deck === game.decks[1].identity) {
-                    let oppDeck = game.decks[0];
+                    const oppDeck = game.decks[0];
                     game.decks[0] = game.decks[1];
                     game.decks[1] = oppDeck;
                 }

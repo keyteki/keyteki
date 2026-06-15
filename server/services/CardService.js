@@ -62,8 +62,8 @@ class CardService {
             };
         }
 
-        let cardsById = {};
-        for (let card of cards) {
+        const cardsById = {};
+        for (const card of cards) {
             try {
                 const expansion = expansionsByNumber[card.expansion];
 
@@ -80,7 +80,7 @@ class CardService {
                     continue;
                 }
 
-                let ret = await db.query(
+                const ret = await db.query(
                     'INSERT INTO "Cards" ("CardId", "Name", "Number", "Image", "Keywords", "Traits", "HouseId", "ExpansionId", "Type", "Rarity", "Amber", "Armor", "Power", "Text")' +
                         ' VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING "Id"',
                     [
@@ -130,7 +130,7 @@ class CardService {
             return this.cardCache;
         }
 
-        let redisCards = await this.redis.get('cards');
+        const redisCards = await this.redis.get('cards');
         if (redisCards) {
             logger.info('Found cached cards in redis');
 
@@ -153,9 +153,9 @@ class CardService {
             return [];
         }
 
-        let retCards = {};
+        const retCards = {};
 
-        for (let card of cards) {
+        for (const card of cards) {
             let languages = [];
             try {
                 languages = await db.query('SELECT * FROM "CardLocaleNames" WHERE "CardId" = $1', [
@@ -185,7 +185,7 @@ class CardService {
             return this.cardExpansionCache[expansionId];
         }
 
-        let redisCards = await this.redis.get(`cards:${expansionId}`);
+        const redisCards = await this.redis.get(`cards:${expansionId}`);
         if (redisCards) {
             logger.info(`Found cached cards for ${expansionId} in redis`);
 
@@ -208,9 +208,9 @@ class CardService {
             return [];
         }
 
-        let retCards = {};
+        const retCards = {};
 
-        for (let card of cards) {
+        for (const card of cards) {
             let languages = [];
             try {
                 languages = await db.query('SELECT * FROM "CardLocaleNames" WHERE "CardId" = $1', [
@@ -256,7 +256,7 @@ class CardService {
     }
 
     mapCard(card, languages, options, locale) {
-        let retCard = {
+        const retCard = {
             id: card.CardId,
             name: card.Name,
             type: card.Type,
@@ -269,7 +269,7 @@ class CardService {
             locale: locale
         };
 
-        for (let language of languages) {
+        for (const language of languages) {
             retCard.locale[language.Locale] = { name: language.Name };
         }
 

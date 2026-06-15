@@ -29,7 +29,7 @@ function httpRequest(url, options = {}) {
             }
 
             if (res.statusCode !== 200) {
-                let err = new Error('Request failed');
+                const err = new Error('Request failed');
                 if (res) {
                     err.statusCode = res.statusCode;
                     err.res = res;
@@ -47,7 +47,7 @@ class DecksOfKeyforgeApiToKeytekiConverter {
     async convert({ pathToPackFile, language, cyclePrefix }) {
         console.log('Loading ' + language + ' cards...');
 
-        let pack = JSON.parse(fs.readFileSync(pathToPackFile));
+        const pack = JSON.parse(fs.readFileSync(pathToPackFile));
 
         this.cyclePrefix = cyclePrefix;
 
@@ -79,13 +79,13 @@ class DecksOfKeyforgeApiToKeytekiConverter {
             'CardData.SearchText,CardData.SearchFlavorText,CardData.Traits,CardData.Armor,CardData.Source,CardData.Amber,' +
             'CardData._rowID&limit=300&offset=0&order_by=CardNumber';
 
-        let packCardMap = pack.cards.reduce(function (map, obj) {
+        const packCardMap = pack.cards.reduce(function (map, obj) {
             map[obj.number] = obj;
             return map;
         }, {});
 
         let response;
-        let cards = {};
+        const cards = {};
 
         let responseReceived = false;
 
@@ -101,12 +101,12 @@ class DecksOfKeyforgeApiToKeytekiConverter {
         }
 
         let generatedNumber = 900;
-        let generatedNumberCards = {};
+        const generatedNumberCards = {};
 
         console.log(`Loading ${response.cargoquery.length} cards`);
 
-        for (let el of response.cargoquery) {
-            let card = el.title;
+        for (const el of response.cargoquery) {
+            const card = el.title;
 
             if (!card.CardNumber) {
                 generatedNumberCards[card.cardTitle] =
@@ -154,7 +154,7 @@ class DecksOfKeyforgeApiToKeytekiConverter {
             let newCard = null;
 
             if (language === 'en') {
-                let cardText = !card.SearchText
+                const cardText = !card.SearchText
                     ? ''
                     : card.SearchText.replace(/&lt;/gi, '<')
                           .replace(/&gt;/gi, '>')
@@ -243,17 +243,17 @@ class DecksOfKeyforgeApiToKeytekiConverter {
     }
 
     parseKeywords(text) {
-        let lines = text.split(/[\r\v]/);
+        const lines = text.split(/[\r\v]/);
         let potentialKeywords = [];
 
-        for (let line of lines) {
+        for (const line of lines) {
             potentialKeywords = potentialKeywords.concat(
                 line.split('.').map((k) => k.toLowerCase().trim().replace(' ', ':'))
             );
             console.log(line, potentialKeywords);
         }
 
-        let printedKeywords = potentialKeywords.filter((potentialKeyword) => {
+        const printedKeywords = potentialKeywords.filter((potentialKeyword) => {
             return ValidKeywords.some((keyword) => potentialKeyword.indexOf(keyword) === 0);
         });
 

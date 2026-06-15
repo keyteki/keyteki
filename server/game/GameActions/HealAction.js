@@ -29,7 +29,7 @@ class HealAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        let amount = Math.min(card.damage || 0, this.amount);
+        const amount = Math.min(card.damage || 0, this.amount);
         return super.createEvent(EVENTS.onHeal, { amount, card, context }, (event) => {
             if (this.fully) {
                 event.amount = card.damage;

@@ -15,7 +15,7 @@ class PatreonService {
 
     async getPatreonStatusForUser(user) {
         let response;
-        let patreonApiClient = patreonAPI(user.patreon.access_token);
+        const patreonApiClient = patreonAPI(user.patreon.access_token);
 
         try {
             response = await patreonApiClient('/current_user', {
@@ -37,8 +37,8 @@ class PatreonService {
             return 'none';
         }
 
-        let { id } = response.rawJson.data;
-        let pUser = response.store.find('user', id);
+        const { id } = response.rawJson.data;
+        const pUser = response.store.find('user', id);
 
         if (!pUser || !pUser.pledges || pUser.pledges.length === 0) {
             return 'linked';
@@ -59,7 +59,7 @@ class PatreonService {
             return undefined;
         }
 
-        let userDetails = user.getDetails();
+        const userDetails = user.getDetails();
         // eslint-disable-next-line require-atomic-updates
         user.patreon = userDetails.patreon = response;
 
@@ -104,7 +104,7 @@ class PatreonService {
 
         response.date = new Date();
 
-        let user = await this.userService.getUserByUsername(username);
+        const user = await this.userService.getUserByUsername(username);
         if (!user) {
             logger.error('Error linking patreon account, user not found');
             return false;
@@ -113,7 +113,7 @@ class PatreonService {
         user.patreon = response;
 
         try {
-            let password = user.password;
+            const password = user.password;
 
             user.password = undefined;
             await this.userService.update(user);
@@ -128,7 +128,7 @@ class PatreonService {
     }
 
     async unlinkAccount(username) {
-        let user = await this.userService.getUserByUsername(username);
+        const user = await this.userService.getUserByUsername(username);
         if (!user) {
             logger.error('Error unlinking patreon account, user not found');
             return false;

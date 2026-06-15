@@ -12,7 +12,7 @@ class FirstOrLast extends Card {
                     mode: 'select',
                     choices: {
                         Highest: ability.actions.purge((context) => {
-                            let highestPower = context.game.creaturesInPlay.sort(
+                            const highestPower = context.game.creaturesInPlay.sort(
                                 (a, b) => b.power - a.power
                             )[0].power;
                             return {
@@ -22,7 +22,7 @@ class FirstOrLast extends Card {
                             };
                         }),
                         Lowest: ability.actions.purge((context) => {
-                            let lowestPower = context.game.creaturesInPlay.sort(
+                            const lowestPower = context.game.creaturesInPlay.sort(
                                 (a, b) => a.power - b.power
                             )[0].power;
 

@@ -41,7 +41,7 @@ class RearrangeCardsAction extends PlayerAction {
     preEventHandler(context) {
         super.preEventHandler(context);
 
-        let player = this.target[0];
+        const player = this.target[0];
         this.amount = Math.min(this.amount, player.deck.length);
         this.orderedCards = this.amount === 1 ? player.deck.slice(0, 1) : [];
         this.remainingCards = player.deck.slice(0, this.amount);

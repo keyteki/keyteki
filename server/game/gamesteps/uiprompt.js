@@ -36,7 +36,7 @@ class UiPrompt extends BaseStep {
     activePrompt(player) {}
 
     addDefaultCommandToButtons(original) {
-        var prompt = _.clone(original);
+        const prompt = _.clone(original);
         if (prompt.buttons) {
             _.each(prompt.buttons, (button) => {
                 button.command = button.command || 'menuButton';
@@ -45,7 +45,7 @@ class UiPrompt extends BaseStep {
         }
 
         if (prompt.controls) {
-            for (let [index, control] of prompt.controls.entries()) {
+            for (const [index, control] of prompt.controls.entries()) {
                 control.uuid = `${this.uuid}:${index}`;
             }
         }
@@ -58,7 +58,7 @@ class UiPrompt extends BaseStep {
     }
 
     continue() {
-        var completed = this.isComplete();
+        const completed = this.isComplete();
 
         if (completed) {
             this.clearPrompts();

@@ -13,8 +13,8 @@ class CardGameAction extends GameAction {
     }
 
     hasLegalTarget(context) {
-        let result = super.hasLegalTarget(context);
-        let contextCopy = context.copy();
+        const result = super.hasLegalTarget(context);
+        const contextCopy = context.copy();
         contextCopy.stage = 'effect';
         if (this.promptForSelect) {
             return this.getSelector().hasEnoughTargets(contextCopy);
@@ -33,8 +33,8 @@ class CardGameAction extends GameAction {
     }
 
     getSelector() {
-        let condition = this.promptForSelect.cardCondition || (() => true);
-        let cardCondition = (card, context) =>
+        const condition = this.promptForSelect.cardCondition || (() => true);
+        const cardCondition = (card, context) =>
             this.canAffect(card, context) && condition(card, context);
 
         return CardSelector.for(
@@ -45,13 +45,13 @@ class CardGameAction extends GameAction {
     preEventHandler(context) {
         super.preEventHandler(context);
         if (this.promptForSelect) {
-            let selector = this.getSelector();
+            const selector = this.getSelector();
             this.target = [];
             if (!selector.hasEnoughTargets(context)) {
                 return;
             }
 
-            let defaultProperties = {
+            const defaultProperties = {
                 player: context.player,
                 context: context,
                 selector: selector,
@@ -73,10 +73,10 @@ class CardGameAction extends GameAction {
                     return true;
                 }
             };
-            let properties = Object.assign(defaultProperties, this.promptForSelect);
+            const properties = Object.assign(defaultProperties, this.promptForSelect);
             context.game.promptForSelect(context.game.activePlayer, properties);
         } else if (this.promptWithHandlerMenu) {
-            let properties = this.promptWithHandlerMenu;
+            const properties = this.promptWithHandlerMenu;
             if (!properties.customHandler) {
                 properties.cards = properties.cards.filter((card) => this.canAffect(card, context));
                 this.target = [];
@@ -94,7 +94,7 @@ class CardGameAction extends GameAction {
                 properties.cardHandler = (card) => properties.customHandler(card, this);
             }
 
-            let defaultProperties = {
+            const defaultProperties = {
                 context: context,
                 cardHandler: (card) => {
                     this.setTarget(card);

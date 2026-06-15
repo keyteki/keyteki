@@ -1,7 +1,7 @@
 const path = require('path');
 const KeyforgeApiToKeytekiConverter = require('../src/KeyforgeApiToKeytekiConverter');
 
-let converter = new KeyforgeApiToKeytekiConverter();
+const converter = new KeyforgeApiToKeytekiConverter();
 
 const Languages = ['en', 'de', 'es', 'fr', 'it', 'pl', 'pt', 'ru', 'th', 'vi', 'zhhans', 'zhhant'];
 

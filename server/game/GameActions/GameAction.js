@@ -43,7 +43,7 @@ class GameAction {
     }
 
     applyProperties(properties) {
-        for (let [key, value] of Object.entries(properties)) {
+        for (const [key, value] of Object.entries(properties)) {
             if (value !== undefined) {
                 this[key] = value;
             }
@@ -82,9 +82,9 @@ class GameAction {
         }
 
         this.preEventHandler(context);
-        let dummyEvent = context.game.getEvent(EVENTS.unnamedEvent);
+        const dummyEvent = context.game.getEvent(EVENTS.unnamedEvent);
         context.game.queueSimpleStep(() => {
-            for (let event of this.getEventArray(context)) {
+            for (const event of this.getEventArray(context)) {
                 dummyEvent.addChildEvent(event);
             }
         });
@@ -136,7 +136,7 @@ class GameAction {
             params.noGameStateCheck = true;
         }
 
-        let event = new Event(name, params, handler, this);
+        const event = new Event(name, params, handler, this);
         return event;
     }
 }

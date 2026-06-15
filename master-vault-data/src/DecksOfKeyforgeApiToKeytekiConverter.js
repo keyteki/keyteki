@@ -29,7 +29,7 @@ function httpRequest(url, options = {}) {
             }
 
             if (res.statusCode !== 200) {
-                let err = new Error('Request failed');
+                const err = new Error('Request failed');
                 if (res) {
                     err.statusCode = res.statusCode;
                     err.res = res;
@@ -47,7 +47,7 @@ class DecksOfKeyforgeApiToKeytekiConverter {
     async convert({ pathToPackFile, language, cyclePrefix }) {
         console.log('Loading ' + language + ' cards...');
 
-        let pack = JSON.parse(fs.readFileSync(pathToPackFile));
+        const pack = JSON.parse(fs.readFileSync(pathToPackFile));
 
         this.cyclePrefix = cyclePrefix;
 
@@ -70,13 +70,13 @@ class DecksOfKeyforgeApiToKeytekiConverter {
     async getCards(pack, language) {
         const apiUrl = 'https://decksofkeyforge.com/api/spoilers';
 
-        let packCardMap = pack.cards.reduce(function (map, obj) {
+        const packCardMap = pack.cards.reduce(function (map, obj) {
             map[obj.number] = obj;
             return map;
         }, {});
 
         let response;
-        let cards = {};
+        const cards = {};
 
         let responseReceived = false;
 
@@ -92,8 +92,8 @@ class DecksOfKeyforgeApiToKeytekiConverter {
         }
 
         let generatedNumber = 900;
-        let generatedNumberCards = {};
-        for (let card of response) {
+        const generatedNumberCards = {};
+        for (const card of response) {
             if (!card.cardNumber) {
                 generatedNumberCards[card.cardTitle] =
                     generatedNumberCards[card.cardTitle] || ++generatedNumber;
@@ -187,16 +187,16 @@ class DecksOfKeyforgeApiToKeytekiConverter {
     }
 
     parseKeywords(text) {
-        let lines = text.split(/[\r\v]/);
+        const lines = text.split(/[\r\v]/);
         let potentialKeywords = [];
 
-        for (let line of lines) {
+        for (const line of lines) {
             potentialKeywords = potentialKeywords.concat(
                 line.split('.').map((k) => k.toLowerCase().trim().replace(' ', ':'))
             );
         }
 
-        let printedKeywords = potentialKeywords.filter((potentialKeyword) => {
+        const printedKeywords = potentialKeywords.filter((potentialKeyword) => {
             return ValidKeywords.some((keyword) => potentialKeyword.indexOf(keyword) === 0);
         });
 

@@ -59,7 +59,7 @@ class ReturnToDeckAction extends CardGameAction {
     }
 
     hasLegalTarget(context) {
-        let result = super.hasLegalTarget(context);
+        const result = super.hasLegalTarget(context);
         // Shuffles with empty target arrays is allowed.
         if (!result && this.shuffle && this.target.length == 0) {
             return true;
@@ -101,8 +101,9 @@ class ReturnToDeckAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        let eventName = card.location === 'play area' ? EVENTS.onCardLeavesPlay : EVENTS.onMoveCard;
-        let deckLength = card.owner.getSourceList('deck').length;
+        const eventName =
+            card.location === 'play area' ? EVENTS.onCardLeavesPlay : EVENTS.onMoveCard;
+        const deckLength = card.owner.getSourceList('deck').length;
 
         return super.createEvent(
             eventName,
@@ -112,7 +113,7 @@ class ReturnToDeckAction extends CardGameAction {
                     bottom: this.bottom,
                     aboutToShuffle: this.shuffle
                 });
-                let cardsByOwner = this.target.filter((c) => c.owner === card.owner);
+                const cardsByOwner = this.target.filter((c) => c.owner === card.owner);
                 if (
                     this.shuffle &&
                     cardsByOwner.findIndex((c) => c === card) === cardsByOwner.length - 1

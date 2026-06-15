@@ -7,8 +7,8 @@ class EventHorizon extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.discard((context) => {
-                let deck = context.player.deck;
-                let index = deck.findIndex((card) => card.getType() === 'action');
+                const deck = context.player.deck;
+                const index = deck.findIndex((card) => card.getType() === 'action');
                 if (index > -1) {
                     return { target: deck.slice(0, index + 1) };
                 }
@@ -16,7 +16,7 @@ class EventHorizon extends Card {
                 return { target: deck };
             }),
             then: (context) => {
-                let card = context.player.deck.find((card) => card.getType() === 'action');
+                const card = context.player.deck.find((card) => card.getType() === 'action');
                 if (card) {
                     return {
                         message: '{0} plays {3}',

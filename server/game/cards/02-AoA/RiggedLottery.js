@@ -24,14 +24,14 @@ class RiggedLottery extends Card {
                 }))
             ],
             then: (preThenContext) => {
-                let myCards =
+                const myCards =
                     preThenContext.player.deck.length > 0
                         ? preThenContext.player.deck.slice(
                               0,
                               Math.min(5, preThenContext.player.deck.length)
                           )
                         : [];
-                let theirCards =
+                const theirCards =
                     preThenContext.player.opponent && preThenContext.player.opponent.deck.length > 0
                         ? preThenContext.player.opponent.deck.slice(
                               0,

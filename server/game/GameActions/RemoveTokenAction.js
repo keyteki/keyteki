@@ -25,7 +25,7 @@ class RemoveTokenAction extends CardGameAction {
     }
 
     getAmount(card) {
-        let tokenCount = card.tokens[this.type] || 0;
+        const tokenCount = card.tokens[this.type] || 0;
         return this.all ? tokenCount : Math.min(tokenCount, this.amount);
     }
 

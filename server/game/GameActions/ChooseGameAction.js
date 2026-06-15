@@ -27,7 +27,7 @@ class ChooseGameAction extends GameAction {
             (array, actions) => array.concat(actions),
             []
         );
-        for (let gameAction of this.gameActions) {
+        for (const gameAction of this.gameActions) {
             gameAction.update(context);
         }
 
@@ -36,26 +36,26 @@ class ChooseGameAction extends GameAction {
 
     setTarget(target) {
         super.setTarget(target);
-        for (let gameAction of this.gameActions) {
+        for (const gameAction of this.gameActions) {
             gameAction.setDefaultTarget(() => target);
         }
     }
 
     preEventHandler(context) {
         super.preEventHandler(context);
-        let activePromptTitle = this.activePromptTitle;
+        const activePromptTitle = this.activePromptTitle;
         let choices = Object.keys(this.choices);
         choices = choices.filter((key) =>
             this.choices[key].some((action) => action.hasLegalTarget(context))
         );
-        let handlers = choices.map((choice) => {
+        const handlers = choices.map((choice) => {
             return () => {
                 this.choice = choice;
                 if (this.messages[choice]) {
                     context.game.addMessage(this.messages[choice], context.player, this.target);
                 }
 
-                for (let gameAction of this.choices[choice]) {
+                for (const gameAction of this.choices[choice]) {
                     context.game.queueSimpleStep(() => gameAction.preEventHandler(context));
                 }
             };

@@ -26,7 +26,7 @@ class PutIntoArchivesAction extends CardGameAction {
             EVENTS.onCardPutIntoArchives,
             { card: card, context: context },
             () => {
-                let player = this.owner
+                const player = this.owner
                     ? card.owner
                     : this.opponent
                     ? context.player.opponent

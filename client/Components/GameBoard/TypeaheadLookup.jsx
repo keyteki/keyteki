@@ -12,7 +12,7 @@ import Typeahead from '../Form/Typeahead';
  * @param {TypeaheadLookupProps} props
  */
 const TypeaheadLookup = (props) => {
-    let [selectedValue, setSelectedValue] = useState();
+    const [selectedValue, setSelectedValue] = useState();
 
     const handleDoneClick = () => {
         if (selectedValue) {

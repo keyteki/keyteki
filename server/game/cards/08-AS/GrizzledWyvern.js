@@ -20,11 +20,11 @@ class GrizzledWyvern extends Card {
                 activePromptTitle: 'Choose how many to capture from opponent',
                 mode: 'options',
                 options: (context) => {
-                    let amber = context.player.amber;
-                    let oppAmber = Math.min(context.player.opponent.amber, 6);
+                    const amber = context.player.amber;
+                    const oppAmber = Math.min(context.player.opponent.amber, 6);
 
-                    let minAmber = Math.max(0, 6 - amber);
-                    let options = [];
+                    const minAmber = Math.max(0, 6 - amber);
+                    const options = [];
 
                     options.push({ name: '' + oppAmber, value: oppAmber });
 

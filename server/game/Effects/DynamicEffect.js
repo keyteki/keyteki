@@ -13,8 +13,8 @@ class DynamicEffect extends StaticEffect {
     }
 
     recalculate(target) {
-        let oldValue = this.getValue(target);
-        let newValue = this.calculate(target, this.context);
+        const oldValue = this.getValue(target);
+        const newValue = this.calculate(target, this.context);
         this.values[target.uuid] = newValue;
 
         if (

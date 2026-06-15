@@ -5,7 +5,7 @@ const { EVENTS } = require('../Events/types');
 
 class BasePlayAction extends BaseAbility {
     constructor(card, target) {
-        let properties = { cost: Costs.play() };
+        const properties = { cost: Costs.play() };
         if (target) {
             properties.target = target;
         }
@@ -46,7 +46,7 @@ class BasePlayAction extends BaseAbility {
     }
 
     addSubEvent(event, context) {
-        let bonusEvent = context.game.getEvent(EVENTS.unnamedEvent, {}, () => {
+        const bonusEvent = context.game.getEvent(EVENTS.unnamedEvent, {}, () => {
             context.game.checkGameState(true);
             // update game state to consider effects
             if (context.source.hasKeyword('omega')) {
@@ -73,7 +73,7 @@ class BasePlayAction extends BaseAbility {
     }
 
     executeHandler(context) {
-        let event = context.game.getEvent(
+        const event = context.game.getEvent(
             EVENTS.onCardPlayed,
             {
                 player: context.player,

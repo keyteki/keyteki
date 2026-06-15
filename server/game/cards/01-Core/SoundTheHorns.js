@@ -5,8 +5,8 @@ class SoundTheHorns extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.discard((context) => {
-                let deck = context.player.deck;
-                let index = deck.findIndex(
+                const deck = context.player.deck;
+                const index = deck.findIndex(
                     (card) => card.type === 'creature' && card.hasHouse('brobnar')
                 );
                 if (index > -1) {
@@ -16,7 +16,7 @@ class SoundTheHorns extends Card {
                 return { target: deck };
             }),
             then: (context) => {
-                let card = context.player.deck.find(
+                const card = context.player.deck.find(
                     (card) => card.type === 'creature' && card.hasHouse('brobnar')
                 );
                 if (card) {

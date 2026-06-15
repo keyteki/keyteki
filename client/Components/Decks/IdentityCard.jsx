@@ -30,7 +30,7 @@ const IdentityCard = ({ deck }) => {
             title={accoladesTitle}
             onMouseMove={(event) => {
                 let y = event.clientY;
-                let yPlusHeight = y + 364;
+                const yPlusHeight = y + 364;
 
                 if (yPlusHeight >= window.innerHeight) {
                     y -= yPlusHeight - window.innerHeight;

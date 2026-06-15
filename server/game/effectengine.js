@@ -57,7 +57,9 @@ class EffectEngine {
     }
 
     checkTerminalConditions() {
-        let effectsToTrigger = this.terminalConditions.filter((effect) => effect.checkCondition());
+        const effectsToTrigger = this.terminalConditions.filter((effect) =>
+            effect.checkCondition()
+        );
         if (effectsToTrigger.length > 0) {
             this.game.openEventWindow(effectsToTrigger.map((effect) => effect.getEvent()));
         }
@@ -239,8 +241,8 @@ class EffectEngine {
             return;
         }
 
-        let eventNames = Object.keys(effect.until);
-        let handler = this.createCustomDurationHandler(effect);
+        const eventNames = Object.keys(effect.until);
+        const handler = this.createCustomDurationHandler(effect);
         _.each(eventNames, (eventName) => {
             this.customDurationEvents.push({
                 name: eventName,
@@ -252,7 +254,9 @@ class EffectEngine {
     }
 
     unregisterCustomDurationEvents(effect) {
-        let eventsForEffect = this.customDurationEvents.filter((event) => event.effect === effect);
+        const eventsForEffect = this.customDurationEvents.filter(
+            (event) => event.effect === effect
+        );
 
         _.each(eventsForEffect, (event) => {
             //console.log('unregisterCustomDurationEvents', effect.source.name, effect.effect.type, effect.targets.map(t => t.name), effect.match.name);
@@ -266,8 +270,8 @@ class EffectEngine {
 
     createCustomDurationHandler(customDurationEffect) {
         return (...args) => {
-            let event = args[0];
-            let listener = customDurationEffect.until[event.name];
+            const event = args[0];
+            const listener = customDurationEffect.until[event.name];
             if (listener && listener(...args)) {
                 customDurationEffect.cancel();
                 this.unregisterCustomDurationEvents(customDurationEffect);
@@ -277,7 +281,7 @@ class EffectEngine {
     }
 
     unapplyAndRemove(match) {
-        let matchingEffects = this.effects.filter(match);
+        const matchingEffects = this.effects.filter(match);
         _.each(matchingEffects, (effect) => {
             //console.log('unapplyAndRemove', effect.source.name, effect.effect.type, effect.targets.map(t => t.name), effect.match.name);
             effect.cancel();

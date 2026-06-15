@@ -11,7 +11,7 @@ class Deck {
         }
 
         data.cards = data.cards.map((card) => {
-            let result = {
+            const result = {
                 count: card.count,
                 card: card.card
             };
@@ -60,7 +60,7 @@ class Deck {
         this.eachRepeatedCard(
             this.data.cards.filter((c) => c.card && !c.card.isNonDeck),
             (cardData) => {
-                let card = this.createCard(player, cardData);
+                const card = this.createCard(player, cardData);
                 if (card) {
                     card.setupAbilities();
                     card.location = 'deck';
@@ -69,7 +69,7 @@ class Deck {
             }
         );
 
-        let tokenCard = this.data.cards.find(
+        const tokenCard = this.data.cards.find(
             (c) => c.card && c.card.isNonDeck && c.card.type === 'token creature'
         );
 
@@ -117,7 +117,7 @@ class Deck {
             return new Card(player, cardData);
         }
 
-        let cardClass = cards[cardData.id];
+        const cardClass = cards[cardData.id];
         return new cardClass(player, cardData);
     }
 }

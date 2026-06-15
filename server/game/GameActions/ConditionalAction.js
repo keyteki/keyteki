@@ -8,12 +8,12 @@ class ConditionalAction extends GameAction {
 
     setDefaultTarget(func) {
         if (this.trueGameAction) {
-            for (let gameAction of this.trueGameAction) {
+            for (const gameAction of this.trueGameAction) {
                 gameAction.setDefaultTarget(func);
             }
         }
         if (this.falseGameAction) {
-            for (let gameAction of this.falseGameAction) {
+            for (const gameAction of this.falseGameAction) {
                 gameAction.setDefaultTarget(func);
             }
         }
@@ -27,9 +27,9 @@ class ConditionalAction extends GameAction {
             condition = condition(context);
         }
 
-        let gameAction = condition ? this.trueGameAction : this.falseGameAction;
+        const gameAction = condition ? this.trueGameAction : this.falseGameAction;
         if (gameAction) {
-            for (let action of gameAction) {
+            for (const action of gameAction) {
                 action.preEventHandler(context);
             }
         }
@@ -45,13 +45,13 @@ class ConditionalAction extends GameAction {
         }
 
         if (this.trueGameAction) {
-            for (let gameAction of this.trueGameAction) {
+            for (const gameAction of this.trueGameAction) {
                 gameAction.setTarget(target);
             }
         }
 
         if (this.falseGameAction) {
-            for (let gameAction of this.falseGameAction) {
+            for (const gameAction of this.falseGameAction) {
                 gameAction.setTarget(target);
             }
         }
@@ -61,13 +61,13 @@ class ConditionalAction extends GameAction {
         super.update(context);
 
         if (this.trueGameAction) {
-            for (let gameAction of this.trueGameAction) {
+            for (const gameAction of this.trueGameAction) {
                 gameAction.update(context);
             }
         }
 
         if (this.falseGameAction) {
-            for (let gameAction of this.falseGameAction) {
+            for (const gameAction of this.falseGameAction) {
                 gameAction.update(context);
             }
         }
@@ -99,7 +99,7 @@ class ConditionalAction extends GameAction {
             condition = condition(context);
         }
 
-        let gameAction = condition ? this.trueGameAction : this.falseGameAction;
+        const gameAction = condition ? this.trueGameAction : this.falseGameAction;
 
         return gameAction
             ? gameAction.reduce((array, action) => array.concat(action.getEventArray(context)), [])

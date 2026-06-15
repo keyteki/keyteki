@@ -7,13 +7,13 @@ class AFairGame extends Card {
             condition: (context) => !!context.player.opponent,
             effect: "discard the top card of {1}'s deck ({2}) and reveal their hand ({3}), gaining {4} amber. Then {1} discards the top card of {5}'s deck ({6}) and reveals their hand ({7}), gaining {8} amber",
             effectArgs: (context) => {
-                let oppTop =
+                const oppTop =
                     context.player.opponent.deck.length > 0
                         ? context.player.opponent.deck[0]
                         : null;
-                let oppHand = context.player.opponent.hand.map((card) => card).sort();
-                let myTop = context.player.deck.length > 0 ? context.player.deck[0] : null;
-                let myHand = context.player.hand.map((card) => card).sort();
+                const oppHand = context.player.opponent.hand.map((card) => card).sort();
+                const myTop = context.player.deck.length > 0 ? context.player.deck[0] : null;
+                const myHand = context.player.hand.map((card) => card).sort();
                 return [
                     context.player.opponent,
                     oppTop || 'nothing',
@@ -41,7 +41,7 @@ class AFairGame extends Card {
                         .map((player) => player.deck[0])
                 })),
                 ability.actions.gainAmber((context) => {
-                    let oppTop =
+                    const oppTop =
                         context.player.opponent.deck.length > 0
                             ? context.player.opponent.deck[0]
                             : '';
@@ -56,7 +56,7 @@ class AFairGame extends Card {
                     return { amount: 0 };
                 }),
                 ability.actions.gainAmber((context) => {
-                    let myTop = context.player.deck.length > 0 ? context.player.deck[0] : '';
+                    const myTop = context.player.deck.length > 0 ? context.player.deck[0] : '';
                     if (myTop) {
                         return {
                             target: context.player.opponent,

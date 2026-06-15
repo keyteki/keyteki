@@ -53,7 +53,7 @@ class BaseCardSelector {
         let possibleCards = [];
         if (this.controller !== 'opponent') {
             possibleCards = this.location.reduce((array, location) => {
-                let cards = context.player.getSourceList(location);
+                const cards = context.player.getSourceList(location);
                 if (location === 'play area') {
                     return array.concat(
                         cards,
@@ -67,7 +67,7 @@ class BaseCardSelector {
 
         if (this.controller !== 'self' && context.player.opponent) {
             possibleCards = this.location.reduce((array, location) => {
-                let cards = context.player.opponent.getSourceList(location);
+                const cards = context.player.opponent.getSourceList(location);
                 if (location === 'play area') {
                     return array.concat(
                         cards,

@@ -29,8 +29,8 @@ class ChainBiddingPrompt extends AllPlayerPrompt {
 
     menuCommand(player, arg) {
         if (arg === 'pass') {
-            let deck = this.adaptive.selection[0];
-            let link = {
+            const deck = this.adaptive.selection[0];
+            const link = {
                 link: 'https://www.keyforgegame.com/deck-details/' + deck.uuid,
                 argType: 'link',
                 label: deck.deckName

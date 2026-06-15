@@ -75,7 +75,7 @@ class TriggeredAbility extends CardAbility {
             return;
         }
 
-        let context = this.createContext(player, event);
+        const context = this.createContext(player, event);
         if (this.card.reactions.includes(this) || this.isLastingAbilityTrigger) {
             if (this.multiTriggerEvent) {
                 // For per-subject triggers, only the `when` clause is
@@ -155,13 +155,14 @@ class TriggeredAbility extends CardAbility {
     }
 
     isFight() {
-        let { play, fight, reap } = this.properties;
+        const { play, fight } = this.properties;
+        let { reap } = this.properties;
         reap = reap || (play && this.card.anyEffect('playAbilitiesAddReap'));
         return fight || (reap && this.card.anyEffect('reapAbilitiesAddFight'));
     }
 
     isReap() {
-        let { play, fight, reap } = this.properties;
+        const { play, fight, reap } = this.properties;
         return (
             reap ||
             (play && this.card.anyEffect('playAbilitiesAddReap')) ||
@@ -174,10 +175,10 @@ class TriggeredAbility extends CardAbility {
             return;
         }
 
-        var eventNames = _.keys(this.when);
+        const eventNames = _.keys(this.when);
         this.events = [];
         _.each(eventNames, (eventName) => {
-            var event = {
+            const event = {
                 name: eventName + ':' + this.abilityType,
                 handler: (event, window) => this.eventHandler(event, window)
             };

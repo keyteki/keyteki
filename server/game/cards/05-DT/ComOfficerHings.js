@@ -24,10 +24,10 @@ class ComOfficerHings extends Card {
                 if (!context.target) {
                     return { amount: 0 };
                 }
-                let creaturesInPlay = context.player.creaturesInPlay;
-                let idxS = creaturesInPlay.indexOf(context.source);
-                let idxT = creaturesInPlay.indexOf(context.target);
-                let amount = Math.max(idxS, idxT) - Math.min(idxS, idxT) - 1;
+                const creaturesInPlay = context.player.creaturesInPlay;
+                const idxS = creaturesInPlay.indexOf(context.source);
+                const idxT = creaturesInPlay.indexOf(context.target);
+                const amount = Math.max(idxS, idxT) - Math.min(idxS, idxT) - 1;
                 return {
                     target: context.player,
                     amount: amount

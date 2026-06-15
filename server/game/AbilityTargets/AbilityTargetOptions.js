@@ -47,7 +47,7 @@ class AbilityTargetOptions extends AbilityTarget {
             player = player.opponent;
         }
 
-        let promptTitle = this.properties.activePromptTitle || 'Choose an option';
+        const promptTitle = this.properties.activePromptTitle || 'Choose an option';
 
         context.game.promptWithOptionsMenu(player, {
             activePromptTitle: promptTitle,

@@ -100,7 +100,7 @@ const DeckSummary = ({ deck }) => {
         }
     }
 
-    let nonDeckCards = deck.cards
+    const nonDeckCards = deck.cards
         .filter((c) => c.isNonDeck)
         // Filter out archon power cards
         .filter((c) => !c.card || c.card.type !== 'archon power')

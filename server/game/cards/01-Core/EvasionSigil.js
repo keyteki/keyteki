@@ -9,9 +9,9 @@ class EvasionSigil extends Card {
             },
             effect: "discard the top card of {1}'s deck ({2}){3}{4}{5}",
             effectArgs: (context) => {
-                let player = context.event.context.player;
-                let topCard = player.deck.length ? player.deck[0] : '';
-                let cancelFight =
+                const player = context.event.context.player;
+                const topCard = player.deck.length ? player.deck[0] : '';
+                const cancelFight =
                     topCard && topCard.hasHouse(context.game.activePlayer.activeHouse);
                 return [
                     player,
@@ -23,9 +23,9 @@ class EvasionSigil extends Card {
             },
             gameAction: [
                 ability.actions.exhaust((context) => {
-                    let player = context.event.context.player;
-                    let topCard = player.deck.length ? player.deck[0] : '';
-                    let cancelFight =
+                    const player = context.event.context.player;
+                    const topCard = player.deck.length ? player.deck[0] : '';
+                    const cancelFight =
                         topCard && topCard.hasHouse(context.game.activePlayer.activeHouse);
                     if (cancelFight) {
                         return { target: context.event.context.source };
@@ -34,9 +34,9 @@ class EvasionSigil extends Card {
                     return { target: [] };
                 }),
                 ability.actions.changeEvent((context) => {
-                    let player = context.event.context.player;
-                    let topCard = player.deck.length ? player.deck[0] : '';
-                    let cancelFight =
+                    const player = context.event.context.player;
+                    const topCard = player.deck.length ? player.deck[0] : '';
+                    const cancelFight =
                         topCard && topCard.hasHouse(context.game.activePlayer.activeHouse);
 
                     return {

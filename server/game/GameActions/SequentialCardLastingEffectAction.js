@@ -30,7 +30,7 @@ class SequentialCardLastingEffectAction extends GameAction {
     }
 
     queueActionSteps(context, element, effect) {
-        let action = context.game.actions.cardLastingEffect({
+        const action = context.game.actions.cardLastingEffect({
             duration: this.duration,
             condition: this.condition,
             until: this.until,
@@ -55,8 +55,8 @@ class SequentialCardLastingEffectAction extends GameAction {
                 selector: new CardListSelector(forEach),
                 source: context.source,
                 onSelect: (player, card) => {
-                    let i = forEach.indexOf(card);
-                    let effect = effectForEach[i];
+                    const i = forEach.indexOf(card);
+                    const effect = effectForEach[i];
                     this.queueActionSteps(context, card, effect);
                     context.game.queueSimpleStep(() => {
                         this.filterAndApplyAction(
