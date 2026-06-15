@@ -1,5 +1,5 @@
-const _ = require('underscore');
 /*eslint no-console:0 */
+const _ = require('underscore');
 const monk = require('monk');
 const DeckService = require('../services/DeckService.js');
 
