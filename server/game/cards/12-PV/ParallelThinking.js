@@ -1,4 +1,4 @@
-const { shuffle } = require('../../../Array.js');
+const _ = require('underscore');
 const Card = require('../../Card.js');
 
 class ParallelThinking extends Card {
@@ -24,9 +24,9 @@ class ParallelThinking extends Card {
                             ? context.player.opponent.deck.slice(0, 2)
                             : []
                         : context.select && context.select.includes('My')
-                        ? shuffle(context.player.archives).slice(0, 2)
+                        ? _.shuffle(context.player.archives).slice(0, 2)
                         : context.player.opponent
-                        ? shuffle(context.player.opponent.archives).slice(0, 2)
+                        ? _.shuffle(context.player.opponent.archives).slice(0, 2)
                         : []
             })),
             then: {

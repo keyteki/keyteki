@@ -1,4 +1,4 @@
-const { sample } = require('../../Array.js');
+const _ = require('underscore');
 /**
  * RandomDiscardAction - randomly discard amount of cards from a player's hand,
  * deck, or archives.
@@ -111,7 +111,7 @@ class RandomDiscardAction extends PlayerAction {
                     return;
                 }
 
-                const randomCard = sample(availableCards);
+                const randomCard = _.sample(availableCards);
                 cardsDiscarded.push(randomCard);
                 context.game.addMessage(
                     `{0} randomly discards {1} from ${this.location}`,

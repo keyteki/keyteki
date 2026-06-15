@@ -1,4 +1,4 @@
-const { shuffle } = require('../../../Array.js');
+const _ = require('underscore');
 const Card = require('../../Card.js');
 
 class PorterCilla extends Card {
@@ -8,7 +8,7 @@ class PorterCilla extends Card {
             condition: (context) =>
                 context.player.opponent && context.player.opponent.hand.length > 0,
             gameAction: ability.actions.returnToDeck((context) => ({
-                target: shuffle(context.player.opponent.hand).slice(0, 1)
+                target: _.shuffle(context.player.opponent.hand).slice(0, 1)
             }))
         });
     }

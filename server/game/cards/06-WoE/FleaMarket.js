@@ -1,4 +1,4 @@
-const { shuffle } = require('../../../Array.js');
+const _ = require('underscore');
 const Card = require('../../Card.js');
 
 class FleaMarket extends Card {
@@ -11,7 +11,7 @@ class FleaMarket extends Card {
             gameAction: ability.actions.reveal((context) => ({
                 location: 'hand',
                 chatMessage: true,
-                target: shuffle(context.player.opponent.hand)[0]
+                target: _.shuffle(context.player.opponent.hand)[0]
             })),
             then: (
                 preThenContext,

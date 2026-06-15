@@ -1,4 +1,4 @@
-const { shuffle } = require('../../../Array.js');
+const _ = require('underscore');
 const Card = require('../../Card.js');
 
 class HarmonicPack extends Card {
@@ -34,7 +34,7 @@ class HarmonicPack extends Card {
                     gameAction: ability.actions.reveal((context) => {
                         damageEvents = context.preThenEvents || [];
                         return {
-                            target: shuffle(
+                            target: _.shuffle(
                                 preThenContext.selects.player.choice === 'Mine'
                                     ? context.player.archives
                                     : context.player.opponent.archives

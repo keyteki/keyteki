@@ -1,4 +1,4 @@
-const { shuffle } = require('../../../Array.js');
+const _ = require('underscore');
 const Card = require('../../Card.js');
 const EventRegistrar = require('../../eventregistrar.js');
 
@@ -20,7 +20,7 @@ class Plunder extends Card {
             gameAction: ability.actions.reveal((context) => ({
                 location: 'hand',
                 chatMessage: true,
-                target: shuffle(
+                target: _.shuffle(
                     context.player.opponent.hand.filter(
                         (card) => !this.revealedCards.includes(card)
                     )

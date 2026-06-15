@@ -1,4 +1,4 @@
-const { shuffle } = require('../../../Array.js');
+const _ = require('underscore');
 const Card = require('../../Card.js');
 
 class ThreeSheetsToTheWind extends Card {
@@ -19,7 +19,7 @@ class ThreeSheetsToTheWind extends Card {
                 })),
                 ability.actions.returnToDeck((context) => ({
                     target: context.player.opponent
-                        ? shuffle(context.player.opponent.hand).slice(0, 1)
+                        ? _.shuffle(context.player.opponent.hand).slice(0, 1)
                         : []
                 })),
                 ability.actions.purgeAtRandom((context) => ({

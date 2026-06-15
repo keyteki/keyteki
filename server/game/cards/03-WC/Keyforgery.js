@@ -1,4 +1,4 @@
-const { shuffle } = require('../../../Array.js');
+const _ = require('underscore');
 const Card = require('../../Card.js');
 
 class Keyforgery extends Card {
@@ -17,7 +17,7 @@ class Keyforgery extends Card {
             gameAction: ability.actions.reveal((context) => ({
                 location: 'hand',
                 chatMessage: true,
-                target: shuffle(context.player.hand)[0]
+                target: _.shuffle(context.player.hand)[0]
             })),
             then: (preThenContext) => ({
                 condition: (context) =>

@@ -1,4 +1,4 @@
-const { shuffle } = require('../../../Array.js');
+const _ = require('underscore');
 const Card = require('../../Card.js');
 
 class TechnoShade extends Card {
@@ -10,10 +10,9 @@ class TechnoShade extends Card {
                 !!context.player.opponent && context.player.opponent.hand.length > 0,
             gameAction: ability.actions.returnToDeck((context) => ({
                 shuffle: true,
-                target: shuffle(context.player.opponent ? context.player.opponent.hand : []).slice(
-                    0,
-                    1
-                )
+                target: _.shuffle(
+                    context.player.opponent ? context.player.opponent.hand : []
+                ).slice(0, 1)
             }))
         });
     }

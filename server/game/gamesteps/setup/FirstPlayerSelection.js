@@ -1,4 +1,4 @@
-const { shuffle } = require('../../../Array.js');
+const _ = require('underscore');
 const AllPlayerPrompt = require('../allplayerprompt');
 
 class FirstPlayerSelection extends AllPlayerPrompt {
@@ -53,7 +53,7 @@ class FirstPlayerSelection extends AllPlayerPrompt {
 
     onCompleted() {
         if (!this.game.activePlayer) {
-            let allPlayersShuffled = shuffle(this.game.getPlayers());
+            let allPlayersShuffled = _.shuffle(this.game.getPlayers());
             this.game.activePlayer = allPlayersShuffled.shift();
             this.game.addMessage('{0} won the flip and is first player', this.game.activePlayer);
         }

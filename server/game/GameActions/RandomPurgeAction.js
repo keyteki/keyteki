@@ -1,4 +1,4 @@
-const { shuffle } = require('../../Array.js');
+const _ = require('underscore');
 const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 
@@ -25,10 +25,10 @@ class RandomPurgeAction extends PlayerAction {
     getEvent(player, context) {
         return super.createEvent(EVENTS.unnamedEvent, { player, context }, () => {
             let amount = Math.min(this.amount, player.hand.length);
-            let cards = shuffle(player.hand).slice(0, amount);
+            let cards = _.shuffle(player.hand).slice(0, amount);
             if (this.location === 'archives') {
                 amount = Math.min(this.amount, player.archives.length);
-                cards = shuffle(player.archives).slice(0, amount);
+                cards = _.shuffle(player.archives).slice(0, amount);
             }
 
             if (cards.length > 0) {

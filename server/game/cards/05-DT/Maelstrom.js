@@ -1,4 +1,4 @@
-const { shuffle } = require('../../../Array.js');
+const _ = require('underscore');
 const Card = require('../../Card.js');
 
 class Malstrom extends Card {
@@ -8,7 +8,7 @@ class Malstrom extends Card {
             effect: "randomly put each creature on top of its owner's deck and gain 2 chains",
             gameAction: ability.actions.sequential([
                 ability.actions.returnToDeck((context) => ({
-                    target: shuffle(context.game.creaturesInPlay)
+                    target: _.shuffle(context.game.creaturesInPlay)
                 })),
                 ability.actions.gainChains({ amount: 2 })
             ])

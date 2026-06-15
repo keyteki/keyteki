@@ -1,4 +1,4 @@
-const { sample } = require('../../Array.js');
+const _ = require('underscore');
 const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
 
@@ -232,7 +232,7 @@ class DiscardEntireLocationAction extends PlayerAction {
                 return;
             }
 
-            const randomCard = sample(cards);
+            const randomCard = _.sample(cards);
             cardsDiscarded.push(randomCard);
             context.game.addMessage(
                 '{0} randomly discards {1} from {2}',
@@ -267,7 +267,7 @@ class DiscardEntireLocationAction extends PlayerAction {
                 return;
             }
 
-            const randomCard = sample(cards);
+            const randomCard = _.sample(cards);
             cardsDiscarded.push(randomCard);
             context.game.addMessage('{0} discards {1} from {2}', player, randomCard, this.location);
 

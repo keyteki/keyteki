@@ -1,4 +1,4 @@
-const { shuffle } = require('../Array.js');
+const _ = require('underscore');
 
 const Constants = require('../constants');
 const GameObject = require('./GameObject');
@@ -228,7 +228,7 @@ class Player extends GameObject {
      * Shuffles the deck, emitting an event and displaying a message in chat
      */
     shuffleDeck(shuffledDiscardIntoDeck = false) {
-        this.deck = shuffle(this.deck);
+        this.deck = _.shuffle(this.deck);
         if (this.isTopCardOfDeckVisible() && this.deck.length > 0) {
             this.addTopCardOfDeckVisibleMessage();
         }

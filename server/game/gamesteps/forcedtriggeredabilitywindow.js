@@ -1,4 +1,4 @@
-const { uniqBy } = require('../../Array.js');
+const _ = require('underscore');
 const BaseStep = require('./basestep.js');
 const TriggeredAbilityWindowTitles = require('./triggeredabilitywindowtitles.js');
 const Optional = require('../optional.js');
@@ -119,7 +119,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     promptBetweenSources(choices) {
-        let lastingTriggers = uniqBy(
+        let lastingTriggers = _.uniq(
             choices.filter(
                 (context) =>
                     context.ability.isLastingAbilityTrigger ||
@@ -334,7 +334,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     promptBetweenAbilities(choices, addBackButton = true) {
-        let menuChoices = uniqBy(
+        let menuChoices = _.uniq(
             choices.map((context) => this.getAbilityButton(context)),
             (button) => button.key
         );
@@ -384,7 +384,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         // event but each has its own subject. Disambiguate by subject so
         // the player can pick which one to resolve next.
         const choiceCard = (context) => context.subject || context.event.card;
-        if (uniqBy(choices, choiceCard).length === 1) {
+        if (_.uniq(choices, choiceCard).length === 1) {
             // The events which this ability can respond to only affect a single card
             this.promptBetweenEvents(choices, addBackButton);
             return;
@@ -423,7 +423,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         // For multiTriggerEvent choices the underlying event is identical
         // but the subject differs — dedup by (event, subject) so per-subject
         // resolutions aren't collapsed into a single choice.
-        choices = uniqBy(choices, (context) =>
+        choices = _.uniq(choices, (context) =>
             context.subject ? context.subject.uuid : context.event
         );
         if (choices.length === 1) {
