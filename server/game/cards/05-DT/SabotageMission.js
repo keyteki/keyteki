@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const Card = require('../../Card.js');
 
 class SabotageMission extends Card {
@@ -10,7 +9,9 @@ class SabotageMission extends Card {
             gameAction: ability.actions.duringOpponentNextTurn((context) => ({
                 targetController: 'any',
                 effect: ability.effects.modifyKeyCost(
-                    () => _.uniq(context.player.creaturesInPlay.map((card) => card.power)).length
+                    () =>
+                        [...new Set(context.player.creaturesInPlay.map((card) => card.power))]
+                            .length
                 )
             }))
         });

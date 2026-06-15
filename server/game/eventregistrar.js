@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 /**
  * @import {EventName} from './Events/types');
  */
@@ -33,11 +31,11 @@ class EventRegistrar {
      * containing a mix of event names and event-to-method mappings.
      */
     register(events) {
-        _.each(events, (event) => {
-            if (_.isString(event)) {
+        events.forEach((event) => {
+            if (typeof event === 'string') {
                 this.registerEvent(event);
             } else {
-                _.each(event, (methodName, eventName) => {
+                Object.entries(event).forEach(([eventName, methodName]) => {
                     this.registerEvent(eventName, methodName);
                 });
             }
@@ -67,7 +65,7 @@ class EventRegistrar {
      * Unbinds all registered handlers from the event emitter.
      */
     unregisterAll() {
-        _.each(this.events, (event) => {
+        this.events.forEach((event) => {
             this.game.removeListener(event.name, event.handler);
         });
         this.events = [];

@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 class ConflictTracker {
     constructor() {
         this.complete = 0;
@@ -81,7 +79,7 @@ class ConflictTracker {
     }
 
     isAtMax(conflictType) {
-        if (!_.isUndefined(this.maxTotal) && this.complete >= this.maxTotal) {
+        if (!this.maxTotal === undefined && this.complete >= this.maxTotal) {
             return true;
         }
 

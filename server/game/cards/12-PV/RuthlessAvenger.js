@@ -1,5 +1,5 @@
+const { shuffle } = require('../../../Array.js');
 const Card = require('../../Card.js');
-const _ = require('underscore');
 
 class RuthlessAvenger extends Card {
     // Assault 2. Hazardous 2.
@@ -7,7 +7,7 @@ class RuthlessAvenger extends Card {
     setupCardAbilities(ability) {
         this.fate({
             gameAction: ability.actions.purge((context) => ({
-                target: _.shuffle(context.game.activePlayer.discard).slice(0, 2)
+                target: shuffle(context.game.activePlayer.discard).slice(0, 2)
             })),
             then: {
                 gameAction: ability.actions.returnToDeck((context) => ({

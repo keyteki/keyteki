@@ -1,9 +1,7 @@
-const _ = require('underscore');
-
 class Optional {}
 
 Optional.EvalOptional = function (context, optional) {
-    if (_.isFunction(optional)) {
+    if (typeof optional === 'function') {
         return optional(context);
     }
     return !!optional;

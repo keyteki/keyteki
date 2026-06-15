@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const _ = require('underscore');
 
 function getDirectories(srcpath) {
     return fs.readdirSync(srcpath).filter(function (file) {
@@ -12,10 +11,10 @@ module.exports = {
     loadCards: function (basePath, directory) {
         var cards = {};
 
-        _.each(getDirectories(directory), (dir) => {
+        getDirectories(directory).forEach((dir) => {
             var normalisedPath = path.join(directory, dir);
 
-            _.each(fs.readdirSync(normalisedPath), (file) => {
+            fs.readdirSync(normalisedPath).forEach((file) => {
                 var card = require('./cards/' + basePath + '/' + dir + '/' + file);
 
                 cards[card.id] = card;

@@ -1,4 +1,4 @@
-const _ = require('underscore');
+const { shuffle } = require('../../../Array.js');
 const Card = require('../../Card.js');
 
 class ReapTheWildWind extends Card {
@@ -9,11 +9,11 @@ class ReapTheWildWind extends Card {
             gameAction: ability.actions.reveal((context) => ({
                 location: 'hand',
                 chatMessage: true,
-                target: _.shuffle(context.player.hand)
+                target: shuffle(context.player.hand)
                     .slice(0, 1)
                     .concat(
                         context.player.opponent
-                            ? _.shuffle(context.player.opponent.hand).slice(0, 1)
+                            ? shuffle(context.player.opponent.hand).slice(0, 1)
                             : []
                     )
             })),

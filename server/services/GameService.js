@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const logger = require('../log.js');
 const db = require('../db');
 
@@ -107,7 +105,7 @@ class GameService {
         return this.games
             .find()
             .then((games) => {
-                return _.filter(games, (game) => {
+                return games.filter((game) => {
                     return game.startedAt >= from && game.startedAt < to;
                 });
             })

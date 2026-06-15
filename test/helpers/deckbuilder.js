@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const _ = require('underscore');
 
 const { matchCardByNameAndPack } = require('./cardutil.js');
 
@@ -84,7 +83,9 @@ class DeckBuilder {
         if (missingHouses < 0) {
             throw new Error('More than 3 houses present');
         } else if (missingHouses > 0) {
-            houses = houses.concat(_.difference(fillerHouses, houses).slice(0, missingHouses));
+            houses = houses.concat(
+                fillerHouses.filter((h) => !houses.includes(h)).slice(0, missingHouses)
+            );
         }
 
         while (deck.length < minDeck) {
@@ -102,7 +103,7 @@ class DeckBuilder {
 
     buildDeck(houses, token, prophecies, cardLabels, name) {
         let cardCounts = {};
-        _.each(cardLabels, (label) => {
+        cardLabels.forEach((label) => {
             let cardData = this.getCard(label);
             if (cardCounts[cardData.id]) {
                 cardCounts[cardData.id].count++;
@@ -129,7 +130,7 @@ class DeckBuilder {
             }
         }
 
-        _.each(prophecies, (prophecy) => {
+        (prophecies || []).forEach((prophecy) => {
             let prophecyCard = this.getCard(prophecy);
             if (prophecyCard.type === 'prophecy') {
                 if (cardCounts[prophecyCard.id]) {
@@ -160,17 +161,16 @@ class DeckBuilder {
             return this.cards[idOrLabelOrName];
         }
 
-        let cardsByName = _.filter(this.cards, matchCardByNameAndPack(idOrLabelOrName));
+        let cardsByName = this.cards.filter(matchCardByNameAndPack(idOrLabelOrName));
 
         if (cardsByName.length === 0) {
             throw new Error(`Unable to find any card matching ${idOrLabelOrName}`);
         }
 
         if (cardsByName.length > 1) {
-            let matchingLabels = _.map(
-                cardsByName,
-                (card) => `${card.name} (${card.pack_code})`
-            ).join('\n');
+            let matchingLabels = cardsByName
+                .map((card) => `${card.name} (${card.pack_code})`)
+                .join('\n');
             throw new Error(
                 `Multiple cards match the name ${idOrLabelOrName}. Use one of these instead:\n${matchingLabels}`
             );

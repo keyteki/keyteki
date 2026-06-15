@@ -1,6 +1,6 @@
+const { shuffle } = require('../../Array.js');
 const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
-const _ = require('underscore');
 
 class RandomPlayCardAction extends PlayerAction {
     setDefaultProperties() {
@@ -27,13 +27,13 @@ class RandomPlayCardAction extends PlayerAction {
             { player, context, amount: this.amount },
             (event) => {
                 if (this.location === 'archives') {
-                    event.cards = _.shuffle(player.archives).slice(0, event.amount);
+                    event.cards = shuffle(player.archives).slice(0, event.amount);
                 } else if (this.location === 'discard') {
-                    event.cards = _.shuffle(player.discard).slice(0, event.amount);
+                    event.cards = shuffle(player.discard).slice(0, event.amount);
                 } else if (this.location === 'deck') {
-                    event.cards = _.shuffle(player.deck).slice(0, event.amount);
+                    event.cards = shuffle(player.deck).slice(0, event.amount);
                 } else {
-                    event.cards = _.shuffle(player.hand).slice(0, event.amount);
+                    event.cards = shuffle(player.hand).slice(0, event.amount);
                 }
                 context.game.actions.playCard().resolve(event.cards, context);
             }

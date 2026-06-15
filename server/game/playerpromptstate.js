@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 class PlayerPromptState {
     constructor(player) {
         this.player = player;
@@ -46,11 +44,10 @@ class PlayerPromptState {
         this.cardDamage = prompt.cardDamage || {};
         this.menuTitle = prompt.menuTitle || '';
         this.promptTitle = prompt.promptTitle;
-        this.buttons = _.map(prompt.buttons || [], (button) => {
+        this.buttons = (prompt.buttons || []).map((button) => {
             if (button.card) {
-                let card = button.card;
-                let properties = _.omit(button, 'card');
-                return _.extend(
+                const { card, ...properties } = button;
+                return Object.assign(
                     { text: card.name, arg: card.uuid, card: card.getShortSummary() },
                     properties
                 );

@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const CardSelector = require('../CardSelector.js');
 const SingleCardSelector = require('../CardSelectors/SingleCardSelector.js');
 const AbilityTarget = require('./AbilityTarget.js');
@@ -97,7 +95,7 @@ class AbilityTargetCard extends AbilityTarget {
             return;
         }
 
-        let otherProperties = _.omit(this.properties, 'cardCondition', 'player');
+        const { ...otherProperties } = this.properties;
 
         let buttons = [];
         let waitingPromptTitle = '';

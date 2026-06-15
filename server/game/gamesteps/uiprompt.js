@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const BaseStep = require('./basestep.js');
 const { randomUUID } = require('node:crypto');
 
@@ -18,7 +17,7 @@ class UiPrompt extends BaseStep {
     }
 
     setPrompt() {
-        _.each(this.game.getPlayers(), (player) => {
+        this.game.getPlayers().forEach((player) => {
             if (this.activeCondition(player)) {
                 player.setPrompt(this.addDefaultCommandToButtons(this.activePrompt(player)));
                 player.startClock();
@@ -36,9 +35,9 @@ class UiPrompt extends BaseStep {
     activePrompt(player) {}
 
     addDefaultCommandToButtons(original) {
-        var prompt = _.clone(original);
+        var prompt = { ...original };
         if (prompt.buttons) {
-            _.each(prompt.buttons, (button) => {
+            prompt.buttons.forEach((button) => {
                 button.command = button.command || 'menuButton';
                 button.uuid = this.uuid;
             });
@@ -71,7 +70,7 @@ class UiPrompt extends BaseStep {
     }
 
     clearPrompts() {
-        _.each(this.game.getPlayers(), (player) => {
+        this.game.getPlayers().forEach((player) => {
             player.cancelPrompt();
         });
     }

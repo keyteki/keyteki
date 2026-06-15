@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const AbilityContext = require('../AbilityContext.js');
 const CardSelector = require('../CardSelector.js');
 const EffectSource = require('../EffectSource.js');
@@ -54,7 +52,7 @@ class SelectCardPrompt extends UiPrompt {
         this.choosingPlayer = choosingPlayer;
 
         if (properties.source) {
-            if (_.isString(properties.source)) {
+            if (typeof properties.source === 'string') {
                 this.promptTitle = properties.source;
             } else {
                 this.source = properties.source;
@@ -75,7 +73,7 @@ class SelectCardPrompt extends UiPrompt {
         this.context =
             properties.context ||
             new AbilityContext({ game: game, player: choosingPlayer, source: this.source });
-        _.defaults(this.properties, this.defaultProperties());
+        this.properties = Object.assign({}, this.defaultProperties(), this.properties);
         if (properties.gameAction) {
             if (!Array.isArray(properties.gameAction)) {
                 this.properties.gameAction = [properties.gameAction];
@@ -191,7 +189,7 @@ class SelectCardPrompt extends UiPrompt {
             }
         }
 
-        if (this.game.manualMode && !_.any(buttons, (button) => button.arg === 'cancel')) {
+        if (this.game.manualMode && !buttons.some((button) => button.arg === 'cancel')) {
             buttons = buttons.concat({ text: 'Cancel Prompt', arg: 'cancel' });
         }
 
@@ -266,7 +264,7 @@ class SelectCardPrompt extends UiPrompt {
         if (!this.selectedCards.includes(card)) {
             this.selectedCards.push(card);
         } else {
-            this.selectedCards = _.reject(this.selectedCards, (c) => c === card);
+            this.selectedCards = this.selectedCards.filter((c) => c !== card);
         }
 
         this.choosingPlayer.setSelectedCards(this.selectedCards);

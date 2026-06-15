@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const Card = require('../../server/game/Card.js');
 const Game = require('../../server/game/game.js');
 const Player = require('../../server/game/player.js');
@@ -19,9 +17,13 @@ function pp(value) {
 // Add custom toString methods for better test output
 function formatObject(...keys) {
     return function () {
-        let properties = _.pick(this, ...keys);
-        let formattedProperties = _.map(
-            _.pairs(properties),
+        let properties = {};
+        for (let key of keys) {
+            if (key in this) {
+                properties[key] = this[key];
+            }
+        }
+        let formattedProperties = Object.entries(properties).map(
             ([key, value]) => key + ': ' + pp(value)
         );
         return this.constructor.name + '({ ' + formattedProperties.join(', ') + ' })';

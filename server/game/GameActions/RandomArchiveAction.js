@@ -1,6 +1,6 @@
+const { shuffle } = require('../../Array.js');
 const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
-const _ = require('underscore');
 
 class RandomArchiveAction extends PlayerAction {
     setDefaultProperties() {
@@ -21,7 +21,7 @@ class RandomArchiveAction extends PlayerAction {
     getEvent(player, context) {
         return super.createEvent(EVENTS.unnamedEvent, { player, context }, () => {
             let amount = Math.min(this.amount, player.hand.length);
-            let cards = _.shuffle(player.hand).slice(0, amount);
+            let cards = shuffle(player.hand).slice(0, amount);
             context.game.actions.archive().resolve(cards, context);
         });
     }

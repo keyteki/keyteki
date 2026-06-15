@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const cards = require('../../../server/game/cards');
 const AbilityDsl = require('../../../server/game/abilitydsl');
 const localeEn = require('../../../client/locales/en.json');
@@ -80,7 +78,7 @@ function expectLocalizedString(str) {
 
 function expectLocalizedPromptForSelect(gameAction) {
     let gameActions = Array.isArray(gameAction) ? gameAction : [gameAction];
-    _.forEach(gameActions, (ga) => {
+    gameActions.forEach((ga) => {
         if (ga.promptForSelect && ga.promptForSelect.activePromptTitle) {
             expectLocalizedString(ga.promptForSelect.activePromptTitle);
         }
@@ -101,7 +99,7 @@ function expectLocalizedTarget(target) {
     }
 
     if (target.choices) {
-        _.forEach(Object.keys(target.choices), (choice) => {
+        Object.keys(target.choices).forEach((choice) => {
             expectLocalizedString(choice);
         });
     }
@@ -127,7 +125,7 @@ function expectLocalizedPrompt(args) {
     }
 
     if (args.targets) {
-        _.forEach(Object.keys(args.targets), (target) => {
+        Object.keys(args.targets).forEach((target) => {
             expectLocalizedTarget(args.targets[target]);
         });
     }
@@ -153,7 +151,7 @@ describe('All Cards:', function () {
         };
     });
 
-    _.each(cards, (cardClass) => {
+    Object.values(cards).forEach((cardClass) => {
         it("should be able to create '" + cardClass.name + "' and set it up", function () {
             // No explicit assertion - if this throws an exception it will fail
             // and give us a better stacktrace than the expect().not.toThrow()
@@ -166,14 +164,14 @@ describe('All Cards:', function () {
                 this.card = new cardClass(this.playerSpy, { id: 'id' });
                 this.actionSpy = vi.spyOn(this.card, 'action');
                 this.card.setupCardAbilities(AbilityDsl);
-                this.calls = _.flatten(this.actionSpy.mock.calls);
+                this.calls = this.actionSpy.mock.calls.flat();
             });
 
             it('should have an string effect or a gameAction (either on the ability or one of its targets', function () {
                 expect(
-                    _.all(this.calls, (args) => {
-                        if (!_.isUndefined(args.effect)) {
-                            return _.isString(args.effect);
+                    this.calls.every((args) => {
+                        if (args.effect !== undefined) {
+                            return typeof args.effect === 'string';
                         } else if (args.gameAction) {
                             return true;
                         } else if (args.target) {
@@ -185,7 +183,7 @@ describe('All Cards:', function () {
                                 args.target.mode &&
                                 args.target.mode === 'select' &&
                                 Object.values(args.target.choices).every(
-                                    (choice) => !_.isFunction(choice)
+                                    (choice) => typeof choice !== 'function'
                                 )
                             );
                         }
@@ -198,7 +196,7 @@ describe('All Cards:', function () {
                                     (target.mode &&
                                         target.mode === 'select' &&
                                         Object.values(target.choices).every(
-                                            (choice) => !_.isFunction(choice)
+                                            (choice) => typeof choice !== 'function'
                                         ))
                             )
                         );
@@ -208,14 +206,14 @@ describe('All Cards:', function () {
 
             it('should have an effectArgs which matches effect', function () {
                 expect(
-                    _.all(this.calls, (args) => {
-                        if (_.isUndefined(args.effect)) {
+                    this.calls.every((args) => {
+                        if (args.effect === undefined) {
                             return true;
                         }
 
                         let argCount = 0;
                         let effectArgs = args.effectArgs;
-                        if (_.isFunction(effectArgs)) {
+                        if (typeof effectArgs === 'function') {
                             effectArgs = effectArgs(mockContext);
                         }
 
@@ -237,22 +235,22 @@ describe('All Cards:', function () {
             });
 
             it('should have localized strings', function () {
-                _.forEach(this.calls, (args) => {
+                this.calls.forEach((args) => {
                     expectLocalizedPrompt(args);
                 });
             });
 
             it('should have no condition or its condition should be a function', function () {
                 expect(
-                    _.all(
-                        this.calls,
-                        (args) => _.isUndefined(args.condition) || _.isFunction(args.condition)
+                    this.calls.every(
+                        (args) =>
+                            args.condition === undefined || typeof args.condition === 'function'
                     )
                 ).toBe(true);
             });
 
             it('should not have a when property', function () {
-                expect(_.all(this.calls, (args) => _.isUndefined(args.when))).toBe(true);
+                expect(this.calls.every((args) => args.when === undefined)).toBe(true);
             });
         });
 
@@ -262,15 +260,15 @@ describe('All Cards:', function () {
                 this.reactionSpy = vi.spyOn(this.card, 'reaction');
                 this.interruptSpy = vi.spyOn(this.card, 'interrupt');
                 this.card.setupCardAbilities(AbilityDsl);
-                this.calls = _.flatten(this.reactionSpy.mock.calls);
-                this.calls = this.calls.concat(_.flatten(this.interruptSpy.mock.calls));
+                this.calls = this.reactionSpy.mock.calls.flat();
+                this.calls = this.calls.concat(this.interruptSpy.mock.calls.flat());
             });
 
             it('should have an string effect or a gameAction (either on the ability or one of its targets', function () {
                 expect(
-                    _.all(this.calls, (args) => {
-                        if (!_.isUndefined(args.effect)) {
-                            return _.isString(args.effect);
+                    this.calls.every((args) => {
+                        if (args.effect !== undefined) {
+                            return typeof args.effect === 'string';
                         } else if (args.gameAction) {
                             return true;
                         } else if (args.target) {
@@ -282,7 +280,7 @@ describe('All Cards:', function () {
                                 args.target.mode &&
                                 args.target.mode === 'select' &&
                                 Object.values(args.target.choices).every(
-                                    (choice) => !_.isFunction(choice)
+                                    (choice) => typeof choice !== 'function'
                                 )
                             );
                         }
@@ -295,7 +293,7 @@ describe('All Cards:', function () {
                                     (target.mode &&
                                         target.mode === 'select' &&
                                         Object.values(target.choices).every(
-                                            (choice) => !_.isFunction(choice)
+                                            (choice) => typeof choice !== 'function'
                                         ))
                             )
                         );
@@ -304,21 +302,21 @@ describe('All Cards:', function () {
             });
 
             it('should have localized strings', function () {
-                _.forEach(this.calls, (args) => {
+                this.calls.forEach((args) => {
                     expectLocalizedPrompt(args);
                 });
             });
 
             it('should have an effectArgs which matches effect', function () {
                 expect(
-                    _.all(this.calls, (args) => {
-                        if (_.isUndefined(args.effect)) {
+                    this.calls.every((args) => {
+                        if (args.effect === undefined) {
                             return true;
                         }
 
                         let argCount = 0;
                         let effectArgs = args.effectArgs;
-                        if (_.isFunction(effectArgs)) {
+                        if (typeof effectArgs === 'function') {
                             effectArgs = effectArgs(mockContext);
                         }
 
@@ -341,17 +339,21 @@ describe('All Cards:', function () {
 
             it('should have at least one when property (or a play, fight or reap property)', function () {
                 expect(
-                    _.all(
-                        this.calls,
+                    this.calls.every(
                         (args) =>
-                            _.keys(args.when).length > 0 || args.play || args.fight || args.reap
+                            Object.keys(args.when).length > 0 ||
+                            args.play ||
+                            args.fight ||
+                            args.reap
                     )
                 ).toBe(true);
             });
 
             it('should have a function as the value for its when properties', function () {
                 expect(
-                    _.all(this.calls, (args) => _.all(args.when, (when) => _.isFunction(when)))
+                    this.calls.every((args) =>
+                        Object.values(args.when).every((when) => typeof when === 'function')
+                    )
                 ).toBe(true);
             });
         });

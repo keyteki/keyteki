@@ -1,5 +1,5 @@
+const { shuffle } = require('../../../Array.js');
 const Card = require('../../Card.js');
-const _ = require('underscore');
 
 class ParallelThinking extends Card {
     // Play: Discard the top 2 cards of a player's deck or 2 random cards from a player's archives. If the discarded cards share a type, steal 2 amber.
@@ -24,9 +24,9 @@ class ParallelThinking extends Card {
                             ? context.player.opponent.deck.slice(0, 2)
                             : []
                         : context.select && context.select.includes('My')
-                        ? _.shuffle(context.player.archives).slice(0, 2)
+                        ? shuffle(context.player.archives).slice(0, 2)
                         : context.player.opponent
-                        ? _.shuffle(context.player.opponent.archives).slice(0, 2)
+                        ? shuffle(context.player.opponent.archives).slice(0, 2)
                         : []
             })),
             then: {

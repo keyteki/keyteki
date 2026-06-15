@@ -1,4 +1,4 @@
-const _ = require('underscore');
+const { shuffle } = require('../Array.js');
 
 const Constants = require('../constants');
 const GameObject = require('./GameObject');
@@ -146,8 +146,7 @@ class Player extends GameObject {
      * @param {String} playingType
      */
     isCardInPlayableLocation(card, playingType) {
-        return _.any(
-            this.playableLocations,
+        return this.playableLocations.some(
             (location) => location.playingType === playingType && location.contains(card)
         );
     }
@@ -229,7 +228,7 @@ class Player extends GameObject {
      * Shuffles the deck, emitting an event and displaying a message in chat
      */
     shuffleDeck(shuffledDiscardIntoDeck = false) {
-        this.deck = _.shuffle(this.deck);
+        this.deck = shuffle(this.deck);
         if (this.isTopCardOfDeckVisible() && this.deck.length > 0) {
             this.addTopCardOfDeckVisibleMessage();
         }
@@ -287,7 +286,7 @@ class Player extends GameObject {
     }
 
     removePlayableLocation(location) {
-        this.playableLocations = _.reject(this.playableLocations, (l) => l === location);
+        this.playableLocations = this.playableLocations.filter((l) => l !== location);
     }
 
     beginRound() {
@@ -800,14 +799,16 @@ class Player extends GameObject {
             return houses;
         }, this.houses.slice());
         let stopHouseChoice = this.getEffects('stopHouseChoice');
-        let restrictHouseChoice = _.flatten(this.getEffects('restrictHouseChoice')).filter(
-            (house) => !stopHouseChoice.includes(house) && availableHouses.includes(house)
-        );
+        let restrictHouseChoice = this.getEffects('restrictHouseChoice')
+            .flat()
+            .filter((house) => !stopHouseChoice.includes(house) && availableHouses.includes(house));
         if (restrictHouseChoice.length > 0) {
             availableHouses = restrictHouseChoice;
         }
 
-        availableHouses = _.difference(_.uniq(availableHouses), this.getEffects('stopHouseChoice'));
+        availableHouses = [...new Set(availableHouses)].filter(
+            (house) => !this.getEffects('stopHouseChoice').includes(house)
+        );
         return availableHouses;
     }
 
@@ -997,7 +998,10 @@ class Player extends GameObject {
             this.game.promptWithHandlerMenu(this, {
                 activePromptTitle: "How much amber do you want to spend from your opponent's pool?",
                 source: card,
-                choices: _.range(sourceMin, sourceMax + 1).map(String),
+                choices: Array.from(
+                    { length: sourceMax + 1 - sourceMin },
+                    (_, i) => i + sourceMin
+                ).map(String),
                 choiceHandler: (choice) =>
                     promptForOpponentPoolSource(index + 1, takenSoFar + parseInt(choice, 10))
             });
@@ -1228,7 +1232,7 @@ class Player extends GameObject {
                     values: { card: source.name }
                 },
                 source: source,
-                choices: _.range(min, max + 1),
+                choices: Array.from({ length: max + 1 - min }, (_, i) => i + min),
                 choiceHandler: (choice) => {
                     if (choice) {
                         // Track the token selection for later consumption
@@ -1532,7 +1536,7 @@ class Player extends GameObject {
             state.clock = this.clock.getState();
         }
 
-        return _.extend(state, promptState);
+        return Object.assign(state, promptState);
     }
 
     prophecyIndex(prophecyCard) {

@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const BaseCardSelector = require('./BaseCardSelector.js');
 
 class SelectSelector extends BaseCardSelector {
@@ -8,7 +7,7 @@ class SelectSelector extends BaseCardSelector {
     }
 
     hasEnoughTargets(context) {
-        return _.any(this.choices, (condition) => condition(context));
+        return this.choices.some((condition) => condition(context));
     }
 
     defaultActivePromptTitle() {

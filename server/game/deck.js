@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const cards = require('./cards');
 const Card = require('./Card.js');
 const logger = require('../log.js');
@@ -92,7 +90,7 @@ class Deck {
     }
 
     eachRepeatedCard(cards, func) {
-        _.each(cards, (cardEntry) => {
+        cards.forEach((cardEntry) => {
             for (let i = 0; i < cardEntry.count; i++) {
                 func(cardEntry.card);
             }

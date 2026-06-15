@@ -1,5 +1,5 @@
+const { shuffle } = require('../Array.js');
 /*eslint no-console:0 */
-const _ = require('underscore');
 const monk = require('monk');
 const DeckService = require('../services/DeckService.js');
 
@@ -8,7 +8,7 @@ let deckService = new DeckService(db);
 deckService.decks
     .aggregate([{ $match: { includeInSealed: false } }, { $sortByCount: '$uuid' }])
     .then((results) =>
-        _.shuffle(results.filter((entry) => entry._id && entry.count === 1)).slice(0, 3)
+        shuffle(results.filter((entry) => entry._id && entry.count === 1)).slice(0, 3)
     )
     .then((results) =>
         Promise.all(

@@ -1,5 +1,5 @@
+const { shuffle } = require('../../../Array.js');
 const Card = require('../../Card.js');
-const _ = require('underscore');
 
 class TechnoShade extends Card {
     // After Fight/After Reap: Your opponent shuffles a random card from their hand into their deck.
@@ -10,9 +10,10 @@ class TechnoShade extends Card {
                 !!context.player.opponent && context.player.opponent.hand.length > 0,
             gameAction: ability.actions.returnToDeck((context) => ({
                 shuffle: true,
-                target: _.shuffle(
-                    context.player.opponent ? context.player.opponent.hand : []
-                ).slice(0, 1)
+                target: shuffle(context.player.opponent ? context.player.opponent.hand : []).slice(
+                    0,
+                    1
+                )
             }))
         });
     }

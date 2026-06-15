@@ -1,6 +1,6 @@
+const { sample } = require('../../Array.js');
 const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
-const _ = require('underscore');
 
 /**
  * DiscardEntireLocationAction - Discards all cards from a player's hand or
@@ -232,7 +232,7 @@ class DiscardEntireLocationAction extends PlayerAction {
                 return;
             }
 
-            const randomCard = _.sample(cards);
+            const randomCard = sample(cards);
             cardsDiscarded.push(randomCard);
             context.game.addMessage(
                 '{0} randomly discards {1} from {2}',
@@ -267,7 +267,7 @@ class DiscardEntireLocationAction extends PlayerAction {
                 return;
             }
 
-            const randomCard = _.sample(cards);
+            const randomCard = sample(cards);
             cardsDiscarded.push(randomCard);
             context.game.addMessage('{0} discards {1} from {2}', player, randomCard, this.location);
 

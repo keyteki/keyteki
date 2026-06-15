@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const EventRegistrar = require('./eventregistrar.js');
 
 class EffectEngine {
@@ -53,7 +51,7 @@ class EffectEngine {
                 effect.target.type === 'player' ||
                 effect.target.location === 'play area'
         );
-        _.each(this.delayedEffects, (effect) => effect.checkEffect(events));
+        this.delayedEffects.forEach((effect) => effect.checkEffect(events));
     }
 
     checkTerminalConditions() {
@@ -241,7 +239,7 @@ class EffectEngine {
 
         let eventNames = Object.keys(effect.until);
         let handler = this.createCustomDurationHandler(effect);
-        _.each(eventNames, (eventName) => {
+        eventNames.forEach((eventName) => {
             this.customDurationEvents.push({
                 name: eventName,
                 handler: handler,
@@ -254,7 +252,7 @@ class EffectEngine {
     unregisterCustomDurationEvents(effect) {
         let eventsForEffect = this.customDurationEvents.filter((event) => event.effect === effect);
 
-        _.each(eventsForEffect, (event) => {
+        eventsForEffect.forEach((event) => {
             //console.log('unregisterCustomDurationEvents', effect.source.name, effect.effect.type, effect.targets.map(t => t.name), effect.match.name);
             this.game.removeListener(event.name, event.handler);
         });
@@ -278,7 +276,7 @@ class EffectEngine {
 
     unapplyAndRemove(match) {
         let matchingEffects = this.effects.filter(match);
-        _.each(matchingEffects, (effect) => {
+        matchingEffects.forEach((effect) => {
             //console.log('unapplyAndRemove', effect.source.name, effect.effect.type, effect.targets.map(t => t.name), effect.match.name);
             effect.cancel();
             if (effect.duration === 'custom') {

@@ -1,5 +1,4 @@
-const _ = require('underscore');
-
+const { uniqBy } = require('../../Array.js');
 const BaseStep = require('./basestep.js');
 const TriggeredAbilityWindowTitles = require('./triggeredabilitywindowtitles.js');
 const Optional = require('../optional.js');
@@ -120,7 +119,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     promptBetweenSources(choices) {
-        let lastingTriggers = _.uniq(
+        let lastingTriggers = uniqBy(
             choices.filter(
                 (context) =>
                     context.ability.isLastingAbilityTrigger ||
@@ -260,7 +259,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
                     targets = targets.concat(event.card);
                 }
 
-                map.set(context.source, _.uniq(targets));
+                map.set(context.source, [...new Set(targets)]);
             }
         }
 
@@ -335,7 +334,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     promptBetweenAbilities(choices, addBackButton = true) {
-        let menuChoices = _.uniq(
+        let menuChoices = uniqBy(
             choices.map((context) => this.getAbilityButton(context)),
             (button) => button.key
         );
@@ -371,7 +370,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
         this.game.promptWithHandlerMenu(
             this.currentPlayer,
-            _.extend(this.getPromptProperties(), {
+            Object.assign(this.getPromptProperties(), {
                 activePromptTitle: 'Which ability would you like to use?',
                 choices: menuChoices,
                 handlers: handlers
@@ -385,7 +384,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         // event but each has its own subject. Disambiguate by subject so
         // the player can pick which one to resolve next.
         const choiceCard = (context) => context.subject || context.event.card;
-        if (_.uniq(choices, choiceCard).length === 1) {
+        if (uniqBy(choices, choiceCard).length === 1) {
             // The events which this ability can respond to only affect a single card
             this.promptBetweenEvents(choices, addBackButton);
             return;
@@ -394,9 +393,9 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         // Several cards could be affected by this ability - prompt the player to choose which they want to affect
         this.game.promptForSelect(
             this.currentPlayer,
-            _.extend(this.getPromptForSelectProperties(), {
+            Object.assign(this.getPromptForSelectProperties(), {
                 activePromptTitle: 'Select a card to affect',
-                cardCondition: (card) => _.any(choices, (context) => choiceCard(context) === card),
+                cardCondition: (card) => choices.some((context) => choiceCard(context) === card),
                 buttons: addBackButton
                     ? [{ text: 'Back', arg: 'back' }]
                     : [{ text: 'Autoresolve', arg: 'autoresolve' }],
@@ -424,7 +423,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
         // For multiTriggerEvent choices the underlying event is identical
         // but the subject differs — dedup by (event, subject) so per-subject
         // resolutions aren't collapsed into a single choice.
-        choices = _.uniq(choices, (context) =>
+        choices = uniqBy(choices, (context) =>
             context.subject ? context.subject.uuid : context.event
         );
         if (choices.length === 1) {
@@ -445,7 +444,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
         this.game.promptWithHandlerMenu(
             this.currentPlayer,
-            _.extend(this.getPromptProperties(), {
+            Object.assign(this.getPromptProperties(), {
                 activePromptTitle: 'Choose an event to respond to',
                 choices: menuChoices,
                 handlers: handlers
@@ -467,11 +466,10 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
 
     emitEvents() {
         this.choices = [];
-        let events = _.difference(
-            this.eventWindow.event.getSimultaneousEvents(),
-            this.eventsToExclude
-        );
-        _.each(events, (event) => {
+        let events = this.eventWindow.event
+            .getSimultaneousEvents()
+            .filter((e) => !this.eventsToExclude.includes(e));
+        events.forEach((event) => {
             this.game.emit(event.name + ':' + this.abilityType, event, this);
         });
     }
