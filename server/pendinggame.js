@@ -55,7 +55,7 @@ class PendingGame {
     }
 
     getSaveState() {
-        let players = this.getPlayers().map((player) => {
+        let players = Object.values(this.getPlayers()).map((player) => {
             return {
                 houses: player.houses,
                 name: player.name,
@@ -268,7 +268,9 @@ class PendingGame {
 
     removeAndResetOwner(playerName) {
         if (this.isOwner(playerName)) {
-            let otherPlayer = this.players.find((player) => player.name !== playerName);
+            let otherPlayer = Object.values(this.players).find(
+                (player) => player.name !== playerName
+            );
 
             if (otherPlayer) {
                 this.owner = otherPlayer.user;
@@ -306,7 +308,7 @@ class PendingGame {
     // Summary
     getSummary(activePlayer) {
         let playerSummaries = {};
-        let playersInGame = this.players.filter((player) => !player.left);
+        let playersInGame = Object.values(this.players).filter((player) => !player.left);
 
         playersInGame.forEach((player) => {
             let deck;

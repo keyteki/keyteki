@@ -95,7 +95,9 @@ class AbilityTargetCard extends AbilityTarget {
             return;
         }
 
-        const { ...otherProperties } = this.properties;
+        const otherProperties = { ...this.properties };
+        delete otherProperties.cardCondition;
+        delete otherProperties.player;
 
         let buttons = [];
         let waitingPromptTitle = '';

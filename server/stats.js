@@ -104,7 +104,7 @@ gameService
 
         let winRateStats = winRates.sort((a, b) => b.winRate - a.winRate).slice(0, 10);
 
-        let deckWinRates = decks.map((deck) => {
+        let deckWinRates = Object.values(decks).map((deck) => {
             let games = deck.wins + deck.losses;
 
             return {
@@ -115,8 +115,7 @@ gameService
             };
         });
 
-        let houseWinRates = houses.map((house) => {
-            // eslint-disable-line no-unused-vars
+        let houseWinRates = Object.values(houses).map((house) => {
             let games = house.wins + house.losses;
 
             return {

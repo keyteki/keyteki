@@ -79,7 +79,7 @@ class ConflictTracker {
     }
 
     isAtMax(conflictType) {
-        if (!this.maxTotal === undefined && this.complete >= this.maxTotal) {
+        if (this.maxTotal !== undefined && this.complete >= this.maxTotal) {
             return true;
         }
 
