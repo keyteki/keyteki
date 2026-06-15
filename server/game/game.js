@@ -103,7 +103,7 @@ class Game extends EventEmitter {
 
         this.cardVisibility = new CardVisibility(this);
 
-        for (const player of details.players) {
+        for (const player of Object.values(details.players)) {
             this.playersAndSpectators[player.user.username] = new Player(
                 player.id,
                 player.user,
@@ -112,7 +112,7 @@ class Game extends EventEmitter {
             );
         }
 
-        for (const spectator of details.spectators || []) {
+        for (const spectator of Object.values(details.spectators || {})) {
             this.playersAndSpectators[spectator.user.username] = new Spectator(
                 spectator.id,
                 spectator.user
