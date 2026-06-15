@@ -18,6 +18,7 @@ build/
 !tsconfig.json
 data
 mongodb
+keyteki-json-data
 
 /.idea/
 server/game/partialcards

@@ -2,7 +2,7 @@
 /*
  * Rewrites the leading `//` comment block of each card implementation in
  * server/game/cards/<set-folder>/ so that it matches the card text in
- * keyteki-json-data/packs/<SET>.json verbatim, with icons translated to
+ * master-vault-data/packs/<SET>.json verbatim, with icons translated to
  * plain ASCII per project convention.
  *
  * Usage:
@@ -31,7 +31,7 @@ if (!setCode) {
     process.exit(1);
 }
 
-const jsonPath = path.join(ROOT, 'keyteki-json-data', 'packs', `${setCode}.json`);
+const jsonPath = path.join(ROOT, 'master-vault-data', 'packs', `${setCode}.json`);
 if (!fs.existsSync(jsonPath)) {
     console.error(`No pack JSON at ${jsonPath}`);
     process.exit(1);

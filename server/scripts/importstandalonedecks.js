@@ -33,7 +33,7 @@ class ImportStandaloneDecks {
 
     loadDecks() {
         let data = fs.readFileSync(
-            path.join(__dirname, '../../keyteki-json-data/standalone-decks.json')
+            path.join(__dirname, '../../master-vault-data/standalone-decks.json')
         );
         return JSON.parse(data);
     }

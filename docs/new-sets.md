@@ -41,7 +41,7 @@ You will need two pieces of information up front:
     Both are wired up automatically by the loop in [client/constants.js](../client/constants.js) that populates `SetIconPaths` and `DeckIconPaths`. Use an existing set as a size/style reference (e.g. `939.png` for VM2025).
 
 -   **Locales** — set names use `t('Full Name')` so English is the natural fallback; new locale entries are only needed if a translator provides them.
--   **`keyteki-json-data`** — the submodule must contain a pack file (e.g. `packs/VM25.json`, matching upstream MV naming) before `npm run fetchdata` can import cards. The submodule is maintained separately; if the pack file doesn't yet exist upstream the rest of the scaffolding can still ship.
+-   **`master-vault-data`** — must contain a pack file (e.g. `packs/VM25.json`, matching upstream MV naming) before `npm run fetchdata` can import cards. If the pack file doesn't yet exist the rest of the scaffolding can still ship.
 -   **No card or test files are required** for a reprint-only set — existing card implementations are reused based on card name.
 
 ### Verification
@@ -100,7 +100,7 @@ A set with new cards builds on the reprint-only checklist above and adds card da
 
 ### Card data and implementations
 
--   Update the `keyteki-json-data` submodule so that the new pack file (e.g. `packs/<CODE>.json`) exists with `ids`, `code`, `name`, `cardCount`, and `cards`.
+-   Update `master-vault-data` so that the new pack file (e.g. `packs/<CODE>.json`) exists with `ids`, `code`, `name`, `cardCount`, and `cards`.
 -   Create a new card directory under [server/game/cards/](../server/game/cards) named `<N>-<CODE>/` (where `<N>` is the next sequential prefix). One `.js` file per implemented card. Follow the conventions in [implementing-cards.md](implementing-cards.md) and use the most recent set as your style reference.
 -   Create a parallel test directory under [test/server/cards/](../test/server/cards) named `<N>-<CODE>/`. One `.spec.js` per card following [testing-cards.md](testing-cards.md) and [card-messages.md](card-messages.md).
 
