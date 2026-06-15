@@ -2,58 +2,58 @@
 
 This guide covers the basics of implementing KeyForge cards in Keyteki. For detailed ability documentation, see:
 
--   [Card Abilities](card-abilities.md) - Ability types and their properties
--   [Game Actions](game-actions.md) - All available `ability.actions.*` methods
--   [Keywords](keywords.md) - Keywords handled automatically by the engine
--   [Testing Cards](testing-cards.md) - How to write tests
+- [Card Abilities](card-abilities.md) - Ability types and their properties
+- [Game Actions](game-actions.md) - All available `ability.actions.*` methods
+- [Keywords](keywords.md) - Keywords handled automatically by the engine
+- [Testing Cards](testing-cards.md) - How to write tests
 
 ## Table of Contents
 
--   [Getting Started](#getting-started)
-    -   [Testing in the UI](#testing-in-the-ui)
--   [File Structure](#file-structure)
--   [Basic Card Template](#basic-card-template)
--   [Keywords](#keywords)
--   [Persistent Effects](#persistent-effects)
-    -   [Basic Persistent Effect](#basic-persistent-effect)
-    -   [Conditional Effects](#conditional-effects)
-    -   [Target Controllers](#target-controllers)
-    -   [Upgrade Effects](#upgrade-effects)
-    -   [Player Effects](#player-effects)
--   [Actions](#actions)
-    -   [Basic Action](#basic-action)
-    -   [Action with Target](#action-with-target)
-    -   [Omni Actions](#omni-actions)
--   [Triggered Abilities](#triggered-abilities)
-    -   [Reactions](#reactions)
-    -   [Interrupts](#interrupts)
-    -   [Trigger Events](#trigger-events)
--   [Targeting](#targeting)
-    -   [Single Target](#single-target)
-    -   [Multiple Targets](#multiple-targets)
-    -   [Target Properties](#target-properties)
-    -   [Card Conditions](#card-conditions)
--   [Costs](#costs)
--   [Lasting Effects](#lasting-effects)
-    -   [Durations](#durations)
--   [Ability Limits](#ability-limits)
+- [Getting Started](#getting-started)
+    - [Testing in the UI](#testing-in-the-ui)
+- [File Structure](#file-structure)
+- [Basic Card Template](#basic-card-template)
+- [Keywords](#keywords)
+- [Persistent Effects](#persistent-effects)
+    - [Basic Persistent Effect](#basic-persistent-effect)
+    - [Conditional Effects](#conditional-effects)
+    - [Target Controllers](#target-controllers)
+    - [Upgrade Effects](#upgrade-effects)
+    - [Player Effects](#player-effects)
+- [Actions](#actions)
+    - [Basic Action](#basic-action)
+    - [Action with Target](#action-with-target)
+    - [Omni Actions](#omni-actions)
+- [Triggered Abilities](#triggered-abilities)
+    - [Reactions](#reactions)
+    - [Interrupts](#interrupts)
+    - [Trigger Events](#trigger-events)
+- [Targeting](#targeting)
+    - [Single Target](#single-target)
+    - [Multiple Targets](#multiple-targets)
+    - [Target Properties](#target-properties)
+    - [Card Conditions](#card-conditions)
+- [Costs](#costs)
+- [Lasting Effects](#lasting-effects)
+    - [Durations](#durations)
+- [Ability Limits](#ability-limits)
 
 ## Getting Started
 
 To implement a card:
 
--   Find the card's data in `keyteki-json-data/packs/<Set>.json`
--   Create a file in `server/game/cards/<Set>/<CardName>.js`
--   Implement the card's abilities
--   Write tests in `test/server/cards/<Set>/<CardName>.spec.js`
--   Run and verify tests pass: `DEBUG_TEST=1 npm test -- test/server/cards/<Set>/<CardName>.spec.js`
+- Find the card's data in `keyteki-json-data/packs/<Set>.json`
+- Create a file in `server/game/cards/<Set>/<CardName>.js`
+- Implement the card's abilities
+- Write tests in `test/server/cards/<Set>/<CardName>.spec.js`
+- Run and verify tests pass: `DEBUG_TEST=1 npm test -- test/server/cards/<Set>/<CardName>.spec.js`
 
 ### Testing in the UI
 
--   Start the server: `docker-compose up --build`
--   Visit [http://localhost:4000](http://localhost:4000)
--   Create a game and enter manual mode
--   Add your card: `/add-card Card Name`
+- Start the server: `docker-compose up --build`
+- Visit [http://localhost:4000](http://localhost:4000)
+- Create a game and enter manual mode
+- Add your card: `/add-card Card Name`
 
 ## File Structure
 
@@ -92,11 +92,11 @@ module.exports = DustPixie;
 
 **Key points:**
 
--   Extend the `Card` class
--   Comment the card text above `setupCardAbilities`
--   Set the static `id` property to match the JSON data
--   Export the class with `module.exports`
--   Always end the file with a newline
+- Extend the `Card` class
+- Comment the card text above `setupCardAbilities`
+- Set the static `id` property to match the JSON data
+- Export the class with `module.exports`
+- Always end the file with a newline
 
 ## Keywords
 
@@ -142,9 +142,9 @@ this.persistentEffect({
 
 ### Target Controllers
 
--   `'self'` (default) - Only your cards
--   `'opponent'` - Only opponent's cards
--   `'any'` - All cards regardless of controller
+- `'self'` (default) - Only your cards
+- `'opponent'` - Only opponent's cards
+- `'any'` - All cards regardless of controller
 
 ```javascript
 // Enemy creatures get -1 power.
@@ -265,33 +265,33 @@ These events are used in `reaction()` and `interrupt()` abilities:
 | `onCardPlayed`        | When a card is played                                                                                                                                                                                                                                                                          | `event.card`, `event.player`, `event.originalLocation` |
 | `onCardDestroyed`     | When a card is destroyed                                                                                                                                                                                                                                                                       | `event.card`, `event.damageEvent`                      |
 | `onCardEnteringPlay`  | Before a card enters play, prior to any positioning prompt (e.g. flank/deploy choice). Use this when an ability needs to resolve before the card is actually placed in the play area — for example, Mimic Gel choosing a creature to copy. The card is not yet in `play area` when this fires. | `event.card`, `event.context`                          |
-| `onCardEntersPlay`    | When a card enters play                              | `event.card`                                           |
-| `onCardLeavesPlay`    | When a card leaves play                              | `event.card`, `event.triggeringEvent`                  |
-| `onCardDiscarded`     | When a card is discarded                             | `event.card`, `event.location`                         |
-| `onReap`              | When a creature reaps                                | `event.card`                                           |
-| `onFight`             | When a creature fights (and survives to deal damage) | `event.card` (defender), `event.attacker`              |
-| `onUseCard`           | When a card is used (fight, reap, action, unstun). For fights/reaps, fires as a child event in the same event window. For action abilities, fires in a separate event window **after** the action's game actions have fully resolved (damage dealt, creatures destroyed, etc.). | `event.card`, `event.fight`, `event.fightEvent`        |
-| `onDamageDealt`       | When damage is dealt to a creature                   | `event.card`, `event.amount`, `event.damageSource`     |
-| `onDamageApplied`     | When damage tokens are applied                       | `event.card`, `event.amount`, `event.destroyEvent`     |
-| `onModifyAmber`       | When a player gains or loses aember                  | `event.player`, `event.amount`, `event.reap`           |
-| `onStealAmber`        | When aember is stolen                                | `event.player` (victim), `event.amount`                |
-| `onCapture`           | When aember is captured                              | `event.card`, `event.amount`                           |
-| `onForgeKey`          | When a key is forged                                 | `event.player`, `event.modifier`                       |
-| `onDrawCards`         | When cards are drawn                                 | `event.player`, `event.amount`                         |
-| `onDeckShuffled`      | When a deck is shuffled                              | `event.player`, `event.shuffledDiscardIntoDeck`        |
-| `onTurnStart`         | At the start of a turn                               | `event.player`                                         |
-| `onTurnEnd`           | At the end of a turn                                 | `event.player`                                         |
-| `onPhaseStarted`      | When a phase starts                                  | `event.phase` (`'main'`, `'house'`, etc.)              |
-| `onPhaseEnd`          | When a phase ends                                    | `event.phase`                                          |
-| `onChooseActiveHouse` | When active house is chosen                          | `event.player`, `event.house`                          |
-| `onStun`              | When a creature is stunned                           | `event.card`                                           |
-| `onCardsReadied`      | When one or more cards are readied. Fires once per ready operation, with all readied cards in `event.cards`. | `event.cards` |
-| `onHeal`              | When a creature is healed                            | `event.card`, `event.amount`                           |
-| `onWard`              | When a creature is warded                            | `event.card`                                           |
-| `onExalt`             | When a creature is exalted                           | `event.card`, `event.amount`                           |
-| `onRaiseTide`         | When the tide is raised                              | `event.player`                                         |
-| `onCardArchived`      | When a card is archived                              | `event.card`                                           |
-| `onCardPurged`        | When a card is purged                                | `event.card`                                           |
+| `onCardEntersPlay`    | When a card enters play                                                                                                                                                                                                                                                                        | `event.card`                                           |
+| `onCardLeavesPlay`    | When a card leaves play                                                                                                                                                                                                                                                                        | `event.card`, `event.triggeringEvent`                  |
+| `onCardDiscarded`     | When a card is discarded                                                                                                                                                                                                                                                                       | `event.card`, `event.location`                         |
+| `onReap`              | When a creature reaps                                                                                                                                                                                                                                                                          | `event.card`                                           |
+| `onFight`             | When a creature fights (and survives to deal damage)                                                                                                                                                                                                                                           | `event.card` (defender), `event.attacker`              |
+| `onUseCard`           | When a card is used (fight, reap, action, unstun). For fights/reaps, fires as a child event in the same event window. For action abilities, fires in a separate event window **after** the action's game actions have fully resolved (damage dealt, creatures destroyed, etc.).                | `event.card`, `event.fight`, `event.fightEvent`        |
+| `onDamageDealt`       | When damage is dealt to a creature                                                                                                                                                                                                                                                             | `event.card`, `event.amount`, `event.damageSource`     |
+| `onDamageApplied`     | When damage tokens are applied                                                                                                                                                                                                                                                                 | `event.card`, `event.amount`, `event.destroyEvent`     |
+| `onModifyAmber`       | When a player gains or loses aember                                                                                                                                                                                                                                                            | `event.player`, `event.amount`, `event.reap`           |
+| `onStealAmber`        | When aember is stolen                                                                                                                                                                                                                                                                          | `event.player` (victim), `event.amount`                |
+| `onCapture`           | When aember is captured                                                                                                                                                                                                                                                                        | `event.card`, `event.amount`                           |
+| `onForgeKey`          | When a key is forged                                                                                                                                                                                                                                                                           | `event.player`, `event.modifier`                       |
+| `onDrawCards`         | When cards are drawn                                                                                                                                                                                                                                                                           | `event.player`, `event.amount`                         |
+| `onDeckShuffled`      | When a deck is shuffled                                                                                                                                                                                                                                                                        | `event.player`, `event.shuffledDiscardIntoDeck`        |
+| `onTurnStart`         | At the start of a turn                                                                                                                                                                                                                                                                         | `event.player`                                         |
+| `onTurnEnd`           | At the end of a turn                                                                                                                                                                                                                                                                           | `event.player`                                         |
+| `onPhaseStarted`      | When a phase starts                                                                                                                                                                                                                                                                            | `event.phase` (`'main'`, `'house'`, etc.)              |
+| `onPhaseEnd`          | When a phase ends                                                                                                                                                                                                                                                                              | `event.phase`                                          |
+| `onChooseActiveHouse` | When active house is chosen                                                                                                                                                                                                                                                                    | `event.player`, `event.house`                          |
+| `onStun`              | When a creature is stunned                                                                                                                                                                                                                                                                     | `event.card`                                           |
+| `onCardsReadied`      | When one or more cards are readied. Fires once per ready operation, with all readied cards in `event.cards`.                                                                                                                                                                                   | `event.cards`                                          |
+| `onHeal`              | When a creature is healed                                                                                                                                                                                                                                                                      | `event.card`, `event.amount`                           |
+| `onWard`              | When a creature is warded                                                                                                                                                                                                                                                                      | `event.card`                                           |
+| `onExalt`             | When a creature is exalted                                                                                                                                                                                                                                                                     | `event.card`, `event.amount`                           |
+| `onRaiseTide`         | When the tide is raised                                                                                                                                                                                                                                                                        | `event.player`                                         |
+| `onCardArchived`      | When a card is archived                                                                                                                                                                                                                                                                        | `event.card`                                           |
+| `onCardPurged`        | When a card is purged                                                                                                                                                                                                                                                                          | `event.card`                                           |
 
 For a complete list of events and their parameters, see [types.js](../server/game/Events/types.js).
 
@@ -378,12 +378,12 @@ cardCondition: (card, context) => context.source.neighbors.includes(card);
 
 Cards have several ways to access neighbors. Choose based on context:
 
-| Method | Returns | Fallback when card left play | Use when |
-| --- | --- | --- | --- |
-| `card.neighbors` | Array of 0–2 neighbors | `[]` (no fallback) | Persistent effects, target selection while source is in play |
-| `card.leftNeighbor()` | Left neighbor or `undefined` | `leftNeighborBeforeLeavingPlay` | Directional resolution (e.g. eachNeighbor helper) |
-| `card.rightNeighbor()` | Right neighbor or `undefined` | `rightNeighborBeforeLeavingPlay` | Directional resolution (e.g. eachNeighbor helper) |
-| `card.getNeighbors()` | `[leftNeighbor(), rightNeighbor()].filter(Boolean)` | Falls back via left/right methods | Reactions where the source may have left play during resolution |
+| Method                 | Returns                                             | Fallback when card left play      | Use when                                                        |
+| ---------------------- | --------------------------------------------------- | --------------------------------- | --------------------------------------------------------------- |
+| `card.neighbors`       | Array of 0–2 neighbors                              | `[]` (no fallback)                | Persistent effects, target selection while source is in play    |
+| `card.leftNeighbor()`  | Left neighbor or `undefined`                        | `leftNeighborBeforeLeavingPlay`   | Directional resolution (e.g. eachNeighbor helper)               |
+| `card.rightNeighbor()` | Right neighbor or `undefined`                       | `rightNeighborBeforeLeavingPlay`  | Directional resolution (e.g. eachNeighbor helper)               |
+| `card.getNeighbors()`  | `[leftNeighbor(), rightNeighbor()].filter(Boolean)` | Falls back via left/right methods | Reactions where the source may have left play during resolution |
 
 When a creature leaves play, `player.js` snapshots `leftNeighborBeforeLeavingPlay` and `rightNeighborBeforeLeavingPlay`. The `leftNeighbor()` / `rightNeighbor()` / `getNeighbors()` methods fall back to these snapshots when the card is no longer in the battleline (`indexOf === -1`). This supports the rule: "later instructions in the same ability refer to cards as they were immediately prior to leaving play."
 
@@ -436,9 +436,9 @@ this.action({
 
 Common costs:
 
--   `ability.costs.sacrifice()` - Sacrifice a card
--   `ability.costs.discardCard()` - Discard from hand
--   `ability.costs.payAmber(n)` - Spend aember
+- `ability.costs.sacrifice()` - Sacrifice a card
+- `ability.costs.discardCard()` - Discard from hand
+- `ability.costs.payAmber(n)` - Spend aember
 
 ## Lasting Effects
 
@@ -458,10 +458,10 @@ this.play({
 
 ### Durations
 
--   `'untilEndOfTurn'` (default)
--   `'untilEndOfMyNextTurn'`
--   `'untilEndOfOpponentNextTurn'`
--   `'persistent'` (until card leaves play)
+- `'untilEndOfTurn'` (default)
+- `'untilEndOfMyNextTurn'`
+- `'untilEndOfOpponentNextTurn'`
+- `'persistent'` (until card leaves play)
 
 ## Ability Limits
 
@@ -479,5 +479,5 @@ this.reaction({
 
 Limit types:
 
--   `ability.limit.perTurn(n)` - N times per turn
--   `ability.limit.perRound(n)` - N times per round
+- `ability.limit.perTurn(n)` - N times per turn
+- `ability.limit.perRound(n)` - N times per round
