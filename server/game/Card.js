@@ -721,11 +721,11 @@ class Card extends EffectSource {
     }
 
     applyAnyLocationPersistentEffects() {
-        this.persistentEffects.forEach((effect) => {
+        for (const effect of this.persistentEffects) {
             if (effect.location === 'any') {
                 effect.ref = this.addEffectToEngine(effect);
             }
-        });
+        }
     }
 
     onLeavesPlay() {
@@ -793,13 +793,13 @@ class Card extends EffectSource {
     }
 
     updateAbilityEvents(from, to) {
-        this.getReactions(true).forEach((reaction) => {
+        for (const reaction of this.getReactions(true)) {
             if (reaction.location.includes(to) && !reaction.location.includes(from)) {
                 reaction.registerEvents();
             } else if (!reaction.location.includes(to) && reaction.location.includes(from)) {
                 reaction.unregisterEvents();
             }
-        });
+        }
     }
 
     updateEffects(from = '', to = '') {
@@ -809,7 +809,7 @@ class Card extends EffectSource {
 
         let effectLocations = ['play area', 'discard'];
 
-        this.getPersistentEffects(true).forEach((effect) => {
+        for (const effect of this.getPersistentEffects(true)) {
             if (effect.location !== 'any') {
                 if (
                     effectLocations.includes(effect.location) &&
@@ -828,7 +828,7 @@ class Card extends EffectSource {
                     effect.ref = [];
                 }
             }
-        });
+        }
     }
 
     updateEffectContexts() {

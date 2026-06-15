@@ -293,9 +293,9 @@ class Game extends EventEmitter {
     findAnyCardsInPlay(predicate) {
         let foundCards = [];
 
-        this.getPlayers().forEach((player) => {
+        for (const player of this.getPlayers()) {
             foundCards = foundCards.concat(player.cardsInPlay.filter(predicate));
-        });
+        }
 
         return foundCards;
     }
@@ -309,7 +309,9 @@ class Game extends EventEmitter {
     }
 
     stopClocks() {
-        this.getPlayers().forEach((player) => player.stopClock());
+        for (const player of this.getPlayers()) {
+            player.stopClock();
+        }
     }
 
     /**
@@ -991,7 +993,9 @@ class Game extends EventEmitter {
 
     openSimultaneousEffectWindow(choices) {
         let window = new SimultaneousEffectWindow(this);
-        choices.forEach((choice) => window.addChoice(choice));
+        for (const choice of choices) {
+            window.addChoice(choice);
+        }
         this.queueStep(window);
     }
 

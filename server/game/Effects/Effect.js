@@ -71,7 +71,9 @@ class Effect {
     }
 
     removeTargets(targets) {
-        targets.forEach((target) => this.effect.unapply(target));
+        for (const target of targets) {
+            this.effect.unapply(target);
+        }
         this.targets = this.targets.filter((x) => !targets.includes(x));
     }
 
@@ -80,7 +82,9 @@ class Effect {
     }
 
     cancel() {
-        this.targets.forEach((target) => this.effect.unapply(target));
+        for (const target of this.targets) {
+            this.effect.unapply(target);
+        }
         this.targets = [];
     }
 
@@ -109,15 +113,17 @@ class Effect {
             this.removeTargets(invalidTargets);
             stateChanged = stateChanged || invalidTargets.length > 0;
             // Recalculate the effect for valid targets
-            this.targets.forEach(
-                (target) => (stateChanged = this.effect.recalculate(target) || stateChanged)
-            );
+            for (const target of this.targets) {
+                stateChanged = this.effect.recalculate(target) || stateChanged;
+            }
             // Check for new targets
             let newTargets = this.getTargets().filter(
                 (target) => !this.targets.includes(target) && this.isValidTarget(target)
             );
             // Apply the effect to new targets
-            newTargets.forEach((target) => this.addTarget(target));
+            for (const target of newTargets) {
+                this.addTarget(target);
+            }
             return stateChanged || newTargets.length > 0;
         } else if (this.targets.includes(this.match)) {
             if (!this.isValidTarget(this.match)) {

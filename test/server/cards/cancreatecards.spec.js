@@ -78,7 +78,7 @@ function expectLocalizedString(str) {
 
 function expectLocalizedPromptForSelect(gameAction) {
     let gameActions = Array.isArray(gameAction) ? gameAction : [gameAction];
-    gameActions.forEach((ga) => {
+    for (const ga of gameActions) {
         if (ga.promptForSelect && ga.promptForSelect.activePromptTitle) {
             expectLocalizedString(ga.promptForSelect.activePromptTitle);
         }
@@ -86,7 +86,7 @@ function expectLocalizedPromptForSelect(gameAction) {
         if (ga.promptWithHandlerMenu && ga.promptWithHandlerMenu.activePromptTitle) {
             expectLocalizedString(ga.promptWithHandlerMenu.activePromptTitle);
         }
-    });
+    }
 }
 
 function expectLocalizedTarget(target) {
@@ -99,9 +99,9 @@ function expectLocalizedTarget(target) {
     }
 
     if (target.choices) {
-        Object.keys(target.choices).forEach((choice) => {
+        for (const choice of Object.keys(target.choices)) {
             expectLocalizedString(choice);
-        });
+        }
     }
 }
 
@@ -125,9 +125,9 @@ function expectLocalizedPrompt(args) {
     }
 
     if (args.targets) {
-        Object.keys(args.targets).forEach((target) => {
+        for (const target of Object.keys(args.targets)) {
             expectLocalizedTarget(args.targets[target]);
-        });
+        }
     }
 
     if (args.then) {
@@ -151,7 +151,7 @@ describe('All Cards:', function () {
         };
     });
 
-    Object.values(cards).forEach((cardClass) => {
+    for (const cardClass of Object.values(cards)) {
         it("should be able to create '" + cardClass.name + "' and set it up", function () {
             // No explicit assertion - if this throws an exception it will fail
             // and give us a better stacktrace than the expect().not.toThrow()
@@ -235,9 +235,9 @@ describe('All Cards:', function () {
             });
 
             it('should have localized strings', function () {
-                this.calls.forEach((args) => {
+                for (const args of this.calls) {
                     expectLocalizedPrompt(args);
-                });
+                }
             });
 
             it('should have no condition or its condition should be a function', function () {
@@ -302,9 +302,9 @@ describe('All Cards:', function () {
             });
 
             it('should have localized strings', function () {
-                this.calls.forEach((args) => {
+                for (const args of this.calls) {
                     expectLocalizedPrompt(args);
-                });
+                }
             });
 
             it('should have an effectArgs which matches effect', function () {
@@ -357,5 +357,5 @@ describe('All Cards:', function () {
                 ).toBe(true);
             });
         });
-    });
+    }
 });

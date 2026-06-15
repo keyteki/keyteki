@@ -31,15 +31,15 @@ class EventRegistrar {
      * containing a mix of event names and event-to-method mappings.
      */
     register(events) {
-        events.forEach((event) => {
+        for (const event of events) {
             if (typeof event === 'string') {
                 this.registerEvent(event);
             } else {
-                Object.entries(event).forEach(([eventName, methodName]) => {
+                for (const [eventName, methodName] of Object.entries(event)) {
                     this.registerEvent(eventName, methodName);
-                });
+                }
             }
-        });
+        }
     }
 
     /**
@@ -65,9 +65,9 @@ class EventRegistrar {
      * Unbinds all registered handlers from the event emitter.
      */
     unregisterAll() {
-        this.events.forEach((event) => {
+        for (const event of this.events) {
             this.game.removeListener(event.name, event.handler);
-        });
+        }
         this.events = [];
     }
 }

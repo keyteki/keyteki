@@ -310,7 +310,7 @@ class PendingGame {
         let playerSummaries = {};
         let playersInGame = Object.values(this.players).filter((player) => !player.left);
 
-        playersInGame.forEach((player) => {
+        for (const player of playersInGame) {
             let deck;
 
             if (activePlayer === player.name && player.deck && this.gameFormat !== 'sealed') {
@@ -336,7 +336,7 @@ class PendingGame {
                 role: player.user.role,
                 wins: player.wins
             };
-        });
+        }
 
         return {
             adaptive: this.adaptive,

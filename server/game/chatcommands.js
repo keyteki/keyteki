@@ -183,12 +183,16 @@ class ChatCommands {
 
     startClocks(player) {
         this.game.addAlert('danger', '{0} restarts the timers', player);
-        this.game.getPlayers().forEach((player) => player.clock.restart());
+        for (const p of this.game.getPlayers()) {
+            p.clock.restart();
+        }
     }
 
     stopClocks(player) {
         this.game.addAlert('danger', '{0} stops the timers', player);
-        this.game.getPlayers().forEach((player) => player.clock.pause());
+        for (const p of this.game.getPlayers()) {
+            p.clock.pause();
+        }
     }
 
     modifyClock(player, args) {

@@ -26,9 +26,9 @@ function loadCards(directory) {
 
     loadFiles(directory);
 
-    getDirectories(directory).forEach((dir) => {
+    for (const dir of getDirectories(directory)) {
         cards = Object.assign(cards, loadCards(path.join(directory, dir)));
-    });
+    }
 
     return cards;
 }

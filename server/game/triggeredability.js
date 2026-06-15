@@ -174,21 +174,21 @@ class TriggeredAbility extends CardAbility {
 
         var eventNames = Object.keys(this.when);
         this.events = [];
-        eventNames.forEach((eventName) => {
+        for (const eventName of eventNames) {
             var event = {
                 name: eventName + ':' + this.abilityType,
                 handler: (event, window) => this.eventHandler(event, window)
             };
             this.game.on(event.name, event.handler);
             this.events.push(event);
-        });
+        }
     }
 
     unregisterEvents() {
         if (this.events) {
-            this.events.forEach((event) => {
+            for (const event of this.events) {
                 this.game.removeListener(event.name, event.handler);
-            });
+            }
             this.events = null;
         }
     }

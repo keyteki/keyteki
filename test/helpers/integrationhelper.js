@@ -341,9 +341,9 @@ beforeEach(function () {
     this.player1 = this.flow.player1;
     this.player2 = this.flow.player2;
 
-    ProxiedGameFlowWrapperMethods.forEach((method) => {
+    for (const method of ProxiedGameFlowWrapperMethods) {
         this[method] = (...args) => this.flow[method].apply(this.flow, args);
-    });
+    }
 
     this.buildDeck = function (faction, cards) {
         return deckBuilder.buildDeck(faction, cards);

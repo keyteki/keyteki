@@ -17,14 +17,14 @@ class UiPrompt extends BaseStep {
     }
 
     setPrompt() {
-        this.game.getPlayers().forEach((player) => {
+        for (const player of this.game.getPlayers()) {
             if (this.activeCondition(player)) {
                 player.setPrompt(this.addDefaultCommandToButtons(this.activePrompt(player)));
                 player.startClock();
             } else {
                 player.setPrompt(this.waitingPrompt());
             }
-        });
+        }
     }
 
     activeCondition(player) {
@@ -37,10 +37,10 @@ class UiPrompt extends BaseStep {
     addDefaultCommandToButtons(original) {
         var prompt = { ...original };
         if (prompt.buttons) {
-            prompt.buttons.forEach((button) => {
+            for (const button of prompt.buttons) {
                 button.command = button.command || 'menuButton';
                 button.uuid = this.uuid;
-            });
+            }
         }
 
         if (prompt.controls) {
@@ -70,9 +70,9 @@ class UiPrompt extends BaseStep {
     }
 
     clearPrompts() {
-        this.game.getPlayers().forEach((player) => {
+        for (const player of this.game.getPlayers()) {
             player.cancelPrompt();
-        });
+        }
     }
 
     onMenuCommand(player, arg, uuid, method) {

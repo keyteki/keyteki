@@ -79,22 +79,22 @@ class Deck {
         // Find up to 4 prophecy cards and set up their abilities.
         const prophecyCards = this.data.cards.filter((c) => c.card && c.card.type === 'prophecy');
         const prophecyCardsToSetup = prophecyCards.slice(0, 4);
-        prophecyCardsToSetup.forEach((card) => {
+        for (const card of prophecyCardsToSetup) {
             const prophecyCard = this.createCard(player, card.card);
             prophecyCard.activeProphecy = false;
             prophecyCard.setupAbilities();
             result.prophecyCards.push(prophecyCard);
-        });
+        }
 
         return result;
     }
 
     eachRepeatedCard(cards, func) {
-        cards.forEach((cardEntry) => {
+        for (const cardEntry of cards) {
             for (let i = 0; i < cardEntry.count; i++) {
                 func(cardEntry.card);
             }
-        });
+        }
     }
 
     createCard(player, cardData) {

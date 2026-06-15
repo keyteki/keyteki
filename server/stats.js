@@ -35,23 +35,23 @@ gameService
             houses[house] = { name: house, wins: 0, losses: 0 };
         }
 
-        games.forEach((game) => {
+        for (const game of games) {
             if (Object.keys(game.players).length !== 2) {
                 rejected.singlePlayer++;
 
-                return;
+                continue;
             }
 
             if (!game.winner) {
                 rejected.noWinner++;
 
-                return;
+                continue;
             } else if (game.players.some((player) => bannedDecks.includes(player.deck))) {
                 rejected.banned++;
-                return;
+                continue;
             } else if (game.players[0].deck === game.players[1].deck) {
                 rejected.mirror++;
-                return;
+                continue;
             }
 
             if (
@@ -63,7 +63,7 @@ gameService
                 fpWinRates.second++;
             }
 
-            game.players.forEach((player) => {
+            for (const player of game.players) {
                 if (!players[player.name]) {
                     players[player.name] = { name: player.name, wins: 0, losses: 0 };
                 }
@@ -78,14 +78,18 @@ gameService
                 if (player.name === game.winner) {
                     playerStat.wins++;
                     deckStat.wins++;
-                    player.houses.forEach((house) => houses[house].wins++);
+                    for (const house of player.houses) {
+                        houses[house].wins++;
+                    }
                 } else {
                     playerStat.losses++;
                     deckStat.losses++;
-                    player.houses.forEach((house) => houses[house].losses++);
+                    for (const house of player.houses) {
+                        houses[house].losses++;
+                    }
                 }
-            });
-        });
+            }
+        }
 
         let winners = Object.values(players)
             .sort((a, b) => b.wins - a.wins)
@@ -130,15 +134,15 @@ gameService
 
         console.info('### Top 10\n\nName | Number of wins\n----|----------------');
 
-        winners.forEach((winner) => {
+        for (const winner of winners) {
             console.info(winner.name, ' | ', winner.wins);
-        });
+        }
 
         console.info(
             '### Top 10 by winrate\n\nName | Number of wins | Number of losses | Win Rate\n----|-------------|------------------|--------'
         );
 
-        winRateStats.forEach((winner) => {
+        for (const winner of winRateStats) {
             console.info(
                 winner.name,
                 ' | ',
@@ -148,13 +152,13 @@ gameService
                 ' | ',
                 winner.winRate + '%'
             );
-        });
+        }
 
         console.info(
             '### Deck win rates\n\nDeck | Number of wins | Number of losses | Win Rate\n----|-------------|------------------|--------'
         );
 
-        deckWinRateStats.forEach((winner) => {
+        for (const winner of deckWinRateStats) {
             console.info(
                 winner.name,
                 ' | ',
@@ -164,13 +168,13 @@ gameService
                 ' | ',
                 winner.winRate + '%'
             );
-        });
+        }
 
         console.info(
             '### House win rates\n\nHouse | Number of wins | Number of losses | Win Rate\n----|-------------|------------------|--------'
         );
 
-        houseWinRates.forEach((house) => {
+        for (const house of houseWinRates) {
             console.info(
                 house.name,
                 ' | ',
@@ -180,7 +184,7 @@ gameService
                 ' | ',
                 house.winRate + '%'
             );
-        });
+        }
 
         console.info(
             'First Player win rate:',

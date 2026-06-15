@@ -62,9 +62,13 @@ class PlayerInteractionWrapper {
     set hand(cards = []) {
         //Move all cards in hand to the deck
         var cardsInHand = this.hand;
-        cardsInHand.forEach((card) => this.moveCard(card, 'deck'));
+        for (const card of cardsInHand) {
+            this.moveCard(card, 'deck');
+        }
         cards = this.mixedListToCardList(cards, 'deck');
-        cards.forEach((card) => this.moveCard(card, 'hand'));
+        for (const card of cards) {
+            this.moveCard(card, 'hand');
+        }
     }
 
     /**
@@ -91,11 +95,11 @@ class PlayerInteractionWrapper {
      */
     set inPlay(newState = []) {
         // First, move all cards in play back to the appropriate decks
-        this.inPlay.forEach((card) => {
+        for (const card of this.inPlay) {
             this.moveCard(card, 'deck');
-        });
+        }
         // Set up each of the cards
-        newState.forEach((card) => {
+        for (let card of newState) {
             if (typeof card === 'string') {
                 if (card.includes(':')) {
                     if (!card.startsWith(this.token + ':')) {
@@ -117,7 +121,7 @@ class PlayerInteractionWrapper {
                 }
             }
             card.exhausted = false;
-        });
+        }
     }
 
     get deck() {
@@ -134,9 +138,9 @@ class PlayerInteractionWrapper {
 
         // Add cards in reverse order so first card ends up on top
         let cards = this.mixedListToCardList(newContents, 'discard');
-        [...cards].reverse().forEach((card) => {
+        for (const card of [...cards].reverse()) {
             this.moveCard(card, 'deck');
-        });
+        }
     }
 
     /**
@@ -145,15 +149,15 @@ class PlayerInteractionWrapper {
      */
     set discard(newContents = []) {
         //  Move cards to the deck
-        this.discard.forEach((card) => {
+        for (const card of this.discard) {
             this.moveCard(card, 'deck');
-        });
+        }
         // Move cards to the discard in reverse order
         // (helps with referring to cards by index)
-        [...newContents].reverse().forEach((name) => {
+        for (const name of [...newContents].reverse()) {
             var card = this.findCardByName(name, 'deck');
             this.moveCard(card, 'discard');
-        });
+        }
     }
 
     get discard() {
@@ -162,9 +166,13 @@ class PlayerInteractionWrapper {
 
     set archives(newContents = []) {
         var cardsInArchives = this.archives;
-        cardsInArchives.forEach((card) => this.moveCard(card, 'deck'));
+        for (const card of cardsInArchives) {
+            this.moveCard(card, 'deck');
+        }
         let cards = this.mixedListToCardList(newContents, 'deck');
-        cards.forEach((card) => this.moveCard(card, 'archives'));
+        for (const card of cards) {
+            this.moveCard(card, 'archives');
+        }
     }
 
     get archives() {
@@ -722,7 +730,7 @@ class PlayerInteractionWrapper {
         var cardList = mixed.filter((card) => typeof card !== 'string');
         mixed = mixed.filter((card) => typeof card === 'string');
         // Find cards objects for the rest
-        mixed.forEach((card) => {
+        for (const card of mixed) {
             //Find only those cards that aren't already in the list
             var cardObject = this.filterCardsByName(card, locations).find(
                 (card) => !cardList.includes(card)
@@ -732,7 +740,7 @@ class PlayerInteractionWrapper {
             }
 
             cardList.push(cardObject);
-        });
+        }
 
         return cardList;
     }

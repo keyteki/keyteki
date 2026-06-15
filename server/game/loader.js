@@ -11,15 +11,15 @@ module.exports = {
     loadCards: function (basePath, directory) {
         var cards = {};
 
-        getDirectories(directory).forEach((dir) => {
+        for (const dir of getDirectories(directory)) {
             var normalisedPath = path.join(directory, dir);
 
-            fs.readdirSync(normalisedPath).forEach((file) => {
+            for (const file of fs.readdirSync(normalisedPath)) {
                 var card = require('./cards/' + basePath + '/' + dir + '/' + file);
 
                 cards[card.id] = card;
-            });
-        });
+            }
+        }
 
         return cards;
     }

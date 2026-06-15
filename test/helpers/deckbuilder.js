@@ -103,7 +103,7 @@ class DeckBuilder {
 
     buildDeck(houses, token, prophecies, cardLabels, name) {
         let cardCounts = {};
-        cardLabels.forEach((label) => {
+        for (const label of cardLabels) {
             let cardData = this.getCard(label);
             if (cardCounts[cardData.id]) {
                 cardCounts[cardData.id].count++;
@@ -114,7 +114,7 @@ class DeckBuilder {
                     id: cardData.id
                 };
             }
-        });
+        }
 
         if (token) {
             let cardData = this.getCard(token);
@@ -130,7 +130,7 @@ class DeckBuilder {
             }
         }
 
-        (prophecies || []).forEach((prophecy) => {
+        for (const prophecy of prophecies || []) {
             let prophecyCard = this.getCard(prophecy);
             if (prophecyCard.type === 'prophecy') {
                 if (cardCounts[prophecyCard.id]) {
@@ -147,7 +147,7 @@ class DeckBuilder {
             } else {
                 throw `Not a prophecy: ${prophecyCard.id}`;
             }
-        });
+        }
 
         return {
             houses: houses,

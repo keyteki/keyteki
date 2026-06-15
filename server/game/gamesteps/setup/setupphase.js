@@ -67,12 +67,12 @@ class SetupPhase extends Phase {
     }
 
     drawStartingHands() {
-        this.game.getPlayers().forEach((player) => {
+        for (const player of this.game.getPlayers()) {
             this.game.actions.shuffleDeck().resolve(player, this.game.getFrameworkContext());
             this.game.actions
                 .draw({ refill: true })
                 .resolve(player, this.game.getFrameworkContext());
-        });
+        }
         this.game.startingHandsDrawn = true;
     }
 
@@ -100,9 +100,9 @@ class SetupPhase extends Phase {
     }
 
     startGame() {
-        this.game.getPlayers().forEach((player) => {
+        for (const player of this.game.getPlayers()) {
             player.readyToStart = true;
-        });
+        }
         this.game.raiseEvent(EVENTS.onGameStarted);
     }
 }
