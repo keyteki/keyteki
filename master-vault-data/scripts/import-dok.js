@@ -1,7 +1,7 @@
 const path = require('path');
 const DecksOfKeyforgeApiToKeytekiConverter = require('../src/DecksOfKeyforgeApiToKeytekiConverter');
 
-let converter = new DecksOfKeyforgeApiToKeytekiConverter();
+const converter = new DecksOfKeyforgeApiToKeytekiConverter();
 
 converter
     .convert({

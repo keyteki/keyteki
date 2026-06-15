@@ -17,8 +17,8 @@ const BanlistService = require('../services/BanlistService');
 const PatreonService = require('../services/PatreonService');
 const util = require('../util.js');
 
-let configService = new ConfigService();
-let emailService = new EmailService(configService);
+const configService = new ConfigService();
+const emailService = new EmailService(configService);
 let userService;
 let banlistService;
 let patreonService;
@@ -38,7 +38,7 @@ function verifyPassword(password, dbPassword) {
 }
 
 function isValidImage(base64Image) {
-    let buffer = Buffer.from(base64Image, 'base64');
+    const buffer = Buffer.from(base64Image, 'base64');
 
     return buffer.toString('hex', 0, 4) === '89504e47' || buffer.toString('hex', 0, 2) === 'ffd8';
 }
@@ -123,9 +123,9 @@ function removePng(baseDir, name) {
 }
 
 async function getRandomAvatar(user) {
-    let stringToHash = crypto.randomBytes(32).toString('hex');
-    let md5Hash = crypto.createHash('md5').update(stringToHash).digest('hex');
-    let avatar = await util.httpRequest(
+    const stringToHash = crypto.randomBytes(32).toString('hex');
+    const md5Hash = crypto.createHash('md5').update(stringToHash).digest('hex');
+    const avatar = await util.httpRequest(
         `https://www.gravatar.com/avatar/${md5Hash}?d=identicon&s=24`,
         { encoding: null, allowedHosts: ['www.gravatar.com'] }
     );
@@ -167,7 +167,7 @@ function processImage(image, width, height) {
 }
 
 async function processAvatar(newUser, user) {
-    let hash = crypto.randomBytes(16).toString('hex');
+    const hash = crypto.randomBytes(16).toString('hex');
 
     removePng('public/img/avatar', user.settings.avatar);
 
@@ -179,7 +179,7 @@ async function processAvatar(newUser, user) {
         return null;
     }
 
-    let fileName = `${sanitizePathSegment(user.username)}-${hash}`;
+    const fileName = `${sanitizePathSegment(user.username)}-${hash}`;
     const stream = canvas.createPNGStream();
     const out = fs.createWriteStream(buildPngPath('public/img/avatar', fileName));
     stream.on('data', (chunk) => {
@@ -190,7 +190,7 @@ async function processAvatar(newUser, user) {
 }
 
 async function processCustomBackground(newUser, user) {
-    let hash = crypto.randomBytes(16).toString('hex');
+    const hash = crypto.randomBytes(16).toString('hex');
 
     removePng('public/img/bgs', user.settings.customBackground);
 
@@ -206,7 +206,7 @@ async function processCustomBackground(newUser, user) {
         return null;
     }
 
-    let fileName = `${sanitizePathSegment(user.username)}-${hash}`;
+    const fileName = `${sanitizePathSegment(user.username)}-${hash}`;
     const stream = canvas.createPNGStream();
     const out = fs.createWriteStream(buildPngPath('public/img/bgs', fileName));
     stream.on('data', (chunk) => {
@@ -263,18 +263,18 @@ module.exports.init = function (server, options) {
                 });
             }
 
-            let emailBlockKey = configService.getValueForSection('lobby', 'emailBlockKey');
+            const emailBlockKey = configService.getValueForSection('lobby', 'emailBlockKey');
             if (
                 configService.getValueForSection('lobby', 'blockDisposableEmail') &&
                 emailBlockKey
             ) {
-                let domain = req.body.email.substring(req.body.email.lastIndexOf('@') + 1);
+                const domain = req.body.email.substring(req.body.email.lastIndexOf('@') + 1);
                 try {
-                    let response = await util.httpRequest(
+                    const response = await util.httpRequest(
                         `http://check.block-disposable-email.com/easyapi/json/${emailBlockKey}/${domain}`,
                         { allowedHosts: ['check.block-disposable-email.com'] }
                     );
-                    let answer = JSON.parse(response);
+                    const answer = JSON.parse(response);
 
                     if (answer.request_status !== 'success') {
                         logger.warn(`Failed to check email address ${answer}`);
@@ -314,7 +314,7 @@ module.exports.init = function (server, options) {
             }
 
             try {
-                let lookup = await banlistService.getEntryByIp(ip);
+                const lookup = await banlistService.getEntryByIp(ip);
                 if (lookup) {
                     return res.send({
                         success: false,
@@ -331,7 +331,7 @@ module.exports.init = function (server, options) {
                 });
             }
 
-            let newUser = {
+            const newUser = {
                 password: passwordHash,
                 registered: new Date(),
                 username: req.body.username,
@@ -342,14 +342,14 @@ module.exports.init = function (server, options) {
             };
 
             if (configService.getValueForSection('lobby', 'requireActivation')) {
-                let expiration = moment().utc().add(7, 'days');
-                let formattedExpiration = expiration.format('YYYYMMDD-HH:mm:ss');
-                let hmac = crypto.createHmac(
+                const expiration = moment().utc().add(7, 'days');
+                const formattedExpiration = expiration.format('YYYYMMDD-HH:mm:ss');
+                const hmac = crypto.createHmac(
                     'sha512',
                     configService.getValueForSection('lobby', 'hmacSecret')
                 );
 
-                let activationToken = hmac
+                const activationToken = hmac
                     .update(`ACTIVATE ${req.body.username} ${formattedExpiration}`)
                     .digest('hex');
 
@@ -363,10 +363,10 @@ module.exports.init = function (server, options) {
             user = await userService.addUser(newUser);
 
             if (configService.getValueForSection('lobby', 'requireActivation')) {
-                let url = `${req.protocol}://${req.get('host')}/activation?id=${user.id}&token=${
+                const url = `${req.protocol}://${req.get('host')}/activation?id=${user.id}&token=${
                     newUser.activationToken
                 }`;
-                let emailText =
+                const emailText =
                     `Hi,\n\nSomeone, hopefully you, has requested an account named ${
                         newUser.username
                     } to be created on ${appName} (${req.protocol}://${req.get(
@@ -404,7 +404,7 @@ module.exports.init = function (server, options) {
                 return res.send({ success: false, message: 'Invalid parameters' });
             }
 
-            let user = await userService.getUserById(req.body.id);
+            const user = await userService.getUserById(req.body.id);
             if (!user) {
                 return res.send({
                     success: false,
@@ -423,7 +423,7 @@ module.exports.init = function (server, options) {
                 });
             }
 
-            let now = moment().utc();
+            const now = moment().utc();
             if (user.activationTokenExpiry < now) {
                 logger.error('Token expired for %s', user.username);
 
@@ -433,11 +433,11 @@ module.exports.init = function (server, options) {
                 });
             }
 
-            let hmac = crypto.createHmac(
+            const hmac = crypto.createHmac(
                 'sha512',
                 configService.getValueForSection('lobby', 'hmacSecret')
             );
-            let resetToken = hmac
+            const resetToken = hmac
                 .update('ACTIVATE ' + user.username + ' ' + user.activationTokenExpiry)
                 .digest('hex');
 
@@ -470,7 +470,7 @@ module.exports.init = function (server, options) {
     server.post(
         '/api/account/check-username',
         wrapAsync(async (req, res) => {
-            let user = await userService.doesUserExist(req.body.username);
+            const user = await userService.doesUserExist(req.body.username);
             if (user) {
                 return res.send({
                     success: true,
@@ -488,7 +488,7 @@ module.exports.init = function (server, options) {
         wrapAsync(async (req, res, next) => {
             req.params.username = req.user ? req.user.username : undefined;
 
-            let user = await checkAuth(req, res);
+            const user = await checkAuth(req, res);
 
             if (!user) {
                 return;
@@ -510,8 +510,8 @@ module.exports.init = function (server, options) {
         '/api/account/checkauth',
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async (req, res) => {
-            let user = await userService.getFullUserByUsername(req.user.username);
-            let userDetails = user.getWireSafeDetails();
+            const user = await userService.getFullUserByUsername(req.user.username);
+            const userDetails = user.getWireSafeDetails();
             let isSupporter = false;
 
             if (user.patreon && user.patreon.refresh_token) {
@@ -520,7 +520,7 @@ module.exports.init = function (server, options) {
                 if (userDetails.patreon === 'none') {
                     delete userDetails.patreon;
 
-                    let ret = await patreonService.refreshTokenForUser(user);
+                    const ret = await patreonService.refreshTokenForUser(user);
                     if (ret) {
                         userDetails.patreon = await patreonService.getPatreonStatusForUser(user);
                     }
@@ -554,7 +554,7 @@ module.exports.init = function (server, options) {
                 return res.send({ success: false, message: 'Password must be specified' });
             }
 
-            let user = await userService.getFullUserByUsername(req.body.username);
+            const user = await userService.getFullUserByUsername(req.body.username);
             if (!user) {
                 return res.send({ success: false, message: 'Invalid username/password' });
             }
@@ -587,9 +587,9 @@ module.exports.init = function (server, options) {
                 });
             }
 
-            let userObj = user.getWireSafeDetails();
+            const userObj = user.getWireSafeDetails();
 
-            let authToken = jwt.sign(userObj, configService.getValue('secret'), {
+            const authToken = jwt.sign(userObj, configService.getValue('secret'), {
                 expiresIn: '5m'
             });
             let ip = req.get('x-real-ip');
@@ -597,7 +597,7 @@ module.exports.init = function (server, options) {
                 ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
             }
 
-            let refreshToken = await userService.addRefreshToken(user, authToken, ip);
+            const refreshToken = await userService.addRefreshToken(user, authToken, ip);
             if (!refreshToken) {
                 return res.send({
                     success: false,
@@ -622,9 +622,9 @@ module.exports.init = function (server, options) {
                 return res.send({ success: false, message: 'Refresh token must be specified' });
             }
 
-            let token = req.body.token;
+            const token = req.body.token;
 
-            let user = await userService.getFullUserByUsername(token.username);
+            const user = await userService.getFullUserByUsername(token.username);
             if (!user) {
                 return res.send({ success: false, message: 'Invalid refresh token' });
             }
@@ -636,7 +636,7 @@ module.exports.init = function (server, options) {
                 return res.send({ success: false, message: 'Invalid refresh token' });
             }
 
-            let refreshToken = user.tokens.find((t) => {
+            const refreshToken = user.tokens.find((t) => {
                 return t.id === token.id;
             });
             if (!refreshToken) {
@@ -651,14 +651,14 @@ module.exports.init = function (server, options) {
                 return res.send({ success: false, message: 'Invalid refresh token' });
             }
 
-            let userObj = user.getWireSafeDetails();
+            const userObj = user.getWireSafeDetails();
 
             let ip = req.get('x-real-ip');
             if (!ip) {
                 ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
             }
 
-            let authToken = jwt.sign(userObj, configService.getValue('secret'), {
+            const authToken = jwt.sign(userObj, configService.getValue('secret'), {
                 expiresIn: '5m'
             });
 
@@ -671,13 +671,11 @@ module.exports.init = function (server, options) {
     server.post(
         '/api/account/password-reset-finish',
         wrapAsync(async (req, res) => {
-            let resetUser;
-
             if (!req.body.id || !req.body.token || !req.body.newPassword) {
                 return res.send({ success: false, message: 'Invalid parameters' });
             }
 
-            let user = await userService.getUserById(req.body.id);
+            const user = await userService.getUserById(req.body.id);
             if (!user) {
                 return res.send({
                     success: false,
@@ -696,7 +694,7 @@ module.exports.init = function (server, options) {
                 });
             }
 
-            let now = moment().utc();
+            const now = moment().utc();
             if (user.tokenExpires < now) {
                 logger.error('Token expired for %s', user.username);
 
@@ -706,11 +704,11 @@ module.exports.init = function (server, options) {
                 });
             }
 
-            let hmac = crypto.createHmac(
+            const hmac = crypto.createHmac(
                 'sha512',
                 configService.getValueForSection('lobby', 'hmacSecret')
             );
-            let resetToken = hmac
+            const resetToken = hmac
                 .update(
                     'RESET ' +
                         user.username +
@@ -734,9 +732,9 @@ module.exports.init = function (server, options) {
                 });
             }
 
-            resetUser = user;
+            const resetUser = user;
 
-            let passwordHash = await bcrypt.hash(req.body.newPassword, 10);
+            const passwordHash = await bcrypt.hash(req.body.newPassword, 10);
             await userService.setPassword(resetUser, passwordHash);
             await userService.clearResetToken(resetUser);
 
@@ -747,9 +745,7 @@ module.exports.init = function (server, options) {
     server.post(
         '/api/account/password-reset',
         wrapAsync(async (req, res) => {
-            let resetToken;
-
-            let response = await util.httpRequest('https://hcaptcha.com/siteverify', {
+            const response = await util.httpRequest('https://hcaptcha.com/siteverify', {
                 method: 'POST',
                 allowedHosts: ['hcaptcha.com'],
                 form: {
@@ -758,7 +754,7 @@ module.exports.init = function (server, options) {
                     remoteip: req.ip
                 }
             });
-            let answer = JSON.parse(response);
+            const answer = JSON.parse(response);
 
             if (!answer.success) {
                 return res.send({
@@ -780,14 +776,16 @@ module.exports.init = function (server, options) {
                 }
             }
 
-            let expiration = moment().utc().add(4, 'hours');
-            let formattedExpiration = expiration.format('YYYYMMDD-HH:mm:ss');
-            let hmac = crypto.createHmac(
+            const expiration = moment().utc().add(4, 'hours');
+            const formattedExpiration = expiration.format('YYYYMMDD-HH:mm:ss');
+            const hmac = crypto.createHmac(
                 'sha512',
                 configService.getValueForSection('lobby', 'hmacSecret')
             );
 
-            resetToken = hmac.update(`RESET ${user.username} ${formattedExpiration}`).digest('hex');
+            const resetToken = hmac
+                .update(`RESET ${user.username} ${formattedExpiration}`)
+                .digest('hex');
 
             logger.info(`${resetToken} ${user.username} ${formattedExpiration}`);
 
@@ -797,10 +795,10 @@ module.exports.init = function (server, options) {
                 return;
             }
 
-            let url = `${req.protocol}://${req.get('host')}/reset-password?id=${
+            const url = `${req.protocol}://${req.get('host')}/reset-password?id=${
                 user.id
             }&token=${resetToken}`;
-            let emailText =
+            const emailText =
                 `Hi,\n\nSomeone, hopefully you, has requested the password for ${
                     user.username
                 } on ${appName} (${req.protocol}://${req.get(
@@ -818,7 +816,7 @@ module.exports.init = function (server, options) {
         '/api/account/:username',
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async (req, res) => {
-            let userToSet = req.body.data;
+            const userToSet = req.body.data;
             let message;
 
             if (req.user.username !== req.params.username) {
@@ -841,7 +839,7 @@ module.exports.init = function (server, options) {
             }
 
             if (user.username !== userToSet.username) {
-                let userTest = await userService.doesUserExist(userToSet.username);
+                const userTest = await userService.doesUserExist(userToSet.username);
                 if (userTest) {
                     return res.send({
                         success: false,
@@ -864,8 +862,8 @@ module.exports.init = function (server, options) {
 
             user.username = userToSet.username;
             user.email = userToSet.email;
-            let oldAvatar = user.settings.avatar;
-            let oldCustomBg = user.settings.customBackground;
+            const oldAvatar = user.settings.avatar;
+            const oldCustomBg = user.settings.customBackground;
 
             user.settings = userToSet.settings;
             user.settings.avatar = oldAvatar;
@@ -887,8 +885,8 @@ module.exports.init = function (server, options) {
 
             await userService.update(user);
 
-            let updatedUser = await userService.getUserById(user.id);
-            let safeUser = updatedUser.getWireSafeDetails();
+            const updatedUser = await userService.getUserById(user.id);
+            const safeUser = updatedUser.getWireSafeDetails();
             let authToken;
 
             if (!safeUser.disabled && !safeUser.verified) {
@@ -910,13 +908,13 @@ module.exports.init = function (server, options) {
         '/api/account/:username/sessions',
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async (req, res) => {
-            let user = await checkAuth(req, res);
+            const user = await checkAuth(req, res);
 
             if (!user) {
                 return;
             }
 
-            let tokens = user.tokens || [];
+            const tokens = user.tokens || [];
 
             res.send({
                 success: true,
@@ -947,12 +945,12 @@ module.exports.init = function (server, options) {
                 return res.send({ success: false, message: 'Session Id is required' });
             }
 
-            let user = await checkAuth(req, res);
+            const user = await checkAuth(req, res);
             if (!user) {
                 return;
             }
 
-            let session = await userService.getRefreshTokenById(user.id, req.params.id);
+            const session = await userService.getRefreshTokenById(user.id, req.params.id);
             if (!session) {
                 return res.status(404).send({ message: 'Not found' });
             }
@@ -971,13 +969,13 @@ module.exports.init = function (server, options) {
         '/api/account/:username/blocklist',
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async (req, res) => {
-            let user = await checkAuth(req, res);
+            const user = await checkAuth(req, res);
 
             if (!user) {
                 return;
             }
 
-            let blockList = user.blockList || [];
+            const blockList = user.blockList || [];
             res.send({ success: true, blockList: blockList.sort() });
         })
     );
@@ -986,7 +984,7 @@ module.exports.init = function (server, options) {
         '/api/account/:username/blocklist',
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async (req, res) => {
-            let user = await checkAuth(req, res);
+            const user = await checkAuth(req, res);
 
             if (!user) {
                 return;
@@ -996,7 +994,7 @@ module.exports.init = function (server, options) {
                 user.blockList = [];
             }
 
-            let lowerCaseUser = req.body.username.toLowerCase();
+            const lowerCaseUser = req.body.username.toLowerCase();
 
             if (
                 user.blockList.find((user) => {
@@ -1019,7 +1017,7 @@ module.exports.init = function (server, options) {
                 blockList: user.blockList
             });
 
-            let updatedUser = await userService.getUserById(user.id);
+            const updatedUser = await userService.getUserById(user.id);
 
             res.send({
                 success: true,
@@ -1050,7 +1048,7 @@ module.exports.init = function (server, options) {
                 user.blockList = [];
             }
 
-            let lowerCaseUser = req.params.entry.toLowerCase();
+            const lowerCaseUser = req.params.entry.toLowerCase();
 
             if (
                 !user.blockList.find((user) => {
@@ -1075,7 +1073,7 @@ module.exports.init = function (server, options) {
                 blockList: user.blockList
             });
 
-            let updatedUser = await userService.getUserById(user.id);
+            const updatedUser = await userService.getUserById(user.id);
 
             res.send({
                 success: true,
@@ -1090,7 +1088,7 @@ module.exports.init = function (server, options) {
         '/api/account/:username/delete',
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async (req, res) => {
-            let user = await checkAuth(req, res);
+            const user = await checkAuth(req, res);
             if (!user) {
                 return;
             }
@@ -1152,7 +1150,7 @@ module.exports.init = function (server, options) {
                 });
             }
 
-            let status = await patreonService.getPatreonStatusForUser(user);
+            const status = await patreonService.getPatreonStatusForUser(user);
 
             try {
                 if (status === 'pledged' && !user.permissions.isSupporter) {
@@ -1177,13 +1175,13 @@ module.exports.init = function (server, options) {
         wrapAsync(async (req, res) => {
             req.params.username = req.user ? req.user.username : undefined;
 
-            let user = await checkAuth(req, res);
+            const user = await checkAuth(req, res);
 
             if (!user) {
                 return;
             }
 
-            let ret = await patreonService.unlinkAccount(req.params.username);
+            const ret = await patreonService.unlinkAccount(req.params.username);
             if (!ret) {
                 return res.send({
                     success: false,
@@ -1198,7 +1196,7 @@ module.exports.init = function (server, options) {
 };
 
 async function checkAuth(req, res) {
-    let user = await userService.getFullUserByUsername(req.params.username);
+    const user = await userService.getFullUserByUsername(req.params.username);
 
     if (!req.user) {
         res.status(401).send({ message: 'Unauthorized' });

@@ -18,13 +18,13 @@ const DrawDeck = (props) => {
         spectating
     } = props;
 
-    let drawDeckPopupMenu = showDeck
+    const drawDeckPopupMenu = showDeck
         ? [{ text: 'Close and Shuffle', handler: () => onShuffleClick && onShuffleClick() }]
         : null;
 
-    let hasCards = cards?.length !== 0;
+    const hasCards = cards?.length !== 0;
 
-    let drawDeck = (
+    const drawDeck = (
         <CardPileLink
             {...props}
             className='draw'

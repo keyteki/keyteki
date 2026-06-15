@@ -18,8 +18,8 @@ class AbilityTargetSelect extends AbilityTarget {
     }
 
     getDependsOnCondition(target) {
-        let keys = Object.keys(this.properties.choices);
-        let key = keys.find((key) => target.name.startsWith(key));
+        const keys = Object.keys(this.properties.choices);
+        const key = keys.find((key) => target.name.startsWith(key));
         if (key) {
             return (context) => context.selects[this.name].choice === key;
         }
@@ -27,14 +27,14 @@ class AbilityTargetSelect extends AbilityTarget {
     }
 
     hasLegalTarget(context) {
-        let keys = Object.keys(this.properties.choices);
+        const keys = Object.keys(this.properties.choices);
         return (
             keys.some((key) => this.isChoiceLegal(key, context)) && super.hasLegalTarget(context)
         );
     }
 
     isChoiceLegal(key, context) {
-        let contextCopy = context.copy();
+        const contextCopy = context.copy();
         contextCopy.selects[this.name] = new SelectChoice(key);
         if (this.name === 'target') {
             contextCopy.select = key;
@@ -44,7 +44,7 @@ class AbilityTargetSelect extends AbilityTarget {
             return false;
         }
 
-        let choice = this.properties.choices[key];
+        const choice = this.properties.choices[key];
         if (typeof choice === 'function') {
             return choice(contextCopy);
         }
@@ -57,7 +57,7 @@ class AbilityTargetSelect extends AbilityTarget {
             return [];
         }
 
-        let choice = this.properties.choices[context.selects[this.name].choice];
+        const choice = this.properties.choices[context.selects[this.name].choice];
 
         if (typeof choice !== 'function') {
             return choice.filter((gameAction) => gameAction.hasLegalTarget(context));
@@ -91,11 +91,11 @@ class AbilityTargetSelect extends AbilityTarget {
             player = player.opponent;
         }
 
-        let promptTitle = this.properties.activePromptTitle || 'Select one';
-        let choices = Object.keys(this.properties.choices).filter((key) =>
+        const promptTitle = this.properties.activePromptTitle || 'Select one';
+        const choices = Object.keys(this.properties.choices).filter((key) =>
             this.isChoiceLegal(key, context)
         );
-        let handlers = _.map(choices, (choice) => {
+        const handlers = _.map(choices, (choice) => {
             return () => {
                 context.selects[this.name] = new SelectChoice(choice);
                 if (this.name === 'target') {

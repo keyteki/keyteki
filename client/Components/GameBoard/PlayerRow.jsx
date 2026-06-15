@@ -19,7 +19,7 @@ const PlayerRow = ({
 }) => {
     const { t } = useTranslation();
 
-    let sortedHand = [].concat(hand).sort((a, b) => {
+    const sortedHand = [].concat(hand).sort((a, b) => {
         if (a.printedHouse < b.printedHouse) {
             return -1;
         } else if (a.printedHouse > b.printedHouse) {
@@ -29,7 +29,7 @@ const PlayerRow = ({
         return 0;
     });
 
-    let handToRender = (
+    const handToRender = (
         <SquishableCardPanel
             cards={sortedHand}
             className='panel hand'

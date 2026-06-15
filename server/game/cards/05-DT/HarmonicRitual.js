@@ -12,11 +12,11 @@ class HarmonicRitual extends Card {
                 let amount = 0;
                 let creature = context.target;
                 if (creature) {
-                    let creatures = creature.controller.creaturesInPlay;
+                    const creatures = creature.controller.creaturesInPlay;
                     let index = creatures.indexOf(creature);
 
                     while (index > 0) {
-                        let leftNeighbor = creatures[index - 1];
+                        const leftNeighbor = creatures[index - 1];
                         if (creature.getHouses().some((house) => leftNeighbor.hasHouse(house))) {
                             amount += 1;
                         } else {

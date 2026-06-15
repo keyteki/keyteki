@@ -2,7 +2,7 @@ const ChallongeService = require('../services/ChallongeService.js');
 const passport = require('passport');
 const { wrapAsync } = require('../util.js');
 
-let challongeService = new ChallongeService();
+const challongeService = new ChallongeService();
 
 module.exports.init = function (server) {
     server.get(

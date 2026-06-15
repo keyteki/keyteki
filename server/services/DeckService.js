@@ -46,7 +46,7 @@ class DeckService {
             return undefined;
         }
 
-        for (let house of houses) {
+        for (const house of houses) {
             this.houseCache[house.Code] = house.Id;
         }
 
@@ -77,7 +77,7 @@ class DeckService {
             return undefined;
         }
 
-        let retDeck = this.mapDeck(deck[0]);
+        const retDeck = this.mapDeck(deck[0]);
 
         await this.getDeckCardsAndHouses(retDeck);
 
@@ -106,7 +106,7 @@ class DeckService {
             return undefined;
         }
 
-        let retDeck = this.mapDeck(deck[0]);
+        const retDeck = this.mapDeck(deck[0]);
 
         await this.getDeckCardsAndHouses(retDeck);
 
@@ -139,7 +139,7 @@ class DeckService {
             return undefined;
         }
 
-        let retDeck = this.mapDeck(deck[0]);
+        const retDeck = this.mapDeck(deck[0]);
 
         await this.getDeckCardsAndHouses(retDeck);
 
@@ -185,7 +185,7 @@ class DeckService {
             return undefined;
         }
 
-        let retDeck = this.mapDeck(deck[0]);
+        const retDeck = this.mapDeck(deck[0]);
 
         await this.getDeckCardsAndHouses(retDeck, true);
 
@@ -213,9 +213,9 @@ class DeckService {
             return undefined;
         }
 
-        let retDecks = [];
+        const retDecks = [];
         for (const deck of decks) {
-            let retDeck = this.mapDeck(deck);
+            const retDeck = this.mapDeck(deck);
 
             retDeck.verified = true;
 
@@ -232,7 +232,7 @@ class DeckService {
     }
 
     async getSealedDeck(expansions) {
-        let dbExpansions = [];
+        const dbExpansions = [];
 
         if (expansions.aoa) {
             dbExpansions.push(435);
@@ -307,7 +307,7 @@ class DeckService {
         }
 
         let deck;
-        let expansionStr = dbExpansions.join(',');
+        const expansionStr = dbExpansions.join(',');
         try {
             deck = await db.query(
                 `SELECT d.*, e."ExpansionId" AS "Expansion" from "Decks" d JOIN "Expansions" e on e."Id" = d."ExpansionId" WHERE d."ExpansionId" IN (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" IN(${expansionStr})) AND "IncludeInSealed" = True ORDER BY random() LIMIT 1`
@@ -322,7 +322,7 @@ class DeckService {
             return undefined;
         }
 
-        let retDeck = this.mapDeck(deck[0]);
+        const retDeck = this.mapDeck(deck[0]);
 
         await this.getDeckCardsAndHouses(retDeck);
 
@@ -334,8 +334,8 @@ class DeckService {
         options = { page: 1, pageSize: 10, sort: 'lastUpdated', sortDir: 'desc', filter: [] }
     ) {
         let ret;
-        let params = [user.id];
-        let index = 2;
+        const params = [user.id];
+        const index = 2;
         const filter = this.processFilter(index, params, options?.filter);
 
         try {
@@ -380,7 +380,7 @@ class DeckService {
         }
         let filter = '';
 
-        for (let filterObject of filterOptions || []) {
+        for (const filterObject of filterOptions || []) {
             if (filterObject.name === 'expansion') {
                 if (!filterObject.value) {
                     continue;
@@ -416,15 +416,15 @@ class DeckService {
         user,
         options = { page: 1, pageSize: 10, sort: 'lastUpdated', sortDir: 'desc', filter: [] }
     ) {
-        let retDecks = [];
+        const retDecks = [];
         let decks;
-        let pageSize = options.pageSize;
-        let page = options.page;
-        let sortColumn = this.mapColumn(options.sort, true);
-        let sortDir = options.sortDir === 'desc' ? 'DESC' : 'ASC';
-        let params = [user.id, pageSize, (page - 1) * pageSize];
+        const pageSize = options.pageSize;
+        const page = options.page;
+        const sortColumn = this.mapColumn(options.sort, true);
+        const sortDir = options.sortDir === 'desc' ? 'DESC' : 'ASC';
+        const params = [user.id, pageSize, (page - 1) * pageSize];
 
-        let index = 4;
+        const index = 4;
         const filter = this.processFilter(index, params, options.filter);
 
         try {
@@ -448,8 +448,8 @@ class DeckService {
             logger.error('Failed to retrieve decks', err);
         }
 
-        for (let deck of decks) {
-            let retDeck = this.mapDeck(deck);
+        for (const deck of decks) {
+            const retDeck = this.mapDeck(deck);
 
             await this.getDeckCardsAndHouses(retDeck);
 
@@ -469,10 +469,10 @@ class DeckService {
                 'SELECT dc.*, h."Code" as "House" FROM "DeckCards" dc LEFT JOIN "Houses" h ON h."Id" = dc."HouseId" WHERE "DeckId" = $1';
         }
 
-        let cards = await db.query(cardTableQuery, [deck.id]);
+        const cards = await db.query(cardTableQuery, [deck.id]);
 
         // These are cards that have changed houses in later sets.
-        let specialCardDefaultHouses = {
+        const specialCardDefaultHouses = {
             'armageddon-cloak': 'sanctum',
             'avenging-aura': 'sanctum',
             'book-of-malefaction': 'sanctum',
@@ -560,15 +560,15 @@ class DeckService {
             return a.dbId - b.dbId;
         });
 
-        let houseTable = standalone ? 'StandaloneDeckHouses' : 'DeckHouses';
-        let houses = await db.query(
+        const houseTable = standalone ? 'StandaloneDeckHouses' : 'DeckHouses';
+        const houses = await db.query(
             `SELECT * FROM "${houseTable}" dh JOIN "Houses" h ON h."Id" = dh."HouseId" WHERE "DeckId" = $1`,
             [deck.id]
         );
         deck.houses = houses.map((house) => house.Code);
 
         if (!standalone) {
-            let accolades = await db.query(
+            const accolades = await db.query(
                 'SELECT * FROM "DeckAccolades" WHERE "DeckId" = $1 ORDER BY "Id"',
                 [deck.id]
             );
@@ -587,7 +587,7 @@ class DeckService {
         let deckResponse;
 
         try {
-            let response = await util.httpRequest(
+            const response = await util.httpRequest(
                 `https://www.keyforgegame.com/api/decks/${deck.uuid}/?links=cards`,
                 { allowedHosts: ['www.keyforgegame.com'] }
             );
@@ -609,12 +609,12 @@ class DeckService {
             throw new Error('Invalid response from Api. Please try again later.');
         }
 
-        let newDeck = await this.parseDeckResponse(deck.username, deckResponse);
+        const newDeck = await this.parseDeckResponse(deck.username, deckResponse);
         if (!newDeck) {
             throw new Error('There was a problem importing your deck, please try again later.');
         }
 
-        let validExpansion = await this.checkValidDeckExpansion(newDeck);
+        const validExpansion = await this.checkValidDeckExpansion(newDeck);
         if (!validExpansion) {
             return {
                 success: false,
@@ -622,7 +622,7 @@ class DeckService {
             };
         }
 
-        let deckExists = await this.deckExistsForUser(user, newDeck.identity);
+        const deckExists = await this.deckExistsForUser(user, newDeck.identity);
         if (deckExists) {
             return {
                 success: false,
@@ -632,7 +632,7 @@ class DeckService {
 
         newDeck.isAlliance = false;
 
-        let response = await this.insertDeck(newDeck, user);
+        const response = await this.insertDeck(newDeck, user);
 
         return {
             success: true,
@@ -719,7 +719,7 @@ class DeckService {
         const expansionSupportsProphecy = Boolean(expansion?.prophecySupported);
         const selectedDeckIds = uniqueDeckIds;
 
-        for (let pod of parsedPods) {
+        for (const pod of parsedPods) {
             const sourceDeck = decksByUuid[pod.deckId];
             if (!sourceDeck.houses.includes(pod.house)) {
                 throw new Error('Failed to create deck. Invalid house selection for source deck');
@@ -830,14 +830,14 @@ class DeckService {
             parsedPods.some((pod) => pod.house === house)
         );
 
-        let podCards = [];
+        const podCards = [];
 
         if (prophecySourceDeck) {
             const sourceProphecyCards = prophecySourceDeck.cards.filter(
                 (card) => (card.card && card.card.type === 'prophecy') || card.prophecyId
             );
 
-            for (let card of sourceProphecyCards) {
+            for (const card of sourceProphecyCards) {
                 podCards.push({
                     ...card,
                     prophecyId: card.prophecyId
@@ -849,11 +849,11 @@ class DeckService {
             podCards.push(tokenCardToAdd);
         }
 
-        for (let pod of parsedPods) {
+        for (const pod of parsedPods) {
             const dbDeck = decksByUuid[pod.deckId];
             const house = pod.house;
 
-            for (let card of dbDeck.cards) {
+            for (const card of dbDeck.cards) {
                 if ((card.card && card.card.type === 'prophecy') || card.prophecyId) {
                     continue;
                 }
@@ -1011,8 +1011,8 @@ class DeckService {
 
         deck.id = ret[0].Id;
 
-        let params = [];
-        for (let card of deck.cards) {
+        const params = [];
+        for (const card of deck.cards) {
             params.push(card.id);
             params.push(card.count);
             params.push(card.maverick);
@@ -1057,7 +1057,7 @@ class DeckService {
             throw new Error('Failed to import deck');
         }
 
-        let deckHouseTable = user ? '"DeckHouses"' : '"StandaloneDeckHouses"';
+        const deckHouseTable = user ? '"DeckHouses"' : '"StandaloneDeckHouses"';
         try {
             await db.query(
                 `INSERT INTO ${deckHouseTable} ("DeckId", "HouseId") VALUES ($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $2)), ` +
@@ -1066,7 +1066,7 @@ class DeckService {
             );
 
             if (user && deck.accolades && deck.accolades.length > 0) {
-                let accoladeParams = [];
+                const accoladeParams = [];
                 for (let i = 0; i < deck.accolades.length; i++) {
                     const accolade = deck.accolades[i];
                     const shown = i < 3;
@@ -1107,7 +1107,7 @@ class DeckService {
             }
         }
 
-        for (let card of deck.cards) {
+        for (const card of deck.cards) {
             if (card.enhancements) {
                 try {
                     await db.query('UPDATE "DeckCards" SET "Enhancements" = $2 WHERE "Id" = $1', [
@@ -1175,7 +1175,7 @@ class DeckService {
     }
 
     async getFlaggedUnverifiedDecksForUser(user) {
-        let retDecks = [];
+        const retDecks = [];
         let decks;
 
         try {
@@ -1195,8 +1195,8 @@ class DeckService {
             throw new Error(`Unable to fetch unverified decks: ${user.id}`);
         }
 
-        for (let deck of decks) {
-            let retDeck = this.mapDeck(deck);
+        for (const deck of decks) {
+            const retDeck = this.mapDeck(deck);
 
             await this.getDeckCardsAndHouses(deck);
 
@@ -1222,7 +1222,7 @@ class DeckService {
     async parseDeckResponse(username, deckResponse) {
         const allCards = await this.cardService.getAllCards();
 
-        let specialCards = {
+        const specialCards = {
             479: { 'dark-æmber-vault': true, 'it-s-coming': true },
             855: {
                 'armageddon-cloak': true,
@@ -1289,7 +1289,7 @@ class DeckService {
             }
         };
 
-        let anomalies = {
+        const anomalies = {
             cosmicrux: { anomalySets: [918, 939], house: 'ouboros' },
             'ecto-charge': { anomalySets: [600], house: 'geistoid' },
             ignitus: { anomalySets: [918, 939], house: 'ouboros' },
@@ -1307,12 +1307,12 @@ class DeckService {
             valoocanth: { anomalySets: [453], house: 'unfathomable' }
         };
 
-        let deckCards = deckResponse._linked.cards;
+        const deckCards = deckResponse._linked.cards;
 
-        let enhancementsByCardId = {};
+        const enhancementsByCardId = {};
 
         if (deckResponse.data.bonus_icons) {
-            for (let icon of deckResponse.data.bonus_icons) {
+            for (const icon of deckResponse.data.bonus_icons) {
                 if (!enhancementsByCardId[icon.card_id]) {
                     enhancementsByCardId[icon.card_id] = [];
                 }
@@ -1332,7 +1332,7 @@ class DeckService {
             }
 
             let retCard;
-            let count = deckResponse.data._links.cards.filter((uuid) => uuid === card.id).length;
+            const count = deckResponse.data._links.cards.filter((uuid) => uuid === card.id).length;
             if (card.is_maverick) {
                 retCard = {
                     id: id,
@@ -1409,11 +1409,11 @@ class DeckService {
             return retCard;
         });
 
-        let toAdd = [];
-        for (let card of cards) {
+        const toAdd = [];
+        for (const card of cards) {
             if (card.enhancements) {
                 for (let i = 0; i < card.count - 1; i++) {
-                    let cardToAdd = Object.assign({}, card);
+                    const cardToAdd = Object.assign({}, card);
 
                     cardToAdd.enhancements = enhancementsByCardId[card.uuid][i + 1];
                     // Preserve sortOverride for enhanced cards
@@ -1456,8 +1456,8 @@ class DeckService {
             prophecyCards[3].prophecyId = 2;
         }
 
-        let uuid = deckResponse.data.id;
-        let anyIllegalCards = cards.find(
+        const uuid = deckResponse.data.id;
+        const anyIllegalCards = cards.find(
             (card) =>
                 !card.id
                     .split('')
@@ -1508,7 +1508,7 @@ class DeckService {
 
         let deckResponse;
         try {
-            let response = await util.httpRequest(
+            const response = await util.httpRequest(
                 `https://www.keyforgegame.com/api/decks/${deck.uuid}/?links=cards`,
                 { allowedHosts: ['www.keyforgegame.com'] }
             );
@@ -1548,7 +1548,7 @@ class DeckService {
 
             if (accolades.length > 0) {
                 let shownCount = 0;
-                let accoladeParams = [];
+                const accoladeParams = [];
                 for (const accolade of accolades) {
                     let shown = shownMap[accolade.id];
                     if (shown === undefined) {

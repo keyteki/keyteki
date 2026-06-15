@@ -10,7 +10,7 @@ class MinStatCardSelector extends BaseCardSelector {
     }
 
     hasEnoughSelected(selectedCards) {
-        let currentStatSum = selectedCards.reduce((sum, c) => sum + this.cardStat(c), 0);
+        const currentStatSum = selectedCards.reduce((sum, c) => sum + this.cardStat(c), 0);
         return currentStatSum >= this.minStat();
     }
 }

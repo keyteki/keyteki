@@ -7,11 +7,11 @@ const { wrapAsync } = require('../util.js');
 const logger = require('../log.js');
 const CardService = require('../services/CardService.js');
 
-let configService = new ConfigService();
+const configService = new ConfigService();
 
-let userService = new UserService(configService);
-let cardService = new CardService(configService);
-let deckService = new DeckService(configService, cardService);
+const userService = new UserService(configService);
+const cardService = new CardService(configService);
+const deckService = new DeckService(configService, cardService);
 
 module.exports.init = function (server) {
     server.get(
@@ -76,7 +76,7 @@ module.exports.init = function (server) {
                 return res.send({ success: false, message: 'You must specify the user data' });
             }
 
-            let userToSet = req.body.userToChange;
+            const userToSet = req.body.userToChange;
             let dbUser;
 
             try {
@@ -90,7 +90,7 @@ module.exports.init = function (server) {
                 });
             }
 
-            let user = dbUser.getDetails();
+            const user = dbUser.getDetails();
 
             if (!user) {
                 return res.status(404).send({ message: 'Not found' });

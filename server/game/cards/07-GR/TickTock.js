@@ -19,7 +19,7 @@ class TickTock extends Card {
                     target: context.source
                 })),
                 then: (context) => {
-                    let h = context.game.activePlayer.hand;
+                    const h = context.game.activePlayer.hand;
                     return {
                         target: {
                             mode: 'upTo',

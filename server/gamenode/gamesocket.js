@@ -74,7 +74,7 @@ class GameSocket extends EventEmitter {
             });
         } catch (err) {
             logger.error('Failed to stringify node data', err);
-            for (let obj of Object.values(detectBinary(arg))) {
+            for (const obj of Object.values(detectBinary(arg))) {
                 logger.error(`Path: ${obj.path}, Type: ${obj.type}`);
             }
 

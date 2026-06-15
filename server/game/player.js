@@ -200,7 +200,7 @@ class Player extends GameObject {
             );
         }
 
-        for (let card of this.deck.slice(0, numCards)) {
+        for (const card of this.deck.slice(0, numCards)) {
             this.moveCard(card, 'hand', { drawn: true });
         }
 
@@ -218,7 +218,7 @@ class Player extends GameObject {
             '{0} attempts to draw with an empty deck, so they shuffle their discard pile to reset their deck',
             this
         );
-        for (let card of this.discard) {
+        for (const card of this.discard) {
             this.moveCard(card, 'deck', { aboutToShuffle: true });
         }
 
@@ -243,9 +243,9 @@ class Player extends GameObject {
      * Mulligans the players starting hand, emitting an event and displaying a message in chat
      */
     takeMulligan() {
-        let size = this.hand.length;
+        const size = this.hand.length;
 
-        for (let card of this.hand) {
+        for (const card of this.hand) {
             this.moveCard(card, 'deck');
         }
 
@@ -258,8 +258,8 @@ class Player extends GameObject {
      * Takes a decklist passed from the lobby, creates all the cards in it, and puts references to them in the relevant lists
      */
     prepareDecks() {
-        let deck = new Deck(this.deckData);
-        let preparedDeck = deck.prepare(this);
+        const deck = new Deck(this.deckData);
+        const preparedDeck = deck.prepare(this);
         this.tokenCard = preparedDeck.tokenCard;
         this.houses = preparedDeck.houses;
         this.deck = preparedDeck.cards;
@@ -281,7 +281,7 @@ class Player extends GameObject {
     }
 
     addPlayableLocation(type, player, location) {
-        let playableLocation = new PlayableLocation(type, player, location);
+        const playableLocation = new PlayableLocation(type, player, location);
         this.playableLocations.push(playableLocation);
         return playableLocation;
     }
@@ -295,7 +295,7 @@ class Player extends GameObject {
     }
 
     endRound() {
-        for (let card of this.cardsInPlay) {
+        for (const card of this.cardsInPlay) {
             card.new = false;
         }
 
@@ -321,8 +321,8 @@ class Player extends GameObject {
      * @param {String} target
      */
     drop(cardId, source, target) {
-        let sourceList = this.getSourceList(source);
-        let card = sourceList.find((card) => card.uuid === cardId);
+        const sourceList = this.getSourceList(source);
+        const card = sourceList.find((card) => card.uuid === cardId);
 
         if (!card) {
             return;
@@ -362,7 +362,7 @@ class Player extends GameObject {
 
         if (target === 'play area') {
             if (card.type === 'creature' && this.creaturesInPlay.length > 0) {
-                let choices = ['Left', 'Right'];
+                const choices = ['Left', 'Right'];
 
                 if (this.creaturesInPlay.length > 1) {
                     choices.push('Deploy Left');
@@ -516,7 +516,7 @@ class Player extends GameObject {
      * @param {Object} options
      */
     moveCard(card, targetLocation, options = {}) {
-        let origCard = card.createSnapshot();
+        const origCard = card.createSnapshot();
 
         if (targetLocation.endsWith(' bottom')) {
             options.bottom = true;
@@ -538,7 +538,7 @@ class Player extends GameObject {
             return;
         }
 
-        let oldTopOfDeck = card.owner.deck[0];
+        const oldTopOfDeck = card.owner.deck[0];
 
         // Snapshot neighbors before removing from battleline - needed for cards like Smite
         // that reference "neighbors of the attacked creature" after it's destroyed, and for
@@ -552,7 +552,7 @@ class Player extends GameObject {
         }
 
         this.removeCardFromPile(card);
-        let location = card.location;
+        const location = card.location;
         targetPile = this.getSourceList(targetLocation);
 
         if (location === 'purged' && card.purgedBy) {
@@ -640,7 +640,7 @@ class Player extends GameObject {
 
         let composedPart = null;
         if (targetLocation !== 'play area' && card.gigantic) {
-            let cardIndex = targetPile.indexOf(card);
+            const cardIndex = targetPile.indexOf(card);
             if (card.composedPart) {
                 composedPart = card.composedPart;
                 card.composedPart.controller = card.controller;
@@ -783,7 +783,7 @@ class Player extends GameObject {
             if (card.location === 'play area') {
                 cardHouses = card.getHouses();
             } else {
-                let cardForHouses = card.isToken() && card.tokenCard() ? card.tokenCard() : card;
+                const cardForHouses = card.isToken() && card.tokenCard() ? card.tokenCard() : card;
                 cardHouses = [cardForHouses.printedHouse];
             }
 
@@ -791,7 +791,7 @@ class Player extends GameObject {
                 cardHouses = card.getEffects('changeHouse').flat();
             }
 
-            for (let house of cardHouses) {
+            for (const house of cardHouses) {
                 if (!houses.includes(house)) {
                     houses.push(house);
                 }
@@ -799,8 +799,8 @@ class Player extends GameObject {
 
             return houses;
         }, this.houses.slice());
-        let stopHouseChoice = this.getEffects('stopHouseChoice');
-        let restrictHouseChoice = _.flatten(this.getEffects('restrictHouseChoice')).filter(
+        const stopHouseChoice = this.getEffects('stopHouseChoice');
+        const restrictHouseChoice = _.flatten(this.getEffects('restrictHouseChoice')).filter(
             (house) => !stopHouseChoice.includes(house) && availableHouses.includes(house)
         );
         if (restrictHouseChoice.length > 0) {
@@ -1407,7 +1407,7 @@ class Player extends GameObject {
     }
 
     isTideRequired() {
-        let expansion = Constants.Expansions.find(
+        const expansion = Constants.Expansions.find(
             (expansion) => expansion.id === this.deckData.expansion
         );
         return expansion && expansion.tideRequired;
@@ -1450,7 +1450,7 @@ class Player extends GameObject {
     }
 
     getDiscardWithCondition(condition = () => true) {
-        let res = this.discard.filter(condition);
+        const res = this.discard.filter(condition);
         if (res.length === this.discard.length) {
             // Return the exact discard array if we are including
             // everything; that way, we can trigger effects that (for
@@ -1466,9 +1466,9 @@ class Player extends GameObject {
      */
 
     getState(activePlayer) {
-        let isActivePlayer = activePlayer === this;
-        let promptState = isActivePlayer ? this.promptState.getState() : {};
-        let state = {
+        const isActivePlayer = activePlayer === this;
+        const promptState = isActivePlayer ? this.promptState.getState() : {};
+        const state = {
             activeHouse: this.activeHouse,
             cardPiles: {
                 archives: this.getSummaryForCardList(this.archives, activePlayer),
@@ -1507,7 +1507,7 @@ class Player extends GameObject {
         };
 
         if (isActivePlayer) {
-            let sortedDeck = this.deck.slice();
+            const sortedDeck = this.deck.slice();
             sortedDeck.sort((a, b) => {
                 if (a.printedHouse < b.printedHouse) {
                     return -1;
@@ -1541,7 +1541,7 @@ class Player extends GameObject {
 
     // Prophecy cards are paired in the prophecyCards array.  The first card in the pair is the front of the prophecy, and the second card is the back.
     prophecyFlipSide(prophecyCard) {
-        let index = this.prophecyIndex(prophecyCard);
+        const index = this.prophecyIndex(prophecyCard);
         if (index === -1) {
             return null;
         }
@@ -1574,7 +1574,7 @@ class Player extends GameObject {
         ) {
             return false;
         }
-        let flipProphecy = this.prophecyFlipSide(prophecyCard);
+        const flipProphecy = this.prophecyFlipSide(prophecyCard);
         if (!flipProphecy) {
             return false;
         }
@@ -1605,7 +1605,7 @@ class Player extends GameObject {
         if (!prophecyCard.isProphecy() || !prophecyCard.activeProphecy) {
             return false;
         }
-        let flipSide = this.prophecyFlipSide(prophecyCard);
+        const flipSide = this.prophecyFlipSide(prophecyCard);
         if (!flipSide) {
             return false;
         }

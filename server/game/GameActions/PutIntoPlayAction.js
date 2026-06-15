@@ -113,7 +113,7 @@ class PutIntoPlayAction extends CardGameAction {
             (this.target.length === 0 || this.target[0].type === 'creature') &&
             player.cardsInPlay.some((card) => card.type === 'creature')
         ) {
-            let choices = ['Left'];
+            const choices = ['Left'];
 
             let allowRightFlankDeploy = true;
             if (!this.beingPlayed || !player.anyEffect('cannotPlayCreaturesOnRight')) {
@@ -213,7 +213,7 @@ class PutIntoPlayAction extends CardGameAction {
 
                                 this.left = flank === 'left';
 
-                                let creaturesInPlay = card.controller.creaturesInPlay;
+                                const creaturesInPlay = card.controller.creaturesInPlay;
 
                                 if (flank === 'left' && card === creaturesInPlay[0]) {
                                     this.playedOnLeftFlank = true;
@@ -366,14 +366,14 @@ class PutIntoPlayAction extends CardGameAction {
                 // area', since that could incorrectly affect the
                 // 'entersPlay' effect.
                 if (control && card.controller != player) {
-                    let prevController = card.controller;
+                    const prevController = card.controller;
                     card.controller = player;
                     card.updateEffectContexts();
                     context.game.checkGameState(true);
                     card.controller = prevController;
                 }
 
-                for (let e of card.getEffects('entersPlayWithEffect')) {
+                for (const e of card.getEffects('entersPlayWithEffect')) {
                     context.game.actions
                         .cardLastingEffect({
                             target: card,
@@ -399,7 +399,7 @@ class PutIntoPlayAction extends CardGameAction {
                 }
 
                 // Check if creature should go to a different location instead of play area
-                let location = card.mostRecentEffect('cardLocationAfterPlay') || 'play area';
+                const location = card.mostRecentEffect('cardLocationAfterPlay') || 'play area';
                 if (location !== 'play area') {
                     // Use context.player (the player attempting to play the
                     // card) rather than the locally-computed `player` (which

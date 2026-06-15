@@ -57,7 +57,7 @@ class DealDamageAction extends CardGameAction {
                 armorUsed: 0
             },
             () => {
-                let replaceDamage = card.mostRecentEffect('replaceDamage');
+                const replaceDamage = card.mostRecentEffect('replaceDamage');
                 replaceDamage.action.resolve(replaceDamage.targetFunc(card), context);
             }
         );
@@ -89,7 +89,7 @@ class DealDamageAction extends CardGameAction {
     }
 
     unwardAndCancel(context, damageDealtEvent) {
-        for (let event of damageDealtEvent
+        for (const event of damageDealtEvent
             .getSimultaneousEvents()
             .filter(
                 (event) =>
@@ -148,7 +148,7 @@ class DealDamageAction extends CardGameAction {
                 !damageDealtEvent.ignoreArmor &&
                 damageDealtEvent.card.armorTotal > damageDealtEvent.card.armorUsed
             ) {
-                let currentArmor =
+                const currentArmor =
                     damageDealtEvent.card.armorTotal - damageDealtEvent.card.armorUsed;
 
                 if (damageDealtEvent.amount <= currentArmor) {
@@ -158,10 +158,10 @@ class DealDamageAction extends CardGameAction {
                 }
             }
 
-            let amountApplied = damageDealtEvent.amount - armorUsed;
+            const amountApplied = damageDealtEvent.amount - armorUsed;
             damageDealtEvent.amountApplied = amountApplied;
 
-            let damageAppliedParams = {
+            const damageAppliedParams = {
                 card: damageDealtEvent.card,
                 context: damageDealtEvent.context,
                 amount: amountApplied,
@@ -171,12 +171,12 @@ class DealDamageAction extends CardGameAction {
                 bonus: damageDealtEvent.bonus
             };
 
-            let damageAppliedEvent = context.game.actions
+            const damageAppliedEvent = context.game.actions
                 .applyDamage(damageAppliedParams)
                 .getEvent(damageDealtEvent.card, context.game.getFrameworkContext());
 
             let armorEvent;
-            let armorParams = {
+            const armorParams = {
                 card: damageDealtEvent.card,
                 context: damageDealtEvent.context,
                 amount: amountApplied,

@@ -14,7 +14,7 @@ const typeToClock = {
 
 class ClockSelector {
     static for(player, details = { type: 'none', time: 0 }) {
-        let factory = typeToClock[details.type];
+        const factory = typeToClock[details.type];
 
         if (!factory) {
             throw new Error(`Unknown clock selector type of ${details.type}`);

@@ -7,8 +7,8 @@ class CodeMonkey extends Card {
         this.play({
             gameAction: [
                 ability.actions.gainAmber((context) => {
-                    let card = context.source;
-                    let neighbors = card.neighbors;
+                    const card = context.source;
+                    const neighbors = card.neighbors;
                     if (neighbors.length < 2) {
                         return {
                             amount: 0

@@ -21,7 +21,7 @@ class AbilityTarget {
         this.dependentTarget = [];
         this.dependsOnCondition = () => true;
         if (this.properties.dependsOn) {
-            let dependsOnTarget = ability.targets.find(
+            const dependsOnTarget = ability.targets.find(
                 (target) => target.name === this.properties.dependsOn
             );
             this.dependsOnCondition = dependsOnTarget.getDependsOnCondition(this);
@@ -44,7 +44,7 @@ class AbilityTarget {
     }
 
     resetGameActions() {
-        for (let action of this.properties.gameAction || []) {
+        for (const action of this.properties.gameAction || []) {
             action.reset();
         }
     }

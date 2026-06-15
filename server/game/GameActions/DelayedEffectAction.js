@@ -24,7 +24,7 @@ class DelayedEffectAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        let properties = {
+        const properties = {
             when: this.when,
             message: this.message,
             gameAction: this.gameAction,

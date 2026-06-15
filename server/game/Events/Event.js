@@ -55,14 +55,14 @@ class Event {
     }
 
     getSimultaneousEvents() {
-        let events = this.parentEvent
+        const events = this.parentEvent
             ? this.parentEvent.getSimultaneousEvents()
             : this.getChildEvents();
         return events.filter((event) => !event.cancelled);
     }
 
     getChildEvents() {
-        let events = [this];
+        const events = [this];
         return this.childEvent ? events.concat(this.childEvent.getChildEvents()) : events;
     }
 

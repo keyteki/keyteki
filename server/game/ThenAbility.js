@@ -54,7 +54,7 @@ class ThenAbility extends BaseAbility {
 
     getGameActions(context) {
         // if there are any targets, look for gameActions attached to them
-        let actions = this.targets.reduce(
+        const actions = this.targets.reduce(
             (array, target) => array.concat(target.getGameAction(context)),
             []
         );
@@ -78,7 +78,7 @@ class ThenAbility extends BaseAbility {
     }
 
     executeGameActionPrehandlers(context) {
-        let actions = this.getGameActions(context);
+        const actions = this.getGameActions(context);
         for (const action of actions) {
             action.preEventHandler(context);
         }
@@ -89,7 +89,7 @@ class ThenAbility extends BaseAbility {
     executeGameActions(actions, context) {
         // Get any gameActions for this ability
         // Get their events, and execute simultaneously
-        let events = actions.reduce(
+        const events = actions.reduce(
             (array, action) => array.concat(action.getEventArray(context)),
             []
         );
@@ -148,7 +148,7 @@ class ThenAbility extends BaseAbility {
     }
 
     runPostHandlers(actions, context) {
-        for (let action of actions) {
+        for (const action of actions) {
             if (action.postHandler) {
                 action.postHandler(context, action);
             }

@@ -9,11 +9,11 @@ const optionsDefinition = [
     { name: 'verbose', type: String, defaultValue: '1' }
 ];
 
-let options = commandLineArgs(optionsDefinition);
+const options = commandLineArgs(optionsDefinition);
 
 function createStub(name, setName, verbose) {
-    let testFileName = name.replace(/[^a-zA-Z0-9]/g, '') + '.spec.js';
-    let outputFile = path.join('.', 'test', 'server', 'cards', setName, testFileName);
+    const testFileName = name.replace(/[^a-zA-Z0-9]/g, '') + '.spec.js';
+    const outputFile = path.join('.', 'test', 'server', 'cards', setName, testFileName);
 
     if (verbose) {
         console.log('output file: ' + outputFile);

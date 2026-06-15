@@ -14,7 +14,7 @@ class SpecialDelivery extends Card {
             gameAction: ability.actions.sacrifice(),
             then: (preThenContext) => ({
                 condition: (context) => {
-                    let dealDamageEvent = context.preThenEvents.find(
+                    const dealDamageEvent = context.preThenEvents.find(
                         (event) => event.card === preThenContext.target
                     );
                     return (

@@ -88,7 +88,7 @@ class DrawAction extends PlayerAction {
     getEventArray(context) {
         // If any player has to draw one at a time during their turn,
         // split them up and make individual events for each draw.
-        let oneAtATimeTargets = this.target.filter(
+        const oneAtATimeTargets = this.target.filter(
             (p) => p.anyEffect('drawOneAtATimeDuringTurn') && context.game.activePlayer === p
         );
         let events = this.target
@@ -96,12 +96,12 @@ class DrawAction extends PlayerAction {
             .filter((target) => this.canAffect(target, context))
             .map((target) => this.getEvent(target, context));
 
-        for (let player of oneAtATimeTargets) {
-            let [amount, shedChains] = this.getAmountAndShedChains(player);
+        for (const player of oneAtATimeTargets) {
+            const [amount, shedChains] = this.getAmountAndShedChains(player);
             let event = null;
             let prevEvent = null;
             for (let i = 0; i < amount; i++) {
-                let nextDrawEvent = this.getEventWithAmount(
+                const nextDrawEvent = this.getEventWithAmount(
                     player,
                     context,
                     1,
@@ -124,7 +124,7 @@ class DrawAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        let [amount, shedChains] = this.getAmountAndShedChains(player);
+        const [amount, shedChains] = this.getAmountAndShedChains(player);
         return this.getEventWithAmount(player, context, amount, this.refill, shedChains);
     }
 }

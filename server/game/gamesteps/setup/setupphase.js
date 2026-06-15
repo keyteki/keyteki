@@ -27,12 +27,12 @@ class SetupPhase extends Phase {
 
     startPhase() {
         this.game.currentPhase = this.name;
-        for (let step of this.steps) {
+        for (const step of this.steps) {
             this.game.queueStep(step);
         }
 
         for (const player of this.game.getPlayers()) {
-            let link = {
+            const link = {
                 link: 'https://www.keyforgegame.com/deck-details/' + player.deckData.uuid,
                 argType: 'link',
                 label: player.deckData.name
@@ -52,7 +52,7 @@ class SetupPhase extends Phase {
     }
 
     setupBegin() {
-        for (let card of this.game.allCards) {
+        for (const card of this.game.allCards) {
             card.applyAnyLocationPersistentEffects();
         }
     }

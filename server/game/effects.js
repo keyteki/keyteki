@@ -111,7 +111,7 @@ const Effects = {
     lastingAbilityTrigger: (properties) =>
         EffectBuilder.player.detached('abilityTrigger', {
             apply: (player, context) => {
-                let ability = context.source.triggeredAbility(
+                const ability = context.source.triggeredAbility(
                     properties.triggeredAbilityType || 'reaction',
                     Object.assign({ printedAbility: false, player: player }, properties)
                 );

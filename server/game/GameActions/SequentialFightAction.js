@@ -28,7 +28,7 @@ class SequentialFightAction extends GameAction {
     }
 
     queueActionSteps(context, element) {
-        let action = context.game.actions.fight();
+        const action = context.game.actions.fight();
 
         context.game.queueSimpleStep(() => {
             action.setDefaultTarget(() => element);

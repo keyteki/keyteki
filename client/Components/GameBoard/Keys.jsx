@@ -16,7 +16,7 @@ const Keys = ({ keys, manualMode }) => {
     const { t } = useTranslation();
     const dispatch = useDispatch();
 
-    let keysToRender = [...KeyColours]
+    const keysToRender = [...KeyColours]
         .sort((a, b) => {
             if (keys[a] === keys[b]) {
                 return 0;

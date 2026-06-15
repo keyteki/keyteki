@@ -34,7 +34,7 @@ class CardLastingEffectAction extends CardGameAction {
             effect = [effect];
         }
 
-        let effectProperties = {
+        const effectProperties = {
             condition: this.condition,
             context: context,
             duration: this.duration,
@@ -56,8 +56,8 @@ class CardLastingEffectAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        let { effect } = this.propertyFactory(context);
-        let properties = {
+        const { effect } = this.propertyFactory(context);
+        const properties = {
             condition: this.condition,
             context: context,
             effect: effect,
@@ -65,7 +65,7 @@ class CardLastingEffectAction extends CardGameAction {
             match: card,
             until: this.until
         };
-        let duration = this.until ? 'lastingEffect' : this.duration;
+        const duration = this.until ? 'lastingEffect' : this.duration;
         return super.createEvent(
             EVENTS.onEffectApplied,
             { card: card, context: context },

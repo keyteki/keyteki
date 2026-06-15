@@ -25,7 +25,7 @@ class ArchiveAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent(EVENTS.onCardArchived, { card: card, context: context }, () => {
-            let player = this.owner
+            const player = this.owner
                 ? card.owner
                 : this.opponent
                 ? context.player.opponent

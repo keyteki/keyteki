@@ -25,7 +25,7 @@ class NeutronShark extends Card {
                 condition: (context) => context.player.deck.length > 0,
                 message: '{0} discards the top card of their deck due to {1}: {3}{4}{5}{6}',
                 messageArgs: (context) => {
-                    let topCard = context.player.deck[0];
+                    const topCard = context.player.deck[0];
                     if (topCard) {
                         if (topCard.hasHouse('logos') || context.source.location !== 'play area') {
                             return [topCard];

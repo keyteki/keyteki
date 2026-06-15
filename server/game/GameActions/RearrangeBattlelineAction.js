@@ -24,8 +24,8 @@ class RearrangeBattlelineAction extends CardGameAction {
                     return true;
                 }
 
-                let firstIndex = cards[0].controller.cardsInPlay.indexOf(cards[0]);
-                let secondIndex = cards[1].controller.cardsInPlay.indexOf(cards[1]);
+                const firstIndex = cards[0].controller.cardsInPlay.indexOf(cards[0]);
+                const secondIndex = cards[1].controller.cardsInPlay.indexOf(cards[1]);
                 if (firstIndex >= 0 && secondIndex >= 0) {
                     cards[0].controller.cardsInPlay.splice(firstIndex, 1, cards[1]);
                     cards[1].controller.cardsInPlay.splice(secondIndex, 1, cards[0]);

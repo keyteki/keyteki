@@ -34,7 +34,7 @@ class Plunder extends Card {
                     mode: 'select',
                     choices: {
                         'Repeat this effect': ability.actions.resolveAbility((context) => {
-                            let revealedCard = context.preThenEvent.card;
+                            const revealedCard = context.preThenEvent.card;
                             this.revealedCards.push(revealedCard);
                             return {
                                 ability: preThenContext.ability

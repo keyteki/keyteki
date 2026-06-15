@@ -97,7 +97,7 @@ class SearchAction extends PlayerAction {
                                 player.shuffleDeck();
                             }
 
-                            for (let card of cards) {
+                            for (const card of cards) {
                                 switch (this.destination) {
                                     case 'discard':
                                         context.game.actions

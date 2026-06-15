@@ -6,15 +6,15 @@ class SelectivePreservation extends Card {
         this.play({
             effect: 'select creatures for each power to not destroy',
             then: (preThenContext) => {
-                let uniquePowers = Array.from(
+                const uniquePowers = Array.from(
                     new Set(preThenContext.game.creaturesInPlay.map((creature) => creature.power))
                 );
                 uniquePowers.sort((a, b) => (a > b ? 1 : -1));
 
-                let targets = [];
+                const targets = [];
                 for (let i = 0; i < uniquePowers.length; i++) {
-                    let power = uniquePowers[i];
-                    let targetKey = 'power' + power;
+                    const power = uniquePowers[i];
+                    const targetKey = 'power' + power;
                     targets[targetKey] = {
                         activePromptTitle: {
                             text: 'Choose a {{power}} creature to not destroy',

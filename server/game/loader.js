@@ -10,13 +10,13 @@ function getDirectories(srcpath) {
 
 module.exports = {
     loadCards: function (basePath, directory) {
-        var cards = {};
+        const cards = {};
 
         _.each(getDirectories(directory), (dir) => {
-            var normalisedPath = path.join(directory, dir);
+            const normalisedPath = path.join(directory, dir);
 
             _.each(fs.readdirSync(normalisedPath), (file) => {
-                var card = require('./cards/' + basePath + '/' + dir + '/' + file);
+                const card = require('./cards/' + basePath + '/' + dir + '/' + file);
 
                 cards[card.id] = card;
             });

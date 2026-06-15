@@ -28,7 +28,7 @@ const CardPilePopup = ({
     let popup = null;
     let cardList = [];
 
-    let listProps = {
+    const listProps = {
         cardBack,
         disableMouseOver,
         manualMode,
@@ -59,18 +59,18 @@ const CardPilePopup = ({
         cardList = <CardTiledList cards={cards} {...listProps} />;
     }
 
-    let popupClass = classNames('card-pile-popup', {
+    const popupClass = classNames('card-pile-popup', {
         'our-side': popupLocation === 'bottom',
         [size]: true
     });
 
-    let innerClass = classNames('inner', {
+    const innerClass = classNames('inner', {
         [size]: true,
         [source]: true
     });
     let linkIndex = 0;
 
-    let popupMenuToRender = popupMenu && (
+    const popupMenuToRender = popupMenu && (
         <div>
             {popupMenu.map((menuItem) => {
                 return (

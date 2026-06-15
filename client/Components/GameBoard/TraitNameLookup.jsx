@@ -12,8 +12,8 @@ import TypeaheadLookup from './TypeaheadLookup';
  * @param {TraitNameLookupProps} props
  */
 const TraitNameLookup = (props) => {
-    let cards = Object.values(props.cards);
-    let allTraits = cards.reduce((traits, card) => traits.concat(card.traits || []), []);
+    const cards = Object.values(props.cards);
+    const allTraits = cards.reduce((traits, card) => traits.concat(card.traits || []), []);
     let uniqueTraits = [...new Set(allTraits)];
 
     uniqueTraits = [...uniqueTraits].sort();

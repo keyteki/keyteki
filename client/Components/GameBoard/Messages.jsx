@@ -67,7 +67,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
         (state) => state.lobby.currentGame.players[state.lobby.currentGame.owner]
     );
 
-    for (let house of Constants.Houses) {
+    for (const house of Constants.Houses) {
         tokens[house] = {
             className: 'chat-house-icon',
             imageSrc: Constants.HouseIconPaths[house]
@@ -92,7 +92,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
         return messages.map((message, index) => {
             const hasStartOfTurn = hasStartOfTurnAlert(message.message);
             const hasPhaseStart = hasPhaseStartAlert(message.message);
-            let className = classNames('message', 'mb-1', {
+            const className = classNames('message', 'mb-1', {
                 'this-player': message.activePlayer && message.activePlayer == owner.name,
                 'other-player': message.activePlayer && message.activePlayer !== owner.name,
                 'chat-bubble': Object.values(message.message).some(
@@ -114,7 +114,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
 
     const formatMessageText = (message, context = {}) => {
         let index = 0;
-        let messages = [];
+        const messages = [];
 
         for (const [key, fragment] of Object.entries(message)) {
             if (fragment === null || fragment === undefined) {
@@ -124,7 +124,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
             }
 
             if (key === 'alert') {
-                let message = formatMessageText(fragment.message, context);
+                const message = formatMessageText(fragment.message, context);
                 switch (fragment.type) {
                     case 'endofturn':
                     case 'phasestart':
@@ -255,7 +255,7 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
                     </span>
                 );
             } else {
-                let messageFragment = processKeywords(fragment.toString());
+                const messageFragment = processKeywords(fragment.toString());
                 messages.push(
                     <span key={index++} className='message-fragment'>
                         {messageFragment}
@@ -268,17 +268,17 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
     };
 
     const processKeywords = (message) => {
-        let messages = [];
+        const messages = [];
         let i = 0;
         const parts = message.split(' ');
 
         for (let index = 0; index < parts.length; index++) {
             let token = parts[index];
             const isLast = index === parts.length - 1;
-            let lowerToken = token.toLowerCase();
+            const lowerToken = token.toLowerCase();
 
             if (tokens[lowerToken]) {
-                let tokenEntry = tokens[lowerToken];
+                const tokenEntry = tokens[lowerToken];
 
                 switch (token) {
                     case 'amber':

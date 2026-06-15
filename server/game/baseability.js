@@ -100,11 +100,11 @@ class BaseAbility {
         // check legal targets exist
         // check costs can be paid
         // check for potential to change game state
-        for (let target of this.targets) {
+        for (const target of this.targets) {
             target.resetGameActions();
         }
 
-        for (let action of this.gameAction) {
+        for (const action of this.gameAction) {
             action.reset();
         }
 
@@ -144,7 +144,7 @@ class BaseAbility {
         if (ignoredRequirements.includes('exhausted')) {
             cost = cost.filter((c) => c.type !== 'exhaust');
         }
-        let aggregatedCost = {};
+        const aggregatedCost = {};
         return cost.every((cost) => cost.canPay(context, aggregatedCost));
     }
 
@@ -154,7 +154,7 @@ class BaseAbility {
      * paid).
      */
     payCostsThatCanFail(context) {
-        let cost = this.cost
+        const cost = this.cost
             .concat(context.player.getAdditionalCosts(context))
             .filter((cost) => cost.canFail);
         return cost.map((cost) => cost.payEvent(context));
@@ -164,7 +164,7 @@ class BaseAbility {
      * Pays all costs for the ability simultaneously.
      */
     payCosts(context) {
-        let cost = this.cost
+        const cost = this.cost
             .concat(context.player.getAdditionalCosts(context))
             .filter((cost) => !cost.canFail);
         return cost.map((cost) => cost.payEvent(context));
@@ -183,12 +183,12 @@ class BaseAbility {
      * Prompts the current player to choose each target defined for the ability.
      */
     resolveTargets(context) {
-        let targetResults = {
+        const targetResults = {
             cancelled: false,
             payCostsFirst: false,
             delayTargeting: null
         };
-        for (let target of this.targets) {
+        for (const target of this.targets) {
             context.game.queueSimpleStep(() => {
                 if (target.hasLegalTarget(context)) {
                     target.resolve(context, targetResults);
@@ -200,8 +200,8 @@ class BaseAbility {
     }
 
     resolveRemainingTargets(context, nextTarget) {
-        let index = this.targets.indexOf(nextTarget);
-        for (let target of this.targets.slice(index)) {
+        const index = this.targets.indexOf(nextTarget);
+        for (const target of this.targets.slice(index)) {
             context.game.queueSimpleStep(() => target.resolve(context, {}));
         }
     }

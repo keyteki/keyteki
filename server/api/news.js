@@ -4,7 +4,7 @@ const NewsService = require('../services/NewsService.js');
 const logger = require('../log.js');
 const { wrapAsync } = require('../util.js');
 
-let newsService = new NewsService();
+const newsService = new NewsService();
 
 module.exports.init = function (server) {
     server.get(
@@ -19,7 +19,7 @@ module.exports.init = function (server) {
                     }
 
                     let limit = 3;
-                    let isNewsAdmin = user && user.permissions && user.permissions.canEditNews;
+                    const isNewsAdmin = user && user.permissions && user.permissions.canEditNews;
 
                     if (req.query.limit && isNewsAdmin) {
                         limit = req.query.limit;
@@ -55,7 +55,7 @@ module.exports.init = function (server) {
                 return res.status(403).send({ message: 'Forbidden' });
             }
 
-            let newsItem = await newsService.addNews({
+            const newsItem = await newsService.addNews({
                 poster: req.user.id,
                 text: req.body.text,
                 datePublished: new Date()

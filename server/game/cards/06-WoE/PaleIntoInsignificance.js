@@ -9,8 +9,9 @@ class PaleIntoInsignificance extends Card {
                     return { target: [] };
                 }
 
-                let lowestPower = context.game.creaturesInPlay.sort((a, b) => a.power - b.power)[0]
-                    .power;
+                const lowestPower = context.game.creaturesInPlay.sort(
+                    (a, b) => a.power - b.power
+                )[0].power;
 
                 return {
                     target: context.game.creaturesInPlay.filter(

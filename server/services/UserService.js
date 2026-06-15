@@ -64,7 +64,7 @@ class UserService extends EventEmitter {
     }
 
     async getFullUserByUsername(username) {
-        let user = await this.getUserByUsername(username);
+        const user = await this.getUserByUsername(username);
 
         if (!user) {
             return user;
@@ -108,7 +108,7 @@ class UserService extends EventEmitter {
             return null;
         }
 
-        let user = this.getUserFromDbUser(rows[0]);
+        const user = this.getUserFromDbUser(rows[0]);
 
         if (!user) {
             return user;
@@ -136,7 +136,7 @@ class UserService extends EventEmitter {
     }
 
     async addUser(user) {
-        let ret = await db.query(
+        const ret = await db.query(
             'INSERT INTO "Users" ' +
                 '("Username", "Password", "Email", "Registered", "RegisterIp", "Settings_Avatar", "Verified", "ActivationToken", "ActivationTokenExpiry") VALUES ' +
                 '($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING "Id"',
@@ -159,7 +159,7 @@ class UserService extends EventEmitter {
     }
 
     async update(user) {
-        let client = await db.startTransaction();
+        const client = await db.startTransaction();
 
         let query =
             'UPDATE "Users" SET "Username" = $1, "Email" = $2, "Verified" = $3, "Disabled" = $4, "Settings_Avatar" = $5, ' +
@@ -237,26 +237,26 @@ class UserService extends EventEmitter {
             existingPermissions = {};
         }
 
-        let existing = [];
+        const existing = [];
 
-        for (let permission of Object.keys(existingPermissions)) {
+        for (const permission of Object.keys(existingPermissions)) {
             if (existingPermissions[permission]) {
                 existing.push(permission);
             }
         }
 
-        let newPerms = [];
-        for (let permission of Object.keys(user.permissions || {})) {
+        const newPerms = [];
+        for (const permission of Object.keys(user.permissions || {})) {
             if (user.permissions[permission]) {
                 newPerms.push(permission);
             }
         }
 
-        let toRemove = new Set([...existing].filter((x) => !new Set([...newPerms]).has(x)));
-        let toAdd = new Set([...newPerms].filter((x) => !new Set([...existing]).has(x)));
+        const toRemove = new Set([...existing].filter((x) => !new Set([...newPerms]).has(x)));
+        const toAdd = new Set([...newPerms].filter((x) => !new Set([...existing]).has(x)));
 
-        let params = [];
-        for (let permission of toAdd) {
+        const params = [];
+        for (const permission of toAdd) {
             params.push(user.id);
             params.push(this.permissionToRole(permission));
         }
@@ -379,7 +379,7 @@ class UserService extends EventEmitter {
     }
 
     async clearUserSessions(username) {
-        let user = await this.getFullUserByUsername(username);
+        const user = await this.getFullUserByUsername(username);
 
         if (!user) {
             throw 'User not found';
@@ -393,16 +393,16 @@ class UserService extends EventEmitter {
     }
 
     async addRefreshToken(user, token, ip) {
-        let expiration = moment().utc().add(1, 'months');
-        let hmac = crypto.createHmac(
+        const expiration = moment().utc().add(1, 'months');
+        const hmac = crypto.createHmac(
             'sha512',
             this.configService.getValueForSection('lobby', 'hmacSecret')
         );
 
-        let tokenId = crypto.randomUUID();
+        const tokenId = crypto.randomUUID();
 
-        let encodedToken = hmac.update(`REFRESH ${user.username} ${tokenId}`).digest('hex');
-        let res = await db.query(
+        const encodedToken = hmac.update(`REFRESH ${user.username} ${tokenId}`).digest('hex');
+        const res = await db.query(
             'INSERT INTO "RefreshToken" ("UserId", "Token", "TokenId", "Expiry", "Ip", "LastUsed") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "Id"',
             [user.id, encodedToken, tokenId, expiration, ip, new Date()]
         );
@@ -415,17 +415,19 @@ class UserService extends EventEmitter {
     }
 
     verifyRefreshToken(username, refreshToken) {
-        let hmac = crypto.createHmac(
+        const hmac = crypto.createHmac(
             'sha512',
             this.configService.getValueForSection('lobby', 'hmacSecret')
         );
-        let encodedToken = hmac.update(`REFRESH ${username} ${refreshToken.tokenId}`).digest('hex');
+        const encodedToken = hmac
+            .update(`REFRESH ${username} ${refreshToken.tokenId}`)
+            .digest('hex');
 
         if (encodedToken !== refreshToken.token) {
             return false;
         }
 
-        let now = moment().utc();
+        const now = moment().utc();
         if (refreshToken.exp < now) {
             return false;
         }
@@ -483,11 +485,11 @@ class UserService extends EventEmitter {
     }
 
     async setSupporterStatus(userId, isSupporter) {
-        let supporterRoles = await db.query(
+        const supporterRoles = await db.query(
             'SELECT 1 FROM "UserRoles" ur JOIN "Roles" r ON r."Id" = ur."RoleId" WHERE "UserId" = $1 AND r."Name" = \'Supporter\'',
             [userId]
         );
-        let isExistingSupporter = supporterRoles && supporterRoles.length > 0;
+        const isExistingSupporter = supporterRoles && supporterRoles.length > 0;
 
         if (isExistingSupporter && !isSupporter) {
             try {
@@ -694,7 +696,7 @@ class UserService extends EventEmitter {
     }
 
     mapPermissions(permissions) {
-        let ret = {
+        const ret = {
             canEditNews: false,
             canManageUsers: false,
             canManagePermissions: false,
@@ -713,7 +715,7 @@ class UserService extends EventEmitter {
             keepsSupporterWithNoPatreon: false
         };
 
-        for (let permission of permissions) {
+        for (const permission of permissions) {
             switch (permission.Name) {
                 case 'NewsManager':
                     ret.canEditNews = true;

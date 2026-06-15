@@ -21,7 +21,8 @@ class Cladogenesis extends Card {
                     chatMessage: true
                 })),
                 ability.actions.discard((context) => {
-                    let myTop = context.player.discard.length > 0 ? context.player.discard[0] : '';
+                    const myTop =
+                        context.player.discard.length > 0 ? context.player.discard[0] : '';
                     if (myTop) {
                         return {
                             target: context.player.hand.filter((card) =>
@@ -32,7 +33,7 @@ class Cladogenesis extends Card {
                     return { target: [] };
                 }),
                 ability.actions.discard((context) => {
-                    let oppTop =
+                    const oppTop =
                         context.player.opponent && context.player.opponent.discard.length > 0
                             ? context.player.opponent.discard[0]
                             : undefined;

@@ -166,7 +166,7 @@ const LobbyChat = ({
         let lastUser;
         let currentGroup = 0;
 
-        for (let message of messages) {
+        for (const message of messages) {
             if (!message.user) {
                 return undefined;
             }

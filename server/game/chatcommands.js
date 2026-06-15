@@ -66,7 +66,7 @@ class ChatCommands {
                 break;
         }
 
-        let cardName = args.slice(1).join(' ').toLowerCase();
+        const cardName = args.slice(1).join(' ').toLowerCase();
         let card = this.game.cardData[cardName];
         if (!card) {
             card = Object.values(this.game.cardData).find((c) => c.name.toLowerCase() === cardName);
@@ -76,8 +76,8 @@ class ChatCommands {
             return false;
         }
 
-        let deck = new Deck();
-        let preparedCard = deck.createCard(player, card);
+        const deck = new Deck();
+        const preparedCard = deck.createCard(player, card);
         if (!preparedCard) {
             return false;
         }
@@ -144,7 +144,7 @@ class ChatCommands {
 
         this.game.addAlert('danger', '{0} unforges the {1}', player, `unforgedkey${color}`);
         player.keys[color] = false;
-        let forgedKeyIndex = player.keysForgedThisRound.findIndex((key) => key === color);
+        const forgedKeyIndex = player.keysForgedThisRound.findIndex((key) => key === color);
         if (forgedKeyIndex !== -1) {
             player.keysForgedThisRound.splice(forgedKeyIndex, 1);
         }
@@ -153,7 +153,7 @@ class ChatCommands {
     }
 
     activeHouse(player, args) {
-        let house = args[1];
+        const house = args[1];
         if (!house) {
             return false;
         } else if (!player.activeHouse) {
@@ -193,13 +193,13 @@ class ChatCommands {
     }
 
     modifyClock(player, args) {
-        let num = this.getNumberOrDefault(args[1], 60);
+        const num = this.getNumberOrDefault(args[1], 60);
         this.game.addAlert('danger', '{0} adds {1} seconds to their clock', player, num);
         player.clock.modify(num);
     }
 
     draw(player, args) {
-        let num = this.getNumberOrDefault(args[1], 1);
+        const num = this.getNumberOrDefault(args[1], 1);
         if (num === 0) {
             return false;
         }
@@ -209,7 +209,7 @@ class ChatCommands {
     }
 
     discard(player, args) {
-        let num = this.getNumberOrDefault(args[1], 1);
+        const num = this.getNumberOrDefault(args[1], 1);
         this.game.addAlert(
             'danger',
             '{0} discard{2} {1} card{2} at random',
@@ -224,7 +224,7 @@ class ChatCommands {
     }
 
     discardtopofdeck(player, args) {
-        let num = this.getNumberOrDefault(args[1], 1);
+        const num = this.getNumberOrDefault(args[1], 1);
         this.game.addAlert(
             'danger',
             '{0} discards {1} card{2} from top of their deck',
@@ -271,8 +271,8 @@ class ChatCommands {
     }
 
     setToken(player, args) {
-        let token = args[1];
-        let num = this.getNumberOrDefault(args[2], 1);
+        const token = args[1];
+        const num = this.getNumberOrDefault(args[2], 1);
 
         if (!this.isValidToken(token)) {
             return false;
@@ -283,7 +283,7 @@ class ChatCommands {
             waitingPromptTitle: 'Waiting for opponent to set token',
             cardCondition: (card) => card.location === 'play area' && card.controller === player,
             onSelect: (p, card) => {
-                let numTokens = card.tokens[token] || 0;
+                const numTokens = card.tokens[token] || 0;
                 card.addToken(token, num - numTokens);
                 this.game.addAlert(
                     'danger',
@@ -338,7 +338,7 @@ class ChatCommands {
             return false;
         }
 
-        let card = player.deck[0];
+        const card = player.deck[0];
         this.game.addAlert(
             'danger',
             '{0} uses /token-creature to put into play a {1} with the top card of their deck',
@@ -384,7 +384,7 @@ class ChatCommands {
             return false;
         }
 
-        let lowerToken = token.toLowerCase();
+        const lowerToken = token.toLowerCase();
 
         return _.contains(this.tokens, lowerToken);
     }

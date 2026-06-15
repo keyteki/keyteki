@@ -91,7 +91,7 @@ class Effect {
             return true;
         }
 
-        let effectOnSource = this.source.persistentEffects.some(
+        const effectOnSource = this.source.persistentEffects.some(
             (effect) => effect.ref && effect.ref.includes(this)
         );
         return (this.location === 'any' || !this.source.facedown) && effectOnSource;
@@ -104,7 +104,7 @@ class Effect {
             return stateChanged;
         } else if (_.isFunction(this.match)) {
             // Get any targets which are no longer valid
-            let invalidTargets = _.filter(
+            const invalidTargets = _.filter(
                 this.targets,
                 (target) => !this.match(target, this.context) || !this.isValidTarget(target)
             );
@@ -117,7 +117,7 @@ class Effect {
                 (target) => (stateChanged = this.effect.recalculate(target) || stateChanged)
             );
             // Check for new targets
-            let newTargets = _.filter(
+            const newTargets = _.filter(
                 this.getTargets(),
                 (target) => !this.targets.includes(target) && this.isValidTarget(target)
             );

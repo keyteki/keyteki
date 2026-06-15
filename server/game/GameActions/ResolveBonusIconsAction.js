@@ -344,7 +344,7 @@ class ResolveBonusIconsAction extends CardGameAction {
             EVENTS.onResolveBonusIcons,
             { card: card, context: context },
             (event) => {
-                for (let icon of event.card.getResolvableBonusIcons()) {
+                for (const icon of event.card.getResolvableBonusIcons()) {
                     const resolveCount = card.sumEffects('resolveBonusIconsAdditionalTime') + 1;
 
                     for (let rc = 0; rc < resolveCount; ++rc) {

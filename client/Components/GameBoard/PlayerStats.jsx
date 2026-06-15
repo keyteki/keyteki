@@ -75,7 +75,7 @@ const PlayerStats = ({
     };
 
     const getHouse = (house) => {
-        let houseTitle = t(house);
+        const houseTitle = t(house);
         return houseTitle[0].toUpperCase() + houseTitle.slice(1);
     };
 
@@ -177,7 +177,7 @@ const PlayerStats = ({
             .catch((err) => toast.danger(`Could not copy game chat: ${err}`));
     };
 
-    let playerAvatar = (
+    const playerAvatar = (
         <div className='state player-identity'>
             <div
                 className={`pr-1 player-info ${activePlayer ? 'active-player' : 'inactive-player'}`}
@@ -188,7 +188,7 @@ const PlayerStats = ({
         </div>
     );
 
-    let statsClass = classNames('panel player-stats');
+    const statsClass = classNames('panel player-stats');
 
     const isPilePromptTarget = (location) =>
         promptedPiles?.some(
@@ -224,7 +224,7 @@ const PlayerStats = ({
         );
     };
 
-    let draw = (
+    const draw = (
         <DrawDeck
             {...pileProps}
             className='draw'

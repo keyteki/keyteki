@@ -6,8 +6,8 @@ class AngryMob extends Card {
         this.beforeFight({
             optional: true,
             gameAction: ability.actions.discard((context) => {
-                let deck = context.player.deck;
-                let index = deck.findIndex((card) => card.id === 'angry-mob');
+                const deck = context.player.deck;
+                const index = deck.findIndex((card) => card.id === 'angry-mob');
                 if (index > -1) {
                     return { target: deck.slice(0, index + 1) };
                 }
@@ -15,7 +15,7 @@ class AngryMob extends Card {
                 return { target: deck };
             }),
             then: (context) => {
-                let card = context.player.deck.find((card) => card.id === 'angry-mob');
+                const card = context.player.deck.find((card) => card.id === 'angry-mob');
                 if (card) {
                     return {
                         message: '{0} takes {3} into their hand',

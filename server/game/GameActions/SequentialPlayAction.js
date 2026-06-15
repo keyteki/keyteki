@@ -29,7 +29,7 @@ class SequentialPlayAction extends GameAction {
     }
 
     queueActionSteps(context, element) {
-        let action = context.game.actions.playCard();
+        const action = context.game.actions.playCard();
 
         context.game.queueSimpleStep(() => {
             action.setDefaultTarget(() => element);
@@ -46,7 +46,7 @@ class SequentialPlayAction extends GameAction {
             return;
         }
 
-        let filteredForEach = forEach.filter(
+        const filteredForEach = forEach.filter(
             (card) => !card.gigantic || forEach.some((part) => part.id === card.compositeId)
         );
 

@@ -10,8 +10,9 @@ class NicheMarket extends Card {
                     return false;
                 }
 
-                let lowestPower = context.game.creaturesInPlay.sort((a, b) => a.power - b.power)[0]
-                    .power;
+                const lowestPower = context.game.creaturesInPlay.sort(
+                    (a, b) => a.power - b.power
+                )[0].power;
                 return card.type === 'creature' && card.power === lowestPower;
             },
             effect: ability.effects.gainAbility('action', {

@@ -36,7 +36,7 @@ class AdaptiveDeckSelectionPrompt extends AllPlayerPrompt {
     menuCommand(player, arg) {
         const otherPlayer = this.game.getOtherPlayer(player);
         const deck = arg === player.deckData.uuid ? player.deckData : otherPlayer.deckData;
-        let selection = {
+        const selection = {
             player: player.name,
             deckName: deck.name,
             uuid: deck.uuid,
@@ -57,7 +57,7 @@ class AdaptiveDeckSelectionPrompt extends AllPlayerPrompt {
         }
 
         if (player1.uuid === player2.uuid) {
-            let link = {
+            const link = {
                 link: 'https://www.keyforgegame.com/deck-details/' + player1.uuid,
                 argType: 'link',
                 label: player1.deckName
@@ -75,7 +75,7 @@ class AdaptiveDeckSelectionPrompt extends AllPlayerPrompt {
                     player1.owner !== player1.player
                         ? this.game.getOtherPlayer(player).deckData
                         : player.deckData;
-                let link = {
+                const link = {
                     link: 'https://www.keyforgegame.com/deck-details/' + deck.uuid,
                     argType: 'link',
                     label: deck.name

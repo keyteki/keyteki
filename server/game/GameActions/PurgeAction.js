@@ -62,7 +62,7 @@ class PurgeAction extends CardGameAction {
                         cardHandler: (selectedCard) => {
                             this.setTarget(selectedCard);
                             context.game.queueSimpleStep(() => {
-                                let event = this.getEvent(selectedCard, context);
+                                const event = this.getEvent(selectedCard, context);
                                 context.game.openEventWindow(event);
                             });
                         }
@@ -75,7 +75,7 @@ class PurgeAction extends CardGameAction {
     }
 
     purge(card) {
-        let composedPart = card.gigantic ? card.composedPart : null;
+        const composedPart = card.gigantic ? card.composedPart : null;
         card.owner.moveCard(card, 'purged');
 
         if (this.purgedBy) {

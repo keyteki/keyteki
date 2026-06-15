@@ -28,7 +28,7 @@ class EventWindow extends BaseStepWithPipeline {
     }
 
     openAbilityWindow(abilityType) {
-        let events = this.event.getSimultaneousEvents();
+        const events = this.event.getSimultaneousEvents();
         if (events.length === 0 || (abilityType === 'reaction' && !this.event.openReactionWindow)) {
             return;
         }
@@ -57,14 +57,14 @@ class EventWindow extends BaseStepWithPipeline {
     }
 
     preResolutionEffects() {
-        for (let event of this.event.getSimultaneousEvents()) {
+        for (const event of this.event.getSimultaneousEvents()) {
             this.game.emit(event.name + ':preResolution', event);
         }
     }
 
     executeHandler() {
         const events = this.event.getSimultaneousEvents();
-        for (let event of events) {
+        for (const event of events) {
             // need to checkCondition here to ensure the event won't fizzle due to another event's resolution (e.g. double honoring an ordinary character with YR etc.)
             event.checkCondition();
             if (!event.cancelled) {
@@ -84,7 +84,7 @@ class EventWindow extends BaseStepWithPipeline {
 
     checkForSubEvent() {
         if (this.event.subEvent) {
-            let currentSubEvent = this.event.subEvent;
+            const currentSubEvent = this.event.subEvent;
             this.event.subEvent = null;
             this.queueStep(new EventWindow(this.game, currentSubEvent));
             if (!currentSubEvent.openReactionWindow) {

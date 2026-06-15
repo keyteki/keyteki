@@ -15,10 +15,10 @@ class FightGameAction extends CardGameAction {
     }
 
     canAffect(card, context) {
-        let fightAction = card.stunned
+        const fightAction = card.stunned
             ? card.getRemoveStunAction()
             : card.getFightAction(this.fightCardCondition);
-        let newContext = fightAction.createContext(context.player);
+        const newContext = fightAction.createContext(context.player);
         newContext.ignoreHouse = true;
         const ignoredRequirements = ['exhausted', 'stunned'];
         if (fightAction.meetsRequirements(newContext, ignoredRequirements)) {
@@ -36,7 +36,7 @@ class FightGameAction extends CardGameAction {
             return false;
         }
         const fightAction = event.card.getFightAction();
-        let newContext = fightAction.createContext(event.context.player);
+        const newContext = fightAction.createContext(event.context.player);
         newContext.ignoreHouse = true;
         return (
             this.canAffect(event.card, event.context) &&
@@ -48,10 +48,10 @@ class FightGameAction extends CardGameAction {
         return super.createEvent(EVENTS.onInitiateFight, { card, context }, () => {
             let newContext;
             if (card.stunned) {
-                let removeStunAction = card.getActions().find((action) => action.unstun);
+                const removeStunAction = card.getActions().find((action) => action.unstun);
                 newContext = removeStunAction.createContext(context.player);
             } else {
-                let fightAction = card.getFightAction(
+                const fightAction = card.getFightAction(
                     this.fightCardCondition,
                     this.resolveFightPostHandler,
                     this.ignoreTaunt

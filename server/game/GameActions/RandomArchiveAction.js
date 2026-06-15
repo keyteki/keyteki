@@ -20,8 +20,8 @@ class RandomArchiveAction extends PlayerAction {
 
     getEvent(player, context) {
         return super.createEvent(EVENTS.unnamedEvent, { player, context }, () => {
-            let amount = Math.min(this.amount, player.hand.length);
-            let cards = _.shuffle(player.hand).slice(0, amount);
+            const amount = Math.min(this.amount, player.hand.length);
+            const cards = _.shuffle(player.hand).slice(0, amount);
             context.game.actions.archive().resolve(cards, context);
         });
     }

@@ -1,7 +1,7 @@
 const MessageService = require('./MessageService');
 const CardService = require('./CardService');
 
-let services = {};
+const services = {};
 
 module.exports = {
     messageService: () => {

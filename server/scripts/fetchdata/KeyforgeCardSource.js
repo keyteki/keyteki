@@ -18,10 +18,10 @@ class JsonCardSource {
     }
 
     parseKeywords(text) {
-        let firstLine = text.split('\n')[0] || '';
-        let potentialKeywords = firstLine.split('.').map((k) => k.toLowerCase().trim());
+        const firstLine = text.split('\n')[0] || '';
+        const potentialKeywords = firstLine.split('.').map((k) => k.toLowerCase().trim());
 
-        let printedKeywords = potentialKeywords.filter((potentialKeyword) => {
+        const printedKeywords = potentialKeywords.filter((potentialKeyword) => {
             return ValidKeywords.some((keyword) => potentialKeyword.indexOf(keyword) === 0);
         });
 
@@ -36,8 +36,8 @@ class JsonCardSource {
         console.info('Fetching the deck list...');
 
         let response;
-        let cards = { 341: {}, 435: {} };
-        let pageErrors = [];
+        const cards = { 341: {}, 435: {} };
+        const pageErrors = [];
 
         try {
             response = await util.httpRequest(apiUrl, {
@@ -50,8 +50,8 @@ class JsonCardSource {
             return;
         }
 
-        let deckCount = response.count;
-        let totalPages = Math.ceil(deckCount / pageSize);
+        const deckCount = response.count;
+        const totalPages = Math.ceil(deckCount / pageSize);
 
         console.info(`Fetching all ${deckCount} decks, which is ${totalPages} pages`);
 
@@ -81,9 +81,9 @@ class JsonCardSource {
                 continue;
             }
 
-            for (let card of response._linked.cards) {
+            for (const card of response._linked.cards) {
                 if (!cards[card.expansion][card.card_number]) {
-                    let newCard = {
+                    const newCard = {
                         name: card.card_title,
                         number: card.card_number,
                         image: card.front_image,

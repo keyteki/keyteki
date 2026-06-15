@@ -19,10 +19,10 @@ class GamePipeline {
     }
 
     getCurrentStep() {
-        var step = _.first(this.pipeline);
+        const step = _.first(this.pipeline);
 
         if (_.isFunction(step)) {
-            var createdStep = step();
+            const createdStep = step();
             this.pipeline[0] = createdStep;
             return createdStep;
         }
@@ -34,7 +34,7 @@ class GamePipeline {
         if (this.pipeline.length === 0) {
             this.pipeline.unshift(step);
         } else {
-            var currentStep = this.getCurrentStep();
+            const currentStep = this.getCurrentStep();
             if (currentStep.queueStep) {
                 currentStep.queueStep(step);
             } else {
@@ -48,7 +48,7 @@ class GamePipeline {
             return;
         }
 
-        var step = this.getCurrentStep();
+        const step = this.getCurrentStep();
 
         if (step.cancelStep && step.isComplete) {
             step.cancelStep();
@@ -62,7 +62,7 @@ class GamePipeline {
 
     handleCardClicked(player, card) {
         if (this.pipeline.length > 0) {
-            var step = this.getCurrentStep();
+            const step = this.getCurrentStep();
             if (step.onCardClicked(player, card) !== false) {
                 return true;
             }
@@ -73,7 +73,7 @@ class GamePipeline {
 
     handleCardDragged(player, card, from, to) {
         if (this.pipeline.length > 0) {
-            var step = this.getCurrentStep();
+            const step = this.getCurrentStep();
             if (step.onCardDragged(player, card, from, to) !== false) {
                 return true;
             }
@@ -84,7 +84,7 @@ class GamePipeline {
 
     handleMenuCommand(player, arg, uuid, method) {
         if (this.pipeline.length > 0) {
-            var step = this.getCurrentStep();
+            const step = this.getCurrentStep();
             if (step.onMenuCommand(player, arg, uuid, method) !== false) {
                 return true;
             }
@@ -95,7 +95,7 @@ class GamePipeline {
 
     handleTideClicked(player) {
         if (this.pipeline.length > 0) {
-            var step = this.getCurrentStep();
+            const step = this.getCurrentStep();
             if (step.onTideClicked(player) !== false) {
                 return true;
             }
@@ -106,7 +106,7 @@ class GamePipeline {
 
     handleProphecyClicked(player, prophecyCard) {
         if (this.pipeline.length > 0) {
-            var step = this.getCurrentStep();
+            const step = this.getCurrentStep();
             if (step.onProphecyClicked(player, prophecyCard) !== false) {
                 return true;
             }
@@ -122,7 +122,7 @@ class GamePipeline {
         }
 
         while (this.pipeline.length > 0) {
-            var currentStep = this.getCurrentStep();
+            const currentStep = this.getCurrentStep();
             // Explicitly check for a return of false - if no return values is
             // defined then just continue to the next step.
             if (currentStep.continue() === false) {
@@ -148,9 +148,9 @@ class GamePipeline {
     }
 
     getDebugInfoForStep(step) {
-        let name = step.constructor.name;
+        const name = step.constructor.name;
         if (step.pipeline) {
-            let result = {};
+            const result = {};
             result[name] = step.pipeline.getDebugInfo();
             return result;
         }

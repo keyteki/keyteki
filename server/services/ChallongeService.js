@@ -28,8 +28,8 @@ class ChallongeService {
         let final = [...personal.map((x) => x.tournament), ...community.map((x) => x.tournament)];
         final = final.filter((x) => x.game_name === 'Keyforge' && x.state !== 'complete');
         final = final.sort((a, b) => {
-            let aDate = new Date(a.created_at);
-            let bDate = new Date(b.created_at);
+            const aDate = new Date(a.created_at);
+            const bDate = new Date(b.created_at);
             return aDate > bDate ? 0 : 1;
         });
         return final;
@@ -82,9 +82,9 @@ class ChallongeService {
         try {
             challongeResults = [];
 
-            for (let match of data) {
+            for (const match of data) {
                 let result;
-                let url = `https://api.challonge.com/v1/tournaments/${match.tournamentId}/matches/${match.matchId}/attachments.json?api_key=${user.challonge.key}`;
+                const url = `https://api.challonge.com/v1/tournaments/${match.tournamentId}/matches/${match.matchId}/attachments.json?api_key=${user.challonge.key}`;
 
                 try {
                     result = await util.httpRequest(url, {

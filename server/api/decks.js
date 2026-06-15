@@ -37,7 +37,7 @@ module.exports.init = function (server) {
                 return res.status(404).send({ message: 'No such deck' });
             }
 
-            let deck = await deckService.getById(req.params.id);
+            const deck = await deckService.getById(req.params.id);
 
             if (!deck) {
                 return res.status(404).send({ message: 'No such deck' });
@@ -55,7 +55,7 @@ module.exports.init = function (server) {
         '/api/decks',
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async function (req, res) {
-            let numDecks = await deckService.getNumDecksForUser(req.user, req.query);
+            const numDecks = await deckService.getNumDecksForUser(req.user, req.query);
             let decks = [];
 
             if (numDecks > 0) {
@@ -101,7 +101,7 @@ module.exports.init = function (server) {
                 return res.send({ success: false, message: 'uuid must be specified' });
             }
 
-            let deck = Object.assign({}, { uuid: req.body.uuid, username: req.user.username });
+            const deck = Object.assign({}, { uuid: req.body.uuid, username: req.user.username });
             let createResult;
 
             try {
@@ -142,7 +142,7 @@ module.exports.init = function (server) {
                 return res.send({ success: false, message: 'pods must be specified' });
             }
 
-            let deck = Object.assign(
+            const deck = Object.assign(
                 {},
                 {
                     name: req.body.name,
@@ -181,9 +181,9 @@ module.exports.init = function (server) {
         '/api/decks/:id',
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async function (req, res) {
-            let id = req.params.id;
+            const id = req.params.id;
 
-            let deck = await deckService.getById(id);
+            const deck = await deckService.getById(id);
 
             if (!deck) {
                 return res.status(404).send({ success: false, message: 'No such deck' });
@@ -243,9 +243,9 @@ module.exports.init = function (server) {
                 return res.status(403);
             }
 
-            let id = req.params.id;
+            const id = req.params.id;
 
-            let deck = await deckService.getById(id);
+            const deck = await deckService.getById(id);
 
             if (!deck) {
                 return res.status(404).send({ success: false, message: 'No such deck' });
@@ -263,9 +263,9 @@ module.exports.init = function (server) {
         '/api/decks/:id/refresh-accolades',
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async function (req, res) {
-            let id = req.params.id;
+            const id = req.params.id;
 
-            let deck = await deckService.getById(id);
+            const deck = await deckService.getById(id);
 
             if (!deck) {
                 return res.status(404).send({ success: false, message: 'No such deck' });
@@ -292,11 +292,11 @@ module.exports.init = function (server) {
         '/api/decks/:id/accolades/:accoladeId/shown',
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async function (req, res) {
-            let id = req.params.id;
-            let accoladeId = req.params.accoladeId;
-            let shown = req.body.shown === true;
+            const id = req.params.id;
+            const accoladeId = req.params.accoladeId;
+            const shown = req.body.shown === true;
 
-            let deck = await deckService.getById(id);
+            const deck = await deckService.getById(id);
 
             if (!deck) {
                 return res.status(404).send({ success: false, message: 'No such deck' });

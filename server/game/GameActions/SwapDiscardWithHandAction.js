@@ -36,8 +36,8 @@ class SwapDiscardWithHandAction extends CardGameAction {
             EVENTS.onSwapDiscardWithHand,
             { card: card, context: context },
             () => {
-                let discardIndex = this.discardCard.controller.discard.indexOf(this.discardCard);
-                let cardIndex = card.controller.hand.indexOf(card);
+                const discardIndex = this.discardCard.controller.discard.indexOf(this.discardCard);
+                const cardIndex = card.controller.hand.indexOf(card);
                 if (discardIndex >= 0 && cardIndex >= 0) {
                     this.discardCard.controller.discard.splice(discardIndex, 1, card);
                     card.location = 'discard';

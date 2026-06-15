@@ -12,7 +12,7 @@ class GameChat {
     }
 
     addChatMessage(format, player, message) {
-        let args = [
+        const args = [
             {
                 name: player.name,
                 argType: 'player',
@@ -21,14 +21,14 @@ class GameChat {
             },
             message.substring(0, Math.min(512, message.length))
         ];
-        let formattedMessage = this.formatMessage(format, args);
+        const formattedMessage = this.formatMessage(format, args);
 
         this.messages.push({ id: randomUUID(), date: new Date(), message: formattedMessage });
     }
 
     getFormattedMessage(message) {
-        let args = Array.from(arguments).slice(1);
-        let argList = args.map((arg) => {
+        const args = Array.from(arguments).slice(1);
+        const argList = args.map((arg) => {
             if (arg instanceof Spectator) {
                 return {
                     name: arg.name,
@@ -52,7 +52,7 @@ class GameChat {
     }
 
     addMessage(message, ...args) {
-        let formattedMessage = this.getFormattedMessage(message, ...args);
+        const formattedMessage = this.getFormattedMessage(message, ...args);
         this.messages.push({
             id: randomUUID(),
             date: new Date(),
@@ -62,7 +62,7 @@ class GameChat {
     }
 
     addAlert(type, message, ...args) {
-        let formattedMessage = this.getFormattedMessage(message, ...args);
+        const formattedMessage = this.getFormattedMessage(message, ...args);
 
         this.messages.push({
             id: randomUUID(),
@@ -77,18 +77,18 @@ class GameChat {
             return '';
         }
 
-        let messageFragments = format.split(/(\{\d+\})/);
-        let returnedFraments = [];
+        const messageFragments = format.split(/(\{\d+\})/);
+        const returnedFraments = [];
 
         for (const fragment of messageFragments) {
-            let argMatch = fragment.match(/\{(\d+)\}/);
+            const argMatch = fragment.match(/\{(\d+)\}/);
             if (argMatch) {
-                let arg = args[argMatch[1]];
+                const arg = args[argMatch[1]];
                 if (arg || arg === 0) {
                     if (Array.isArray(arg)) {
                         returnedFraments.push(this.formatArray(arg));
                     } else if (arg instanceof Card) {
-                        let summary = arg.getShortSummary();
+                        const summary = arg.getShortSummary();
                         returnedFraments.push({
                             argType: 'card',
                             ...summary
@@ -149,7 +149,7 @@ class GameChat {
         } else if (array.length === 2) {
             format = '{0} and {1}';
         } else {
-            let range = [...Array(array.length - 1).keys()].map((i) => '{' + i + '}');
+            const range = [...Array(array.length - 1).keys()].map((i) => '{' + i + '}');
             format = range.join(', ') + ', and {' + (array.length - 1) + '}';
         }
 

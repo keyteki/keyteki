@@ -6,7 +6,7 @@ class NoSafetyInNumbers extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.dealDamage((context) => {
-                let countMap = {};
+                const countMap = {};
                 Constants.Houses.forEach(
                     (house) =>
                         (countMap[house] = context.game.creaturesInPlay.filter((card) =>

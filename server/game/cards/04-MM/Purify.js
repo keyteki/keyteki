@@ -13,13 +13,13 @@ class Purify extends Card {
                 gameAction: ability.actions.purge()
             },
             then: (preThenContext) => {
-                let deck = preThenContext.target.controller.deck;
-                let index = deck.findIndex(
+                const deck = preThenContext.target.controller.deck;
+                const index = deck.findIndex(
                     (card) => card.type === 'creature' && !card.hasTrait('mutant')
                 );
-                let discardedCards = index > -1 ? deck.slice(0, index + 1) : deck;
-                let card = index > -1 ? deck[index] : null;
-                let result = {
+                const discardedCards = index > -1 ? deck.slice(0, index + 1) : deck;
+                const card = index > -1 ? deck[index] : null;
+                const result = {
                     messageArgs: [discardedCards],
                     gameAction: ability.actions.discard({
                         target: discardedCards

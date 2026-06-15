@@ -73,7 +73,7 @@ class TectonicShift extends Card {
                 ) {
                     friendlyPivot++;
                 }
-                let friendlyTargets =
+                const friendlyTargets =
                     !!context.selects.friendlyHalf && context.selects.friendlyHalf.choice === 'Left'
                         ? context.player.creaturesInPlay.slice(0, friendlyPivot)
                         : context.player.creaturesInPlay.slice(friendlyPivot);

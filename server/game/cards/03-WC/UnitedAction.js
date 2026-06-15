@@ -9,7 +9,7 @@ class UnitedAction extends Card {
             gameAction: ability.actions.untilPlayerTurnEnd({
                 effect: [
                     ability.effects.canPlay((card, context) => {
-                        let housesInPlay = context.game.getHousesInPlay(
+                        const housesInPlay = context.game.getHousesInPlay(
                             context.game.cardsInPlay,
                             true,
                             (card) => card.controller === context.player

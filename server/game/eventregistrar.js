@@ -52,13 +52,13 @@ class EventRegistrar {
      * handler. If not provided, the event name will be used as the method name.
      */
     registerEvent(eventName, methodName) {
-        let method = this.context[methodName || eventName];
+        const method = this.context[methodName || eventName];
 
         if (!method) {
             throw new Error(`Cannot bind event handler for ${eventName}`);
         }
 
-        let boundHandler = method.bind(this.context);
+        const boundHandler = method.bind(this.context);
         this.game.on(eventName, boundHandler);
         this.events.push({ name: eventName, handler: boundHandler });
     }

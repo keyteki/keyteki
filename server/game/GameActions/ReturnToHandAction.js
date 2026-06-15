@@ -26,7 +26,8 @@ class ReturnToHandAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        let eventName = card.location === 'play area' ? EVENTS.onCardLeavesPlay : EVENTS.onMoveCard;
+        const eventName =
+            card.location === 'play area' ? EVENTS.onCardLeavesPlay : EVENTS.onMoveCard;
 
         return super.createEvent(
             eventName,

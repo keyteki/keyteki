@@ -48,12 +48,12 @@ class AbilityTargetHouse extends AbilityTarget {
             player = player.opponent;
         }
 
-        let promptTitle = this.properties.activePromptTitle || 'Choose a house';
-        let houses = this.getHouses(context);
-        let choices = houses.map((house) => {
+        const promptTitle = this.properties.activePromptTitle || 'Choose a house';
+        const houses = this.getHouses(context);
+        const choices = houses.map((house) => {
             return { text: house };
         });
-        let handlers = houses.map((choice) => {
+        const handlers = houses.map((choice) => {
             return () => {
                 context.houses[this.name] = new SelectChoice(choice);
                 if (this.name === 'target') {

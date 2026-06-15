@@ -6,7 +6,6 @@ const db = require('../db');
 class MessageService extends EventEmitter {
     async addMessage(message, user) {
         let ret;
-        let id;
         try {
             ret = await db.query(
                 'INSERT INTO "Messages" ("Text", "PostedTime", "PosterId") VALUES ($1, $2, $3) RETURNING "Id"',
@@ -17,7 +16,7 @@ class MessageService extends EventEmitter {
             throw new Error('Unable to insert message');
         }
 
-        id = ret[0].Id;
+        const id = ret[0].Id;
         message.id = id;
 
         return message;
@@ -117,7 +116,7 @@ class MessageService extends EventEmitter {
 
     mapMessage(message, user) {
         const isPosterDisabled = !!message.PosterDisabled;
-        let retMessage = {
+        const retMessage = {
             id: message.Id,
             message:
                 !message.Deleted || (user && user.permissions.canModerateChat)

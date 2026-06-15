@@ -40,7 +40,7 @@ class MoveToFlankAction extends CardGameAction {
 
     getEvent(card, context) {
         return super.createEvent(EVENTS.onMoveToFlank, { card: card, context: context }, () => {
-            let cardIndex = card.controller.cardsInPlay.indexOf(card);
+            const cardIndex = card.controller.cardsInPlay.indexOf(card);
             if (this.left) {
                 card.controller.cardsInPlay.splice(cardIndex, 1);
                 card.controller.cardsInPlay.unshift(card);

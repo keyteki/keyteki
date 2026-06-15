@@ -56,8 +56,8 @@ class Card extends EffectSource {
         };
         this.traits = cardData.traits || [];
         this.printedKeywords = {};
-        for (let keyword of cardData.keywords || []) {
-            let split = keyword.split(':');
+        for (const keyword of cardData.keywords || []) {
+            const split = keyword.split(':');
             let value = 1;
             if (split.length > 1) {
                 value = parseInt(split[1]);
@@ -157,7 +157,7 @@ class Card extends EffectSource {
         if (!Effects.unblankableEffects.includes(type) && this.isBlank()) {
             return false;
         }
-        let x = super.anyEffect(type);
+        const x = super.anyEffect(type);
         return x;
     }
 
@@ -185,13 +185,13 @@ class Card extends EffectSource {
 
         let actions = this.abilities.actions;
         if (this.anyEffect('copyCard')) {
-            let mostRecentEffect = _.last(
+            const mostRecentEffect = _.last(
                 this.effects.filter((effect) => effect.type === 'copyCard')
             );
             actions = mostRecentEffect.value.getActions(this);
         }
 
-        let effectActions = this.getEffects('gainAbility').filter(
+        const effectActions = this.getEffects('gainAbility').filter(
             (ability) => ability.abilityType === 'action'
         );
         return actions.concat(effectActions);
@@ -209,13 +209,13 @@ class Card extends EffectSource {
         const TriggeredAbilityTypes = ['interrupt', 'reaction'];
         let reactions = this.abilities.reactions;
         if (this.anyEffect('copyCard')) {
-            let mostRecentEffect = _.last(
+            const mostRecentEffect = _.last(
                 this.effects.filter((effect) => effect.type === 'copyCard')
             );
             reactions = mostRecentEffect.value.getReactions(this);
         }
 
-        let effectReactions = this.getEffects('gainAbility').filter((ability) =>
+        const effectReactions = this.getEffects('gainAbility').filter((ability) =>
             TriggeredAbilityTypes.includes(ability.abilityType)
         );
         reactions = reactions.concat(this.abilities.keywordReactions, effectReactions);
@@ -249,17 +249,17 @@ class Card extends EffectSource {
 
         let persistentEffects = this.abilities.persistentEffects;
         if (this.anyEffect('copyCard')) {
-            let mostRecentEffect = _.last(
+            const mostRecentEffect = _.last(
                 this.effects.filter((effect) => effect.type === 'copyCard')
             );
             persistentEffects = mostRecentEffect.value.getPersistentEffects(this);
         }
 
-        let gainedPersistentEffects = this.getEffects('gainAbility').filter(
+        const gainedPersistentEffects = this.getEffects('gainAbility').filter(
             (ability) => ability.abilityType === 'persistentEffect'
         );
 
-        let result = persistentEffects.concat(
+        const result = persistentEffects.concat(
             this.abilities.keywordPersistentEffects,
             gainedPersistentEffects
         );
@@ -276,10 +276,10 @@ class Card extends EffectSource {
             return this.mostRecentEffect('modifyBonusIcons');
         }
 
-        let printedAmber = this.getTopCard().cardPrintedAmber;
-        let enhancements = this.getTopCard().enhancements;
+        const printedAmber = this.getTopCard().cardPrintedAmber;
+        const enhancements = this.getTopCard().enhancements;
 
-        let result = printedAmber ? Array.from(Array(printedAmber), () => 'amber') : [];
+        const result = printedAmber ? Array.from(Array(printedAmber), () => 'amber') : [];
         return enhancements ? result.concat(enhancements) : result;
     }
 
@@ -579,7 +579,7 @@ class Card extends EffectSource {
     }
 
     prophecyReaction(properties) {
-        let originalWhen = properties.when;
+        const originalWhen = properties.when;
         if (typeof originalWhen === 'object') {
             properties.when = Object.entries(originalWhen).reduce((newWhen, [key, condition]) => {
                 newWhen[key] = (event, context) => {
@@ -599,7 +599,7 @@ class Card extends EffectSource {
     }
 
     prophecyInterrupt(properties) {
-        let originalWhen = properties.when;
+        const originalWhen = properties.when;
         if (typeof originalWhen === 'object') {
             properties.when = Object.entries(originalWhen).reduce((newWhen, [key, condition]) => {
                 newWhen[key] = (event, context) => {
@@ -624,12 +624,12 @@ class Card extends EffectSource {
      */
     persistentEffect(properties) {
         const allowedLocations = ['any', 'play area', 'discard'];
-        let location = properties.location || 'play area';
+        const location = properties.location || 'play area';
         if (!allowedLocations.includes(location)) {
             throw new Error(`'${location}' is not a supported effect location.`);
         }
 
-        let ability = _.extend(
+        const ability = _.extend(
             {
                 abilityType: 'persistentEffect',
                 duration: 'persistentEffect',
@@ -666,8 +666,8 @@ class Card extends EffectSource {
         if (printed) {
             return this.getBottomCard().traits;
         }
-        let copyEffect = this.mostRecentEffect('copyCard');
-        let traits = copyEffect ? copyEffect.traits : this.getBottomCard().traits;
+        const copyEffect = this.mostRecentEffect('copyCard');
+        const traits = copyEffect ? copyEffect.traits : this.getBottomCard().traits;
         return _.uniq(traits.concat(this.getEffects('addTrait')));
     }
 
@@ -693,7 +693,7 @@ class Card extends EffectSource {
         if (this.anyEffect('changeHouse')) {
             combinedHouses = combinedHouses.concat(this.getEffects('changeHouse').flat());
         } else {
-            let copyEffect = this.mostRecentEffect('copyCard');
+            const copyEffect = this.mostRecentEffect('copyCard');
             combinedHouses.push(copyEffect ? copyEffect.printedHouse : this.printedHouse);
             combinedHouses = combinedHouses.concat(
                 copyEffect ? copyEffect.getHouseEnhancements() : this.getHouseEnhancements()
@@ -750,17 +750,17 @@ class Card extends EffectSource {
     }
 
     clearDependentCards() {
-        for (let upgrade of this.upgrades) {
+        for (const upgrade of this.upgrades) {
             upgrade.onLeavesPlay();
             upgrade.owner.moveCard(upgrade, 'discard');
         }
 
-        for (let child of this.childCards) {
+        for (const child of this.childCards) {
             child.onLeavesPlay();
             child.owner.moveCard(child, 'discard');
         }
 
-        for (let card of this.purgedCards) {
+        for (const card of this.purgedCards) {
             card.purgedBy = null;
         }
         this.purgedCards = [];
@@ -812,7 +812,7 @@ class Card extends EffectSource {
             this.removeLastingEffects();
         }
 
-        let effectLocations = ['play area', 'discard'];
+        const effectLocations = ['play area', 'discard'];
 
         _.each(this.getPersistentEffects(true), (effect) => {
             if (effect.location !== 'any') {
@@ -839,7 +839,7 @@ class Card extends EffectSource {
     updateEffectContexts() {
         for (const effect of this.getPersistentEffects(true)) {
             if (effect.ref) {
-                for (let e of effect.ref) {
+                for (const e of effect.ref) {
                     e.refreshContext();
                 }
             }
@@ -847,7 +847,7 @@ class Card extends EffectSource {
     }
 
     moveTo(targetLocation) {
-        let originalLocation = this.location;
+        const originalLocation = this.location;
 
         this.location = targetLocation;
 
@@ -882,7 +882,7 @@ class Card extends EffectSource {
     }
 
     getMenu(activePlayer) {
-        var menu = [];
+        let menu = [];
 
         // Special handling for prophecy cards in manual mode
         if (this.isProphecy() && this.game.manualMode) {
@@ -1051,8 +1051,8 @@ class Card extends EffectSource {
         // This allows the top half to share keywords with the bottom half when in play
         let baseValue = 0;
         if (this.gigantic && this.composedPart) {
-            let copyEffect = this.mostRecentEffect('copyCard');
-            let baseKeywords = copyEffect
+            const copyEffect = this.mostRecentEffect('copyCard');
+            const baseKeywords = copyEffect
                 ? copyEffect.printedKeywords
                 : this.getBottomCard().printedKeywords;
             baseValue = baseKeywords[keyword] || 0;
@@ -1065,7 +1065,7 @@ class Card extends EffectSource {
     }
 
     createSnapshot() {
-        let clone = new Card(
+        const clone = new Card(
             this.owner,
             this.isToken() && this.tokenCard() ? this.tokenCard().cardData : this.cardData
         );
@@ -1240,14 +1240,14 @@ class Card extends EffectSource {
     }
 
     use(player, ignoreHouse = false) {
-        let legalActions = this.getLegalActions(player, ignoreHouse);
+        const legalActions = this.getLegalActions(player, ignoreHouse);
 
         if (legalActions.length === 0) {
             return false;
         } else if (legalActions.length === 1) {
-            let action = legalActions[0];
+            const action = legalActions[0];
             if (!this.game.activePlayer.optionSettings.confirmOneClick || ignoreHouse) {
-                let context = action.createContext(player);
+                const context = action.createContext(player);
                 context.ignoreHouse = ignoreHouse;
                 this.game.resolveAbility(context);
                 return true;
@@ -1270,7 +1270,7 @@ class Card extends EffectSource {
             return action.title;
         });
         let handlers = legalActions.map((action) => () => {
-            let context = action.createContext(player);
+            const context = action.createContext(player);
             context.ignoreHouse = ignoreHouse;
             this.game.resolveAbility(context);
         });
@@ -1295,11 +1295,11 @@ class Card extends EffectSource {
     getLegalActions(player, ignoreHouse = false) {
         let actions = this.getActions();
         actions = actions.filter((action) => {
-            let context = action.createContext(player);
+            const context = action.createContext(player);
             context.ignoreHouse = ignoreHouse;
             return !action.meetsRequirements(context, []);
         });
-        let canFight = actions.findIndex((action) => action.fight) >= 0;
+        const canFight = actions.findIndex((action) => action.fight) >= 0;
         if (this.getEffects('mustFightIfAble').length > 0 && canFight) {
             actions = actions.filter((action) => action.fight);
         }
@@ -1339,14 +1339,14 @@ class Card extends EffectSource {
     }
 
     getRemoveStunAction() {
-        let removeStun = new RemoveStun(this);
+        const removeStun = new RemoveStun(this);
         // if card has an omni ability, it should allow to stun, so stun becomes omni
         removeStun.omni = this.actions.some((action) => !!action.omni);
         return removeStun;
     }
 
     getActions(location = this.location) {
-        let actions = [];
+        const actions = [];
         if (location === 'hand') {
             if (this.type === 'creature') {
                 actions.push(new PlayCreatureAction(this));
@@ -1393,7 +1393,7 @@ class Card extends EffectSource {
             return false;
         }
 
-        let position = this.controller.creaturesInPlay.indexOf(this);
+        const position = this.controller.creaturesInPlay.indexOf(this);
         if (flank === 'left') {
             return (
                 (this.anyEffect('consideredAsFlank') || this.neighbors.length < 2) && position === 0
@@ -1409,13 +1409,13 @@ class Card extends EffectSource {
     }
 
     isInCenter() {
-        let creatures = this.controller.creaturesInPlay;
+        const creatures = this.controller.creaturesInPlay;
         if (creatures.length % 2 === 0) {
             return false;
         }
 
-        let mid = Math.floor(creatures.length / 2);
-        let centerCreature = creatures[mid];
+        const mid = Math.floor(creatures.length / 2);
+        const centerCreature = creatures[mid];
 
         return this === centerCreature;
     }
@@ -1427,9 +1427,9 @@ class Card extends EffectSource {
             return this.clonedNeighbors;
         }
 
-        let creatures = this.controller.creaturesInPlay;
-        let index = creatures.indexOf(this);
-        let neighbors = [];
+        const creatures = this.controller.creaturesInPlay;
+        const index = creatures.indexOf(this);
+        const neighbors = [];
 
         if (index < 0) {
             return neighbors;
@@ -1489,7 +1489,7 @@ class Card extends EffectSource {
         if (this.isToken() && this.tokenCard()) {
             return this.tokenCard().getShortSummary();
         }
-        let result = super.getShortSummary();
+        const result = super.getShortSummary();
 
         // Include card specific information useful for UI rendering
         result.maverick = this.maverick;

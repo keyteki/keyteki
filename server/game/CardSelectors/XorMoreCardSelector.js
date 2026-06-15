@@ -16,7 +16,7 @@ class XorMoreCardSelector extends BaseCardSelector {
     }
 
     defaultActivePromptTitle(context) {
-        let numCards = this.getNumCards(context);
+        const numCards = this.getNumCards(context);
         return {
             text: `Choose {{amount}} or more ${this.cardType[0]}s`,
             values: { amount: numCards }

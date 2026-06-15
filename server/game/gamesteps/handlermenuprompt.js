@@ -53,8 +53,8 @@ class HandlerMenuPrompt extends UiPrompt {
         let buttons = [];
         if (this.properties.cards) {
             buttons = _.map(this.properties.cards, (card) => {
-                let text = '{{card}}';
-                let values = {
+                const text = '{{card}}';
+                const values = {
                     card: card.name
                 };
                 return { text: text, arg: card.uuid, card: card, values: values };
@@ -149,7 +149,7 @@ class HandlerMenuPrompt extends UiPrompt {
         }
 
         if (_.isString(arg)) {
-            let card = _.find(this.properties.cards, (card) => card.uuid === arg);
+            const card = _.find(this.properties.cards, (card) => card.uuid === arg);
             if (card && this.properties.cardHandler) {
                 this.properties.cardHandler(card);
                 this.complete();

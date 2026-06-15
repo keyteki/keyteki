@@ -14,19 +14,19 @@ class SequentialAction extends GameAction {
 
     update(context) {
         super.update(context);
-        for (let gameAction of this.gameActions) {
+        for (const gameAction of this.gameActions) {
             gameAction.update(context);
         }
     }
 
     setDefaultTarget(func) {
-        for (let gameAction of this.gameActions) {
+        for (const gameAction of this.gameActions) {
             gameAction.setDefaultTarget(func);
         }
     }
 
     setTarget(target) {
-        for (let gameAction of this.gameActions) {
+        for (const gameAction of this.gameActions) {
             gameAction.setTarget(target);
         }
     }
@@ -43,7 +43,7 @@ class SequentialAction extends GameAction {
     getEventArray(context) {
         return [
             super.createEvent(EVENTS.unnamedEvent, {}, () => {
-                for (let action of this.gameActions) {
+                for (const action of this.gameActions) {
                     context.game.queueSimpleStep(() => action.preEventHandler(context));
                     context.game.queueSimpleStep(() =>
                         context.game.openEventWindow(action.getEventArray(context))

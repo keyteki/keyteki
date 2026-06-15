@@ -76,7 +76,7 @@ const TournamentLobby = () => {
 
     useEffect(() => {
         if (matches?.length > 0) {
-            let tournament = tournaments.find((x) => x.id === matches[0].tournament_id);
+            const tournament = tournaments.find((x) => x.id === matches[0].tournament_id);
             setTournament(tournament);
         }
 
@@ -125,7 +125,7 @@ const TournamentLobby = () => {
         attachMatchLink(matchData);
     };
 
-    let openMatches = matches?.filter((match) => match.state === 'open') || [];
+    const openMatches = matches?.filter((match) => match.state === 'open') || [];
 
     const tournamentGames = games.filter(
         (game) => game.challonge && game.challonge.tournamentId === tournament?.id
@@ -191,7 +191,7 @@ const TournamentLobby = () => {
                             as='select'
                             value={tournament?.id}
                             onChange={(event) => {
-                                let nextTournament = tournaments.find(
+                                const nextTournament = tournaments.find(
                                     (t) => t.id === parseInt(event.target.value)
                                 );
 

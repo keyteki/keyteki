@@ -9,7 +9,7 @@ const { EVENTS } = require('../Events/types');
 class AbilityTargetCard extends AbilityTarget {
     constructor(name, properties, ability) {
         super(name, properties, ability);
-        for (let gameAction of this.properties.gameAction) {
+        for (const gameAction of this.properties.gameAction) {
             gameAction.setDefaultTarget((context) => context.targets[name]);
         }
 
@@ -17,8 +17,8 @@ class AbilityTargetCard extends AbilityTarget {
     }
 
     getSelector(properties) {
-        let cardCondition = (card, context) => {
-            let contextCopy = context.copy();
+        const cardCondition = (card, context) => {
+            const contextCopy = context.copy();
             contextCopy.targets[this.name] = this.selector.formatSelectParam([card]);
             if (this.name === 'target') {
                 contextCopy.target = contextCopy.targets[this.name];
@@ -97,9 +97,9 @@ class AbilityTargetCard extends AbilityTarget {
             return;
         }
 
-        let otherProperties = _.omit(this.properties, 'cardCondition', 'player');
+        const otherProperties = _.omit(this.properties, 'cardCondition', 'player');
 
-        let buttons = [];
+        const buttons = [];
         let waitingPromptTitle = '';
         if (context.stage === 'pretarget') {
             if (!targetResults.noCostsFirstButton) {
@@ -125,7 +125,7 @@ class AbilityTargetCard extends AbilityTarget {
             });
         }
 
-        let promptProperties = {
+        const promptProperties = {
             waitingPromptTitle: waitingPromptTitle,
             context: context,
             selector: this.selector,

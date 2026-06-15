@@ -6,7 +6,7 @@ class PlayableLocation {
     }
 
     contains(card) {
-        var pile = this.player.getSourceList(this.location);
+        const pile = this.player.getSourceList(this.location);
         return pile.includes(card);
     }
 }

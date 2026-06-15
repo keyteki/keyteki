@@ -6,7 +6,7 @@ class Corrode extends Card {
     //  Destroy an upgrade.
     //  Destroy a creature with armor.
     reduceTargets(context) {
-        let targets = context.targets
+        const targets = context.targets
             ? Object.values(context.targets).reduce((acc, target) => acc.concat(target), [])
             : [];
         return targets.length === 0 ? 'nothing' : targets;

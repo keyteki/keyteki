@@ -2,14 +2,14 @@ const Card = require('../../Card.js');
 
 class BlasterCard extends Card {
     getAttachedAbility(ability, creatureName) {
-        let choices = {
+        const choices = {
             'Deal 2 damage': () => true
         };
 
         const moveChoice = `Move ${this.name}`;
         choices[moveChoice] = () => true;
 
-        let result = {
+        const result = {
             optional: true,
             targets: {
                 action: {

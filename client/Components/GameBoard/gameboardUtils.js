@@ -18,7 +18,7 @@ export const placeholderPlayer = {
 };
 
 export const normalizePlayer = (source) => {
-    let player = Object.assign({}, placeholderPlayer, source);
+    const player = Object.assign({}, placeholderPlayer, source);
     player.cardPiles = Object.assign({}, placeholderPlayer.cardPiles, player.cardPiles);
     return player;
 };

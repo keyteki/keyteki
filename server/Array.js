@@ -13,10 +13,10 @@ function flatMap(array, mapFunc) {
 }
 
 function partition(array, filterFunc) {
-    let matches = [];
-    let remaining = [];
+    const matches = [];
+    const remaining = [];
 
-    for (let item of array) {
+    for (const item of array) {
         if (filterFunc(item)) {
             matches.push(item);
         } else {
@@ -29,8 +29,8 @@ function partition(array, filterFunc) {
 
 function sortByComparison(transform) {
     return function (a, b) {
-        let aValue = transform(a);
-        let bValue = transform(b);
+        const aValue = transform(a);
+        const bValue = transform(b);
 
         if (aValue > bValue) {
             return 1;

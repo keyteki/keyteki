@@ -48,8 +48,8 @@ class PlayerPromptState {
         this.promptTitle = prompt.promptTitle;
         this.buttons = _.map(prompt.buttons || [], (button) => {
             if (button.card) {
-                let card = button.card;
-                let properties = _.omit(button, 'card');
+                const card = button.card;
+                const properties = _.omit(button, 'card');
                 return _.extend(
                     { text: card.name, arg: card.uuid, card: card.getShortSummary() },
                     properties
@@ -71,7 +71,7 @@ class PlayerPromptState {
     }
 
     getCardSelectionState(card) {
-        let selectable = this.selectableCards.includes(card);
+        const selectable = this.selectableCards.includes(card);
         let pseudoDamage = 0;
         if (this.cardDamage[card.uuid]) {
             pseudoDamage += this.cardDamage[card.uuid].damage || 0;

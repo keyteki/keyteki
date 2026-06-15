@@ -56,14 +56,14 @@ class PlayUpgradeOnParentAction extends CardGameAction {
     }
 
     actionMeetsRequirement(context, action) {
-        let actionContext = action.createContext(context.player);
+        const actionContext = action.createContext(context.player);
         actionContext.ignoreHouse = true;
         return !action.meetsRequirements(actionContext, ['location']);
     }
 
     resolveAction(context, action) {
         action.deploy = this.deploy;
-        let actionContext = action.createContext(context.player);
+        const actionContext = action.createContext(context.player);
         actionContext.ignoreHouse = true;
         context.game.resolveAbility(actionContext);
     }
@@ -73,7 +73,7 @@ class PlayUpgradeOnParentAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        let playActions = this.getPlayActions(card).filter((action) =>
+        const playActions = this.getPlayActions(card).filter((action) =>
             this.actionMeetsRequirement(context, action)
         );
 

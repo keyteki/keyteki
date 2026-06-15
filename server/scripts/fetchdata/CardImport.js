@@ -54,7 +54,7 @@ class CardImport {
 
     async fetchImages(cards) {
         // Add cards that were once anomaly and now are printed in a set (or sets)
-        let specialCards = {
+        const specialCards = {
             479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true },
             496: { 'orb-of-wonder': true, valoocanth: true },
             700: { 'ecto-charge': true, 'near-future-lens': true, 'the-grim-reaper': true },
@@ -155,13 +155,12 @@ class CardImport {
         ];
         const skipMkdir = {};
 
-        for (let card of cards) {
-            for (let language of this.computeLanguages(card)) {
-                let imageLangDir = this.computeImagesDir(skipMkdir, language);
+        for (const card of cards) {
+            for (const language of this.computeLanguages(card)) {
+                const imageLangDir = this.computeImagesDir(skipMkdir, language);
                 let imagePath = path.join(imageLangDir, card.id + '.png').replace('*', '_');
-                let halfSizePath;
 
-                let imageUrl = card.image
+                const imageUrl = card.image
                     .replace('/en/', '/' + language + '/')
                     .replace('_en.', '_' + language + '.');
 
@@ -173,7 +172,7 @@ class CardImport {
                     await this.imageSource.fetchImage(card, imageUrl, imagePath);
                 }
 
-                halfSizePath = imagePath
+                const halfSizePath = imagePath
                     .replace(
                         `${path.sep}cards${path.sep}`,
                         `${path.sep}cards${path.sep}halfSize${path.sep}`
@@ -195,10 +194,10 @@ class CardImport {
         }
 
         for (const card of cards.filter((c) => gigantic.includes(c.id))) {
-            for (let language of this.computeLanguages(card)) {
-                let imageLangDir = this.computeImagesDir(skipMkdir, language);
-                let imgPath = path.join(imageLangDir, card.id + '-complete.png');
-                let halfSizePath = imgPath
+            for (const language of this.computeLanguages(card)) {
+                const imageLangDir = this.computeImagesDir(skipMkdir, language);
+                const imgPath = path.join(imageLangDir, card.id + '-complete.png');
+                const halfSizePath = imgPath
                     .replace(
                         `${path.sep}cards${path.sep}`,
                         `${path.sep}cards${path.sep}halfSize${path.sep}`
@@ -208,7 +207,7 @@ class CardImport {
                     await this.imageSource.buildGigantics(card.id, language, imageLangDir, imgPath);
                 }
                 if (this.force || !fs.existsSync(halfSizePath)) {
-                    let data = cards.find((x) => x.id === card.id);
+                    const data = cards.find((x) => x.id === card.id);
                     if (this.buildHalfSize) {
                         await this.buildHalfSize(
                             { ...data, type: 'creature1' },

@@ -5,8 +5,8 @@ class Lethologica extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.discard((context) => {
-                let deck = context.player.deck;
-                let index = deck.findIndex((card) => card.hasHouse('logos'));
+                const deck = context.player.deck;
+                const index = deck.findIndex((card) => card.hasHouse('logos'));
                 if (index > -1) {
                     return { target: deck.slice(0, index + 1) };
                 }
@@ -14,7 +14,7 @@ class Lethologica extends Card {
                 return { target: deck };
             }),
             then: (context) => {
-                let card = context.player.deck.find((card) => card.hasHouse('logos'));
+                const card = context.player.deck.find((card) => card.hasHouse('logos'));
                 if (card) {
                     return {
                         message: '{0} takes {3} into their hand',

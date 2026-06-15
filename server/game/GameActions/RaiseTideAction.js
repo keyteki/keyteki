@@ -23,7 +23,7 @@ class RaiseTideAction extends PlayerAction {
     }
 
     getEvent(player, context) {
-        let raiseTideEvent = super.createEvent(
+        const raiseTideEvent = super.createEvent(
             EVENTS.onRaiseTide,
             { player: player, context: context },
             (event) => {

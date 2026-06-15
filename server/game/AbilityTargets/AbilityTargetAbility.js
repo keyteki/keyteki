@@ -8,12 +8,12 @@ class AbilityTargetAbility extends AbilityTarget {
     }
 
     getSelector(properties) {
-        let cardCondition = (card, context) => {
-            let abilities = card.abilities.actions
+        const cardCondition = (card, context) => {
+            const abilities = card.abilities.actions
                 .concat(card.abilities.reactions)
                 .filter((ability) => ability.printedAbility);
             return abilities.some((ability) => {
-                let contextCopy = context.copy();
+                const contextCopy = context.copy();
                 contextCopy.targetAbility = ability;
                 if (context.stage === 'pretarget') {
                     return false;
@@ -51,7 +51,7 @@ class AbilityTargetAbility extends AbilityTarget {
             return;
         }
 
-        let buttons = [];
+        const buttons = [];
         let waitingPromptTitle = '';
         if (context.stage === 'pretarget') {
             buttons.push({ text: 'Cancel', arg: 'cancel' });
@@ -62,13 +62,13 @@ class AbilityTargetAbility extends AbilityTarget {
             }
         }
 
-        let promptProperties = {
+        const promptProperties = {
             waitingPromptTitle: waitingPromptTitle,
             buttons: buttons,
             context: context,
             selector: this.selector,
             onSelect: (player, card) => {
-                let ability =
+                const ability =
                     card.abilities.actions.find((action) => action.printedAbility) ||
                     card.abilities.reactions.find((reaction) => reaction.printedAbility);
                 context.targetAbility = ability;

@@ -16,7 +16,7 @@ class ExactlyXCardSelector extends BaseCardSelector {
     }
 
     defaultActivePromptTitle(context) {
-        let numCards = this.getNumCards(context);
+        const numCards = this.getNumCards(context);
         if (this.cardType.length === 1) {
             return numCards === 1
                 ? 'Choose a ' + this.cardType[0]

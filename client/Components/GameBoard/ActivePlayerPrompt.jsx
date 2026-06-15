@@ -116,7 +116,7 @@ const ActivePlayerPrompt = (props) => {
     const getButtons = () => {
         let buttonIndex = 0;
 
-        let buttons = [];
+        const buttons = [];
 
         if (
             !props.buttons ||
@@ -221,7 +221,7 @@ const ActivePlayerPrompt = (props) => {
 
     const onOptionSelected = (option) => {
         if (props.onButtonClick) {
-            let button = props.buttons.find((button) => '' + button.arg === option);
+            const button = props.buttons.find((button) => '' + button.arg === option);
             props.onButtonClick(button.command, button.arg, button.uuid, button.method);
         }
     };
@@ -310,7 +310,7 @@ const ActivePlayerPrompt = (props) => {
     let promptTitle;
 
     if (props.promptTitle) {
-        let promptTitleText = safePromptText(props.promptTitle);
+        const promptTitleText = safePromptText(props.promptTitle);
 
         promptTitle = (
             <div className='-mx-3 -mt-2 mb-3 border-b border-border/70 bg-accent/12 px-3 py-1 text-center text-sm'>
@@ -319,14 +319,14 @@ const ActivePlayerPrompt = (props) => {
         );
     }
 
-    let timer = null;
-    let promptText = safePromptText(props.promptText);
-    let promptTexts = [];
+    const timer = null;
+    const promptText = safePromptText(props.promptText);
+    const promptTexts = [];
 
     if (promptText) {
         if (promptText.includes('\n')) {
-            let split = promptText.split('\n');
-            for (let token of split) {
+            const split = promptText.split('\n');
+            for (const token of split) {
                 const localized = localizedText(controlSource, token, props.promptText.values);
                 promptTexts.push(
                     <span key={`prompt-text-${promptTexts.length}`}>{localized}</span>
