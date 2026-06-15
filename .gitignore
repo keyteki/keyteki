@@ -10,16 +10,17 @@ coverage
 !client/locales/*.json
 !master-vault-data/**/*.json
 !server/game/chatCommands.json
+!tsconfig.json
 server/events.txt
 .DS_Store
 config/local*
 server/logs/*.gz
 build/
-!tsconfig.json
 data
 mongodb
 
 /.idea/
+.eslintcache
 server/game/partialcards
 server/game/generatedcards
 

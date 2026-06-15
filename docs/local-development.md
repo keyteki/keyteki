@@ -4,25 +4,25 @@ This guide covers setting up your local development environment for Keyteki.
 
 ## Table of Contents
 
--   [Running Unit Tests](#running-unit-tests)
--   [Prerequisites](#prerequisites)
--   [Quick Start (Docker)](#quick-start-docker)
-    -   [macOS Setup](#macos-setup)
-    -   [Accessing the Site](#accessing-the-site)
--   [Hybrid Setup (Docker + Local Node)](#hybrid-setup-docker--local-node)
--   [Non-Docker Setup](#non-docker-setup)
-    -   [Required Software](#required-software)
-    -   [Setup Steps](#setup-steps)
--   [Useful Commands](#useful-commands)
-    -   [Running Tests](#running-tests)
-    -   [Linting](#linting)
-    -   [In-Game Testing](#in-game-testing)
-    -   [Locales](#locales)
--   [Troubleshooting](#troubleshooting)
-    -   [Memory Allocation Errors](#memory-allocation-errors)
-    -   [package-lock.json Changes Unexpectedly](#package-lockjson-changes-unexpectedly)
-    -   [dlopen Errors](#dlopen-errors)
-    -   [Git Submodule Issues](#git-submodule-issues)
+- [Running Unit Tests](#running-unit-tests)
+- [Prerequisites](#prerequisites)
+- [Quick Start (Docker)](#quick-start-docker)
+    - [macOS Setup](#macos-setup)
+    - [Accessing the Site](#accessing-the-site)
+- [Hybrid Setup (Docker + Local Node)](#hybrid-setup-docker--local-node)
+- [Non-Docker Setup](#non-docker-setup)
+    - [Required Software](#required-software)
+    - [Setup Steps](#setup-steps)
+- [Useful Commands](#useful-commands)
+    - [Running Tests](#running-tests)
+    - [Linting](#linting)
+    - [In-Game Testing](#in-game-testing)
+    - [Locales](#locales)
+- [Troubleshooting](#troubleshooting)
+    - [Memory Allocation Errors](#memory-allocation-errors)
+    - [package-lock.json Changes Unexpectedly](#package-lockjson-changes-unexpectedly)
+    - [dlopen Errors](#dlopen-errors)
+    - [Git Submodule Issues](#git-submodule-issues)
 
 ## Running Unit Tests
 
@@ -30,9 +30,9 @@ For running unit tests, see [Testing Cards](testing-cards.md). It is not necessa
 
 ## Prerequisites
 
--   Git
--   Node.js v22.22.0
--   Docker (recommended) or PostgreSQL + Redis
+- Git
+- Node.js v22.22.0
+- Docker (recommended) or PostgreSQL + Redis
 
 ## Quick Start (Docker)
 
@@ -40,11 +40,11 @@ Docker is the recommended approach for local development.
 
 ### macOS Setup
 
--   Install [Docker Desktop](https://docs.docker.com/desktop/setup/install/mac-install/)
+- Install [Docker Desktop](https://docs.docker.com/desktop/setup/install/mac-install/)
 
--   Install a Node version manager ([nvm](https://github.com/nvm-sh/nvm) or [asdf](https://asdf-vm.com/))
+- Install a Node version manager ([nvm](https://github.com/nvm-sh/nvm) or [asdf](https://asdf-vm.com/))
 
--   Install Node v22.22.0:
+- Install Node v22.22.0:
 
     ```bash
     # Using nvm
@@ -55,7 +55,7 @@ Docker is the recommended approach for local development.
     asdf install nodejs 22.22.0
     ```
 
--   Clone and set up the repository:
+- Clone and set up the repository:
 
     ```bash
     git clone https://github.com/keyteki/keyteki.git
@@ -65,13 +65,13 @@ Docker is the recommended approach for local development.
     npm ci
     ```
 
--   Start the server:
+- Start the server:
 
     ```bash
     docker compose up --build
     ```
 
--   In another terminal, fetch the card data:
+- In another terminal, fetch the card data:
 
     ```bash
     docker compose exec lobby node server/scripts/fetchdata
@@ -79,7 +79,7 @@ Docker is the recommended approach for local development.
 
     > Note: It's normal to see "Failed to add card" errors about duplicates at the beginning. If images fail due to rate limits, run the command again.
 
--   Restart the server after fetchdata completes.
+- Restart the server after fetchdata completes.
 
     ```bash
     docker compose restart
@@ -87,22 +87,22 @@ Docker is the recommended approach for local development.
 
 ### Accessing the Site
 
--   Browse to [http://localhost:4000](http://localhost:4000)
--   Default users: `admin`, `test0`, `test1` (password: `password`)
+- Browse to [http://localhost:4000](http://localhost:4000)
+- Default users: `admin`, `test0`, `test1` (password: `password`)
 
 ## Hybrid Setup (Docker + Local Node)
 
 For hot reloading and React DevTools, run Node locally while using Docker for databases:
 
--   Start database services only:
+- Start database services only:
 
     ```bash
     npm run dev:db
     ```
 
--   The `config/default-node.json5` file contains overrides for connecting to the containerized databases from your local machine. The `dev:lobby` and `dev:gamenode` scripts set `NODE_APP_INSTANCE=node`, which causes node-config to load this file on top of `default.json5`.
+- The `config/default-node.json5` file contains overrides for connecting to the containerized databases from your local machine. The `dev:lobby` and `dev:gamenode` scripts set `NODE_APP_INSTANCE=node`, which causes node-config to load this file on top of `default.json5`.
 
--   Run the lobby server:
+- Run the lobby server:
 
     ```bash
     npm run dev:lobby
@@ -110,7 +110,7 @@ For hot reloading and React DevTools, run Node locally while using Docker for da
 
     The lobby server uses Vite middleware for the client in development; no separate client dev server is needed.
 
--   In another terminal, run the game node:
+- In another terminal, run the game node:
 
     ```bash
     npm run dev:gamenode
@@ -120,14 +120,14 @@ For hot reloading and React DevTools, run Node locally while using Docker for da
 
 ### Required Software
 
--   Git
--   Node.js v22.22.0
--   PostgreSQL
--   Redis
+- Git
+- Node.js v22.22.0
+- PostgreSQL
+- Redis
 
 ### Setup Steps
 
--   Clone and initialize:
+- Clone and initialize:
 
     ```bash
     git clone https://github.com/keyteki/keyteki.git
@@ -138,7 +138,7 @@ For hot reloading and React DevTools, run Node locally while using Docker for da
     mkdir server/logs
     ```
 
--   Create `config/local.json5`:
+- Create `config/local.json5`:
 
     ```javascript
     {
@@ -153,7 +153,7 @@ For hot reloading and React DevTools, run Node locally while using Docker for da
     }
     ```
 
--   Fetch card data and start servers:
+- Fetch card data and start servers:
 
     ```bash
     node server/scripts/fetchdata.js

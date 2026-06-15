@@ -4,45 +4,45 @@ This document describes how to add descriptive log messages to card abilities. G
 
 ## Table of Contents
 
--   [Basic Usage](#basic-usage)
--   [Properties](#properties)
-    -   [effect / effectArgs](#effect--effectargs)
-    -   [message / messageArgs](#message--messageargs)
--   [Default Messages](#default-messages)
-    -   [When to Override Default Messages](#when-to-override-default-messages)
--   [Common Patterns](#common-patterns)
-    -   [Adding Dynamic Values](#adding-dynamic-values)
-    -   [Conditional Messages](#conditional-messages)
-    -   [Then Effect Messages](#then-effect-messages)
-    -   [Messages for Optional Actions](#messages-for-optional-actions)
-    -   [Using preThenContext](#using-prethencontext)
-    -   [preThenEvents for Multiple Targets](#prethenevents-for-multiple-targets)
-    -   [Referencing `this` in effectArgs](#referencing-this-in-effectargs)
-    -   [Appending Text Conditionally](#appending-text-conditionally)
-    -   [Context Event Data](#context-event-data)
-    -   [Revealing Cards with Conditional Text](#revealing-cards-with-conditional-text)
-    -   [promptForSelect with messageArgs](#promptforselect-with-messageargs)
-    -   [Pluralization in Messages](#pluralization-in-messages)
-    -   [Raw String Values in effectArgs](#raw-string-values-in-effectargs)
-    -   [Named Card References](#named-card-references)
-    -   [Static messageArgs Values](#static-messageargs-values)
-    -   [Computed Effects with Multiple Branches](#computed-effects-with-multiple-branches)
-    -   [Multi-part Message Building](#multi-part-message-building)
-    -   [Per-Branch Narration with `alwaysTriggers` Thens](#per-branch-narration-with-alwaystriggers-thens)
-    -   [Narrating No-Op Branches with a Literal String](#narrating-no-op-branches-with-a-literal-string)
--   [Best Practices](#best-practices)
--   [Quick Reference](#quick-reference)
--   [Choosing the Right Level: default vs `effect` vs `message`](#choosing-the-right-level-default-vs-effect-vs-message)
--   [Using `target`](#using-target)
--   [Locales](#locales)
+- [Basic Usage](#basic-usage)
+- [Properties](#properties)
+    - [effect / effectArgs](#effect--effectargs)
+    - [message / messageArgs](#message--messageargs)
+- [Default Messages](#default-messages)
+    - [When to Override Default Messages](#when-to-override-default-messages)
+- [Common Patterns](#common-patterns)
+    - [Adding Dynamic Values](#adding-dynamic-values)
+    - [Conditional Messages](#conditional-messages)
+    - [Then Effect Messages](#then-effect-messages)
+    - [Messages for Optional Actions](#messages-for-optional-actions)
+    - [Using preThenContext](#using-prethencontext)
+    - [preThenEvents for Multiple Targets](#prethenevents-for-multiple-targets)
+    - [Referencing `this` in effectArgs](#referencing-this-in-effectargs)
+    - [Appending Text Conditionally](#appending-text-conditionally)
+    - [Context Event Data](#context-event-data)
+    - [Revealing Cards with Conditional Text](#revealing-cards-with-conditional-text)
+    - [promptForSelect with messageArgs](#promptforselect-with-messageargs)
+    - [Pluralization in Messages](#pluralization-in-messages)
+    - [Raw String Values in effectArgs](#raw-string-values-in-effectargs)
+    - [Named Card References](#named-card-references)
+    - [Static messageArgs Values](#static-messageargs-values)
+    - [Computed Effects with Multiple Branches](#computed-effects-with-multiple-branches)
+    - [Multi-part Message Building](#multi-part-message-building)
+    - [Per-Branch Narration with `alwaysTriggers` Thens](#per-branch-narration-with-alwaystriggers-thens)
+    - [Narrating No-Op Branches with a Literal String](#narrating-no-op-branches-with-a-literal-string)
+- [Best Practices](#best-practices)
+- [Quick Reference](#quick-reference)
+- [Choosing the Right Level: default vs `effect` vs `message`](#choosing-the-right-level-default-vs-effect-vs-message)
+- [Using `target`](#using-target)
+- [Locales](#locales)
 
 ## Basic Usage
 
 Card abilities support two messaging approaches:
 
--   **`effect` / `effectArgs`** - For primary abilities. Automatically prefixed with "{player} uses {card} to..."
--   **`message` / `messageArgs`** - For custom messages or `then` effec-. Gives you full control over the message format.
--   Only one of effect/message can be used per ability or effect-
+- **`effect` / `effectArgs`** - For primary abilities. Automatically prefixed with "{player} uses {card} to..."
+- **`message` / `messageArgs`** - For custom messages or `then` effec-. Gives you full control over the message format.
+- Only one of effect/message can be used per ability or effect-
 
 ## Properties
 
@@ -52,7 +52,7 @@ The `effect` property is used for the main ability message. The effect message a
 
 **Default placeholders:**
 
--   `{0}` - The target (or source if no target)
+- `{0}` - The target (or source if no target)
 
 ```javascript
 // Simple effect with no arguments
@@ -83,15 +83,15 @@ this.play({
 
 The `effectArgs` property provides values for placeholders `{1}`, `{2}`, `{3}`, etc. in your effect template string. It can be either:
 
--   An array of values: `effectArgs: [value1, value2]`
--   A function returning an array: `effectArgs: (context) => [value1, value2]`
+- An array of values: `effectArgs: [value1, value2]`
+- A function returning an array: `effectArgs: (context) => [value1, value2]`
 
 The values map to placeholders as follows:
 
--   `{0}` - Still the default target (not from effectArgs)
--   `{1}` - First value in effectArgs array
--   `{2}` - Second value in effectArgs array
--   `{3}`, `{4}`, etc. - Continue in order
+- `{0}` - Still the default target (not from effectArgs)
+- `{1}` - First value in effectArgs array
+- `{2}` - Second value in effectArgs array
+- `{3}`, `{4}`, etc. - Continue in order
 
 > **Guard against undefined `context.target`.** Unlike `gameAction` factories — which the framework only invokes when there is a legal target — `effectArgs` is evaluated unconditionally to produce the chat message, even when no target was chosen (optional targets, no legal targets in play, etc.). Dereferencing `context.target.X` directly will crash with `TypeError: Cannot read properties of undefined`. Use optional chaining and a sensible fallback so the args array shape stays stable:
 >
@@ -135,8 +135,8 @@ this.play({
 
 **Additional effect properties:**
 
--   `effectAlert` (bool) - Makes the message appear as an Alert (highlighted). Used for cards like Fogbank, Lifeward, Stealth Mode.
--   `effectStyle` (`"append"`, `"all"`, or `null`) - Controls how multiple actions' effects are combined in the message.
+- `effectAlert` (bool) - Makes the message appear as an Alert (highlighted). Used for cards like Fogbank, Lifeward, Stealth Mode.
+- `effectStyle` (`"append"`, `"all"`, or `null`) - Controls how multiple actions' effects are combined in the message.
 
 ### message / messageArgs
 
@@ -144,23 +144,23 @@ The `message` property gives full control over the message format and does not p
 
 **Default placeholders:**
 
--   `{0}` - context.player
--   `{1}` - context.source.type (for abilities) or context.source (for `then` effects)
--   `{2}` - context.target
+- `{0}` - context.player
+- `{1}` - context.source.type (for abilities) or context.source (for `then` effects)
+- `{2}` - context.target
 
 **Using `messageArgs` for additional placeholders:**
 
 The `messageArgs` property works similarly to `effectArgs`, but since `message` gives you full control, you can also override the default placeholders `{0}`, `{1}`, `{2}`. It can be either:
 
--   An array of values: `messageArgs: [value1, value2]`
--   A function returning an array: `messageArgs: (context) => [value1, value2]`
+- An array of values: `messageArgs: [value1, value2]`
+- A function returning an array: `messageArgs: (context) => [value1, value2]`
 
 The values map to placeholders as follows:
 
--   `{0}`, `{1}`, `{2}` - Default values (player, source, target)
--   `{3}` - First value in messageArgs array
--   `{4}` - Second value in messageArgs array
--   `{5}`, `{6}`, etc. - Continue in order
+- `{0}`, `{1}`, `{2}` - Default values (player, source, target)
+- `{3}` - First value in messageArgs array
+- `{4}` - Second value in messageArgs array
+- `{5}`, `{6}`, etc. - Continue in order
 
 ```javascript
 // Overriding defaults: messageArgs provides {0}, {1}, {2}
@@ -196,10 +196,10 @@ this.reap({
 
 **Additional message properties:**
 
--   `preferActionPromptMessage` (bool) - Suppresses the default game action message. Use this when you want to provide a custom message via a `then:` block instead of the automatic message generated by the game action. This is useful when:
-    -   The default message doesn't accurately describe what happened (e.g., when not all targets were affected)
-    -   You need to show which specific cards were affected after the action completes
-    -   The action involves player choice and you want the message to reflect the actual outcome
+- `preferActionPromptMessage` (bool) - Suppresses the default game action message. Use this when you want to provide a custom message via a `then:` block instead of the automatic message generated by the game action. This is useful when:
+    - The default message doesn't accurately describe what happened (e.g., when not all targets were affected)
+    - You need to show which specific cards were affected after the action completes
+    - The action involves player choice and you want the message to reflect the actual outcome
 
 ```javascript
 // Card: "After a player forges a key, each creature they control captures 1A from its own side."
@@ -226,8 +226,8 @@ this.reaction({
 
 Many game actions in Keyteki generate automatic log messages. For example:
 
--   `ability.actions.capture({ amount: 2 })` logs "{player} uses {card} to capture 2 amber"
--   `ability.actions.steal({ amount: 2 })` logs "{player} uses {card} to steal 2 amber"
+- `ability.actions.capture({ amount: 2 })` logs "{player} uses {card} to capture 2 amber"
+- `ability.actions.steal({ amount: 2 })` logs "{player} uses {card} to steal 2 amber"
 
 However, if the player doesn't have enough amber, the default message can be misleading. When the actual outcome differs from what the card text says, you should provide custom messages showing what actually happened.
 
@@ -567,9 +567,9 @@ this.action({
 
 > **Auto-args inside a `then` block:** the framework auto-prepends `[context.player, context.source, context.target]` as `{0}`, `{1}`, `{2}`. Inside the `then` callback, `context.target` is the **then's own target** (from `then.target` or `then.gameAction`'s target). It is **not** the outer ability's target.
 >
-> -   If the `then` block has its own `target:` (or its `gameAction` resolves a target), `{2}` is correct and `messageArgs` starts at `{3}`.
-> -   If the `then` block borrows the outer ability's target (e.g. via `then: (preThenContext) => ({...})` and `preThenContext.target`), `context.target` will be `null`/`undefined` in the then. In that case, **do not use `{2}`** — explicitly pass `preThenContext.target` in `messageArgs` and reference it as `{3}`.
-> -   Common bug: passing both — `message: '... {2}'` plus `messageArgs: [preThenContext.target, sum]` — which produces a blank target slot and a stray name.
+> - If the `then` block has its own `target:` (or its `gameAction` resolves a target), `{2}` is correct and `messageArgs` starts at `{3}`.
+> - If the `then` block borrows the outer ability's target (e.g. via `then: (preThenContext) => ({...})` and `preThenContext.target`), `context.target` will be `null`/`undefined` in the then. In that case, **do not use `{2}`** — explicitly pass `preThenContext.target` in `messageArgs` and reference it as `{3}`.
+> - Common bug: passing both — `message: '... {2}'` plus `messageArgs: [preThenContext.target, sum]` — which produces a blank target slot and a stray name.
 
 When a `then` effect follows an action that affected multiple targets, use `preThenEvents` to get all the event results:
 
@@ -804,8 +804,8 @@ this.omni({
         this.tokens.glory >= 6 && context.player.amber >= context.player.getCurrentKeyCost()
             ? 'discard 6 glory counters and forge a key at current cost'
             : this.tokens.glory >= 6 && context.player.amber < context.player.getCurrentKeyCost()
-            ? 'discard 6 glory counters'
-            : 'do nothing'
+              ? 'discard 6 glory counters'
+              : 'do nothing'
     ],
     gameAction: ability.actions.clearGloryCounters(() => ({
         amount: this.tokens.glory >= 6 ? 6 : 0
@@ -907,8 +907,8 @@ this.action({
 
 Notes:
 
--   `messageArgs` in a `then` block start at `{3}` because the framework auto-prepends `[player, source, target]` as `{0}`/`{1}`/`{2}`.
--   Pass a `Player` value (e.g. `target.owner`) as a `messageArgs` slot so the log renders the player token correctly — never embed the name into a string.
+- `messageArgs` in a `then` block start at `{3}` because the framework auto-prepends `[player, source, target]` as `{0}`/`{1}`/`{2}`.
+- Pass a `Player` value (e.g. `target.owner`) as a `messageArgs` slot so the log renders the player token correctly — never embed the name into a string.
 
 ### Narrating No-Op Branches with a Literal String
 
@@ -951,7 +951,7 @@ The same rule applies to prompt titles (see [`activePromptTitle`](#using-target)
 
 ## Best Practices
 
--   **Pass card objects, not `.name`** - In `messageArgs`/`effectArgs`, always pass `context.source` (the card object), never `context.source.name` (a plain string). Card objects render as hoverable links in the game log; strings render as plain text. If you need the card name in a string concatenation, split the message template into separate placeholders instead:
+- **Pass card objects, not `.name`** - In `messageArgs`/`effectArgs`, always pass `context.source` (the card object), never `context.source.name` (a plain string). Card objects render as hoverable links in the game log; strings render as plain text. If you need the card name in a string concatenation, split the message template into separate placeholders instead:
 
     ```javascript
     // Bad - card name is plain text, not hoverable
@@ -972,14 +972,14 @@ The same rule applies to prompt titles (see [`activePromptTitle`](#using-target)
         context.player.isHaunted() ? context.source : '']
     ```
 
--   **Show actual values, not descriptions** - Instead of "lose half their amber", show "lose 3 amber".
--   **Guard against undefined opponents** - Use `context.player.opponent ? ... : 0` for solo play compatibility.
--   **List affected cards** - When destroying/affecting multiple cards, list them: "({3}), gaining a total of {4} amber".
--   **Use `then` for multi-step messaging** - Split complex effects into `effect` for the first action and `then.message` for subsequent actions.
--   **Match the card text style** - Messages should read naturally like the card text.
--   **Handle pluralization** - Use conditional messageArgs for "1 creature" vs "3 creatures".
--   **Prefer `effect` for primary abilities** - The auto-prefix "{player} uses {card} to..." is cleaner.
--   **Use `message` in `then` blocks** - The `effect` property isn't available in `then` effects.
+- **Show actual values, not descriptions** - Instead of "lose half their amber", show "lose 3 amber".
+- **Guard against undefined opponents** - Use `context.player.opponent ? ... : 0` for solo play compatibility.
+- **List affected cards** - When destroying/affecting multiple cards, list them: "({3}), gaining a total of {4} amber".
+- **Use `then` for multi-step messaging** - Split complex effects into `effect` for the first action and `then.message` for subsequent actions.
+- **Match the card text style** - Messages should read naturally like the card text.
+- **Handle pluralization** - Use conditional messageArgs for "1 creature" vs "3 creatures".
+- **Prefer `effect` for primary abilities** - The auto-prefix "{player} uses {card} to..." is cleaner.
+- **Use `message` in `then` blocks** - The `effect` property isn't available in `then` effects.
 
 ## Quick Reference
 
@@ -1041,7 +1041,7 @@ this.play({
 
 Messages used in prompts should be in the locale files in [`public/locales`](../public/locales/). This includes:
 
--   `properties.target.activePromptTitle`
--   `properties.target.choices`
--   `properties.gameAction.promptForSelect.activePromptTitle`
--   `properties.gameAction.promptWithHandlerMenu.activePromptTitle`
+- `properties.target.activePromptTitle`
+- `properties.target.choices`
+- `properties.gameAction.promptForSelect.activePromptTitle`
+- `properties.gameAction.promptWithHandlerMenu.activePromptTitle`

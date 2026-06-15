@@ -17,14 +17,14 @@
         "game": "node server/gamenode",
         "test": "vitest run",
         "test:watch": "vitest",
-        "lint": "prettier --check --ignore-unknown '!**/*.{js,jsx,ts,tsx}' . && eslint .",
-        "lint:fix": "prettier --write --ignore-unknown '!**/*.{js,jsx,ts,tsx}' . && eslint --fix .",
+        "lint": "prettier --cache --check . && eslint --cache .",
+        "lint:fix": "prettier --cache --write . && eslint --cache --fix .",
         "build": "vite build --config vite.config.mjs",
         "typecheck:client": "tsc -p client/tsconfig.json --noEmit"
     },
     "lint-staged": {
-        "!(*.{js,jsx,ts,tsx})": "prettier --ignore-unknown --write",
-        "*.{js,jsx,ts,tsx}": "eslint --fix"
+        "*": "prettier --cache --ignore-unknown --write",
+        "*.{js,jsx,ts,tsx}": "eslint --cache --fix"
     },
     "husky": {
         "hooks": {
@@ -68,7 +68,6 @@
         "core-js": "^3.6.4",
         "emoji-js": "^3.5.0",
         "eslint-config-prettier": "^10.0.0",
-        "eslint-plugin-prettier": "^5.0.0",
         "event-source-polyfill": "^1.0.12",
         "express": "^4.22.2",
         "fabric": "^5.5.2",
@@ -129,6 +128,8 @@
         }
     },
     "devDependencies": {
+        "@eslint-react/eslint-plugin": "^5.0.0",
+        "@eslint/js": "^10.0.0",
         "@sentry/vite-plugin": "^4.9.1",
         "@types/node": "^22.19.11",
         "@vitejs/plugin-react": "^5.1.4",
@@ -136,17 +137,16 @@
         "body-parser": "^1.20.5",
         "command-line-args": "^6.0.1",
         "ejs": "^3.1.10",
-        "@eslint-react/eslint-plugin": "^5.0.0",
-        "@eslint/js": "^10.0.0",
         "eslint": "^10.0.0",
         "globals": "^16.0.0",
-        "jiti": "^2.0.0",
         "handlebars": "^4.7.9",
+        "jiti": "^2.0.0",
         "nodemon": "^3.1.13",
         "nunjucks": "^3.2.2",
         "pegjs": "^0.10.0",
         "precss": "^4.0.0",
         "typescript": "^5.4.5",
+        "typescript-eslint": "8.61.1",
         "vite": "^7.3.2",
         "vitest": "4.1.0"
     }
