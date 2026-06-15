@@ -1157,11 +1157,11 @@ module.exports.init = function (server, options) {
             try {
                 if (status === 'pledged' && !user.permissions.isSupporter) {
                     await userService.setSupporterStatus(user.id, true);
-                    // eslint-disable-next-line require-atomic-updates
+
                     user.permissions.isSupporter = req.user.permissions.isSupporter = true;
                 } else if (status !== 'pledged' && user.permissions.isSupporter) {
                     await userService.setSupporterStatus(user.id, false);
-                    // eslint-disable-next-line require-atomic-updates
+
                     user.permissions.isSupporter = req.user.permissions.isSupporter = false;
                 }
                 // eslint-disable-next-line no-empty

@@ -90,22 +90,22 @@ const ReferenceCardPane = ({
                                             card.selectable
                                                 ? () => onCardClick(card)
                                                 : isClickable
-                                                ? () => {
-                                                      if (
-                                                          currentGame.manualMode &&
-                                                          card.menu &&
-                                                          card.menu.length > 0
-                                                      ) {
-                                                          setOpenProphecyMenu(
-                                                              openProphecyMenu === card.uuid
-                                                                  ? null
-                                                                  : card.uuid
-                                                          );
-                                                      } else {
-                                                          onClickProphecy(card);
-                                                      }
-                                                  }
-                                                : undefined
+                                                  ? () => {
+                                                        if (
+                                                            currentGame.manualMode &&
+                                                            card.menu &&
+                                                            card.menu.length > 0
+                                                        ) {
+                                                            setOpenProphecyMenu(
+                                                                openProphecyMenu === card.uuid
+                                                                    ? null
+                                                                    : card.uuid
+                                                            );
+                                                        } else {
+                                                            onClickProphecy(card);
+                                                        }
+                                                    }
+                                                  : undefined
                                         }
                                         onMouseOver={() => {
                                             onMouseOver({

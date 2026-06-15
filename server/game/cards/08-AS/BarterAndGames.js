@@ -32,10 +32,10 @@ function zoneFromContext(context) {
             ? context.player.hand
             : context.player.archives
         : context.select === "Opponent's Hand"
-        ? context.player.opponent.hand
-        : context.player.opponent
-        ? context.player.opponent.archives
-        : [];
+          ? context.player.opponent.hand
+          : context.player.opponent
+            ? context.player.opponent.archives
+            : [];
 }
 
 class BarterAndGames extends Card {

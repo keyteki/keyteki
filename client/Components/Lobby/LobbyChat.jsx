@@ -265,10 +265,10 @@ const LobbyChat = ({
                         userWasMentioned
                             ? 'bg-[var(--mention-bg)] shadow-[-3px_0_0_0_var(--mention-accent)_inset]'
                             : hasDeletedMessage
-                            ? 'bg-[var(--chat-row-deleted)]'
-                            : groupIndex % 2 === 0
-                            ? 'bg-[var(--chat-row-bg)] dark:bg-surface-secondary/72'
-                            : 'bg-[var(--chat-row-alt)] dark:bg-surface-secondary/78'
+                              ? 'bg-[var(--chat-row-deleted)]'
+                              : groupIndex % 2 === 0
+                                ? 'bg-[var(--chat-row-bg)] dark:bg-surface-secondary/72'
+                                : 'bg-[var(--chat-row-alt)] dark:bg-surface-secondary/78'
                     }`}
                 >
                     <div className='shrink-0 pt-0.5'>

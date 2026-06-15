@@ -41,8 +41,8 @@ const LoginContainer = () => {
               message: isSuccess
                   ? t('Login successful')
                   : loginState.error?.status === 401
-                  ? t('Invalid username/password')
-                  : loginState.error?.data?.message
+                    ? t('Invalid username/password')
+                    : loginState.error?.data?.message
           };
 
     return (

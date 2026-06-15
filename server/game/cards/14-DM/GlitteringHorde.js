@@ -26,8 +26,8 @@ class GlitteringHorde extends Card {
                     colors.length === 1
                         ? colors[0]
                         : colors.length === 2
-                        ? colors.join(' and ')
-                        : colors.slice(0, -1).join(', ') + ', and ' + colors[colors.length - 1];
+                          ? colors.join(' and ')
+                          : colors.slice(0, -1).join(', ') + ', and ' + colors[colors.length - 1];
                 return [
                     `steal ${colors.length} amber due to the ${list} forged key${
                         colors.length === 1 ? '' : 's'

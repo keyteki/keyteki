@@ -4,9 +4,9 @@ This directory contains tests for game log messages. These tests verify that the
 
 ## Purpose
 
--   Test that log messages are correct and user-friendly
--   Do **NOT** test game logic or card implementation details
--   Focus purely on the text output shown to players
+- Test that log messages are correct and user-friendly
+- Do **NOT** test game logic or card implementation details
+- Focus purely on the text output shown to players
 
 ## Guidelines
 
@@ -28,8 +28,8 @@ When testing random discards, use template strings to reference cards by their d
 
 ```javascript
 // Random order - use template strings
-`player2 randomly discards ${this.player2.discard[1].name} from hand`,
-    `player2 randomly discards ${this.player2.discard[0].name} from hand`;
+(`player2 randomly discards ${this.player2.discard[1].name} from hand`,
+    `player2 randomly discards ${this.player2.discard[0].name} from hand`);
 ```
 
 The discard pile is ordered with most recent discard at index 0. So if you want the first card discarded, look at the highest index; for the last card discarded, look at index 0.
@@ -85,9 +85,9 @@ beforeEach(function () {
 
 When a card uses **default game action messages** in a new way, add a test here. Examples:
 
--   New location for random discard (e.g., archives instead of hand)
--   New target pattern (e.g., both players, self only)
--   New edge cases for existing message patterns
+- New location for random discard (e.g., archives instead of hand)
+- New target pattern (e.g., both players, self only)
+- New edge cases for existing message patterns
 
 ### Add to Card-Specific Tests
 
@@ -111,40 +111,40 @@ it('should log custom message for special ability', function () {
 
 For each action that operates on a quantity, test:
 
--   **0 items** - Action resolves but nothing happens (e.g., discard from empty hand)
--   **1 item** - Singular message format (e.g., "1 card")
--   **Multiple items** - Plural message format (e.g., "2 cards")
--   **Exact amount** - Zone has exactly the amount requested (e.g., draw 3 with 3 in deck)
--   **Amount + 1** - Zone has one more than requested (e.g., draw 3 with 4 in deck)
--   **Less than requested** - Zone has fewer cards than requested (e.g., draw 3 with 2 in deck)
+- **0 items** - Action resolves but nothing happens (e.g., discard from empty hand)
+- **1 item** - Singular message format (e.g., "1 card")
+- **Multiple items** - Plural message format (e.g., "2 cards")
+- **Exact amount** - Zone has exactly the amount requested (e.g., draw 3 with 3 in deck)
+- **Amount + 1** - Zone has one more than requested (e.g., draw 3 with 4 in deck)
+- **Less than requested** - Zone has fewer cards than requested (e.g., draw 3 with 2 in deck)
 
 ### Zone Edge Cases
 
 For actions that affect specific zones, test with:
 
--   **Empty zone** - Empty hand, deck, discard, archives, or purge
--   **1 card in zone** - Minimum non-empty state
--   **2-3 cards in zone** - Small amounts for multi-card actions
--   **Partial availability** - Fewer cards available than action requests
+- **Empty zone** - Empty hand, deck, discard, archives, or purge
+- **1 card in zone** - Minimum non-empty state
+- **2-3 cards in zone** - Small amounts for multi-card actions
+- **Partial availability** - Fewer cards available than action requests
 
 ### Target Variations
 
 For each action that can target different players, test:
 
--   **Self only** - Player affects their own cards/resources
--   **Opponent only** - Player affects opponent's cards/resources
--   **Both players** - Action affects both (test order prompts if applicable)
--   **Unequal amounts** - Different amounts for each player (e.g., player1 discards 2, player2 discards 3)
+- **Self only** - Player affects their own cards/resources
+- **Opponent only** - Player affects opponent's cards/resources
+- **Both players** - Action affects both (test order prompts if applicable)
+- **Unequal amounts** - Different amounts for each player (e.g., player1 discards 2, player2 discards 3)
 
 ### Action Combinations
 
 Each game action should have tests for:
 
--   **Standalone** - The basic action in isolation
--   **With scrap** - Action triggered by discarding a card
--   **With restrictions** - Action with conditions (e.g., "if you have no amber")
--   **With extra effects** - Action combined with other effects (e.g., "and gain 1 amber")
--   **As triggers** - Action triggered by other game events (e.g., "after a creature is destroyed")
+- **Standalone** - The basic action in isolation
+- **With scrap** - Action triggered by discarding a card
+- **With restrictions** - Action with conditions (e.g., "if you have no amber")
+- **With extra effects** - Action combined with other effects (e.g., "and gain 1 amber")
+- **As triggers** - Action triggered by other game events (e.g., "after a creature is destroyed")
 
 Focus on combinations where a **meaningful difference** in messaging could occur. It's not feasible to test every possible combination - prioritize cases where the message format or content would differ.
 

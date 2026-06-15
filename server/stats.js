@@ -139,7 +139,6 @@ gameService
         });
 
         let houseWinRates = _.map(houses, (house) => {
-            // eslint-disable-line no-unused-vars
             let games = house.wins + house.losses;
 
             return {

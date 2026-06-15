@@ -214,7 +214,6 @@ class BaseAbility {
         return this.nonDependentTargets.every((target) => target.checkTarget(context));
     }
 
-    // eslint-disable-next-line no-unused-vars
     displayMessage(context) {}
 
     /**
@@ -222,7 +221,7 @@ class BaseAbility {
      * should override this method to implement their behavior; by default it
      * does nothing.
      */
-    // eslint-disable-next-line no-unused-vars
+
     executeHandler(context) {}
 
     isAction() {

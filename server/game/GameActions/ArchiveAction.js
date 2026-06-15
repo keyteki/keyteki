@@ -28,8 +28,8 @@ class ArchiveAction extends CardGameAction {
             let player = this.owner
                 ? card.owner
                 : this.opponent
-                ? context.player.opponent
-                : context.player;
+                  ? context.player.opponent
+                  : context.player;
             if (card.location === 'play area') {
                 context.game.raiseEvent(EVENTS.onCardLeavesPlay, { card, context }, () =>
                     player.moveCard(card, 'archives')

@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 var Jimp = require('jimp');
 var fs = require('fs');
 var path = './public/img/';

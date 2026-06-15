@@ -48,11 +48,14 @@ class HealthServer {
             }
         }, 10000);
 
-        setTimeout(() => {
-            logger.warn('Drain timeout (90 minutes) exceeded. Forcing shutdown.');
-            clearInterval(this.drainCheckInterval);
-            process.exit(1);
-        }, 90 * 60 * 1000);
+        setTimeout(
+            () => {
+                logger.warn('Drain timeout (90 minutes) exceeded. Forcing shutdown.');
+                clearInterval(this.drainCheckInterval);
+                process.exit(1);
+            },
+            90 * 60 * 1000
+        );
     }
 
     start() {

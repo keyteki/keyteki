@@ -9,12 +9,10 @@ class CardListSelector extends SingleCardSelector {
         this.revealList = revealList && revealList.length > 0 ? revealList : cardList;
     }
 
-    // eslint-disable-next-line no-unused-vars
     findPossibleCards(context) {
         return this.revealList;
     }
 
-    // eslint-disable-next-line no-unused-vars
     canTarget(card, context) {
         if (!card) {
             return false;

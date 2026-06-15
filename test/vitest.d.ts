@@ -2,10 +2,10 @@
 
 export {};
 
-type VitestDescribe = typeof import('vitest')['describe'];
-type VitestIt = typeof import('vitest')['it'];
-type VitestBeforeEach = typeof import('vitest')['beforeEach'];
-type VitestAfterEach = typeof import('vitest')['afterEach'];
+type VitestDescribe = (typeof import('vitest'))['describe'];
+type VitestIt = (typeof import('vitest'))['it'];
+type VitestBeforeEach = (typeof import('vitest'))['beforeEach'];
+type VitestAfterEach = (typeof import('vitest'))['afterEach'];
 
 declare global {
     interface globalThis {

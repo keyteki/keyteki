@@ -292,7 +292,7 @@ class Card extends EffectSource {
      * Create card abilities by calling subsequent methods with appropriate properties
      * @param ability - object containing limits, costs, effects, and game actions
      */
-    // eslint-disable-next-line no-unused-vars
+
     setupCardAbilities(ability) {}
 
     setupKeywordAbilities(ability) {
@@ -1229,12 +1229,11 @@ class Card extends EffectSource {
      * Checks whether the passed card meets the upgrade restrictions (e.g.
      * Opponent cards only, specific factions, etc) for this card.
      */
-    // eslint-disable-next-line no-unused-vars
+
     canAttach(card, context) {
         return card && card.getType() === 'creature' && this.canPlayAsUpgrade();
     }
 
-    // eslint-disable-next-line no-unused-vars
     canMoveAttachedUpgradeTo(card, context) {
         return card && card.getType() === 'creature' && this.type === 'upgrade';
     }

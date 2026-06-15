@@ -18,8 +18,8 @@ class LightbearerKelvin extends Card {
                             ? context.player.deck[context.player.deck.length - 1]
                             : null
                         : context.player.opponent.deck.length > 0
-                        ? context.player.opponent.deck[context.player.opponent.deck.length - 1]
-                        : null
+                          ? context.player.opponent.deck[context.player.opponent.deck.length - 1]
+                          : null
             })),
             then: {
                 condition: (context) => {

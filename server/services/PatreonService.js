@@ -60,7 +60,7 @@ class PatreonService {
         }
 
         let userDetails = user.getDetails();
-        // eslint-disable-next-line require-atomic-updates
+
         user.patreon = userDetails.patreon = response;
 
         try {

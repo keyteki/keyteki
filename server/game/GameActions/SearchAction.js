@@ -23,8 +23,8 @@ class SearchAction extends PlayerAction {
             (this.cardName
                 ? this.cardName
                 : !this.amount || this.amount === 1
-                ? 'a card'
-                : (this.exactly ? 'exactly ' : 'up to ') + this.amount + ' cards');
+                  ? 'a card'
+                  : (this.exactly ? 'exactly ' : 'up to ') + this.amount + ' cards');
     }
 
     canAffect(player, context) {

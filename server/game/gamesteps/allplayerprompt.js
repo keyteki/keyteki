@@ -6,7 +6,6 @@ class AllPlayerPrompt extends UiPrompt {
         return !this.completionCondition(player);
     }
 
-    // eslint-disable-next-line no-unused-vars
     completionCondition(player) {
         return false;
     }

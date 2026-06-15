@@ -17,8 +17,8 @@ class SoulLock extends Card {
                     event && event.card
                         ? event.card
                         : context.target
-                        ? context.target
-                        : context.source;
+                          ? context.target
+                          : context.source;
                 return effectContext.source.childCards.some((child) =>
                     child.getHouses().some((house) => source.hasHouse(house))
                 );

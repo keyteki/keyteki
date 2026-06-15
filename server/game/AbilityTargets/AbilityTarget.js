@@ -29,7 +29,6 @@ class AbilityTarget {
         }
     }
 
-    // eslint-disable-next-line no-unused-vars
     getDependsOnCondition(target) {
         return () => true;
     }
@@ -49,7 +48,6 @@ class AbilityTarget {
         }
     }
 
-    // eslint-disable-next-line no-unused-vars
     getAllLegalTargets(context) {
         return [];
     }
@@ -64,7 +62,6 @@ class AbilityTarget {
         );
     }
 
-    // eslint-disable-next-line no-unused-vars
     resolve(context, targetResults) {}
 
     checkTarget(context) {
