@@ -55,7 +55,7 @@
         "@heroui/styles": "^3.0.0-beta.8",
         "@popperjs/core": "^2.11.8",
         "@reduxjs/toolkit": "^2.2.3",
-        "@sentry/node": "^10.39.0",
+        "@sentry/node": "^10.58.0",
         "@sentry/react": "^10.39.0",
         "@tailwindcss/postcss": "^4.2.0",
         "bcrypt": "^6.0.0",
