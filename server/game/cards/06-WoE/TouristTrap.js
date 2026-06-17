@@ -33,7 +33,7 @@ class TouristTrap extends Card {
                         })),
                         ability.actions.cardLastingEffect((context) => ({
                             target: context.targets.first,
-                            effect: ability.effects.takeControlOn(
+                            effect: ability.effects.takeControlPlacement(
                                 context.game.activePlayer.opponent.cardsInPlay.indexOf(
                                     context.targets.second
                                 )
@@ -46,7 +46,7 @@ class TouristTrap extends Card {
                         })),
                         ability.actions.cardLastingEffect((context) => ({
                             target: context.targets.second,
-                            effect: ability.effects.takeControlOn(
+                            effect: ability.effects.takeControlPlacement(
                                 context.game.activePlayer.cardsInPlay.indexOf(context.targets.first)
                             )
                         }))
