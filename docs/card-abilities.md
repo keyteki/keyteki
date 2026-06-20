@@ -142,9 +142,9 @@ Triggered abilities that activate when the card is destroyed. These are implemen
 
 **Cascaded destructions.** When a `Destroyed:` ability causes further destructions (e.g. Soulkeeper's "Destroyed: destroy the most powerful enemy creature"), those cascaded destructions are **batched into the same destruction window** rather than opening a nested one. This means:
 
-- The active player gets a single ordering prompt across the entire cascade
-- Every card tagged for destruction stays on the board until the whole batch resolves
-- Cascaded cards' own `Destroyed:` abilities are queued as additional orderable choices in the same window
+-   The active player gets a single ordering prompt across the entire cascade
+-   Every card tagged for destruction stays on the board until the whole batch resolves
+-   Cascaded cards' own `Destroyed:` abilities are queued as additional orderable choices in the same window
 
 **Lock-in semantics.** A card's `Destroyed:` triggers are captured at the moment it is tagged for destruction. Abilities granted _after_ tagging (e.g. via a persistent effect that becomes eligible mid-window) do **not** retroactively trigger on already-tagged cards. This prevents dynamically-granted `Destroyed:` abilities from picking up cards that didn't have those abilities at tagging time.
 

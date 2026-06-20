@@ -168,9 +168,17 @@ class SelectCardPrompt extends UiPrompt {
         const controllers =
             this.selector.controller === 'any' ? ['self', 'opponent'] : [this.selector.controller];
         const piles = [];
+        const legalTargets = this.selector.getAllLegalTargets(this.context);
         for (const location of locations) {
             for (const controller of controllers) {
-                piles.push({ location, controller });
+                const player =
+                    controller === 'self' ? this.context.player : this.context.player.opponent;
+                if (
+                    player &&
+                    legalTargets.some((card) => card.location === location && card.owner === player)
+                ) {
+                    piles.push({ location, controller });
+                }
             }
         }
         return piles;
