@@ -27,6 +27,7 @@ describe('Heads, I Win', function () {
             this.player1.clickPrompt('Done');
             this.player2.clickPrompt('untamed');
             this.player2.playCreature(this.dustPixie);
+            this.player2.clickPrompt('Heads, I Win');
             expect(this.player2).toBeAbleToSelect(this.dustPixie);
             expect(this.player2).toBeAbleToSelect(this.hauntingWitch);
             expect(this.player2).toBeAbleToSelect(this.umbra);

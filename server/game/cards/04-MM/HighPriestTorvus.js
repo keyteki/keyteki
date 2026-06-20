@@ -7,27 +7,38 @@ class HighPriestTorvus extends Card {
             optional: true,
             gameAction: ability.actions.exalt(),
             then: {
-                gameAction: ability.actions.untilPlayerTurnEnd((context) => {
+                gameAction: ability.actions.delayedEffect((context) => {
                     // Capture all cards currently resolving (in 'being played')
                     // so we don't return them to hand — only the NEXT action counts.
                     const excludeCards = context.game.allCards.filter(
                         (c) => c.location === 'being played'
                     );
                     return {
+                        target: context.source,
                         when: {
                             onCardPlayed: (event) =>
                                 event.player === context.player &&
                                 event.card.type === 'action' &&
                                 !excludeCards.includes(event.card)
                         },
-                        effect: 'return {1} to hand instead of placing it in discard pile',
-                        effectArgs: (context) => context.event.card,
                         multipleTrigger: false,
-                        gameAction: ability.actions.cardLastingEffect((context) => ({
-                            allowedLocations: 'any',
-                            target: context.event.card,
-                            effect: ability.effects.cardLocationAfterPlay('hand')
-                        }))
+                        handler: (event) => {
+                            context.game.addMessage(
+                                '{0} uses {1} to return {2} to their hand instead of placing it in the discard pile',
+                                context.player,
+                                context.source,
+                                event.card
+                            );
+                            const effectContext = context.copy();
+                            effectContext.event = event;
+                            ability.actions
+                                .cardLastingEffect({
+                                    allowedLocations: 'any',
+                                    target: event.card,
+                                    effect: ability.effects.cardLocationAfterPlay('hand')
+                                })
+                                .resolve(event.card, effectContext);
+                        }
                     };
                 })
             }

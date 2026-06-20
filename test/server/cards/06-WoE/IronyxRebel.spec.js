@@ -22,6 +22,7 @@ describe('Ironyx Rebel', function () {
             this.player1.reap(this.collectorWorm);
             this.player1.play(this.ironyxRebel, true, true);
             this.player1.clickCard(this.collectorWorm);
+            this.player1.clickCard(this.ironyxRebel);
             expect(this.yxlTheIronCaptain.exhausted).toBe(false);
             expect(this.collectorWorm.exhausted).toBe(false);
             this.player1.endTurn();

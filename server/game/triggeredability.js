@@ -97,19 +97,28 @@ class TriggeredAbility extends CardAbility {
                     if (this.meetsRequirements(perSubjectContext, []) === '') {
                         window.addChoice(perSubjectContext);
                     } else if (this.properties.destroyed || this.properties.play) {
-                        // Mirror the non-multi path: only `destroyed` and
-                        // `play` reactions defer when targets are illegal,
-                        // because ordering with other triggers may refill
-                        // the deck/discard pile and make the target legal
-                        // by the time it's resolved. Regular reactions are
-                        // silently skipped to match single-subject behavior.
+                        // For destroyed and play abilities, add the ability as a
+                        // deferred choice. Ordering with other triggers may change
+                        // game state and make the target legal by resolution time.
                         window.addDeferredChoice(perSubjectContext);
                     }
                 }
-            } else if (this.isTriggeredByEvent(event, context)) {
-                if (this.meetsRequirements(context, []) === '') {
+            } else if (this.isTriggeredByEvent(event, context, { skipCondition: true })) {
+                // `when` (timing) and the play/fight/reap type checks passed —
+                // the ability is triggered by this event. `condition` is a
+                // state gate evaluated separately so it can be deferred and
+                // re-checked at resolution time, since resolving other
+                // simultaneous abilities first may change game state.
+                const conditionMet =
+                    !this.properties.condition || this.properties.condition(context);
+                if (conditionMet && this.meetsRequirements(context, []) === '') {
                     // If the ability meets requirements then add it as a choice
                     window.addChoice(context);
+                } else if (!conditionMet) {
+                    // Condition not met now, but resolving another simultaneous
+                    // ability first may satisfy it. Defer for ordering and
+                    // re-check the condition at resolution.
+                    window.addDeferredChoice(context);
                 } else if (this.properties.destroyed || this.properties.play) {
                     // For destroyed and play abilities, add the ability as a deferred choice. If any events meet requirements, then all deferred choices will be offered since resolving a choice may change game state.
                     window.addDeferredChoice(context);
@@ -129,8 +138,8 @@ class TriggeredAbility extends CardAbility {
         });
     }
 
-    isTriggeredByEvent(event, context, { skipWhen = false } = {}) {
-        if (this.properties.condition && !this.properties.condition(context)) {
+    isTriggeredByEvent(event, context, { skipWhen = false, skipCondition = false } = {}) {
+        if (!skipCondition && this.properties.condition && !this.properties.condition(context)) {
             return false;
         } else if (
             !skipWhen &&
