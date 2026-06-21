@@ -5,13 +5,13 @@ class PowerOfFire extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
-                activePromptTitle: 'Choose a creature to sacrifice',
+                activePromptTitle: 'Choose a friendly creature to destroy',
                 cardType: 'creature',
                 controller: 'self',
-                gameAction: ability.actions.sacrifice()
+                gameAction: ability.actions.destroy()
             },
             gameAction: ability.actions.gainChains(),
-            effect: 'sacrifice {0} and gain 1 chain',
+            effect: 'destroy {0} and gain 1 chain',
             then: {
                 condition: (context) =>
                     context.preThenEvents &&

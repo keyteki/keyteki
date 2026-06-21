@@ -27,7 +27,6 @@ Game actions are the atomic operations that modify game state. They are accessed
     -   [removeWard({ target })](#removeward-target-)
     -   [returnToDeck({ bottom, shuffle })](#returntodeck-bottom-shuffle-)
     -   [returnToHand({ target })](#returntohand-target-)
-    -   [sacrifice({ target })](#sacrifice-target-)
     -   [stun({ target })](#stun-target-)
     -   [swap({ origin })](#swap-origin-)
     -   [use({ target })](#use-target-)
@@ -384,14 +383,6 @@ ability.actions.returnToHand();
 ability.actions.returnToHand((context) => ({
     target: context.game.creaturesInPlay.filter((card) => card.hasHouse('mars'))
 }));
-```
-
-### sacrifice({ target })
-
-Destroy a card you control (bypass destruction prevention).
-
-```javascript
-ability.actions.sacrifice();
 ```
 
 ### stun({ target })

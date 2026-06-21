@@ -13,7 +13,7 @@ describe('Nepenthe Seed', function () {
             });
         });
 
-        it('should sacrifice itself and return a card from discard to hand', function () {
+        it('should destroy itself and return a card from discard to hand', function () {
             this.player1.clickCard(this.nepentheSeed);
             this.player1.clickPrompt("Use this card's Omni ability");
             expect(this.player1).toHavePrompt('Nepenthe Seed');
