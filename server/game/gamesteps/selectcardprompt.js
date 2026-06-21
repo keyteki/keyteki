@@ -175,7 +175,11 @@ class SelectCardPrompt extends UiPrompt {
                     controller === 'self' ? this.context.player : this.context.player.opponent;
                 if (
                     player &&
-                    legalTargets.some((card) => card.location === location && card.owner === player)
+                    legalTargets.some(
+                        (card) =>
+                            card.location === location &&
+                            player.getSourceList(location).includes(card)
+                    )
                 ) {
                     piles.push({ location, controller });
                 }
