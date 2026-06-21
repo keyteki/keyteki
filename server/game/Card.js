@@ -691,7 +691,7 @@ class Card extends EffectSource {
         let combinedHouses = [];
 
         if (this.anyEffect('changeHouse')) {
-            combinedHouses = combinedHouses.concat(this.getEffects('changeHouse').flat());
+            combinedHouses = combinedHouses.concat([this.mostRecentEffect('changeHouse')].flat());
         } else {
             let copyEffect = this.mostRecentEffect('copyCard');
             combinedHouses.push(copyEffect ? copyEffect.printedHouse : this.printedHouse);
