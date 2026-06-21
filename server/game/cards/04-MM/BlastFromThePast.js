@@ -20,12 +20,15 @@ class BlastFromThePast extends Card {
                     gameAction: ability.actions.archive()
                 },
                 then: (context) => ({
+                    condition: () => !!context.target,
                     message: '{0} uses {1} to deal {3} damage to {2}',
-                    messageArgs: () => [context.target.power],
+                    messageArgs: () => [context.target && context.target.power],
                     target: {
                         cardType: 'creature',
                         controller: 'opponent',
-                        gameAction: ability.actions.dealDamage({ amount: context.target.power })
+                        gameAction: ability.actions.dealDamage({
+                            amount: context.target ? context.target.power : 0
+                        })
                     }
                 })
             }
