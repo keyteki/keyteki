@@ -37,7 +37,9 @@ class ColdRopes extends Card {
                           message: '{0} uses {1} to move {3} to the {4} flank and exhaust it',
                           messageArgs: () => {
                               const t = preThenContext.target;
-                              if (!t) return [];
+                              if (!t) {
+                                  return [];
+                              }
                               const inPlay = t.controller.cardsInPlay;
                               const side =
                                   inPlay.length <= 1 || inPlay.indexOf(t) === 0 ? 'left' : 'right';
