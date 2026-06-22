@@ -1108,6 +1108,12 @@ pre {
 .card-zoom.tide-high {
     top: 5px;
 }
+.card-zoom.from-chat {
+    /* Anchor the zoom card to the left of the chat panel so chat hovers don't
+     cover the messages. `--chat-left` is set by GameBoard from the chat
+     element's bounding rect. */
+    right: calc(100vw - var(--chat-left, 320px) + 12px);
+}
 
 .card-zoom > img,
 .card-zoom > canvas,
@@ -1227,6 +1233,8 @@ pre {
     flex-direction: column;
     height: 100%;
     overflow: hidden;
+    border-left: 1px solid color-mix(in oklab, var(--border) 88%, transparent);
+    background-color: color-mix(in oklab, var(--surface) 94%, transparent);
 }
 
 .play-area .drop-target,
@@ -2045,8 +2053,24 @@ pre {
 }
 
 .stat-value {
-    font-family: Bombardier, serif;
-    font-size: 1.8rem;
+    @apply inline-flex items-baseline justify-center font-[Bombardier,serif] text-[1.8rem];
+}
+span.stat-digit {
+    @apply inline-flex items-center justify-center w-[0.55em] p-0;
+}
+
+.btn-stat {
+    @apply inline-flex items-center justify-center w-5.5 h-5.5 p-0 rounded-full text-black text-xs leading-none shadow-sm bg-[oklch(0.9_0.004_286)] border-[1.5px] border-solid border-(--table-header-border);
+}
+.btn-stat svg {
+    @apply text-black! fill-black! stroke-black!;
+    stroke-width: 40 !important;
+}
+.btn-stat.btn-stat--plus:hover {
+    @apply bg-[#ffc107];
+}
+.btn-stat.btn-stat--minus:hover {
+    @apply bg-[#dc3545];
 }
 
 .active-player .state svg {
@@ -2125,5 +2149,17 @@ pre {
     }
     .role-previouswinner {
         @apply font-semibold text-fuchsia-600 dark:text-fuchsia-400;
+    }
+    .ability-targeting {
+        @apply mb-2 flex w-full flex-row items-center justify-center gap-2;
+    }
+    .ability-targeting-source {
+        @apply flex shrink-0 flex-row items-center gap-2;
+    }
+    .ability-targeting-card {
+        @apply h-24 w-16 shrink-0 overflow-hidden rounded-[6.25%] [&>canvas]:h-full! [&>canvas]:w-full!;
+    }
+    .ability-targeting-targets {
+        @apply flex min-w-0 flex-row items-center;
     }
 }

@@ -371,7 +371,9 @@ function runScenario(scenarioPath, { router, gameId } = {}) {
     try {
         scenarioFn.call(context);
     } catch (e) {
-        if (e !== SCENARIO_BREAK) throw e;
+        if (e !== SCENARIO_BREAK) {
+            throw e;
+        }
         hitBreak = true;
     } finally {
         if (prevExpect === undefined) {

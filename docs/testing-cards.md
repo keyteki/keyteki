@@ -125,7 +125,7 @@ this.setupTest({
 inPlay: ['creature-left', 'creature-middle', 'creature-right'];
 ```
 
-**Choosing test cards:** When selecting cards for `hand`, `inPlay`, or `discard`, check the JSON data for any cards that will be played or used during the test. Cards may have aember bonuses, keywords (taunt, elusive, etc.), power values, or abilities that interfere with assertions. Use `jq '.cards[] | select(.id == "card-id") | {id, amber, power, keywords, text}' keyteki-json-data/packs/*.json` to verify a card's properties before using it.
+**Choosing test cards:** When selecting cards for `hand`, `inPlay`, or `discard`, check the JSON data for any cards that will be played or used during the test. Cards may have bonus aember, keywords (taunt, elusive, etc.), power values, or abilities that interfere with assertions. Use `jq '.cards[] | select(.id == "card-id") | {id, amber, power, keywords, text}' master-vault-data/packs/*.json` to verify a card's properties before using it.
 
 ### Card State Setup
 

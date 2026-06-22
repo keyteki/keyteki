@@ -999,7 +999,7 @@ class Lobby {
         ];
 
         for (let player of Object.values(game.getPlayers()).filter(
-            (player) => player.name !== owner.username
+            (player) => player.name !== owner.username && !player.left
         )) {
             let socket = this.socketsByName[player.name];
 
@@ -1126,7 +1126,7 @@ class Lobby {
         );
 
         for (let player of Object.values(game.getPlayers()).filter(
-            (player) => player.name !== owner.username
+            (player) => player.name !== owner.username && !player.left
         )) {
             let socket = this.socketsByName[player.name];
 

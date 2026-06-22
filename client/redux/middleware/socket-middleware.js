@@ -299,7 +299,15 @@ export const socketMiddleware = (store) => (next) => (action) => {
     if (gameCloseRequested.match(action)) {
         if (gameSocket) {
             gameSocket.gameClosing = true;
-            gameSocket.close();
+            // Defer the actual close to the next macrotask so any in-flight
+            // emit() calls dispatched immediately before this (e.g. 'concede'
+            // and 'leavegame' from the Leave Game button) have a chance to
+            // flush over the transport. Without this, closing on the same
+            // tick can drop the just-queued packets and the server never
+            // sees the leave — leaving the user "stuck" in the game until
+            // they refresh.
+            const socketToClose = gameSocket;
+            setTimeout(() => socketToClose.close(), 0);
         }
         store.dispatch(gamesActions.socketClosed());
         store.dispatch(lobbyActions.gameSocketClosed());
