@@ -37,7 +37,7 @@ const optionsDefinition = [
     {
         name: 'card-dir',
         type: String,
-        defaultValue: path.join(__dirname, '..', '..', 'keyteki-json-data')
+        defaultValue: path.join(__dirname, '..', '..', 'master-vault-data')
     },
     { name: 'code', type: String, defaultValue: '' },
     { name: 'id', type: String, defaultValue: '' },

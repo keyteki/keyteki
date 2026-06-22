@@ -1,4 +1,4 @@
-# keyteki-json-data
+# Master Vault Data
 
 Card data used by The Crucible / keyteki. Each JSON file in the `packs` directory should correspond to a pack or expansion for Keyforge.
 
@@ -18,7 +18,7 @@ npm test
 
 ## Importing from the keyforge API
 
-Once the pack data is available on the Keyforge website, it can be imported to the keyteki-json-data format by running:
+Once the pack data is available on the Keyforge website, it can be imported to the repo by running:
 
 ```
 npm run import packs/packFileName.json packcode

@@ -4,7 +4,7 @@ const _ = require('underscore');
 
 const { matchCardByNameAndPack } = require('./cardutil.js');
 
-const PathToSubModulePacks = path.join(__dirname, '../../keyteki-json-data/packs');
+const PathToSubModulePacks = path.join(__dirname, '../../master-vault-data/packs');
 
 const defaultFiller = {
     brobnar: 'anger',

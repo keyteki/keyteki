@@ -8,7 +8,7 @@ import tseslint from 'typescript-eslint';
 const config: Linter.Config[] = [
     // Ignored paths
     {
-        ignores: ['coverage/**', 'dist/**', 'keyteki-json-data/**', 'node_modules/**', 'public/**']
+        ignores: ['coverage/**', 'dist/**', 'node_modules/**', 'public/**']
     },
     // ESLint recommended rules
     js.configs.recommended,

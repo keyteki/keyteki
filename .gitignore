@@ -18,6 +18,7 @@ server/logs/*.gz
 build/
 data
 mongodb
+keyteki-json-data
 
 /.idea/
 .eslintcache

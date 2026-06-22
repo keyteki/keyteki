@@ -13,7 +13,7 @@ Keyteki is an open-source implementation of the KeyForge card game. KeyForge is 
 
 - **Game Server** (`server/game/`) - Core game engine handling rules, cards, and game state
 - **Web Client** (`client/`) - React-based frontend for playing games
-- **Card Data** (`keyteki-json-data/packs/`) - JSON files containing card metadata for each set
+- **Card Data** (`master-vault-data/packs/`) - JSON files containing card metadata for each set
 
 ### Key Game Concepts
 
@@ -92,4 +92,4 @@ Ask the user before proceeding when:
 - The game node's `--inspect` flag will fail with "address already in use" when the lobby is already using port 9229. This is harmless — the game node still starts correctly.
 - Tests (`npm test`) are pure game-logic tests and do **not** require Postgres, Redis, or any running server.
 - Lint: `npm run lint`. Tests: `npm test`. See [docs/local-development.md](docs/local-development.md) for full reference.
-- The `keyteki-json-data` git submodule must be initialized (`git submodule update --init`) before running `npm run fetchdata` or tests.
+- The `master-vault-data` git submodule must be initialized (`git submodule update --init`) before running `npm run fetchdata` or tests.

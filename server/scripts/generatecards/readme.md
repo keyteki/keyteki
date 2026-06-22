@@ -12,7 +12,7 @@ The script has 3 key parts:
 
 ### The script
 
-The script is designed to quickly generate as much as possible - it reads in the data for every card in the game and generates full or partial implementations for each. The default options will read in the standard keyteki-json-data and output cards to ../game/generatedcards and ../game/partialcards depending on whether they are fully converted.
+The script is designed to quickly generate as much as possible - it reads in the data for every card in the game and generates full or partial implementations for each. The default options will read in the standard master-vault-data and output cards to ../game/generatedcards and ../game/partialcards depending on whether they are fully converted.
 
 The --overwrite setting is used for testing the generator itself - it will OVERWRITE existing implementations in /game/cards ! This is not normally what you want, but you can then run the entire suite of unit tests and see how many the generator passes.
 
@@ -70,7 +70,7 @@ This takes the json output of the parser and converts it into working javascript
 
 To add support for a new set, try something like:
 
-- Add the json data to keyteki-json-data and clean up any anomalies like weird punctuation or symbols
+- Add the json data to master-vault-data and clean up any anomalies like weird punctuation or symbols
 - Add an entry to expansionPaths in CardGenerator.js to tell it where to put the cards
 - Add new traits, houses or card types to the relevant definitions in the parser - these are basically just lists
 - Review the output, especially the partial cards folder to see if there are cards that could be generated with small changes, or if strange formatting is confusing the parser. It may be useful to enable the comments = short setting so it shows the parsed card json in the output.

@@ -458,7 +458,7 @@ const AllianceBuilderPage = () => {
 
         return deck.cards
             .filter((card) => card.card?.house === house && !card.isNonDeck)
-            .sort((a, b) => a.card.name.localeCompare(b.card.name))
+            .sort((a, b) => (a.card.name || '').localeCompare(b.card.name || ''))
             .map((card) => ({
                 card: card.card,
                 count: card.count || 1,
