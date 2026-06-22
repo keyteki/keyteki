@@ -58,7 +58,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     addDeferredChoice(context) {
-        // Deferred choices are abilities whose meetsRequirements condition
+        // Deferred choices are abilities whose condition or meetsRequirements
         // initially fails but might pass if another ability changes the game state first.
         // They are only added to choices if there are other valid choices.
         if (
@@ -75,6 +75,7 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
                     deferred.subject === context.subject
             )
         ) {
+            context.deferred = true;
             this.deferredChoices.push(context);
         }
     }
@@ -454,6 +455,18 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
     }
 
     resolveAbility(context) {
+        // For deferred abilities, re-check the trigger condition. If it still
+        // fails, skip execution — the player chose to resolve this one first
+        // but game state hasn't changed enough to satisfy the condition.
+        if (context.deferred && !context.ability.isTriggeredByEvent(context.event, context)) {
+            this.resolvedAbilities.push({
+                ability: context.ability,
+                event: context.event,
+                subject: context.subject
+            });
+            return;
+        }
+
         this.game.resolveAbility(context);
         if (context.ability.isLastingAbilityTrigger && !context.ability.multipleTrigger) {
             context.ability.unregisterEvents();

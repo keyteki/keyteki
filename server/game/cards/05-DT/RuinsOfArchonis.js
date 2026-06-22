@@ -19,11 +19,10 @@ class RuinsOfArchonis extends Card {
         this.reaction({
             when: {
                 onCardPlayed: (event, context) =>
-                    !context.source.exhausted &&
-                    context.source.amber > 0 &&
                     context.game.cardsPlayed.length >= 6 &&
                     context.game.cardsPlayed[5] === event.card
             },
+            condition: (context) => !context.source.exhausted && context.source.amber > 0,
             gameAction: ability.actions.removeAmber({ all: true }),
             then: {
                 gameAction: ability.actions.gainAmber((context) => ({

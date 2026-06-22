@@ -59,4 +59,39 @@ describe('Sci. Officer Qincan', function () {
             this.player2.endTurn();
         });
     });
+
+    describe("Sci. Officer Qincan's ability with Techivore Pulpate", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'staralliance',
+                    inPlay: ['sci-officer-qincan', 'techivore-pulpate']
+                },
+                player2: {
+                    amber: 2,
+                    inPlay: ['sacrificial-altar']
+                }
+            });
+        });
+
+        it('should steal if Techivore Pulpate is resolved first', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('Dis');
+            this.player2.clickCard(this.techivorePulpate);
+            this.player2.clickCard(this.sacrificialAltar);
+            expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(1);
+            expect(this.player2).isReadyToTakeAction();
+        });
+
+        it('should not steal if Techivore Pulpate is resolved second', function () {
+            this.player1.endTurn();
+            this.player2.clickPrompt('Dis');
+            this.player2.clickCard(this.sciOfficerQincan);
+            this.player2.clickCard(this.sacrificialAltar);
+            expect(this.player1.amber).toBe(0);
+            expect(this.player2.amber).toBe(2);
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
 });

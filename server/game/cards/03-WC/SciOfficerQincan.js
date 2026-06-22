@@ -6,12 +6,12 @@ class SciOfficerQincan extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onChooseActiveHouse: (event, context) =>
-                    event.player.opponent &&
-                    !context.game
-                        .getHousesInPlay(context.game.cardsInPlay, true)
-                        .includes(event.house)
+                onChooseActiveHouse: (event) => !!event.player.opponent
             },
+            condition: (context) =>
+                !context.game
+                    .getHousesInPlay(context.game.cardsInPlay, true)
+                    .includes(context.event.house),
             gameAction: ability.actions.steal((context) => ({
                 target: context.source.controller.opponent
             }))

@@ -55,6 +55,7 @@ describe('Expect The Unexpected', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.playCreature(this.warfaline);
+            this.player2.clickCard(this.warfaline);
             this.player2.clickPrompt('Mine');
             expect(this.player2).toBeAbleToSelect(this.hauntingWitch);
             expect(this.player2).toBeAbleToSelect(this.umbra);
@@ -71,6 +72,7 @@ describe('Expect The Unexpected', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('untamed');
             this.player2.playCreature(this.warfaline);
+            this.player2.clickCard(this.warfaline);
             this.player2.clickPrompt("Opponent's");
             expect(this.player2).isReadyToTakeAction();
             expect(this.parasiticArachnoid.location).toBe('under');

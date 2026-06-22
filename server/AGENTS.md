@@ -104,6 +104,15 @@ When implementing a new card, search for similar existing implementations:
 -   Look at cards from Core set (`01-Core/`) for foundational patterns
 -   Search by ability type: `this.play(`, `this.reap(`, `this.persistentEffect(`
 
+### `when` vs `condition` in Triggered Abilities
+
+For `reaction()`, `interrupt()`, `prophecyReaction()`, and `prophecyInterrupt()`:
+
+-   **`when`** = timing trigger (event identity). Only check immutable event properties: `event.player`, `event.card.type`, `event.card === context.source`, `context.player === this.game.activePlayer`.
+-   **`condition`** = state gate (mutable game state). Check things that can change during ability resolution: amber counts, tide state, haunted state, `context.source.exhausted`, `context.source.amber > 0`, `deck.length`, creature counts.
+
+This separation enables simultaneous ability ordering — abilities enter the window based on `when`, and `condition` is re-checked at resolution time. See the detailed documentation in [Card Abilities > Conditions](../docs/card-abilities.md#conditions).
+
 ### Debugging Cards
 
 -   When fixing bugs or making changes to existing cards, do not change the tests unless explicitly asked to.

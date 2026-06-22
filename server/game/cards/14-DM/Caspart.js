@@ -6,9 +6,9 @@ class Caspart extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onTurnEnd: (event, context) =>
-                    context.player === this.game.activePlayer && context.source.exhausted
+                onTurnEnd: (event, context) => context.player === this.game.activePlayer
             },
+            condition: (context) => context.source.exhausted,
             target: {
                 mode: 'exactly',
                 numCards: 2,
