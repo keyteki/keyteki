@@ -10,7 +10,7 @@ class Lifeward extends Card {
             effectArgs: (context) => context.player.opponent,
             effectAlert: true,
             gameAction: [
-                ability.actions.sacrifice(),
+                ability.actions.destroy(),
                 ability.actions.duringOpponentNextTurn({
                     targetController: 'opponent',
                     effect: ability.effects.playerCannot(

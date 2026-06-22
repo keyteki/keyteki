@@ -408,7 +408,7 @@ expect(this.player1).toHavePrompt('Choose a creature');
 
 // Check player has a specific button
 expect(this.player1).toHavePromptButton('Yes');
-expect(this.player1).toHavePromptButton('Sacrifice Card Name');
+expect(this.player1).toHavePromptButton('Destroy Card Name');
 
 // Check player is ready to take normal turn actions
 expect(this.player1).isReadyToTakeAction();

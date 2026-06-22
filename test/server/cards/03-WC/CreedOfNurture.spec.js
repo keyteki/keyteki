@@ -14,7 +14,7 @@ describe('Creed of Nurture', function () {
             });
         });
 
-        it('should sacrifice Creed of Nurture, and prompt the player to choose two creatures', function () {
+        it('should destroy Creed of Nurture, and prompt the player to choose two creatures', function () {
             this.player1.clickCard(this.creedOfNurture);
             expect(this.player1).toHavePrompt('Creed of Nurture');
             this.player1.clickPrompt("Use this card's Omni ability");

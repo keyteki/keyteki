@@ -27,14 +27,14 @@ describe('Chuff Ape', function () {
                 this.chuffApe.ready();
             });
 
-            it('after fight, should be able to choose not to sacrifice', function () {
+            it('after fight, should be able to choose not to destroy', function () {
                 this.player1.fightWith(this.chuffApe, this.ancientBear);
                 expect(this.chuffApe.damage).toBe(5);
                 this.player1.clickPrompt('Done');
                 this.player1.endTurn();
             });
 
-            it('after fight, should be able to sacrifice to heal', function () {
+            it('after fight, should be able to destroy to heal', function () {
                 this.player1.fightWith(this.chuffApe, this.ancientBear);
                 expect(this.player1).toBeAbleToSelect(this.lamindra);
                 expect(this.player1).toBeAbleToSelect(this.urchin);
@@ -46,7 +46,7 @@ describe('Chuff Ape', function () {
                 this.player1.endTurn();
             });
 
-            it('after reap, should be able to choose not to sacrifice', function () {
+            it('after reap, should be able to choose not to destroy', function () {
                 this.chuffApe.damage = 3;
                 this.player1.reap(this.chuffApe);
                 expect(this.chuffApe.damage).toBe(3);
@@ -54,7 +54,7 @@ describe('Chuff Ape', function () {
                 this.player1.endTurn();
             });
 
-            it('after reap, should be able to sacrifice to heal', function () {
+            it('after reap, should be able to destroy to heal', function () {
                 this.chuffApe.damage = 3;
                 this.player1.reap(this.chuffApe);
                 expect(this.player1).toBeAbleToSelect(this.lamindra);

@@ -16,11 +16,11 @@ class Masterplan extends Card {
         });
 
         this.omni({
-            effect: 'play {1} and sacrifice {0}',
+            effect: 'play {1} and destroy {0}',
             effectArgs: (context) => context.source.childCards,
             gameAction: [
                 ability.actions.playCard((context) => ({ target: context.source.childCards })),
-                ability.actions.sacrifice()
+                ability.actions.destroy()
             ]
         });
     }

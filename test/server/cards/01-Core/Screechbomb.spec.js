@@ -12,7 +12,7 @@ describe('Screechbomb', function () {
             });
         });
 
-        it('should sacrifice itself and make opponent lose 2 amber', function () {
+        it('should destroy itself and make opponent lose 2 amber', function () {
             this.player1.useOmni(this.screechbomb);
             expect(this.screechbomb.location).toBe('discard');
             expect(this.player2.amber).toBe(1);

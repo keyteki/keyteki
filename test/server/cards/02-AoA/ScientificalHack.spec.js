@@ -12,7 +12,7 @@ describe('Scientifical Hack', function () {
             });
         });
 
-        it('sacrifices itself and lets a friendly artifact of another house be used this turn but not enemy artifacts', function () {
+        it('destroys itself and lets a friendly artifact of another house be used this turn but not enemy artifacts', function () {
             this.player1.useOmni(this.scientificalHack);
             expect(this.scientificalHack.location).toBe('discard');
             // Enemy artifact cannot be used despite the active-house bypass
@@ -37,7 +37,7 @@ describe('Scientifical Hack', function () {
             });
         });
 
-        it('still sacrifices itself when there are no other friendly artifacts to enable', function () {
+        it('still destroys itself when there are no other friendly artifacts to enable', function () {
             this.player1.useOmni(this.scientificalHack);
             expect(this.scientificalHack.location).toBe('discard');
             expect(this.player1).isReadyToTakeAction();
