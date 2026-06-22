@@ -23,20 +23,40 @@ class GameWonPrompt extends AllPlayerPrompt {
     }
 
     completionCondition(player) {
+        // A player who has left the game can't dismiss the post-game prompt,
+        // so auto-complete it for them — otherwise the prompt would hang and
+        // the opponent would be stuck on the "Waiting for opponent" screen.
+        if (player.left) {
+            return true;
+        }
         return !!this.clickedButton[player.name];
     }
 
-    activePrompt() {
+    activePrompt(player) {
+        const opponentLeft = this.game.getPlayers().some((other) => other !== player && other.left);
         const isAdaptive = this.game.gameFormat === 'adaptive-bo1';
+
+        // Show rematch options even when the opponent has left, but disable
+        // them — a rematch requires both players to respond, so it can't
+        // proceed without them. Continue Playing remains available so the
+        // remaining player can dismiss the prompt.
         const buttons = [
             { arg: 'continue', text: 'Continue Playing' },
-            { arg: 'rematch-same-decks', text: 'Rematch: Same Decks' }
+            { arg: 'rematch-same-decks', text: 'Rematch: Same Decks', disabled: opponentLeft }
         ];
         // Adaptive has its own deck-swap mechanic built into setup
         if (!isAdaptive) {
-            buttons.push({ arg: 'rematch-swap-decks', text: 'Rematch: Swap Decks' });
+            buttons.push({
+                arg: 'rematch-swap-decks',
+                text: 'Rematch: Swap Decks',
+                disabled: opponentLeft
+            });
         }
-        buttons.push({ arg: 'rematch-change-decks', text: 'Rematch: Change Decks' });
+        buttons.push({
+            arg: 'rematch-change-decks',
+            text: 'Rematch: Change Decks',
+            disabled: opponentLeft
+        });
 
         return {
             promptTitle: 'Game Won',

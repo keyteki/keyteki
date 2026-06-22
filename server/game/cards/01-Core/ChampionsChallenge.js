@@ -41,15 +41,20 @@ class ChampionsChallenge extends Card {
             effectArgs: (context) => {
                 const enemy = context.targets.enemy;
                 const friendly = context.targets.friendly;
-                if (!enemy && !friendly) return ['do nothing', '', '', ''];
-                if (enemy && friendly)
+                if (!enemy && !friendly) {
+                    return ['do nothing', '', '', ''];
+                }
+                if (enemy && friendly) {
                     return [
                         'destroy all enemy creatures except ',
                         enemy,
                         ' and all friendly creatures except ',
                         friendly
                     ];
-                if (enemy) return ['destroy all enemy creatures except ', enemy, '', ''];
+                }
+                if (enemy) {
+                    return ['destroy all enemy creatures except ', enemy, '', ''];
+                }
                 return ['destroy all friendly creatures except ', friendly, '', ''];
             },
             then: {

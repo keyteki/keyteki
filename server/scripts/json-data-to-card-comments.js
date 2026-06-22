@@ -2,7 +2,7 @@
 /*
  * Rewrites the leading `//` comment block of each card implementation in
  * server/game/cards/<set-folder>/ so that it matches the card text in
- * keyteki-json-data/packs/<SET>.json verbatim, with icons translated to
+ * master-vault-data/packs/<SET>.json verbatim, with icons translated to
  * plain ASCII per project convention.
  *
  * Usage:
@@ -31,7 +31,7 @@ if (!setCode) {
     process.exit(1);
 }
 
-const jsonPath = path.join(ROOT, 'keyteki-json-data', 'packs', `${setCode}.json`);
+const jsonPath = path.join(ROOT, 'master-vault-data', 'packs', `${setCode}.json`);
 if (!fs.existsSync(jsonPath)) {
     console.error(`No pack JSON at ${jsonPath}`);
     process.exit(1);
@@ -50,7 +50,9 @@ const cardDir = path.join(cardsRoot, folder);
 const data = JSON.parse(fs.readFileSync(jsonPath, 'utf8'));
 const byId = new Map();
 for (const c of data.cards) {
-    if (!byId.has(c.id)) byId.set(c.id, c);
+    if (!byId.has(c.id)) {
+        byId.set(c.id, c);
+    }
 }
 
 // PUA bonus-icon code points → plain word.
@@ -182,9 +184,15 @@ console.log(`  Updated:        ${results.updated.length}`);
 console.log(`  Unchanged:      ${results.unchanged.length}`);
 console.log(`  Skipped:        ${results.skipped.length}`);
 console.log(`  Missing in JSON:${results.missing.length}`);
-if (!flags.has('--write')) console.log('(dry run — re-run with --write to apply)');
-if (results.skipped.length) console.log('SKIPPED:\n  ' + results.skipped.join('\n  '));
-if (results.missing.length) console.log('MISSING:\n  ' + results.missing.join('\n  '));
+if (!flags.has('--write')) {
+    console.log('(dry run — re-run with --write to apply)');
+}
+if (results.skipped.length) {
+    console.log('SKIPPED:\n  ' + results.skipped.join('\n  '));
+}
+if (results.missing.length) {
+    console.log('MISSING:\n  ' + results.missing.join('\n  '));
+}
 if (flags.has('--list') && results.updated.length) {
     console.log('UPDATED:\n  ' + results.updated.join('\n  '));
 }

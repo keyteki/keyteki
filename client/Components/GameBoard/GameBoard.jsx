@@ -1,20 +1,20 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
+import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import ActivePlayerPrompt from './ActivePlayerPrompt';
+import { gameSendMessage } from '../../redux/socketActions';
 import CardBack from '../Decks/CardBack';
+import ActivePlayerPrompt from './ActivePlayerPrompt';
 import CardZoom from './CardZoom';
+import { canShowDeckName, getMatchRecord, isSpectating, normalizePlayer } from './gameboardUtils';
 import GameChat from './GameChat';
 import GameConfigurationModal from './GameConfigurationModal';
 import PlayerBoard from './PlayerBoard';
 import PlayerStats from './PlayerStats';
 import ReferenceCardPane from './ReferenceCardPane';
 import TimeLimitClock from './TimeLimitClock';
-import { gameSendMessage } from '../../redux/socketActions';
-import { canShowDeckName, getMatchRecord, isSpectating, normalizePlayer } from './gameboardUtils';
 
 const hasDenseRow = (player) => {
     const cardsInPlay = player?.cardPiles?.cardsInPlay || [];
@@ -66,6 +66,56 @@ export const GameBoard = () => {
         }
     }, [navigate, user]);
 
+    // Track the chat panel's left edge so the from-chat zoomed card can be
+    // positioned just to the left of the chat instead of covering it. We use
+    // a callback ref + state so the effect re-runs whenever the chat element
+    // actually mounts/unmounts (e.g. after the initial "Waiting for server"
+    // early-return), not just when `showMessages` toggles.
+    const [chatScrollEl, setChatScrollEl] = useState(null);
+    useLayoutEffect(() => {
+        if (!chatScrollEl) {
+            return undefined;
+        }
+        const updateChatLeft = () => {
+            const left = chatScrollEl.getBoundingClientRect().left;
+            document.documentElement.style.setProperty('--chat-left', `${left}px`);
+        };
+        updateChatLeft();
+        let observer;
+        if (typeof ResizeObserver !== 'undefined') {
+            observer = new ResizeObserver(updateChatLeft);
+            observer.observe(chatScrollEl);
+        }
+        window.addEventListener('resize', updateChatLeft);
+        return () => {
+            observer?.disconnect();
+            window.removeEventListener('resize', updateChatLeft);
+        };
+    }, [chatScrollEl]);
+
+    // Track the cursor so we can debounce chat-card mouseouts: when new chat
+    // messages arrive, the chat scroll element can shift under the cursor and
+    // fire a synthetic mouseout while the user hasn't actually moved. Defer
+    // the clear until the cursor moves a few pixels. Any subsequent
+    // onMouseOver (from chat OR board/prompt cards) cancels the pending clear,
+    // so quickly moving from a chat card to an adjacent board/prompt card no
+    // longer dismisses the new zoom.
+    const lastMousePos = useRef({ x: 0, y: 0 });
+    const pendingClear = useRef(null);
+    useEffect(() => {
+        const onMove = (e) => {
+            lastMousePos.current = { x: e.clientX, y: e.clientY };
+        };
+        document.addEventListener('mousemove', onMove);
+        return () => {
+            document.removeEventListener('mousemove', onMove);
+            if (pendingClear.current) {
+                clearTimeout(pendingClear.current);
+                pendingClear.current = null;
+            }
+        };
+    }, []);
+
     if (Object.values(cards).length === 0 || !currentGame?.started) {
         return (
             <div>
@@ -111,14 +161,47 @@ export const GameBoard = () => {
     const spectating = isSpectating(currentGame, user);
     const showDeckName = (isMe) => canShowDeckName(currentGame, isMe);
 
+    const JITTER_PX = 6;
+    const CLEAR_POLL_MS = 50;
+    const CLEAR_MAX_MS = 10000;
+
+    const cancelPendingClear = () => {
+        if (pendingClear.current) {
+            clearTimeout(pendingClear.current);
+            pendingClear.current = null;
+        }
+    };
+
     const onMouseOver = (card) => {
         if (card.image) {
+            cancelPendingClear();
             setCardToZoom(card);
         }
     };
 
     const onMouseOut = () => {
+        cancelPendingClear();
         setCardToZoom(null);
+    };
+
+    // Chat-card mouseouts are deferred to absorb jitter from chat scroll
+    // reflows. The poll bails out as soon as the cursor moves > JITTER_PX,
+    // or after CLEAR_MAX_MS as a safety deadline.
+    const onChatCardMouseOut = () => {
+        const start = { ...lastMousePos.current };
+        const deadline = Date.now() + CLEAR_MAX_MS;
+        cancelPendingClear();
+        const check = () => {
+            const { x, y } = lastMousePos.current;
+            const moved = Math.hypot(x - start.x, y - start.y) > JITTER_PX;
+            if (moved || Date.now() >= deadline) {
+                pendingClear.current = null;
+                setCardToZoom(null);
+            } else {
+                pendingClear.current = setTimeout(check, CLEAR_POLL_MS);
+            }
+        };
+        pendingClear.current = setTimeout(check, CLEAR_POLL_MS);
     };
 
     const onCardClick = (card) => {
@@ -344,18 +427,22 @@ export const GameBoard = () => {
                                     onMouseOut={onMouseOut}
                                     user={user}
                                     phase={thisPlayer.phase}
+                                    forcePassAvailable={
+                                        currentGame.forcePassAvailable && !thisPlayer.activePlayer
+                                    }
+                                    onForcePass={() => sendGameMessage('forcePass')}
                                 />
                             )}
                             {timeLimitClock}
                         </div>
                     </div>
-                    <div className='chat-scroll bg-[color:color-mix(in_oklab,var(--surface)_94%,transparent)]'>
+                    <div ref={setChatScrollEl} className='chat-scroll'>
                         {showMessages && (
                             <div className='relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden box-border'>
                                 <GameChat
                                     key='gamechat'
                                     messages={currentGame.messages}
-                                    onCardMouseOut={onMouseOut}
+                                    onCardMouseOut={onChatCardMouseOut}
                                     onCardMouseOver={onMouseOver}
                                     onSendChat={sendChatMessage}
                                     muted={spectating && currentGame.muteSpectators}

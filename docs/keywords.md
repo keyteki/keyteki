@@ -141,7 +141,7 @@ A versatile card bypasses the house restriction, allowing it to be played or use
 
 ## How Keywords Work
 
-Keywords are defined in the card's JSON data in `keyteki-json-data/packs/`:
+Keywords are defined in the card's JSON data in `master-vault-data/packs/`:
 
 ```json
 {

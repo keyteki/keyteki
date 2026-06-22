@@ -1,6 +1,7 @@
-import React from 'react';
 import classNames from 'classnames';
+import React from 'react';
 
+import { Constants } from '../../constants';
 import CardTiledList from './CardTiledList';
 import Droppable from './Droppable';
 import MovablePanel from './MovablePanel';
@@ -10,6 +11,7 @@ const CardPilePopup = ({
     cards,
     disableMouseOver,
     hasActiveHouse,
+    houses,
     isMe,
     isSpectating,
     manualMode,
@@ -19,6 +21,7 @@ const CardPilePopup = ({
     onMouseOut,
     onMouseOver,
     onTouchMove,
+    playerName,
     popupLocation,
     popupMenu,
     size,
@@ -91,10 +94,51 @@ const CardPilePopup = ({
         </div>
     );
 
+    let popupTitle = title;
+    const titleText = playerName ? `${title} • ${playerName}` : title;
+    const allFacedown = cards && cards.every((card) => card.facedown);
+    if (houses && houses.length > 0 && cards && !allFacedown) {
+        const cardHouse = (card) => {
+            // maverick/anomaly are a house name when set from the deck list, but
+            // boolean true on live game summaries — fall back to printedHouse in
+            // that case so the card is still counted.
+            if (typeof card.maverick === 'string') {
+                return card.maverick;
+            }
+            if (typeof card.anomaly === 'string') {
+                return card.anomaly;
+            }
+            return card.printedHouse;
+        };
+        const counts = [...houses].sort().map((house) => ({
+            house,
+            count: cards.filter((card) => !card.facedown && cardHouse(card) === house).length
+        }));
+
+        popupTitle = (
+            <span className='inline-flex items-center gap-2'>
+                <span>{titleText}</span>
+                {counts.map(({ house, count }) => (
+                    <span key={house} className='inline-flex items-center gap-0.5'>
+                        <img
+                            src={Constants.IdBackHousePaths[house]}
+                            alt={house}
+                            draggable={false}
+                            className='inline-block h-4 w-4'
+                        />
+                        <span className='text-sm'>{count}</span>
+                    </span>
+                ))}
+            </span>
+        );
+    } else {
+        popupTitle = titleText;
+    }
+
     popup = (
         <MovablePanel
             size={size}
-            title={title}
+            title={popupTitle}
             name={source}
             onCloseClick={onCloseClick}
             side={popupLocation}

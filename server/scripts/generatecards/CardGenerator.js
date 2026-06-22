@@ -128,8 +128,11 @@ class CardGenerator {
                 var str = env.render(this.template, data);
                 ensureDirectoryExistence(filename);
                 fs.writeFileSync(filename, str);
-                if (complete) a.complete++;
-                else a.partial++;
+                if (complete) {
+                    a.complete++;
+                } else {
+                    a.partial++;
+                }
             } catch (err) {
                 console.log(`Failure when generating code from parsed abilities for ${card.id}`);
                 console.log(JSON.stringify(data.abilities, null, 1));
@@ -181,8 +184,9 @@ class CardGenerator {
 }
 
 function replacer(key, value) {
-    if (value === null || value === false || (Array.isArray(value) && value.length == 0))
+    if (value === null || value === false || (Array.isArray(value) && value.length == 0)) {
         return undefined;
+    }
     return value;
 }
 
@@ -316,9 +320,13 @@ function filteredController(refs, filteredController = true) {
 }
 
 function findEventListeners(abilities) {
-    if (abilities === null || typeof abilities !== 'object') return [];
+    if (abilities === null || typeof abilities !== 'object') {
+        return [];
+    }
     let listeners = Object.values(abilities).flatMap(findEventListeners);
-    if (abilities.name === 'eventCount') listeners.push(abilities.action);
+    if (abilities.name === 'eventCount') {
+        listeners.push(abilities.action);
+    }
     return _.uniq(listeners);
 }
 
