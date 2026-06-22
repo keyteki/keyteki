@@ -113,9 +113,12 @@ class PurgeAction extends CardGameAction {
                 // earlier effect in the same window may have already moved
                 // it out (and raised onCardLeavesPlay then).
                 if (card.location === 'play area') {
-                    context.game.raiseEvent(EVENTS.onCardLeavesPlay, { card, context }, () =>
-                        this.purge(card)
+                    event.leavesPlayEvent = context.game.getEvent(
+                        EVENTS.onCardLeavesPlay,
+                        { card, context },
+                        () => this.purge(card)
                     );
+                    event.addSubEvent(event.leavesPlayEvent);
                 } else {
                     this.purge(card);
                 }

@@ -17,7 +17,7 @@ class AbductAction extends CardGameAction {
         return super.createEvent(
             EVENTS.onCardPutIntoArchives,
             { card: card, context: context },
-            () => {
+            (event) => {
                 // Mark the card as abducted. This flag is checked in
                 // player.moveCard to redirect the card to owner's hand when
                 // leaving archives.
@@ -30,9 +30,12 @@ class AbductAction extends CardGameAction {
 
                 // Move the card to archives
                 if (card.location === 'play area') {
-                    context.game.raiseEvent(EVENTS.onCardLeavesPlay, { card, context }, () =>
-                        abductor.moveCard(card, 'archives')
+                    event.leavesPlayEvent = context.game.getEvent(
+                        EVENTS.onCardLeavesPlay,
+                        { card, context },
+                        () => abductor.moveCard(card, 'archives')
                     );
+                    event.addSubEvent(event.leavesPlayEvent);
                 } else {
                     abductor.moveCard(card, 'archives');
                 }

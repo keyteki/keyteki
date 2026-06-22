@@ -96,6 +96,24 @@ class EventWindow extends BaseStepWithPipeline {
                 );
             }
 
+            // After the sub-event resolves, propagate its leavesPlayEvent
+            // and clone up so parent events reflect the card's final state
+            // before leaving play.
+            this.queueStep(
+                new SimpleStep(this.game, () => {
+                    const lpe =
+                        this.event.leavesPlayEvent === currentSubEvent
+                            ? currentSubEvent
+                            : currentSubEvent.leavesPlayEvent;
+                    if (lpe && !lpe.cancelled) {
+                        this.event.leavesPlayEvent = lpe;
+                        if (this.event.card === lpe.card) {
+                            this.event.clone = lpe.clone;
+                        }
+                    }
+                })
+            );
+
             this.queueStep(new SimpleStep(this.game, () => this.checkForSubEvent()));
         }
     }
