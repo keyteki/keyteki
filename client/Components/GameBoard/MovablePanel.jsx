@@ -1,7 +1,7 @@
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import React, { useEffect, useRef, useState } from 'react';
 import { useDrag } from 'react-dnd';
 import Icon from '../Icon';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 import { ItemTypes } from '../../constants';
 import PopupDefaults from './PopupDefaults';
@@ -76,7 +76,7 @@ const MovablePanel = ({ children, name, onCloseClick, side, title, size }) => {
                 className='flex min-h-6 shrink-0 items-center justify-center gap-1 border-b border-border/70 bg-[color:color-mix(in_oklab,var(--brand)_10%,var(--surface))] px-2 py-1 text-[color:var(--brand)]'
                 onClick={(event) => event.stopPropagation()}
             >
-                <span className='flex-1 text-center text-base leading-none font-normal'>
+                <span className='pointer-events-none flex-1 text-left text-base leading-none font-normal select-none'>
                     {title}
                 </span>
                 <button

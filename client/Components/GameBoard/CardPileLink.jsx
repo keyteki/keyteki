@@ -12,6 +12,7 @@ const CardPileLink = ({
     disableMouseOver,
     disablePopup,
     hasActiveHouse,
+    houses,
     isMe,
     isPromptTarget,
     isSpectating,
@@ -24,6 +25,7 @@ const CardPileLink = ({
     onPopupChange,
     onTouchMove,
     orientation = 'vertical',
+    playerName,
     popupLocation = 'bottom',
     popupMenu,
     size,
@@ -134,8 +136,10 @@ const CardPileLink = ({
                     popupLocation={popupLocation}
                     popupMenu={popupMenu}
                     hasActiveHouse={hasActiveHouse}
+                    houses={houses}
                     isMe={isMe}
                     isSpectating={isSpectating}
+                    playerName={playerName}
                     size={size}
                     source={source}
                     title={title}
