@@ -5,7 +5,7 @@ class ObsidianForge extends Card {
     setupCardAbilities(ability) {
         this.action({
             target: {
-                activePromptTitle: 'Choose a friendly creature to destroy',
+                activePromptTitle: 'Choose a creature to destroy',
                 mode: 'unlimited',
                 controller: 'self',
                 cardType: 'creature',

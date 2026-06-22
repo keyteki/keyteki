@@ -77,7 +77,7 @@ describe('Soulkeeper', function () {
             this.player2.endTurn();
             this.player1.clickPrompt('shadows');
             this.player1.play(this.pawnSacrifice);
-            expect(this.player1).toHavePrompt('Choose a friendly creature to destroy');
+            expect(this.player1).toHavePrompt('Choose a creature to destroy');
             expect(this.player1).toBeAbleToSelect(this.shooler);
             expect(this.player1).toBeAbleToSelect(this.oldYurk);
             this.player1.clickCard(this.oldYurk);

@@ -5,7 +5,7 @@ class PowerOfFire extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
-                activePromptTitle: 'Choose a friendly creature to destroy',
+                activePromptTitle: 'Choose a creature to destroy',
                 cardType: 'creature',
                 controller: 'self',
                 gameAction: ability.actions.destroy()

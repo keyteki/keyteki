@@ -15,7 +15,7 @@ describe('Skullion', function () {
 
         it('destroys a chosen friendly creature on play', function () {
             this.player1.play(this.skullion);
-            expect(this.player1).toHavePrompt('Choose a friendly creature to destroy');
+            expect(this.player1).toHavePrompt('Choose a creature to destroy');
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.skullion);
