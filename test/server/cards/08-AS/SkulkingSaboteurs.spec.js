@@ -74,6 +74,8 @@ describe('Skulking Saboteurs', function () {
             this.player1.player.keys = { red: true, blue: false, yellow: true };
             this.player1.reap(this.skulkingSaboteurs);
             this.player1.clickCard(this.troll);
+            expect(this.troll.location).toBe('discard');
+            expect(this.libraryOfBabble.location).toBe('play area');
             this.player1.clickCard(this.libraryOfBabble);
             expect(this.troll.location).toBe('discard');
             expect(this.libraryOfBabble.location).toBe('discard');
@@ -90,9 +92,11 @@ describe('Skulking Saboteurs', function () {
             this.player1.player.keys = { red: true, blue: true, yellow: false };
             this.player1.reap(this.skulkingSaboteurs);
             this.player1.clickCard(this.krump);
-            this.player1.clickCard(this.bonecrusher);
-            expect(this.bonecrusher.location).toBe('discard');
             expect(this.krump.location).toBe('discard');
+            expect(this.bonecrusher.location).toBe('play area');
+            this.player1.clickCard(this.bonecrusher);
+            expect(this.krump.location).toBe('discard');
+            expect(this.bonecrusher.location).toBe('discard');
             expect(this.troll.location).toBe('play area');
             expect(this.player1).isReadyToTakeAction();
         });

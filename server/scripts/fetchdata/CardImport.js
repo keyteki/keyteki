@@ -127,7 +127,8 @@ class CardImport {
                 ignitus: true,
                 'nizak-the-forgotten': true,
                 'lateral-shift': true,
-                timequake: true
+                timequake: true,
+                'treok-the-wise': true
             }
         };
 
