@@ -15,7 +15,7 @@ class Buzzle extends Card {
                 gameAction: ability.actions.purge({ location: 'play area' })
             },
             then: (context) => ({
-                condition: () => context.target.location === 'purged',
+                condition: () => !!context.target && context.target.location === 'purged',
                 gameAction: ability.actions.ready({ target: context.source })
             })
         });

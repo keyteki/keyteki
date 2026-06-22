@@ -11,13 +11,15 @@ class BarrelRoll extends Card {
             },
             then: (preThenContext) => ({
                 alwaysTriggers: true,
+                condition: () => !!preThenContext.target,
                 preferActionPromptMessage: true,
                 gameAction: ability.actions.exhaust({ target: preThenContext.target }),
                 message: '{0} uses {1} to move {3} to the {4} flank and exhaust it',
                 messageArgs: () => {
-                    const t = preThenContext.target;
-                    const idx = t.controller.cardsInPlay.indexOf(t);
-                    return [t, idx === 0 ? 'left' : 'right'];
+                    const idx = preThenContext.target.controller.cardsInPlay.indexOf(
+                        preThenContext.target
+                    );
+                    return [preThenContext.target, idx === 0 ? 'left' : 'right'];
                 }
             })
         });
