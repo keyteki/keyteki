@@ -266,7 +266,7 @@ These events are used in `reaction()` and `interrupt()` abilities:
 | `onCardDestroyed`     | When a card is destroyed                                                                                                                                                                                                                                                                       | `event.card`, `event.damageEvent`                      |
 | `onCardEnteringPlay`  | Before a card enters play, prior to any positioning prompt (e.g. flank/deploy choice). Use this when an ability needs to resolve before the card is actually placed in the play area — for example, Mimic Gel choosing a creature to copy. The card is not yet in `play area` when this fires. | `event.card`, `event.context`                          |
 | `onCardEntersPlay`    | When a card enters play                                                                                                                                                                                                                                                                        | `event.card`                                           |
-| `onCardLeavesPlay`    | When a card leaves play                                                                                                                                                                                                                                                                        | `event.card`, `event.triggeringEvent`                  |
+| `onCardLeavesPlay`    | When a card leaves play                                                                                                                                                                                                                                                                        | `event.card`, `event.clone`, `event.triggeringEvent`   |
 | `onCardDiscarded`     | When a card is discarded                                                                                                                                                                                                                                                                       | `event.card`, `event.location`                         |
 | `onReap`              | When a creature reaps                                                                                                                                                                                                                                                                          | `event.card`                                           |
 | `onFight`             | When a creature fights (and survives to deal damage)                                                                                                                                                                                                                                           | `event.card` (defender), `event.attacker`              |
@@ -294,6 +294,23 @@ These events are used in `reaction()` and `interrupt()` abilities:
 | `onCardPurged`        | When a card is purged                                                                                                                                                                                                                                                                          | `event.card`                                           |
 
 For a complete list of events and their parameters, see [types.js](../server/game/Events/types.js).
+
+### Event Clones
+
+Every event with a `card` property has a `.clone` — a snapshot of the card's state at the time the event was checked. When a card leaves play, the `onCardLeavesPlay` event's clone is refreshed after destroyed abilities resolve (capturing post-ability state like amber removed by Praefectus Ludo). This clone is then propagated up the event chain to all ancestor events (damage → destroy → leavesPlay), so `preThenEvent.clone` in a `then` block always reflects the card's final state before leaving play.
+
+```javascript
+// In a then block, .clone has the card's state right before it left play:
+then: {
+    condition: (context) =>
+        context.preThenEvent.destroyEvent?.destroyedByDamageDealt &&
+        context.preThenEvent.destroyEvent.resolved,
+    gameAction: ability.actions.dealDamage((context) => ({
+        amount: 2,
+        target: context.preThenEvent.clone.neighbors
+    }))
+}
+```
 
 ## Targeting
 
