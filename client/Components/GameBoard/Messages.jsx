@@ -63,9 +63,16 @@ const Messages = ({ messages, onCardMouseOver, onCardMouseOut }) => {
         }
     };
 
-    const owner = useSelector(
-        (state) => state.lobby.currentGame.players[state.lobby.currentGame.owner]
-    );
+    const owner = useSelector((state) => {
+        const game = state.lobby.currentGame;
+        if (!game || !game.players) {
+            return undefined;
+        }
+        // Fall back to any remaining player if the original owner has left
+        // (e.g. they left the game and rejoined as a spectator), so message
+        // bubble alignment still works.
+        return game.players[game.owner] || Object.values(game.players)[0];
+    });
 
     for (let house of Constants.Houses) {
         tokens[house] = {
