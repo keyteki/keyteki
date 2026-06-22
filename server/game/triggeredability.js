@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const CardAbility = require('./CardAbility.js');
 const TriggeredAbilityContext = require('./TriggeredAbilityContext.js');
 const { EVENTS } = require('./Events/types.js');
@@ -174,23 +172,23 @@ class TriggeredAbility extends CardAbility {
             return;
         }
 
-        var eventNames = _.keys(this.when);
+        var eventNames = Object.keys(this.when);
         this.events = [];
-        _.each(eventNames, (eventName) => {
+        for (const eventName of eventNames) {
             var event = {
                 name: eventName + ':' + this.abilityType,
                 handler: (event, window) => this.eventHandler(event, window)
             };
             this.game.on(event.name, event.handler);
             this.events.push(event);
-        });
+        }
     }
 
     unregisterEvents() {
         if (this.events) {
-            _.each(this.events, (event) => {
+            for (const event of this.events) {
                 this.game.removeListener(event.name, event.handler);
-            });
+            }
             this.events = null;
         }
     }

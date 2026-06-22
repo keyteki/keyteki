@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const AbilityContext = require('../AbilityContext');
 const EffectSource = require('../EffectSource');
 const UiPrompt = require('./uiprompt');
@@ -23,7 +22,7 @@ class OptionsMenuPrompt extends UiPrompt {
 
         this.player = player;
         if (properties.source) {
-            if (_.isString(properties.source)) {
+            if (typeof properties.source === 'string') {
                 this.promptTitle = properties.source;
             } else {
                 this.source = properties.source;

@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 class Event {
     /**
      * @param {import('./types').EventName} name
@@ -20,7 +18,7 @@ class Event {
         this.openReactionWindow = true;
         this.clone = null;
 
-        _.extend(this, params);
+        Object.assign(this, params);
         this.clone = this.cloneOverride;
         if (this.card && !this.clone) {
             this.clone = this.card.createSnapshot();

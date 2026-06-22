@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const fs = require('fs');
 const path = require('path');
 
@@ -27,9 +26,9 @@ function loadCards(directory) {
 
     loadFiles(directory);
 
-    _.each(getDirectories(directory), (dir) => {
+    for (const dir of getDirectories(directory)) {
         cards = Object.assign(cards, loadCards(path.join(directory, dir)));
-    });
+    }
 
     return cards;
 }

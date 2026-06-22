@@ -1,4 +1,3 @@
-import _ from 'underscore';
 import * as jsondiffpatch from 'jsondiffpatch';
 import { createSlice } from '@reduxjs/toolkit';
 
@@ -71,7 +70,7 @@ const handleMessage = (state, message, args) => {
         case 'updategame': {
             const updatedGames = state.games.slice(0);
             for (const game of args[0]) {
-                const index = _.findIndex(updatedGames, (g) => g.id === game.id);
+                const index = updatedGames.findIndex((g) => g.id === game.id);
                 updatedGames[index] = game;
             }
             state.games = updatedGames;

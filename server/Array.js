@@ -63,7 +63,6 @@ function expand(rowCount, columnCount, startAt = 1) {
 function sortBy(array, transform) {
     return [...array].sort(sortByComparison(transform));
 }
-
 module.exports = {
     flatten,
     flatMap,

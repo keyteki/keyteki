@@ -2,7 +2,6 @@
 
 const path = require('path');
 const fs = require('fs');
-const _ = require('underscore');
 const nunjucks = require('nunjucks');
 const peg = require('pegjs');
 
@@ -53,7 +52,7 @@ class CardGenerator {
             WoE: '06-WoE'
         };
 
-        let cardsById = _.groupBy(cards, (card) => card.id);
+        let cardsById = Object.groupBy(cards, (card) => card.id);
         cards = Object.values(cardsById).map((duplicates) =>
             Object.assign(duplicates[0], {
                 folder: expansionPaths[duplicates[duplicates.length - 1].packCode]
@@ -220,7 +219,7 @@ function isCompleteInternal(abilities) {
 
 /*
 
-Raw syntax tree 
+Raw syntax tree
 ->
 Ability tree
 
@@ -234,7 +233,7 @@ Arrays of actions do.
 Ordering matters - they should be (somewhat) sequential.
 
 
-Actions can be manually or automatically targetted. They can be conditional. Some automatically targetted abilities require that automatic target to be resolved. 
+Actions can be manually or automatically targetted. They can be conditional. Some automatically targetted abilities require that automatic target to be resolved.
 Manually targetted abilities must be structured so that they prompt the player correctly.
 
 
@@ -327,7 +326,7 @@ function findEventListeners(abilities) {
     if (abilities.name === 'eventCount') {
         listeners.push(abilities.action);
     }
-    return _.uniq(listeners);
+    return [...new Set(listeners)];
 }
 
 module.exports = CardGenerator;

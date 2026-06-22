@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const AbilityDsl = require('./abilitydsl.js');
 const DelayedEffect = require('./DelayedEffect.js');
 const GameObject = require('./GameObject');
@@ -73,8 +71,8 @@ class EffectSource extends GameObject {
      * @param {Object} properties - properties for the effect - see Effects/Effect.js
      */
     addEffectToEngine(properties) {
-        let effect = properties.effect;
-        properties = _.omit(properties, 'effect');
+        let { effect, ...rest } = properties;
+        properties = rest;
         if (!Array.isArray(effect)) {
             effect = [effect];
         }

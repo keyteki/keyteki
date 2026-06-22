@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
 const _ = require('underscore');
+const Card = require('../../Card.js');
 
 class PorterCilla extends Card {
     // After Reap: Put a random card from your opponent's hand on top of their deck.

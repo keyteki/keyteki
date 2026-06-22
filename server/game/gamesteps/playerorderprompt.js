@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const UiPrompt = require('./uiprompt.js');
 
 /**
@@ -21,7 +20,7 @@ class PlayerOrderPrompt extends UiPrompt {
 
     skipPlayers() {
         this.lazyFetchPlayers();
-        this.players = _.reject(this.players, (p) => this.skipCondition(p));
+        this.players = this.players.filter((p) => !this.skipCondition(p));
     }
 
     // eslint-disable-next-line no-unused-vars

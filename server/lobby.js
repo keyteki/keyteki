@@ -1,7 +1,6 @@
 const { Server } = require('socket.io');
 const Socket = require('./socket.js');
 const jwt = require('jsonwebtoken');
-const _ = require('underscore');
 
 const logger = require('./log');
 const PendingGame = require('./pendinggame');
@@ -221,12 +220,11 @@ class Lobby {
 
     // Actions
     mapGamesToGameSummaries(games) {
-        return _.chain(games)
+        return games
             .map((game) => game.getSummary())
-            .sortBy('createdAt')
-            .sortBy('started')
-            .reverse()
-            .value();
+            .sort((a, b) => (a.createdAt > b.createdAt ? 1 : a.createdAt < b.createdAt ? -1 : 0))
+            .sort((a, b) => (a.started > b.started ? 1 : a.started < b.started ? -1 : 0))
+            .reverse();
     }
 
     broadcastGameMessage(message, games) {

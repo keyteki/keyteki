@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const AbilityContext = require('../AbilityContext.js');
 const EffectSource = require('../EffectSource.js');
 const UiPrompt = require('./uiprompt.js');
@@ -22,7 +21,7 @@ class HandlerMenuPrompt extends UiPrompt {
         super(game);
         this.player = player;
         if (properties.source) {
-            if (_.isString(properties.source)) {
+            if (typeof properties.source === 'string') {
                 this.promptTitle = properties.source;
             } else {
                 this.source = properties.source;
@@ -52,7 +51,7 @@ class HandlerMenuPrompt extends UiPrompt {
     activePrompt() {
         let buttons = [];
         if (this.properties.cards) {
-            buttons = _.map(this.properties.cards, (card) => {
+            buttons = this.properties.cards.map((card) => {
                 let text = '{{card}}';
                 let values = {
                     card: card.name
@@ -62,8 +61,8 @@ class HandlerMenuPrompt extends UiPrompt {
         }
 
         buttons = buttons.concat(
-            _.map(this.properties.choices, (choice, index) => {
-                if (_.isObject(choice)) {
+            (this.properties.choices || []).map((choice, index) => {
+                if (typeof choice === 'object' && choice !== null) {
                     return Object.assign({ arg: index }, choice);
                 }
 
@@ -148,8 +147,8 @@ class HandlerMenuPrompt extends UiPrompt {
             return true;
         }
 
-        if (_.isString(arg)) {
-            let card = _.find(this.properties.cards, (card) => card.uuid === arg);
+        if (typeof arg === 'string') {
+            let card = (this.properties.cards || []).find((card) => card.uuid === arg);
             if (card && this.properties.cardHandler) {
                 this.properties.cardHandler(card);
                 this.complete();

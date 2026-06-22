@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const SelectChoice = require('./SelectChoice.js');
 const AbilityTarget = require('./AbilityTarget.js');
 const Optional = require('../optional.js');
@@ -95,7 +94,7 @@ class AbilityTargetSelect extends AbilityTarget {
         let choices = Object.keys(this.properties.choices).filter((key) =>
             this.isChoiceLegal(key, context)
         );
-        let handlers = _.map(choices, (choice) => {
+        let handlers = choices.map((choice) => {
             return () => {
                 context.selects[this.name] = new SelectChoice(choice);
                 if (this.name === 'target') {

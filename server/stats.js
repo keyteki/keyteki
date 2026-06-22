@@ -1,6 +1,5 @@
 /*eslint no-console: 0*/
 
-const _ = require('underscore');
 const monk = require('monk');
 
 const Constants = require('./constants.js');
@@ -15,16 +14,6 @@ const bannedDecks = [
 
 let db = monk(config.dbPath);
 let gameService = new GameService(db);
-/*
-let args = process.argv.slice(2);
-
-if(_.size(args) < 2) {
-    console.error('Must provide start and end date');
-
-    db.close();
-    return;
-}
-*/
 
 let start = new Date('2018-08-26T13:00:00');
 let end = new Date();
@@ -36,7 +25,7 @@ gameService
     .then((games) => {
         let rejected = { singlePlayer: 0, noWinner: 0, banned: 0, mirror: 0 };
 
-        console.info('' + _.size(games), 'total games');
+        console.info('' + games.length, 'total games');
 
         let players = {};
         let decks = {};
@@ -46,23 +35,23 @@ gameService
             houses[house] = { name: house, wins: 0, losses: 0 };
         }
 
-        _.each(games, (game) => {
-            if (_.size(game.players) !== 2) {
+        for (const game of games) {
+            if (!game.players || Object.keys(game.players).length !== 2) {
                 rejected.singlePlayer++;
 
-                return;
+                continue;
             }
 
             if (!game.winner) {
                 rejected.noWinner++;
 
-                return;
+                continue;
             } else if (game.players.some((player) => bannedDecks.includes(player.deck))) {
                 rejected.banned++;
-                return;
+                continue;
             } else if (game.players[0].deck === game.players[1].deck) {
                 rejected.mirror++;
-                return;
+                continue;
             }
 
             if (
@@ -74,7 +63,7 @@ gameService
                 fpWinRates.second++;
             }
 
-            _.each(game.players, (player) => {
+            for (const player of game.players) {
                 if (!players[player.name]) {
                     players[player.name] = { name: player.name, wins: 0, losses: 0 };
                 }
@@ -89,23 +78,24 @@ gameService
                 if (player.name === game.winner) {
                     playerStat.wins++;
                     deckStat.wins++;
-                    _.each(player.houses, (house) => houses[house].wins++);
+                    for (const house of player.houses) {
+                        houses[house].wins++;
+                    }
                 } else {
                     playerStat.losses++;
                     deckStat.losses++;
-                    _.each(player.houses, (house) => houses[house].losses++);
+                    for (const house of player.houses) {
+                        houses[house].losses++;
+                    }
                 }
-            });
-        });
+            }
+        }
 
-        let winners = _.chain(players)
-            .sortBy((player) => {
-                return -player.wins;
-            })
-            .first(10)
-            .value();
+        let winners = Object.values(players)
+            .sort((a, b) => b.wins - a.wins)
+            .slice(0, 10);
 
-        let winRates = _.map(winners, (player) => {
+        let winRates = winners.map((player) => {
             let games = player.wins + player.losses;
 
             return {
@@ -116,18 +106,9 @@ gameService
             };
         });
 
-        let winRateStats = _.chain(winRates)
-            .sortBy((player) => {
-                return -player.winRate;
-            })
-            .first(10)
-            .value();
+        let winRateStats = winRates.sort((a, b) => b.winRate - a.winRate).slice(0, 10);
 
-        // let factionWinners = _.sortBy(factions, faction => {
-        //     return -faction.wins;
-        // });
-
-        let deckWinRates = _.map(decks, (deck) => {
+        let deckWinRates = Object.values(decks).map((deck) => {
             let games = deck.wins + deck.losses;
 
             return {
@@ -138,8 +119,7 @@ gameService
             };
         });
 
-        let houseWinRates = _.map(houses, (house) => {
-            // eslint-disable-line no-unused-vars
+        let houseWinRates = Object.values(houses).map((house) => {
             let games = house.wins + house.losses;
 
             return {
@@ -150,21 +130,19 @@ gameService
             };
         });
 
-        let deckWinRateStats = _.sortBy(deckWinRates, (deck) => {
-            return -deck.winRate;
-        });
+        let deckWinRateStats = [...deckWinRates].sort((a, b) => b.winRate - a.winRate);
 
         console.info('### Top 10\n\nName | Number of wins\n----|----------------');
 
-        _.each(winners, (winner) => {
+        for (const winner of winners) {
             console.info(winner.name, ' | ', winner.wins);
-        });
+        }
 
         console.info(
             '### Top 10 by winrate\n\nName | Number of wins | Number of losses | Win Rate\n----|-------------|------------------|--------'
         );
 
-        _.each(winRateStats, (winner) => {
+        for (const winner of winRateStats) {
             console.info(
                 winner.name,
                 ' | ',
@@ -174,13 +152,13 @@ gameService
                 ' | ',
                 winner.winRate + '%'
             );
-        });
+        }
 
         console.info(
             '### Deck win rates\n\nDeck | Number of wins | Number of losses | Win Rate\n----|-------------|------------------|--------'
         );
 
-        _.each(deckWinRateStats, (winner) => {
+        for (const winner of deckWinRateStats) {
             console.info(
                 winner.name,
                 ' | ',
@@ -190,13 +168,13 @@ gameService
                 ' | ',
                 winner.winRate + '%'
             );
-        });
+        }
 
         console.info(
             '### House win rates\n\nHouse | Number of wins | Number of losses | Win Rate\n----|-------------|------------------|--------'
         );
 
-        _.each(houseWinRates, (house) => {
+        for (const house of houseWinRates) {
             console.info(
                 house.name,
                 ' | ',
@@ -206,7 +184,7 @@ gameService
                 ' | ',
                 house.winRate + '%'
             );
-        });
+        }
 
         console.info(
             'First Player win rate:',

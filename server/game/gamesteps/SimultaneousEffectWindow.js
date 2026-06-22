@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const ForcedTriggeredAbilityWindow = require('./forcedtriggeredabilitywindow.js');
 
 class SimultaneousEffectWindow extends ForcedTriggeredAbilityWindow {
@@ -35,8 +33,8 @@ class SimultaneousEffectWindow extends ForcedTriggeredAbilityWindow {
             source: 'Order Simultaneous effects',
             activePromptTitle: 'Choose an effect to be resolved',
             waitingPromptTitle: 'Waiting for opponent',
-            choices: _.map(choices, (choice) => choice.title),
-            handlers: _.map(choices, (choice) => () => this.resolveEffect(choice))
+            choices: choices.map((choice) => choice.title),
+            handlers: choices.map((choice) => () => this.resolveEffect(choice))
         });
     }
 

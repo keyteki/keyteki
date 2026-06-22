@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const ForcedTriggeredAbilityWindow = require('./forcedtriggeredabilitywindow.js');
 
 /**
@@ -93,18 +91,17 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
     // discardAllTaggedCards().
     emitEvents() {
         this.choices = [];
-        const events = _.difference(
-            this.eventWindow.event.getSimultaneousEvents(),
-            this.eventsToExclude
-        );
+        const events = this.eventWindow.event
+            .getSimultaneousEvents()
+            .filter((e) => !this.eventsToExclude.includes(e));
         for (const event of this.batchedLeavesPlayEvents) {
             if (!event.cancelled) {
                 events.push(event);
             }
         }
-        _.each(events, (event) => {
+        for (const event of events) {
             this.game.emit(event.name + ':' + this.abilityType, event, this);
-        });
+        }
     }
 
     // Called by DestroyAction to batch a cascaded destruction into this
