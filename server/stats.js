@@ -36,7 +36,7 @@ gameService
         }
 
         for (const game of games) {
-            if (Object.keys(game.players).length !== 2) {
+            if (!game.players || Object.keys(game.players).length !== 2) {
                 rejected.singlePlayer++;
 
                 continue;
