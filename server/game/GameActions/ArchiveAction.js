@@ -24,20 +24,27 @@ class ArchiveAction extends CardGameAction {
     }
 
     getEvent(card, context) {
-        return super.createEvent(EVENTS.onCardArchived, { card: card, context: context }, () => {
-            let player = this.owner
-                ? card.owner
-                : this.opponent
-                ? context.player.opponent
-                : context.player;
-            if (card.location === 'play area') {
-                context.game.raiseEvent(EVENTS.onCardLeavesPlay, { card, context }, () =>
-                    player.moveCard(card, 'archives')
-                );
-            } else {
-                player.moveCard(card, 'archives');
+        return super.createEvent(
+            EVENTS.onCardArchived,
+            { card: card, context: context },
+            (event) => {
+                let player = this.owner
+                    ? card.owner
+                    : this.opponent
+                    ? context.player.opponent
+                    : context.player;
+                if (card.location === 'play area') {
+                    event.leavesPlayEvent = context.game.getEvent(
+                        EVENTS.onCardLeavesPlay,
+                        { card, context },
+                        () => player.moveCard(card, 'archives')
+                    );
+                    event.addSubEvent(event.leavesPlayEvent);
+                } else {
+                    player.moveCard(card, 'archives');
+                }
             }
-        });
+        );
     }
 }
 

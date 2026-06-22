@@ -96,6 +96,23 @@ class EventWindow extends BaseStepWithPipeline {
                 );
             }
 
+            // Propagate leavesPlayEvent up the event chain so any
+            // ancestor event can access it without navigating the
+            // internal sub-event hierarchy. Also overwrite the event's
+            // clone so consumers always see the card's state immediately
+            // prior to leaving play.
+            this.queueStep(
+                new SimpleStep(this.game, () => {
+                    const lpe = currentSubEvent.leavesPlayEvent;
+                    if (lpe && !lpe.cancelled && !this.event.leavesPlayEvent) {
+                        this.event.leavesPlayEvent = lpe;
+                        if (this.event.card === lpe.card) {
+                            this.event.clone = lpe.clone;
+                        }
+                    }
+                })
+            );
+
             this.queueStep(new SimpleStep(this.game, () => this.checkForSubEvent()));
         }
     }

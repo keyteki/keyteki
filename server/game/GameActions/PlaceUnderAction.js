@@ -57,11 +57,14 @@ class PlaceUnderAction extends CardGameAction {
         return super.createEvent(
             this.isGraft ? EVENTS.onCardGrafted : EVENTS.onPlaceUnder,
             { card, context },
-            () => {
+            (event) => {
                 if (card.location === 'play area') {
-                    context.game.raiseEvent(EVENTS.onCardLeavesPlay, { card, context }, () =>
-                        this.placeUnder(card)
+                    event.leavesPlayEvent = context.game.getEvent(
+                        EVENTS.onCardLeavesPlay,
+                        { card, context },
+                        () => this.placeUnder(card)
                     );
+                    event.addSubEvent(event.leavesPlayEvent);
                 } else {
                     this.placeUnder(card);
                 }

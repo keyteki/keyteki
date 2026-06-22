@@ -155,6 +155,10 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
                 !leavesPlayEvent.cancelled &&
                 leavesPlayEvent.condition(leavesPlayEvent)
             ) {
+                // Refresh clones to capture post-destroyed-ability state
+                const snapshot = destroyEvent.card.createSnapshot();
+                destroyEvent.clone = snapshot;
+                leavesPlayEvent.clone = snapshot;
                 destroyEvent.card.owner.moveCard(destroyEvent.card, 'discard');
             }
         }
