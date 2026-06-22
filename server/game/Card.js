@@ -690,7 +690,11 @@ class Card extends EffectSource {
     getHouses() {
         let combinedHouses = [];
 
+        let lastChangeHouseIndex = -1;
         if (this.anyEffect('changeHouse')) {
+            lastChangeHouseIndex = this.effects.findLastIndex(
+                (effect) => effect.type === 'changeHouse'
+            );
             combinedHouses = combinedHouses.concat([this.mostRecentEffect('changeHouse')].flat());
         } else {
             let copyEffect = this.mostRecentEffect('copyCard');
@@ -701,7 +705,12 @@ class Card extends EffectSource {
         }
 
         if (this.anyEffect('addHouse')) {
-            combinedHouses = combinedHouses.concat(this.getEffects('addHouse'));
+            let addHouseEffects = this.effects.filter(
+                (effect, index) => effect.type === 'addHouse' && index > lastChangeHouseIndex
+            );
+            combinedHouses = combinedHouses.concat(
+                addHouseEffects.map((effect) => effect.getValue(this))
+            );
         }
 
         return combinedHouses;
