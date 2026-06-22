@@ -2,9 +2,6 @@
 	"folders": [
 		{
 			"path": "."
-		},
-		{
-			"path": "C:\\dev\\keyteki-json-data"
 		}
 	],
 	"settings": {}

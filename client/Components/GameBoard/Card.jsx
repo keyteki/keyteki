@@ -21,7 +21,9 @@ const cardMenuCoordinator = (() => {
             target?.dispatchEvent(new CustomEvent('cardmenu:open', { detail: id }));
         },
         subscribe(id, onOtherOpen) {
-            if (!target) return () => {};
+            if (!target) {
+                return () => {};
+            }
             const handler = (event) => {
                 if (event.detail !== id) {
                     onOtherOpen();

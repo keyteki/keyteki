@@ -65,9 +65,13 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
     const canvasFinal = new fabric.StaticCanvas(null, { width: 300, height: 262.5 });
     canvasFinal.renderOnAddRemove = false;
     let framePath = assetsPath + `/${card.house}_Frame`;
-    if (card.type === 'upgrade') framePath += '_b';
-    else if (card.type.includes('creature')) framePath += '_c';
-    else if (card.type === 'action') framePath += '_c';
+    if (card.type === 'upgrade') {
+        framePath += '_b';
+    } else if (card.type.includes('creature')) {
+        framePath += '_c';
+    } else if (card.type === 'action') {
+        framePath += '_c';
+    }
     framePath += '.png';
 
     const frame = await loadImage(`file://${framePath}`);
@@ -87,7 +91,9 @@ const buildHalfSize = async (card, imgPath, filename, language) => {
     canvas.add(artCanvas);
     canvas.renderAll();
     const finalArt = new fabric.Image(canvas.toCanvasElement(), { left: 150, originX: 'center' });
-    if (card.type === 'upgrade') finalArt.set({ top: 19 });
+    if (card.type === 'upgrade') {
+        finalArt.set({ top: 19 });
+    }
     canvasFinal.add(finalArt);
     canvasFinal.add(frame);
     canvasFinal.add(frame);
@@ -331,7 +337,9 @@ const getCircularText = (text = '', diameter, yOffset = 0) => {
 };
 
 const getCurvedFontSize = (length) => {
-    if (length < 20) return 20;
+    if (length < 20) {
+        return 20;
+    }
     return (20 / length) * 20;
 };
 
