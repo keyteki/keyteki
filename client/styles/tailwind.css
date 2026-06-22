@@ -2053,8 +2053,24 @@ pre {
 }
 
 .stat-value {
-    font-family: Bombardier, serif;
-    font-size: 1.8rem;
+    @apply inline-flex items-baseline justify-center font-[Bombardier,serif] text-[1.8rem];
+}
+span.stat-digit {
+    @apply inline-flex items-center justify-center w-[0.55em] p-0;
+}
+
+.btn-stat {
+    @apply inline-flex items-center justify-center w-5.5 h-5.5 p-0 rounded-full text-black text-xs leading-none shadow-sm bg-[oklch(0.9_0.004_286)] border-[1.5px] border-solid border-(--table-header-border);
+}
+.btn-stat svg {
+    @apply text-black! fill-black! stroke-black!;
+    stroke-width: 40 !important;
+}
+.btn-stat.btn-stat--plus:hover {
+    @apply bg-[#ffc107];
+}
+.btn-stat.btn-stat--minus:hover {
+    @apply bg-[#dc3545];
 }
 
 .active-player .state svg {

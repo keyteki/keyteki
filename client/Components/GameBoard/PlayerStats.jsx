@@ -1,29 +1,29 @@
+import {
+    faCogs,
+    faComment,
+    faCopy,
+    faEye,
+    faEyeSlash,
+    faMinus,
+    faPlus,
+    faWrench
+} from '@fortawesome/free-solid-svg-icons';
+import { toast } from '@heroui/react';
+import classNames from 'classnames';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { gameSendMessage } from '../../redux/socketActions';
-import { toast } from '@heroui/react';
-import classNames from 'classnames';
 import Icon from '../Icon';
-import {
-    faEye,
-    faEyeSlash,
-    faCopy,
-    faWrench,
-    faCogs,
-    faComment
-} from '@fortawesome/free-solid-svg-icons';
 
-import Avatar from '../Site/Avatar';
 import { Constants } from '../../constants';
-import Minus from '../../assets/img/Minus.png';
-import Plus from '../../assets/img/Plus.png';
+import Avatar from '../Site/Avatar';
 
-import Keys from './Keys';
-import IdentityCard from './IdentityCard';
 import CardPileLink from './CardPileLink';
-import Droppable from './Droppable';
 import DrawDeck from './DrawDeck';
+import Droppable from './Droppable';
+import IdentityCard from './IdentityCard';
+import Keys from './Keys';
 
 const PlayerStats = ({
     activeHouse,
@@ -74,6 +74,15 @@ const PlayerStats = ({
         return stats[stat] || 0;
     };
 
+    const renderStatValue = (value) =>
+        String(value)
+            .split('')
+            .map((ch, i) => (
+                <span key={i} className='stat-digit'>
+                    {ch}
+                </span>
+            ));
+
     const getHouse = (house) => {
         let houseTitle = t(house);
         return houseTitle[0].toUpperCase() + houseTitle.slice(1);
@@ -85,25 +94,25 @@ const PlayerStats = ({
                 {showControls ? (
                     <a
                         href='#'
-                        className='btn-stat'
+                        className='btn-stat btn-stat--minus'
                         onClick={() => {
                             dispatch(gameSendMessage('changeStat', statToSet, -1));
                         }}
                     >
-                        <img src={Minus} title='-' alt='-' />
+                        <Icon icon={faMinus} title='-' />
                     </a>
                 ) : null}
-                <div className='stat-value'>{getStatValueOrDefault(stat)}</div>
+                <div className='stat-value'>{renderStatValue(getStatValueOrDefault(stat))}</div>{' '}
                 <div className={`stat-image ${stat}`} />
                 {showControls ? (
                     <a
                         href='#'
-                        className='btn-stat'
+                        className='btn-stat btn-stat--plus'
                         onClick={() => {
                             dispatch(gameSendMessage('changeStat', statToSet, 1));
                         }}
                     >
-                        <img src={Plus} title='+' alt='+' />
+                        <Icon icon={faPlus} title='+' />
                     </a>
                 ) : null}
             </div>
@@ -113,7 +122,9 @@ const PlayerStats = ({
     const getKeyCost = () => {
         return (
             <div className='state' title={t('Current Key Cost')}>
-                <div className='stat-value'>{getStatValueOrDefault('keyCost')}</div>
+                <div className='stat-value'>
+                    {renderStatValue(getStatValueOrDefault('keyCost'))}
+                </div>
                 <div className='stat-image keyCost' />
             </div>
         );
