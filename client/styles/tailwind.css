@@ -1108,6 +1108,12 @@ pre {
 .card-zoom.tide-high {
     top: 5px;
 }
+.card-zoom.from-chat {
+    /* Anchor the zoom card to the left of the chat panel so chat hovers don't
+     cover the messages. `--chat-left` is set by GameBoard from the chat
+     element's bounding rect. */
+    right: calc(100vw - var(--chat-left, 320px) + 12px);
+}
 
 .card-zoom > img,
 .card-zoom > canvas,
@@ -1227,6 +1233,8 @@ pre {
     flex-direction: column;
     height: 100%;
     overflow: hidden;
+    border-left: 1px solid color-mix(in oklab, var(--border) 88%, transparent);
+    background-color: color-mix(in oklab, var(--surface) 94%, transparent);
 }
 
 .play-area .drop-target,
