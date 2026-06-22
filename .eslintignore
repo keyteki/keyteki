@@ -1,6 +1,5 @@
 coverage
 node_modules
-keyteki-json-data
 dist
 public
 *.ts

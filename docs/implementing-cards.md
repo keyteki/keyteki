@@ -42,7 +42,7 @@ This guide covers the basics of implementing KeyForge cards in Keyteki. For deta
 
 To implement a card:
 
--   Find the card's data in `keyteki-json-data/packs/<Set>.json`
+-   Find the card's data in `master-vault-data/packs/<Set>.json`
 -   Create a file in `server/game/cards/<Set>/<CardName>.js`
 -   Implement the card's abilities
 -   Write tests in `test/server/cards/<Set>/<CardName>.spec.js`

@@ -25,7 +25,7 @@ const AbilityTargeting = (props) => {
 
     const renderSimpleCard = (card, style) => (
         <div
-            className='h-24 w-16 shrink-0 overflow-hidden rounded-[6.25%] [&>canvas]:!h-full [&>canvas]:!w-full'
+            className='ability-targeting-card'
             style={style}
             onMouseOut={() => onMouseOut(card)}
             onMouseOver={() =>
@@ -46,11 +46,13 @@ const AbilityTargeting = (props) => {
         count > 1 ? { marginLeft: `calc((100% - ${count} * 4rem) / ${count - 1})` } : undefined;
 
     return (
-        <div className='mb-2 flex w-full flex-row items-center gap-2'>
-            {renderSimpleCard(props.source)}
-            {count > 0 && <Icon icon={faArrowRight} />}
+        <div className='ability-targeting'>
+            <div className='ability-targeting-source'>
+                {renderSimpleCard(props.source)}
+                {count > 0 && <Icon icon={faArrowRight} />}
+            </div>
             {count > 0 && (
-                <div className='flex min-w-0 flex-1 flex-row items-center'>
+                <div className={`ability-targeting-targets${count > 1 ? ' flex-1' : ''}`}>
                     {props.targets.map((target, index) => (
                         <React.Fragment key={target.uuid || index}>
                             {renderSimpleCard(target, index > 0 ? overlapMargin : undefined)}

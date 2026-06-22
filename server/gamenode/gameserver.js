@@ -245,6 +245,20 @@ class GameServer {
             logger.info(`closed empty game ${game.id}`);
             this.closeGame(game);
         }
+
+        // Check for player inactivity in active games. Piggybacks on the
+        // existing 30s sweep to set the forcePassAvailable flag.
+        for (const game of Object.values(this.games)) {
+            if (game.finishedAt) {
+                continue;
+            }
+            if (game.checkInactivity()) {
+                this.runAndCatchErrors(game, () => {
+                    game.continue();
+                    this.sendGameState(game);
+                });
+            }
+        }
     }
 
     /**
@@ -587,9 +601,18 @@ class GameServer {
             delete this.games[game.id];
 
             this.gameSocket.send('GAMECLOSED', { game: game.id });
+            this.sendGameState(game);
+        } else {
+            // Re-run the pipeline so any prompts currently waiting on the
+            // departing player (e.g. the post-game rematch prompt) can
+            // recompute their buttons / completion based on the new
+            // `player.left` state. Without this, the remaining player keeps
+            // seeing stale buttons until the next game action.
+            this.runAndCatchErrors(game, () => {
+                game.continue();
+                this.sendGameState(game);
+            });
         }
-
-        this.sendGameState(game);
     }
 
     onGameMessage(socket, command, ...args) {
@@ -608,6 +631,8 @@ class GameServer {
         }
 
         this.runAndCatchErrors(game, () => {
+            game.notePlayerEvent(socket.user.username);
+
             game[command](socket.user.username, ...args);
 
             game.continue();
