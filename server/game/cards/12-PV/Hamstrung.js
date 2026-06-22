@@ -18,17 +18,17 @@ class Hamstrung extends Card {
                         ? context.player.deck[0]
                         : 'nothing'
                     : context.player.opponent.deck.length > 0
-                    ? context.player.opponent.deck[0]
-                    : 'nothing',
+                      ? context.player.opponent.deck[0]
+                      : 'nothing',
                 context.select === 'Mine' ? context.player : context.player.opponent,
                 context.select === 'Mine'
                     ? context.player.deck.length > 0 && context.player.deck[0].type === 'creature'
                         ? ' and purge it'
                         : ''
                     : context.player.opponent.deck.length > 0 &&
-                      context.player.opponent.deck[0].type === 'creature'
-                    ? ' and purge it'
-                    : ''
+                        context.player.opponent.deck[0].type === 'creature'
+                      ? ' and purge it'
+                      : ''
             ],
             gameAction: ability.actions.discardTopOfDeck((context) => ({
                 target: context.select === 'Mine' ? context.player : context.player.opponent

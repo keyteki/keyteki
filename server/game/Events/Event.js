@@ -12,7 +12,7 @@ class Event {
         this.gameAction = gameAction;
         this.card = null;
         this.context = null;
-        this.condition = (event) => true; // eslint-disable-line no-unused-vars
+        this.condition = (event) => true;
         this.order = 0;
         this.parentEvent = null;
         this.childEvent = null;

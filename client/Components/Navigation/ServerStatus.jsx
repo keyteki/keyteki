@@ -22,8 +22,8 @@ const ServerStatus = (props) => {
                 ? (responseTime < 150 && 'success') || (responseTime < 300 && 'warning') || 'danger'
                 : 'neutral'
             : connecting
-            ? 'warning'
-            : 'danger'
+              ? 'warning'
+              : 'danger'
     }`;
 
     const pingText = `${serverType[0]}: ${

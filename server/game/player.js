@@ -1426,8 +1426,8 @@ class Player extends GameObject {
             tide: this.isTideHigh()
                 ? Constants.Tide.HIGH
                 : this.isTideLow()
-                ? Constants.Tide.LOW
-                : Constants.Tide.NEUTRAL
+                  ? Constants.Tide.LOW
+                  : Constants.Tide.NEUTRAL
         };
     }
 

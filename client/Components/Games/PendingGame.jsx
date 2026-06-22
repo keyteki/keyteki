@@ -108,7 +108,6 @@ const PendingGame = () => {
         if (currentGame && currentGame.gameFormat === 'sealed') {
             dispatch(lobbySendMessage('getsealeddeck', currentGame.id));
         }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (!currentGame) {

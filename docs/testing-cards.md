@@ -4,52 +4,52 @@ This document explains how to write tests for cards.
 
 ## Table of Contents
 
--   [Overview](#overview)
--   [Test File Structure](#test-file-structure)
--   [Setting Up Tests](#setting-up-tests)
-    -   [setupTest Options](#setuptest-options)
-    -   [Card State Setup](#card-state-setup)
-    -   [Recommended Test Creatures](#recommended-test-creatures)
-    -   [Moving Cards Between Zones](#moving-cards-between-zones)
-    -   [Changing a Card's House](#changing-a-cards-house)
--   [Player Actions](#player-actions)
-    -   [Playing Cards](#playing-cards)
-    -   [Using Cards](#using-cards)
-    -   [Responding to Prompts](#responding-to-prompts)
-    -   [Prophecy Cards](#prophecy-cards)
-    -   [Tide Manipulation](#tide-manipulation)
--   [Assertions](#assertions)
-    -   [Prompt Assertions](#prompt-assertions)
-    -   [Card Selection Assertions](#card-selection-assertions)
-    -   [Card State Assertions](#card-state-assertions)
-    -   [Player State Assertions](#player-state-assertions)
-    -   [Chat Log Assertions](#chat-log-assertions)
--   [Card References](#card-references)
-    -   [Basic Examples](#basic-examples)
-    -   [Numbers in Card IDs](#numbers-in-card-ids)
-    -   [Cards Starting with Numbers](#cards-starting-with-numbers)
-    -   [Apostrophes in Card Names](#apostrophes-in-card-names)
-    -   [Multiple Copies of the Same Card](#multiple-copies-of-the-same-card)
-    -   [Gigantic Cards (Two-Part Cards)](#gigantic-cards-two-part-cards)
-    -   [Finding Cards Explicitly](#finding-cards-explicitly)
--   [Common Patterns](#common-patterns)
-    -   [Testing Play Abilities](#testing-play-abilities)
-    -   [Testing Reap Abilities](#testing-reap-abilities)
-    -   [Testing Fight Abilities](#testing-fight-abilities)
-    -   [Testing Destroyed Abilities](#testing-destroyed-abilities)
-    -   [Testing Action Abilities](#testing-action-abilities)
-    -   [Testing Persistent Effects](#testing-persistent-effects)
-    -   [Testing "Cannot" Restrictions](#testing-cannot-restrictions)
-    -   [Testing Multiple Describe Blocks](#testing-multiple-describe-blocks)
--   [Running Tests](#running-tests)
--   [Testing UI changes](#testing-ui-changes)
-    -   [Starting the Server](#starting-the-server)
-    -   [Adding Cards to Test](#adding-cards-to-test)
-    -   [Updating Card Data](#updating-card-data)
--   [Debugging Tests](#debugging-tests)
-    -   [Enable Debug Output](#enable-debug-output)
-    -   [Common Issues](#common-issues)
-    -   [Inspecting State](#inspecting-state)
+- [Overview](#overview)
+- [Test File Structure](#test-file-structure)
+- [Setting Up Tests](#setting-up-tests)
+    - [setupTest Options](#setuptest-options)
+    - [Card State Setup](#card-state-setup)
+    - [Recommended Test Creatures](#recommended-test-creatures)
+    - [Moving Cards Between Zones](#moving-cards-between-zones)
+    - [Changing a Card's House](#changing-a-cards-house)
+- [Player Actions](#player-actions)
+    - [Playing Cards](#playing-cards)
+    - [Using Cards](#using-cards)
+    - [Responding to Prompts](#responding-to-prompts)
+    - [Prophecy Cards](#prophecy-cards)
+    - [Tide Manipulation](#tide-manipulation)
+- [Assertions](#assertions)
+    - [Prompt Assertions](#prompt-assertions)
+    - [Card Selection Assertions](#card-selection-assertions)
+    - [Card State Assertions](#card-state-assertions)
+    - [Player State Assertions](#player-state-assertions)
+    - [Chat Log Assertions](#chat-log-assertions)
+- [Card References](#card-references)
+    - [Basic Examples](#basic-examples)
+    - [Numbers in Card IDs](#numbers-in-card-ids)
+    - [Cards Starting with Numbers](#cards-starting-with-numbers)
+    - [Apostrophes in Card Names](#apostrophes-in-card-names)
+    - [Multiple Copies of the Same Card](#multiple-copies-of-the-same-card)
+    - [Gigantic Cards (Two-Part Cards)](#gigantic-cards-two-part-cards)
+    - [Finding Cards Explicitly](#finding-cards-explicitly)
+- [Common Patterns](#common-patterns)
+    - [Testing Play Abilities](#testing-play-abilities)
+    - [Testing Reap Abilities](#testing-reap-abilities)
+    - [Testing Fight Abilities](#testing-fight-abilities)
+    - [Testing Destroyed Abilities](#testing-destroyed-abilities)
+    - [Testing Action Abilities](#testing-action-abilities)
+    - [Testing Persistent Effects](#testing-persistent-effects)
+    - [Testing "Cannot" Restrictions](#testing-cannot-restrictions)
+    - [Testing Multiple Describe Blocks](#testing-multiple-describe-blocks)
+- [Running Tests](#running-tests)
+- [Testing UI changes](#testing-ui-changes)
+    - [Starting the Server](#starting-the-server)
+    - [Adding Cards to Test](#adding-cards-to-test)
+    - [Updating Card Data](#updating-card-data)
+- [Debugging Tests](#debugging-tests)
+    - [Enable Debug Output](#enable-debug-output)
+    - [Common Issues](#common-issues)
+    - [Inspecting State](#inspecting-state)
 
 ## Overview
 
@@ -57,16 +57,16 @@ Tests are located in `test/server/cards/<Set>/<CardName>.spec.js`, mirroring the
 
 **Key principles:**
 
--   Tests should focus on the card's unique abilities, not metadata (house, power, armor, keywords)
--   Keep `beforeEach` setup minimal — only include values like cards or aember that are needed for the test. Don't add starting amber, extra cards, or keys "just in case".
--   **Every** test MUST end with `expect(this.player1).isReadyToTakeAction()` (or `this.player2` if the turn ended). No exceptions. If a card's effect ends the step or turn, click through the resulting house-choice prompt (e.g. `this.player2.clickPrompt('untamed')`) so the assertion can verify the player reached the action prompt cleanly. Leftover prompts are the most common source of false-positive tests — this assertion is what catches them.
--   For longer tests, add comments explaining what each test is setting up.
--   Each test description (`it('...')`) must describe the specific scenario being asserted — avoid generic descriptions like "works" or "ability".
--   Cover both the **positive and negative** scenarios (the ability does something / the ability does not). For abilities with a numeric or count condition, also test **at the boundary and just above/below** (e.g., 0 vs 1 counter, exactly N vs N+1 creatures, overwhelmed vs not overwhelmed).
--   When an ability targets, counts, or affects creatures, assert the result on **every creature in the setup** (friendly + enemy) in battleline order. This catches under- and over-targeting, and guards against unintended side effects on non-targets.
--   When an ability prompts to choose a target, assert `toBeAbleToSelect` / `not.toBeAbleToSelect` for every creature in the setup before clicking.
--   Always use the public getters for token-backed values: `.damage`, `.amber`, `.powerCounters`, `.exhausted`, `.stunned`, `.warded`, `.enraged`. **Never** access `.tokens.damage` / `.tokens.amber` / `.tokens.power` directly in assertions — those return `undefined` when no token is set, while the getters return `0` / `false` and are the contract used by card code.
--   Never assert `.toBeUndefined()` on these token getters. They always have a defined value (default `0` / `false`); assert `.toBe(0)` / `.toBe(false)` instead.
+- Tests should focus on the card's unique abilities, not metadata (house, power, armor, keywords)
+- Keep `beforeEach` setup minimal — only include values like cards or aember that are needed for the test. Don't add starting amber, extra cards, or keys "just in case".
+- **Every** test MUST end with `expect(this.player1).isReadyToTakeAction()` (or `this.player2` if the turn ended). No exceptions. If a card's effect ends the step or turn, click through the resulting house-choice prompt (e.g. `this.player2.clickPrompt('untamed')`) so the assertion can verify the player reached the action prompt cleanly. Leftover prompts are the most common source of false-positive tests — this assertion is what catches them.
+- For longer tests, add comments explaining what each test is setting up.
+- Each test description (`it('...')`) must describe the specific scenario being asserted — avoid generic descriptions like "works" or "ability".
+- Cover both the **positive and negative** scenarios (the ability does something / the ability does not). For abilities with a numeric or count condition, also test **at the boundary and just above/below** (e.g., 0 vs 1 counter, exactly N vs N+1 creatures, overwhelmed vs not overwhelmed).
+- When an ability targets, counts, or affects creatures, assert the result on **every creature in the setup** (friendly + enemy) in battleline order. This catches under- and over-targeting, and guards against unintended side effects on non-targets.
+- When an ability prompts to choose a target, assert `toBeAbleToSelect` / `not.toBeAbleToSelect` for every creature in the setup before clicking.
+- Always use the public getters for token-backed values: `.damage`, `.amber`, `.powerCounters`, `.exhausted`, `.stunned`, `.warded`, `.enraged`. **Never** access `.tokens.damage` / `.tokens.amber` / `.tokens.power` directly in assertions — those return `undefined` when no token is set, while the getters return `0` / `false` and are the contract used by card code.
+- Never assert `.toBeUndefined()` on these token getters. They always have a defined value (default `0` / `false`); assert `.toBe(0)` / `.toBe(false)` instead.
 
 ## Test File Structure
 
@@ -235,15 +235,15 @@ When writing tests, use creatures with minimal abilities to avoid unintended int
 
 **Avoid** using creatures with abilities or keywords unless those abilities/keywords are being specifically tested. When using a creature with an ability or keyword, make sure to account for its effects in your test assertions:
 
--   **Aember bonus** - Gains aember when played, interferes with aember counting
--   **Persistent effects** - Should be completely avoided unless needed to test in combination with the card being tested
--   **Taunt** - Forces fights to target them
--   **Elusive** - Avoids damage from first fight
--   **Assault/Hazardous** - Deals extra damage
--   **Destroyed/Fight/Reap abilities** - May trigger unexpectedly
--   **Armor** - Interferes with damage testing
--   **Play abilities** - Fine for creatures that are used for `inPlay` setup, but avoid for creatures being played during the test
--   **Action/Omni** - These are great because they don't interfere with other actions like Reap/Fight
+- **Aember bonus** - Gains aember when played, interferes with aember counting
+- **Persistent effects** - Should be completely avoided unless needed to test in combination with the card being tested
+- **Taunt** - Forces fights to target them
+- **Elusive** - Avoids damage from first fight
+- **Assault/Hazardous** - Deals extra damage
+- **Destroyed/Fight/Reap abilities** - May trigger unexpectedly
+- **Armor** - Interferes with damage testing
+- **Play abilities** - Fine for creatures that are used for `inPlay` setup, but avoid for creatures being played during the test
+- **Action/Omni** - These are great because they don't interfere with other actions like Reap/Fight
 
 ### Moving Cards Between Zones
 
@@ -329,9 +329,9 @@ this.player1.playUpgrade(this.myUpgrade, this.targetCreature);
 
 **Important:** Always use type-specific methods when available:
 
--   Use `playCreature()` for creatures - handles flank positioning prompts automatically
--   Use `playUpgrade(upgrade, target)` for upgrades - handles target selection
--   Use `play()` only for action cards and artifacts
+- Use `playCreature()` for creatures - handles flank positioning prompts automatically
+- Use `playUpgrade(upgrade, target)` for upgrades - handles target selection
+- Use `play()` only for action cards and artifacts
 
 ### Using Cards
 
@@ -818,15 +818,15 @@ Visit [http://localhost:4000](http://localhost:4000) and log in with test users 
 
 ### Adding Cards to Test
 
--   Create a game and start it
--   Enter manual mode (click the manual mode button or use `/manual`)
--   Add your card to hand:
+- Create a game and start it
+- Enter manual mode (click the manual mode button or use `/manual`)
+- Add your card to hand:
 
     ```text
     /add-card Card Name
     ```
 
--   Test the card's interactions
+- Test the card's interactions
 
 ### Updating Card Data
 
@@ -856,13 +856,13 @@ This outputs the full game log showing all actions taken, which helps identify w
 
 ### Common Issues
 
--   **Couldn't click on X** - The button or prompt you're looking for doesn't exist. Check `this.formatPrompt()` or enable DEBUG_TEST to see current state.
+- **Couldn't click on X** - The button or prompt you're looking for doesn't exist. Check `this.formatPrompt()` or enable DEBUG_TEST to see current state.
 
--   **Cannot end turn now** - Player has a pending prompt that must be resolved first.
+- **Cannot end turn now** - Player has a pending prompt that must be resolved first.
 
--   **Card not found** - Check the card ID matches the JSON data. Card references use camelCase of the ID.
+- **Card not found** - Check the card ID matches the JSON data. Card references use camelCase of the ID.
 
--   **Wrong controller** - Remember cards default to player1 unless specified otherwise in setup.
+- **Wrong controller** - Remember cards default to player1 unless specified otherwise in setup.
 
 ### Inspecting State
 

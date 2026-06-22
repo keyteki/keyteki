@@ -23,9 +23,9 @@ class AmbassadorLiu extends Card {
                     context.preThenEvent.card.hasHouse('shadows')
                         ? 'steal 1 amber'
                         : context.preThenEvent.card.hasHouse('logos') ||
-                          context.preThenEvent.card.hasHouse('untamed')
-                        ? 'gain 2 amber'
-                        : 'capture 3 amber'
+                            context.preThenEvent.card.hasHouse('untamed')
+                          ? 'gain 2 amber'
+                          : 'capture 3 amber'
                 ],
                 gameAction: [
                     ability.actions.steal((context) => ({

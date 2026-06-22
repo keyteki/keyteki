@@ -174,8 +174,8 @@ const ActivePlayerPrompt = (props) => {
             const buttonClass = isCancel
                 ? 'w-full justify-center whitespace-nowrap text-sm capitalize !px-2 !py-1.5 !text-foreground/78'
                 : hasIcon
-                ? 'w-full justify-center whitespace-nowrap text-sm capitalize !px-2 !py-1.5'
-                : 'w-full justify-center whitespace-nowrap text-sm capitalize !px-2 !py-1.5';
+                  ? 'w-full justify-center whitespace-nowrap text-sm capitalize !px-2 !py-1.5'
+                  : 'w-full justify-center whitespace-nowrap text-sm capitalize !px-2 !py-1.5';
 
             const hasTooltip = Boolean(tooltipText) && tooltipText !== buttonText;
 

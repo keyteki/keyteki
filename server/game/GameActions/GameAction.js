@@ -10,7 +10,7 @@ class GameAction {
             throw new Error('Game Actions should only be passed functions or objects');
         } else {
             this.applyProperties(propertyFactory);
-            this.propertyFactory = (context) => propertyFactory; // eslint-disable-line no-unused-vars
+            this.propertyFactory = (context) => propertyFactory;
         }
 
         this.getDefaultTargets = (context) => this.defaultTargets(context);
@@ -91,17 +91,14 @@ class GameAction {
         return context.game.openEventWindow(dummyEvent);
     }
 
-    // eslint-disable-next-line no-unused-vars
     canAffect(target, context) {
         return this.targetType.includes(target.type);
     }
 
-    // eslint-disable-next-line no-unused-vars
     checkEventCondition(event) {
         return true;
     }
 
-    // eslint-disable-next-line no-unused-vars
     defaultTargets(context) {
         return [];
     }
@@ -112,7 +109,7 @@ class GameAction {
      * @param {Object} context
      * @returns {Event}
      */
-    // eslint-disable-next-line no-unused-vars
+
     getEvent(target, context) {
         throw new Error('GameAction.getEvent called');
     }

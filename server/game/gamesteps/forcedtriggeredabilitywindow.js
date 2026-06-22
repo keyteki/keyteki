@@ -279,22 +279,22 @@ class ForcedTriggeredAbilityWindow extends BaseStep {
                 return ability.properties.reap
                     ? ' (reap)'
                     : ability.properties.fight
-                    ? ' (fight)'
-                    : '';
+                      ? ' (fight)'
+                      : '';
             }
             if (event.name === EVENTS.onFight && !ability.properties.fight) {
                 return ability.properties.reap
                     ? ' (reap)'
                     : ability.properties.play
-                    ? ' (play)'
-                    : '';
+                      ? ' (play)'
+                      : '';
             }
             if (event.name === EVENTS.onReap && !ability.properties.reap) {
                 return ability.properties.fight
                     ? ' (fight)'
                     : ability.properties.play
-                    ? ' (play)'
-                    : '';
+                      ? ' (play)'
+                      : '';
             }
         }
 

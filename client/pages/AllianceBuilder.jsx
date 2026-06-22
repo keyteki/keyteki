@@ -613,8 +613,8 @@ const AllianceBuilderPage = () => {
                                     isDisabled
                                         ? 'cursor-not-allowed border-border/50 bg-surface-secondary/50 text-muted opacity-55'
                                         : isSelectedInActiveSlot || isSelectedInAnySlot
-                                        ? 'border-accent/70 bg-accent/20 text-foreground'
-                                        : 'cursor-pointer border-border/70 bg-surface-secondary/75 text-foreground hover:bg-accent/10'
+                                          ? 'border-accent/70 bg-accent/20 text-foreground'
+                                          : 'cursor-pointer border-border/70 bg-surface-secondary/75 text-foreground hover:bg-accent/10'
                                 }`;
 
                                 return (
@@ -708,9 +708,9 @@ const AllianceBuilderPage = () => {
                                             expansionRequiresToken && expansionSupportsProphecy
                                                 ? 'xl:grid-cols-5'
                                                 : expansionRequiresToken ||
-                                                  expansionSupportsProphecy
-                                                ? 'xl:grid-cols-4'
-                                                : 'xl:grid-cols-3'
+                                                    expansionSupportsProphecy
+                                                  ? 'xl:grid-cols-4'
+                                                  : 'xl:grid-cols-3'
                                         }`}
                                     >
                                         {[0, 1, 2].map((slotIndex) => {

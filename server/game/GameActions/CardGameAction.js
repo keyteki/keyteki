@@ -167,7 +167,6 @@ class CardGameAction extends GameAction {
         });
     }
 
-    // eslint-disable-next-line no-unused-vars
     targetsCanChangeViaSimultaneousAction(context) {
         return false;
     }

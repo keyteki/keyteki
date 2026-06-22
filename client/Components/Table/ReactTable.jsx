@@ -559,8 +559,8 @@ function ReactTable({
                                     const sortIcon = !isSortedColumn
                                         ? null
                                         : sortDescriptor.direction === 'descending'
-                                        ? faArrowDownWideShort
-                                        : faArrowUpShortWide;
+                                          ? faArrowDownWideShort
+                                          : faArrowUpShortWide;
 
                                     return (
                                         <Table.Column
@@ -573,8 +573,8 @@ function ReactTable({
                                                 textAlign: isRightAligned
                                                     ? 'right'
                                                     : isCenterAligned
-                                                    ? 'center'
-                                                    : 'left'
+                                                      ? 'center'
+                                                      : 'left'
                                             }}
                                         >
                                             <div className='flex items-center gap-1'>

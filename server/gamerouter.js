@@ -100,10 +100,10 @@ class GameRouter extends EventEmitter {
                 status: worker.disconnected
                     ? 'disconnected'
                     : worker.disabled
-                    ? 'disabled'
-                    : worker.draining
-                    ? 'draining'
-                    : 'active',
+                      ? 'disabled'
+                      : worker.draining
+                        ? 'draining'
+                        : 'active',
                 version: worker.version,
                 draining: worker.draining || false
             };

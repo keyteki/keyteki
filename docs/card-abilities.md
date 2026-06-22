@@ -4,32 +4,32 @@ This document describes how card abilities are defined in Keyteki. All card abil
 
 ## Table of Contents
 
--   [Basic Structure](#basic-structure)
--   [Ability Types](#ability-types)
-    -   [play()](#play)
-    -   [reap()](#reap)
-    -   [fight()](#fight)
-    -   [beforeFight()](#beforefight)
-    -   [destroyed()](#destroyed)
-    -   [action()](#action)
-    -   [omni()](#omni)
-    -   [persistentEffect()](#persistenteffect)
-    -   [whileAttached()](#whileattached)
-    -   [reaction()](#reaction)
-    -   [interrupt()](#interrupt)
-    -   [scrap()](#scrap)
-    -   [fate()](#fate)
-    -   [prophecyInterrupt()](#prophecyinterrupt)
-    -   [prophecyReaction()](#prophecyreaction)
--   [Ability Properties](#ability-properties)
-    -   [Conditions](#conditions)
-    -   [Optional](#optional)
-    -   [Targeting](#targeting)
-    -   [Chaining Effects with "then"](#chaining-effects-with-then)
-    -   [Guarding `preThenContext.target` access](#guarding-prethencontexttarget-access)
--   [Helpers](#helpers)
-    -   [`eachNeighbor`](#eachneighbor)
-    -   [`buildPlayAsCopyEffects`](#buildplayascopyeffects)
+- [Basic Structure](#basic-structure)
+- [Ability Types](#ability-types)
+    - [play()](#play)
+    - [reap()](#reap)
+    - [fight()](#fight)
+    - [beforeFight()](#beforefight)
+    - [destroyed()](#destroyed)
+    - [action()](#action)
+    - [omni()](#omni)
+    - [persistentEffect()](#persistenteffect)
+    - [whileAttached()](#whileattached)
+    - [reaction()](#reaction)
+    - [interrupt()](#interrupt)
+    - [scrap()](#scrap)
+    - [fate()](#fate)
+    - [prophecyInterrupt()](#prophecyinterrupt)
+    - [prophecyReaction()](#prophecyreaction)
+- [Ability Properties](#ability-properties)
+    - [Conditions](#conditions)
+    - [Optional](#optional)
+    - [Targeting](#targeting)
+    - [Chaining Effects with "then"](#chaining-effects-with-then)
+    - [Guarding `preThenContext.target` access](#guarding-prethencontexttarget-access)
+- [Helpers](#helpers)
+    - [`eachNeighbor`](#eachneighbor)
+    - [`buildPlayAsCopyEffects`](#buildplayascopyeffects)
 
 ## Basic Structure
 
@@ -142,18 +142,18 @@ Triggered abilities that activate when the card is destroyed. These are implemen
 
 **Cascaded destructions.** When a `Destroyed:` ability causes further destructions (e.g. Soulkeeper's "Destroyed: destroy the most powerful enemy creature"), those cascaded destructions are **batched into the same destruction window** rather than opening a nested one. This means:
 
--   The active player gets a single ordering prompt across the entire cascade
--   Every card tagged for destruction stays on the board until the whole batch resolves
--   Cascaded cards' own `Destroyed:` abilities are queued as additional orderable choices in the same window
+- The active player gets a single ordering prompt across the entire cascade
+- Every card tagged for destruction stays on the board until the whole batch resolves
+- Cascaded cards' own `Destroyed:` abilities are queued as additional orderable choices in the same window
 
 **Lock-in semantics.** A card's `Destroyed:` triggers are captured at the moment it is tagged for destruction. Abilities granted _after_ tagging (e.g. via a persistent effect that becomes eligible mid-window) do **not** retroactively trigger on already-tagged cards. This prevents dynamically-granted `Destroyed:` abilities from picking up cards that didn't have those abilities at tagging time.
 
 Implications for card implementations:
 
--   A `destroyed()` ability that targets "the most powerful enemy creature", "the creature on the opponent's left flank", etc. must consider creatures that are also tagged for destruction during this same window — they have not yet left play. Selectors and direct lookups (`creaturesInPlay`, `cardsInPlay[i]`, neighbors, flank position) surface tagged-for-destruction cards.
--   Per the rules, a player **cannot _choose_** a tagged-for-destruction creature as a target. When the player has a choice (e.g. ties for "most powerful"), tagged cards are filtered out of the selectable set automatically by the stat selectors (`MostStatCardSelector`, `LeastStatCardSelector`). When there is no choice (e.g. "the creature on the left flank", or a single most-powerful creature), the ability still targets the tagged card; the destroy itself becomes a no-op via `DestroyAction`'s event condition (the original destruction will move it to discard once the window closes).
--   When every candidate meeting the stat threshold is tagged for destruction, the selectors fall back to the top `numCards` of the sorted list (including tagged-for-destruction cards) so downstream effects that reference the chosen target still resolve.
--   `DestroyAction.canAffect` returns true for cards tagged for destruction so that selectors can see them. The destroy is short-circuited at event-resolve time, not at target-selection time.
+- A `destroyed()` ability that targets "the most powerful enemy creature", "the creature on the opponent's left flank", etc. must consider creatures that are also tagged for destruction during this same window — they have not yet left play. Selectors and direct lookups (`creaturesInPlay`, `cardsInPlay[i]`, neighbors, flank position) surface tagged-for-destruction cards.
+- Per the rules, a player **cannot _choose_** a tagged-for-destruction creature as a target. When the player has a choice (e.g. ties for "most powerful"), tagged cards are filtered out of the selectable set automatically by the stat selectors (`MostStatCardSelector`, `LeastStatCardSelector`). When there is no choice (e.g. "the creature on the left flank", or a single most-powerful creature), the ability still targets the tagged card; the destroy itself becomes a no-op via `DestroyAction`'s event condition (the original destruction will move it to discard once the window closes).
+- When every candidate meeting the stat threshold is tagged for destruction, the selectors fall back to the top `numCards` of the sorted list (including tagged-for-destruction cards) so downstream effects that reference the chosen target still resolve.
+- `DestroyAction.canAffect` returns true for cards tagged for destruction so that selectors can see them. The destroy is short-circuited at event-resolve time, not at target-selection time.
 
 ```javascript
 // Destroyed: Gain 2A.
@@ -510,11 +510,11 @@ This shows the target prompt directly with a "Done" button to decline. Putting `
 
 **Use ability-level `optional: true` when:**
 
--   The ability has no `target:` block (e.g., "you may exalt this creature", "you may forge a key").
--   The ability has a `then:` and the player should be able to atomically decline both the target and the `then` effect (e.g., Nirbor Flamewing).
--   The ability uses `targets:` (plural) with multiple targets, and declining should skip all of them together.
--   The ability uses `mode: 'house'` or `mode: 'select'` (a choice prompt rather than a card-target prompt).
--   The ability is a triggered `reaction` / `interrupt` where the global "Any reactions?" prompt is the desired UX (so the target prompt doesn't pop up every time the trigger fires).
+- The ability has no `target:` block (e.g., "you may exalt this creature", "you may forge a key").
+- The ability has a `then:` and the player should be able to atomically decline both the target and the `then` effect (e.g., Nirbor Flamewing).
+- The ability uses `targets:` (plural) with multiple targets, and declining should skip all of them together.
+- The ability uses `mode: 'house'` or `mode: 'select'` (a choice prompt rather than a card-target prompt).
+- The ability is a triggered `reaction` / `interrupt` where the global "Any reactions?" prompt is the desired UX (so the target prompt doesn't pop up every time the trigger fires).
 
 ```javascript
 // Play: You may exalt Dino-Knight. If you do, deal 3D to a creature.
@@ -585,9 +585,9 @@ this.play({
 
 The `then` block supports:
 
--   `alwaysTriggers: true` - The "then" effect triggers even if the main effect didn't fully resolve
--   `condition` - Additional condition for the "then" effect
--   `may` - Prompt text if the player can choose whether to do the "then" effect
+- `alwaysTriggers: true` - The "then" effect triggers even if the main effect didn't fully resolve
+- `condition` - Additional condition for the "then" effect
+- `may` - Prompt text if the player can choose whether to do the "then" effect
 
 #### "If you do" Clauses
 
@@ -605,9 +605,9 @@ this.omni({
 
 For chained "If you do" clauses (e.g. "Capture 2A. You may discard a card. If you do, ..."), each clause's condition must verify what really happened, not the final card state. Common pitfalls:
 
--   **Don't infer success from card state.** `source.hasToken('amber')` is true even if amber was already on the card before the ability resolved — it does not prove a capture succeeded this turn.
--   **Inspect `preThenEvents` for the actual events.** Each event has a `name` and result fields (e.g. `amount` for `onCapture`). Use these to confirm the effect occurred at the required magnitude.
--   **Check optional target selection with `!!preThenContext.target`.** When `target.optional` is true, `target` is empty/falsy if the player declined.
+- **Don't infer success from card state.** `source.hasToken('amber')` is true even if amber was already on the card before the ability resolved — it does not prove a capture succeeded this turn.
+- **Inspect `preThenEvents` for the actual events.** Each event has a `name` and result fields (e.g. `amount` for `onCapture`). Use these to confirm the effect occurred at the required magnitude.
+- **Check optional target selection with `!!preThenContext.target`.** When `target.optional` is true, `target` is empty/falsy if the player declined.
 
 ```javascript
 // After Reap: Capture 2A. You may discard a card.
@@ -800,9 +800,9 @@ Shared utility functions in `server/game/helpers/` that reduce boilerplate in ca
 
 For the common pattern "do X to each of this creature's neighbors, one at a time" (e.g. Ghosthawk, Badgemagus, Prof. Emeritus Kering). It handles:
 
--   Letting the player choose one neighbor first
--   Directionally resolving the second neighbor (opposite side)
--   Falling back to pre-leave snapshots if the source dies mid-resolution (via `leftNeighbor()` / `rightNeighbor()`)
+- Letting the player choose one neighbor first
+- Directionally resolving the second neighbor (opposite side)
+- Falling back to pre-leave snapshots if the source dies mid-resolution (via `leftNeighbor()` / `rightNeighbor()`)
 
 ```javascript
 const { eachNeighbor } = require('../../helpers/eachNeighbor');
@@ -850,10 +850,10 @@ this.play({
 
 Builds the array of lasting effects needed when a card plays as a copy of another card (e.g. Mimicry, Mimic Gel). Handles:
 
--   Copying the target's text box (via `copyCard` effect for creatures, or gained abilities for actions)
--   Custom display name (`"Source as Target"`)
--   Alpha keyword restriction (returns card to hand instead of resolving abilities)
--   Snapshotting power/armor/keywords from transforming sources (e.g. animated artifacts)
+- Copying the target's text box (via `copyCard` effect for creatures, or gained abilities for actions)
+- Custom display name (`"Source as Target"`)
+- Alpha keyword restriction (returns card to hand instead of resolving abilities)
+- Snapshotting power/armor/keywords from transforming sources (e.g. animated artifacts)
 
 ```javascript
 const { buildPlayAsCopyEffects } = require('../../helpers/playAsCopy');

@@ -15,8 +15,8 @@ For a set that only reprints existing cards, you only need to register the set s
 
 You will need two pieces of information up front:
 
--   **`ExpansionId`** — the numeric set identifier used by the Master Vault API (e.g. `939` for VM2025, `964` for VM2026).
--   **Set code and full name** — short code used in URLs/DB (e.g. `VM2026`) and the display name (e.g. `Vault Masters 2026`).
+- **`ExpansionId`** — the numeric set identifier used by the Master Vault API (e.g. `939` for VM2025, `964` for VM2026).
+- **Set code and full name** — short code used in URLs/DB (e.g. `VM2026`) and the display name (e.g. `Vault Masters 2026`).
 
 ### Files to update
 
@@ -33,24 +33,24 @@ You will need two pieces of information up front:
 
 ### Other notes
 
--   **Set icon images** — drop two PNGs keyed by `ExpansionId` into `client/assets/img/`:
+- **Set icon images** — drop two PNGs keyed by `ExpansionId` into `client/assets/img/`:
 
-    -   `client/assets/img/idbacks/<ExpansionId>.png` — small set icon (used on card backs and in compact lists)
-    -   `client/assets/img/<ExpansionId>.png` — larger deck icon (used in the lobby and deck lists)
+    - `client/assets/img/idbacks/<ExpansionId>.png` — small set icon (used on card backs and in compact lists)
+    - `client/assets/img/<ExpansionId>.png` — larger deck icon (used in the lobby and deck lists)
 
     Both are wired up automatically by the loop in [client/constants.js](../client/constants.js) that populates `SetIconPaths` and `DeckIconPaths`. Use an existing set as a size/style reference (e.g. `939.png` for VM2025).
 
--   **Locales** — set names use `t('Full Name')` so English is the natural fallback; new locale entries are only needed if a translator provides them.
--   **`master-vault-data`** — must contain a pack file (e.g. `packs/VM25.json`, matching upstream MV naming) before `npm run fetchdata` can import cards. If the pack file doesn't yet exist the rest of the scaffolding can still ship.
--   **No card or test files are required** for a reprint-only set — existing card implementations are reused based on card name.
+- **Locales** — set names use `t('Full Name')` so English is the natural fallback; new locale entries are only needed if a translator provides them.
+- **`master-vault-data`** — must contain a pack file (e.g. `packs/VM25.json`, matching upstream MV naming) before `npm run fetchdata` can import cards. If the pack file doesn't yet exist the rest of the scaffolding can still ship.
+- **No card or test files are required** for a reprint-only set — existing card implementations are reused based on card name.
 
 ### Verification
 
 After making the changes:
 
--   `npm run lint`
--   `npm test`
--   For a full local DB import: apply the migration (see below) and then re-run `npm run fetchdata -- --no-images`.
+- `npm run lint`
+- `npm test`
+- For a full local DB import: apply the migration (see below) and then re-run `npm run fetchdata -- --no-images`.
 
 ### Applying the migration locally
 
@@ -100,19 +100,19 @@ A set with new cards builds on the reprint-only checklist above and adds card da
 
 ### Card data and implementations
 
--   Update `master-vault-data` so that the new pack file (e.g. `packs/<CODE>.json`) exists with `ids`, `code`, `name`, `cardCount`, and `cards`.
--   Create a new card directory under [server/game/cards/](../server/game/cards) named `<N>-<CODE>/` (where `<N>` is the next sequential prefix). One `.js` file per implemented card. Follow the conventions in [implementing-cards.md](implementing-cards.md) and use the most recent set as your style reference.
--   Create a parallel test directory under [test/server/cards/](../test/server/cards) named `<N>-<CODE>/`. One `.spec.js` per card following [testing-cards.md](testing-cards.md) and [card-messages.md](card-messages.md).
+- Update `master-vault-data` so that the new pack file (e.g. `packs/<CODE>.json`) exists with `ids`, `code`, `name`, `cardCount`, and `cards`.
+- Create a new card directory under [server/game/cards/](../server/game/cards) named `<N>-<CODE>/` (where `<N>` is the next sequential prefix). One `.js` file per implemented card. Follow the conventions in [implementing-cards.md](implementing-cards.md) and use the most recent set as your style reference.
+- Create a parallel test directory under [test/server/cards/](../test/server/cards) named `<N>-<CODE>/`. One `.spec.js` per card following [testing-cards.md](testing-cards.md) and [card-messages.md](card-messages.md).
 
 ### Engine extensions (only if introduced by the set)
 
 The DM PR ([#5003](https://github.com/keyteki/keyteki/pull/5003)) is the canonical example of a content-heavy set. Look at it for working patterns when the set introduces any of the following:
 
--   **New house** — update `Constants.Houses` and `Constants.HousesNames` in `server/constants.js`, add icons/backgrounds (`client/assets/img/`), tailwind/CSS entries, and wire the house through `client/constants.js` icon paths.
--   **New token type** (e.g. Corrosion) — add to `CardImage`, `archonMaker.js`, `GameActions`, tokens images, and any rules-engine effects that interact with it.
--   **New bonus icon** (e.g. Power) — extend `EnhancementPips` in `client/constants.js`, add the enhancement image, and update the card-enhancement parsing/runtime in `server/game/cards/CardEnhancements.js`.
--   **New keywords or mechanics** — implement in `server/game/keywords/` or the appropriate game step, and document under [keywords.md](keywords.md).
--   **Engine rule changes** (e.g. Hazardous ignoring, Invulnerability, AllocateCaptureAction) — implement in the corresponding game-step or game-action files and add focused tests.
+- **New house** — update `Constants.Houses` and `Constants.HousesNames` in `server/constants.js`, add icons/backgrounds (`client/assets/img/`), tailwind/CSS entries, and wire the house through `client/constants.js` icon paths.
+- **New token type** (e.g. Corrosion) — add to `CardImage`, `archonMaker.js`, `GameActions`, tokens images, and any rules-engine effects that interact with it.
+- **New bonus icon** (e.g. Power) — extend `EnhancementPips` in `client/constants.js`, add the enhancement image, and update the card-enhancement parsing/runtime in `server/game/cards/CardEnhancements.js`.
+- **New keywords or mechanics** — implement in `server/game/keywords/` or the appropriate game step, and document under [keywords.md](keywords.md).
+- **Engine rule changes** (e.g. Hazardous ignoring, Invulnerability, AllocateCaptureAction) — implement in the corresponding game-step or game-action files and add focused tests.
 
 ### Anomaly handling (only if the set introduces or reprints anomalies)
 
@@ -120,6 +120,6 @@ Anomaly cards belong to a different house than their printed expansion. Update t
 
 ### Verification
 
--   `npm run lint`
--   `npm test` — run focused suites first (`npx vitest test/server/cards/<N>-<CODE>`), then the full suite.
--   Manually smoke-test the lobby filter and sealed-deck generation for the new set.
+- `npm run lint`
+- `npm test` — run focused suites first (`npx vitest test/server/cards/<N>-<CODE>`), then the full suite.
+- Manually smoke-test the lobby filter and sealed-deck generation for the new set.

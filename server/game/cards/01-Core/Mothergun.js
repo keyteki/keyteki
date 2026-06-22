@@ -3,7 +3,6 @@ const Card = require('../../Card.js');
 class Mothergun extends Card {
     // Action: Reveal any number of Mars cards from your hand. Deal damage to a creature equal to the number of Mars cards revealed this way.
     setupCardAbilities(ability) {
-        // eslint-disable-line no-unused-vars
         this.action({
             targets: {
                 reveal: {

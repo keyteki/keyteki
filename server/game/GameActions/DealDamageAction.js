@@ -4,7 +4,7 @@ const CardGameAction = require('./CardGameAction');
 class DealDamageAction extends CardGameAction {
     setDefaultProperties() {
         this.amount = null;
-        this.amountForCard = (card, context) => 1; // eslint-disable-line no-unused-vars
+        this.amountForCard = (card, context) => 1;
         this.fightEvent = null;
         this.damageSource = null;
         this.damageType = 'card effect';

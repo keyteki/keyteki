@@ -5,13 +5,13 @@ class VineappleTree extends Card {
     // After a key is forged, remove each growth counter from Vineapple Tree.
     // Action: Put a growth counter on Vineapple Tree.
     setupCardAbilities(ability) {
-        this.action({
+        (this.action({
             gameAction: ability.actions.addGrowthCounter()
         }),
             this.persistentEffect({
                 targetController: 'any',
                 effect: ability.effects.modifyKeyCost(() => this.tokens.growth || 0)
-            });
+            }));
         this.reaction({
             when: {
                 onForgeKey: () => true

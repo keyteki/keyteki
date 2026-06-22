@@ -16,8 +16,8 @@ class ReturnAmberAction extends CardGameAction {
             this.recipient
                 ? this.recipient.name + "'s"
                 : this.controllerRecipient
-                ? "their controller's"
-                : 'their'
+                  ? "their controller's"
+                  : 'their'
         } pool`;
     }
 

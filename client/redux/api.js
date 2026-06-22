@@ -27,11 +27,11 @@ const isUnauthorizedError = (error = {}) => {
 
     return Boolean(
         rawStatus ||
-            error.status === 401 ||
-            error.originalStatus === 401 ||
-            error.data?.status === 401 ||
-            error.message === 'Unauthorized' ||
-            error.data?.message === 'Unauthorized'
+        error.status === 401 ||
+        error.originalStatus === 401 ||
+        error.data?.status === 401 ||
+        error.message === 'Unauthorized' ||
+        error.data?.message === 'Unauthorized'
     );
 };
 

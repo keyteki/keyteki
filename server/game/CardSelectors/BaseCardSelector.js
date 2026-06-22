@@ -110,7 +110,6 @@ class BaseCardSelector {
         return this.findPossibleCards(context).filter((card) => this.canTarget(card, context));
     }
 
-    // eslint-disable-next-line no-unused-vars
     hasEnoughSelected(selectedCards, context) {
         return Optional.EvalOptional(context, this.optional) || selectedCards.length > 0;
     }
@@ -127,17 +126,14 @@ class BaseCardSelector {
         return false;
     }
 
-    // eslint-disable-next-line no-unused-vars
     wouldExceedLimit(selectedCards, card) {
         return false;
     }
 
-    // eslint-disable-next-line no-unused-vars
     hasReachedLimit(selectedCards) {
         return false;
     }
 
-    // eslint-disable-next-line no-unused-vars
     hasExceededLimit(selectedCards) {
         return false;
     }

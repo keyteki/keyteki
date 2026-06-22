@@ -48,12 +48,10 @@ class Effect {
         this.effect.setContext(this.context);
     }
 
-    // eslint-disable-next-line no-unused-vars
     isValidTarget(target) {
         return true;
     }
 
-    // eslint-disable-next-line no-unused-vars
     getDefaultTarget(context) {
         return null;
     }

@@ -21,9 +21,9 @@ class TheColosseum extends Card {
                 this.tokens.glory >= 6 && context.player.amber >= context.player.getCurrentKeyCost()
                     ? 'discard 6 glory counters and forge a key at current cost'
                     : this.tokens.glory >= 6 &&
-                      context.player.amber < context.player.getCurrentKeyCost()
-                    ? 'discard 6 glory counters'
-                    : 'do nothing'
+                        context.player.amber < context.player.getCurrentKeyCost()
+                      ? 'discard 6 glory counters'
+                      : 'do nothing'
             ],
             gameAction: ability.actions.clearGloryCounters(() => {
                 return { amount: this.tokens.glory >= 6 ? 6 : 0 };

@@ -5,7 +5,8 @@
 
 @layer base {
     :root {
-        --font-sans: 'Noto Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
+        --font-sans:
+            'Noto Sans', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto,
             'Helvetica Neue', Arial, sans-serif;
         --card-base-height: 91px;
         --card-base-width: 65px;
@@ -187,7 +188,9 @@
 }
 
 .shadow {
-    box-shadow: 0 0 12px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba(255, 255, 255, 0.1);
+    box-shadow:
+        0 0 12px rgba(0, 0, 0, 0.4),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.1);
 }
 
 html,
@@ -520,10 +523,16 @@ pre {
     --base-shadow: 0 0 14px #00000073, inset 0 0 0 1px #ffffff1a;
     position: relative;
     border-radius: 8px;
-    box-shadow: 0 0 0 var(--ring-w) var(--c-ring), var(--extra-shadow), var(--base-shadow);
+    box-shadow:
+        0 0 0 var(--ring-w) var(--c-ring),
+        var(--extra-shadow),
+        var(--base-shadow);
     overflow: hidden;
     z-index: 10;
-    transition: transform 120ms ease, box-shadow 120ms ease, filter 120ms ease;
+    transition:
+        transform 120ms ease,
+        box-shadow 120ms ease,
+        filter 120ms ease;
 }
 .game-card.small {
     --card-scale: var(--card-scale-small);
@@ -642,7 +651,9 @@ pre {
     font-size: 11px;
     line-height: 1;
     font-weight: 700;
-    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.35);
+    box-shadow:
+        0 0 0 2px rgba(0, 0, 0, 0.6),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.35);
     z-index: 3;
     pointer-events: none;
 }
@@ -1894,7 +1905,9 @@ pre {
 }
 
 .player-home-row-container.inactive-turn .panel.hand .game-card {
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.34), inset 0 0 0 1px rgba(255, 255, 255, 0.07);
+    box-shadow:
+        0 0 10px rgba(0, 0, 0, 0.34),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.07);
 }
 
 .keys {

@@ -4,60 +4,60 @@ Game actions are the atomic operations that modify game state. They are accessed
 
 ## Table of Contents
 
--   [Basic Usage](#basic-usage)
--   [Card Actions](#card-actions)
-    -   [archive({ target })](#archive-target-)
-    -   [capture({ amount })](#capture-amount-)
-    -   [dealDamage({ amount, target })](#dealdamage-amount-target-)
-    -   [destroy({ target })](#destroy-target-)
-    -   [discard({ target })](#discard-target-)
-    -   [enrage({ target })](#enrage-target-)
-    -   [exalt({ amount })](#exalt-amount-)
-    -   [exhaust({ target })](#exhaust-target-)
-    -   [fight({ target })](#fight-target-)
-    -   [heal({ amount, target })](#heal-amount-target-)
-    -   [moveToFlank({ target, left })](#movetoflank-target-left-)
-    -   [placeAmber({ amount })](#placeamber-amount-)
-    -   [placeUnder({ parent })](#placeunder-parent-)
-    -   [purge({ target })](#purge-target-)
-    -   [putIntoPlay({ target })](#putintoplay-target-)
-    -   [ready({ target })](#ready-target-)
-    -   [reap({ target })](#reap-target-)
-    -   [removeStun({ target })](#removestun-target-)
-    -   [removeWard({ target })](#removeward-target-)
-    -   [returnToDeck({ bottom, shuffle })](#returntodeck-bottom-shuffle-)
-    -   [returnToHand({ target })](#returntohand-target-)
-    -   [sacrifice({ target })](#sacrifice-target-)
-    -   [stun({ target })](#stun-target-)
-    -   [swap({ origin })](#swap-origin-)
-    -   [use({ target })](#use-target-)
-    -   [ward({ target })](#ward-target-)
--   [Player Actions](#player-actions)
-    -   [chosenDiscard({ amount })](#chosendiscard-amount-)
-    -   [discardAtRandom({ amount })](#discardatrandom-amount-)
-    -   [discardTopOfDeck({ amount })](#discardtopofdeck-amount-)
-    -   [draw({ amount })](#draw-amount-)
-    -   [forgeKey({ modifier })](#forgekey-modifier-)
-    -   [gainAmber({ amount })](#gainamber-amount-)
-    -   [gainChains({ amount })](#gainchains-amount-)
-    -   [loseAmber({ amount })](#loseamber-amount-)
-    -   [makeTokenCreature({ amount })](#maketokencreature-amount-)
-    -   [steal({ amount })](#steal-amount-)
-    -   [shuffleDeck()](#shuffledeck)
--   [Token Actions](#token-actions)
-    -   [addPowerCounter({ amount })](#addpowercounter-amount-)
-    -   [addDamageToken({ amount })](#adddamagetoken-amount-)
-    -   [removeDamage({ amount })](#removedamage-amount-)
-    -   [removeAmber({ amount })](#removeamber-amount-)
--   [Meta Actions](#meta-actions)
-    -   [sequential(gameActions)](#sequentialgameactions)
-    -   [chooseAction({ choices })](#chooseaction-choices-)
-    -   [conditional({ condition, trueGameAction, falseGameAction })](#conditional-condition-truegameaction-falsegameaction-)
--   [Lasting Effect Actions](#lasting-effect-actions)
-    -   [cardLastingEffect({ duration, effect })](#cardlastingeffect-duration-effect-)
-    -   [untilPlayerTurnEnd({ effect })](#untilplayerturnend-effect-)
-    -   [duringOpponentNextTurn({ effect })](#duringopponentnextturn-effect-)
--   [Dynamic Properties](#dynamic-properties)
+- [Basic Usage](#basic-usage)
+- [Card Actions](#card-actions)
+    - [archive({ target })](#archive-target-)
+    - [capture({ amount })](#capture-amount-)
+    - [dealDamage({ amount, target })](#dealdamage-amount-target-)
+    - [destroy({ target })](#destroy-target-)
+    - [discard({ target })](#discard-target-)
+    - [enrage({ target })](#enrage-target-)
+    - [exalt({ amount })](#exalt-amount-)
+    - [exhaust({ target })](#exhaust-target-)
+    - [fight({ target })](#fight-target-)
+    - [heal({ amount, target })](#heal-amount-target-)
+    - [moveToFlank({ target, left })](#movetoflank-target-left-)
+    - [placeAmber({ amount })](#placeamber-amount-)
+    - [placeUnder({ parent })](#placeunder-parent-)
+    - [purge({ target })](#purge-target-)
+    - [putIntoPlay({ target })](#putintoplay-target-)
+    - [ready({ target })](#ready-target-)
+    - [reap({ target })](#reap-target-)
+    - [removeStun({ target })](#removestun-target-)
+    - [removeWard({ target })](#removeward-target-)
+    - [returnToDeck({ bottom, shuffle })](#returntodeck-bottom-shuffle-)
+    - [returnToHand({ target })](#returntohand-target-)
+    - [sacrifice({ target })](#sacrifice-target-)
+    - [stun({ target })](#stun-target-)
+    - [swap({ origin })](#swap-origin-)
+    - [use({ target })](#use-target-)
+    - [ward({ target })](#ward-target-)
+- [Player Actions](#player-actions)
+    - [chosenDiscard({ amount })](#chosendiscard-amount-)
+    - [discardAtRandom({ amount })](#discardatrandom-amount-)
+    - [discardTopOfDeck({ amount })](#discardtopofdeck-amount-)
+    - [draw({ amount })](#draw-amount-)
+    - [forgeKey({ modifier })](#forgekey-modifier-)
+    - [gainAmber({ amount })](#gainamber-amount-)
+    - [gainChains({ amount })](#gainchains-amount-)
+    - [loseAmber({ amount })](#loseamber-amount-)
+    - [makeTokenCreature({ amount })](#maketokencreature-amount-)
+    - [steal({ amount })](#steal-amount-)
+    - [shuffleDeck()](#shuffledeck)
+- [Token Actions](#token-actions)
+    - [addPowerCounter({ amount })](#addpowercounter-amount-)
+    - [addDamageToken({ amount })](#adddamagetoken-amount-)
+    - [removeDamage({ amount })](#removedamage-amount-)
+    - [removeAmber({ amount })](#removeamber-amount-)
+- [Meta Actions](#meta-actions)
+    - [sequential(gameActions)](#sequentialgameactions)
+    - [chooseAction({ choices })](#chooseaction-choices-)
+    - [conditional({ condition, trueGameAction, falseGameAction })](#conditional-condition-truegameaction-falsegameaction-)
+- [Lasting Effect Actions](#lasting-effect-actions)
+    - [cardLastingEffect({ duration, effect })](#cardlastingeffect-duration-effect-)
+    - [untilPlayerTurnEnd({ effect })](#untilplayerturnend-effect-)
+    - [duringOpponentNextTurn({ effect })](#duringopponentnextturn-effect-)
+- [Dynamic Properties](#dynamic-properties)
 
 ## Basic Usage
 
@@ -120,20 +120,20 @@ code.
 
 When to use `abduct` vs `archive`:
 
--   Use `archive` when the card's text simply puts a card into archives with no
-    "owner's hand instead" clause.
--   Use `abduct` when the card's text explicitly says the archived card is
-    redirected to its owner's hand if it leaves your archives. The trigger is
-    the card's text, not runtime ownership: `abduct` always sends the card to
-    its **owner's** hand on leaving archives, even when the abductor and the
-    owner are the same player. (Compare with cards like Yzphyz Knowdrone,
-    which return an abducted card to its owner regardless of who archived it.)
--   Read each card's redirection clause carefully. The redirection may apply
-    to only some of the targets, and "friendly/enemy" in card text refers to
-    **control**, not ownership — control can switch sides, so a "friendly"
-    creature may be owned by your opponent and vice versa. Wire each target
-    to `archive` or `abduct` based strictly on whether that target's clause
-    in the text contains the "owner's hand instead" redirection.
+- Use `archive` when the card's text simply puts a card into archives with no
+  "owner's hand instead" clause.
+- Use `abduct` when the card's text explicitly says the archived card is
+  redirected to its owner's hand if it leaves your archives. The trigger is
+  the card's text, not runtime ownership: `abduct` always sends the card to
+  its **owner's** hand on leaving archives, even when the abductor and the
+  owner are the same player. (Compare with cards like Yzphyz Knowdrone,
+  which return an abducted card to its owner regardless of who archived it.)
+- Read each card's redirection clause carefully. The redirection may apply
+  to only some of the targets, and "friendly/enemy" in card text refers to
+  **control**, not ownership — control can switch sides, so a "friendly"
+  creature may be owned by your opponent and vice versa. Wire each target
+  to `archive` or `abduct` based strictly on whether that target's clause
+  in the text contains the "owner's hand instead" redirection.
 
 ```javascript
 // Simple abduct of an enemy creature
@@ -684,8 +684,8 @@ ability.actions.destroy((context) => ({
 
 The context object contains:
 
--   `context.source` - The card triggering the ability
--   `context.player` - The player who controls the source
--   `context.game` - The game state
--   `context.target` - The selected target (if targeting was used)
--   `context.event` - The triggering event (for reactions/interrupts)
+- `context.source` - The card triggering the ability
+- `context.player` - The player who controls the source
+- `context.game` - The game state
+- `context.target` - The selected target (if targeting was used)
+- `context.event` - The triggering event (for reactions/interrupts)

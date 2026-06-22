@@ -3,7 +3,6 @@ const Card = require('../../Card.js');
 class AnnihilationRitual extends Card {
     // When a creature would enter a discard pile from play, it is purged instead.
     setupCardAbilities(ability) {
-        // eslint-disable-line no-unused-vars
         this.reaction({
             when: {
                 onCardPlaced: (event) =>

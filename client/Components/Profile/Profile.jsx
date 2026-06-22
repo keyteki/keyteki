@@ -255,12 +255,12 @@ const Profile = ({ onSubmit, isLoading }) => {
                                         {activeSection === ProfileSection.Account
                                             ? t('Account')
                                             : activeSection === ProfileSection.Integrations
-                                            ? t('Integrations')
-                                            : activeSection === ProfileSection.Appearance
-                                            ? t('Appearance')
-                                            : activeSection === ProfileSection.Gameplay
-                                            ? t('Gameplay')
-                                            : t('Settings')}
+                                              ? t('Integrations')
+                                              : activeSection === ProfileSection.Appearance
+                                                ? t('Appearance')
+                                                : activeSection === ProfileSection.Gameplay
+                                                  ? t('Gameplay')
+                                                  : t('Settings')}
                                     </h2>
                                 </header>
                                 <div className='min-h-0 flex-1 overflow-y-auto px-3 py-3'>

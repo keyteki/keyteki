@@ -32,7 +32,6 @@ class UiPrompt extends BaseStep {
         return player === this.game.activePlayer;
     }
 
-    // eslint-disable-next-line no-unused-vars
     activePrompt(player) {}
 
     addDefaultCommandToButtons(original) {
@@ -87,7 +86,6 @@ class UiPrompt extends BaseStep {
         return this.menuCommand(player, arg, method);
     }
 
-    // eslint-disable-next-line no-unused-vars
     menuCommand(player, arg, method) {
         return true;
     }

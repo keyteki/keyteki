@@ -125,8 +125,8 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
                                 : player.deck?.name
                             : t('No deck selected')
                         : deckSelected
-                        ? t('Selected')
-                        : t('Not selected');
+                          ? t('Selected')
+                          : t('Not selected');
 
                     return (
                         <div
