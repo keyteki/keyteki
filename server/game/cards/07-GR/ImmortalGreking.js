@@ -16,7 +16,7 @@ class ImmortalGreking extends Card {
                         duration: 'lastingEffect',
                         effect: [
                             ability.effects.takeControl(context.source.controller),
-                            ability.effects.takeControlOnRight()
+                            ability.effects.takeControlPlacement('right')
                         ]
                     })),
                     ability.actions.moveOnBattleline((context) => ({
