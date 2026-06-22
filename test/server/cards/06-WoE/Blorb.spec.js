@@ -42,4 +42,30 @@ describe('Blorb', function () {
             expect(this.toad.location).toBe('discard');
         });
     });
+
+    describe("Stolen Blorb's destruction", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    token: 'blorb',
+                    house: 'mars',
+                    inPlay: ['blorb:toad', 'blypyp']
+                },
+                player2: {
+                    amber: 5,
+                    token: 'blorb',
+                    inPlay: ['troll'],
+                    discard: ['blorb-hive']
+                }
+            });
+
+            this.toad = this.blorb;
+        });
+
+        it('should not return blorb-hive from the opponents discard pile', function () {
+            this.player1.fightWith(this.blorb, this.troll);
+            this.player1.clickCard(this.blorbHive);
+            expect(this.blorbHive.location).toBe('discard');
+        });
+    });
 });

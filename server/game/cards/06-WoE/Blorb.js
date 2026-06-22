@@ -14,6 +14,7 @@ class Blorb extends Card {
                 cardType: 'artifact',
                 cardCondition: (card) => card.name === 'Blorb Hive',
                 location: 'discard',
+                controller: 'self',
                 gameAction: ability.actions.returnToHand({
                     location: 'discard'
                 })
