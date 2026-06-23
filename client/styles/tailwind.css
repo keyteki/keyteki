@@ -488,6 +488,16 @@ pre {
     top: calc((var(--card-half-width) - var(--card-half-height)) / 2);
     border-radius: 10px;
 }
+.card-image.halfSize {
+    @apply overflow-hidden rounded-[inherit];
+}
+.half-size-cardback {
+    @apply block w-full;
+    aspect-ratio: 300 / 420;
+}
+.half-size-cardback > * {
+    @apply h-full w-full;
+}
 
 .card-name {
     font-size: 10px;
@@ -759,7 +769,6 @@ pre {
     --underneath-half-card-height: calc(
         var(--card-half-base-width) * var(--card-scale) * var(--card-half-aspect-ratio)
     );
-    margin-left: 0;
     position: relative;
     z-index: 9;
     margin-top: calc(-1 * (var(--underneath-card-height) - var(--underneath-offset)));
@@ -2113,13 +2122,15 @@ span.stat-digit {
 .squishable-card-panel {
     display: flex;
     justify-content: flex-start;
-    margin-left: 5px;
-    margin-right: 5px;
     min-height: 0;
     padding: 0px;
     position: relative;
 }
-.squishable-card-panel .card-wrapper {
+.squishable-card-panel.hand {
+    margin-left: 5px;
+    margin-right: 5px;
+}
+.squishable-card-panel.hand .card-wrapper {
     margin: 0 5px 0 0;
 }
 .squishable-card-panel.hand {

@@ -24,10 +24,10 @@ const SquishableCardPanel = (props) => {
 
     const cardDimensions = useMemo(
         () => ({
-            width: 65 * cardSizeMultiplier,
-            height: 91 * cardSizeMultiplier
+            width: (props.halfSize ? 75 : 65) * cardSizeMultiplier,
+            height: (props.halfSize ? 75 * 0.875 : 91) * cardSizeMultiplier
         }),
-        [cardSizeMultiplier]
+        [cardSizeMultiplier, props.halfSize]
     );
 
     const overallDimensions = useMemo(
@@ -62,6 +62,7 @@ const SquishableCardPanel = (props) => {
                 cardBack={props.cardBack}
                 disableMouseOver={false}
                 canDrag={props.manualMode}
+                halfSize={props.halfSize}
                 onClick={props.onCardClick}
                 onMouseOver={props.onMouseOver}
                 onMouseOut={props.onMouseOut}
@@ -78,6 +79,7 @@ const SquishableCardPanel = (props) => {
 
     const className = classNames('squishable-card-panel', props.className, {
         [props.cardSize]: props.cardSize !== 'normal',
+        halfSize: props.halfSize,
         squish: needsSquish
     });
 
@@ -99,10 +101,12 @@ const SquishableCardPanel = (props) => {
 
 SquishableCardPanel.displayName = 'SquishableCardPanel';
 SquishableCardPanel.propTypes = {
+    cardBack: PropTypes.node,
     cardSize: PropTypes.string,
     cards: PropTypes.array,
     className: PropTypes.string,
     groupVisibleCards: PropTypes.bool,
+    halfSize: PropTypes.bool,
     manualMode: PropTypes.bool,
     maxCards: PropTypes.number,
     onCardClick: PropTypes.func,
