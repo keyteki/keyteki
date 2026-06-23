@@ -34,6 +34,9 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
         // Snapshot of choices after each resolution. addChoice rejects
         // any (ability, event) pair not in this set.
         this.lockedInChoices = [];
+        // Replacement actions stored by ReplaceDestructionAction during
+        // ability resolution. Executed after all abilities resolve.
+        this.pendingReplacements = [];
     }
 
     addChoice(context) {
@@ -81,10 +84,104 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
         // future iterations enforce the lock-in.
         this.newlyTaggedLeavesPlayEvents.clear();
         if (result) {
+            if (this.pendingReplacements.length > 0) {
+                // Keep the window active so replacement-caused destructions
+                // (e.g. AC destroying itself) batch into this window.
+                this.game.currentDestructionWindow = this;
+                this.executeReplacementActions();
+                this.pendingReplacements = [];
+                return false; // stay in pipeline; queued steps run first
+            }
+            // No more replacements or cascaded triggers — clean up.
             this.game.currentDestructionWindow = null;
+            this.cancelReplacedEvents();
             this.discardAllTaggedCards();
         }
         return result;
+    }
+
+    // Execute pending replacement actions, deduplicating per-event.
+    // If multiple replacements target the same leavesPlayEvent (same card),
+    // the player picks one and the others expire.
+    executeReplacementActions() {
+        // Group by leavesPlayEvent — only one replacement per destruction.
+        const byEvent = new Map();
+        for (const replacement of this.pendingReplacements) {
+            const key = replacement.leavesPlayEvent;
+            if (!byEvent.has(key)) {
+                byEvent.set(key, []);
+            }
+            byEvent.get(key).push(replacement);
+        }
+
+        for (const [, replacements] of byEvent) {
+            if (replacements.length === 1) {
+                this.openReplacementEventWindow(replacements[0]);
+            } else {
+                this.promptForReplacementChoice(replacements);
+            }
+        }
+    }
+
+    openReplacementEventWindow(replacement) {
+        const events = [];
+        for (const action of replacement.actions) {
+            // Re-update targets from the stored context. The action
+            // instances may be shared (e.g. gainAbility granting the
+            // same destroyed ability to multiple creatures), so the
+            // last ability to resolve would have overwritten targets.
+            action.update(replacement.context);
+            events.push(...action.getEventArray(replacement.context));
+        }
+        if (events.length > 0) {
+            this.game.openEventWindow(events);
+        }
+    }
+
+    promptForReplacementChoice(replacements) {
+        const player = replacements[0].context.player;
+        const card = replacements[0].leavesPlayEvent.card;
+        const choices = replacements.map((r) => {
+            const grantedBy = r.context.ability.grantedBy;
+            return grantedBy ? grantedBy.name : r.context.source.name;
+        });
+        const handlers = replacements.map((r) => () => this.openReplacementEventWindow(r));
+        this.game.promptWithHandlerMenu(player, {
+            activePromptTitle: {
+                text: 'Choose which replacement effect to apply to {{card}}',
+                values: { card: card.name }
+            },
+            source: card,
+            choices: choices,
+            handlers: handlers
+        });
+    }
+
+    // Cancel leavesPlay and destroy events marked by ReplaceDestructionAction.
+    // Handles both the events in the parent EventWindow (non-batched)
+    // and batched cascaded events. Runs after all abilities resolve so
+    // cancellation doesn't interfere with other triggered abilities.
+    cancelReplacedEvents() {
+        // Non-batched events (in the parent EventWindow)
+        for (const event of this.eventWindow.event.getSimultaneousEvents()) {
+            if (event.replacedByAction) {
+                event.cancel();
+                event.card.moribund = false;
+                if (event.triggeringEvent) {
+                    event.triggeringEvent.cancel();
+                }
+            }
+        }
+        // Batched cascaded events
+        for (const destroyEvent of this.batchedDestroyEvents) {
+            if (destroyEvent.replaced) {
+                destroyEvent.cancel();
+                destroyEvent.card.moribund = false;
+                if (destroyEvent.leavesPlayEvent) {
+                    destroyEvent.leavesPlayEvent.cancel();
+                }
+            }
+        }
     }
 
     // Extends the base emitEvents to also emit for batched cascaded
@@ -127,10 +224,10 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
     }
 
     // Move all tagged cards to discard now that abilities have resolved.
-    // Skips cancelled events (replacement effects) and cards already moved
-    // out of play mid-window. Attaches each destroy event as a child of
-    // the parent so the outer EventWindow's reaction phase sees the full
-    // cascade as one grouped trigger.
+    // Skips replaced/cancelled events and cards already moved out of play
+    // mid-window. Attaches each destroy event as a child of the parent so
+    // the outer EventWindow's reaction phase sees the full cascade as one
+    // grouped trigger.
     discardAllTaggedCards() {
         if (this.batchedDestroyEvents.size === 0) {
             return;
@@ -141,8 +238,7 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
             leavesPlayEvents.length > 0 ? leavesPlayEvents[0].triggeringEvent : null;
 
         for (const destroyEvent of this.batchedDestroyEvents) {
-            // Skip events cancelled by an "instead" replacement effect.
-            if (destroyEvent.cancelled) {
+            if (destroyEvent.replaced || destroyEvent.cancelled) {
                 continue;
             }
             if (parentDestroyedEvent) {
