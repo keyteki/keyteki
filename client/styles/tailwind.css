@@ -597,6 +597,9 @@ pre {
 .game-card.new {
     --c-ring: #0dcaf0;
 }
+.underneath .game-card {
+    --c-ring: #0dcaf0;
+}
 .game-card.controlled {
     --c-ring: #ffdf14;
 }
