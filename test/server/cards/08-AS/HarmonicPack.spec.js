@@ -20,6 +20,7 @@ describe('Harmonic Pack', function () {
             expect(this.player1).toBeAbleToSelect(this.crimTorchtooth);
             expect(this.player1).toBeAbleToSelect(this.gangerChieftain);
             this.player1.clickCard(this.crimTorchtooth);
+            expect(this.crimTorchtooth.damage).toBe(2);
             expect(this.player1).toHavePrompt("Which player's archives");
             this.player1.clickPrompt("Opponent's");
             expect(this.brikkNastee.location).toBe('discard');

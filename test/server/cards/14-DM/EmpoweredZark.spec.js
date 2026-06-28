@@ -22,6 +22,7 @@ describe('Empowered Zark', function () {
             this.empoweredZark.amber = 1;
             this.player1.fightWith(this.empoweredZark, this.urchin);
             expect(this.empoweredZark.amber).toBe(3);
+            expect(this.player1).toHavePrompt('Do you wish to move amber to common supply?');
             this.player1.clickPrompt('Yes');
             expect(this.empoweredZark.amber).toBe(0);
             expect(this.player1.amber).toBe(0);

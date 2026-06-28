@@ -17,8 +17,8 @@ class EventWindow extends BaseStepWithPipeline {
             new SimpleStep(this.game, () => this.openAbilityWindow('interrupt')),
             new SimpleStep(this.game, () => this.preResolutionEffects()),
             new SimpleStep(this.game, () => this.executeHandler()),
-            new SimpleStep(this.game, () => this.checkGameState()),
             new SimpleStep(this.game, () => this.checkForSubEvent()),
+            new SimpleStep(this.game, () => this.checkGameState()),
             new SimpleStep(this.game, () => this.openAbilityWindow('reaction'))
         ]);
     }
