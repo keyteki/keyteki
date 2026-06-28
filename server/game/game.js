@@ -1207,17 +1207,19 @@ class Game extends EventEmitter {
         card.controller.removeCardFromPile(card);
         card.controller = player;
 
-        if (card.anyEffect('takeControlOn')) {
-            this.finalizeTakeControl(
-                player,
-                card,
-                undefined,
-                card.mostRecentEffect('takeControlOn')
+        if (card.anyEffect('takeControlPlacement')) {
+            let placement = card.mostRecentEffect('takeControlPlacement');
+            this.effectEngine.unapplyAndRemove(
+                (effect) =>
+                    effect.effect.type === 'takeControlPlacement' && effect.targets.includes(card)
             );
-        } else if (card.anyEffect('takeControlOnLeft')) {
-            this.finalizeTakeControl(player, card, true);
-        } else if (card.anyEffect('takeControlOnRight')) {
-            this.finalizeTakeControl(player, card);
+            if (typeof placement === 'number') {
+                this.finalizeTakeControl(player, card, undefined, placement);
+            } else if (placement === 'left') {
+                this.finalizeTakeControl(player, card, true);
+            } else {
+                this.finalizeTakeControl(player, card);
+            }
         } else if (card.type === 'creature' && player.creaturesInPlay.length > 0) {
             let handlers = [
                 () => this.finalizeTakeControl(player, card, true), // left

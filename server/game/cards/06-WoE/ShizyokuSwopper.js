@@ -13,7 +13,7 @@ class ShizyokuSwopper extends Card {
                 })),
                 ability.actions.cardLastingEffect((context) => ({
                     target: context.source,
-                    effect: ability.effects.takeControlOn(
+                    effect: ability.effects.takeControlPlacement(
                         context.source.controller.opponent.cardsInPlay.indexOf(context.event.card)
                     )
                 })),
@@ -24,7 +24,7 @@ class ShizyokuSwopper extends Card {
                 })),
                 ability.actions.cardLastingEffect((context) => ({
                     target: context.event.card,
-                    effect: ability.effects.takeControlOn(
+                    effect: ability.effects.takeControlPlacement(
                         context.source.controller.cardsInPlay.indexOf(context.source)
                     )
                 }))

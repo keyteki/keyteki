@@ -28,7 +28,7 @@ class ExchangeProgram extends Card {
                         })),
                         ability.actions.cardLastingEffect((context) => ({
                             target: context.targets?.second || [],
-                            effect: ability.effects.takeControlOn(
+                            effect: ability.effects.takeControlPlacement(
                                 context.player.cardsInPlay.indexOf(context.targets?.first)
                             )
                         })),
@@ -39,7 +39,7 @@ class ExchangeProgram extends Card {
                         })),
                         ability.actions.cardLastingEffect((context) => ({
                             target: context.targets?.first || [],
-                            effect: ability.effects.takeControlOn(
+                            effect: ability.effects.takeControlPlacement(
                                 context.player.opponent.cardsInPlay.indexOf(context.targets?.second)
                             )
                         }))

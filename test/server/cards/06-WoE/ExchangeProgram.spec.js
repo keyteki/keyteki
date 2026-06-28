@@ -73,4 +73,40 @@ describe('Exchange Program', function () {
             this.player2.reap(this.grumpus);
         });
     });
+
+    describe('takeControlPlacement is consumed after use', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'ekwidon',
+                    hand: ['exchange-program', 'harland-mindlock'],
+                    inPlay: ['urchin', 'dodger']
+                },
+                player2: {
+                    inPlay: ['flaxia', 'bad-penny']
+                }
+            });
+            this.player1.makeMaverick(this.harlandMindlock, 'ekwidon');
+        });
+
+        it('prompts for flank when a second control change happens same turn', function () {
+            // Exchange urchin (p1 left flank) with flaxia (p2 left flank)
+            this.player1.play(this.exchangeProgram);
+            this.player1.clickCard(this.urchin);
+            this.player1.clickCard(this.flaxia);
+
+            expect(this.flaxia.controller).toBe(this.player1.player);
+            expect(this.urchin.controller).toBe(this.player2.player);
+
+            // Play Harland → take control of urchin again
+            this.player1.playCreature(this.harlandMindlock);
+            this.player1.clickCard(this.urchin);
+
+            // Should get a flank prompt since placement was consumed
+            this.player1.clickPrompt('Right');
+            expect(this.urchin.controller).toBe(this.player1.player);
+            expect(this.player1.player.creaturesInPlay[3]).toBe(this.urchin);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
