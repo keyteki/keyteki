@@ -1422,14 +1422,13 @@ class Game extends EventEmitter {
             let modifiedControl = false;
             const allPlayers = this.getPlayers();
             for (const player of allPlayers) {
-                _.each(player.cardsInPlay, (card) => {
+                for (const card of [...player.cardsInPlay]) {
                     const newController = card.getModifiedController();
                     if (newController !== player && allPlayers.includes(newController)) {
-                        // any card being controlled by the wrong player
                         this.takeControl(newController, card, modifiedByPlayer);
                         modifiedControl = true;
                     }
-                });
+                }
             }
 
             if (modifiedControl) {

@@ -15,8 +15,9 @@ class SauryAboutThat extends Card {
                 ])
             },
             then: (preThenContext) => ({
+                condition: () => !!preThenContext.target,
                 message: '{3} gains 1 amber from {1}',
-                messageArgs: () => [preThenContext.target.controller]
+                messageArgs: () => [preThenContext.target ? preThenContext.target.controller : null]
             })
         });
     }

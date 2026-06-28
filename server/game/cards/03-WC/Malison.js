@@ -12,7 +12,7 @@ class Malison extends Card {
             effect: 'move {1} in its battleline',
             effectArgs: (context) => context.target,
             then: (context) => ({
-                condition: () => context.target.isOnFlank(),
+                condition: () => !!context.target && context.target.isOnFlank(),
                 gameAction: ability.actions.capture({ target: context.target })
             })
         });

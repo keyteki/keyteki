@@ -18,6 +18,7 @@ class HannibalsMark extends Card {
             },
             then: (context) => ({
                 alwaysTriggers: true,
+                condition: () => !!context.target,
                 gameAction: ability.actions.cardLastingEffect({
                     target: context.target,
                     condition: () => context.target.controller === context.player,
