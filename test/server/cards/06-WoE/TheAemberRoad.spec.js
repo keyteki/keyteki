@@ -31,6 +31,7 @@ describe('The Æmber Road', function () {
             expect(this.player2.amber).toBe(4);
             expect(this.player1.player.cardsInPlay).toContain(this.theÆmberRoad);
             expect(this.player2.player.cardsInPlay).not.toContain(this.theÆmberRoad);
+            expect(this.player2).isReadyToTakeAction();
         });
     });
 });
