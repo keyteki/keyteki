@@ -34,7 +34,7 @@ describe('Jayne the Bard', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should not repeat if the target has no amber', function () {
+        it('should repeat if the target has amber but is destroyed', function () {
             this.dewFaerie.amber = 1;
             this.player1.reap(this.jayneTheBard);
             this.player1.clickCard(this.dewFaerie);
@@ -44,7 +44,7 @@ describe('Jayne the Bard', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should repeat if the target has amber but is destroyed', function () {
+        it('should not repeat if the target has no amber', function () {
             this.player1.reap(this.jayneTheBard);
             this.player1.clickCard(this.krump);
             expect(this.krump.damage).toBe(2);
@@ -64,6 +64,43 @@ describe('Jayne the Bard', function () {
             expect(this.raidingKnight.amber).toBe(1);
             expect(this.almsmaster.amber).toBe(1);
             expect(this.jayneTheBard.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+
+    describe("Jayne the Bard's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    amber: 2,
+                    house: 'sanctum',
+                    inPlay: ['jayne-the-bard', 'raiding-knight', 'almsmaster']
+                },
+                player2: {
+                    amber: 4,
+                    inPlay: ['praefectus-ludo', 'bad-penny', 'dew-faerie']
+                }
+            });
+        });
+
+        it('should not repeat if the amber is removed from destroyed abilities', function () {
+            this.dewFaerie.amber = 1;
+            this.player1.reap(this.jayneTheBard);
+            this.player1.clickCard(this.dewFaerie);
+            expect(this.dewFaerie.location).toBe('discard');
+            expect(this.player1.amber).toBe(3);
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it('should repeat if bad penny bounces before removing amber', function () {
+            this.badPenny.amber = 1;
+            this.player1.reap(this.jayneTheBard);
+            this.player1.clickCard(this.badPenny);
+            this.player1.clickPrompt(this.badPenny.name);
+            expect(this.badPenny.location).toBe('hand');
+            expect(this.player1.amber).toBe(4);
+            this.player1.clickCard(this.praefectusLudo);
+            expect(this.praefectusLudo.damage).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
     });

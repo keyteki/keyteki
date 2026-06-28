@@ -28,7 +28,7 @@ class FlipAction extends CardGameAction {
         return super.createEvent(
             EVENTS.onFlipToken,
             { card, player: context.player, context },
-            () => {
+            (event) => {
                 if (card.isToken() && card.printedType !== 'creature') {
                     context.game.actions
                         .sequential([
@@ -63,17 +63,16 @@ class FlipAction extends CardGameAction {
                     // "leaves play" abilities before moving to discard.
                     card.amber = 0;
                     card.unward();
-                    context.game.openEventWindow(
-                        context.game.getEvent(
-                            EVENTS.onCardLeavesPlay,
-                            {
-                                card: card,
-                                context: context,
-                                condition: (event) => event.card.location === 'play area'
-                            },
-                            (event) => event.card.owner.moveCard(event.card, 'discard')
-                        )
+                    event.leavesPlayEvent = context.game.getEvent(
+                        EVENTS.onCardLeavesPlay,
+                        {
+                            card: card,
+                            context: context,
+                            condition: (event) => event.card.location === 'play area'
+                        },
+                        (event) => event.card.owner.moveCard(event.card, 'discard')
                     );
+                    event.addSubEvent(event.leavesPlayEvent);
                 } else {
                     context.game.actions
                         .cardLastingEffect({
