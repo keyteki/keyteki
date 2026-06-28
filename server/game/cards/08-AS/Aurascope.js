@@ -14,6 +14,7 @@ class Aurascope extends Card {
                 gameAction: ability.actions.discard()
             },
             then: (preThenContext) => ({
+                condition: () => !!preThenContext.target?.length,
                 target: {
                     activePromptTitle: 'Choose which card to purge',
                     mode: 'exactly',
