@@ -489,6 +489,105 @@ this.play({
 });
 ```
 
+#### `when` vs `condition` in Triggered Abilities
+
+For triggered abilities (`reaction`, `interrupt`, `prophecyReaction`, `prophecyInterrupt`), it is critical to correctly separate the **timing trigger** (`when`) from the **state gate** (`condition`).
+
+**`when`** determines _which event_ fires the ability. It answers: "what happened?" Checks in `when` should only inspect **immutable properties of the event itself** — things that cannot change regardless of how simultaneous abilities are ordered.
+
+**`condition`** determines whether the ability _can resolve_ given the current game state. It answers: "is the state correct?" Checks in `condition` are **re-evaluated at resolution time**, so if resolving another simultaneous ability first changes the game state to satisfy (or break) the condition, the ability adapts.
+
+This separation enables the engine to correctly handle simultaneous ability ordering: abilities whose `when` matches enter the ordering window even if their `condition` isn't currently met, because resolving other abilities first may change the state. If the `condition` is still not met at resolution time, the ability is skipped.
+
+**What belongs in `when` (immutable event identity):**
+
+```javascript
+// WHO triggered the event
+event.player === context.player;
+event.card.controller === context.player.opponent;
+
+// WHAT the event is about
+event.card.type === 'creature';
+event.card !== context.source;
+event.card === context.source;
+event.fight === true;
+event.phase === 'main';
+
+// WHOSE turn it is (constant within a turn)
+context.player === this.game.activePlayer;
+```
+
+**What belongs in `condition` (mutable game state):**
+
+```javascript
+// Resource counts
+context.player.amber >= 7;
+context.player.opponent.amber <= 4;
+
+// Board state
+context.player.creaturesInPlay.length === 0;
+context.player.opponent.creaturesInPlay.length > 3;
+
+// Tide / haunted / other derived state
+context.player.isTideHigh();
+context.player.isHaunted();
+context.source.controller.isTideLow();
+
+// Card state (can change from other abilities resolving)
+context.source.exhausted;
+context.source.amber > 0;
+context.source.hasToken('damage');
+
+// Zone contents
+context.player.deck.length > 0;
+context.player.hand.length >= 3;
+```
+
+**Correct pattern:**
+
+```javascript
+// At the end of your turn, if you have 4A or fewer, gain 2A.
+this.interrupt({
+    when: {
+        onTurnEnd: (event, context) => context.player === this.game.activePlayer
+    },
+    condition: (context) => context.player.amber <= 4,
+    gameAction: ability.actions.gainAmber({ amount: 2 })
+});
+```
+
+**Incorrect pattern (state-gate in `when`):**
+
+```javascript
+// BAD: amber check in `when` prevents the ability from entering the ordering window
+this.interrupt({
+    when: {
+        onTurnEnd: (event, context) =>
+            context.player === this.game.activePlayer && context.player.amber <= 4
+    },
+    gameAction: ability.actions.gainAmber({ amount: 2 })
+});
+```
+
+**Multiple conditions:** If the ability already has a `condition`, combine both checks:
+
+```javascript
+// At the start of your turn, if you are not haunted, discard from your deck.
+this.reaction({
+    when: {
+        onTurnStart: (_, context) => context.player === this.game.activePlayer
+    },
+    condition: (context) => !context.player.isHaunted() && context.player.deck.length > 0,
+    gameAction: ability.actions.discard((context) => ({
+        target: context.player.deck[0]
+    }))
+});
+```
+
+**Turn-level counters** like `this.game.cardsPlayed.length` or `this.game.cardsUsed` are acceptable in `when` for end-of-turn triggers because they reflect historical facts about the turn that cannot change during the ability window. However, if in doubt, prefer `condition`.
+
+**Opponent ordering exploitation:** On the opponent's turn, _they_ control the ordering of simultaneous abilities. This means an opponent can intentionally order their abilities so that a condition-gated ability resolves _before_ its condition would be met, forcing it to be skipped. For example, if Haunting Witch ("After you play a creature, if you are haunted, gain 1A") triggers simultaneously with another ability that would put cards into discard (making the player haunted), the opponent can choose to resolve Haunting Witch first — while not yet haunted — causing it to fizzle. This is rules-correct behavior and a feature of simultaneous ability ordering.
+
 ### Optional
 
 Use `optional: true` when the card text says "you may" to let the player choose whether to use the ability.

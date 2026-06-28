@@ -8,11 +8,9 @@ class HauntedHouse extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onTurnStart: (_, context) =>
-                    context.player === this.game.activePlayer &&
-                    context.player.deck.length > 0 &&
-                    !context.player.isHaunted()
+                onTurnStart: (_, context) => context.player === this.game.activePlayer
             },
+            condition: (context) => !context.player.isHaunted() && context.player.deck.length > 0,
             gameAction: ability.actions.discard((context) => ({
                 target: context.player.deck[0]
             }))

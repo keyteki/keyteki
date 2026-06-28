@@ -5,13 +5,14 @@ class SeaUrchin extends Card {
     // (T) Play: Capture 1A. If the tide is high, steal 1A instead.
     setupCardAbilities(ability) {
         this.play({
-            condition: (context) => !context.player.isTideHigh(),
-            gameAction: ability.actions.capture()
-        });
-
-        this.play({
-            condition: (context) => context.player.isTideHigh(),
-            gameAction: ability.actions.steal()
+            gameAction: ability.actions.conditional((context) => ({
+                condition: () => context.player.isTideHigh(),
+                trueGameAction: ability.actions.steal(),
+                falseGameAction: ability.actions.capture()
+            })),
+            effect: '{1}',
+            effectArgs: (context) =>
+                context.player.isTideHigh() ? 'steal 1 amber' : 'capture 1 amber'
         });
     }
 }

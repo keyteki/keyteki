@@ -6,9 +6,9 @@ class SnapperDyn extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onTurnEnd: (_, context) =>
-                    context.player === this.game.activePlayer && context.source.exhausted
+                onTurnEnd: (_, context) => context.player === this.game.activePlayer
             },
+            condition: (context) => context.source.exhausted,
             gameAction: ability.actions.allocateDamage((context) => ({
                 controller: 'opponent',
                 numSteps: context.player.opponent ? context.player.opponent.amber : 0

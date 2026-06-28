@@ -18,6 +18,7 @@ describe('Qyxxlyxx Grave Master', function () {
 
         it('purges a creature from opponent discard and deals 2 to each creature that shares a trait', function () {
             this.player1.playCreature(this.qyxxlyxxGraveMaster);
+            this.player1.clickCard(this.qyxxlyxxGraveMaster);
             expect(this.player1).toBeAbleToSelect(this.shadowSelf);
             expect(this.player1).not.toBeAbleToSelect(this.hypnobeam);
             expect(this.player1).toBeAbleToSelect(this.dharna);
@@ -39,6 +40,7 @@ describe('Qyxxlyxx Grave Master', function () {
 
         it('purges a creature from player discard and deals 2 to each creature that shares a trait', function () {
             this.player1.playCreature(this.qyxxlyxxGraveMaster);
+            this.player1.clickCard(this.qyxxlyxxGraveMaster);
             this.player1.clickCard(this.shadowSelf);
             expect(this.shadowSelf.location).toBe('purged');
             expect(this.dharna.location).toBe('discard');
@@ -57,6 +59,7 @@ describe('Qyxxlyxx Grave Master', function () {
         describe('after play', function () {
             beforeEach(function () {
                 this.player1.playCreature(this.qyxxlyxxGraveMaster);
+                this.player1.clickCard(this.qyxxlyxxGraveMaster);
                 this.player1.clickCard(this.shadowSelf);
                 this.player1.endTurn();
                 this.player2.clickPrompt('untamed');
