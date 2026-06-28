@@ -13,7 +13,9 @@ class ExploratoryCraft extends Card {
                 gameAction: ability.actions.exhaust()
             },
             then: (preThenContext) => {
-                if (!preThenContext.target) return null;
+                if (!preThenContext.target) {
+                    return null;
+                }
                 return {
                     gameAction: ability.actions.draw({
                         amount: new Set(

@@ -13,7 +13,9 @@ class Purify extends Card {
                 gameAction: ability.actions.purge()
             },
             then: (preThenContext) => {
-                if (!preThenContext.target) return null;
+                if (!preThenContext.target) {
+                    return null;
+                }
                 let deck = preThenContext.target.controller.deck;
                 let index = deck.findIndex(
                     (card) => card.type === 'creature' && !card.hasTrait('mutant')
