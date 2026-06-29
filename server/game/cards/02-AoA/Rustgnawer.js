@@ -9,9 +9,12 @@ class Rustgnawer extends Card {
                 gameAction: ability.actions.destroy()
             },
             then: (context) => ({
+                condition: () => !!context.target,
                 gameAction: [
                     ability.actions.gainAmber({
-                        amount: context.target.bonusIcons.filter((icon) => icon === 'amber').length
+                        amount: context.target
+                            ? context.target.bonusIcons.filter((icon) => icon === 'amber').length
+                            : 0
                     })
                 ]
             })

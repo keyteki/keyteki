@@ -14,7 +14,9 @@ class MakeItSo extends Card {
                 target: context.player.deck[0]
             })),
             then: (preThenContext) => ({
-                condition: () => preThenContext.player.deck[0].hasHouse(preThenContext.house),
+                condition: () =>
+                    preThenContext.player.deck.length > 0 &&
+                    preThenContext.player.deck[0].hasHouse(preThenContext.house),
                 gameAction: [
                     ability.actions.draw(),
                     ability.actions.resolveAbility({

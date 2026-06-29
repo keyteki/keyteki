@@ -100,4 +100,81 @@ describe('Trade Blows', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe("Trade Blows's ability", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    hand: ['trade-blows'],
+                    inPlay: ['bulwark', 'berinon']
+                },
+                player2: {
+                    inPlay: ['flaxia', 'searine']
+                }
+            });
+        });
+
+        it('should hit armor', function () {
+            // 1 damage
+            expect(this.bulwark.armor).toBe(2);
+            this.player1.play(this.tradeBlows);
+            this.player1.clickCard(this.bulwark);
+            this.player1.clickCard(this.flaxia);
+            expect(this.bulwark.damage).toBe(0);
+            expect.soft(this.bulwark.armor).toBe(1);
+
+            // 2 damage
+            this.player1.clickPrompt('Yes');
+            this.player1.clickCard(this.bulwark);
+            this.player1.clickCard(this.flaxia);
+            expect(this.bulwark.damage).toBe(0);
+            expect.soft(this.bulwark.armor).toBe(0);
+
+            // 3 damage
+            this.player1.clickPrompt('Yes');
+            this.player1.clickCard(this.bulwark);
+            this.player1.clickCard(this.flaxia);
+            expect(this.bulwark.damage).toBe(1);
+            expect.soft(this.bulwark.armor).toBe(0);
+
+            // 4 damage
+            this.player1.clickPrompt('Yes');
+            this.player1.clickCard(this.berinon);
+            this.player1.clickCard(this.searine);
+            expect(this.bulwark.damage).toBe(1);
+            expect.soft(this.bulwark.armor).toBe(0);
+            expect(this.berinon.damage).toBe(0);
+            expect.soft(this.berinon.armor).toBe(3);
+
+            // 5 damage
+            this.player1.clickPrompt('Yes');
+            this.player1.clickCard(this.berinon);
+            this.player1.clickCard(this.searine);
+            expect(this.bulwark.damage).toBe(1);
+            expect.soft(this.bulwark.armor).toBe(0);
+            expect(this.berinon.damage).toBe(0);
+            expect.soft(this.berinon.armor).toBe(2);
+
+            // 6 damage
+            this.player1.clickPrompt('Yes');
+            this.player1.clickCard(this.berinon);
+            this.player1.clickCard(this.searine);
+            expect(this.bulwark.damage).toBe(1);
+            expect.soft(this.bulwark.armor).toBe(0);
+            expect(this.berinon.damage).toBe(0);
+            expect.soft(this.berinon.armor).toBe(1);
+
+            // 7 damage
+            this.player1.clickPrompt('Yes');
+            this.player1.clickCard(this.berinon);
+            this.player1.clickCard(this.searine);
+            expect(this.bulwark.damage).toBe(1);
+            expect.soft(this.bulwark.armor).toBe(0);
+            expect(this.berinon.damage).toBe(0);
+            expect.soft(this.berinon.armor).toBe(0);
+
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

@@ -12,12 +12,18 @@ class ExploratoryCraft extends Card {
                 cardCondition: (card) => !card.exhausted,
                 gameAction: ability.actions.exhaust()
             },
-            then: (preThenContext) => ({
-                gameAction: ability.actions.draw({
-                    amount: new Set(preThenContext.target.map((card) => card.getHouses()).flat())
-                        .size
-                })
-            })
+            then: (preThenContext) => {
+                if (!preThenContext.target) {
+                    return null;
+                }
+                return {
+                    gameAction: ability.actions.draw({
+                        amount: new Set(
+                            preThenContext.target.map((card) => card.getHouses()).flat()
+                        ).size
+                    })
+                };
+            }
         });
     }
 }

@@ -991,7 +991,7 @@ The same rule applies to prompt titles (see [`activePromptTitle`](#using-target)
 | `context.targets`       | Multiple named targets               | `effectArgs: [Object.values(context.targets)]` |
 | `context.event`         | Triggering event (reactions)         | `effectArgs: [context.event.card]`             |
 | `context.event.card`    | Card from the event                  | For "when card destroyed" reactions            |
-| `context.event.clone`   | Clone of destroyed card              | Access neighbors after destruction             |
+| `context.event.clone`   | Card state before leaving play       | Access neighbors/amber after destruction       |
 | `context.house`         | Selected house                       | `effectArgs: [context.house]`                  |
 | `context.cardName`      | Named card (card-name mode)          | `effectArgs: [context.cardName]`               |
 | `context.select`        | Choice selection result              | `effectArgs: [context.select]`                 |

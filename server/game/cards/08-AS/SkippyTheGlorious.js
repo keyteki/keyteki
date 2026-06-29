@@ -21,6 +21,7 @@ class SkippyTheGlorious extends Card {
             },
             then: (preThenContext) => ({
                 condition: (context) =>
+                    !!preThenContext.target &&
                     (preThenContext.target.exhausted ||
                         preThenContext.target.location !== 'play area') &&
                     !context.preThenEvents[0].clone.exhausted,

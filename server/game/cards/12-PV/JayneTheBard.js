@@ -1,24 +1,23 @@
 const Card = require('../../Card.js');
 
 class JayneTheBard extends Card {
-    // After Reap: Deal 2 to an enemy creature. If that creature has on it, repeat the preceding effect.
+    // After Reap: Deal 2 to an enemy creature. If that creature has A on it, repeat the preceding effect.
     // Scrap: Exalt 2 friendly creatures.
     setupCardAbilities(ability) {
         this.reap({
             target: {
                 cardType: 'creature',
                 controller: 'opponent',
-                gameAction: ability.actions.dealDamage((context) => {
-                    // Technically this should be taking the clone right before it leaves play,
-                    // since destroyed abilities might change the amber on the creature
-                    // before it leaves play.
-                    context.event.targetClone = context.target.createSnapshot();
-                    return { amount: 2 };
-                })
+                gameAction: ability.actions.dealDamage({ amount: 2 })
             },
             then: (preThenContext) => ({
-                condition: () =>
-                    preThenContext.target && preThenContext.event.targetClone.amber > 0,
+                condition: (context) => {
+                    if (!preThenContext.target) {
+                        return false;
+                    }
+
+                    return context.preThenEvent?.clone?.amber > 0;
+                },
                 alwaysTriggers: true,
                 target: {
                     cardType: 'creature',

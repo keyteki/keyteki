@@ -11,13 +11,14 @@ class DefenseInitiative extends Card {
                 gameAction: ability.actions.ward()
             },
             then: (preThenContext) => ({
+                condition: () => !!preThenContext.target?.length,
                 may: 'exalt this creature',
                 gameAction: ability.actions.exalt({
                     target: preThenContext.target
                 }),
                 then: {
                     gameAction: ability.actions.ward({
-                        target: preThenContext.target[0].neighbors
+                        target: preThenContext.target?.[0]?.neighbors || []
                     })
                 }
             })
