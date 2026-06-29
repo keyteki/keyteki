@@ -4,14 +4,14 @@ class SpecialDelivery extends Card {
     // Omni: Sacrifice Special Delivery. Deal 3D to a flank creature. If this damage destroys that creature, purge it.
     setupCardAbilities(ability) {
         this.omni({
-            effect: 'sacrifice {1} and deal 3 damage to {0}',
+            effect: 'destroy {1} and deal 3 damage to {0}',
             effectArgs: (context) => context.source,
             target: {
                 cardType: 'creature',
                 cardCondition: (card) => card.isOnFlank(),
                 gameAction: ability.actions.dealDamage({ amount: 3 })
             },
-            gameAction: ability.actions.sacrifice(),
+            gameAction: ability.actions.destroy(),
             then: (preThenContext) => ({
                 condition: (context) => {
                     let dealDamageEvent = context.preThenEvents.find(

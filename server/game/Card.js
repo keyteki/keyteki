@@ -408,8 +408,7 @@ class Card extends EffectSource {
                 match: this,
                 effect: [
                     ability.effects.cardCannot('damage', invulnerabilityApplies),
-                    ability.effects.cardCannot('destroy', invulnerabilityApplies),
-                    ability.effects.cardCannot('sacrifice')
+                    ability.effects.cardCannot('destroy', invulnerabilityApplies)
                 ]
             })
         );

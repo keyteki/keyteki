@@ -17,9 +17,9 @@ class ChuffApe extends Card {
                 cardType: 'creature',
                 controller: 'self',
                 cardCondition: (card, context) => card !== context.source,
-                gameAction: ability.actions.sacrifice()
+                gameAction: ability.actions.destroy()
             },
-            effect: 'sacrifice {0} and fully heal itself',
+            effect: 'destroy {0} and fully heal itself',
             then: {
                 gameAction: ability.actions.heal({ fully: true })
             }

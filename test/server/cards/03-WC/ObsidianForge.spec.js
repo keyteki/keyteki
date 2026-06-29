@@ -26,7 +26,7 @@ describe('Obsidian Forge', function () {
             });
         });
 
-        it('should allow key to be forged at [6] if 6 creatures are sacrificed', function () {
+        it('should allow key to be forged at [6] if 6 creatures are destroyed', function () {
             this.player1.clickCard(this.obsidianForge);
             this.player1.clickPrompt("Use this card's Action ability");
             expect(this.player1).toHavePrompt('Obsidian Forge');
@@ -52,7 +52,7 @@ describe('Obsidian Forge', function () {
             expect(this.player1.player.amber).toBe(0);
         });
 
-        it('should allow key to be forged at [4] if 8 creatures are sacrificed', function () {
+        it('should allow key to be forged at [4] if 8 creatures are destroyed', function () {
             this.player1.clickCard(this.obsidianForge);
             this.player1.clickPrompt("Use this card's Action ability");
             expect(this.player1).toHavePrompt('Obsidian Forge');

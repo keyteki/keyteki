@@ -4,7 +4,7 @@ class GormOfOmm extends Card {
     // Omni: Sacrifice Gorm of Omm. Destroy an artifact.
     setupCardAbilities(ability) {
         this.omni({
-            gameAction: ability.actions.sacrifice(),
+            gameAction: ability.actions.destroy(),
             then: {
                 alwaysTriggers: true,
                 target: {

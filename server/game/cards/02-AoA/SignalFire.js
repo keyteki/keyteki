@@ -6,7 +6,7 @@ class SignalFire extends Card {
         this.omni({
             effect: 'allow all friendly brobnar creatures to only fight this turn',
             gameAction: [
-                ability.actions.sacrifice(),
+                ability.actions.destroy(),
                 ability.actions.untilPlayerTurnEnd({
                     effect: [
                         ability.effects.canUse(

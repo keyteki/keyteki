@@ -209,9 +209,9 @@ this.action({
 Omni abilities can be used regardless of which house is active:
 
 ```javascript
-// Omni: Sacrifice this artifact. If you do, gain 2A.
+// Omni: Destroy this artifact. If you do, gain 2A.
 this.omni({
-    gameAction: ability.actions.sacrifice(),
+    gameAction: ability.actions.destroy(),
     then: {
         gameAction: ability.actions.gainAmber({ amount: 2 })
     }
@@ -240,7 +240,7 @@ this.reaction({
 Interrupts trigger before an event resolves:
 
 ```javascript
-// Before a friendly creature would be destroyed, you may sacrifice
+// Before a friendly creature would be destroyed, you may destroy
 // this card to prevent that destruction.
 this.interrupt({
     when: {
@@ -249,7 +249,7 @@ this.interrupt({
             event.card.controller === context.player &&
             event.card !== context.source
     },
-    gameAction: ability.actions.sacrifice(),
+    gameAction: ability.actions.destroy(),
     then: {
         gameAction: ability.actions.cancel()
     }
@@ -441,9 +441,9 @@ cardCondition: (card) => card.name === 'Nautilixian';
 Some abilities have costs beyond exhausting:
 
 ```javascript
-// Sacrifice a friendly creature to gain 2A.
+// Destroy a friendly creature to gain 2A.
 this.action({
-    cost: ability.costs.sacrifice({
+    cost: ability.costs.destroy({
         cardType: 'creature',
         controller: 'self'
     }),
@@ -453,7 +453,7 @@ this.action({
 
 Common costs:
 
--   `ability.costs.sacrifice()` - Sacrifice a card
+-   `ability.costs.destroy()` - Destroy a friendly card
 -   `ability.costs.discardCard()` - Discard from hand
 -   `ability.costs.payAmber(n)` - Spend aember
 
