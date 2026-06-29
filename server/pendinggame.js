@@ -1,5 +1,4 @@
 const { randomUUID } = require('node:crypto');
-const _ = require('underscore');
 const crypto = require('crypto');
 
 const GameChat = require('./game/gamechat.js');
@@ -56,7 +55,7 @@ class PendingGame {
     }
 
     getSaveState() {
-        let players = _.map(this.getPlayers(), (player) => {
+        let players = Object.values(this.getPlayers()).map((player) => {
             return {
                 houses: player.houses,
                 name: player.name,
@@ -120,11 +119,11 @@ class PendingGame {
     }
 
     isUserBlocked(user) {
-        return _.contains(this.owner.blockList, user.username.toLowerCase());
+        return this.owner.blockList.includes(user.username.toLowerCase());
     }
 
     join(id, user, password) {
-        if (_.size(this.players) === 2 || this.started) {
+        if (Object.keys(this.players).length === 2 || this.started) {
             return 'Game full';
         }
 
@@ -254,9 +253,7 @@ class PendingGame {
 
     // interrogators
     isEmpty() {
-        return !_.any(this.getPlayersAndSpectators(), (player) =>
-            this.hasActivePlayer(player.name)
-        );
+        return !this.getPlayersAndSpectators().some((player) => this.hasActivePlayer(player.name));
     }
 
     isOwner(playerName) {
@@ -271,7 +268,9 @@ class PendingGame {
 
     removeAndResetOwner(playerName) {
         if (this.isOwner(playerName)) {
-            let otherPlayer = _.find(this.players, (player) => player.name !== playerName);
+            let otherPlayer = Object.values(this.players).find(
+                (player) => player.name !== playerName
+            );
 
             if (otherPlayer) {
                 this.owner = otherPlayer.user;
@@ -309,9 +308,9 @@ class PendingGame {
     // Summary
     getSummary(activePlayer) {
         let playerSummaries = {};
-        let playersInGame = _.filter(this.players, (player) => !player.left);
+        let playersInGame = Object.values(this.players).filter((player) => !player.left);
 
-        _.each(playersInGame, (player) => {
+        for (const player of playersInGame) {
             let deck;
 
             if (activePlayer === player.name && player.deck && this.gameFormat !== 'sealed') {
@@ -337,7 +336,7 @@ class PendingGame {
                 role: player.user.role,
                 wins: player.wins
             };
-        });
+        }
 
         return {
             adaptive: this.adaptive,

@@ -1,5 +1,5 @@
-const AllPlayerPrompt = require('../allplayerprompt');
 const _ = require('underscore');
+const AllPlayerPrompt = require('../allplayerprompt');
 
 class FirstPlayerSelection extends AllPlayerPrompt {
     constructor(game) {

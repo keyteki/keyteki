@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
 const _ = require('underscore');
+const Card = require('../../Card.js');
 
 class RuthlessAvenger extends Card {
     // Assault 2. Hazardous 2.

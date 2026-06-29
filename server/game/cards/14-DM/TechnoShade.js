@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
 const _ = require('underscore');
+const Card = require('../../Card.js');
 
 class TechnoShade extends Card {
     // After Fight/After Reap: Your opponent shuffles a random card from their hand into their deck.

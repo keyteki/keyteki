@@ -1,4 +1,3 @@
-import _ from 'underscore';
 import { createSlice } from '@reduxjs/toolkit';
 
 import { api } from '../api';
@@ -146,7 +145,7 @@ const cardsSlice = createSlice({
                 if (!state.decks.some((deck) => deck.id === deckId)) {
                     state.decks = [...state.decks, normalizeDeck(action.payload.deck, state)];
                 }
-                const selected = _.find(state.decks, (deck) => deck.id === deckId);
+                const selected = state.decks.find((deck) => deck.id === deckId);
                 selectDeckInternal(state, selected);
             })
             .addMatcher(api.endpoints.saveDeck.matchPending, (state) => {

@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const SelectCardPrompt = require('../../../server/game/gamesteps/selectcardprompt.js');
 
 describe.skip('the SelectCardPrompt', function () {
@@ -7,7 +6,7 @@ describe.skip('the SelectCardPrompt', function () {
             allowGameAction: vi.fn().mockReturnValue(true),
             getType: vi.fn().mockReturnValue('character')
         };
-        _.extend(card, properties);
+        Object.assign(card, properties);
         return card;
     }
 

@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 /**
  * Represents a card based effect applied to one or more targets.
  *
@@ -73,8 +71,10 @@ class Effect {
     }
 
     removeTargets(targets) {
-        targets.forEach((target) => this.effect.unapply(target));
-        this.targets = _.difference(this.targets, targets);
+        for (const target of targets) {
+            this.effect.unapply(target);
+        }
+        this.targets = this.targets.filter((x) => !targets.includes(x));
     }
 
     hasTarget(target) {
@@ -82,7 +82,9 @@ class Effect {
     }
 
     cancel() {
-        _.each(this.targets, (target) => this.effect.unapply(target));
+        for (const target of this.targets) {
+            this.effect.unapply(target);
+        }
         this.targets = [];
     }
 
@@ -102,27 +104,26 @@ class Effect {
             stateChanged = this.targets.length > 0 || stateChanged;
             this.cancel();
             return stateChanged;
-        } else if (_.isFunction(this.match)) {
+        } else if (typeof this.match === 'function') {
             // Get any targets which are no longer valid
-            let invalidTargets = _.filter(
-                this.targets,
+            let invalidTargets = this.targets.filter(
                 (target) => !this.match(target, this.context) || !this.isValidTarget(target)
             );
             // Remove invalid targets
             this.removeTargets(invalidTargets);
             stateChanged = stateChanged || invalidTargets.length > 0;
             // Recalculate the effect for valid targets
-            _.each(
-                this.targets,
-                (target) => (stateChanged = this.effect.recalculate(target) || stateChanged)
-            );
+            for (const target of this.targets) {
+                stateChanged = this.effect.recalculate(target) || stateChanged;
+            }
             // Check for new targets
-            let newTargets = _.filter(
-                this.getTargets(),
+            let newTargets = this.getTargets().filter(
                 (target) => !this.targets.includes(target) && this.isValidTarget(target)
             );
             // Apply the effect to new targets
-            _.each(newTargets, (target) => this.addTarget(target));
+            for (const target of newTargets) {
+                this.addTarget(target);
+            }
             return stateChanged || newTargets.length > 0;
         } else if (this.targets.includes(this.match)) {
             if (!this.isValidTarget(this.match)) {
@@ -142,7 +143,7 @@ class Effect {
     getDebugInfo() {
         return {
             source: this.source.printedName,
-            targets: _.map(this.targets, (target) => target.name),
+            targets: this.targets.map((target) => target.name),
             active: this.duration !== 'persistentEffect' || !this.source.isBlank(),
             condition: this.condition(this.context, this),
             effect: this.effect.getDebugInfo()

@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const { EVENTS } = require('../Events/types');
 
 const EventToTitleFunc = {
@@ -25,38 +24,33 @@ const AbilityTypeToWord = {
 };
 
 function FormatTitles(titles) {
-    return _.reduce(
-        titles,
-        (string, title, index) => {
-            if (index === 0) {
-                return title;
-            } else if (index === titles.length - 1) {
-                return title + ' or ' + string;
-            }
+    return titles.reduce((string, title, index) => {
+        if (index === 0) {
+            return title;
+        } else if (index === titles.length - 1) {
+            return title + ' or ' + string;
+        }
 
-            return title + ', ' + string;
-        },
-        ''
-    );
+        return title + ', ' + string;
+    }, '');
 }
 
 const AbilityWindowTitles = {
     getTitle: function (abilityType, events) {
-        if (!_.isArray(events)) {
+        if (!Array.isArray(events)) {
             events = [events];
         }
 
         let abilityWord = AbilityTypeToWord[abilityType] || abilityType;
-        let uniqueEvents = _.uniq(events);
-        let titles = _.filter(
-            _.map(uniqueEvents, (event) => {
+        let uniqueEvents = [...new Set(events)];
+        let titles = uniqueEvents
+            .map((event) => {
                 let func = EventToTitleFunc[event.name];
                 if (func) {
                     return func(event);
                 }
-            }),
-            (string) => string
-        );
+            })
+            .filter((string) => string);
 
         if (['forcedreaction', 'forcedinterrupt', 'whenrevealed'].includes(abilityType)) {
             if (titles.length > 0) {

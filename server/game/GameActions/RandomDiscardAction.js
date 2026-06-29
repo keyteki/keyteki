@@ -1,10 +1,10 @@
+const _ = require('underscore');
 /**
  * RandomDiscardAction - randomly discard amount of cards from a player's hand,
  * deck, or archives.
  */
 const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
-const _ = require('underscore');
 
 class RandomDiscardAction extends PlayerAction {
     setDefaultProperties() {

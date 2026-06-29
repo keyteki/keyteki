@@ -1,5 +1,5 @@
 const { randomUUID } = require('node:crypto');
-const _ = require('underscore');
+
 const GameActions = require('./GameActions');
 
 class GameObject {
@@ -49,7 +49,7 @@ class GameObject {
 
     mostRecentEffect(type) {
         const effects = this.effects.filter((effect) => effect.type === type);
-        return _.last(effects)?.getValue(this);
+        return effects[effects.length - 1]?.getValue(this);
     }
 
     allowGameAction(actionType, context = this.game.getFrameworkContext()) {

@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const Constants = require('../constants.js');
 const GameActions = require('./GameActions');
 const ManualModePrompt = require('./gamesteps/ManualModePrompt');
@@ -184,12 +183,16 @@ class ChatCommands {
 
     startClocks(player) {
         this.game.addAlert('danger', '{0} restarts the timers', player);
-        _.each(this.game.getPlayers(), (player) => player.clock.restart());
+        for (const p of this.game.getPlayers()) {
+            p.clock.restart();
+        }
     }
 
     stopClocks(player) {
         this.game.addAlert('danger', '{0} stops the timers', player);
-        _.each(this.game.getPlayers(), (player) => player.clock.pause());
+        for (const p of this.game.getPlayers()) {
+            p.clock.pause();
+        }
     }
 
     modifyClock(player, args) {
@@ -386,7 +389,7 @@ class ChatCommands {
 
         let lowerToken = token.toLowerCase();
 
-        return _.contains(this.tokens, lowerToken);
+        return this.tokens.includes(lowerToken);
     }
 
     rematch(player) {

@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
 const _ = require('underscore');
+const Card = require('../../Card.js');
 
 class EddyOfDis extends Card {
     // Play: Shuffle a random card from your opponent's hand into their deck.

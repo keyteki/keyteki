@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
 const _ = require('underscore');
+const Card = require('../../Card.js');
 
 class AdultSwim extends Card {
     //Play: Put each creature with power 3 or lower on top of its owner's deck in a random order.

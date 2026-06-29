@@ -1,5 +1,3 @@
-const _ = require('underscore');
-
 const CardEffect = require('./CardEffect');
 const PlayerEffect = require('./PlayerEffect');
 const StaticEffect = require('./StaticEffect');
@@ -20,7 +18,7 @@ const EffectBuilder = {
                 new DetachedEffect(type, value.apply, value.unapply)
             ),
         flexible: (type, value) =>
-            _.isFunction(value)
+            typeof value === 'function'
                 ? EffectBuilder.card.dynamic(type, value)
                 : EffectBuilder.card.static(type, value)
     },
@@ -37,7 +35,7 @@ const EffectBuilder = {
                 new DetachedEffect(type, value.apply, value.unapply)
             ),
         flexible: (type, value) =>
-            _.isFunction(value)
+            typeof value === 'function'
                 ? EffectBuilder.player.dynamic(type, value)
                 : EffectBuilder.player.static(type, value)
     }

@@ -1,5 +1,4 @@
 /*eslint no-console:0 */
-const _ = require('underscore');
 
 const Constants = require('../../server/constants');
 const { matchCardByNameAndPack } = require('./cardutil.js');
@@ -63,9 +62,13 @@ class PlayerInteractionWrapper {
     set hand(cards = []) {
         //Move all cards in hand to the deck
         var cardsInHand = this.hand;
-        _.each(cardsInHand, (card) => this.moveCard(card, 'deck'));
+        for (const card of cardsInHand) {
+            this.moveCard(card, 'deck');
+        }
         cards = this.mixedListToCardList(cards, 'deck');
-        _.each(cards, (card) => this.moveCard(card, 'hand'));
+        for (const card of cards) {
+            this.moveCard(card, 'hand');
+        }
     }
 
     /**
@@ -92,12 +95,12 @@ class PlayerInteractionWrapper {
      */
     set inPlay(newState = []) {
         // First, move all cards in play back to the appropriate decks
-        _.each(this.inPlay, (card) => {
+        for (const card of this.inPlay) {
             this.moveCard(card, 'deck');
-        });
+        }
         // Set up each of the cards
-        _.each(newState, (card) => {
-            if (_.isString(card)) {
+        for (let card of newState) {
+            if (typeof card === 'string') {
                 if (card.includes(':')) {
                     if (!card.startsWith(this.token + ':')) {
                         throw new Error(
@@ -118,7 +121,7 @@ class PlayerInteractionWrapper {
                 }
             }
             card.exhausted = false;
-        });
+        }
     }
 
     get deck() {
@@ -135,11 +138,9 @@ class PlayerInteractionWrapper {
 
         // Add cards in reverse order so first card ends up on top
         let cards = this.mixedListToCardList(newContents, 'discard');
-        _.chain(cards)
-            .reverse()
-            .each((card) => {
-                this.moveCard(card, 'deck');
-            });
+        for (const card of [...cards].reverse()) {
+            this.moveCard(card, 'deck');
+        }
     }
 
     /**
@@ -148,17 +149,15 @@ class PlayerInteractionWrapper {
      */
     set discard(newContents = []) {
         //  Move cards to the deck
-        _.each(this.discard, (card) => {
+        for (const card of this.discard) {
             this.moveCard(card, 'deck');
-        });
+        }
         // Move cards to the discard in reverse order
         // (helps with referring to cards by index)
-        _.chain(newContents)
-            .reverse()
-            .each((name) => {
-                var card = this.findCardByName(name, 'deck');
-                this.moveCard(card, 'discard');
-            });
+        for (const name of [...newContents].reverse()) {
+            var card = this.findCardByName(name, 'deck');
+            this.moveCard(card, 'discard');
+        }
     }
 
     get discard() {
@@ -167,9 +166,13 @@ class PlayerInteractionWrapper {
 
     set archives(newContents = []) {
         var cardsInArchives = this.archives;
-        _.each(cardsInArchives, (card) => this.moveCard(card, 'deck'));
+        for (const card of cardsInArchives) {
+            this.moveCard(card, 'deck');
+        }
         let cards = this.mixedListToCardList(newContents, 'deck');
-        _.each(cards, (card) => this.moveCard(card, 'archives'));
+        for (const card of cards) {
+            this.moveCard(card, 'archives');
+        }
     }
 
     get archives() {
@@ -295,7 +298,7 @@ class PlayerInteractionWrapper {
 
     get currentButtons() {
         let buttons = this.currentPrompt().buttons;
-        return _.map(buttons, (button) => this.replaceLocalizedValues(button));
+        return buttons.map((button) => this.replaceLocalizedValues(button));
     }
 
     /**
@@ -333,9 +336,9 @@ class PlayerInteractionWrapper {
         return (
             prompt.menuTitle +
             '\n' +
-            _.map(this.currentButtons, (button) => '[ ' + button + ' ]').join('\n') +
+            this.currentButtons.map((button) => '[ ' + button + ' ]').join('\n') +
             '\n' +
-            _.pluck(selectableCards, 'name').join('\n')
+            selectableCards.map((c) => c.name).join('\n')
         );
     }
 
@@ -353,7 +356,7 @@ class PlayerInteractionWrapper {
         var matchFunc = matchCardByNameAndPack(name);
         // So that function can accept either lists or single locations
         if (locations !== 'any') {
-            if (!_.isArray(locations)) {
+            if (!Array.isArray(locations)) {
                 locations = [locations];
             }
             // 'provinces' = ['province 1', 'province 2', etc.]
@@ -363,7 +366,7 @@ class PlayerInteractionWrapper {
             var cards = this.filterCards(
                 (card) =>
                     matchFunc(card.cardData) &&
-                    (locations === 'any' || _.contains(locations, card.location)),
+                    (locations === 'any' || locations.includes(card.location)),
                 side
             );
         } catch (e) {
@@ -397,7 +400,7 @@ class PlayerInteractionWrapper {
     }
 
     putIntoPlay(card) {
-        if (_.isString(card)) {
+        if (typeof card === 'string') {
             card = this.findCardByName(card);
         }
 
@@ -457,8 +460,7 @@ class PlayerInteractionWrapper {
     clickPrompt(text, num = 0) {
         text = text.toString();
         var currentPrompt = this.player.currentPrompt();
-        var promptButtons = _.filter(
-            currentPrompt.buttons,
+        var promptButtons = currentPrompt.buttons.filter(
             (button) =>
                 this.replaceLocalizedValues(button).toString().toLowerCase() === text.toLowerCase()
         );
@@ -482,7 +484,7 @@ class PlayerInteractionWrapper {
     }
 
     clickCard(card, location = 'any', side) {
-        if (_.isString(card)) {
+        if (typeof card === 'string') {
             card = this.findCardByName(card, location, side);
         }
 
@@ -493,11 +495,11 @@ class PlayerInteractionWrapper {
     }
 
     clickMenu(card, menuText) {
-        if (_.isString(card)) {
+        if (typeof card === 'string') {
             card = this.findCardByName(card);
         }
 
-        var items = _.filter(card.getMenu(), (item) => item.text === menuText);
+        var items = card.getMenu().filter((item) => item.text === menuText);
 
         if (items.length === 0) {
             throw new Error(`Card ${card.name} does not have a menu item "${menuText}"`);
@@ -588,7 +590,7 @@ class PlayerInteractionWrapper {
      * card object, if card parameter is a String
      */
     moveCard(card, targetLocation, searchLocations = 'any') {
-        if (_.isString(card)) {
+        if (typeof card === 'string') {
             card = this.mixedListToCardList([card], searchLocations)[0];
         }
 
@@ -683,7 +685,7 @@ class PlayerInteractionWrapper {
     }
 
     playCreature(card, left = false, deploy = false) {
-        if (_.isString(card)) {
+        if (typeof card === 'string') {
             card = this.findCardByName(card, 'hand');
         }
 
@@ -725,20 +727,20 @@ class PlayerInteractionWrapper {
         }
 
         // Yank all the non-string cards
-        var cardList = _.reject(mixed, (card) => _.isString(card));
-        mixed = _.filter(mixed, (card) => _.isString(card));
+        var cardList = mixed.filter((card) => typeof card !== 'string');
+        mixed = mixed.filter((card) => typeof card === 'string');
         // Find cards objects for the rest
-        _.each(mixed, (card) => {
+        for (const card of mixed) {
             //Find only those cards that aren't already in the list
             var cardObject = this.filterCardsByName(card, locations).find(
-                (card) => !_.contains(cardList, card)
+                (card) => !cardList.includes(card)
             );
             if (!cardObject) {
                 throw new Error(`Could not find card named ${card}`);
             }
 
             cardList.push(cardObject);
-        });
+        }
 
         return cardList;
     }

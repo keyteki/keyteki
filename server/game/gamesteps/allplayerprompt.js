@@ -1,4 +1,3 @@
-const _ = require('underscore');
 const UiPrompt = require('./uiprompt.js');
 
 class AllPlayerPrompt extends UiPrompt {
@@ -12,7 +11,7 @@ class AllPlayerPrompt extends UiPrompt {
     }
 
     isComplete() {
-        return _.all(this.game.getPlayers(), (player) => {
+        return this.game.getPlayers().every((player) => {
             return this.completionCondition(player);
         });
     }

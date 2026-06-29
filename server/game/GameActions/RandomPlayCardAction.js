@@ -1,6 +1,6 @@
+const _ = require('underscore');
 const { EVENTS } = require('../Events/types');
 const PlayerAction = require('./PlayerAction');
-const _ = require('underscore');
 
 class RandomPlayCardAction extends PlayerAction {
     setDefaultProperties() {

@@ -1,5 +1,5 @@
-const Card = require('../../Card.js');
 const _ = require('underscore');
+const Card = require('../../Card.js');
 
 class Malstrom extends Card {
     // Play: Put each creature on top of its owner's deck in a random order. Gain 2 chains.
