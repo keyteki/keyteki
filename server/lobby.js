@@ -1366,6 +1366,33 @@ class Lobby {
             }
         }
 
+        // Re-handoff only when this game is still the user's active lobby game,
+        // mirroring doPostAuth/findGameForUser behavior.
+        for (let game of Object.values(this.games)) {
+            if (!game.node || game.node.identity !== nodeName || !game.started) {
+                continue;
+            }
+
+            const names = new Set([
+                ...Object.keys(game.players || {}),
+                ...Object.keys(game.spectators || {})
+            ]);
+
+            for (let name of names) {
+                const socket = this.socketsByName[name];
+                if (!socket) {
+                    continue;
+                }
+
+                const activeGame = this.findGameForUser(name);
+                if (!activeGame || activeGame.id !== game.id) {
+                    continue;
+                }
+
+                this.sendHandoff(socket, game.node, game.id);
+            }
+        }
+
         this.broadcastGameList();
     }
 }
