@@ -190,6 +190,7 @@ const Card = ({
                 cardSize={size}
                 cards={underneathCards}
                 className='underneath'
+                halfSize={halfSize}
                 maxCards={maxCards}
                 onCardClick={onClick}
                 onMouseOut={onMouseOut}

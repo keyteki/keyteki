@@ -174,6 +174,12 @@ const CardImage = ({ card, cardBack, size, halfSize, onMouseOver, onMouseOut }) 
     ]);
 
     if (card?.facedown) {
+        if (halfSize) {
+            // The .card-image.halfSize container clips overflow. The inner
+            // div maintains the cardback's natural 5:7 aspect ratio so the
+            // bottom is cropped rather than squished.
+            return <div className='half-size-cardback'>{cardBack || <div />}</div>;
+        }
         return cardBack || <div />;
     }
 
