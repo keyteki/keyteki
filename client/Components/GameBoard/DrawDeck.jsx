@@ -7,16 +7,7 @@ import { useTranslation } from 'react-i18next';
 const DrawDeck = (props) => {
     const { t } = useTranslation();
 
-    const {
-        cards,
-        isMe,
-        manualMode,
-        onDragDrop,
-        onPopupChange,
-        onShuffleClick,
-        showDeck,
-        spectating
-    } = props;
+    const { cards, isMe, manualMode, onDragDrop, onShuffleClick, showDeck, spectating } = props;
 
     let drawDeckPopupMenu = showDeck
         ? [{ text: 'Close and Shuffle', handler: () => onShuffleClick && onShuffleClick() }]
@@ -30,9 +21,6 @@ const DrawDeck = (props) => {
             className='draw'
             disablePopup={!hasCards && (spectating || !isMe)}
             hiddenTopCard
-            onPopupChange={(event) =>
-                onPopupChange && !event.visible && onPopupChange({ visible: false })
-            }
             popupMenu={drawDeckPopupMenu}
             source='deck'
             cards={cards}
