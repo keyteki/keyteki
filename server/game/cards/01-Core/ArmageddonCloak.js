@@ -9,20 +9,12 @@ class ArmageddonCloak extends Card {
                 ability.effects.gainAbility('destroyed', {
                     effect: 'heal all damage from {0} and destroy {1} instead',
                     effectArgs: () => this,
-                    gameAction: [
-                        ability.actions.heal({ fully: true }),
-                        ability.actions.changeEvent((context) => ({
-                            event: context.event,
-                            card: this,
-                            postHandler: (context) => (context.source.moribund = false)
-                        })),
-                        ability.actions.changeEvent((context) => ({
-                            event: context.event.triggeringEvent,
-                            destroyedByDamageDealt: false,
-                            destroyedFighting: false,
-                            card: this
-                        }))
-                    ]
+                    gameAction: ability.actions.replaceDestruction({
+                        gameAction: [
+                            ability.actions.heal({ fully: true }),
+                            ability.actions.destroy({ target: this })
+                        ]
+                    })
                 })
             ]
         });

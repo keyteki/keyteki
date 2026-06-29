@@ -68,6 +68,7 @@ module.exports = {
     RemoveTokenAction: require('./RemoveTokenAction'),
     RemoveAllTokensAction: require('./RemoveAllTokensAction'),
     RemoveWardAction: require('./RemoveWardAction'),
+    ReplaceDestructionAction: require('./ReplaceDestructionAction'),
     ResolveAbilityAction: require('./ResolveAbilityAction'),
     ResolveBonusIconsAction: require('./ResolveBonusIconsAction'),
     ResolveFateAction: require('./ResolveFateAction'),
