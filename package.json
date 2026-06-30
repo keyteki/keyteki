@@ -136,7 +136,7 @@
         "body-parser": "^1.20.5",
         "command-line-args": "^6.0.1",
         "ejs": "^3.1.10",
-        "eslint": "^7.1.0",
+        "eslint": "^10.6.0",
         "eslint-plugin-react": "^7.20.0",
         "eslint-plugin-react-hooks": "^4.0.4",
         "handlebars": "^4.7.9",
