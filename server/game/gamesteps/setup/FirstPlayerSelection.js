@@ -57,6 +57,15 @@ class FirstPlayerSelection extends AllPlayerPrompt {
     }
 
     onCompleted() {
+        if (this.game.adaptiveFirstDeck) {
+            this.players.forEach((player) => {
+                if (player.deckData === this.game.adaptiveFirstDeck) {
+                    this.game.activePlayer = player;
+                    this.game.addMessage('{0} becomes the first player!', player);
+                }
+            });
+        }
+
         if (!this.game.activePlayer) {
             let allPlayersShuffled = _.shuffle(this.game.getPlayers());
             this.game.activePlayer = allPlayersShuffled.shift();
