@@ -49,6 +49,15 @@ class SetupPhase extends Phase {
                 );
             }
         }
+
+        if (this.game.adaptiveFirstDeck) {
+            this.game.addAlert('info', '{0} will go first', {
+                link:
+                    'https://www.keyforgegame.com/deck-details/' + this.game.adaptiveFirstDeck.uuid,
+                argType: 'link',
+                label: this.game.adaptiveFirstDeck.name
+            });
+        }
     }
 
     setupBegin() {
