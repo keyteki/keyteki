@@ -10,7 +10,12 @@ class FirstPlayerSelection extends AllPlayerPrompt {
     }
 
     completionCondition(player) {
-        return this.previousWinner === player.name || !this.previousWinner || this.clickedButton;
+        return (
+            this.previousWinner === player.name ||
+            !this.previousWinner ||
+            this.clickedButton ||
+            this.game.adaptiveFirstDeck
+        );
     }
 
     activePrompt() {
