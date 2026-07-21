@@ -96,6 +96,7 @@ class Game extends EventEmitter {
         this.propheciesActivatedThisPhase = [];
         this.gainsTextBoxSourcesThisPhase = [];
         this.activePlayer = null;
+        this.adaptiveFirstDeck = null;
         this.firstPlayer = null;
         this.playedRoundsAfterTime = [];
         this.finalTurnCompleted = false;
