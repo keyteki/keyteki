@@ -9,7 +9,9 @@ class AdaptiveDeckSelectionPrompt extends AllPlayerPrompt {
         this.adaptive = game.adaptive;
         this.clickedButton = {};
         this.players = game.getPlayers();
-        this.firstDeck();
+        if (this.gameFormat === 'adaptive-bo1') {
+            this.firstDeck();
+        }
     }
 
     completionCondition(player) {
