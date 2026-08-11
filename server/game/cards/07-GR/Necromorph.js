@@ -13,20 +13,12 @@ class Necromorph extends Card {
             },
             effect: 'heal all damage from {1} and destroy {0} instead',
             effectArgs: () => this,
-            gameAction: [
-                ability.actions.heal({ fully: true }),
-                ability.actions.changeEvent((context) => ({
-                    event: context.event,
-                    card: this,
-                    postHandler: (context) => (context.source.moribund = false)
-                })),
-                ability.actions.changeEvent((context) => ({
-                    event: context.event.triggeringEvent,
-                    destroyedByDamageDealt: false,
-                    destroyedFighting: false,
-                    card: context.target
-                }))
-            ]
+            gameAction: ability.actions.replaceDestruction({
+                gameAction: [
+                    ability.actions.heal({ fully: true }),
+                    ability.actions.destroy((context) => ({ target: context.target }))
+                ]
+            })
         });
     }
 }

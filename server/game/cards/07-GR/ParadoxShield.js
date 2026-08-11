@@ -17,20 +17,13 @@ class ParadoxShield extends Card {
                         alwaysTriggers: true,
                         condition: (context) =>
                             context.preThenEvents.length === preThenContext.source.power,
-                        gameAction: [
-                            ability.actions.heal({ fully: true }),
-                            ability.actions.changeEvent({
-                                event: preThenContext.event,
-                                card: this,
-                                postHandler: (context) => (context.source.moribund = false)
-                            }),
-                            ability.actions.changeEvent({
-                                event: preThenContext.event.triggeringEvent,
-                                destroyedByDamageDealt: false,
-                                destroyedFighting: false,
-                                card: this
-                            })
-                        ]
+                        gameAction: ability.actions.replaceDestruction({
+                            event: preThenContext.event,
+                            gameAction: [
+                                ability.actions.heal({ fully: true }),
+                                ability.actions.destroy({ target: this })
+                            ]
+                        })
                     })
                 })
             ]
