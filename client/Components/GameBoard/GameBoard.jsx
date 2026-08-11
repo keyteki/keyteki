@@ -222,10 +222,6 @@ export const GameBoard = () => {
         sendGameMessage('cardClicked', card.uuid);
     };
 
-    const handleDrawPopupChange = (event) => {
-        sendGameMessage('showDrawDeck', event.visible);
-    };
-
     const sendChatMessage = (message) => {
         sendGameMessage('chat', message);
     };
@@ -374,7 +370,6 @@ export const GameBoard = () => {
                     numDeckCards={otherPlayer.numDeckCards}
                     onCardClick={onCardClick}
                     onDragDrop={onDragDrop}
-                    onDrawPopupChange={handleDrawPopupChange}
                     onMenuItemClick={onMenuItemClick}
                     onMouseOut={onMouseOut}
                     onMouseOver={onMouseOver}
@@ -475,7 +470,6 @@ export const GameBoard = () => {
                 onMessagesClick={onMessagesClick}
                 onCardClick={onCardClick}
                 onDragDrop={onDragDrop}
-                onDrawPopupChange={handleDrawPopupChange}
                 onMenuItemClick={onMenuItemClick}
                 onShuffleClick={onShuffleClick}
                 onMouseOut={onMouseOut}

@@ -1,5 +1,5 @@
-import classNames from 'classnames';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import classNames from 'classnames';
 
 import CardImage from './CardImage';
 import CardPilePopup from './CardPilePopup';
@@ -34,32 +34,28 @@ const CardPileLink = ({
 }) => {
     const [showPopup, setShowPopup] = useState(false);
     const [manualPopup, setManualPopup] = useState(false);
-    const showPopupRef = useRef(false);
-    const updatePopupVisibility = useCallback(
-        (value) => {
-            if (showPopupRef.current === value) {
-                return;
-            }
+    const prevShowPopupRef = useRef(showPopup);
+    const updatePopupVisibility = useCallback((value) => {
+        setShowPopup(value);
+    }, []);
 
-            showPopupRef.current = value;
-            setShowPopup(value);
-
-            onPopupChange && onPopupChange({ source: source, visible: value });
-        },
-        [source, onPopupChange]
-    );
+    useEffect(() => {
+        if (prevShowPopupRef.current !== showPopup) {
+            prevShowPopupRef.current = showPopup;
+            onPopupChange && onPopupChange({ source: source, visible: showPopup });
+        }
+    }, [showPopup, source, onPopupChange]);
 
     useEffect(() => {
         if (manualPopup) {
             return;
         }
 
-        if (isPromptTarget || cards?.some((card) => card.selectable)) {
-            updatePopupVisibility(true);
-        } else {
-            updatePopupVisibility(false);
+        const desired = !!(isPromptTarget || cards?.some((card) => card.selectable));
+        if (desired !== showPopup) {
+            updatePopupVisibility(desired);
         }
-    }, [cards, isPromptTarget, manualPopup, updatePopupVisibility]);
+    }, [cards, isPromptTarget, manualPopup, showPopup, updatePopupVisibility]);
 
     let classNameStr = classNames('card-pile-link', className, {
         horizontal: orientation === 'horizontal' || orientation === 'exhausted',
