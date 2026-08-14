@@ -16,7 +16,7 @@ describe('Guard Disguise', function () {
             });
         });
 
-        it('should be usable and not steal if the opponent has more than 3, but should be sacrificed', function () {
+        it('should be usable and not steal if the opponent has more than 3, but should be destroyed', function () {
             this.player1.clickCard(this.guardDisguise);
             this.player1.clickPrompt("Use this card's Action ability");
             expect(this.guardDisguise.location).toBe('discard');

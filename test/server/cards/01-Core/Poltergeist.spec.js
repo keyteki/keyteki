@@ -123,7 +123,7 @@ describe("Poltergeist's", function () {
             });
         });
 
-        it('should work with artifacts that sacrifice themselves.', function () {
+        it('should work with artifacts that destroy themselves.', function () {
             this.player1.play(this.poltergeist);
             this.player1.clickCard(this.spikeTrap);
             expect(this.spikeTrap.location).toBe('discard');

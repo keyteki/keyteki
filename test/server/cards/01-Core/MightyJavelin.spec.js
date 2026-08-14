@@ -12,7 +12,7 @@ describe('Mighty Javelin', function () {
             });
         });
 
-        it('should sacrifice itself and deal 4 damage to a creature', function () {
+        it('should destroy itself and deal 4 damage to a creature', function () {
             this.player1.clickCard(this.mightyJavelin);
             this.player1.clickPrompt("Use this card's Omni ability");
             expect(this.player1).toHavePrompt('Mighty Javelin');

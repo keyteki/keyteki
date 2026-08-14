@@ -113,7 +113,6 @@ const Actions = {
     returnToDeck: (propertyFactory) => new GameActions.ReturnToDeckAction(propertyFactory), // bottom = false
     returnToHand: (propertyFactory) => new GameActions.ReturnToHandAction(propertyFactory),
     reveal: (propertyFactory) => new GameActions.RevealAction(propertyFactory),
-    sacrifice: (propertyFactory) => new GameActions.DestroyAction(propertyFactory, true),
     stun: (propertyFactory) => new GameActions.StunAction(propertyFactory),
     swap: (propertyFactory) => new GameActions.SwapAction(propertyFactory), // origin
     swapDiscardWithHand: (propertyFactory) =>

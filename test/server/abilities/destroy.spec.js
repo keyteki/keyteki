@@ -48,7 +48,7 @@ describe('Destroyed: ability window', function () {
             expect(this.player1.amber).toBe(2);
             expect(this.player2.amber).toBe(0);
 
-            // Use Obsidian Forge to sacrifice every friendly creature.
+            // Use Obsidian Forge to destroy every friendly creature.
             this.player1.useAction(this.obsidianForge);
             this.player1.clickCard(this.jargogleWithChampChall);
             this.player1.clickCard(this.jargogleWithBatdrone);

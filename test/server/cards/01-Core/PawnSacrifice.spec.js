@@ -14,9 +14,9 @@ describe('Pawn Sacrifice', function () {
             });
         });
 
-        it('prompt for a sacrifice and then resolve it, then prompt for creatures to damage', function () {
+        it('prompt for a creature to destroy and then resolve it, then prompt for creatures to damage', function () {
             this.player1.play(this.pawnSacrifice);
-            expect(this.player1).toHavePrompt('Choose a creature to sacrifice');
+            expect(this.player1).toHavePrompt('Choose a creature to destroy');
             expect(this.player1).toBeAbleToSelect(this.urchin);
             expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
             expect(this.player1).not.toBeAbleToSelect(this.batdrone);
@@ -39,7 +39,7 @@ describe('Pawn Sacrifice', function () {
             expect(this.silvertooth.location).toBe('discard');
             expect(this.inkaTheSpider.location).toBe('discard');
             this.player1.play(this.pawnSacrifice);
-            expect(this.player1).toHavePrompt('Choose a creature to sacrifice');
+            expect(this.player1).toHavePrompt('Choose a creature to destroy');
             expect(this.player1).toBeAbleToSelect(this.urchin);
             expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
             expect(this.player1).not.toBeAbleToSelect(this.batdrone);
@@ -65,7 +65,7 @@ describe('Pawn Sacrifice', function () {
             expect(this.silvertooth.location).toBe('discard');
             expect(this.inkaTheSpider.location).toBe('discard');
             this.player1.play(this.pawnSacrifice);
-            expect(this.player1).toHavePrompt('Choose a creature to sacrifice');
+            expect(this.player1).toHavePrompt('Choose a creature to destroy');
             expect(this.player1).toBeAbleToSelect(this.urchin);
             expect(this.player1).not.toBeAbleToSelect(this.inkaTheSpider);
             expect(this.player1).not.toBeAbleToSelect(this.batdrone);

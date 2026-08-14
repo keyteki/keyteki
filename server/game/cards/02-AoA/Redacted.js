@@ -18,9 +18,9 @@ class Redacted extends Card {
                     event.card.amber >= 3 &&
                     event.gameAction.type === 'amber'
             },
-            effect: 'sacrifice {0} and forge a key at no cost',
+            effect: 'destroy {0} and forge a key at no cost',
             gameAction: [
-                ability.actions.sacrifice(),
+                ability.actions.destroy(),
                 ability.actions.forgeKey({
                     atNoCost: true
                 })

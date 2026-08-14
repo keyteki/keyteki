@@ -4,7 +4,7 @@ class SpikeTrap extends Card {
     // Omni: Destroy Spike Trap. If you do, deal 3D to each flank creature.
     setupCardAbilities(ability) {
         this.omni({
-            gameAction: ability.actions.sacrifice(),
+            gameAction: ability.actions.destroy(),
             then: {
                 message: '{0} uses {1} to deal 3 damage to {3}',
                 messageArgs: (context) => [

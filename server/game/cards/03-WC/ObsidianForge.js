@@ -5,11 +5,11 @@ class ObsidianForge extends Card {
     setupCardAbilities(ability) {
         this.action({
             target: {
-                activePromptTitle: 'Choose a creature to sacrifice',
+                activePromptTitle: 'Choose a creature to destroy',
                 mode: 'unlimited',
                 controller: 'self',
                 cardType: 'creature',
-                gameAction: ability.actions.sacrifice()
+                gameAction: ability.actions.destroy()
             },
             then: {
                 may: 'forge a key',
@@ -18,7 +18,7 @@ class ObsidianForge extends Card {
                     modifier: 6 - context.preThenEvents.filter((event) => !event.cancelled).length
                 })),
                 then: {
-                    gameAction: ability.actions.sacrifice()
+                    gameAction: ability.actions.destroy()
                 }
             }
         });

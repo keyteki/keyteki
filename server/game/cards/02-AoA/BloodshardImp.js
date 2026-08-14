@@ -7,7 +7,7 @@ class BloodshardImp extends Card {
             when: {
                 onReap: () => true
             },
-            gameAction: ability.actions.sacrifice((context) => ({
+            gameAction: ability.actions.destroy((context) => ({
                 target: context.event.card
             }))
         });

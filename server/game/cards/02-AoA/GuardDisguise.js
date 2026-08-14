@@ -9,7 +9,7 @@ class GuardDisguise extends Card {
                 ability.actions.steal((context) => ({
                     amount: context.player.opponent && context.player.opponent.amber <= 3 ? 3 : 0
                 })),
-                ability.actions.sacrifice()
+                ability.actions.destroy()
             ]
         });
     }

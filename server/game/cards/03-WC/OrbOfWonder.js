@@ -4,7 +4,7 @@ class OrbOfWonder extends Card {
     // Omni: Destroy Orb of Wonder. If you do, search your deck for a card and put it into your hand. Shuffle your deck.
     setupCardAbilities(ability) {
         this.omni({
-            gameAction: ability.actions.sacrifice(),
+            gameAction: ability.actions.destroy(),
             then: {
                 message: '{0} uses {1} to move a card from their deck to their hand',
                 gameAction: ability.actions.search({

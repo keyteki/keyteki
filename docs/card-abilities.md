@@ -201,9 +201,9 @@ this.action({
 "Omni:" abilities can be used regardless of which house is active. They are essentially action abilities with the `omni` property set to true.
 
 ```javascript
-// Omni: Sacrifice this artifact. If you do, gain 2A.
+// Omni: Destroy this artifact. If you do, gain 2A.
 this.omni({
-    gameAction: ability.actions.sacrifice(),
+    gameAction: ability.actions.destroy(),
     then: {
         gameAction: ability.actions.gainAmber({ amount: 2 })
     }
@@ -335,7 +335,7 @@ this.reaction({
 Abilities that trigger before an event resolves, potentially modifying or preventing it.
 
 ```javascript
-// Before a friendly creature would be destroyed, you may sacrifice this card instead.
+// Before a friendly creature would be destroyed, you may destroy this card instead.
 this.interrupt({
     when: {
         onCardDestroyed: (event, context) =>
@@ -343,7 +343,7 @@ this.interrupt({
             event.card.controller === context.player &&
             event.card !== context.source
     },
-    gameAction: ability.actions.sacrifice()
+    gameAction: ability.actions.destroy()
 });
 ```
 
@@ -594,9 +594,9 @@ The `then` block supports:
 When card text says "If you do, ...", the follow-up effect must trigger **only if the preceding effect actually happened**. By default, a `then` block is already gated by whether the prior `gameAction`'s events resolved uncancelled, so simple cases work automatically:
 
 ```javascript
-// Sacrifice this artifact. If you do, gain 2A.
+// Destroy this artifact. If you do, gain 2A.
 this.omni({
-    gameAction: ability.actions.sacrifice(),
+    gameAction: ability.actions.destroy(),
     then: {
         gameAction: ability.actions.gainAmber({ amount: 2 })
     }
