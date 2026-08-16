@@ -54,29 +54,33 @@ const PlayerBoard = (props) => {
                 source='play area'
                 manualMode={props.manualMode}
             >
-                {rows.map((row, index) => (
-                    <div className={`card-row ${row.name}`} key={`card-row-${index}`}>
-                        {row.cards.map((card) => (
-                            <Card
-                                key={card.uuid}
-                                cardBack={props.cardBack}
-                                canDrag={props.manualMode}
-                                card={card}
-                                disableMouseOver={card.facedown && !card.code}
-                                halfSize={props.user.settings.optionSettings.useHalfSizedCards}
-                                isSpectating={props.isSpectating}
-                                onClick={props.onCardClick}
-                                onMenuItemClick={props.onMenuItemClick}
-                                onMouseOut={props.onMouseOut}
-                                onMouseOver={props.onMouseOver}
-                                size={props.user.settings.cardSize}
-                                hasActiveHouse={props.hasActiveHouse}
-                                isMe={props.isMe}
-                                source='play area'
-                            />
-                        ))}
-                    </div>
-                ))}
+                {rows.map((row, index) => {
+                    const cards =
+                        props.rowDirection === 'reverse' ? [...row.cards].reverse() : row.cards;
+                    return (
+                        <div className={`card-row ${row.name}`} key={`card-row-${index}`}>
+                            {cards.map((card) => (
+                                <Card
+                                    key={card.uuid}
+                                    cardBack={props.cardBack}
+                                    canDrag={props.manualMode}
+                                    card={card}
+                                    disableMouseOver={card.facedown && !card.code}
+                                    halfSize={props.user.settings.optionSettings.useHalfSizedCards}
+                                    isSpectating={props.isSpectating}
+                                    onClick={props.onCardClick}
+                                    onMenuItemClick={props.onMenuItemClick}
+                                    onMouseOut={props.onMouseOut}
+                                    onMouseOver={props.onMouseOver}
+                                    size={props.user.settings.cardSize}
+                                    hasActiveHouse={props.hasActiveHouse}
+                                    isMe={props.isMe}
+                                    source='play area'
+                                />
+                            ))}
+                        </div>
+                    );
+                })}
             </Droppable>
             {props.isMe && (
                 <PlayerRow
