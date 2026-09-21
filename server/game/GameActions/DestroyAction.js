@@ -69,6 +69,9 @@ class DestroyAction extends CardGameAction {
                               leavesPlayEvent.card.moribund = false;
                               leavesPlayEvent.replacementHandler(leavesPlayEvent, event);
                               leavesPlayEvent.cancel();
+                              // Cancel the destroy event so reactions on onCardDestroyed
+                              // (e.g. Soul Snatcher, Chonkers) don't fire for replaced destructions.
+                              event.cancel();
                           } else {
                               leavesPlayEvent.card.owner.moveCard(event.card, 'discard');
                           }
