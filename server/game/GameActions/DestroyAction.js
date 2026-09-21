@@ -63,7 +63,13 @@ class DestroyAction extends CardGameAction {
                       // move in discardAllTaggedCards after triggers resolve.
                       () => true
                     : (leavesPlayEvent) => {
-                          leavesPlayEvent.card.owner.moveCard(event.card, 'discard');
+                          if (leavesPlayEvent.replacementHandler) {
+                              // A replacement effect installed a handler to run
+                              // instead of discarding the card (e.g. SelfBolsteringAutomata).
+                              leavesPlayEvent.replacementHandler(leavesPlayEvent, event);
+                          } else {
+                              leavesPlayEvent.card.owner.moveCard(event.card, 'discard');
+                          }
                       }
             );
 

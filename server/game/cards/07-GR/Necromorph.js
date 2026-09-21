@@ -3,7 +3,7 @@ const Card = require('../../Card.js');
 class Necromorph extends Card {
     // Destroyed: If Necromorph has a non-Star Alliance neighbor,
     // fully heal Necromorph and destroy that neighbor instead.
-    setupCardAbilities(ability) {
+    setupCardAbilities() {
         this.destroyed({
             condition: (context) =>
                 context.source.neighbors.some((card) => !card.hasHouse('staralliance')),
@@ -11,22 +11,23 @@ class Necromorph extends Card {
                 cardCondition: (card, context) =>
                     context.source.neighbors.includes(card) && !card.hasHouse('staralliance')
             },
-            effect: 'heal all damage from {1} and destroy {0} instead',
-            effectArgs: () => this,
-            gameAction: [
-                ability.actions.heal({ fully: true }),
-                ability.actions.changeEvent((context) => ({
-                    event: context.event,
-                    card: this,
-                    postHandler: (context) => (context.source.moribund = false)
-                })),
-                ability.actions.changeEvent((context) => ({
-                    event: context.event.triggeringEvent,
-                    destroyedByDamageDealt: false,
-                    destroyedFighting: false,
-                    card: context.target
-                }))
-            ]
+            handler: (context) => {
+                const target = context.target;
+                context.event.replacementHandler = (leavesPlayEvent) => {
+                    const card = leavesPlayEvent.card;
+                    card.moribund = false;
+                    card.removeToken('damage');
+                    context.game.addMessage(
+                        '{0} uses {1} to fully heal {1} and destroy {2} instead',
+                        context.player,
+                        context.source,
+                        target
+                    );
+                    context.game.actions
+                        .destroy()
+                        .resolve(target, context.game.getFrameworkContext());
+                };
+            }
         });
     }
 }

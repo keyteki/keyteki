@@ -7,22 +7,24 @@ class ArmageddonCloak extends Card {
             effect: [
                 ability.effects.addKeyword({ hazardous: 2 }),
                 ability.effects.gainAbility('destroyed', {
-                    effect: 'heal all damage from {0} and destroy {1} instead',
-                    effectArgs: () => this,
-                    gameAction: [
-                        ability.actions.heal({ fully: true }),
-                        ability.actions.changeEvent((context) => ({
-                            event: context.event,
-                            card: this,
-                            postHandler: (context) => (context.source.moribund = false)
-                        })),
-                        ability.actions.changeEvent((context) => ({
-                            event: context.event.triggeringEvent,
-                            destroyedByDamageDealt: false,
-                            destroyedFighting: false,
-                            card: this
-                        }))
-                    ]
+                    handler: (context) => {
+                        const cloak = this;
+                        context.event.replacementHandler = (leavesPlayEvent) => {
+                            const card = leavesPlayEvent.card;
+                            card.moribund = false;
+                            card.removeToken('damage');
+                            context.game.addMessage(
+                                '{0} uses {1} to fully heal {2} and destroy {3} instead',
+                                context.player,
+                                cloak,
+                                card,
+                                cloak
+                            );
+                            context.game.actions
+                                .destroy()
+                                .resolve(cloak, context.game.getFrameworkContext());
+                        };
+                    }
                 })
             ]
         });

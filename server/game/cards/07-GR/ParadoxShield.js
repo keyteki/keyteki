@@ -1,9 +1,9 @@
 const Card = require('../../Card.js');
 
 class ParadoxShield extends Card {
-    // This creature gains “Destroyed: Discard cards from the top of
-    // your deck equal to this creature’s power. If you do, fully heal
-    // this creature and destroy Paradox Shield instead.”
+    // This creature gains "Destroyed: Discard cards from the top of
+    // your deck equal to this creature's power. If you do, fully heal
+    // this creature and destroy Paradox Shield instead."
     setupCardAbilities(ability) {
         this.whileAttached({
             effect: [
@@ -17,20 +17,24 @@ class ParadoxShield extends Card {
                         alwaysTriggers: true,
                         condition: (context) =>
                             context.preThenEvents.length === preThenContext.source.power,
-                        gameAction: [
-                            ability.actions.heal({ fully: true }),
-                            ability.actions.changeEvent({
-                                event: preThenContext.event,
-                                card: this,
-                                postHandler: (context) => (context.source.moribund = false)
-                            }),
-                            ability.actions.changeEvent({
-                                event: preThenContext.event.triggeringEvent,
-                                destroyedByDamageDealt: false,
-                                destroyedFighting: false,
-                                card: this
-                            })
-                        ]
+                        handler: (context) => {
+                            const shield = this;
+                            preThenContext.event.replacementHandler = (leavesPlayEvent) => {
+                                const card = leavesPlayEvent.card;
+                                card.moribund = false;
+                                card.removeToken('damage');
+                                context.game.addMessage(
+                                    '{0} uses {1} to fully heal {2} and destroy {3} instead',
+                                    context.player,
+                                    shield,
+                                    card,
+                                    shield
+                                );
+                                context.game.actions
+                                    .destroy()
+                                    .resolve(shield, context.game.getFrameworkContext());
+                            };
+                        }
                     })
                 })
             ]
