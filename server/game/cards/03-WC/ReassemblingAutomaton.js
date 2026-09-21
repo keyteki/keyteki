@@ -8,7 +8,6 @@ class ReassemblingAutomaton extends Card {
             handler: (context) => {
                 context.event.replacementHandler = (leavesPlayEvent) => {
                     const card = leavesPlayEvent.card;
-                    card.moribund = false;
                     card.removeToken('damage');
                     card.exhausted = true;
                     context.game.addMessage(

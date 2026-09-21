@@ -15,7 +15,6 @@ class TheBodySnatchers extends Card {
                         const newController = context.player.opponent;
                         context.event.replacementHandler = (leavesPlayEvent) => {
                             const card = leavesPlayEvent.card;
-                            card.moribund = false;
                             card.removeToken('damage');
                             // Apply a permanent lasting effect so getModifiedController()
                             // returns the new controller and checkGameState doesn't revert it.

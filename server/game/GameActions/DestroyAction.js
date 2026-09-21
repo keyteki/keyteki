@@ -66,7 +66,9 @@ class DestroyAction extends CardGameAction {
                           if (leavesPlayEvent.replacementHandler) {
                               // A replacement effect installed a handler to run
                               // instead of discarding the card (e.g. SelfBolsteringAutomata).
+                              leavesPlayEvent.card.moribund = false;
                               leavesPlayEvent.replacementHandler(leavesPlayEvent, event);
+                              leavesPlayEvent.cancel();
                           } else {
                               leavesPlayEvent.card.owner.moveCard(event.card, 'discard');
                           }

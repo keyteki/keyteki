@@ -11,6 +11,7 @@ This document describes how card abilities are defined in Keyteki. All card abil
     -   [fight()](#fight)
     -   [beforeFight()](#beforefight)
     -   [destroyed()](#destroyed)
+        -   [Destruction replacement effects](#destruction-replacement-effects)
     -   [action()](#action)
     -   [omni()](#omni)
     -   [persistentEffect()](#persistenteffect)
@@ -166,6 +167,34 @@ this.destroyed({
 // Destroyed: Return this card to your hand.
 this.destroyed({
     gameAction: ability.actions.returnToHand()
+});
+```
+
+#### Destruction replacement effects
+
+Some cards replace destruction with a different effect using the word "instead". These are distinct from ordinary `Destroyed:` abilities in two ways:
+
+1. **Timing.** Unlike regular `Destroyed` abilities that take place during the `DestroyedAbilityWindow`, replacement effects do not happen until the card would actually move to the discard pile. In this case, the `Detroyed` effect simply sets up this replacement.
+
+2. **Implementation.** Use `handler` instead of `gameAction`, and install a `replacementHandler` on `context.event`. The engine calls that callback in place of moving the card to discard, having already cleared `moribund` first.
+
+```javascript
+// Destroyed: If you have any other creatures in play, instead of destroying
+// this creature, exhaust it and move it to a flank.
+this.destroyed({
+    condition: (context) => context.player.creaturesInPlay.length > 1,
+    handler: (context) => {
+        context.event.replacementHandler = (leavesPlayEvent) => {
+            const card = leavesPlayEvent.card;
+            card.exhausted = true;
+            context.game.addMessage(
+                '{0} uses {1} to exhaust it and move it to a flank instead',
+                context.player,
+                context.source
+            );
+            context.game.actions.moveToFlank().resolve(card, context);
+        };
+    }
 });
 ```
 

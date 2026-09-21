@@ -171,7 +171,9 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
                 if (leavesPlayEvent.replacementHandler) {
                     // A replacement effect (e.g. SelfBolsteringAutomata) installed
                     // a handler to run instead of discarding the card.
+                    leavesPlayEvent.card.moribund = false;
                     leavesPlayEvent.replacementHandler(leavesPlayEvent, destroyEvent);
+                    leavesPlayEvent.cancel();
                 } else {
                     destroyEvent.card.owner.moveCard(destroyEvent.card, 'discard');
                 }

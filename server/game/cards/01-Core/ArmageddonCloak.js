@@ -11,7 +11,6 @@ class ArmageddonCloak extends Card {
                         const cloak = this;
                         context.event.replacementHandler = (leavesPlayEvent) => {
                             const card = leavesPlayEvent.card;
-                            card.moribund = false;
                             card.removeToken('damage');
                             context.game.addMessage(
                                 '{0} uses {1} to fully heal {2} and destroy {3} instead',

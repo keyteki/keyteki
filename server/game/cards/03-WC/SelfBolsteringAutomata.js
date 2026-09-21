@@ -5,24 +5,16 @@ class SelfBolsteringAutomata extends Card {
     setupCardAbilities() {
         this.destroyed({
             condition: (context) => context.player.creaturesInPlay.length > 1,
-            // Use handler rather than gameAction so we can install a replacementHandler
-            // on the leavesPlay event. The replacement effect must not resolve during the
-            // DestroyedAbilityWindow — it must wait until the window closes and the card
-            // would actually be moved to the discard pile, per the rulebook rule for
-            // destruction replacement effects.
             handler: (context) => {
-                // Capture state now (before other Destroyed: abilities may change the card).
-                const wasReady = !context.source.exhausted;
-                const hadDamage = context.source.damage > 0;
-
                 context.event.replacementHandler = (leavesPlayEvent) => {
                     const card = leavesPlayEvent.card;
-                    card.moribund = false;
-                    card.removeToken('damage');
-                    card.exhausted = true;
-                    if (wasReady && hadDamage) {
+                    const isReady = !context.source.exhausted;
+                    const hasDamage = context.source.damage > 0;
+                    if (isReady && hasDamage) {
                         card.addToken('power', 2);
                     }
+                    card.removeToken('damage');
+                    card.exhausted = true;
                     context.game.addMessage(
                         '{0} uses {1} to fully heal it, exhaust it, and move it to a flank',
                         context.player,

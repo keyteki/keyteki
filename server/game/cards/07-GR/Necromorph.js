@@ -15,7 +15,6 @@ class Necromorph extends Card {
                 const target = context.target;
                 context.event.replacementHandler = (leavesPlayEvent) => {
                     const card = leavesPlayEvent.card;
-                    card.moribund = false;
                     card.removeToken('damage');
                     context.game.addMessage(
                         '{0} uses {1} to fully heal {1} and destroy {2} instead',
