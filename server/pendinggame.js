@@ -119,7 +119,7 @@ class PendingGame {
     }
 
     isUserBlocked(user) {
-        return this.owner.blockList.includes(user.username.toLowerCase());
+        return (this.owner.blockList || []).includes(user.username.toLowerCase());
     }
 
     join(id, user, password) {
@@ -253,7 +253,9 @@ class PendingGame {
 
     // interrogators
     isEmpty() {
-        return !this.getPlayersAndSpectators().some((player) => this.hasActivePlayer(player.name));
+        return !Object.values(this.getPlayersAndSpectators()).some((player) =>
+            this.hasActivePlayer(player.name)
+        );
     }
 
     isOwner(playerName) {
