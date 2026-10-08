@@ -2,6 +2,17 @@ const config = require('config');
 const logger = require('../log.js');
 
 class ConfigService {
+    constructor() {
+        if (
+            process.env.NODE_ENV === 'production' &&
+            (typeof config.secret !== 'string' ||
+                !config.secret.trim() ||
+                config.secret.trim() === 'somethingverysecret')
+        ) {
+            throw new Error('Configure a unique secret before starting in production.');
+        }
+    }
+
     getValue(key) {
         if (!config[key]) {
             logger.warn(`Asked for config value '${key}', but it was not configured`);
