@@ -168,7 +168,20 @@ const Profile = ({ onSubmit, isLoading }) => {
         password: yup.string().min(6, t('Password must be at least 6 characters')),
         passwordAgain: yup
             .string()
-            .oneOf([yup.ref('password'), null], t('The passwords you have entered do not match'))
+            .oneOf([yup.ref('password'), null], t('The passwords you have entered do not match')),
+        currentPassword: yup
+            .string()
+            .test(
+                'currentPasswordRequired',
+                t('You must enter your current password to change your email address or password'),
+                function (value) {
+                    const { email, password } = this.parent;
+                    const isChangingEmail =
+                        (email || '').toLowerCase() !== (user.email || '').toLowerCase();
+
+                    return !(password || isChangingEmail) || !!value;
+                }
+            )
     });
 
     return (
@@ -187,6 +200,7 @@ const Profile = ({ onSubmit, isLoading }) => {
                     email: values.email,
                     username: values.username,
                     password: values.password,
+                    currentPassword: values.currentPassword,
                     settings: { optionSettings: values.gameOptions }
                 };
 

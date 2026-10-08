@@ -414,7 +414,7 @@ class UserService extends EventEmitter {
         };
     }
 
-    verifyRefreshToken(username, refreshToken) {
+    verifyRefreshToken(username, refreshToken, suppliedToken) {
         let hmac = crypto.createHmac(
             'sha512',
             this.configService.getValueForSection('lobby', 'hmacSecret')
@@ -425,8 +425,13 @@ class UserService extends EventEmitter {
             return false;
         }
 
-        let now = moment().utc();
-        if (refreshToken.exp < now) {
+        let supplied = Buffer.from(typeof suppliedToken === 'string' ? suppliedToken : '');
+        let stored = Buffer.from(encodedToken);
+        if (supplied.length !== stored.length || !crypto.timingSafeEqual(supplied, stored)) {
+            return false;
+        }
+
+        if (!refreshToken.expiry || moment.utc(refreshToken.expiry).isBefore(moment.utc())) {
             return false;
         }
 

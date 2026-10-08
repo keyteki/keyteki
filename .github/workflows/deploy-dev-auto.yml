@@ -53,6 +53,7 @@ jobs:
                       middleDeckThreshold: 20
                       upperDeckThreshold: 50
                       port: 80
+                      publicUrl: "https://dev.thecrucible.online"
                       emailKey: "${{ secrets.EMAIL_KEY }}"
                       hmacSecret: "${{ secrets.HMAC }}"
                       requireActivation: false

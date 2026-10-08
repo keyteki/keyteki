@@ -773,6 +773,10 @@ class Lobby {
             .then((results) => {
                 let [cards, deck] = results;
 
+                if (!deck || (!isStandalone && deck.username !== socket.user.username)) {
+                    return;
+                }
+
                 for (let card of deck.cards) {
                     let house = card.house;
 

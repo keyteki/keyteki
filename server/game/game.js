@@ -3,6 +3,7 @@ const moment = require('moment');
 
 const Constants = require('../constants');
 const ChatCommands = require('./chatcommands');
+const GameCommands = require('./GameCommands');
 const GameChat = require('./gamechat');
 const EffectEngine = require('./effectengine');
 const Player = require('./player');
@@ -48,6 +49,7 @@ class Game extends EventEmitter {
         this.cancelPromptUsed = false;
         this.challonge = details.challonge;
         this.chatCommands = new ChatCommands(this);
+        this.commands = new GameCommands(this);
         this.createdAt = new Date();
         this.currentAbilityWindow = null;
         this.currentActionWindow = null;

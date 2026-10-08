@@ -121,6 +121,28 @@ const ProfileMain = ({ user, formProps, section }) => {
                                     <FieldError>{formProps.errors.passwordAgain}</FieldError>
                                 )}
                         </TextField>
+                        <TextField
+                            isInvalid={
+                                formProps.touched.currentPassword &&
+                                !!formProps.errors.currentPassword
+                            }
+                        >
+                            <Label htmlFor='formGridCurrentPassword'>{t('Current password')}</Label>
+                            <Input
+                                id='formGridCurrentPassword'
+                                name='currentPassword'
+                                type='password'
+                                autoComplete='current-password'
+                                placeholder={t('Required to change your email or password')}
+                                value={formProps.values.currentPassword}
+                                onBlur={formProps.handleBlur}
+                                onChange={formProps.handleChange}
+                            />
+                            {formProps.touched.currentPassword &&
+                                !!formProps.errors.currentPassword && (
+                                    <FieldError>{formProps.errors.currentPassword}</FieldError>
+                                )}
+                        </TextField>
                     </div>
                 </Panel>
                 <Panel type='default' compactHeader title={t('Avatar')}>

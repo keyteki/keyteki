@@ -22,9 +22,11 @@ jobs:
                   if [ "${{ github.event.inputs.environment }}" = "Production" ]; then
                     NAMESPACE="keyteki"
                     ENV_SUBDOMAIN="production"
+                    PUBLIC_URL="https://thecrucible.online"
                   else
                     NAMESPACE="keyteki-development"
                     ENV_SUBDOMAIN="dev"
+                    PUBLIC_URL="https://dev.thecrucible.online"
                   fi
 
                   echo "Deploying lobby to namespace: $NAMESPACE for environment: $ENV_SUBDOMAIN"
@@ -62,6 +64,7 @@ jobs:
                       middleDeckThreshold: 20
                       upperDeckThreshold: 50
                       port: 80
+                      publicUrl: "$PUBLIC_URL"
                       awsSesRegion: "${{ vars.AWS_SES_REGION || 'eu-west-1' }}"
                       awsAccessKeyId: "${{ secrets.AWS_ACCESS_KEY_ID }}"
                       awsSecretAccessKey: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"

@@ -19,7 +19,7 @@ module.exports.init = function (server) {
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async (req, res) => {
             if (!req.user.permissions || !req.user.permissions.canManageUsers) {
-                return res.status(403);
+                return res.status(403).send({ message: 'Forbidden' });
             }
 
             let user;
@@ -69,7 +69,7 @@ module.exports.init = function (server) {
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async (req, res) => {
             if (!req.user.permissions || !req.user.permissions.canManageUsers) {
-                return res.status(403);
+                return res.status(403).send({ message: 'Forbidden' });
             }
 
             if (!req.body.userToChange) {
@@ -123,7 +123,7 @@ module.exports.init = function (server) {
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async (req, res) => {
             if (!req.user.permissions || !req.user.permissions.canVerifyDecks) {
-                return res.status(403);
+                return res.status(403).send({ message: 'Forbidden' });
             }
 
             let user;

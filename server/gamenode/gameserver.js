@@ -15,6 +15,7 @@ const { detectBinary } = require('../util');
 const logger = require('../log');
 const GameSocket = require('./gamesocket');
 const Game = require('../game/game');
+const GameCommands = require('../game/GameCommands');
 const Socket = require('../socket');
 const ConfigService = require('../services/ConfigService');
 const HealthServer = require('./healthserver.js');
@@ -626,14 +627,14 @@ class GameServer {
             return this.onLeaveGame(socket);
         }
 
-        if (!game[command] || !(game[command] instanceof Function)) {
+        if (!GameCommands.isCommand(command)) {
             return;
         }
 
         this.runAndCatchErrors(game, () => {
             game.notePlayerEvent(socket.user.username);
 
-            game[command](socket.user.username, ...args);
+            game.commands[command](socket.user.username, ...args);
 
             game.continue();
 

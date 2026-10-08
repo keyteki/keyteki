@@ -15,8 +15,10 @@ const ConfigService = require('../services/ConfigService');
 const BanlistService = require('../services/BanlistService');
 const PatreonService = require('../services/PatreonService');
 const util = require('../util.js');
+const FailureLimiter = require('../FailureLimiter.js');
 
 let configService = new ConfigService();
+let loginLimiter = new FailureLimiter(10, 15 * 60 * 1000);
 let emailService = new EmailService(configService);
 let userService;
 let banlistService;
@@ -34,6 +36,14 @@ function verifyPassword(password, dbPassword) {
             return resolve(valid);
         });
     });
+}
+
+function getRequestIp(req) {
+    return req.get('x-real-ip') || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+}
+
+function getPublicUrl() {
+    return (configService.getValueForSection('lobby', 'publicUrl') || '').replace(/\/+$/, '');
 }
 
 function isValidImage(base64Image) {
@@ -307,10 +317,7 @@ module.exports.init = function (server, options) {
                 });
             }
 
-            let ip = req.get('x-real-ip');
-            if (!ip) {
-                ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-            }
+            let ip = getRequestIp(req);
 
             try {
                 let lookup = await banlistService.getEntryByIp(ip);
@@ -354,7 +361,7 @@ module.exports.init = function (server, options) {
 
                 newUser.verified = false;
                 newUser.activationToken = activationToken;
-                newUser.activationTokenExpiry = formattedExpiration;
+                newUser.activationTokenExpiry = expiration;
             } else {
                 newUser.verified = true;
             }
@@ -362,15 +369,10 @@ module.exports.init = function (server, options) {
             user = await userService.addUser(newUser);
 
             if (configService.getValueForSection('lobby', 'requireActivation')) {
-                let url = `${req.protocol}://${req.get('host')}/activation?id=${user.id}&token=${
-                    newUser.activationToken
-                }`;
+                let publicUrl = getPublicUrl();
+                let url = `${publicUrl}/activation?id=${user.id}&token=${newUser.activationToken}`;
                 let emailText =
-                    `Hi,\n\nSomeone, hopefully you, has requested an account named ${
-                        newUser.username
-                    } to be created on ${appName} (${req.protocol}://${req.get(
-                        'host'
-                    )}).  If this was you, click this link ${url} to complete the process.\n\n` +
+                    `Hi,\n\nSomeone, hopefully you, has requested an account named ${newUser.username} to be created on ${appName} (${publicUrl}).  If this was you, click this link ${url} to complete the process.\n\n` +
                     'If you did not request this please disregard this email.\n' +
                     'Kind regards,\n\n' +
                     `${appName} team`;
@@ -437,11 +439,16 @@ module.exports.init = function (server, options) {
                 configService.getValueForSection('lobby', 'hmacSecret')
             );
             let resetToken = hmac
-                .update('ACTIVATE ' + user.username + ' ' + user.activationTokenExpiry)
+                .update(
+                    'ACTIVATE ' +
+                        user.username +
+                        ' ' +
+                        moment(user.activationTokenExpiry).format('YYYYMMDD-HH:mm:ss')
+                )
                 .digest('hex');
 
             if (resetToken !== req.body.token) {
-                logger.error('Invalid activation token for %s: %s', user.username, req.body.token);
+                logger.error('Invalid activation token for %s', user.username);
 
                 return res.send({
                     success: false,
@@ -553,8 +560,17 @@ module.exports.init = function (server, options) {
                 return res.send({ success: false, message: 'Password must be specified' });
             }
 
+            let ip = getRequestIp(req);
+            if (loginLimiter.isBlocked(ip)) {
+                return res.send({
+                    success: false,
+                    message: 'Too many failed login attempts.  Please try again later'
+                });
+            }
+
             let user = await userService.getFullUserByUsername(req.body.username);
             if (!user) {
+                loginLimiter.recordFailure(ip);
                 return res.send({ success: false, message: 'Invalid username/password' });
             }
 
@@ -576,8 +592,11 @@ module.exports.init = function (server, options) {
             }
 
             if (!isValidPassword) {
+                loginLimiter.recordFailure(ip);
                 return res.send({ success: false, message: 'Invalid username/password' });
             }
+
+            loginLimiter.reset(ip);
 
             if (!user.verified) {
                 return res.send({
@@ -591,10 +610,6 @@ module.exports.init = function (server, options) {
             let authToken = jwt.sign(userObj, configService.getValue('secret'), {
                 expiresIn: '5m'
             });
-            let ip = req.get('x-real-ip');
-            if (!ip) {
-                ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-            }
 
             let refreshToken = await userService.addRefreshToken(user, authToken, ip);
             if (!refreshToken) {
@@ -642,7 +657,7 @@ module.exports.init = function (server, options) {
                 return res.send({ success: false, message: 'Invalid refresh token' });
             }
 
-            if (!userService.verifyRefreshToken(user.username, refreshToken)) {
+            if (!userService.verifyRefreshToken(user.username, refreshToken, token.token)) {
                 return res.send({ success: false, message: 'Invalid refresh token' });
             }
 
@@ -652,10 +667,7 @@ module.exports.init = function (server, options) {
 
             let userObj = user.getWireSafeDetails();
 
-            let ip = req.get('x-real-ip');
-            if (!ip) {
-                ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-            }
+            let ip = getRequestIp(req);
 
             let authToken = jwt.sign(userObj, configService.getValue('secret'), {
                 expiresIn: '5m'
@@ -674,6 +686,11 @@ module.exports.init = function (server, options) {
 
             if (!req.body.id || !req.body.token || !req.body.newPassword) {
                 return res.send({ success: false, message: 'Invalid parameters' });
+            }
+
+            let message = validatePassword(req.body.newPassword);
+            if (message) {
+                return res.send({ success: false, message: message });
             }
 
             let user = await userService.getUserById(req.body.id);
@@ -717,14 +734,9 @@ module.exports.init = function (server, options) {
                         moment(user.tokenExpires).format('YYYYMMDD-HH:mm:ss')
                 )
                 .digest('hex');
-            logger.info(
-                `${user.username} ${moment(user.tokenExpires).format(
-                    'YYYYMMDD-HH:mm:ss'
-                )} ${resetToken}`
-            );
 
             if (resetToken !== req.body.token) {
-                logger.error(`Invalid reset token for ${user.username}: ${req.body.token}`);
+                logger.error(`Invalid reset token for ${user.username}`);
 
                 return res.send({
                     success: false,
@@ -788,23 +800,16 @@ module.exports.init = function (server, options) {
 
             resetToken = hmac.update(`RESET ${user.username} ${formattedExpiration}`).digest('hex');
 
-            logger.info(`${resetToken} ${user.username} ${formattedExpiration}`);
-
             try {
                 await userService.setResetToken(user, resetToken, expiration);
             } catch (err) {
                 return;
             }
 
-            let url = `${req.protocol}://${req.get('host')}/reset-password?id=${
-                user.id
-            }&token=${resetToken}`;
+            let publicUrl = getPublicUrl();
+            let url = `${publicUrl}/reset-password?id=${user.id}&token=${resetToken}`;
             let emailText =
-                `Hi,\n\nSomeone, hopefully you, has requested the password for ${
-                    user.username
-                } on ${appName} (${req.protocol}://${req.get(
-                    'host'
-                )}) to be reset.  If this was you, click this link ${url} to complete the process.\n\n` +
+                `Hi,\n\nSomeone, hopefully you, has requested the password for ${user.username} on ${appName} (${publicUrl}) to be reset.  If this was you, click this link ${url} to complete the process.\n\n` +
                 'If you did not request this reset, do not worry, your account has not been affected and your password has not been changed, just ignore this email.\n' +
                 'Kind regards,\n\n' +
                 `${appName} team`;
@@ -857,6 +862,59 @@ module.exports.init = function (server, options) {
                 return res
                     .status(400)
                     .send({ success: false, message: 'Background must be image' });
+            }
+
+            let isChangingPassword = !!userToSet.password;
+            let isChangingEmail =
+                userToSet.email.toLowerCase() !== (user.email || '').toLowerCase();
+
+            if (isChangingPassword) {
+                message = validatePassword(userToSet.password);
+                if (message) {
+                    return res.send({ success: false, message: message });
+                }
+            }
+
+            if (isChangingPassword || isChangingEmail) {
+                let ip = getRequestIp(req);
+                if (loginLimiter.isBlocked(ip)) {
+                    return res.send({
+                        success: false,
+                        message: 'Too many failed password attempts.  Please try again later'
+                    });
+                }
+
+                if (!userToSet.currentPassword) {
+                    return res.send({
+                        success: false,
+                        message:
+                            'You must enter your current password to change your email address or password'
+                    });
+                }
+
+                let isValidPassword;
+                try {
+                    isValidPassword = await verifyPassword(
+                        userToSet.currentPassword,
+                        user.password
+                    );
+                } catch (err) {
+                    logger.error(err);
+
+                    return res.send({
+                        success: false,
+                        message:
+                            'There was an error validating your password.  Please try again later'
+                    });
+                }
+
+                if (!isValidPassword) {
+                    loginLimiter.recordFailure(ip);
+                    return res.send({
+                        success: false,
+                        message: 'Your current password is incorrect'
+                    });
+                }
             }
 
             user = user.getDetails();
