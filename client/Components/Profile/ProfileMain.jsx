@@ -12,7 +12,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '@heroui/react';
 
-import { PatreonClientId } from '../../constants';
+import { PatreonClientId, PatreonStateKey } from '../../constants';
 import PatreonImage from '../../assets/img/Patreon_Mark_Coral.jpg';
 import { useDeleteAccountMutation, useUnlinkPatreonMutation } from '../../redux/api';
 import { authActions } from '../../redux/slices/authSlice';
@@ -35,6 +35,26 @@ import Panel from '../Site/Panel';
 /**
  * @param {ProfileMainProps} props
  */
+/**
+ * Gets (creating if needed) the OAuth state that ties a Patreon callback to this browser session
+ * @returns {string|undefined}
+ */
+const getPatreonOAuthState = () => {
+    try {
+        let state = window.sessionStorage.getItem(PatreonStateKey);
+        if (!state) {
+            state = Array.from(window.crypto.getRandomValues(new Uint8Array(16)), (byte) =>
+                byte.toString(16).padStart(2, '0')
+            ).join('');
+            window.sessionStorage.setItem(PatreonStateKey, state);
+        }
+
+        return state;
+    } catch {
+        return undefined;
+    }
+};
+
 const ProfileMain = ({ user, formProps, section }) => {
     const { t } = useTranslation();
     const inputFile = useRef(null);
@@ -47,7 +67,12 @@ const ProfileMain = ({ user, formProps, section }) => {
     const navigate = useNavigate();
 
     const callbackUrl = `${window.location.origin}/patreon`;
-    const patreonUrl = `https://www.patreon.com/oauth2/authorize?response_type=code&client_id=${PatreonClientId}&redirect_uri=${callbackUrl}`;
+    const patreonUrl = `https://www.patreon.com/oauth2/authorize?${new URLSearchParams({
+        response_type: 'code',
+        client_id: PatreonClientId,
+        redirect_uri: callbackUrl,
+        state: getPatreonOAuthState() || ''
+    }).toString()}`;
 
     if (section === 'account') {
         return (

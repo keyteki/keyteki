@@ -389,7 +389,11 @@ class UserService extends EventEmitter {
             await db.query('DELETE FROM "RefreshToken" WHERE "UserId" = $1', [user.id]);
         } catch (err) {
             logger.error('Failed to clear user sessions', err);
+
+            return false;
         }
+
+        return true;
     }
 
     async addRefreshToken(user, token, ip) {

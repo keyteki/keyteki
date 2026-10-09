@@ -88,7 +88,10 @@ const AppRoutes = ({ currentGame, user }) => {
                 )}
             />
             <Route path='/admin/motd' element={requirePermission('canManageMotd', <MotdAdmin />)} />
-            <Route path='/patreon' element={<Patreon code={getParam('code')} />} />
+            <Route
+                path='/patreon'
+                element={<Patreon code={getParam('code')} state={getParam('state')} />}
+            />
             <Route path='*' element={<NotFound />} />
         </Routes>
     );

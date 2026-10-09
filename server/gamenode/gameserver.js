@@ -19,10 +19,12 @@ const GameCommands = require('../game/GameCommands');
 const Socket = require('../socket');
 const ConfigService = require('../services/ConfigService');
 const HealthServer = require('./healthserver.js');
+const { checkSecrets } = require('../configCheck');
 
 class GameServer {
     constructor() {
         this.configService = new ConfigService();
+        checkSecrets(this.configService, ['secret']);
         const sentryDsn = this.configService.getValue('sentryDsn');
 
         if (sentryDsn) {

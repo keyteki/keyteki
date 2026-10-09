@@ -176,6 +176,23 @@ class User {
         return user;
     }
 
+    // Only what a game node needs to run a game; game nodes should never see emails, OAuth tokens etc.
+    getGameNodeDetails() {
+        let user = Settings.getUserWithDefaultsSet({
+            id: this.userData.id,
+            username: this.userData.username,
+            emailHash: this.userData.emailHash,
+            settings: this.userData.settings,
+            permissions: this.userData.permissions,
+            blockList: this.userData.blockList
+        });
+
+        user.role = this.role;
+        user.avatar = this.avatar;
+
+        return user;
+    }
+
     getDetails() {
         let user = Object.assign({ invalidDecks: this.invalidDecks }, this.userData);
 
