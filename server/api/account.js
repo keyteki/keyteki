@@ -16,9 +16,17 @@ const BanlistService = require('../services/BanlistService');
 const PatreonService = require('../services/PatreonService');
 const util = require('../util.js');
 const FailureLimiter = require('../FailureLimiter.js');
+const {
+    accountTokenLimiter,
+    lookupLimiter,
+    refreshLimiter,
+    registerLimiter
+} = require('../rateLimits.js');
 
 let configService = new ConfigService();
 let loginLimiter = new FailureLimiter(10, 15 * 60 * 1000);
+// Stops a password being guessed for a single account from many addresses
+let loginUserLimiter = new FailureLimiter(10, 15 * 60 * 1000);
 let emailService = new EmailService(configService);
 let userService;
 let banlistService;
@@ -39,7 +47,17 @@ function verifyPassword(password, dbPassword) {
 }
 
 function getRequestIp(req) {
-    return req.get('x-real-ip') || req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    // req.ip honours the 'trust proxy' setting, so never read forwarding headers directly
+    return req.ip || req.socket?.remoteAddress;
+}
+
+let dummyPasswordHash;
+function getDummyPasswordHash() {
+    if (!dummyPasswordHash) {
+        dummyPasswordHash = bcrypt.hashSync(crypto.randomBytes(16).toString('hex'), 10);
+    }
+
+    return dummyPasswordHash;
 }
 
 function getPublicUrl() {
@@ -240,6 +258,7 @@ module.exports.init = function (server, options) {
 
     server.post(
         '/api/account/register',
+        registerLimiter,
         wrapAsync(async (req, res) => {
             let message = validateUserName(req.body.username);
             if (message) {
@@ -396,6 +415,7 @@ module.exports.init = function (server, options) {
 
     server.post(
         '/api/account/activate',
+        accountTokenLimiter,
         wrapAsync(async (req, res) => {
             if (!req.body.id || !req.body.token) {
                 return res.send({ success: false, message: 'Invalid parameters' });
@@ -475,6 +495,7 @@ module.exports.init = function (server, options) {
 
     server.post(
         '/api/account/check-username',
+        lookupLimiter,
         wrapAsync(async (req, res) => {
             let user = await userService.doesUserExist(req.body.username);
             if (user) {
@@ -552,16 +573,17 @@ module.exports.init = function (server, options) {
     server.post(
         '/api/account/login',
         wrapAsync(async (req, res) => {
-            if (!req.body.username) {
+            if (!req.body.username || typeof req.body.username !== 'string') {
                 return res.send({ success: false, message: 'Username must be specified' });
             }
 
-            if (!req.body.password) {
+            if (!req.body.password || typeof req.body.password !== 'string') {
                 return res.send({ success: false, message: 'Password must be specified' });
             }
 
             let ip = getRequestIp(req);
-            if (loginLimiter.isBlocked(ip)) {
+            let usernameKey = req.body.username.toLowerCase();
+            if (loginLimiter.isBlocked(ip) || loginUserLimiter.isBlocked(usernameKey)) {
                 return res.send({
                     success: false,
                     message: 'Too many failed login attempts.  Please try again later'
@@ -569,12 +591,12 @@ module.exports.init = function (server, options) {
             }
 
             let user = await userService.getFullUserByUsername(req.body.username);
-            if (!user) {
-                loginLimiter.recordFailure(ip);
-                return res.send({ success: false, message: 'Invalid username/password' });
-            }
+            if (!user || user.disabled) {
+                // Do the same work as a real login so response times don't reveal which accounts exist
+                await verifyPassword(req.body.password, getDummyPasswordHash());
 
-            if (user.disabled) {
+                loginLimiter.recordFailure(ip);
+                loginUserLimiter.recordFailure(usernameKey);
                 return res.send({ success: false, message: 'Invalid username/password' });
             }
 
@@ -593,10 +615,12 @@ module.exports.init = function (server, options) {
 
             if (!isValidPassword) {
                 loginLimiter.recordFailure(ip);
+                loginUserLimiter.recordFailure(usernameKey);
                 return res.send({ success: false, message: 'Invalid username/password' });
             }
 
             loginLimiter.reset(ip);
+            loginUserLimiter.reset(usernameKey);
 
             if (!user.verified) {
                 return res.send({
@@ -631,6 +655,7 @@ module.exports.init = function (server, options) {
 
     server.post(
         '/api/account/token',
+        refreshLimiter,
         wrapAsync(async (req, res) => {
             if (!req.body.token) {
                 return res.send({ success: false, message: 'Refresh token must be specified' });
@@ -681,6 +706,7 @@ module.exports.init = function (server, options) {
 
     server.post(
         '/api/account/password-reset-finish',
+        accountTokenLimiter,
         wrapAsync(async (req, res) => {
             let resetUser;
 
@@ -750,6 +776,7 @@ module.exports.init = function (server, options) {
             let passwordHash = await bcrypt.hash(req.body.newPassword, 10);
             await userService.setPassword(resetUser, passwordHash);
             await userService.clearResetToken(resetUser);
+            await userService.clearUserSessions(resetUser.username);
 
             res.send({ success: true });
         })
@@ -757,6 +784,7 @@ module.exports.init = function (server, options) {
 
     server.post(
         '/api/account/password-reset',
+        accountTokenLimiter,
         wrapAsync(async (req, res) => {
             let resetToken;
 
@@ -917,6 +945,18 @@ module.exports.init = function (server, options) {
                 }
             }
 
+            if (isChangingEmail) {
+                let existingUser = await userService.getUserByEmail(userToSet.email);
+                if (existingUser && existingUser.id !== user.id) {
+                    return res.send({
+                        success: false,
+                        message: 'An account with that email already exists, please use another'
+                    });
+                }
+            }
+
+            let isChangingUsername = user.username !== userToSet.username;
+
             user = user.getDetails();
 
             user.username = userToSet.username;
@@ -947,6 +987,7 @@ module.exports.init = function (server, options) {
             let updatedUser = await userService.getUserById(user.id);
             let safeUser = updatedUser.getWireSafeDetails();
             let authToken;
+            let refreshToken;
 
             if (!safeUser.disabled && !safeUser.verified) {
                 authToken = jwt.sign(safeUser, configService.getValue('secret'), {
@@ -954,10 +995,25 @@ module.exports.init = function (server, options) {
                 });
             }
 
+            // A new password signs out every other session, and refresh tokens are tied to the
+            // username, so in both cases hand this session a fresh set of tokens
+            if (isChangingPassword || isChangingUsername) {
+                await userService.clearUserSessions(updatedUser.username);
+
+                authToken = jwt.sign(safeUser, configService.getValue('secret'), {
+                    expiresIn: '5m'
+                });
+                refreshToken = await userService.addRefreshToken(
+                    updatedUser,
+                    authToken,
+                    getRequestIp(req)
+                );
+            }
+
             res.send(
                 Object.assign(
                     { success: true },
-                    { user: updatedUser.getWireSafeDetails(), token: authToken }
+                    { user: updatedUser.getWireSafeDetails(), token: authToken, refreshToken }
                 )
             );
         })

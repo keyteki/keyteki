@@ -378,7 +378,7 @@ class PendingGame {
             const { name, user, ...rest } = playerDetails;
             players[name] = {
                 name,
-                user: user.getDetails(),
+                user: user.getGameNodeDetails(),
                 ...rest
             };
         }
@@ -388,7 +388,7 @@ class PendingGame {
             const { name, user, ...rest } = spectatorDetails;
             spectators[name] = {
                 name,
-                user: user.getDetails(),
+                user: user.getGameNodeDetails(),
                 ...rest
             };
         }
@@ -407,7 +407,7 @@ class PendingGame {
             muteSpectators: this.muteSpectators,
             name: this.name,
             needsPassword: !!this.password,
-            owner: this.owner.getDetails(),
+            owner: this.owner.getGameNodeDetails(),
             players,
             previousWinner: this.previousWinner,
             showHand: this.showHand,

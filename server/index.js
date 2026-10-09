@@ -2,9 +2,12 @@ const Server = require('./server');
 const Lobby = require('./lobby');
 const UserService = require('./services/UserService');
 const ConfigService = require('./services/ConfigService');
+const { checkSecrets } = require('./configCheck');
 const configService = new ConfigService();
 
 async function runServer() {
+    checkSecrets(configService);
+
     let options = { configService: configService };
 
     options.userService = new UserService(options.configService);

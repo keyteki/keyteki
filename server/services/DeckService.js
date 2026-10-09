@@ -19,6 +19,8 @@ const allianceRestrictedRules = {
     'winds-of-death': { expansions: [600, 609] }
 };
 
+const MaxPageSize = 50;
+
 class DeckService {
     constructor(configService, cardService) {
         this.configService = configService;
@@ -418,8 +420,9 @@ class DeckService {
     ) {
         let retDecks = [];
         let decks;
-        let pageSize = options.pageSize;
-        let page = options.page;
+        // Clamp paging so a client can't ask for the whole table in one request
+        let pageSize = Math.min(Math.max(parseInt(options.pageSize, 10) || 10, 1), MaxPageSize);
+        let page = Math.max(parseInt(options.page, 10) || 1, 1);
         let sortColumn = this.mapColumn(options.sort, true);
         let sortDir = options.sortDir === 'desc' ? 'DESC' : 'ASC';
         let params = [user.id, pageSize, (page - 1) * pageSize];

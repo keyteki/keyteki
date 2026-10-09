@@ -458,6 +458,12 @@ class Lobby {
                     return;
                 }
 
+                if (dbUser.disabled) {
+                    socket.send('authfailed');
+                    socket.disconnect();
+                    return;
+                }
+
                 this.users[dbUser.username] = dbUser;
                 this.socketsByName[dbUser.username] = socket;
 
@@ -505,6 +511,21 @@ class Lobby {
     }
 
     onNewGame(socket, gameDetails) {
+        if (!gameDetails || typeof gameDetails !== 'object') {
+            return;
+        }
+
+        // previousWinner is only ever set by the server for rematches, and only tournament
+        // managers may create tournament games (which are kept alive while empty)
+        // eslint-disable-next-line no-unused-vars
+        const { previousWinner, tournament, challonge, ...details } = gameDetails;
+        if (socket.user.permissions.canManageTournaments) {
+            details.tournament = tournament;
+            details.challonge = challonge;
+        }
+
+        gameDetails = details;
+
         if (!socket.user.permissions.canManageTournaments || !gameDetails.tournament) {
             let existingGame = this.findGameForUser(socket.user.username);
             if (existingGame) {
@@ -659,7 +680,7 @@ class Lobby {
         socket.joinChannel(game.id);
 
         if (game.started) {
-            this.router.addSpectator(game, socket.user.getDetails());
+            this.router.addSpectator(game, socket.user.getGameNodeDetails());
             this.sendHandoff(socket, game.node, game.id);
         } else {
             this.sendGameState(game);
@@ -686,6 +707,10 @@ class Lobby {
     }
 
     onPendingGameChat(socket, message) {
+        if (typeof message !== 'string') {
+            return;
+        }
+
         let game = this.findGameForUser(socket.user.username);
         if (!game) {
             return;
@@ -696,6 +721,10 @@ class Lobby {
     }
 
     async onLobbyChat(socket, message) {
+        if (typeof message !== 'string' || !message.trim()) {
+            return;
+        }
+
         if (
             Date.now() - socket.user.registered <
             this.configService.getValue('minLobbyChatTime') * 1000
@@ -1281,7 +1310,13 @@ class Lobby {
     onWorkerStarted() {}
 
     onClearSessions(socket, username) {
-        this.userService.clearUserSessions(username).then((success) => {
+        if (!socket.user.permissions.canManageUsers || typeof username !== 'string') {
+            return;
+        }
+
+        logger.info(`${socket.user.username} cleared sessions for ${username}`);
+
+        return this.userService.clearUserSessions(username).then((success) => {
             if (!success) {
                 logger.error(`Failed to clear sessions for user ${username}`);
                 return;

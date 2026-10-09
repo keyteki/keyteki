@@ -45,7 +45,7 @@ class Server {
                 this.userService
                     .getUserById(jwtPayload.id)
                     .then((user) => {
-                        if (user) {
+                        if (user && !user.disabled) {
                             return done(null, user.getWireSafeDetails());
                         }
 
@@ -57,6 +57,10 @@ class Server {
             })
         );
         app.use(passport.initialize());
+
+        // Only trust the X-Forwarded-* headers added by our own reverse proxy (Traefik), so clients
+        // can't spoof their IP address to get around bans and rate limits
+        app.set('trust proxy', this.configService.getValueForSection('lobby', 'trustProxy') ?? 1);
 
         app.use(bodyParser.json({ limit: '5mb' }));
         app.use(bodyParser.urlencoded({ extended: false }));

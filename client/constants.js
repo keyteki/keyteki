@@ -260,3 +260,6 @@ for (let x = 1; x < 6; x++) {
 }
 
 export const PatreonClientId = 'HjDP9KKd-HscTXXMs_2TNl2h_POjaEw7D-EkLv_ShRbarVO_WuKA0LWRBp9LRdLq';
+
+// sessionStorage key holding the OAuth state for an in-progress Patreon link
+export const PatreonStateKey = 'patreonOAuthState';

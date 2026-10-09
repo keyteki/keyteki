@@ -50,14 +50,23 @@ class Socket extends EventEmitter {
         }
 
         try {
-            callback(this, ...args);
+            const result = callback(this, ...args);
+
+            // Async handlers reject rather than throw, so catch those too
+            if (result && typeof result.catch === 'function') {
+                result.catch((err) => this.reportEventError(err, args));
+            }
         } catch (err) {
-            logger.info(err);
-            Sentry.withScope((scope) => {
-                scope.setExtra('extra', args);
-                Sentry.captureException(err);
-            });
+            this.reportEventError(err, args);
         }
+    }
+
+    reportEventError(err, args) {
+        logger.info(err);
+        Sentry.withScope((scope) => {
+            scope.setExtra('extra', args);
+            Sentry.captureException(err);
+        });
     }
 
     onAuthenticate(token) {
