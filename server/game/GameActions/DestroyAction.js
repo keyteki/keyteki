@@ -63,7 +63,18 @@ class DestroyAction extends CardGameAction {
                       // move in discardAllTaggedCards after triggers resolve.
                       () => true
                     : (leavesPlayEvent) => {
-                          leavesPlayEvent.card.owner.moveCard(event.card, 'discard');
+                          if (leavesPlayEvent.replacementHandler) {
+                              // A replacement effect installed a handler to run
+                              // instead of discarding the card (e.g. SelfBolsteringAutomata).
+                              leavesPlayEvent.card.moribund = false;
+                              leavesPlayEvent.replacementHandler(leavesPlayEvent, event);
+                              leavesPlayEvent.cancel();
+                              // Cancel the destroy event so reactions on onCardDestroyed
+                              // (e.g. Soul Snatcher, Chonkers) don't fire for replaced destructions.
+                              event.cancel();
+                          } else {
+                              leavesPlayEvent.card.owner.moveCard(event.card, 'discard');
+                          }
                       }
             );
 
