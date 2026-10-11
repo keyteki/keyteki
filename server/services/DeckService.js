@@ -977,118 +977,115 @@ class DeckService {
     }
 
     async insertDeck(deck, user) {
-        let ret;
-
-        try {
-            await db.query('BEGIN');
-
-            if (user) {
-                ret = await db.query(
-                    'INSERT INTO "Decks" ("UserId", "Uuid", "Identity", "Name", "IncludeInSealed", "LastUpdated", "Verified", "ExpansionId", "Flagged", "Banned", "IsAlliance") ' +
-                        'VALUES ($1, $2, $3, $4, $5, $6, false, (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" = $7), false, false, $8) RETURNING "Id"',
-                    [
-                        user.id,
-                        deck.uuid,
-                        deck.identity,
-                        deck.name,
-                        !deck.isAlliance,
-                        deck.lastUpdated,
-                        deck.expansion,
-                        deck.isAlliance
-                    ]
-                );
-            } else {
-                ret = await db.query(
-                    'INSERT INTO "StandaloneDecks" ("Identity", "Name", "LastUpdated", "ExpansionId") ' +
-                        'VALUES ($1, $2, $3, (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" = $4)) RETURNING "Id"',
-                    [deck.identity, deck.name, deck.lastUpdated || new Date(), deck.expansion]
-                );
-            }
-        } catch (err) {
-            logger.error('Failed to add deck', err);
-
-            await db.query('ROLLBACK');
-
-            throw new Error('Failed to import deck');
-        }
-
-        deck.id = ret[0].Id;
-
-        let params = [];
+        const deckCardParams = [];
         for (let card of deck.cards) {
-            params.push(card.id);
-            params.push(card.count);
-            params.push(card.maverick);
-            params.push(card.anomaly);
+            deckCardParams.push(card.id, card.count, card.maverick, card.anomaly);
             if (user) {
-                params.push(card.image);
-                params.push(await this.getHouseIdFromName(card.house));
-                params.push(card.enhancements ? JSON.stringify(card.enhancements) : undefined);
-                params.push(card.isNonDeck);
-                params.push(card.prophecyId); // Add prophecy ID
+                deckCardParams.push(
+                    card.image,
+                    await this.getHouseIdFromName(card.house),
+                    card.enhancements ? JSON.stringify(card.enhancements) : undefined,
+                    card.isNonDeck,
+                    card.prophecyId
+                );
             }
 
-            params.push(deck.id);
+            deckCardParams.push(undefined); // Placeholder for the deck id, filled in below
             if (!user) {
-                params.push(card.enhancements);
+                deckCardParams.push(card.enhancements);
             }
         }
 
+        const columnsPerCard = user ? 10 : 6;
+        const deckIdOffset = user ? 9 : 4;
+
         try {
-            if (user) {
-                await db.query(
-                    `INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "ImageUrl", "HouseId", "Enhancements", "IsNonDeck", "ProphecyId", "DeckId") VALUES ${expand(
-                        deck.cards.length,
-                        10
-                    )}`,
-                    params
-                );
-            } else {
-                await db.query(
-                    `INSERT INTO "StandaloneDeckCards" ("CardId", "Count", "Maverick", "Anomaly", "DeckId", "Enhancements") VALUES ${expand(
-                        deck.cards.length,
-                        6
-                    )}`,
-                    params
-                );
-            }
-        } catch (err) {
-            logger.error('Failed to add deck', err);
-
-            await db.query('ROLLBACK');
-
-            throw new Error('Failed to import deck');
-        }
-
-        let deckHouseTable = user ? '"DeckHouses"' : '"StandaloneDeckHouses"';
-        try {
-            await db.query(
-                `INSERT INTO ${deckHouseTable} ("DeckId", "HouseId") VALUES ($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $2)), ` +
-                    '($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $3)), ($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $4))',
-                flatten([deck.id, deck.houses])
-            );
-
-            if (user && deck.accolades && deck.accolades.length > 0) {
-                let accoladeParams = [];
-                for (let i = 0; i < deck.accolades.length; i++) {
-                    const accolade = deck.accolades[i];
-                    const shown = i < 3;
-                    accoladeParams.push(deck.id, accolade.id, accolade.name, accolade.image, shown);
+            await db.transaction(async (client) => {
+                let ret;
+                if (user) {
+                    ret = await db.queryTran(
+                        client,
+                        'INSERT INTO "Decks" ("UserId", "Uuid", "Identity", "Name", "IncludeInSealed", "LastUpdated", "Verified", "ExpansionId", "Flagged", "Banned", "IsAlliance") ' +
+                            'VALUES ($1, $2, $3, $4, $5, $6, false, (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" = $7), false, false, $8) RETURNING "Id"',
+                        [
+                            user.id,
+                            deck.uuid,
+                            deck.identity,
+                            deck.name,
+                            !deck.isAlliance,
+                            deck.lastUpdated,
+                            deck.expansion,
+                            deck.isAlliance
+                        ]
+                    );
+                } else {
+                    ret = await db.queryTran(
+                        client,
+                        'INSERT INTO "StandaloneDecks" ("Identity", "Name", "LastUpdated", "ExpansionId") ' +
+                            'VALUES ($1, $2, $3, (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" = $4)) RETURNING "Id"',
+                        [deck.identity, deck.name, deck.lastUpdated || new Date(), deck.expansion]
+                    );
                 }
-                await db.query(
-                    `INSERT INTO "DeckAccolades" ("DeckId", "AccoladeId", "Name", "ImageUrl", "Shown") VALUES ${expand(
-                        deck.accolades.length,
-                        5
-                    )}`,
-                    accoladeParams
-                );
-            }
 
-            await db.query('COMMIT');
+                deck.id = ret[0].Id;
+
+                for (let i = deckIdOffset; i < deckCardParams.length; i += columnsPerCard) {
+                    deckCardParams[i] = deck.id;
+                }
+
+                if (user) {
+                    await db.queryTran(
+                        client,
+                        `INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "ImageUrl", "HouseId", "Enhancements", "IsNonDeck", "ProphecyId", "DeckId") VALUES ${expand(
+                            deck.cards.length,
+                            columnsPerCard
+                        )}`,
+                        deckCardParams
+                    );
+                } else {
+                    await db.queryTran(
+                        client,
+                        `INSERT INTO "StandaloneDeckCards" ("CardId", "Count", "Maverick", "Anomaly", "DeckId", "Enhancements") VALUES ${expand(
+                            deck.cards.length,
+                            columnsPerCard
+                        )}`,
+                        deckCardParams
+                    );
+                }
+
+                const deckHouseTable = user ? '"DeckHouses"' : '"StandaloneDeckHouses"';
+                await db.queryTran(
+                    client,
+                    `INSERT INTO ${deckHouseTable} ("DeckId", "HouseId") VALUES ($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $2)), ` +
+                        '($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $3)), ($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $4))',
+                    flatten([deck.id, deck.houses])
+                );
+
+                if (user && deck.accolades && deck.accolades.length > 0) {
+                    const accoladeParams = [];
+                    for (let i = 0; i < deck.accolades.length; i++) {
+                        const accolade = deck.accolades[i];
+                        accoladeParams.push(
+                            deck.id,
+                            accolade.id,
+                            accolade.name,
+                            accolade.image,
+                            i < 3
+                        );
+                    }
+
+                    await db.queryTran(
+                        client,
+                        `INSERT INTO "DeckAccolades" ("DeckId", "AccoladeId", "Name", "ImageUrl", "Shown") VALUES ${expand(
+                            deck.accolades.length,
+                            5
+                        )}`,
+                        accoladeParams
+                    );
+                }
+            });
         } catch (err) {
             logger.error('Failed to add deck', err);
-
-            await db.query('ROLLBACK');
 
             throw new Error('Failed to import deck');
         }
@@ -1546,13 +1543,18 @@ class DeckService {
         }
 
         const resultShownMap = {};
-        await db.query('BEGIN');
         try {
-            await db.query('DELETE FROM "DeckAccolades" WHERE "DeckId" = $1', [deckId]);
+            await db.transaction(async (client) => {
+                await db.queryTran(client, 'DELETE FROM "DeckAccolades" WHERE "DeckId" = $1', [
+                    deckId
+                ]);
 
-            if (accolades.length > 0) {
+                if (accolades.length === 0) {
+                    return;
+                }
+
                 let shownCount = 0;
-                let accoladeParams = [];
+                const accoladeParams = [];
                 for (const accolade of accolades) {
                     let shown = shownMap[accolade.id];
                     if (shown === undefined) {
@@ -1564,18 +1566,17 @@ class DeckService {
                     resultShownMap[accolade.id] = shown;
                     accoladeParams.push(deckId, accolade.id, accolade.name, accolade.image, shown);
                 }
-                await db.query(
+
+                await db.queryTran(
+                    client,
                     `INSERT INTO "DeckAccolades" ("DeckId", "AccoladeId", "Name", "ImageUrl", "Shown") VALUES ${expand(
                         accolades.length,
                         5
                     )}`,
                     accoladeParams
                 );
-            }
-
-            await db.query('COMMIT');
+            });
         } catch (err) {
-            await db.query('ROLLBACK');
             logger.error('Failed to refresh accolades', err);
             throw new Error('Failed to update accolades in database');
         }
