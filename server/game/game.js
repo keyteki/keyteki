@@ -35,6 +35,7 @@ const MenuCommands = require('./MenuCommands');
 const TimeLimit = require('./TimeLimit');
 const PlainTextGameChatFormatter = require('./PlainTextGameChatFormatter');
 const CardVisibility = require('./CardVisibility');
+const GameStats = require('./GameStats');
 
 /**
  * @import {EventName} from './Events/types');
@@ -65,6 +66,7 @@ class Game extends EventEmitter {
         this.hideDeckLists = details.hideDeckLists;
         this.id = details.id;
         this.manualMode = false;
+        this.manualModeUsed = false;
         this.muteSpectators = details.muteSpectators;
         this.name = details.name;
         this.owner = details.owner.username;
@@ -105,6 +107,7 @@ class Game extends EventEmitter {
         this.cardData = options.cardData || [];
 
         this.cardVisibility = new CardVisibility(this);
+        this.stats = new GameStats(this);
 
         for (const player of Object.values(details.players)) {
             this.playersAndSpectators[player.user.username] = new Player(
@@ -1666,6 +1669,7 @@ class Game extends EventEmitter {
                 houses: player.houses,
                 keys: player.keys,
                 name: player.name,
+                stats: this.stats.getPlayerStats(player),
                 turn: player.turn,
                 wins: player.wins
             };
