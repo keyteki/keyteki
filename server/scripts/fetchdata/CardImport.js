@@ -5,11 +5,27 @@ const path = require('path');
 
 const CardService = require('../../services/CardService');
 const ConfigService = require('../../services/ConfigService');
+const { PrintingIndex } = require('../../../master-vault-data/src/printings');
 
 const LANGUAGE_MAP = {
     zhhans: 'zh-hans',
     zhhant: 'zh-hant'
 };
+
+// Records which Master Vault image each downloaded file came from, so files are replaced when
+// a newer printing changes the image
+const SourcesFile = 'sources.json';
+
+/**
+ * Identifies the artwork of a Master Vault image, regardless of language or which printing it was
+ * uploaded for: "341_252_VXMWR7MR5CW9_en.png" and "479_166_VXMWR7MR5CW9_de.png" are the same art.
+ */
+function imageKey(url) {
+    const fileName = path.basename(url);
+    const match = fileName.match(/^[^_]+_[^_]+_(.+)_[a-z-]+\.png$/);
+
+    return match ? match[1] : fileName;
+}
 
 class CardImport {
     constructor(dataSource, imageSource, imageDir, language, force, skipReplace) {
@@ -49,171 +65,63 @@ class CardImport {
 
         console.info(cards.length + ' cards fetched');
 
-        await this.fetchImages(cards);
+        if (this.imageSource.downloadsImages !== false) {
+            await this.fetchImages(cards);
+        }
     }
 
+    /**
+     * Downloads the images for the given cards. Each card has a plain image, and cards printed
+     * in several houses also have one per house; each is taken from the latest printing.
+     */
     async fetchImages(cards) {
-        // Add cards that were once anomaly and now are printed in a set (or sets)
-        let specialCards = {
-            479: { 'dark-æmber-vault': true, 'it-s-coming': true, 'orb-of-wonder': true },
-            496: { 'orb-of-wonder': true, valoocanth: true },
-            700: { 'ecto-charge': true, 'near-future-lens': true, 'the-grim-reaper': true },
-            800: { 'the-red-baron': true },
-            855: {
-                'armageddon-cloak': true,
-                'avenging-aura': true,
-                'book-of-malefaction': true,
-                'eye-of-judgment': true,
-                'hymn-to-duma': true,
-                'johnny-longfingers': true,
-                'lord-golgotha': true,
-                'mantle-of-the-zealot': true,
-                'martyr-s-end': true,
-                'master-of-the-grey': true,
-                'mighty-lance': true,
-                'one-stood-against-many': true,
-                'rogue-ogre': true,
-                'the-promised-blade': true,
-                'champion-tabris': true,
-                'dark-centurion': true,
-                'first-or-last': true,
-                francus: true,
-                'glorious-few': true,
-                'gorm-of-omm': true,
-                'grey-abbess': true,
-                'professor-terato': true,
-                'scrivener-favian': true,
-                'bordan-the-redeemed': true,
-                'bull-wark': true,
-                'burning-glare': true,
-                'citizen-shrix': true,
-                retribution: true,
-                'shifting-battlefield': true,
-                snarette: true,
-                'subtle-otto': true,
-                'even-ivan': true,
-                'odd-clawde': true,
-                'sacro-alien': true,
-                'sacro-beast': true,
-                'sacro-bot': true,
-                'sacro-fiend': true,
-                'sacro-saurus': true,
-                'sacro-thief': true
-            },
-            874: {
-                'build-your-champion': true,
-                'digging-up-the-monster': true,
-                'tomes-gigantica': true
-            },
-            886: {
-                'avenging-aura': true,
-                corrode: true,
-                'lord-golgotha': true,
-                'one-stood-against-many': true,
-                'purifier-of-souls': true,
-                stampede: true,
-                'dark-centurion': true,
-                'follow-the-leader': true,
-                picaroon: true,
-                'research-smoko': true,
-                'vault-s-blessing': true,
-                'citizen-shrix': true,
-                'even-ivan': true,
-                'odd-clawde': true
-            },
-            928: {
-                cosmicrux: true,
-                'thermal-depletion': true,
-                ignitus: true,
-                'nizak-the-forgotten': true,
-                'lateral-shift': true,
-                timequake: true,
-                'treok-the-wise': true
-            }
-        };
-
-        const gigantic = [
-            'deusillus',
-            'ultra-gravitron',
-            'niffle-kong',
-            'tormax',
-            'wretched-anathema',
-            'sirs-colossus',
-            'bawretchadontius',
-            'boosted-b4-rry',
-            'dodger-s-10',
-            'cadet-allison',
-            'j43g3r-v',
-            'titanic-bumblebird',
-            'ascendant-hester',
-            'horizon-saber',
-            'the-golden-queen',
-            'gigantor',
-            'monster-zero',
-            'kulsha',
-            'zomok',
-            'hydrogan'
-        ];
+        const printings = PrintingIndex.fromPacks();
+        const sources = this.loadSources();
         const skipMkdir = {};
+        const ids = [...new Set(cards.map((card) => card.id))].filter((id) =>
+            printings.hasCard(id)
+        );
+        const isGigantic = (id) =>
+            printings.hasCard(id + '2') || (id.endsWith('2') && printings.hasCard(id.slice(0, -1)));
+        const updatedGigantics = new Set();
 
-        for (let card of cards) {
-            for (let language of this.computeLanguages(card)) {
-                let imageLangDir = this.computeImagesDir(skipMkdir, language);
-                let imagePath = path.join(imageLangDir, card.id + '.png').replace('*', '_');
-                let halfSizePath;
+        for (const id of ids) {
+            for (const { name, printing } of printings.getImages(id)) {
+                for (const language of this.computeLanguages(printing.card)) {
+                    const imageLangDir = this.computeImagesDir(skipMkdir, language);
+                    const imagePath = path.join(imageLangDir, name.replace('*', '_') + '.png');
+                    const imageUrl = printing.image
+                        .replace('/en/', '/' + language + '/')
+                        .replace('_en.', '_' + language + '.');
+                    const sourceKey = path.relative(this.imageDir, imagePath).replace(/\\/g, '/');
 
-                let imageUrl = card.image
-                    .replace('/en/', '/' + language + '/')
-                    .replace('_en.', '_' + language + '.');
-
-                if (specialCards[card.expansion] && specialCards[card.expansion][card.id]) {
-                    imagePath = path.join(imageLangDir, `${card.id}-${card.house}.png`);
-                }
-
-                if (this.force || !fs.existsSync(imagePath)) {
-                    await this.imageSource.fetchImage(card, imageUrl, imagePath);
-                }
-
-                halfSizePath = imagePath
-                    .replace(
-                        `${path.sep}cards${path.sep}`,
-                        `${path.sep}cards${path.sep}halfSize${path.sep}`
-                    )
-                    .replace('.png', '.jpg');
-                if (!gigantic.some((x) => card.id.includes(x))) {
-                    if (this.force || !fs.existsSync(halfSizePath)) {
-                        if (this.buildHalfSize) {
-                            await this.buildHalfSize(
-                                card,
-                                card.image,
-                                halfSizePath,
-                                language.replace('-', '')
-                            );
+                    let updated = false;
+                    const legacyUrl = this.getLegacyImageUrl(id, name, printings);
+                    if (this.needsDownload(imagePath, imageUrl, sources[sourceKey], legacyUrl)) {
+                        if (await this.imageSource.fetchImage(printing.card, imageUrl, imagePath)) {
+                            sources[sourceKey] = imageUrl;
+                            updated = true;
                         }
+                    } else if (!sources[sourceKey]) {
+                        sources[sourceKey] = imageUrl;
                     }
-                }
-            }
-        }
 
-        for (const card of cards.filter((c) => gigantic.includes(c.id))) {
-            for (let language of this.computeLanguages(card)) {
-                let imageLangDir = this.computeImagesDir(skipMkdir, language);
-                let imgPath = path.join(imageLangDir, card.id + '-complete.png');
-                let halfSizePath = imgPath
-                    .replace(
-                        `${path.sep}cards${path.sep}`,
-                        `${path.sep}cards${path.sep}halfSize${path.sep}`
-                    )
-                    .replace('.png', '.jpg');
-                if (this.force || !fs.existsSync(imgPath)) {
-                    await this.imageSource.buildGigantics(card.id, language, imageLangDir, imgPath);
-                }
-                if (this.force || !fs.existsSync(halfSizePath)) {
-                    let data = cards.find((x) => x.id === card.id);
-                    if (this.buildHalfSize) {
+                    if (isGigantic(id)) {
+                        if (updated) {
+                            updatedGigantics.add(id.replace(/2$/, ''));
+                        }
+
+                        continue;
+                    }
+
+                    const halfSizePath = this.getHalfSizePath(imagePath);
+                    if (
+                        this.buildHalfSize &&
+                        (updated || this.force || !fs.existsSync(halfSizePath))
+                    ) {
                         await this.buildHalfSize(
-                            { ...data, type: 'creature1' },
-                            `file://${imgPath}`,
+                            printing.card,
+                            printing.card.image,
                             halfSizePath,
                             language.replace('-', '')
                         );
@@ -221,6 +129,82 @@ class CardImport {
                 }
             }
         }
+
+        for (const id of ids.filter((id) => printings.hasCard(id + '2'))) {
+            const card = printings.getLatestPrinting(id).card;
+            for (const language of this.computeLanguages(card)) {
+                const imageLangDir = this.computeImagesDir(skipMkdir, language);
+                const imgPath = path.join(imageLangDir, id + '-complete.png');
+                const halfSizePath = this.getHalfSizePath(imgPath);
+                const rebuild = this.force || updatedGigantics.has(id);
+
+                if (rebuild || !fs.existsSync(imgPath)) {
+                    await this.imageSource.buildGigantics(id, language, imageLangDir, imgPath);
+                }
+
+                if (this.buildHalfSize && (rebuild || !fs.existsSync(halfSizePath))) {
+                    await this.buildHalfSize(
+                        { ...card, type: 'creature1' },
+                        `file://${imgPath}`,
+                        halfSizePath,
+                        language.replace('-', '')
+                    );
+                }
+            }
+        }
+
+        this.saveSources(sources);
+    }
+
+    /**
+     * Whether an image should be (re)downloaded: it's missing, forced, or came from a different
+     * printing. Files downloaded before sources were recorded came from the earliest printing.
+     */
+    needsDownload(imagePath, imageUrl, recordedUrl, legacyUrl) {
+        if (this.force || !fs.existsSync(imagePath)) {
+            return true;
+        }
+
+        const sourceUrl = recordedUrl || legacyUrl;
+
+        return !!sourceUrl && imageKey(sourceUrl) !== imageKey(imageUrl);
+    }
+
+    /**
+     * The image the previous version of fetchdata would have downloaded for a name: the plain
+     * image or a house image from the card's earliest printing.
+     */
+    getLegacyImageUrl(id, name, printings) {
+        const house = name === id ? undefined : name.substring(id.length + 1);
+        const candidates = printings.byId
+            .get(id)
+            .filter((printing) => !house || printing.house === house)
+            .sort((a, b) => a.expansion - b.expansion);
+
+        return candidates[0] && candidates[0].image;
+    }
+
+    getHalfSizePath(imagePath) {
+        return imagePath
+            .replace(
+                `${path.sep}cards${path.sep}`,
+                `${path.sep}cards${path.sep}halfSize${path.sep}`
+            )
+            .replace('.png', '.jpg');
+    }
+
+    loadSources() {
+        const sourcesPath = path.join(this.imageDir, SourcesFile);
+
+        return fs.existsSync(sourcesPath) ? JSON.parse(fs.readFileSync(sourcesPath, 'utf8')) : {};
+    }
+
+    saveSources(sources) {
+        fs.mkdirSync(this.imageDir, { recursive: true });
+        fs.writeFileSync(
+            path.join(this.imageDir, SourcesFile),
+            JSON.stringify(sources, Object.keys(sources).sort(), 4)
+        );
     }
 
     computeLanguages(card) {

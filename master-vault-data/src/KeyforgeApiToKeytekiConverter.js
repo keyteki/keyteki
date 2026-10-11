@@ -1,5 +1,8 @@
 const fs = require('fs');
-const request = require('request');
+
+const { cardIdFromMasterVault } = require('./cardId');
+const { httpRequest, parseKeywords, parseStat, sortLocales, writePack } = require('./cardData');
+const { applyOverrides } = require('./overrides');
 
 // KeyForge API requires full BCP 47 locales (e.g. 'de-de'), not short codes
 const LANGUAGE_TO_API_LOCALE = {
@@ -28,48 +31,6 @@ function toApiLocale(language) {
         return language;
     }
     return `${language}-${language}`;
-}
-
-const ValidKeywords = [
-    'elusive',
-    'skirmish',
-    'taunt',
-    'deploy',
-    'alpha',
-    'omega',
-    'hazardous',
-    'assault',
-    'poison',
-    'splash-attack',
-    'treachery',
-    'versatile',
-    'entrench'
-];
-
-function httpRequest(url, options = {}) {
-    return new Promise((resolve, reject) => {
-        request(url, options, (err, res, body) => {
-            if (err) {
-                if (res) {
-                    err.statusCode = res.statusCode;
-                }
-
-                return reject(err);
-            }
-
-            if (res.statusCode !== 200) {
-                let err = new Error('Request failed');
-                if (res) {
-                    err.statusCode = res.statusCode;
-                    err.res = res;
-                }
-
-                return reject(err);
-            }
-
-            resolve(body);
-        });
-    });
 }
 
 function sleep(ms) {
@@ -109,7 +70,8 @@ class KeyforgeApiToKeytekiConverter {
 
         pack.cards = cards;
 
-        fs.writeFileSync(pathToPackFile, JSON.stringify(pack, null, 4) + '\n');
+        applyOverrides(pack.cards);
+        writePack(pathToPackFile, pack);
         console.log('Import of cards for', pack.name, 'has been completed.');
 
         if (result.pagesWithNewCards) {
@@ -265,28 +227,23 @@ class KeyforgeApiToKeytekiConverter {
 
                 if (language === 'en') {
                     newCard = {
-                        id: card.card_title
-                            .toLowerCase()
-                            .replace(/[?.!",“”]/gi, '')
-                            .replace(/[ '’]/gi, '-'),
+                        id: cardIdFromMasterVault(card),
                         name: card.card_title,
                         number: card.card_number,
                         image: card.front_image,
                         expansion: card.expansion,
                         house: card.house.toLowerCase().replace(' ', ''),
-                        keywords: this.parseKeywords(card.card_text),
+                        keywords: parseKeywords(card.card_text),
                         traits: !card.traits
                             ? []
                             : card.traits.split(' • ').map((trait) => trait.toLowerCase()),
                         type: normalizedCardType,
                         rarity: card.rarity,
-                        amber: card.amber === '' ? 0 : parseInt(card.amber),
-                        armor: normalizedCardType.startsWith('creature')
-                            ? card.armor !== ''
-                                ? parseInt(card.armor)
-                                : 0
+                        amber: parseStat(card.amber) || 0,
+                        armor: normalizedCardType.includes('creature')
+                            ? parseStat(card.armor) || 0
                             : null,
-                        power: card.power === '' ? null : parseInt(card.power),
+                        power: parseStat(card.power),
                         text: card.card_text,
                         locale: {
                             en: {
@@ -294,10 +251,6 @@ class KeyforgeApiToKeytekiConverter {
                             }
                         }
                     };
-
-                    if (newCard.rarity == 'Evil Twin') {
-                        newCard.id = newCard.id + '-evil-twin';
-                    }
                 } else {
                     // Append locale information
                     let type = card.card_type;
@@ -331,13 +284,7 @@ class KeyforgeApiToKeytekiConverter {
                     };
                 }
 
-                // Sort locale by key
-                newCard.locale = Object.keys(newCard.locale)
-                    .sort()
-                    .reduce((newLocale, currentValue) => {
-                        newLocale[currentValue] = newCard.locale[currentValue];
-                        return newLocale;
-                    }, {});
+                newCard.locale = sortLocales(newCard.locale);
 
                 cards[cardKey] = newCard;
                 pageContributed = true;
@@ -440,23 +387,6 @@ class KeyforgeApiToKeytekiConverter {
                 ? Array.from(pagesWithNewCards).sort((a, b) => a - b)
                 : undefined
         };
-    }
-
-    parseKeywords(text) {
-        let lines = text.split(/[\n\r\v]/);
-        let potentialKeywords = [];
-
-        for (let line of lines) {
-            potentialKeywords = potentialKeywords.concat(
-                line.split('.').map((k) => k.toLowerCase().trim().replace(' ', ':'))
-            );
-        }
-
-        let printedKeywords = potentialKeywords.filter((potentialKeyword) => {
-            return ValidKeywords.some((keyword) => potentialKeyword.indexOf(keyword) === 0);
-        });
-
-        return printedKeywords;
     }
 }
 

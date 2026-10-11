@@ -1,29 +1,20 @@
 const fs = require('fs');
 const path = require('path');
 
+const { Expansions } = require('../../master-vault-data/src/expansions');
+
 const RootPath = path.join(__dirname, '../..');
-
-/**
- * Expansion ids registered in the database seed data. fetchdata skips cards from any other
- * expansion, so the card map built here does too.
- */
-function getSeededExpansionIds() {
-    const sql = fs.readFileSync(path.join(RootPath, 'server/db/schema/99 - Data.sql'), 'utf8');
-    const ids = new Set();
-    for (const match of sql.matchAll(/INSERT INTO public\."Expansions".*VALUES \(\d+, (\d+),/g)) {
-        ids.add(parseInt(match[1]));
-    }
-
-    return ids;
-}
 
 /**
  * Builds the card map that CardService.getAllCards returns after fetchdata has imported the
  * pack files: keyed by card id, with the highest expansion id winning when a card has been
  * printed more than once.
+ * Unsupported expansions are skipped, as fetchdata does.
  */
 function buildCardMapFromPacks() {
-    const expansionIds = getSeededExpansionIds();
+    const expansionIds = new Set(
+        Expansions.filter((expansion) => expansion.supported).map((expansion) => expansion.id)
+    );
     const packDir = path.join(RootPath, 'master-vault-data/packs');
     const printings = [];
     const seen = new Set();

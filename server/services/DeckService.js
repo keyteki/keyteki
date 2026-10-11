@@ -3,6 +3,9 @@ const util = require('../util');
 const db = require('../db');
 const { expand, flatten } = require('../Array');
 const Constants = require('../constants');
+const { DeckExpansions } = require('../../master-vault-data/src/expansions');
+const { cardIdFromMasterVault, isGiganticArtHalf } = require('../../master-vault-data/src/cardId');
+const { PrintingIndex } = require('../../master-vault-data/src/printings');
 const BonusOrder = Constants.Houses.concat(['amber', 'capture', 'damage', 'draw', 'discard']);
 
 const allianceRestrictedRules = {
@@ -20,6 +23,15 @@ const allianceRestrictedRules = {
 };
 
 const MaxPageSize = 50;
+
+let printingIndex;
+function getPrintingIndex() {
+    if (!printingIndex) {
+        printingIndex = PrintingIndex.fromPacks();
+    }
+
+    return printingIndex;
+}
 
 class DeckService {
     constructor(configService, cardService) {
@@ -234,78 +246,13 @@ class DeckService {
     }
 
     async getSealedDeck(expansions) {
-        let dbExpansions = [];
+        const dbExpansions = DeckExpansions.filter(
+            (expansion) => expansion.sealedKey && expansions && expansions[expansion.sealedKey]
+        ).map((expansion) => expansion.id);
 
-        if (expansions.aoa) {
-            dbExpansions.push(435);
-        }
-
-        if (expansions.cota) {
-            dbExpansions.push(341);
-        }
-
-        if (expansions.wc) {
-            dbExpansions.push(452);
-        }
-
-        if (expansions.mm) {
-            dbExpansions.push(479);
-        }
-
-        if (expansions.dt) {
-            dbExpansions.push(496);
-        }
-
-        if (expansions.woe) {
-            dbExpansions.push(600);
-        }
-
-        if (expansions.gr) {
-            dbExpansions.push(700);
-        }
-
-        if (expansions.as) {
-            dbExpansions.push(800);
-        }
-
-        if (expansions.toc) {
-            dbExpansions.push(855);
-        }
-
-        if (expansions.momu) {
-            dbExpansions.push(874);
-        }
-
-        if (expansions.disc) {
-            dbExpansions.push(907);
-        }
-
-        if (expansions.vm2023) {
-            dbExpansions.push(609);
-        }
-
-        if (expansions.vm2024) {
-            dbExpansions.push(737);
-        }
-
-        if (expansions.vm2025) {
-            dbExpansions.push(939);
-        }
-
-        if (expansions.vm2026) {
-            dbExpansions.push(964);
-        }
-
-        if (expansions.pv) {
-            dbExpansions.push(886);
-        }
-
-        if (expansions.cc) {
-            dbExpansions.push(918);
-        }
-
-        if (expansions.dm) {
-            dbExpansions.push(928);
+        if (dbExpansions.length === 0) {
+            logger.warn('No sealed expansions selected');
+            return undefined;
         }
 
         let deck;
@@ -524,23 +471,38 @@ class DeckService {
             'vault-s-blessing': 'untamed'
         };
 
-        deck.cards = cards.map((card) => ({
-            dbId: card.Id,
-            id: card.CardId,
-            count: card.Count,
-            maverick: card.Maverick || undefined,
-            anomaly: card.Anomaly || undefined,
-            image: card.ImageUrl || undefined,
-            house: card.House || specialCardDefaultHouses[card.CardId] || undefined,
-            isNonDeck: card.IsNonDeck,
-            prophecyId: card.ProphecyId || undefined,
-            enhancements: card.Enhancements
-                ? card.Enhancements.replace(/[[{}"\]]/gi, '')
-                      .split(',')
-                      .filter((c) => c.length > 0)
-                      .sort((a, b) => BonusOrder.indexOf(a) - BonusOrder.indexOf(b))
-                : undefined
-        }));
+        const printings = getPrintingIndex();
+        deck.cards = cards.map((card) => {
+            const house = card.House || specialCardDefaultHouses[card.CardId] || undefined;
+            // Decks imported before images were stored for every card get theirs worked out
+            // from the card's house
+            let image = card.ImageUrl || undefined;
+            if (!image && house) {
+                const imageName = printings.getImageName(card.CardId, house, {
+                    maverick: !!card.Maverick,
+                    anomaly: !!card.Anomaly
+                });
+                image = imageName !== card.CardId ? imageName : undefined;
+            }
+
+            return {
+                dbId: card.Id,
+                id: card.CardId,
+                count: card.Count,
+                maverick: card.Maverick || undefined,
+                anomaly: card.Anomaly || undefined,
+                image: image,
+                house: house,
+                isNonDeck: card.IsNonDeck,
+                prophecyId: card.ProphecyId || undefined,
+                enhancements: card.Enhancements
+                    ? card.Enhancements.replace(/[[{}"\]]/gi, '')
+                          .split(',')
+                          .filter((c) => c.length > 0)
+                          .sort((a, b) => BonusOrder.indexOf(a) - BonusOrder.indexOf(b))
+                    : undefined
+            };
+        });
 
         // Sort cards: prophecy cards by ProphecyId first, then by dbId, others maintain original order
         deck.cards.sort((a, b) => {
@@ -1222,92 +1184,6 @@ class DeckService {
     async parseDeckResponse(username, deckResponse) {
         const allCards = await this.cardService.getAllCards();
 
-        let specialCards = {
-            479: { 'dark-æmber-vault': true, 'it-s-coming': true },
-            855: {
-                'armageddon-cloak': true,
-                'avenging-aura': true,
-                'book-of-malefaction': true,
-                'eye-of-judgment': true,
-                'hymn-to-duma': true,
-                'johnny-longfingers': true,
-                'lord-golgotha': true,
-                'mantle-of-the-zealot': true,
-                'martyr-s-end': true,
-                'master-of-the-grey': true,
-                'mighty-lance': true,
-                'one-stood-against-many': true,
-                'rogue-ogre': true,
-                'the-promised-blade': true,
-                'champion-tabris': true,
-                'dark-centurion': true,
-                'first-or-last': true,
-                francus: true,
-                'glorious-few': true,
-                'gorm-of-omm': true,
-                'grey-abbess': true,
-                'professor-terato': true,
-                'scrivener-favian': true,
-                'bordan-the-redeemed': true,
-                'bull-wark': true,
-                'burning-glare': true,
-                'citizen-shrix': true,
-                retribution: true,
-                'shifting-battlefield': true,
-                snarette: true,
-                'subtle-otto': true,
-                'even-ivan': true,
-                'odd-clawde': true,
-                'sacro-alien': true,
-                'sacro-beast': true,
-                'sacro-bot': true,
-                'sacro-fiend': true,
-                'sacro-saurus': true,
-                'sacro-thief': true
-            },
-            874: {
-                'dark-æmber-vault': true,
-                'build-your-champion': true,
-                'digging-up-the-monster': true,
-                'tomes-gigantica': true
-            },
-            886: {
-                'avenging-aura': true,
-                corrode: true,
-                'lord-golgotha': true,
-                'one-stood-against-many': true,
-                'purifier-of-souls': true,
-                stampede: true,
-                'dark-centurion': true,
-                'follow-the-leader': true,
-                picaroon: true,
-                'research-smoko': true,
-                'vault-s-blessing': true,
-                'citizen-shrix': true,
-                'even-ivan': true,
-                'odd-clawde': true
-            }
-        };
-
-        let anomalies = {
-            cosmicrux: { anomalySets: [453, 918, 939], house: 'ouboros' },
-            'ecto-charge': { anomalySets: [600], house: 'geistoid' },
-            ignitus: { anomalySets: [453, 918, 939], house: 'ouboros' },
-            'lateral-shift': { anomalySets: [452, 453, 600, 886], house: 'unfathomable' },
-            'near-future-lens': { anomalySets: [600], house: 'staralliance' },
-            'nizak-the-forgotten': {
-                anomalySets: [452, 453, 600, 886, 918, 939],
-                house: 'ouboros'
-            },
-            'orb-of-wonder': { anomalySets: [453], house: 'sanctum' },
-            'the-grim-reaper': { anomalySets: [453], house: 'geistoid' },
-            'the-red-baron': { anomalySets: [453], house: 'skyborn' },
-            'thermal-depletion': { anomalySets: [453, 918, 939], house: 'ouboros' },
-            timequake: { anomalySets: [452, 453, 600, 886, 918, 939], house: 'ouboros' },
-            'treok-the-wise': { anomalySets: [453, 939], house: 'ouboros' },
-            valoocanth: { anomalySets: [453], house: 'unfathomable' }
-        };
-
         let deckCards = deckResponse._linked.cards;
 
         let enhancementsByCardId = {};
@@ -1322,35 +1198,41 @@ class DeckService {
             }
         }
 
-        let cards = deckCards.map((card) => {
-            let id = card.card_title
-                .toLowerCase()
-                .replace(/[,?.!"„""“”]/gi, '')
-                .replace(/[ ''’]/gi, '-');
+        const printings = getPrintingIndex();
+        const unknownCards = [];
 
-            if (card.rarity === 'Evil Twin') {
-                id += '-evil-twin';
+        let cards = deckCards.map((card) => {
+            // Cards are identified by where they were printed. Reprint sets don't have pack
+            // data, so their cards fall back to being identified by title.
+            const id =
+                printings.resolveCardId(card) ||
+                cardIdFromMasterVault(card) + (isGiganticArtHalf(card) ? '2' : '');
+            const house = card.house.toLowerCase().replace(' ', '');
+            const count = deckResponse.data._links.cards.filter((uuid) => uuid === card.id).length;
+
+            if (!allCards[id]) {
+                unknownCards.push(`${card.card_title} (${id})`);
             }
 
-            let retCard;
-            let count = deckResponse.data._links.cards.filter((uuid) => uuid === card.id).length;
+            const retCard = {
+                id: id,
+                count: count,
+                house: house,
+                isNonDeck: card.is_non_deck
+            };
+
             if (card.is_maverick) {
-                retCard = {
-                    id: id,
-                    count: count,
-                    maverick: card.house.replace(' ', '').toLowerCase()
-                };
+                retCard.maverick = house;
             } else if (card.is_anomaly) {
-                retCard = {
-                    id: id,
-                    count: count,
-                    anomaly: card.house.replace(' ', '').toLowerCase()
-                };
-            } else {
-                retCard = {
-                    id: id,
-                    count: count
-                };
+                retCard.anomaly = house;
+            }
+
+            const image = printings.getImageName(id, house, {
+                maverick: card.is_maverick,
+                anomaly: card.is_anomaly
+            });
+            if (image !== id) {
+                retCard.image = image;
             }
 
             // Store sort_override for prophecy cards
@@ -1363,52 +1245,19 @@ class DeckService {
                 retCard.uuid = card.id;
             }
 
-            if (
-                card.card_type === 'Creature2' ||
-                (card.card_text === '' &&
-                    card.power === null &&
-                    card.card_type === 'Creature' &&
-                    card.rarity === 'Rare') ||
-                card.card_type === 'Gigantic Creature Art'
-            ) {
-                retCard.id += '2';
-            }
-
-            const normalizedHouse = card.house.toLowerCase().replace(' ', '');
-            const cardData = allCards[retCard.id];
-
-            if (!cardData) {
-                logger.error(
-                    'Deck import failed: missing card metadata for id %s (title %s) in deck %s',
-                    retCard.id,
-                    card.card_title,
-                    deckResponse.data.id
-                );
-                throw new Error('There was a problem importing your deck, please try again later.');
-            }
-
-            // Revenants can be in any house, their real house is set on the deck itself.
-            if (normalizedHouse !== cardData.house) {
-                retCard.house = normalizedHouse;
-            }
-
-            // If this is one of the cards that has an entry for every house, get the correct house image
-            if (specialCards[card.expansion] && specialCards[card.expansion][id]) {
-                retCard.house = normalizedHouse;
-                retCard.image = `${retCard.id}-${retCard.house}`;
-            }
-
-            if (anomalies[id] && !anomalies[id].anomalySets.includes(card.expansion)) {
-                // Former anomaly cards use their printed house in regular sets.
-                delete retCard.anomaly;
-                retCard.house = anomalies[id].house;
-                retCard.image = `${retCard.id}-${retCard.house}`;
-            }
-
-            retCard.isNonDeck = card.is_non_deck;
-
             return retCard;
         });
+
+        if (unknownCards.length > 0) {
+            logger.error(
+                'Deck import failed: unknown cards %s in deck %s',
+                unknownCards.join(', '),
+                deckResponse.data.id
+            );
+            throw new Error(
+                `This deck contains cards that aren't supported yet: ${unknownCards.join(', ')}`
+            );
+        }
 
         let toAdd = [];
         for (let card of cards) {
@@ -1458,21 +1307,6 @@ class DeckService {
         }
 
         let uuid = deckResponse.data.id;
-        let anyIllegalCards = cards.find(
-            (card) =>
-                !card.id
-                    .split('')
-                    .every((char) =>
-                        'æaăàáãǎâbcdeĕèéěfghĭìíǐijklmnoöǑŏòóõǒpqrstuŭùúǔüvwxyz0123456789-[]*…'.includes(
-                            char
-                        )
-                    )
-        );
-        if (anyIllegalCards) {
-            logger.error(`DECK IMPORT ERROR: ${anyIllegalCards.id}`);
-
-            return undefined;
-        }
 
         const accolades = (deckResponse._linked.accolades || [])
             .filter((a) => a.visible)

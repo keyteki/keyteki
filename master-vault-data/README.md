@@ -1,43 +1,54 @@
 # Master Vault Data
 
-Card data used by The Crucible / keyteki. Each JSON file in the `packs` directory should correspond to a pack or expansion for Keyforge.
+Card data used by The Crucible / keyteki.
 
-## Getting started
+-   `expansions.json` lists every expansion keyteki knows about, in release order. It drives the
+    expansion lists on the server and client, and the release date decides which printing of a
+    card is the latest.
+-   `packs/` holds one file per expansion with cards, imported from the Master Vault API.
+-   `overrides.json` corrects cards that Master Vault has wrong. Overrides are applied whenever
+    cards are imported, so fixes aren't lost when a pack is re-imported. Don't edit pack files by
+    hand: add an override with a `reason` instead.
 
-```
-npm install
-```
+Card ids are derived from card titles by `src/cardId.js`, which deck import also uses.
 
 ## Validating
 
-To validate all card data against the schema, run:
+The pack data is checked as part of the keyteki test suite. To check it on its own:
 
 ```
-npm test
+npm run validate
 ```
 
-## Importing from the keyforge API
+## Importing from the KeyForge API
 
-Once the pack data is available on the Keyforge website, it can be imported to the repo by running:
+Once the pack data is available on the KeyForge website, it can be imported by running:
 
 ```
 npm run import packs/packFileName.json packcode
 # Example: npm run import packs/AoA.json AoA
 ```
 
-Optional step: To load different locales, pass the language code as an argument ('en', 'es', 'it', 'de', 'fr', 'pl', 'pt', 'th', 'zh-hans', 'zh-hant'):
+To load a different locale, pass the language code ('en', 'es', 'it', 'de', 'fr', 'pl', 'pt',
+'th', 'zh-hans', 'zh-hant'), or `all` to load every language:
 
 ```
-npm run import packs/packFileName.json packcode
-# Examples:
-# npm run import packs/AoA.json AoA pt
-# npm run import packs/AoA.json AoA fr
-# npm run import packs/AoA.json AoA zh-hans
-# npm run import packs/AoA.json AoA zh-hant
+npm run import packs/AoA.json AoA pt
+npm run import packs/AoA.json AoA all
 ```
 
-English is the default language.
+English is the default language, and must be loaded first.
 
-The local pack file must already exist - the import script uses the the `id` field in the pack data to look up the corresponding data on the Keyforge website.
+## Applying overrides
 
-The initial local pack does not need the locale information. Import script will complete this information.
+After adding an override, apply it to the existing pack files with:
+
+```
+npm run apply-overrides
+```
+
+## Spoiler sources
+
+Before a set is on Master Vault, cards can be loaded from Archon Arcana
+(`node scripts/import-aa.js packs/<Pack>.json "<set name>"`) or Decks of KeyForge
+(`node scripts/import-dok.js packs/<Pack>.json`).

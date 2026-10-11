@@ -1,47 +1,8 @@
 const fs = require('fs');
-const request = require('request');
 
-const ValidKeywords = [
-    'elusive',
-    'skirmish',
-    'taunt',
-    'deploy',
-    'alpha',
-    'omega',
-    'hazardous',
-    'assault',
-    'poison',
-    'splash-attack',
-    'treachery',
-    'versatile',
-    'entrench'
-];
-
-function httpRequest(url, options = {}) {
-    return new Promise((resolve, reject) => {
-        request(url, options, (err, res, body) => {
-            if (err) {
-                if (res) {
-                    err.statusCode = res.statusCode;
-                }
-
-                return reject(err);
-            }
-
-            if (res.statusCode !== 200) {
-                let err = new Error('Request failed');
-                if (res) {
-                    err.statusCode = res.statusCode;
-                    err.res = res;
-                }
-
-                return reject(err);
-            }
-
-            resolve(body);
-        });
-    });
-}
+const { cardIdFromTitle } = require('./cardId');
+const { httpRequest, parseKeywords, sortLocales, writePack } = require('./cardData');
+const { applyOverrides } = require('./overrides');
 
 class DecksOfKeyforgeApiToKeytekiConverter {
     async convert({ pathToPackFile, language, cyclePrefix }) {
@@ -59,11 +20,16 @@ class DecksOfKeyforgeApiToKeytekiConverter {
             return;
         }
 
+        if (!cards) {
+            return;
+        }
+
         cards.sort((a, b) => (a.number < b.number ? -1 : 1));
 
         pack.cards = cards;
 
-        fs.writeFileSync(pathToPackFile, JSON.stringify(pack, null, 4) + '\n');
+        applyOverrides(pack.cards);
+        writePack(pathToPackFile, pack);
         console.log('Import of cards for', pack.name, 'has been completed.');
     }
 
@@ -78,17 +44,12 @@ class DecksOfKeyforgeApiToKeytekiConverter {
         let response;
         let cards = {};
 
-        let responseReceived = false;
+        try {
+            response = await httpRequest(apiUrl, { json: true });
+        } catch (err) {
+            console.info(err);
 
-        while (!responseReceived) {
-            try {
-                response = await httpRequest(`${apiUrl}`, { json: true });
-                responseReceived = true;
-            } catch (err) {
-                console.info(err);
-
-                return;
-            }
+            return;
         }
 
         let generatedNumber = 900;
@@ -129,16 +90,13 @@ class DecksOfKeyforgeApiToKeytekiConverter {
 
             if (language === 'en') {
                 newCard = {
-                    id: card.cardTitle
-                        .toLowerCase()
-                        .replace(/[?.!",“”]/gi, '')
-                        .replace(/[ '’]/gi, '-'),
+                    id: cardIdFromTitle(card.cardTitle),
                     name: card.cardTitle,
                     number: card.cardNumber,
                     image: card.frontImage,
                     expansion: card.expansion,
                     house: card.house.toLowerCase().replace(' ', ''),
-                    keywords: this.parseKeywords(card.cardText),
+                    keywords: parseKeywords(card.cardText),
                     traits: !card.traits ? [] : card.traits.map((trait) => trait.toLowerCase()),
                     type: card.cardType.toLowerCase(),
                     rarity: card.rarity,
@@ -160,47 +118,23 @@ class DecksOfKeyforgeApiToKeytekiConverter {
             } else {
                 // Append locale information
                 newCard = packCardMap[card.cardNumber];
-
-                if (!newCard.locale) {
-                    // Just a safe check, but since 'en' is supposed to be loaded first, locale
-                    // will already exist
-                    newCard.locale = [];
+                if (!newCard) {
+                    continue;
                 }
+
+                newCard.locale = newCard.locale || {};
 
                 newCard.locale[language.replace('-', '')] = {
                     name: card.cardTitle
                 };
             }
 
-            // Sort locale by key
-            newCard.locale = Object.keys(newCard.locale)
-                .sort()
-                .reduce((newLocale, currentValue) => {
-                    newLocale[currentValue] = newCard.locale[currentValue];
-                    return newLocale;
-                }, {});
+            newCard.locale = sortLocales(newCard.locale);
 
             cards[card.cardNumber] = newCard;
         }
 
         return Object.values(cards);
-    }
-
-    parseKeywords(text) {
-        let lines = text.split(/[\r\v]/);
-        let potentialKeywords = [];
-
-        for (let line of lines) {
-            potentialKeywords = potentialKeywords.concat(
-                line.split('.').map((k) => k.toLowerCase().trim().replace(' ', ':'))
-            );
-        }
-
-        let printedKeywords = potentialKeywords.filter((potentialKeyword) => {
-            return ValidKeywords.some((keyword) => potentialKeyword.indexOf(keyword) === 0);
-        });
-
-        return printedKeywords;
     }
 }
 

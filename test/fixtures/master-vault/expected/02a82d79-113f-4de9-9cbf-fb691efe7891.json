@@ -1,0 +1,219 @@
+{
+    "deck": {
+        "expansion": 800,
+        "username": "test",
+        "uuid": "02a82d79-113f-4de9-9cbf-fb691efe7891",
+        "identity": "l-du-quesnai-the-bay-shield-holder",
+        "cardback": "",
+        "name": "L. du Quesnai, the Bay Shield-holder",
+        "houses": ["dis", "logos", "skyborn"],
+        "cards": [
+            {
+                "id": "colossipede",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "chandler-anouk",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false
+            },
+            {
+                "id": "seeker-missiles",
+                "count": 2,
+                "house": "skyborn",
+                "isNonDeck": false
+            },
+            {
+                "id": "effervescent-principle",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false,
+                "enhancements": ["amber"],
+                "uuid": "0905419e-c03a-4b3e-8302-85e6b3baba12"
+            },
+            {
+                "id": "searine",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "entropic-swirl",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false,
+                "enhancements": ["dis"],
+                "uuid": "297e4d77-4268-4aea-990b-17357fb80d31"
+            },
+            {
+                "id": "universal-welcome",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false
+            },
+            {
+                "id": "connectome-transfer",
+                "count": 2,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "information-exchange",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false,
+                "enhancements": ["draw"],
+                "uuid": "a5e4fb19-0f7c-4faa-96e5-b390d0ef179b"
+            },
+            {
+                "id": "redline-rotation",
+                "count": 2,
+                "house": "skyborn",
+                "isNonDeck": false
+            },
+            {
+                "id": "quantum-mouse",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "vapor-imp",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false,
+                "enhancements": ["discard"],
+                "uuid": "12074047-c856-4ca1-9a3b-8c0531cada94"
+            },
+            {
+                "id": "skippy-the-glorious",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "bosun-creen",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false
+            },
+            {
+                "id": "a-gift-of-æmber",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "effervescent-principle",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "raiding-party",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false
+            },
+            {
+                "id": "dust-imp",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false,
+                "enhancements": ["skyborn"],
+                "uuid": "dff4feb0-9e36-4fb8-a2a3-25cacfaf3644"
+            },
+            {
+                "id": "against-all-flags",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false
+            },
+            {
+                "id": "poltergeist",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false,
+                "enhancements": ["discard"],
+                "uuid": "f91d2a3c-7d41-4036-a327-aee39ea1b1db"
+            },
+            {
+                "id": "code-monkey",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "rm-foler",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false,
+                "enhancements": ["discard"],
+                "uuid": "d3aa38f4-1c52-4634-bfb2-a4ade70635f7"
+            },
+            {
+                "id": "infinity-strop",
+                "count": 2,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "bux-bastian",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false
+            },
+            {
+                "id": "monsquito",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "bomb-arang",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false
+            },
+            {
+                "id": "ven-omawk",
+                "count": 2,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "the-red-baron",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false,
+                "image": "the-red-baron-skyborn",
+                "enhancements": ["damage"],
+                "uuid": "00b503e8-f67c-456a-ad09-8735f446601e"
+            },
+            {
+                "id": "minerva-s-wings",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "placeholder",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "dust-imp",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false,
+                "enhancements": ["draw"],
+                "uuid": "dff4feb0-9e36-4fb8-a2a3-25cacfaf3644"
+            }
+        ],
+        "accolades": []
+    }
+}

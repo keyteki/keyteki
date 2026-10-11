@@ -51,4 +51,18 @@ describe('Master Vault deck import', function () {
             expect(result).toEqual(readJson(expectedPath));
         });
     }
+
+    it('lists the cards it does not recognise', async function () {
+        const entry = Manifest[0];
+        const deckResponse = readJson(path.join(FixtureDir, 'decks', `${entry.uuid}.json`));
+        Object.assign(deckResponse._linked.cards[0], {
+            card_title: 'Not A Real Card',
+            card_title_en: 'Not A Real Card',
+            expansion: 999
+        });
+
+        await expect(deckService.parseDeckResponse('test', deckResponse)).rejects.toThrow(
+            "This deck contains cards that aren't supported yet: Not A Real Card (not-a-real-card)"
+        );
+    });
 });

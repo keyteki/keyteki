@@ -2,6 +2,7 @@ const logger = require('../log.js');
 const db = require('../db');
 const RedisClientFactory = require('./RedisClientFactory');
 const { expand, flatten } = require('../Array');
+const { getExpansion } = require('../../master-vault-data/src/expansions');
 
 // Keeps each bulk insert well under postgres' limit of 65535 parameters
 const InsertChunkSize = 1000;
@@ -56,8 +57,16 @@ class CardService {
 
         const rows = [];
         const rowKeys = new Set();
+        const unsupported = {};
         const skipped = {};
         for (const card of cards) {
+            const expansion = getExpansion(card.expansion);
+            if (expansion && !expansion.supported) {
+                unsupported[expansion.code] = (unsupported[expansion.code] || 0) + 1;
+
+                continue;
+            }
+
             const expansionId = expansionsByNumber[card.expansion];
             const houseId = housesByCode[card.house];
             if (!expansionId || !houseId) {
@@ -78,6 +87,10 @@ class CardService {
 
             rowKeys.add(key);
             rows.push({ card, expansionId, houseId });
+        }
+
+        for (const [code, count] of Object.entries(unsupported)) {
+            logger.info(`Not importing ${count} cards from unsupported expansion ${code}`);
         }
 
         for (const [reason, count] of Object.entries(skipped)) {

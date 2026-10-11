@@ -1,0 +1,213 @@
+{
+    "deck": {
+        "expansion": 341,
+        "username": "test",
+        "uuid": "eb5d4c4a-5957-4276-ab9a-0d1b19f42e81",
+        "identity": "shadowmaster-desmares",
+        "cardback": "",
+        "name": "Shadowmaster Desmares",
+        "houses": ["dis", "sanctum", "untamed"],
+        "cards": [
+            {
+                "id": "charette",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "tocsin",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "vigor",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "epic-quest",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "fear",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "key-hammer",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "regrowth",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "key-charge",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "giant-sloth",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "lost-in-the-woods",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "mind-barb",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "dew-faerie",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "clear-mind",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "virtuous-works",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "dust-pixie",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "three-fates",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "lash-of-broken-dreams",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "bulwark",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "gabos-longarms",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "lord-golgotha",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false,
+                "image": "lord-golgotha-sanctum"
+            },
+            {
+                "id": "snufflegator",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "witch-of-the-eye",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "the-terror",
+                "count": 2,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "grey-monk",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "sequis",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "staunch-knight",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "cleansing-wave",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "save-the-pack",
+                "count": 2,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "ancient-bear",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "tentacus",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "terms-of-redress",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "blinding-light",
+                "count": 2,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "dominator-bauble",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            }
+        ],
+        "accolades": []
+    }
+}

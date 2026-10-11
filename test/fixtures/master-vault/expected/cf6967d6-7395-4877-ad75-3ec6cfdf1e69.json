@@ -1,0 +1,212 @@
+{
+    "deck": {
+        "expansion": 600,
+        "username": "test",
+        "uuid": "cf6967d6-7395-4877-ad75-3ec6cfdf1e69",
+        "identity": "cottongli-the-mayor-of-adaptation",
+        "cardback": "",
+        "name": "Cottongli, the Mayor of Adaptation",
+        "houses": ["mars", "sanctum", "unfathomable"],
+        "cards": [
+            {
+                "id": "mars-needs-æmber",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "mk2-generator",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "glylyx-weaponsmith",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "kamalani",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "absolve",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "nizak-the-forgotten",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false,
+                "anomaly": "sanctum"
+            },
+            {
+                "id": "bubbles",
+                "count": 2,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "squire",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": true
+            },
+            {
+                "id": "glorious-few",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false,
+                "image": "glorious-few-sanctum"
+            },
+            {
+                "id": "halo-of-enlightenment",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "mothership-support",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "haedroth-s-wall",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false,
+                "enhancements": ["damage"],
+                "uuid": "6eecfa4e-fd2a-4ed7-abaa-ce4f8bb42056"
+            },
+            {
+                "id": "squire-recruitment",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "sunk-cost",
+                "count": 2,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "giltspine-netcaster",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "knightapult",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "giltspine-school",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false,
+                "enhancements": ["draw"],
+                "uuid": "a511ce58-fe8a-43e1-ab95-be27a1f07193"
+            },
+            {
+                "id": "crushing-deep",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "sibyl-waimare",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false,
+                "enhancements": ["capture"],
+                "uuid": "6a61bb72-a41e-4c73-af1c-7a6b7f5c9f16"
+            },
+            {
+                "id": "muster",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "fathom-reaver",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "under-pressure",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "skullback-crab",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "challe-the-safeguard",
+                "count": 2,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "scoop-up",
+                "count": 3,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "xanthyx-harvester",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "request-donations",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false,
+                "enhancements": ["damage"],
+                "uuid": "32dbfa0a-92d1-4ab4-b3a7-b257957378b8"
+            },
+            {
+                "id": "ironyx-vatminder",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false,
+                "enhancements": ["capture"],
+                "uuid": "67f72bec-ca56-46cf-a2c1-427ae96fe361"
+            },
+            {
+                "id": "genetic-blast",
+                "count": 2,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "ostentatious-mount",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "kaboom",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            }
+        ],
+        "accolades": []
+    }
+}

@@ -2,6 +2,8 @@ import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { Button, Switch } from '@heroui/react';
 
+import { Constants } from '../../constants';
+
 const GameFormats = ({
     formProps,
     showAllowedSets = true,
@@ -19,26 +21,10 @@ const GameFormats = ({
         { name: 'alliance', label: t('Alliance') }
     ];
 
-    const expansions = [
-        { name: 'cota', label: t('Call of the Archons') },
-        { name: 'aoa', label: t('Age of Ascension') },
-        { name: 'wc', label: t('Worlds Collide') },
-        { name: 'mm', label: t('Mass Mutation') },
-        { name: 'dt', label: t('Dark Tidings') },
-        { name: 'woe', label: t('Winds of Exchange') },
-        { name: 'gr', label: t('Grim Reminders') },
-        { name: 'as', label: t('Aember Skies') },
-        { name: 'toc', label: t('Tokens of Change') },
-        { name: 'momu', label: t('More Mutation') },
-        { name: 'disc', label: t('Discovery') },
-        { name: 'vm2023', label: t('Vault Masters 2023') },
-        { name: 'vm2024', label: t('Vault Masters 2024') },
-        { name: 'vm2025', label: t('Vault Masters 2025') },
-        { name: 'vm2026', label: t('Vault Masters 2026') },
-        { name: 'pv', label: t('Prophetic Visions') },
-        { name: 'cc', label: t('Crucible Clash') },
-        { name: 'dm', label: t('Draconian Measures') }
-    ];
+    const expansions = Constants.SealedExpansions.map((expansion) => ({
+        name: expansion.sealedKey,
+        label: t(expansion.name)
+    }));
     const expansionNames = expansions.map((expansion) => expansion.name);
 
     const setAllExpansions = (nextValue) => {

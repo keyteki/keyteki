@@ -1,0 +1,167 @@
+[
+    {
+        "id": 341,
+        "code": "CotA",
+        "name": "Call of the Archons",
+        "releaseDate": "2018-11-15",
+        "pack": "CotA.json",
+        "sealedKey": "cota"
+    },
+    {
+        "id": 435,
+        "code": "AoA",
+        "name": "Age of Ascension",
+        "releaseDate": "2019-05-30",
+        "pack": "AoA.json",
+        "sealedKey": "aoa"
+    },
+    {
+        "id": 452,
+        "code": "WC",
+        "name": "Worlds Collide",
+        "releaseDate": "2019-11-08",
+        "pack": "WC.json",
+        "sealedKey": "wc"
+    },
+    {
+        "id": 453,
+        "code": "WC",
+        "name": "Worlds Collide (Anomoly)",
+        "releaseDate": "2019-11-08",
+        "anomalies": true
+    },
+    {
+        "id": 479,
+        "code": "MM",
+        "name": "Mass Mutation",
+        "releaseDate": "2020-07-17",
+        "pack": "MM.json",
+        "sealedKey": "mm"
+    },
+    {
+        "id": 496,
+        "code": "DT",
+        "name": "Dark Tidings",
+        "releaseDate": "2021-05-21",
+        "pack": "DT.json",
+        "sealedKey": "dt",
+        "tideRequired": true
+    },
+    {
+        "id": 601,
+        "code": "UC2022",
+        "name": "Unchained 2022",
+        "releaseDate": "2022-11-01"
+    },
+    {
+        "id": 609,
+        "code": "VM2023",
+        "name": "Vault Masters 2023",
+        "releaseDate": "2023-03-01",
+        "sealedKey": "vm2023"
+    },
+    {
+        "id": 600,
+        "code": "WoE",
+        "name": "Winds of Exchange",
+        "releaseDate": "2023-06-05",
+        "pack": "WoE.json",
+        "sealedKey": "woe",
+        "tokenRequired": true
+    },
+    {
+        "id": 700,
+        "code": "GR",
+        "name": "Grim Reminders",
+        "releaseDate": "2023-11-01",
+        "pack": "GR.json",
+        "sealedKey": "gr"
+    },
+    {
+        "id": 722,
+        "code": "MG2024",
+        "name": "Menagerie 2024",
+        "releaseDate": "2024-01-01",
+        "pack": "MG24.json",
+        "supported": false
+    },
+    {
+        "id": 737,
+        "code": "VM2024",
+        "name": "Vault Masters 2024",
+        "releaseDate": "2024-03-01",
+        "sealedKey": "vm2024"
+    },
+    {
+        "id": 800,
+        "code": "AS",
+        "name": "Æmber Skies",
+        "releaseDate": "2024-06-01",
+        "pack": "AS.json",
+        "sealedKey": "as"
+    },
+    {
+        "id": 855,
+        "code": "ToC",
+        "name": "Tokens of Change",
+        "releaseDate": "2024-10-01",
+        "pack": "ToC.json",
+        "sealedKey": "toc",
+        "tokenRequired": true
+    },
+    {
+        "id": 874,
+        "code": "MoMu",
+        "name": "More Mutation",
+        "releaseDate": "2025-01-01",
+        "pack": "MoMu.json",
+        "sealedKey": "momu"
+    },
+    {
+        "id": 907,
+        "code": "DISC",
+        "name": "Discovery",
+        "releaseDate": "2025-03-01",
+        "sealedKey": "disc"
+    },
+    {
+        "id": 939,
+        "code": "VM2025",
+        "name": "Vault Masters 2025",
+        "releaseDate": "2025-05-01",
+        "pack": "VM25.json",
+        "sealedKey": "vm2025"
+    },
+    {
+        "id": 886,
+        "code": "PV",
+        "name": "Prophetic Visions",
+        "releaseDate": "2025-06-01",
+        "pack": "PV.json",
+        "sealedKey": "pv",
+        "prophecySupported": true
+    },
+    {
+        "id": 918,
+        "code": "CC",
+        "name": "Crucible Clash",
+        "releaseDate": "2025-09-01",
+        "pack": "CC.json",
+        "sealedKey": "cc"
+    },
+    {
+        "id": 964,
+        "code": "VM2026",
+        "name": "Vault Masters 2026",
+        "releaseDate": "2026-03-01",
+        "sealedKey": "vm2026"
+    },
+    {
+        "id": 928,
+        "code": "DM",
+        "name": "Draconian Measures",
+        "releaseDate": "2026-04-28",
+        "pack": "DM.json",
+        "sealedKey": "dm"
+    }
+]
