@@ -574,17 +574,32 @@ class DeckService {
             throw new Error('Invalid response from Api. Please try again later.');
         }
 
-        let newDeck = await this.parseDeckResponse(deck.username, deckResponse);
-        if (!newDeck) {
-            throw new Error('There was a problem importing your deck, please try again later.');
-        }
+        await this.saveMasterVaultResponse(deckResponse);
 
-        let validExpansion = await this.checkValidDeckExpansion(newDeck);
+        let validExpansion = await this.checkValidDeckExpansion({
+            expansion: deckResponse.data.expansion,
+            uuid: deckResponse.data.id
+        });
         if (!validExpansion) {
             return {
                 success: false,
                 message: 'This deck is from a future expansion and not currently supported'
             };
+        }
+
+        let newDeck;
+        try {
+            newDeck = await this.parseDeckResponse(deck.username, deckResponse);
+        } catch (error) {
+            if (!error.unknownCards) {
+                throw error;
+            }
+
+            return { success: false, message: error.message };
+        }
+
+        if (!newDeck) {
+            throw new Error('There was a problem importing your deck, please try again later.');
         }
 
         let deckExists = await this.deckExistsForUser(user, newDeck.identity);
@@ -1211,7 +1226,15 @@ class DeckService {
             const count = deckResponse.data._links.cards.filter((uuid) => uuid === card.id).length;
 
             if (!allCards[id]) {
-                unknownCards.push(`${card.card_title} (${id})`);
+                unknownCards.push({
+                    id: id,
+                    title: card.card_title_en || card.card_title,
+                    expansion: card.expansion,
+                    number: card.card_number,
+                    house: house,
+                    type: card.card_type,
+                    masterVaultId: card.id
+                });
             }
 
             const retCard = {
@@ -1249,14 +1272,16 @@ class DeckService {
         });
 
         if (unknownCards.length > 0) {
+            const names = unknownCards.map((card) => `${card.title} (${card.id})`).join(', ');
             logger.error(
                 'Deck import failed: unknown cards %s in deck %s',
-                unknownCards.join(', '),
+                names,
                 deckResponse.data.id
             );
-            throw new Error(
-                `This deck contains cards that aren't supported yet: ${unknownCards.join(', ')}`
-            );
+
+            const error = new Error(`This deck contains cards that aren't supported yet: ${names}`);
+            error.unknownCards = unknownCards;
+            throw error;
         }
 
         let toAdd = [];
@@ -1363,6 +1388,8 @@ class DeckService {
             throw new Error('Invalid response from API. Please try again later.');
         }
 
+        await this.saveMasterVaultResponse(deckResponse);
+
         const accolades = (deckResponse._linked.accolades || [])
             .filter((a) => a.visible)
             .map((a) => ({ id: a.id, name: a.name, image: a.image }));
@@ -1445,6 +1472,72 @@ class DeckService {
             'UPDATE "DeckAccolades" SET "Shown" = $1 WHERE "DeckId" = $2 AND "AccoladeId" = $3',
             [shown, deckId, accoladeId]
         );
+    }
+
+    /**
+     * Keeps the Master Vault response for a deck, so decks can be checked or re-imported later
+     * without fetching them again. Cards are stored once each, as most are shared between decks.
+     */
+    async saveMasterVaultResponse(deckResponse) {
+        const cards = [
+            ...new Map((deckResponse._linked.cards || []).map((card) => [card.id, card])).values()
+        ];
+        const data = {
+            data: deckResponse.data,
+            _linked: { ...deckResponse._linked, cards: undefined }
+        };
+
+        try {
+            await db.transaction(async (client) => {
+                await db.queryTran(
+                    client,
+                    'INSERT INTO "MasterVaultDecks" ("Uuid", "Data", "FetchedAt") VALUES ($1, $2, $3) ' +
+                        'ON CONFLICT ("Uuid") DO UPDATE SET "Data" = EXCLUDED."Data", "FetchedAt" = EXCLUDED."FetchedAt"',
+                    [deckResponse.data.id, data, new Date()]
+                );
+
+                if (cards.length > 0) {
+                    await db.queryTran(
+                        client,
+                        `INSERT INTO "MasterVaultCards" ("Id", "Card") VALUES ${expand(
+                            cards.length,
+                            2
+                        )} ON CONFLICT ("Id") DO UPDATE SET "Card" = EXCLUDED."Card" ` +
+                            'WHERE "MasterVaultCards"."Card" IS DISTINCT FROM EXCLUDED."Card"',
+                        flatten(cards.map((card) => [card.id, card]))
+                    );
+                }
+            });
+        } catch (err) {
+            // Only a record of the import, so the import carries on without it
+            logger.error(
+                'Failed to save Master Vault response for deck %s',
+                deckResponse.data.id,
+                err
+            );
+        }
+    }
+
+    /**
+     * The stored Master Vault response for a deck, in the form the API returns it.
+     * @param {string} uuid
+     */
+    async getMasterVaultResponse(uuid) {
+        const decks = await db.query('SELECT "Data" FROM "MasterVaultDecks" WHERE "Uuid" = $1', [
+            uuid
+        ]);
+        if (!decks || decks.length === 0) {
+            return undefined;
+        }
+
+        const response = decks[0].Data;
+        const cardIds = [...new Set(response.data._links.cards)];
+        const cards = await db.query('SELECT "Card" FROM "MasterVaultCards" WHERE "Id" = ANY($1)', [
+            cardIds
+        ]);
+        response._linked.cards = cards.map((card) => card.Card);
+
+        return response;
     }
 
     mapDeck(deck) {
