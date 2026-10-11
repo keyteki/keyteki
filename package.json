@@ -82,7 +82,7 @@
         "jsonwebtoken": "^9.0.0",
         "lint-staged": "^10.2.4",
         "lodash.debounce": "^4.0.8",
-        "moment": "^2.29.4",
+        "moment": "^2.31.0",
         "monk": "^7.1.2",
         "node-noop": "^1.0.0",
         "passport": "^0.7.0",
