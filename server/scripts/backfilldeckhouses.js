@@ -33,12 +33,19 @@ const optionsDefinition = [
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// Stored enhancements are JSON from deck import (["amber","draw"]) or a postgres array from
+// choosing enhancements in game ({amber,draw}), so are read the same way deck loading reads them
 function enhancementsKey(enhancements) {
     if (!enhancements) {
         return '';
     }
 
-    const list = Array.isArray(enhancements) ? enhancements : JSON.parse(enhancements);
+    const list = Array.isArray(enhancements)
+        ? enhancements
+        : enhancements
+              .replace(/[[{}"\]]/g, '')
+              .split(',')
+              .filter((e) => e.length > 0);
 
     return [...list].sort().join(',');
 }
