@@ -2,7 +2,7 @@ const logger = require('../log.js');
 const db = require('../db');
 const RedisClientFactory = require('./RedisClientFactory');
 const { expand, flatten } = require('../Array');
-const { getExpansion } = require('../../master-vault-data/src/expansions');
+const { compareByRelease, getExpansion } = require('../../master-vault-data/src/expansions');
 
 // Keeps each bulk insert well under postgres' limit of 65535 parameters
 const InsertChunkSize = 1000;
@@ -239,7 +239,7 @@ class CardService {
 
     /**
      * Loads cards, optionally for a single expansion, keyed by card id. Where a card has been
-     * printed in several expansions the one with the highest expansion id wins, with locales merged.
+     * printed in several expansions the most recently released one wins, with locales merged.
      * @param {any} options
      * @param {number} [expansionId]
      */
@@ -264,6 +264,8 @@ class CardService {
         for (const locale of locales) {
             (localesByCard[locale.CardId] = localesByCard[locale.CardId] || []).push(locale);
         }
+
+        cards.sort((a, b) => compareByRelease(a.ExpansionId, b.ExpansionId));
 
         const retCards = {};
         for (const card of cards) {

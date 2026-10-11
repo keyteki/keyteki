@@ -1,14 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 
-const { Expansions } = require('../../master-vault-data/src/expansions');
+const { Expansions, compareByRelease } = require('../../master-vault-data/src/expansions');
 
 const RootPath = path.join(__dirname, '../..');
 
 /**
  * Builds the card map that CardService.getAllCards returns after fetchdata has imported the
- * pack files: keyed by card id, with the highest expansion id winning when a card has been
- * printed more than once.
+ * pack files: keyed by card id, with the most recently released printing winning when a card
+ * has been printed more than once.
  * Unsupported expansions are skipped, as fetchdata does.
  */
 function buildCardMapFromPacks() {
@@ -32,7 +32,7 @@ function buildCardMapFromPacks() {
         }
     }
 
-    printings.sort((a, b) => a.expansion - b.expansion);
+    printings.sort((a, b) => compareByRelease(a.expansion, b.expansion));
 
     const cards = {};
     for (const card of printings) {

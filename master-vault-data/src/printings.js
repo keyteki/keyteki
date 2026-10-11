@@ -147,6 +147,39 @@ class PrintingIndex {
     }
 
     /**
+     * Works out which of a deck's houses a (non-maverick) card belongs to, for decks imported
+     * before the house was stored: the house of its printing in the deck's expansion, or failing
+     * that of any printing, if exactly one is among the deck's houses. Returns undefined when
+     * that doesn't settle it, e.g. a card printed in two of the deck's houses in the same set.
+     * Non-deck cards (tokens, prophecies, the tide) that only have one house use it.
+     * @param {string} id
+     * @param {{ expansion: number, houses: string[] }} deck
+     * @param {{ nonDeck?: boolean }} [options]
+     * @returns {string | undefined}
+     */
+    inferHouse(id, deck, { nonDeck = false } = {}) {
+        const printings = (this.byId.get(id) || []).filter((printing) => !printing.anomaly);
+        const houses = new Set(printings.map((printing) => printing.house));
+        if (nonDeck && houses.size === 1) {
+            return [...houses][0];
+        }
+
+        const deckHousesOf = (list) =>
+            [...new Set(list.map((printing) => printing.house))].filter((house) =>
+                deck.houses.includes(house)
+            );
+
+        const setHouses = deckHousesOf(printings.filter((p) => p.expansion === deck.expansion));
+        if (setHouses.length > 0) {
+            return setHouses.length === 1 ? setHouses[0] : undefined;
+        }
+
+        const allHouses = deckHousesOf(printings);
+
+        return allHouses.length === 1 ? allHouses[0] : undefined;
+    }
+
+    /**
      * The image name for a card in a deck. Mavericks and anomalies use the plain image, as they
      * are drawn with their deck's house over the top.
      * @param {string} id

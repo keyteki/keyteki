@@ -421,61 +421,22 @@ class DeckService {
 
         let cards = await db.query(cardTableQuery, [deck.id]);
 
-        // These are cards that have changed houses in later sets.
-        let specialCardDefaultHouses = {
-            'armageddon-cloak': 'sanctum',
-            'avenging-aura': 'sanctum',
-            'book-of-malefaction': 'sanctum',
-            'eye-of-judgment': 'sanctum',
-            'hymn-to-duma': 'sanctum',
-            'johnny-longfingers': 'shadows',
-            'lord-golgotha': 'sanctum',
-            'mantle-of-the-zealot': 'sanctum',
-            'martyr-s-end': 'sanctum',
-            'master-of-the-grey': 'sanctum',
-            'mighty-lance': 'sanctum',
-            'one-stood-against-many': 'sanctum',
-            'rogue-ogre': 'brobnar',
-            'the-promised-blade': 'sanctum',
-            'champion-tabris': 'sanctum',
-            'dark-centurion': 'saurian',
-            'first-or-last': 'sanctum',
-            francus: 'sanctum',
-            'glorious-few': 'sanctum',
-            'gorm-of-omm': 'sanctum',
-            'grey-abbess': 'sanctum',
-            'professor-terato': 'logos',
-            'scrivener-favian': 'sanctum',
-            'bordan-the-redeemed': 'sanctum',
-            'bull-wark': 'sanctum',
-            'burning-glare': 'sanctum',
-            'citizen-shrix': 'saurian',
-            retribution: 'sanctum',
-            'shifting-battlefield': 'sanctum',
-            snarette: 'dis',
-            'subtle-otto': 'shadows',
-            'even-ivan': 'logos',
-            'odd-clawde': 'logos',
-            'sacro-alien': 'staralliance',
-            'sacro-beast': 'untamed',
-            'sacro-bot': 'logos',
-            'sacro-fiend': 'dis',
-            'sacro-saurus': 'saurian',
-            'sacro-thief': 'shadows',
-            corrode: 'unfathomable',
-            'purifier-of-souls': 'sanctum',
-            stampede: 'untamed',
-            'follow-the-leader': 'brobnar',
-            picaroon: 'dis',
-            'research-smoko': 'logos',
-            'vault-s-blessing': 'untamed'
-        };
+        let houseTable = standalone ? 'StandaloneDeckHouses' : 'DeckHouses';
+        let houses = await db.query(
+            `SELECT * FROM "${houseTable}" dh JOIN "Houses" h ON h."Id" = dh."HouseId" WHERE "DeckId" = $1`,
+            [deck.id]
+        );
+        deck.houses = houses.map((house) => house.Code);
 
         const printings = getPrintingIndex();
         deck.cards = cards.map((card) => {
-            const house = card.House || specialCardDefaultHouses[card.CardId] || undefined;
-            // Decks imported before images were stored for every card get theirs worked out
-            // from the card's house
+            // Decks imported before houses were stored for every card get theirs worked out from
+            // the deck. If that isn't possible the card's own house is used.
+            const house =
+                card.House ||
+                card.Maverick ||
+                card.Anomaly ||
+                printings.inferHouse(card.CardId, deck, { nonDeck: !!card.IsNonDeck });
             let image = card.ImageUrl || undefined;
             if (!image && house) {
                 const imageName = printings.getImageName(card.CardId, house, {
@@ -525,13 +486,6 @@ class DeckService {
             return a.dbId - b.dbId;
         });
 
-        let houseTable = standalone ? 'StandaloneDeckHouses' : 'DeckHouses';
-        let houses = await db.query(
-            `SELECT * FROM "${houseTable}" dh JOIN "Houses" h ON h."Id" = dh."HouseId" WHERE "DeckId" = $1`,
-            [deck.id]
-        );
-        deck.houses = houses.map((house) => house.Code);
-
         if (!standalone) {
             let accolades = await db.query(
                 'SELECT * FROM "DeckAccolades" WHERE "DeckId" = $1 ORDER BY "Id"',
@@ -548,24 +502,28 @@ class DeckService {
         deck.isStandalone = standalone;
     }
 
-    async create(user, deck) {
+    /**
+     * Fetches a deck from Master Vault and keeps a copy of the response.
+     * @param {string} uuid
+     */
+    async fetchDeckResponse(uuid) {
         let deckResponse;
 
         try {
             let response = await util.httpRequest(
-                `https://www.keyforgegame.com/api/decks/${deck.uuid}/?links=cards`,
+                `https://www.keyforgegame.com/api/decks/${uuid}/?links=cards`,
                 { allowedHosts: ['www.keyforgegame.com'] }
             );
 
             if (response[0] === '<') {
-                logger.error('Deck failed to import: %s %s', deck.uuid, response);
+                logger.error('Invalid response fetching deck: %s %s', uuid, response);
 
                 throw new Error('Invalid response from Api. Please try again later.');
             }
 
             deckResponse = JSON.parse(response);
         } catch (error) {
-            logger.error(`Unable to import deck ${deck.uuid}`, error);
+            logger.error(`Unable to fetch deck ${uuid}`, error);
 
             throw new Error('Invalid response from Api. Please try again later.');
         }
@@ -575,6 +533,12 @@ class DeckService {
         }
 
         await this.saveMasterVaultResponse(deckResponse);
+
+        return deckResponse;
+    }
+
+    async create(user, deck) {
+        const deckResponse = await this.fetchDeckResponse(deck.uuid);
 
         let validExpansion = await this.checkValidDeckExpansion({
             expansion: deckResponse.data.expansion,
@@ -1366,29 +1330,7 @@ class DeckService {
             throw new Error('Unauthorized');
         }
 
-        let deckResponse;
-        try {
-            let response = await util.httpRequest(
-                `https://www.keyforgegame.com/api/decks/${deck.uuid}/?links=cards`,
-                { allowedHosts: ['www.keyforgegame.com'] }
-            );
-
-            if (response[0] === '<') {
-                logger.error('Failed to refresh accolades: %s %s', deck.uuid, response);
-                throw new Error('Invalid response from API. Please try again later.');
-            }
-
-            deckResponse = JSON.parse(response);
-        } catch (error) {
-            logger.error(`Unable to refresh accolades for deck ${deck.uuid}`, error);
-            throw new Error('Invalid response from API. Please try again later.');
-        }
-
-        if (!deckResponse || !deckResponse._linked || !deckResponse.data) {
-            throw new Error('Invalid response from API. Please try again later.');
-        }
-
-        await this.saveMasterVaultResponse(deckResponse);
+        const deckResponse = await this.fetchDeckResponse(deck.uuid);
 
         const accolades = (deckResponse._linked.accolades || [])
             .filter((a) => a.visible)

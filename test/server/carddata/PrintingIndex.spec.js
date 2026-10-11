@@ -63,6 +63,38 @@ describe('Printing index', function () {
             expect(index.getLatestPrinting('lord-golgotha').expansion).toBe(886);
             expect(index.getLatestPrinting('not-a-card')).toBeUndefined();
         });
+
+        it("works out each card's house in the fixture decks, or leaves it undecided", function () {
+            const undecided = [];
+            for (const file of fs.readdirSync(path.join(FixtureDir, 'expected'))) {
+                const { deck } = JSON.parse(
+                    fs.readFileSync(path.join(FixtureDir, 'expected', file), 'utf8')
+                );
+                if (!deck) {
+                    continue;
+                }
+
+                for (const card of deck.cards.filter((c) => !c.maverick && !c.anomaly)) {
+                    const house = index.inferHouse(card.id, deck, { nonDeck: card.isNonDeck });
+                    if (house === undefined) {
+                        undecided.push(card.id);
+                    } else {
+                        expect(`${card.id} ${house}`).toBe(`${card.id} ${card.house}`);
+                    }
+                }
+            }
+
+            // Cards printed in more than one of the deck's houses in the deck's set, and a
+            // Colossipede printed in a house the pack data doesn't have
+            expect(undecided.sort()).toEqual([
+                'build-your-champion',
+                'build-your-champion',
+                'colossipede',
+                'digging-up-the-monster',
+                'it-s-coming',
+                'tomes-gigantica'
+            ]);
+        });
     });
 
     describe('with synthetic printings', function () {
