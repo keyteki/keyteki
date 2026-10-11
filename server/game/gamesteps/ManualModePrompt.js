@@ -68,6 +68,7 @@ class ManualModePrompt extends AllPlayerPrompt {
 
         this.game.addAlert('danger', '{0} switches manual mode on', this.requestingPlayer);
         this.game.manualMode = true;
+        this.game.manualModeUsed = true;
         this.game.lastManualMode = null;
     }
 }

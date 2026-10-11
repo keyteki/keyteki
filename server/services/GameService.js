@@ -1,104 +1,95 @@
 const logger = require('../log.js');
 const db = require('../db');
 
-class GameService {
-    async create(game) {
-        let gameId;
+const DeckIdForPlayerQuery =
+    '(SELECT "Id" FROM "Decks" WHERE "Identity" = $3 AND "UserId" = (SELECT "Id" FROM "Users" WHERE "Username" = $2) ORDER BY "Id" DESC LIMIT 1)';
 
-        await db.query('BEGIN');
+class GameService {
+    /**
+     * Runs the given callback inside a transaction on a single pooled connection,
+     * rolling back if it throws.
+     * @param {(client: import('pg').PoolClient) => Promise<void>} callback
+     */
+    async inTransaction(callback) {
+        const client = await db.startTransaction();
 
         try {
-            let newGame = await db.query(
-                'INSERT INTO "Games" ("GameId", "GameType", "GameFormat", "StartedAt") VALUES ($1, $2, $3, $4) RETURNING "Id"',
-                [game.gameId, game.gameType, game.gameFormat, game.startedAt]
-            );
-
-            if (!newGame || newGame.length === 0) {
-                logger.error('Failed to create game');
-                await db.query('ROLLBACK');
-
-                throw new Error('Failed to create game');
-            }
-
-            gameId = newGame[0].Id;
+            await callback(client);
+            await client.query('COMMIT');
         } catch (err) {
-            logger.error('Failed to create game', err);
+            await client.query('ROLLBACK');
 
-            await db.query('ROLLBACK');
+            throw err;
+        } finally {
+            client.release();
+        }
+    }
+
+    async create(game) {
+        try {
+            await this.inTransaction(async (client) => {
+                const newGame = await db.queryTran(
+                    client,
+                    'INSERT INTO "Games" ("GameId", "GameType", "GameFormat", "StartedAt") VALUES ($1, $2, $3, $4) RETURNING "Id"',
+                    [game.gameId, game.gameType, game.gameFormat, game.startedAt]
+                );
+
+                if (!newGame || newGame.length === 0) {
+                    throw new Error('No game row returned');
+                }
+
+                const gameId = newGame[0].Id;
+
+                for (const player of game.players) {
+                    await db.queryTran(
+                        client,
+                        'INSERT INTO "GamePlayers" ("GameId", "PlayerId", "DeckId") VALUES ' +
+                            `($1, (SELECT "Id" FROM "Users" WHERE "Username" = $2), ${DeckIdForPlayerQuery})`,
+                        [gameId, player.name, player.deck]
+                    );
+                }
+            });
+        } catch (err) {
+            logger.error(`Failed to create game ${game.gameId}`, err);
 
             throw new Error('Failed to create game');
         }
-
-        for (let player of game.players) {
-            try {
-                await db.query(
-                    'INSERT INTO "GamePlayers" ("GameId", "PlayerId", "DeckId") VALUES ' +
-                        '($1, (SELECT "Id" FROM "Users" WHERE "Username" = $2), (SELECT "Id" FROM "Decks" WHERE "Identity" = $3))',
-                    [gameId, player.name, player.deck]
-                );
-            } catch (err) {
-                logger.error('Failed to create game player', err);
-
-                await db.query('ROLLBACK');
-
-                throw new Error('Failed to create game player');
-            }
-        }
-
-        await db.query('COMMIT');
     }
 
     async update(game) {
-        await db.query('BEGIN');
-
         try {
-            await db.query(
-                'UPDATE "Games" SET "StartedAt" = $2, "WinnerId" = (SELECT "Id" FROM "Users" WHERE "Username" = $3), "WinReason" = $4, "FinishedAt" = $5 WHERE "GameId" = $1',
-                [game.gameId, game.startedAt, game.winner, game.winReason, game.finishedAt]
-            );
+            await this.inTransaction(async (client) => {
+                await db.queryTran(
+                    client,
+                    'UPDATE "Games" SET "StartedAt" = $2, "WinnerId" = (SELECT "Id" FROM "Users" WHERE "Username" = $3), "WinReason" = $4, "FinishedAt" = $5 WHERE "GameId" = $1',
+                    [game.gameId, game.startedAt, game.winner, game.winReason, game.finishedAt]
+                );
+
+                for (const player of game.players) {
+                    const keys = player.keys
+                        ? ['red', 'yellow', 'blue'].filter((colour) => player.keys[colour]).length
+                        : 0;
+
+                    await db.queryTran(
+                        client,
+                        `UPDATE "GamePlayers" SET "Keys" = $4, "DeckId" = ${DeckIdForPlayerQuery}, "Turn" = $5, "Stats" = $6 ` +
+                            'WHERE "GameId" = (SELECT "Id" FROM "Games" WHERE "GameId" = $1) AND "PlayerId" = (SELECT "Id" FROM "Users" WHERE "Username" = $2)',
+                        [
+                            game.gameId,
+                            player.name,
+                            player.deck,
+                            keys,
+                            player.turn,
+                            player.stats ? JSON.stringify(player.stats) : null
+                        ]
+                    );
+                }
+            });
         } catch (err) {
-            await db.query('ROLLBACK');
+            logger.error(`Failed to update game ${game.gameId}`, err);
 
             throw new Error('Failed to update game');
         }
-
-        for (let player of game.players) {
-            let keys = 0;
-
-            if (player.keys && player.keys.red !== undefined) {
-                if (player.keys.red) {
-                    keys++;
-                }
-
-                if (player.keys.yellow) {
-                    keys++;
-                }
-
-                if (player.keys.blue) {
-                    keys++;
-                }
-            }
-
-            try {
-                await db.query(
-                    'UPDATE "GamePlayers" SET "Keys" = $1, ' +
-                        '"DeckId" = (SELECT "Id" FROM "Decks" WHERE "Identity" = $5 AND "UserId" = (SELECT "Id" FROM "Users" WHERE "Username" = $4)), ' +
-                        '"Turn" = $2 WHERE "GameId" = (SELECT "Id" FROM "Games" WHERE "GameId" = $3) AND "PlayerId" = (SELECT "Id" FROM "Users" WHERE "Username" = $4)',
-                    [keys, player.turn, game.gameId, player.name, player.deck]
-                );
-            } catch (err) {
-                logger.error(
-                    `Failed to update game player ${game.gameId}, ${player.name} ${player.deck}`,
-                    err
-                );
-
-                await db.query('ROLLBACK');
-
-                throw new Error('Failed to update game player');
-            }
-        }
-
-        await db.query('COMMIT');
     }
 
     getAllGames(from, to) {

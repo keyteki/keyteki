@@ -32,7 +32,14 @@ module.exports = {
     },
     startTransaction: async () => {
         let client = await pool.connect();
-        await client.query('BEGIN');
+
+        try {
+            await client.query('BEGIN');
+        } catch (err) {
+            client.release();
+
+            throw err;
+        }
 
         return client;
     },
