@@ -89,7 +89,7 @@ class CardImport {
             for (const { name, printing } of printings.getImages(id)) {
                 for (const language of this.computeLanguages(printing.card)) {
                     const imageLangDir = this.computeImagesDir(skipMkdir, language);
-                    const imagePath = path.join(imageLangDir, name.replace('*', '_') + '.png');
+                    const imagePath = path.join(imageLangDir, name.replace(/\*/g, '_') + '.png');
                     const imageUrl = printing.image
                         .replace('/en/', '/' + language + '/')
                         .replace('_en.', '_' + language + '.');
