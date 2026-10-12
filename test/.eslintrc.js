@@ -1,6 +1,7 @@
 module.exports = {
     root: true,
     env: {
+        es2020: true,
         node: true
     },
     parserOptions: {
@@ -32,6 +33,7 @@ module.exports = {
     },
     globals: {
         afterEach: true,
+        beforeAll: true,
         beforeEach: true,
         describe: true,
         expect: true,

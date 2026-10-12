@@ -1,61 +1,32 @@
 const fs = require('fs');
-const request = require('request');
 
-const ValidKeywords = [
-    'elusive',
-    'skirmish',
-    'taunt',
-    'deploy',
-    'alpha',
-    'omega',
-    'hazardous',
-    'assault',
-    'poison',
-    'splash-attack',
-    'treachery',
-    'versatile',
-    'entrench'
-];
+const { cardIdFromTitle } = require('./cardId');
+const { httpRequest, parseKeywords, sortLocales, writePack } = require('./cardData');
+const { applyOverrides } = require('./overrides');
 
-function httpRequest(url, options = {}) {
-    return new Promise((resolve, reject) => {
-        request(url, options, (err, res, body) => {
-            if (err) {
-                if (res) {
-                    err.statusCode = res.statusCode;
-                }
-
-                return reject(err);
-            }
-
-            if (res.statusCode !== 200) {
-                let err = new Error('Request failed');
-                if (res) {
-                    err.statusCode = res.statusCode;
-                    err.res = res;
-                }
-
-                return reject(err);
-            }
-
-            resolve(body);
-        });
-    });
+function decodeEntities(text) {
+    return text.replace(/&quot;/gi, '"').replace(/&#039;/gi, "'");
 }
 
-class DecksOfKeyforgeApiToKeytekiConverter {
-    async convert({ pathToPackFile, language, cyclePrefix }) {
+/**
+ * Builds pack data from the Archon Arcana wiki, for use during spoiler season before cards are
+ * available from Master Vault.
+ */
+class ArchonArcanaApiToKeytekiConverter {
+    async convert({ pathToPackFile, language, setName }) {
         console.log('Loading ' + language + ' cards...');
 
         let pack = JSON.parse(fs.readFileSync(pathToPackFile));
 
-        this.cyclePrefix = cyclePrefix;
-
         let cards;
         try {
-            cards = await this.getCards(pack, language);
+            cards = await this.getCards(pack, language, setName || pack.name);
         } catch (err) {
             console.info(err);
+            return;
+        }
+
+        if (!cards) {
             return;
         }
 
@@ -63,21 +34,22 @@ class DecksOfKeyforgeApiToKeytekiConverter {
 
         pack.cards = cards;
 
-        fs.writeFileSync(pathToPackFile, JSON.stringify(pack, null, 4) + '\n');
+        applyOverrides(pack.cards);
+        writePack(pathToPackFile, pack);
         console.log('Import of cards for', pack.name, 'has been completed.');
     }
 
-    async getCards(pack, language) {
+    async getCards(pack, language, setName) {
         const apiUrl =
             'https://archonarcana.com/api.php?action=cargoquery&format=json&tables=CardData, SetData&' +
             'fields=CardData.Power,CardData.Rarity,CardData.Name,CardData.House,CardData.Type,CardData.Image,' +
             'CardData.House,SetData.CardNumber,SetData.Meta,CardData.Text,CardData.SearchText,CardData.SearchFlavorText,' +
             'CardData.Traits,CardData.Armor,CardData.Source,CardData.Amber,CardData._rowID=RowID&' +
-            'where=((SetName="Winds of Exchange") AND (Meta="SpoilerNew" AND Name IS NOT NULL))&' +
+            `where=((SetName="${setName}") AND (Meta="SpoilerNew" AND Name IS NOT NULL))&` +
             'join_on=CardData._pageName=SetData._pageName&group_by=CardData.Power,CardData.Rarity,CardData.Name,' +
             'CardData.House,CardData.Type,CardData.Image,CardData.House,SetData.CardNumber,SetData.Meta,CardData.Text,' +
             'CardData.SearchText,CardData.SearchFlavorText,CardData.Traits,CardData.Armor,CardData.Source,CardData.Amber,' +
-            'CardData._rowID&limit=300&offset=0&order_by=CardNumber';
+            'CardData._rowID&limit=500&offset=0&order_by=CardNumber';
 
         let packCardMap = pack.cards.reduce(function (map, obj) {
             map[obj.number] = obj;
@@ -85,70 +57,50 @@ class DecksOfKeyforgeApiToKeytekiConverter {
         }, {});
 
         let response;
-        let cards = {};
+        try {
+            response = await httpRequest(apiUrl, { json: true });
+        } catch (err) {
+            console.info(err);
 
-        let responseReceived = false;
-
-        while (!responseReceived) {
-            try {
-                response = await httpRequest(`${apiUrl}`, { json: true });
-                responseReceived = true;
-            } catch (err) {
-                console.info(err);
-
-                return;
-            }
+            return;
         }
 
+        let cards = {};
         let generatedNumber = 900;
         let generatedNumberCards = {};
 
-        console.log(`Loading ${response.cargoquery.length} cards`);
+        console.log(`Loading ${response.cargoquery.length} cards for ${setName}`);
 
         for (let el of response.cargoquery) {
             let card = el.title;
 
-            if (!card.CardNumber) {
-                generatedNumberCards[card.cardTitle] =
-                    generatedNumberCards[card.cardTitle] || ++generatedNumber;
-                card.CardNumber = generatedNumberCards[card.cardTitle];
-            }
-
-            card.CardNumber = card.CardNumber.replace('~', '');
-
-            /*
-            if(!pack.ids.includes('' + card.expansion) || cards[card.cardNumber] || card.maverick) {
-                console.log('Ignoring card: ', card.cardTitle, card.expansion, card.cardNumber, card.maverick);
+            if (!card.Name) {
                 continue;
             }
-            */
+
+            if (!card.CardNumber) {
+                generatedNumberCards[card.Name] =
+                    generatedNumberCards[card.Name] || ++generatedNumber;
+                card.CardNumber = String(generatedNumberCards[card.Name]);
+            }
+
+            card.CardNumber = card.CardNumber.replace('~', '').replace(/[ ?]+$/, '');
 
             if (card.CardNumber === '000') {
                 console.log('Ignoring scenario card: ', card.Name);
                 continue;
             }
 
-            if (card.Name === '') {
-                continue;
+            let name = decodeEntities(card.Name).replace(/[ ?]+$/, '');
+            let isEvilTwin = false;
+            if (/\s*\(Evil Twin\)$/i.test(name)) {
+                name = name.replace(/\s*\(Evil Twin\)$/i, '');
+                isEvilTwin = true;
             }
 
-            // Fix the house of an anomaly to brobnar so that we can test them until they get a real house
-            if (card.anomaly) {
-                // TODO
-                card.house = 'brobnar';
-            }
-
-            let cardId = card.Name;
-            while (cardId.endsWith(' ') || cardId.endsWith('?')) {
-                cardId = cardId.substring(0, cardId.length - 1);
-            }
-
-            while (card.CardNumber.endsWith(' ') || card.CardNumber.endsWith('?')) {
-                card.CardNumber = card.CardNumber.substring(0, card.length - 1);
-            }
-
-            if (cardId === '') {
-                cardId = 'card-' + card.CardNumber;
+            let id = name ? cardIdFromTitle(name) : 'card-' + card.CardNumber;
+            if (isEvilTwin) {
+                id += '-evil-twin';
             }
 
             let newCard = null;
@@ -171,28 +123,13 @@ class DecksOfKeyforgeApiToKeytekiConverter {
                           .replace(/<[^>]+>/gi, '');
 
                 newCard = {
-                    id: cardId
-                        .toLowerCase()
-                        .replace(/[?.!",“”]/gi, '')
-                        .replace(/&quot;/gi, '')
-                        .replace('??', ' ')
-                        .replace(/[ĂÀÁÃǍăàáãǎ]/g, 'a')
-                        .replace(/[ĔÈÉĚĕèéě]/g, 'e')
-                        .replace(/[ĬÌÍǏĭìíǐ]/g, 'i')
-                        .replace(/[ŎÒÓÕǑŏòóõǒ]/g, 'o')
-                        .replace(/[ŬÙÚǓŭùúǔ]/g, 'u')
-                        .replace(/[Çç]/g, 'c')
-                        .replace('   ', ' ')
-                        .replace('  ', ' ')
-                        .replace(/[ '’]/gi, '-')
-                        .replace('-(evil-twin)', '-evil-twin')
-                        .replace('-()', ''),
-                    name: card.Name.replace(/&quot;/gi, '"'),
+                    id: id,
+                    name: name,
                     number: card.CardNumber,
                     image: card.Image,
-                    //expansion: card.expansion,
+                    expansion: parseInt(pack.ids[0]),
                     house: card.House.toLowerCase().replace(' ', ''),
-                    keywords: !card.Text ? [] : this.parseKeywords(card.Text),
+                    keywords: parseKeywords(cardText),
                     traits: !card.Traits
                         ? []
                         : card.Traits.split(' • ').map((trait) => trait.toLowerCase()),
@@ -209,58 +146,28 @@ class DecksOfKeyforgeApiToKeytekiConverter {
                     text: cardText,
                     locale: {
                         en: {
-                            name: card.Name.replace(/&quot;/gi, '"')
+                            name: name
                         }
                     }
                 };
             } else {
-                // Append locale information
-                newCard = packCardMap[card.cardNumber];
-
-                if (!newCard.locale) {
-                    // Just a safe check, but since 'en' is supposed to be loaded first, locale
-                    // will already exist
-                    newCard.locale = [];
+                // Append locale information to the card loaded by the English import
+                newCard = packCardMap[card.CardNumber];
+                if (!newCard) {
+                    continue;
                 }
 
-                newCard.locale[language.replace('-', '')] = {
-                    name: card.cardTitle
-                };
+                newCard.locale = newCard.locale || {};
+                newCard.locale[language.replace('-', '')] = { name: name };
             }
 
-            // Sort locale by key
-            newCard.locale = Object.keys(newCard.locale)
-                .sort()
-                .reduce((newLocale, currentValue) => {
-                    newLocale[currentValue] = newCard.locale[currentValue];
-                    return newLocale;
-                }, {});
+            newCard.locale = sortLocales(newCard.locale);
 
             cards[card.CardNumber] = newCard;
         }
 
         return Object.values(cards);
     }
-
-    parseKeywords(text) {
-        let lines = text.split(/[\r\v]/);
-        let potentialKeywords = [];
-
-        for (let line of lines) {
-            potentialKeywords = potentialKeywords.concat(
-                line.split('.').map((k) => k.toLowerCase().trim().replace(' ', ':'))
-            );
-            console.log(line, potentialKeywords);
-        }
-
-        let printedKeywords = potentialKeywords.filter((potentialKeyword) => {
-            return ValidKeywords.some((keyword) => potentialKeyword.indexOf(keyword) === 0);
-        });
-
-        console.log('printedKeywords: ', printedKeywords);
-
-        return printedKeywords;
-    }
 }
 
-module.exports = DecksOfKeyforgeApiToKeytekiConverter;
+module.exports = ArchonArcanaApiToKeytekiConverter;

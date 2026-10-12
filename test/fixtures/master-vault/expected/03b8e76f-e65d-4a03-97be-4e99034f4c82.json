@@ -1,0 +1,230 @@
+{
+    "deck": {
+        "expansion": 886,
+        "username": "test",
+        "uuid": "03b8e76f-e65d-4a03-97be-4e99034f4c82",
+        "identity": "emir-o-felgap",
+        "cardback": "",
+        "name": "Emir O. Felgap",
+        "houses": ["dis", "logos", "saurian"],
+        "cards": [
+            {
+                "id": "poltergeist",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "archlegate-valeria",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "cutthroat-research",
+                "count": 2,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "infinity-strop",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "governor-gridelk",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false,
+                "enhancements": ["logos"],
+                "uuid": "4609a80a-8b26-400e-a883-8fbd5424b892"
+            },
+            {
+                "id": "lorica-infantry",
+                "count": 2,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "cyber-clone",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "wasteful-regret",
+                "count": 1,
+                "house": "prophecy",
+                "isNonDeck": true,
+                "sortOverride": 901607,
+                "prophecyId": 2
+            },
+            {
+                "id": "sedimentary-nap",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "parasitic-arachnoid",
+                "count": 2,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "primus-unguis",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "degenerate-decor",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "bad-omen",
+                "count": 1,
+                "house": "prophecy",
+                "isNonDeck": true,
+                "sortOverride": 252128,
+                "prophecyId": 1
+            },
+            {
+                "id": "embellish-imp",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "archon-s-callback",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false,
+                "enhancements": ["saurian"],
+                "uuid": "bbb5695d-87a4-44be-8622-14bc141ecc19"
+            },
+            {
+                "id": "digitallia",
+                "count": 3,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "4cr-foreseer",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "emeritus-darn",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "eddy-of-dis",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "philophosaurus",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false,
+                "enhancements": ["logos"],
+                "uuid": "a87f26ff-30ed-4adc-b402-c7749ec67dbd"
+            },
+            {
+                "id": "defense-initiative",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "fate-laughs-at-your-plans",
+                "count": 1,
+                "house": "prophecy",
+                "isNonDeck": true,
+                "sortOverride": 131162,
+                "prophecyId": 1
+            },
+            {
+                "id": "solo",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "a-gift-of-æmber",
+                "count": 2,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "wormhole-technician",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "wild-wormhole",
+                "count": 2,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "cryptic-collapse",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "rufus-vergilius",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "skorpeon",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "gracchan-reform",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false,
+                "enhancements": ["dis"],
+                "uuid": "4eb1c406-7da1-40c7-bfa3-08d7386dcf1d"
+            },
+            {
+                "id": "relativity-imp",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "tricerian-legionary",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false,
+                "enhancements": ["logos"],
+                "uuid": "c5288c18-efa0-4d6d-9bbf-f58c40eaa653"
+            },
+            {
+                "id": "expect-the-unexpected",
+                "count": 1,
+                "house": "prophecy",
+                "isNonDeck": true,
+                "sortOverride": 947649,
+                "prophecyId": 2
+            }
+        ],
+        "accolades": []
+    }
+}

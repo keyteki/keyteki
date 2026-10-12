@@ -1,0 +1,213 @@
+{
+    "deck": {
+        "expansion": 939,
+        "username": "test",
+        "uuid": "3f9c4fa9-2018-423f-936a-4380a197943c",
+        "identity": "that-which-stabs-vaults",
+        "cardback": "",
+        "name": "That which Stabs Vaults",
+        "houses": ["logos", "mars", "saurian"],
+        "cards": [
+            {
+                "id": "dark-centurion",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false,
+                "image": "dark-centurion-saurian"
+            },
+            {
+                "id": "eyegor",
+                "count": 2,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "airlock",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "replay-pod",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "deep-probe",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false,
+                "enhancements": ["capture"],
+                "uuid": "cb0023d5-1b8c-4e0d-958e-09bbdc25aaf3"
+            },
+            {
+                "id": "epic-poem",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "help-from-another-self",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false,
+                "anomaly": "saurian",
+                "enhancements": ["capture"],
+                "uuid": "1655d89c-fddc-446b-a79b-f48842cb23b8"
+            },
+            {
+                "id": "the-callipygian-ideal",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "rm-foler",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "battle-fleet",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "yxilo-bolter",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "honors-keysis",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "knowledge-is-power",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "mind-your-elders",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "articulated-ren",
+                "count": 2,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "batdrone",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "ulyq-megamouth",
+                "count": 2,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "phase-shift",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "omega-tt",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false,
+                "anomaly": "saurian"
+            },
+            {
+                "id": "faust-the-great",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "cornicen-octavia",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "crimson-dax",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "quantum-compass",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "praefectus-ludo",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "brachiaditus",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "deep-probe",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "interdimensional-graft",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "yandylinx",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "yxilx-dominator",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "wild-wormhole",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "chaosodon",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "the-golden-spiral",
+                "count": 2,
+                "house": "saurian",
+                "isNonDeck": false
+            }
+        ],
+        "accolades": []
+    }
+}

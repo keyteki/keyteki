@@ -1,0 +1,232 @@
+{
+    "deck": {
+        "expansion": 496,
+        "username": "test",
+        "uuid": "0547a0eb-709b-490f-9880-c642cf463363",
+        "identity": "evil-twin-of-the-sonorous-warden",
+        "cardback": "",
+        "name": "Evil Twin of The Sonorous Warden",
+        "houses": ["sanctum", "staralliance", "unfathomable"],
+        "cards": [
+            {
+                "id": "marshal-ewer",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "sci-officer-qincan",
+                "count": 2,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "light-of-the-archons",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "photic-raider",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "whirlpool",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "stunner",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "the-tide",
+                "count": 1,
+                "house": "thetide",
+                "isNonDeck": true
+            },
+            {
+                "id": "bring-low",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "lærie-of-the-lake-evil-twin",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "grand-melee",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "shifting-battlefield",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false,
+                "image": "shifting-battlefield-sanctum"
+            },
+            {
+                "id": "lieutenant-khrkhar",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "operative-espion-evil-twin",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "sir-bevor-evil-twin",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "call-of-the-void",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "fuguru",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "bubbles",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "mælstrom",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false,
+                "enhancements": ["capture"],
+                "uuid": "6b7d6d2f-b087-459d-960b-948045f738c5"
+            },
+            {
+                "id": "storm-surge",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "sink-or-swim",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "prof-emeritus-kering",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "t3r-35a",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "sabotage-mission",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "grey-augur-evil-twin",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "wikolia-evil-twin",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "zap",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "seraphic-armor",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "bull-wark",
+                "count": 2,
+                "house": "sanctum",
+                "isNonDeck": false,
+                "image": "bull-wark-sanctum"
+            },
+            {
+                "id": "officer-s-blaster",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "rakuzel-s-chant",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false,
+                "enhancements": ["capture"],
+                "uuid": "3e2fdefd-f6a7-4ec1-9d8b-882aebc81659"
+            },
+            {
+                "id": "technobabble",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false,
+                "enhancements": ["capture"],
+                "uuid": "b35373a1-8a46-4bda-8698-d3582f0ff477"
+            },
+            {
+                "id": "cleansing-wave",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "general-xalvador",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "hookmaster",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "brain-drain",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            }
+        ],
+        "accolades": []
+    }
+}

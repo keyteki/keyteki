@@ -1,0 +1,244 @@
+{
+    "deck": {
+        "expansion": 601,
+        "username": "test",
+        "uuid": "66b6d8bc-5eac-4ccd-95f7-1a726fb27bb0",
+        "identity": "augustina-lonely-vault-citizen",
+        "cardback": "",
+        "name": "Augustina, Lonely Vault Citizen",
+        "houses": ["logos", "staralliance", "unfathomable"],
+        "cards": [
+            {
+                "id": "dive-deep",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false,
+                "enhancements": ["damage"],
+                "uuid": "18389e00-6715-4119-aa77-3e260847c62e"
+            },
+            {
+                "id": "drawn-down",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "information-exchange",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "foggify",
+                "count": 2,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "twin-bolt-emission",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "hologrammophone",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "quantum-fingertrap",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "subject-kirby",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false,
+                "enhancements": ["draw"],
+                "uuid": "3dc0e952-129d-47d5-a6fa-a74f2bf1df5b"
+            },
+            {
+                "id": "dive-deep",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "dark-discovery",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false,
+                "enhancements": ["damage"],
+                "uuid": "9bc77e06-90c7-4ff4-a497-eb90f05654d6"
+            },
+            {
+                "id": "reverse-time",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "dark-discovery",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "physaloha",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false,
+                "enhancements": ["draw"],
+                "uuid": "382aad0c-8826-4c02-9fe6-2d23e5cb7c8e"
+            },
+            {
+                "id": "z-particle-tracker",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "friendly-guide",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "spectral-tunneler",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "z-force-agent-14",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "doc-bookton",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "shield-u-later",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false,
+                "enhancements": ["amber"],
+                "uuid": "6f154b00-b7e7-43ae-b485-dc2a87781234"
+            },
+            {
+                "id": "ragnarok-prep",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false,
+                "maverick": "staralliance"
+            },
+            {
+                "id": "exchange-officer",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false,
+                "maverick": "unfathomable"
+            },
+            {
+                "id": "the-chosen-one",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false,
+                "maverick": "staralliance"
+            },
+            {
+                "id": "z-wave-emitter",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "giltspine-school",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "z-ray-blaster",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false,
+                "enhancements": ["damage"],
+                "uuid": "a5b4f575-5fad-48ea-a945-a0d476fd0bd2"
+            },
+            {
+                "id": "kelping-hands",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "sink-or-swim",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "drawn-down",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false,
+                "enhancements": ["damage"],
+                "uuid": "138488b8-778e-4f07-86e3-97b41fa8521e"
+            },
+            {
+                "id": "psionic-officer-lang",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "wild-wormhole",
+                "count": 1,
+                "house": "logos",
+                "isNonDeck": false,
+                "enhancements": ["amber"],
+                "uuid": "5e669e38-a273-4832-b98a-13a21b7d5cba"
+            },
+            {
+                "id": "quadracorder",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "diplomat-agung",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "archon-s-callback",
+                "count": 2,
+                "house": "logos",
+                "isNonDeck": false
+            },
+            {
+                "id": "amphora-captura",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false,
+                "maverick": "unfathomable"
+            },
+            {
+                "id": "fish",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": true
+            }
+        ],
+        "accolades": []
+    }
+}

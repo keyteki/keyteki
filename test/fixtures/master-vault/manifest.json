@@ -1,0 +1,247 @@
+[
+    {
+        "uuid": "eb5d4c4a-5957-4276-ab9a-0d1b19f42e81",
+        "name": "Shadowmaster Desmares",
+        "expansion": 341,
+        "cases": ["house differs from latest printing", "lord-golgotha"]
+    },
+    {
+        "uuid": "45c875c2-7a38-4b4e-a5af-0c6aa3d967ea",
+        "name": "R. Vega, scélérat de Horoay",
+        "expansion": 435,
+        "cases": ["armageddon-cloak", "house differs from latest printing", "special characters"]
+    },
+    {
+        "uuid": "493bc4fb-3026-4407-ae23-ef865790f394",
+        "name": "Average “Raw Deal” Yosef",
+        "expansion": 452,
+        "cases": ["anomaly", "reprints", "special characters"]
+    },
+    {
+        "uuid": "49af558c-99ae-4c47-8e13-58c5db2ec919",
+        "name": "极速宫殿海贼​欧力",
+        "expansion": 479,
+        "cases": [
+            "enhanced",
+            "gigantic",
+            "house differs from latest printing",
+            "it-s-coming",
+            "reprints",
+            "special characters"
+        ]
+    },
+    {
+        "uuid": "703bbe54-acca-45ec-bdf7-c2806b9b8ffc",
+        "name": "Brendan “Arlequín”, Doctor de la Tienda",
+        "expansion": 496,
+        "cases": ["enhanced", "non-deck the-tide", "reprints", "special characters"]
+    },
+    {
+        "uuid": "0547a0eb-709b-490f-9880-c642cf463363",
+        "name": "Evil Twin of The Sonorous Warden",
+        "expansion": 496,
+        "cases": [
+            "enhanced",
+            "evil twin",
+            "house differs from latest printing",
+            "non-deck the-tide",
+            "reprints",
+            "special characters"
+        ]
+    },
+    {
+        "uuid": "8e237a29-85b2-4a33-a63f-638ffcf94d7c",
+        "name": "The Renowned Cruciblist",
+        "expansion": 600,
+        "cases": ["corrode", "enhanced", "special characters", "token creature"]
+    },
+    {
+        "uuid": "cf6967d6-7395-4877-ad75-3ec6cfdf1e69",
+        "name": "Cottongli, the Mayor of Adaptation",
+        "expansion": 600,
+        "cases": [
+            "anomaly",
+            "enhanced",
+            "house differs from latest printing",
+            "reprints",
+            "special characters",
+            "token creature"
+        ]
+    },
+    {
+        "uuid": "66b6d8bc-5eac-4ccd-95f7-1a726fb27bb0",
+        "name": "Augustina, Lonely Vault Citizen",
+        "expansion": 601,
+        "cases": [
+            "enhanced",
+            "exchange-officer",
+            "maverick",
+            "reprints",
+            "special characters",
+            "token creature"
+        ]
+    },
+    {
+        "uuid": "2d51651f-1a7e-408d-b41b-1acb3e372ece",
+        "name": "Inspirational “Firepit” Hunrodr",
+        "expansion": 601,
+        "cases": [
+            "dark-æmber-vault",
+            "enhanced",
+            "house differs from latest printing",
+            "maverick",
+            "reprints",
+            "special characters",
+            "token creature"
+        ]
+    },
+    {
+        "uuid": "cf017c38-e5b9-4eb8-bc5b-4d9be8d16c42",
+        "name": "Bilal P. of the Only Vault",
+        "expansion": 609,
+        "cases": [
+            "enhanced",
+            "house differs from latest printing",
+            "reprints",
+            "special characters",
+            "stampede"
+        ]
+    },
+    {
+        "uuid": "5e24216f-61b3-450a-b1a6-78c5569e64bf",
+        "name": "The Pfc. of Nordlead",
+        "expansion": 700,
+        "cases": ["enhanced", "special characters"]
+    },
+    {
+        "uuid": "8e7862ef-3725-44d9-9730-eb52352164a2",
+        "name": "Justice “Vault Master” Hellas the Mighty",
+        "expansion": 737,
+        "cases": ["exchange-officer", "maverick", "special characters"]
+    },
+    {
+        "uuid": "02a82d79-113f-4de9-9cbf-fb691efe7891",
+        "name": "L. du Quesnai, the Bay Shield-holder",
+        "expansion": 800,
+        "cases": [
+            "enhanced",
+            "enhanced duplicates",
+            "former anomaly",
+            "house differs from latest printing",
+            "house variant",
+            "special characters"
+        ]
+    },
+    {
+        "uuid": "200b9733-e099-40dc-afed-d3932ac2cbfd",
+        "name": "花园指导者德莱拉",
+        "expansion": 800,
+        "cases": ["enhanced", "reprints", "special characters"]
+    },
+    {
+        "uuid": "beb67462-90fc-4337-bdef-bc8a463a2a8d",
+        "name": "Actdew of the Friar’s Marina",
+        "expansion": 855,
+        "cases": [
+            "enhanced",
+            "house differs from latest printing",
+            "sacro-bot",
+            "special characters",
+            "token creature"
+        ]
+    },
+    {
+        "uuid": "d3ea488b-4131-4d12-8b09-f40371be679f",
+        "name": "Rasmus S. Thanajest, The Twenty-Sixth",
+        "expansion": 874,
+        "cases": [
+            "enhanced",
+            "gigantic",
+            "house differs from latest printing",
+            "house variant",
+            "special characters",
+            "tomes-gigantica"
+        ]
+    },
+    {
+        "uuid": "f218d506-d287-45c6-89b9-98fac21598a2",
+        "name": "Sra. “Sandstorm” Moreton",
+        "expansion": 874,
+        "cases": [
+            "enhanced",
+            "house differs from latest printing",
+            "reprints",
+            "special characters"
+        ]
+    },
+    {
+        "uuid": "03b8e76f-e65d-4a03-97be-4e99034f4c82",
+        "name": "Emir O. Felgap",
+        "expansion": 886,
+        "cases": ["enhanced", "prophecies", "special characters"]
+    },
+    {
+        "uuid": "f28ac977-b939-446a-8586-869cd2b52ca1",
+        "name": "Afranius, Boltmaria’s Singer",
+        "expansion": 886,
+        "cases": [
+            "anomaly",
+            "house differs from latest printing",
+            "prophecies",
+            "reprints",
+            "special characters"
+        ]
+    },
+    {
+        "uuid": "6af36a24-c7a2-4c52-8740-5bb7f5ddc00d",
+        "name": "Rabid Agrippa of the Chateau",
+        "expansion": 907,
+        "cases": ["enhanced", "house differs from latest printing", "special characters"]
+    },
+    {
+        "uuid": "d2ad0de8-eb79-4974-8ca0-1c2394252309",
+        "name": "The Giant who Cooks for The Library",
+        "expansion": 918,
+        "cases": ["archon power", "enhanced", "special characters"]
+    },
+    {
+        "uuid": "3ee95cb6-e192-4ba7-b5b9-e37b4b22ce50",
+        "name": "Kula Shivasteel from the Mortician’s Spire",
+        "expansion": 918,
+        "cases": ["archon power", "enhanced", "reprints", "special characters"]
+    },
+    {
+        "uuid": "e316efeb-ad49-4f92-9f97-c95e2a0b5bf5",
+        "name": "渦輪的場地士兵S．金",
+        "expansion": 928,
+        "cases": [
+            "build-your-champion",
+            "digging-up-the-monster",
+            "enhanced",
+            "enhanced duplicates",
+            "former anomaly",
+            "gigantic",
+            "house differs from latest printing",
+            "house variant",
+            "special characters"
+        ]
+    },
+    {
+        "uuid": "818c23fa-d381-49d5-b2e4-aa2b6957c74b",
+        "name": "Transterra, Master of the Grotto",
+        "expansion": 939,
+        "cases": ["enhanced", "enhanced duplicates", "special characters"]
+    },
+    {
+        "uuid": "3f9c4fa9-2018-423f-936a-4380a197943c",
+        "name": "That which Stabs Vaults",
+        "expansion": 939,
+        "cases": ["anomaly", "enhanced", "house variant", "reprints"]
+    },
+    {
+        "uuid": "e68761ad-d6be-412f-8b21-0a3ef561964a",
+        "name": "Cosin the Lost Vault Master",
+        "expansion": 964,
+        "cases": ["enhanced", "special characters"]
+    }
+]

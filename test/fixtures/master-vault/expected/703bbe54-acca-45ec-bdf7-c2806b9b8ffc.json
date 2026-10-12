@@ -1,0 +1,202 @@
+{
+    "deck": {
+        "expansion": 496,
+        "username": "test",
+        "uuid": "703bbe54-acca-45ec-bdf7-c2806b9b8ffc",
+        "identity": "brendan-“arlequín”-doctor-de-la-tienda",
+        "cardback": "",
+        "name": "Brendan “Arlequín”, Doctor de la Tienda",
+        "houses": ["saurian", "shadows", "staralliance"],
+        "cards": [
+            {
+                "id": "sci-officer-qincan",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "venator-altum",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "bury-riches",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "operative-espion",
+                "count": 2,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "the-tide",
+                "count": 1,
+                "house": "thetide",
+                "isNonDeck": true
+            },
+            {
+                "id": "consul-primus",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "hornswoggle",
+                "count": 1,
+                "house": "shadows",
+                "isNonDeck": false
+            },
+            {
+                "id": "tertiate",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "lieutenant-khrkhar",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "reach-advantage",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "lieutenant-valmart",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "one-eyed-willa",
+                "count": 1,
+                "house": "shadows",
+                "isNonDeck": false
+            },
+            {
+                "id": "booby-trap",
+                "count": 2,
+                "house": "shadows",
+                "isNonDeck": false
+            },
+            {
+                "id": "finishing-blow",
+                "count": 1,
+                "house": "shadows",
+                "isNonDeck": false
+            },
+            {
+                "id": "loot-or-pillage",
+                "count": 1,
+                "house": "shadows",
+                "isNonDeck": false,
+                "enhancements": ["capture"],
+                "uuid": "d082e4ba-1b2d-4089-9305-255187fbba47"
+            },
+            {
+                "id": "spoils-of-battle",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "cornicen-octavia",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "biome-discovery",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "altruist-s-rostrum",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "iss-indominus",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "scooped",
+                "count": 1,
+                "house": "shadows",
+                "isNonDeck": false
+            },
+            {
+                "id": "static-collection-array",
+                "count": 2,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "cr-officer-hawkins",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "navigator-ali",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "ankylo-formation",
+                "count": 2,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "mug",
+                "count": 1,
+                "house": "shadows",
+                "isNonDeck": false
+            },
+            {
+                "id": "hobnobber",
+                "count": 1,
+                "house": "shadows",
+                "isNonDeck": false
+            },
+            {
+                "id": "lay-of-the-land",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "gas-pipes-malone",
+                "count": 3,
+                "house": "shadows",
+                "isNonDeck": false
+            },
+            {
+                "id": "shield-u-later",
+                "count": 1,
+                "house": "staralliance",
+                "isNonDeck": false
+            },
+            {
+                "id": "medicus-lacus",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            }
+        ],
+        "accolades": []
+    }
+}

@@ -1,0 +1,256 @@
+{
+    "deck": {
+        "expansion": 918,
+        "username": "test",
+        "uuid": "3ee95cb6-e192-4ba7-b5b9-e37b4b22ce50",
+        "identity": "kula-shivasteel-from-the-mortician’s-spire",
+        "cardback": "",
+        "name": "Kula Shivasteel from the Mortician’s Spire",
+        "houses": ["dis", "skyborn", "untamed"],
+        "cards": [
+            {
+                "id": "raiding-party",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false
+            },
+            {
+                "id": "obsidian-forge",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "power-up",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false,
+                "enhancements": ["amber"],
+                "uuid": "09a4ccde-ccba-495d-bcef-09076babba1a"
+            },
+            {
+                "id": "ripper-jack",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false
+            },
+            {
+                "id": "blossom-drake",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "low-dawn",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "black-tempest",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false
+            },
+            {
+                "id": "murmook",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "gloriana-s-attendant",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "wheel-of-fire",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false,
+                "enhancements": ["amber"],
+                "uuid": "9d867fbb-e51f-4f3d-b548-2aa24e62dc84"
+            },
+            {
+                "id": "edge-of-the-world",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false
+            },
+            {
+                "id": "bomb-arang",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false
+            },
+            {
+                "id": "hystricog",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "æmberfly",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "chonk-evermore",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "indigo-halyard",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false
+            },
+            {
+                "id": "journey-onward",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false
+            },
+            {
+                "id": "conclave-witch",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "the-feathered-shaman",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "unnatural-selection",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "ruination",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "chaos-imp",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "rotting-mist",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "charismatic-inspiration",
+                "count": 1,
+                "house": "archonpower",
+                "isNonDeck": true
+            },
+            {
+                "id": "dark-queen-gloriana",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false,
+                "enhancements": ["dis", "damage"],
+                "uuid": "e6d0ee3b-4e6a-436e-b8dc-eb0e08193db2"
+            },
+            {
+                "id": "fiendish-apprentice",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "heart-of-steel",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false,
+                "enhancements": ["amber"],
+                "uuid": "c10832ba-81e9-4ab7-ae58-cbbc14cdfd78"
+            },
+            {
+                "id": "shadow-of-dis",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "lok-the-corruptor",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "ritual-of-tognath",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "indigo-halyard",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false,
+                "enhancements": ["dis"],
+                "uuid": "5618a007-15c2-4086-869a-5336e30c79ae"
+            },
+            {
+                "id": "onyx-knight",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "gleeful-mayhem",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false,
+                "enhancements": ["untamed"],
+                "uuid": "2e67764b-9979-4be2-b7c0-90536b22c6d8"
+            },
+            {
+                "id": "radix-of-suffering",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false,
+                "enhancements": ["damage", "damage"],
+                "uuid": "cce97c18-aa5f-4fe6-be27-6f3c73c4a192"
+            },
+            {
+                "id": "endurance",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false,
+                "enhancements": ["dis"],
+                "uuid": "63912c1c-7029-4742-b06c-26f0791ff04e"
+            },
+            {
+                "id": "journey-onward",
+                "count": 1,
+                "house": "skyborn",
+                "isNonDeck": false,
+                "enhancements": ["amber"],
+                "uuid": "3535bcb9-0ef0-4105-860d-3f1bb9bb77c4"
+            },
+            {
+                "id": "cauldron",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false,
+                "enhancements": ["skyborn"],
+                "uuid": "372e57f3-955c-4a5d-a4a6-3af855e48905"
+            }
+        ],
+        "accolades": []
+    }
+}

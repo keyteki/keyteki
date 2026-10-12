@@ -8,14 +8,11 @@
     },
     "license": "MIT",
     "scripts": {
-        "export": "node scripts/export.js",
+        "apply-overrides": "node scripts/apply-overrides.js",
         "import": "node scripts/import.js",
         "test": "npm run validate",
         "validate": "node scripts/validate.js"
     },
     "dependencies": {},
-    "devDependencies": {
-        "jsonschema": "^1.2.2",
-        "request": "^2.87.0"
-    }
+    "devDependencies": {}
 }

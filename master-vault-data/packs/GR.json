@@ -18780,7 +18780,7 @@
             "image": "https://mastervault-storage-prod.s3.amazonaws.com/media/card_front/en/700_370_7402809beda9_en.png",
             "expansion": 700,
             "house": "untamed",
-            "keywords": ["splash-attack:3 and \"after fight: archive werewolf curse"],
+            "keywords": [],
             "traits": [],
             "type": "upgrade",
             "rarity": "Special",

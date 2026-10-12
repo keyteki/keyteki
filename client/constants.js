@@ -1,3 +1,5 @@
+import ExpansionData from '../master-vault-data/expansions.json';
+
 export const ItemTypes = {
     CARD: 'card',
     PANEL: 'panel'
@@ -45,141 +47,6 @@ export const Constants = {
         'Untamed'
     ],
     Locales: ['de', 'en', 'es', 'fr', 'it', 'ko', 'pt', 'pl', 'th', 'zhhans', 'zhhant'],
-    Expansions: [
-        {
-            value: '341',
-            label: 'CotA',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
-            value: '435',
-            label: 'AoA',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
-            value: '452',
-            label: 'WC',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
-            value: '479',
-            label: 'MM',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
-            value: '496',
-            label: 'DT',
-            tideRequired: true,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
-            value: '600',
-            label: 'WoE',
-            tideRequired: false,
-            tokenRequired: true,
-            prophecySupported: false
-        },
-        {
-            value: '601',
-            label: 'UC2022',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
-            value: '609',
-            label: 'VM2023',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
-            value: '700',
-            label: 'GR',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
-            value: '737',
-            label: 'VM2024',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
-            value: '800',
-            label: 'AS',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
-            value: '855',
-            label: 'ToC',
-            tideRequired: false,
-            tokenRequired: true,
-            prophecySupported: false
-        },
-        {
-            value: '874',
-            label: 'MoMu',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
-            value: '907',
-            label: 'DISC',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
-            value: '939',
-            label: 'VM2025',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
-            value: '886',
-            label: 'PV',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: true
-        },
-        {
-            value: '918',
-            label: 'CC',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
-            value: '928',
-            label: 'DM',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        },
-        {
-            value: '964',
-            label: 'VM2026',
-            tideRequired: false,
-            tokenRequired: false,
-            prophecySupported: false
-        }
-    ],
     CardTypes: [
         'action',
         'artifact',
@@ -227,6 +94,21 @@ export const Constants = {
 for (let locale of Constants.Locales) {
     Constants.TideImages.card[locale] = imageUrl(`tide/tide-card-${locale}.png`);
 }
+
+// Expansions that decks can belong to, in release order
+Constants.Expansions = ExpansionData.filter(
+    (expansion) => expansion.supported !== false && !expansion.anomalies
+).map((expansion) => ({
+    value: String(expansion.id),
+    label: expansion.code,
+    name: expansion.name,
+    sealedKey: expansion.sealedKey,
+    tideRequired: !!expansion.tideRequired,
+    tokenRequired: !!expansion.tokenRequired,
+    prophecySupported: !!expansion.prophecySupported
+}));
+
+Constants.SealedExpansions = Constants.Expansions.filter((expansion) => expansion.sealedKey);
 
 for (let expansion of Constants.Expansions) {
     Constants.SetIconPaths[expansion.value] = imageUrl(`idbacks/${expansion.value}.png`);

@@ -5,29 +5,9 @@ const DeckIdForPlayerQuery =
     '(SELECT "Id" FROM "Decks" WHERE "Identity" = $3 AND "UserId" = (SELECT "Id" FROM "Users" WHERE "Username" = $2) ORDER BY "Id" DESC LIMIT 1)';
 
 class GameService {
-    /**
-     * Runs the given callback inside a transaction on a single pooled connection,
-     * rolling back if it throws.
-     * @param {(client: import('pg').PoolClient) => Promise<void>} callback
-     */
-    async inTransaction(callback) {
-        const client = await db.startTransaction();
-
-        try {
-            await callback(client);
-            await client.query('COMMIT');
-        } catch (err) {
-            await client.query('ROLLBACK');
-
-            throw err;
-        } finally {
-            client.release();
-        }
-    }
-
     async create(game) {
         try {
-            await this.inTransaction(async (client) => {
+            await db.transaction(async (client) => {
                 const newGame = await db.queryTran(
                     client,
                     'INSERT INTO "Games" ("GameId", "GameType", "GameFormat", "StartedAt") VALUES ($1, $2, $3, $4) RETURNING "Id"',
@@ -58,7 +38,7 @@ class GameService {
 
     async update(game) {
         try {
-            await this.inTransaction(async (client) => {
+            await db.transaction(async (client) => {
                 await db.queryTran(
                     client,
                     'UPDATE "Games" SET "StartedAt" = $2, "WinnerId" = (SELECT "Id" FROM "Users" WHERE "Username" = $3), "WinReason" = $4, "FinishedAt" = $5 WHERE "GameId" = $1',

@@ -1,0 +1,42 @@
+[
+    {
+        "match": { "expansion": 600, "number": "110", "id": "strange-shell" },
+        "set": { "armor": 4 },
+        "reason": "Token creature armor is missing from Master Vault"
+    },
+    {
+        "match": { "expansion": 600, "number": "229", "id": "defender" },
+        "set": { "armor": 1 },
+        "reason": "Token creature armor is missing from Master Vault"
+    },
+    {
+        "match": { "expansion": 600, "number": "286", "id": "bellatoran-warrior" },
+        "set": { "armor": 2 },
+        "reason": "Token creature armor is missing from Master Vault"
+    },
+    {
+        "match": { "expansion": 600, "number": "158", "id": "ironyx-vatminder" },
+        "set": { "traits": ["martian", "ironyx"] },
+        "reason": "Master Vault lists the Rebel trait, but the printed card is an Ironyx"
+    },
+    {
+        "match": { "expansion": 855, "number": "086", "id": "phantasm" },
+        "set": { "armor": 1 },
+        "reason": "Token creature armor is missing from Master Vault"
+    },
+    {
+        "match": { "expansion": 855, "number": "184", "id": "guardian" },
+        "set": { "armor": 2 },
+        "reason": "Token creature armor is missing from Master Vault"
+    },
+    {
+        "match": { "expansion": 855, "number": "185", "id": "paragon" },
+        "set": { "armor": 1 },
+        "reason": "Token creature armor is missing from Master Vault"
+    },
+    {
+        "match": { "expansion": 700, "number": "370", "id": "werewolf-curse" },
+        "set": { "keywords": [] },
+        "reason": "The keyword parser picks up the keyword this upgrade grants as one of its own"
+    }
+]

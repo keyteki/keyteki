@@ -1,0 +1,235 @@
+{
+    "deck": {
+        "expansion": 918,
+        "username": "test",
+        "uuid": "d2ad0de8-eb79-4974-8ca0-1c2394252309",
+        "identity": "the-giant-who-cooks-for-the-library",
+        "cardback": "",
+        "name": "The Giant who Cooks for The Library",
+        "houses": ["dis", "mars", "sanctum"],
+        "cards": [
+            {
+                "id": "suspended-animation",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false,
+                "enhancements": ["capture"],
+                "uuid": "30488151-ee1e-4cd5-aa20-fd85915be9ca"
+            },
+            {
+                "id": "almsmaster",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false,
+                "enhancements": ["damage"],
+                "uuid": "bd89d9f9-aa3b-43c7-9230-ba9de139241d"
+            },
+            {
+                "id": "congregate",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "pulse-cannon",
+                "count": 2,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "zysysyx-shockworm",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "taxing-journey",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false,
+                "enhancements": ["damage"],
+                "uuid": "4823e876-636b-40ab-8696-7fdcf10af9a2"
+            },
+            {
+                "id": "render-guilt",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "offering-to-invidius",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "custom-virus",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "pulse-cannon",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false,
+                "enhancements": ["damage"],
+                "uuid": "210fbd72-c6ee-45f5-89c5-0c83380fe365"
+            },
+            {
+                "id": "three-fates",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "light-everlasting",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "special-agent-tnega",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "war-of-the-worlds",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "mother-northelle",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false,
+                "enhancements": ["draw"],
+                "uuid": "972b9e69-41e2-4cda-a858-23306370d333"
+            },
+            {
+                "id": "raiding-knight",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "yxilx-dominator",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "grand-melee",
+                "count": 2,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "ruination",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "eye-of-judgment",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false,
+                "image": "eye-of-judgment-sanctum"
+            },
+            {
+                "id": "chaos-imp",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "mind-barb",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "colonel-mariana",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false
+            },
+            {
+                "id": "charismatic-inspiration",
+                "count": 1,
+                "house": "archonpower",
+                "isNonDeck": true
+            },
+            {
+                "id": "rotgrub",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "squawker",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "the-pale-star",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "arise",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "terrible-teammates",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false
+            },
+            {
+                "id": "yxili-marauder",
+                "count": 1,
+                "house": "mars",
+                "isNonDeck": false,
+                "enhancements": ["damage"],
+                "uuid": "3df1e09a-fefd-45bf-8fa9-fabad054e1dc"
+            },
+            {
+                "id": "dark-minion",
+                "count": 2,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "rotting-mist",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false
+            },
+            {
+                "id": "gleeful-mayhem",
+                "count": 1,
+                "house": "dis",
+                "isNonDeck": false,
+                "enhancements": ["discard"],
+                "uuid": "2e67764b-9979-4be2-b7c0-90536b22c6d8"
+            },
+            {
+                "id": "general-xalvador",
+                "count": 1,
+                "house": "sanctum",
+                "isNonDeck": false,
+                "enhancements": ["capture"],
+                "uuid": "90036b04-3ffa-47d4-820b-c11b25542b35"
+            }
+        ],
+        "accolades": []
+    }
+}

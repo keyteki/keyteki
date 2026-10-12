@@ -20,16 +20,13 @@ You will need two pieces of information up front:
 
 ### Files to update
 
-| File                                                                                  | Change                                                                                                                                                 |
-| ------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [client/constants.js](../client/constants.js)                                         | Append a new entry to `Constants.Expansions` with `value` (string), `label`, and flags.                                                                |
-| [client/Components/Games/GameFormats.jsx](../client/Components/Games/GameFormats.jsx) | Add a `{ name, label: t('Full Name') }` entry to the `expansions` array. The `name` is the lowercase short key (e.g. `vm2026`).                        |
-| [client/Components/Games/NewGame.jsx](../client/Components/Games/NewGame.jsx)         | Add the new key to the `expansions` object passed to `lobbySendMessage` and add a `!formProps.values.<key> &&` clause in the sealed-format validation. |
-| [server/services/DeckService.js](../server/services/DeckService.js)                   | Add an `if (expansions.<key>) { dbExpansions.push(<ExpansionId>); }` block in the sealed-deck random-pick logic.                                       |
-| [server/db/schema/99 - Data.sql](../server/db/schema/99%20-%20Data.sql)               | Add a new `INSERT INTO public."Expansions"` row with the next sequential `Id`, and bump the `setval` for `Expansions_Id_seq` to match.                 |
-| [server/db/schema/migrations/](../server/db/schema/migrations)                        | Create a new migration file `NN - <CODE>.sql` (next sequential number) containing the same `INSERT INTO "Expansions"` row.                             |
+| File                                                                      | Change                                                                                                                                                                                                                                                                            |
+| ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [master-vault-data/expansions.json](../master-vault-data/expansions.json) | Add an entry with `id` (the `ExpansionId`), `code`, `name` and `releaseDate`, keeping the file in release order. Add `sealedKey` (the lowercase short key, e.g. `vm2026`) to offer the set in sealed games, and `tideRequired`, `tokenRequired` or `prophecySupported` if needed. |
+| [server/db/schema/99 - Data.sql](../server/db/schema/99%20-%20Data.sql)   | Add a new `INSERT INTO public."Expansions"` row with the next sequential `Id`, and bump the `setval` for `Expansions_Id_seq` to match.                                                                                                                                            |
+| [server/db/schema/migrations/](../server/db/schema/migrations)            | Create a new migration file `NN - <CODE>.sql` (next sequential number) containing the same `INSERT INTO "Expansions"` row.                                                                                                                                                        |
 
-> [server/constants.js](../server/constants.js) only needs an entry if the new set requires `tideRequired`, `tokenRequired`, or `prophecySupported`. Reprint-only sets with all-false flags can be omitted — the lookup falls back to undefined and treats them as no special requirements (this is the pattern used by VM2023 and VM2024).
+`expansions.json` drives the server and client expansion lists, the sealed game options and the sealed deck lookup. The release date orders printings, so when a card has been printed more than once the latest release's data and image are used. [test/server/carddata/Expansions.spec.js](../test/server/carddata/Expansions.spec.js) checks that it agrees with the SQL seed data, the migrations and the pack files.
 
 ### Other notes
 
@@ -41,7 +38,7 @@ You will need two pieces of information up front:
     Both are wired up automatically by the loop in [client/constants.js](../client/constants.js) that populates `SetIconPaths` and `DeckIconPaths`. Use an existing set as a size/style reference (e.g. `939.png` for VM2025).
 
 -   **Locales** — set names use `t('Full Name')` so English is the natural fallback; new locale entries are only needed if a translator provides them.
--   **`master-vault-data`** — must contain a pack file (e.g. `packs/VM25.json`, matching upstream MV naming) before `npm run fetchdata` can import cards. If the pack file doesn't yet exist the rest of the scaffolding can still ship.
+-   **`master-vault-data`** — reprint-only sets don't need a pack file, as their cards are already in earlier packs.
 -   **No card or test files are required** for a reprint-only set — existing card implementations are reused based on card name.
 
 ### Verification
@@ -100,7 +97,8 @@ A set with new cards builds on the reprint-only checklist above and adds card da
 
 ### Card data and implementations
 
--   Update `master-vault-data` so that the new pack file (e.g. `packs/<CODE>.json`) exists with `ids`, `code`, `name`, `cardCount`, and `cards`.
+-   Create the pack file (e.g. `packs/<CODE>.json`) with `ids`, `code`, `name` and `cardCount`, set `pack` on the set's entry in `expansions.json`, then import the cards with `npm run import packs/<CODE>.json <CODE>` from `master-vault-data/`. See the [master-vault-data README](../master-vault-data/README.md).
+-   If Master Vault has a card wrong, add a correction to `master-vault-data/overrides.json` rather than editing the pack file, so that it survives the next import.
 -   Create a new card directory under [server/game/cards/](../server/game/cards) named `<N>-<CODE>/` (where `<N>` is the next sequential prefix). One `.js` file per implemented card. Follow the conventions in [implementing-cards.md](implementing-cards.md) and use the most recent set as your style reference.
 -   Create a parallel test directory under [test/server/cards/](../test/server/cards) named `<N>-<CODE>/`. One `.spec.js` per card following [testing-cards.md](testing-cards.md) and [card-messages.md](card-messages.md).
 

@@ -1,0 +1,223 @@
+{
+    "deck": {
+        "expansion": 600,
+        "username": "test",
+        "uuid": "8e237a29-85b2-4a33-a63f-638ffcf94d7c",
+        "identity": "the-renowned-cruciblist",
+        "cardback": "",
+        "name": "The Renowned Cruciblist",
+        "houses": ["brobnar", "saurian", "unfathomable"],
+        "cards": [
+            {
+                "id": "epic-poem",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "corrode",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false,
+                "image": "corrode-unfathomable"
+            },
+            {
+                "id": "covetous-hema",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "adult-swim",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "frigorific-rod",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "city-state-interest",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false,
+                "enhancements": ["damage"],
+                "uuid": "e3a70341-8f1f-496f-94b3-38243af4f6df"
+            },
+            {
+                "id": "vow-of-blood",
+                "count": 1,
+                "house": "brobnar",
+                "isNonDeck": false,
+                "enhancements": ["capture"],
+                "uuid": "8d97aa64-920a-4735-a992-aa2f147ccbc5"
+            },
+            {
+                "id": "phalanx-strike",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false,
+                "enhancements": ["damage"],
+                "uuid": "3a564a6c-dcea-4e29-8e9f-9e9c41105c3c"
+            },
+            {
+                "id": "tectonic-shift",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "berserker-slam",
+                "count": 2,
+                "house": "brobnar",
+                "isNonDeck": false
+            },
+            {
+                "id": "press-gang",
+                "count": 1,
+                "house": "brobnar",
+                "isNonDeck": false
+            },
+            {
+                "id": "shock-herder",
+                "count": 1,
+                "house": "brobnar",
+                "isNonDeck": false
+            },
+            {
+                "id": "initiation",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "grammaticus-thrax",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "jarl-svend",
+                "count": 1,
+                "house": "brobnar",
+                "isNonDeck": false
+            },
+            {
+                "id": "pound",
+                "count": 1,
+                "house": "brobnar",
+                "isNonDeck": false
+            },
+            {
+                "id": "fuguru",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "dragnet",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false,
+                "enhancements": ["damage"],
+                "uuid": "6d50de85-5446-4214-ba0e-03d2737e9b06"
+            },
+            {
+                "id": "crushing-charge",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "kelping-hands",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "pelf",
+                "count": 2,
+                "house": "brobnar",
+                "isNonDeck": false
+            },
+            {
+                "id": "tribune-pompitus",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "regrettable-meteor",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "mælstrom",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "priest",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": true
+            },
+            {
+                "id": "might-club",
+                "count": 1,
+                "house": "brobnar",
+                "isNonDeck": false
+            },
+            {
+                "id": "the-chosen-one",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "chaosodon",
+                "count": 2,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "skullback-crab",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false,
+                "enhancements": ["capture"],
+                "uuid": "7cc89ff5-9f97-418e-93bb-cac22d8d9c5e"
+            },
+            {
+                "id": "rant-and-rive",
+                "count": 2,
+                "house": "brobnar",
+                "isNonDeck": false
+            },
+            {
+                "id": "imperator-drusilla",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            },
+            {
+                "id": "befuddle",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "edict-of-nerotaurus",
+                "count": 1,
+                "house": "saurian",
+                "isNonDeck": false
+            }
+        ],
+        "accolades": []
+    }
+}

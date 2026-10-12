@@ -15,8 +15,12 @@ class KeyforgeImageSource {
             const buffer = Buffer.from(await response.arrayBuffer());
             await fs.promises.writeFile(imagePath, buffer);
             console.log('Downloaded image for ' + card.name + ' from ' + imageUrl);
+
+            return true;
         } catch (err) {
             console.log(`Error converting image for ${card.name}: ${err}`);
+
+            return false;
         }
     }
 

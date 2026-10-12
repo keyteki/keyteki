@@ -5,6 +5,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import * as yup from 'yup';
 
+import { Constants } from '../../constants';
 import { lobbyActions } from '../../redux/slices/lobbySlice';
 import { lobbySendMessage } from '../../redux/socketActions';
 import Panel from '../Site/Panel';
@@ -99,26 +100,12 @@ const NewGame = ({
                         ...values,
                         password: values.requirePassword ? values.password : ''
                     };
-                    const expansions = {
-                        aoa: values.aoa,
-                        as: values.as,
-                        cc: values.cc,
-                        cota: values.cota,
-                        dm: values.dm,
-                        disc: values.disc,
-                        dt: values.dt,
-                        gr: values.gr,
-                        mm: values.mm,
-                        momu: values.momu,
-                        pv: values.pv,
-                        toc: values.toc,
-                        vm2023: values.vm2023,
-                        vm2024: values.vm2024,
-                        vm2025: values.vm2025,
-                        vm2026: values.vm2026,
-                        wc: values.wc,
-                        woe: values.woe
-                    };
+                    const expansions = Object.fromEntries(
+                        Constants.SealedExpansions.map((expansion) => [
+                            expansion.sealedKey,
+                            values[expansion.sealedKey]
+                        ])
+                    );
 
                     if (tournament) {
                         for (const match of matches) {
@@ -162,24 +149,9 @@ const NewGame = ({
 
                             if (
                                 formProps.values.gameFormat === 'sealed' &&
-                                !formProps.values.aoa &&
-                                !formProps.values.cota &&
-                                !formProps.values.wc &&
-                                !formProps.values.mm &&
-                                !formProps.values.dt &&
-                                !formProps.values.woe &&
-                                !formProps.values.gr &&
-                                !formProps.values.as &&
-                                !formProps.values.toc &&
-                                !formProps.values.momu &&
-                                !formProps.values.disc &&
-                                !formProps.values.vm2023 &&
-                                !formProps.values.vm2024 &&
-                                !formProps.values.vm2025 &&
-                                !formProps.values.vm2026 &&
-                                !formProps.values.pv &&
-                                !formProps.values.cc &&
-                                !formProps.values.dm
+                                !Constants.SealedExpansions.some(
+                                    (expansion) => formProps.values[expansion.sealedKey]
+                                )
                             ) {
                                 formProps.setFieldError(
                                     'gameFormat',

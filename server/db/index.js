@@ -43,6 +43,29 @@ module.exports = {
 
         return client;
     },
+    /**
+     * Runs the callback inside a transaction on a single pooled connection, committing if it
+     * succeeds and rolling back if it throws. Use queryTran with the client it is given.
+     * @template T
+     * @param {(client: import('pg').PoolClient) => Promise<T>} callback
+     * @returns {Promise<T>}
+     */
+    transaction: async (callback) => {
+        const client = await module.exports.startTransaction();
+
+        try {
+            const result = await callback(client);
+            await client.query('COMMIT');
+
+            return result;
+        } catch (err) {
+            await client.query('ROLLBACK');
+
+            throw err;
+        } finally {
+            client.release();
+        }
+    },
     shutdown: async () => {
         await pool.end();
     }

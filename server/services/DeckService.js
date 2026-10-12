@@ -3,6 +3,9 @@ const util = require('../util');
 const db = require('../db');
 const { expand, flatten } = require('../Array');
 const Constants = require('../constants');
+const { DeckExpansions } = require('../../master-vault-data/src/expansions');
+const { cardIdFromMasterVault, isGiganticArtHalf } = require('../../master-vault-data/src/cardId');
+const { PrintingIndex } = require('../../master-vault-data/src/printings');
 const BonusOrder = Constants.Houses.concat(['amber', 'capture', 'damage', 'draw', 'discard']);
 
 const allianceRestrictedRules = {
@@ -20,6 +23,15 @@ const allianceRestrictedRules = {
 };
 
 const MaxPageSize = 50;
+
+let printingIndex;
+function getPrintingIndex() {
+    if (!printingIndex) {
+        printingIndex = PrintingIndex.fromPacks();
+    }
+
+    return printingIndex;
+}
 
 class DeckService {
     constructor(configService, cardService) {
@@ -234,78 +246,13 @@ class DeckService {
     }
 
     async getSealedDeck(expansions) {
-        let dbExpansions = [];
+        const dbExpansions = DeckExpansions.filter(
+            (expansion) => expansion.sealedKey && expansions && expansions[expansion.sealedKey]
+        ).map((expansion) => expansion.id);
 
-        if (expansions.aoa) {
-            dbExpansions.push(435);
-        }
-
-        if (expansions.cota) {
-            dbExpansions.push(341);
-        }
-
-        if (expansions.wc) {
-            dbExpansions.push(452);
-        }
-
-        if (expansions.mm) {
-            dbExpansions.push(479);
-        }
-
-        if (expansions.dt) {
-            dbExpansions.push(496);
-        }
-
-        if (expansions.woe) {
-            dbExpansions.push(600);
-        }
-
-        if (expansions.gr) {
-            dbExpansions.push(700);
-        }
-
-        if (expansions.as) {
-            dbExpansions.push(800);
-        }
-
-        if (expansions.toc) {
-            dbExpansions.push(855);
-        }
-
-        if (expansions.momu) {
-            dbExpansions.push(874);
-        }
-
-        if (expansions.disc) {
-            dbExpansions.push(907);
-        }
-
-        if (expansions.vm2023) {
-            dbExpansions.push(609);
-        }
-
-        if (expansions.vm2024) {
-            dbExpansions.push(737);
-        }
-
-        if (expansions.vm2025) {
-            dbExpansions.push(939);
-        }
-
-        if (expansions.vm2026) {
-            dbExpansions.push(964);
-        }
-
-        if (expansions.pv) {
-            dbExpansions.push(886);
-        }
-
-        if (expansions.cc) {
-            dbExpansions.push(918);
-        }
-
-        if (expansions.dm) {
-            dbExpansions.push(928);
+        if (dbExpansions.length === 0) {
+            logger.warn('No sealed expansions selected');
+            return undefined;
         }
 
         let deck;
@@ -474,73 +421,49 @@ class DeckService {
 
         let cards = await db.query(cardTableQuery, [deck.id]);
 
-        // These are cards that have changed houses in later sets.
-        let specialCardDefaultHouses = {
-            'armageddon-cloak': 'sanctum',
-            'avenging-aura': 'sanctum',
-            'book-of-malefaction': 'sanctum',
-            'eye-of-judgment': 'sanctum',
-            'hymn-to-duma': 'sanctum',
-            'johnny-longfingers': 'shadows',
-            'lord-golgotha': 'sanctum',
-            'mantle-of-the-zealot': 'sanctum',
-            'martyr-s-end': 'sanctum',
-            'master-of-the-grey': 'sanctum',
-            'mighty-lance': 'sanctum',
-            'one-stood-against-many': 'sanctum',
-            'rogue-ogre': 'brobnar',
-            'the-promised-blade': 'sanctum',
-            'champion-tabris': 'sanctum',
-            'dark-centurion': 'saurian',
-            'first-or-last': 'sanctum',
-            francus: 'sanctum',
-            'glorious-few': 'sanctum',
-            'gorm-of-omm': 'sanctum',
-            'grey-abbess': 'sanctum',
-            'professor-terato': 'logos',
-            'scrivener-favian': 'sanctum',
-            'bordan-the-redeemed': 'sanctum',
-            'bull-wark': 'sanctum',
-            'burning-glare': 'sanctum',
-            'citizen-shrix': 'saurian',
-            retribution: 'sanctum',
-            'shifting-battlefield': 'sanctum',
-            snarette: 'dis',
-            'subtle-otto': 'shadows',
-            'even-ivan': 'logos',
-            'odd-clawde': 'logos',
-            'sacro-alien': 'staralliance',
-            'sacro-beast': 'untamed',
-            'sacro-bot': 'logos',
-            'sacro-fiend': 'dis',
-            'sacro-saurus': 'saurian',
-            'sacro-thief': 'shadows',
-            corrode: 'unfathomable',
-            'purifier-of-souls': 'sanctum',
-            stampede: 'untamed',
-            'follow-the-leader': 'brobnar',
-            picaroon: 'dis',
-            'research-smoko': 'logos',
-            'vault-s-blessing': 'untamed'
-        };
+        let houseTable = standalone ? 'StandaloneDeckHouses' : 'DeckHouses';
+        let houses = await db.query(
+            `SELECT * FROM "${houseTable}" dh JOIN "Houses" h ON h."Id" = dh."HouseId" WHERE "DeckId" = $1`,
+            [deck.id]
+        );
+        deck.houses = houses.map((house) => house.Code);
 
-        deck.cards = cards.map((card) => ({
-            dbId: card.Id,
-            id: card.CardId,
-            count: card.Count,
-            maverick: card.Maverick || undefined,
-            anomaly: card.Anomaly || undefined,
-            image: card.ImageUrl || undefined,
-            house: card.House || specialCardDefaultHouses[card.CardId] || undefined,
-            isNonDeck: card.IsNonDeck,
-            prophecyId: card.ProphecyId || undefined,
-            enhancements: card.Enhancements
-                ? card.Enhancements.replace(/[[{}"\]]/gi, '')
-                      .split(',')
-                      .filter((c) => c.length > 0)
-                      .sort((a, b) => BonusOrder.indexOf(a) - BonusOrder.indexOf(b))
-                : undefined
-        }));
+        const printings = getPrintingIndex();
+        deck.cards = cards.map((card) => {
+            // Decks imported before houses were stored for every card get theirs worked out from
+            // the deck. If that isn't possible the card's own house is used.
+            const house =
+                card.House ||
+                card.Maverick ||
+                card.Anomaly ||
+                printings.inferHouse(card.CardId, deck, { nonDeck: !!card.IsNonDeck });
+            let image = card.ImageUrl || undefined;
+            if (!image && house) {
+                const imageName = printings.getImageName(card.CardId, house, {
+                    maverick: !!card.Maverick,
+                    anomaly: !!card.Anomaly
+                });
+                image = imageName !== card.CardId ? imageName : undefined;
+            }
+
+            return {
+                dbId: card.Id,
+                id: card.CardId,
+                count: card.Count,
+                maverick: card.Maverick || undefined,
+                anomaly: card.Anomaly || undefined,
+                image: image,
+                house: house,
+                isNonDeck: card.IsNonDeck,
+                prophecyId: card.ProphecyId || undefined,
+                enhancements: card.Enhancements
+                    ? card.Enhancements.replace(/[[{}"\]]/gi, '')
+                          .split(',')
+                          .filter((c) => c.length > 0)
+                          .sort((a, b) => BonusOrder.indexOf(a) - BonusOrder.indexOf(b))
+                    : undefined
+            };
+        });
 
         // Sort cards: prophecy cards by ProphecyId first, then by dbId, others maintain original order
         deck.cards.sort((a, b) => {
@@ -563,13 +486,6 @@ class DeckService {
             return a.dbId - b.dbId;
         });
 
-        let houseTable = standalone ? 'StandaloneDeckHouses' : 'DeckHouses';
-        let houses = await db.query(
-            `SELECT * FROM "${houseTable}" dh JOIN "Houses" h ON h."Id" = dh."HouseId" WHERE "DeckId" = $1`,
-            [deck.id]
-        );
-        deck.houses = houses.map((house) => house.Code);
-
         if (!standalone) {
             let accolades = await db.query(
                 'SELECT * FROM "DeckAccolades" WHERE "DeckId" = $1 ORDER BY "Id"',
@@ -586,24 +502,28 @@ class DeckService {
         deck.isStandalone = standalone;
     }
 
-    async create(user, deck) {
+    /**
+     * Fetches a deck from Master Vault and keeps a copy of the response.
+     * @param {string} uuid
+     */
+    async fetchDeckResponse(uuid) {
         let deckResponse;
 
         try {
             let response = await util.httpRequest(
-                `https://www.keyforgegame.com/api/decks/${deck.uuid}/?links=cards`,
+                `https://www.keyforgegame.com/api/decks/${uuid}/?links=cards`,
                 { allowedHosts: ['www.keyforgegame.com'] }
             );
 
             if (response[0] === '<') {
-                logger.error('Deck failed to import: %s %s', deck.uuid, response);
+                logger.error('Invalid response fetching deck: %s %s', uuid, response);
 
                 throw new Error('Invalid response from Api. Please try again later.');
             }
 
             deckResponse = JSON.parse(response);
         } catch (error) {
-            logger.error(`Unable to import deck ${deck.uuid}`, error);
+            logger.error(`Unable to fetch deck ${uuid}`, error);
 
             throw new Error('Invalid response from Api. Please try again later.');
         }
@@ -612,17 +532,38 @@ class DeckService {
             throw new Error('Invalid response from Api. Please try again later.');
         }
 
-        let newDeck = await this.parseDeckResponse(deck.username, deckResponse);
-        if (!newDeck) {
-            throw new Error('There was a problem importing your deck, please try again later.');
-        }
+        await this.saveMasterVaultResponse(deckResponse);
 
-        let validExpansion = await this.checkValidDeckExpansion(newDeck);
+        return deckResponse;
+    }
+
+    async create(user, deck) {
+        const deckResponse = await this.fetchDeckResponse(deck.uuid);
+
+        let validExpansion = await this.checkValidDeckExpansion({
+            expansion: deckResponse.data.expansion,
+            uuid: deckResponse.data.id
+        });
         if (!validExpansion) {
             return {
                 success: false,
                 message: 'This deck is from a future expansion and not currently supported'
             };
+        }
+
+        let newDeck;
+        try {
+            newDeck = await this.parseDeckResponse(deck.username, deckResponse);
+        } catch (error) {
+            if (!error.unknownCards) {
+                throw error;
+            }
+
+            return { success: false, message: error.message };
+        }
+
+        if (!newDeck) {
+            throw new Error('There was a problem importing your deck, please try again later.');
         }
 
         let deckExists = await this.deckExistsForUser(user, newDeck.identity);
@@ -977,118 +918,115 @@ class DeckService {
     }
 
     async insertDeck(deck, user) {
-        let ret;
-
-        try {
-            await db.query('BEGIN');
-
-            if (user) {
-                ret = await db.query(
-                    'INSERT INTO "Decks" ("UserId", "Uuid", "Identity", "Name", "IncludeInSealed", "LastUpdated", "Verified", "ExpansionId", "Flagged", "Banned", "IsAlliance") ' +
-                        'VALUES ($1, $2, $3, $4, $5, $6, false, (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" = $7), false, false, $8) RETURNING "Id"',
-                    [
-                        user.id,
-                        deck.uuid,
-                        deck.identity,
-                        deck.name,
-                        !deck.isAlliance,
-                        deck.lastUpdated,
-                        deck.expansion,
-                        deck.isAlliance
-                    ]
-                );
-            } else {
-                ret = await db.query(
-                    'INSERT INTO "StandaloneDecks" ("Identity", "Name", "LastUpdated", "ExpansionId") ' +
-                        'VALUES ($1, $2, $3, (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" = $4)) RETURNING "Id"',
-                    [deck.identity, deck.name, deck.lastUpdated || new Date(), deck.expansion]
-                );
-            }
-        } catch (err) {
-            logger.error('Failed to add deck', err);
-
-            await db.query('ROLLBACK');
-
-            throw new Error('Failed to import deck');
-        }
-
-        deck.id = ret[0].Id;
-
-        let params = [];
+        const deckCardParams = [];
         for (let card of deck.cards) {
-            params.push(card.id);
-            params.push(card.count);
-            params.push(card.maverick);
-            params.push(card.anomaly);
+            deckCardParams.push(card.id, card.count, card.maverick, card.anomaly);
             if (user) {
-                params.push(card.image);
-                params.push(await this.getHouseIdFromName(card.house));
-                params.push(card.enhancements ? JSON.stringify(card.enhancements) : undefined);
-                params.push(card.isNonDeck);
-                params.push(card.prophecyId); // Add prophecy ID
+                deckCardParams.push(
+                    card.image,
+                    await this.getHouseIdFromName(card.house),
+                    card.enhancements ? JSON.stringify(card.enhancements) : undefined,
+                    card.isNonDeck,
+                    card.prophecyId
+                );
             }
 
-            params.push(deck.id);
+            deckCardParams.push(undefined); // Placeholder for the deck id, filled in below
             if (!user) {
-                params.push(card.enhancements);
+                deckCardParams.push(card.enhancements);
             }
         }
 
+        const columnsPerCard = user ? 10 : 6;
+        const deckIdOffset = user ? 9 : 4;
+
         try {
-            if (user) {
-                await db.query(
-                    `INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "ImageUrl", "HouseId", "Enhancements", "IsNonDeck", "ProphecyId", "DeckId") VALUES ${expand(
-                        deck.cards.length,
-                        10
-                    )}`,
-                    params
-                );
-            } else {
-                await db.query(
-                    `INSERT INTO "StandaloneDeckCards" ("CardId", "Count", "Maverick", "Anomaly", "DeckId", "Enhancements") VALUES ${expand(
-                        deck.cards.length,
-                        6
-                    )}`,
-                    params
-                );
-            }
-        } catch (err) {
-            logger.error('Failed to add deck', err);
-
-            await db.query('ROLLBACK');
-
-            throw new Error('Failed to import deck');
-        }
-
-        let deckHouseTable = user ? '"DeckHouses"' : '"StandaloneDeckHouses"';
-        try {
-            await db.query(
-                `INSERT INTO ${deckHouseTable} ("DeckId", "HouseId") VALUES ($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $2)), ` +
-                    '($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $3)), ($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $4))',
-                flatten([deck.id, deck.houses])
-            );
-
-            if (user && deck.accolades && deck.accolades.length > 0) {
-                let accoladeParams = [];
-                for (let i = 0; i < deck.accolades.length; i++) {
-                    const accolade = deck.accolades[i];
-                    const shown = i < 3;
-                    accoladeParams.push(deck.id, accolade.id, accolade.name, accolade.image, shown);
+            await db.transaction(async (client) => {
+                let ret;
+                if (user) {
+                    ret = await db.queryTran(
+                        client,
+                        'INSERT INTO "Decks" ("UserId", "Uuid", "Identity", "Name", "IncludeInSealed", "LastUpdated", "Verified", "ExpansionId", "Flagged", "Banned", "IsAlliance") ' +
+                            'VALUES ($1, $2, $3, $4, $5, $6, false, (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" = $7), false, false, $8) RETURNING "Id"',
+                        [
+                            user.id,
+                            deck.uuid,
+                            deck.identity,
+                            deck.name,
+                            !deck.isAlliance,
+                            deck.lastUpdated,
+                            deck.expansion,
+                            deck.isAlliance
+                        ]
+                    );
+                } else {
+                    ret = await db.queryTran(
+                        client,
+                        'INSERT INTO "StandaloneDecks" ("Identity", "Name", "LastUpdated", "ExpansionId") ' +
+                            'VALUES ($1, $2, $3, (SELECT "Id" FROM "Expansions" WHERE "ExpansionId" = $4)) RETURNING "Id"',
+                        [deck.identity, deck.name, deck.lastUpdated || new Date(), deck.expansion]
+                    );
                 }
-                await db.query(
-                    `INSERT INTO "DeckAccolades" ("DeckId", "AccoladeId", "Name", "ImageUrl", "Shown") VALUES ${expand(
-                        deck.accolades.length,
-                        5
-                    )}`,
-                    accoladeParams
-                );
-            }
 
-            await db.query('COMMIT');
+                deck.id = ret[0].Id;
+
+                for (let i = deckIdOffset; i < deckCardParams.length; i += columnsPerCard) {
+                    deckCardParams[i] = deck.id;
+                }
+
+                if (user) {
+                    await db.queryTran(
+                        client,
+                        `INSERT INTO "DeckCards" ("CardId", "Count", "Maverick", "Anomaly", "ImageUrl", "HouseId", "Enhancements", "IsNonDeck", "ProphecyId", "DeckId") VALUES ${expand(
+                            deck.cards.length,
+                            columnsPerCard
+                        )}`,
+                        deckCardParams
+                    );
+                } else {
+                    await db.queryTran(
+                        client,
+                        `INSERT INTO "StandaloneDeckCards" ("CardId", "Count", "Maverick", "Anomaly", "DeckId", "Enhancements") VALUES ${expand(
+                            deck.cards.length,
+                            columnsPerCard
+                        )}`,
+                        deckCardParams
+                    );
+                }
+
+                const deckHouseTable = user ? '"DeckHouses"' : '"StandaloneDeckHouses"';
+                await db.queryTran(
+                    client,
+                    `INSERT INTO ${deckHouseTable} ("DeckId", "HouseId") VALUES ($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $2)), ` +
+                        '($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $3)), ($1, (SELECT "Id" FROM "Houses" WHERE "Code" = $4))',
+                    flatten([deck.id, deck.houses])
+                );
+
+                if (user && deck.accolades && deck.accolades.length > 0) {
+                    const accoladeParams = [];
+                    for (let i = 0; i < deck.accolades.length; i++) {
+                        const accolade = deck.accolades[i];
+                        accoladeParams.push(
+                            deck.id,
+                            accolade.id,
+                            accolade.name,
+                            accolade.image,
+                            i < 3
+                        );
+                    }
+
+                    await db.queryTran(
+                        client,
+                        `INSERT INTO "DeckAccolades" ("DeckId", "AccoladeId", "Name", "ImageUrl", "Shown") VALUES ${expand(
+                            deck.accolades.length,
+                            5
+                        )}`,
+                        accoladeParams
+                    );
+                }
+            });
         } catch (err) {
             logger.error('Failed to add deck', err);
-
-            await db.query('ROLLBACK');
 
             throw new Error('Failed to import deck');
         }
@@ -1225,92 +1163,6 @@ class DeckService {
     async parseDeckResponse(username, deckResponse) {
         const allCards = await this.cardService.getAllCards();
 
-        let specialCards = {
-            479: { 'dark-æmber-vault': true, 'it-s-coming': true },
-            855: {
-                'armageddon-cloak': true,
-                'avenging-aura': true,
-                'book-of-malefaction': true,
-                'eye-of-judgment': true,
-                'hymn-to-duma': true,
-                'johnny-longfingers': true,
-                'lord-golgotha': true,
-                'mantle-of-the-zealot': true,
-                'martyr-s-end': true,
-                'master-of-the-grey': true,
-                'mighty-lance': true,
-                'one-stood-against-many': true,
-                'rogue-ogre': true,
-                'the-promised-blade': true,
-                'champion-tabris': true,
-                'dark-centurion': true,
-                'first-or-last': true,
-                francus: true,
-                'glorious-few': true,
-                'gorm-of-omm': true,
-                'grey-abbess': true,
-                'professor-terato': true,
-                'scrivener-favian': true,
-                'bordan-the-redeemed': true,
-                'bull-wark': true,
-                'burning-glare': true,
-                'citizen-shrix': true,
-                retribution: true,
-                'shifting-battlefield': true,
-                snarette: true,
-                'subtle-otto': true,
-                'even-ivan': true,
-                'odd-clawde': true,
-                'sacro-alien': true,
-                'sacro-beast': true,
-                'sacro-bot': true,
-                'sacro-fiend': true,
-                'sacro-saurus': true,
-                'sacro-thief': true
-            },
-            874: {
-                'dark-æmber-vault': true,
-                'build-your-champion': true,
-                'digging-up-the-monster': true,
-                'tomes-gigantica': true
-            },
-            886: {
-                'avenging-aura': true,
-                corrode: true,
-                'lord-golgotha': true,
-                'one-stood-against-many': true,
-                'purifier-of-souls': true,
-                stampede: true,
-                'dark-centurion': true,
-                'follow-the-leader': true,
-                picaroon: true,
-                'research-smoko': true,
-                'vault-s-blessing': true,
-                'citizen-shrix': true,
-                'even-ivan': true,
-                'odd-clawde': true
-            }
-        };
-
-        let anomalies = {
-            cosmicrux: { anomalySets: [453, 918, 939], house: 'ouboros' },
-            'ecto-charge': { anomalySets: [600], house: 'geistoid' },
-            ignitus: { anomalySets: [453, 918, 939], house: 'ouboros' },
-            'lateral-shift': { anomalySets: [452, 453, 600, 886], house: 'unfathomable' },
-            'near-future-lens': { anomalySets: [600], house: 'staralliance' },
-            'nizak-the-forgotten': {
-                anomalySets: [452, 453, 600, 886, 918, 939],
-                house: 'ouboros'
-            },
-            'orb-of-wonder': { anomalySets: [453], house: 'sanctum' },
-            'the-grim-reaper': { anomalySets: [453], house: 'geistoid' },
-            'the-red-baron': { anomalySets: [453], house: 'skyborn' },
-            'thermal-depletion': { anomalySets: [453, 918, 939], house: 'ouboros' },
-            timequake: { anomalySets: [452, 453, 600, 886, 918, 939], house: 'ouboros' },
-            'treok-the-wise': { anomalySets: [453, 939], house: 'ouboros' },
-            valoocanth: { anomalySets: [453], house: 'unfathomable' }
-        };
-
         let deckCards = deckResponse._linked.cards;
 
         let enhancementsByCardId = {};
@@ -1325,35 +1177,49 @@ class DeckService {
             }
         }
 
-        let cards = deckCards.map((card) => {
-            let id = card.card_title
-                .toLowerCase()
-                .replace(/[,?.!"„""“”]/gi, '')
-                .replace(/[ ''’]/gi, '-');
+        const printings = getPrintingIndex();
+        const unknownCards = [];
 
-            if (card.rarity === 'Evil Twin') {
-                id += '-evil-twin';
+        let cards = deckCards.map((card) => {
+            // Cards are identified by where they were printed. Reprint sets don't have pack
+            // data, so their cards fall back to being identified by title.
+            const id =
+                printings.resolveCardId(card) ||
+                cardIdFromMasterVault(card) + (isGiganticArtHalf(card) ? '2' : '');
+            const house = card.house.toLowerCase().replace(' ', '');
+            const count = deckResponse.data._links.cards.filter((uuid) => uuid === card.id).length;
+
+            if (!allCards[id]) {
+                unknownCards.push({
+                    id: id,
+                    title: card.card_title_en || card.card_title,
+                    expansion: card.expansion,
+                    number: card.card_number,
+                    house: house,
+                    type: card.card_type,
+                    masterVaultId: card.id
+                });
             }
 
-            let retCard;
-            let count = deckResponse.data._links.cards.filter((uuid) => uuid === card.id).length;
+            const retCard = {
+                id: id,
+                count: count,
+                house: house,
+                isNonDeck: card.is_non_deck
+            };
+
             if (card.is_maverick) {
-                retCard = {
-                    id: id,
-                    count: count,
-                    maverick: card.house.replace(' ', '').toLowerCase()
-                };
+                retCard.maverick = house;
             } else if (card.is_anomaly) {
-                retCard = {
-                    id: id,
-                    count: count,
-                    anomaly: card.house.replace(' ', '').toLowerCase()
-                };
-            } else {
-                retCard = {
-                    id: id,
-                    count: count
-                };
+                retCard.anomaly = house;
+            }
+
+            const image = printings.getImageName(id, house, {
+                maverick: card.is_maverick,
+                anomaly: card.is_anomaly
+            });
+            if (image !== id) {
+                retCard.image = image;
             }
 
             // Store sort_override for prophecy cards
@@ -1366,52 +1232,21 @@ class DeckService {
                 retCard.uuid = card.id;
             }
 
-            if (
-                card.card_type === 'Creature2' ||
-                (card.card_text === '' &&
-                    card.power === null &&
-                    card.card_type === 'Creature' &&
-                    card.rarity === 'Rare') ||
-                card.card_type === 'Gigantic Creature Art'
-            ) {
-                retCard.id += '2';
-            }
-
-            const normalizedHouse = card.house.toLowerCase().replace(' ', '');
-            const cardData = allCards[retCard.id];
-
-            if (!cardData) {
-                logger.error(
-                    'Deck import failed: missing card metadata for id %s (title %s) in deck %s',
-                    retCard.id,
-                    card.card_title,
-                    deckResponse.data.id
-                );
-                throw new Error('There was a problem importing your deck, please try again later.');
-            }
-
-            // Revenants can be in any house, their real house is set on the deck itself.
-            if (normalizedHouse !== cardData.house) {
-                retCard.house = normalizedHouse;
-            }
-
-            // If this is one of the cards that has an entry for every house, get the correct house image
-            if (specialCards[card.expansion] && specialCards[card.expansion][id]) {
-                retCard.house = normalizedHouse;
-                retCard.image = `${retCard.id}-${retCard.house}`;
-            }
-
-            if (anomalies[id] && !anomalies[id].anomalySets.includes(card.expansion)) {
-                // Former anomaly cards use their printed house in regular sets.
-                delete retCard.anomaly;
-                retCard.house = anomalies[id].house;
-                retCard.image = `${retCard.id}-${retCard.house}`;
-            }
-
-            retCard.isNonDeck = card.is_non_deck;
-
             return retCard;
         });
+
+        if (unknownCards.length > 0) {
+            const names = unknownCards.map((card) => `${card.title} (${card.id})`).join(', ');
+            logger.error(
+                'Deck import failed: unknown cards %s in deck %s',
+                names,
+                deckResponse.data.id
+            );
+
+            const error = new Error(`This deck contains cards that aren't supported yet: ${names}`);
+            error.unknownCards = unknownCards;
+            throw error;
+        }
 
         let toAdd = [];
         for (let card of cards) {
@@ -1461,21 +1296,6 @@ class DeckService {
         }
 
         let uuid = deckResponse.data.id;
-        let anyIllegalCards = cards.find(
-            (card) =>
-                !card.id
-                    .split('')
-                    .every((char) =>
-                        'æaăàáãǎâbcdeĕèéěfghĭìíǐijklmnoöǑŏòóõǒpqrstuŭùúǔüvwxyz0123456789-[]*…'.includes(
-                            char
-                        )
-                    )
-        );
-        if (anyIllegalCards) {
-            logger.error(`DECK IMPORT ERROR: ${anyIllegalCards.id}`);
-
-            return undefined;
-        }
 
         const accolades = (deckResponse._linked.accolades || [])
             .filter((a) => a.visible)
@@ -1510,27 +1330,7 @@ class DeckService {
             throw new Error('Unauthorized');
         }
 
-        let deckResponse;
-        try {
-            let response = await util.httpRequest(
-                `https://www.keyforgegame.com/api/decks/${deck.uuid}/?links=cards`,
-                { allowedHosts: ['www.keyforgegame.com'] }
-            );
-
-            if (response[0] === '<') {
-                logger.error('Failed to refresh accolades: %s %s', deck.uuid, response);
-                throw new Error('Invalid response from API. Please try again later.');
-            }
-
-            deckResponse = JSON.parse(response);
-        } catch (error) {
-            logger.error(`Unable to refresh accolades for deck ${deck.uuid}`, error);
-            throw new Error('Invalid response from API. Please try again later.');
-        }
-
-        if (!deckResponse || !deckResponse._linked || !deckResponse.data) {
-            throw new Error('Invalid response from API. Please try again later.');
-        }
+        const deckResponse = await this.fetchDeckResponse(deck.uuid);
 
         const accolades = (deckResponse._linked.accolades || [])
             .filter((a) => a.visible)
@@ -1546,13 +1346,18 @@ class DeckService {
         }
 
         const resultShownMap = {};
-        await db.query('BEGIN');
         try {
-            await db.query('DELETE FROM "DeckAccolades" WHERE "DeckId" = $1', [deckId]);
+            await db.transaction(async (client) => {
+                await db.queryTran(client, 'DELETE FROM "DeckAccolades" WHERE "DeckId" = $1', [
+                    deckId
+                ]);
 
-            if (accolades.length > 0) {
+                if (accolades.length === 0) {
+                    return;
+                }
+
                 let shownCount = 0;
-                let accoladeParams = [];
+                const accoladeParams = [];
                 for (const accolade of accolades) {
                     let shown = shownMap[accolade.id];
                     if (shown === undefined) {
@@ -1564,18 +1369,17 @@ class DeckService {
                     resultShownMap[accolade.id] = shown;
                     accoladeParams.push(deckId, accolade.id, accolade.name, accolade.image, shown);
                 }
-                await db.query(
+
+                await db.queryTran(
+                    client,
                     `INSERT INTO "DeckAccolades" ("DeckId", "AccoladeId", "Name", "ImageUrl", "Shown") VALUES ${expand(
                         accolades.length,
                         5
                     )}`,
                     accoladeParams
                 );
-            }
-
-            await db.query('COMMIT');
+            });
         } catch (err) {
-            await db.query('ROLLBACK');
             logger.error('Failed to refresh accolades', err);
             throw new Error('Failed to update accolades in database');
         }
@@ -1610,6 +1414,72 @@ class DeckService {
             'UPDATE "DeckAccolades" SET "Shown" = $1 WHERE "DeckId" = $2 AND "AccoladeId" = $3',
             [shown, deckId, accoladeId]
         );
+    }
+
+    /**
+     * Keeps the Master Vault response for a deck, so decks can be checked or re-imported later
+     * without fetching them again. Cards are stored once each, as most are shared between decks.
+     */
+    async saveMasterVaultResponse(deckResponse) {
+        const cards = [
+            ...new Map((deckResponse._linked.cards || []).map((card) => [card.id, card])).values()
+        ];
+        const data = {
+            data: deckResponse.data,
+            _linked: { ...deckResponse._linked, cards: undefined }
+        };
+
+        try {
+            await db.transaction(async (client) => {
+                await db.queryTran(
+                    client,
+                    'INSERT INTO "MasterVaultDecks" ("Uuid", "Data", "FetchedAt") VALUES ($1, $2, $3) ' +
+                        'ON CONFLICT ("Uuid") DO UPDATE SET "Data" = EXCLUDED."Data", "FetchedAt" = EXCLUDED."FetchedAt"',
+                    [deckResponse.data.id, data, new Date()]
+                );
+
+                if (cards.length > 0) {
+                    await db.queryTran(
+                        client,
+                        `INSERT INTO "MasterVaultCards" ("Id", "Card") VALUES ${expand(
+                            cards.length,
+                            2
+                        )} ON CONFLICT ("Id") DO UPDATE SET "Card" = EXCLUDED."Card" ` +
+                            'WHERE "MasterVaultCards"."Card" IS DISTINCT FROM EXCLUDED."Card"',
+                        flatten(cards.map((card) => [card.id, card]))
+                    );
+                }
+            });
+        } catch (err) {
+            // Only a record of the import, so the import carries on without it
+            logger.error(
+                'Failed to save Master Vault response for deck %s',
+                deckResponse.data.id,
+                err
+            );
+        }
+    }
+
+    /**
+     * The stored Master Vault response for a deck, in the form the API returns it.
+     * @param {string} uuid
+     */
+    async getMasterVaultResponse(uuid) {
+        const decks = await db.query('SELECT "Data" FROM "MasterVaultDecks" WHERE "Uuid" = $1', [
+            uuid
+        ]);
+        if (!decks || decks.length === 0) {
+            return undefined;
+        }
+
+        const response = decks[0].Data;
+        const cardIds = [...new Set(response.data._links.cards)];
+        const cards = await db.query('SELECT "Card" FROM "MasterVaultCards" WHERE "Id" = ANY($1)', [
+            cardIds
+        ]);
+        response._linked.cards = cards.map((card) => card.Card);
+
+        return response;
     }
 
     mapDeck(deck) {

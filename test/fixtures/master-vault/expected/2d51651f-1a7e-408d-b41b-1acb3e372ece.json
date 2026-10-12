@@ -1,0 +1,247 @@
+{
+    "deck": {
+        "expansion": 601,
+        "username": "test",
+        "uuid": "2d51651f-1a7e-408d-b41b-1acb3e372ece",
+        "identity": "inspirational-“firepit”-hunrodr",
+        "cardback": "",
+        "name": "Inspirational “Firepit” Hunrodr",
+        "houses": ["ekwidon", "unfathomable", "untamed"],
+        "cards": [
+            {
+                "id": "dark-æmber-vault",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false,
+                "image": "dark-æmber-vault-untamed"
+            },
+            {
+                "id": "tya-arhĭ-esquire",
+                "count": 1,
+                "house": "ekwidon",
+                "isNonDeck": false
+            },
+            {
+                "id": "general-ză-orhă",
+                "count": 1,
+                "house": "ekwidon",
+                "isNonDeck": false,
+                "enhancements": ["capture"],
+                "uuid": "6c02744d-c85f-4b4a-8ae7-45835acd6593"
+            },
+            {
+                "id": "freelancer",
+                "count": 1,
+                "house": "ekwidon",
+                "isNonDeck": false
+            },
+            {
+                "id": "lumilu",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "kelpminder",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "catch-and-release",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "deepwood-druid",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false,
+                "enhancements": ["draw"],
+                "uuid": "112e16ab-cbc7-43fd-8670-cea1cbf87a21"
+            },
+            {
+                "id": "kompsos-haruspex",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false,
+                "maverick": "untamed"
+            },
+            {
+                "id": "the-mysticeti",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "prospector",
+                "count": 1,
+                "house": "ekwidon",
+                "isNonDeck": true
+            },
+            {
+                "id": "shĭzyokŭ-swopper",
+                "count": 1,
+                "house": "ekwidon",
+                "isNonDeck": false
+            },
+            {
+                "id": "curiosity",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false,
+                "maverick": "unfathomable"
+            },
+            {
+                "id": "chonkers",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "initiation",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "pismire",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "a-fair-game",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false,
+                "maverick": "untamed"
+            },
+            {
+                "id": "frigorific-rod",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "panpaca-anga",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false,
+                "enhancements": ["capture"],
+                "uuid": "dca4af88-ced0-4c2e-a378-b69021906006"
+            },
+            {
+                "id": "badgemagus",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false,
+                "maverick": "unfathomable"
+            },
+            {
+                "id": "curiosity",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false
+            },
+            {
+                "id": "shrewd-investor",
+                "count": 1,
+                "house": "ekwidon",
+                "isNonDeck": false
+            },
+            {
+                "id": "transitory-philosopher",
+                "count": 1,
+                "house": "ekwidon",
+                "isNonDeck": false
+            },
+            {
+                "id": "shopping-spree",
+                "count": 1,
+                "house": "ekwidon",
+                "isNonDeck": false
+            },
+            {
+                "id": "allusions-of-grandeur",
+                "count": 2,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "dthoshră-recruiter",
+                "count": 1,
+                "house": "ekwidon",
+                "isNonDeck": false
+            },
+            {
+                "id": "sandhopper",
+                "count": 1,
+                "house": "ekwidon",
+                "isNonDeck": false
+            },
+            {
+                "id": "wikolia",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "the-shadowsmith",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false,
+                "maverick": "unfathomable"
+            },
+            {
+                "id": "corner-the-market",
+                "count": 1,
+                "house": "ekwidon",
+                "isNonDeck": false
+            },
+            {
+                "id": "trading-frenzy",
+                "count": 1,
+                "house": "ekwidon",
+                "isNonDeck": false
+            },
+            {
+                "id": "giltspine-netcaster",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            },
+            {
+                "id": "forced-retirement",
+                "count": 1,
+                "house": "ekwidon",
+                "isNonDeck": false
+            },
+            {
+                "id": "rant-and-rive",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false,
+                "maverick": "untamed",
+                "enhancements": ["capture"],
+                "uuid": "99860c00-11dc-42af-a429-b9d81ad39d53"
+            },
+            {
+                "id": "trimble",
+                "count": 1,
+                "house": "untamed",
+                "isNonDeck": false,
+                "enhancements": ["draw"],
+                "uuid": "fc0043ac-77bf-4ec8-90cb-f80517444ff9"
+            },
+            {
+                "id": "rustmiser",
+                "count": 1,
+                "house": "unfathomable",
+                "isNonDeck": false
+            }
+        ],
+        "accolades": []
+    }
+}
