@@ -71,6 +71,7 @@ const ProfileMain = ({ user, formProps, section }) => {
         response_type: 'code',
         client_id: PatreonClientId,
         redirect_uri: callbackUrl,
+        scope: 'identity',
         state: getPatreonOAuthState() || ''
     }).toString()}`;
 
