@@ -100,11 +100,10 @@ module.exports.init = function (server) {
             user.disabled = userToSet.disabled;
 
             try {
-                await userService.update(user);
-
-                if (req.user.permissions.canManagePermissions && userToSet.permissions) {
-                    await userService.setPermissions(user.id, userToSet.permissions);
-                }
+                await userService.update(
+                    user,
+                    req.user.permissions.canManagePermissions ? userToSet.permissions : undefined
+                );
             } catch (error) {
                 logger.error(error);
 
