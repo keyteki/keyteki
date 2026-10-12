@@ -240,6 +240,9 @@ export const api = createApi({
                 body: { code }
             })
         }),
+        getPatreonConfig: builder.query({
+            query: () => '/account/patreon-config'
+        }),
         unlinkPatreon: builder.mutation({
             query: () => ({
                 url: '/account/unlinkPatreon',
@@ -491,6 +494,7 @@ export const {
     useActivateAccountMutation,
     useVerifyAuthenticationMutation,
     useLinkPatreonMutation,
+    useGetPatreonConfigQuery,
     useUnlinkPatreonMutation,
     useGetCardsQuery,
     useGetFactionsQuery,
