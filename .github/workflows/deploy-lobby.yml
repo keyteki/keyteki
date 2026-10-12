@@ -78,6 +78,7 @@ jobs:
                   EOF
 
                   helm upgrade --install keyteki-lobby ./infrastructure/lobby \
+                    --timeout 60m \
                     --set namespace=$NAMESPACE \
                     --set environment=$ENV_SUBDOMAIN \
                     --set deployTime=$DEPLOY_TIME \

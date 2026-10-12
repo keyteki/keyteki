@@ -15,6 +15,9 @@ const LANGUAGE_MAP = {
 // Records which Master Vault image each downloaded file came from, so files are replaced when
 // a newer printing changes the image
 const SourcesFile = 'sources.json';
+// Downloads between saves of the sources file, so a run that is stopped part way doesn't repeat
+// its downloads next time
+const SourcesSaveInterval = 25;
 
 /**
  * Identifies the artwork of a Master Vault image, regardless of language or which printing it was
@@ -84,6 +87,7 @@ class CardImport {
         const isGigantic = (id) =>
             printings.hasCard(id + '2') || (id.endsWith('2') && printings.hasCard(id.slice(0, -1)));
         const updatedGigantics = new Set();
+        let downloads = 0;
 
         for (const id of ids) {
             for (const { name, printing } of printings.getImages(id)) {
@@ -101,6 +105,9 @@ class CardImport {
                         if (await this.imageSource.fetchImage(printing.card, imageUrl, imagePath)) {
                             sources[sourceKey] = imageUrl;
                             updated = true;
+                            if (++downloads % SourcesSaveInterval === 0) {
+                                this.saveSources(sources);
+                            }
                         }
                     } else if (!sources[sourceKey]) {
                         sources[sourceKey] = imageUrl;
@@ -196,15 +203,23 @@ class CardImport {
     loadSources() {
         const sourcesPath = path.join(this.imageDir, SourcesFile);
 
-        return fs.existsSync(sourcesPath) ? JSON.parse(fs.readFileSync(sourcesPath, 'utf8')) : {};
+        try {
+            return JSON.parse(fs.readFileSync(sourcesPath, 'utf8'));
+        } catch (err) {
+            return {};
+        }
     }
 
     saveSources(sources) {
+        const sourcesPath = path.join(this.imageDir, SourcesFile);
+
+        // Written to a temporary file first, so stopping part way through can't corrupt it
         fs.mkdirSync(this.imageDir, { recursive: true });
         fs.writeFileSync(
-            path.join(this.imageDir, SourcesFile),
+            sourcesPath + '.tmp',
             JSON.stringify(sources, Object.keys(sources).sort(), 4)
         );
+        fs.renameSync(sourcesPath + '.tmp', sourcesPath);
     }
 
     computeLanguages(card) {
