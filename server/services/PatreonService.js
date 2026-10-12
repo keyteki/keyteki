@@ -77,21 +77,18 @@ class PatreonService {
             return false;
         }
 
-        const user = await this.userService.getUserByUsername(username);
-        if (!user) {
+        const dbUser = await this.userService.getFullUserByUsername(username);
+        if (!dbUser) {
             logger.error('Error linking patreon account, user not found');
             return false;
         }
 
+        // Full details are needed so that update() doesn't treat missing permissions as removed
+        const user = dbUser.getDetails();
         user.patreon = response;
 
         try {
-            const password = user.password;
-
-            user.password = undefined;
             await this.userService.update(user);
-
-            user.password = password;
         } catch (err) {
             logger.error(err);
             return false;
@@ -101,12 +98,13 @@ class PatreonService {
     }
 
     async unlinkAccount(username) {
-        const user = await this.userService.getUserByUsername(username);
-        if (!user) {
+        const dbUser = await this.userService.getFullUserByUsername(username);
+        if (!dbUser) {
             logger.error('Error unlinking patreon account, user not found');
             return false;
         }
 
+        const user = dbUser.getDetails();
         user.patreon = undefined;
 
         try {

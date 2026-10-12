@@ -219,6 +219,16 @@ class UserService extends EventEmitter {
             }
         }
 
+        // Only sync roles when the caller supplied them, otherwise every existing role would be removed
+        if (user.permissions) {
+            await this.updateRoles(client, user);
+        }
+
+        await db.queryTran(client, 'COMMIT');
+        await client.release();
+    }
+
+    async updateRoles(client, user) {
         let permissions;
         let existingPermissions;
         try {
@@ -246,7 +256,7 @@ class UserService extends EventEmitter {
         }
 
         let newPerms = [];
-        for (let permission of Object.keys(user.permissions || {})) {
+        for (let permission of Object.keys(user.permissions)) {
             if (user.permissions[permission]) {
                 newPerms.push(permission);
             }
@@ -295,9 +305,6 @@ class UserService extends EventEmitter {
                 throw new Error('Failed to set permissions');
             }
         }
-
-        await db.queryTran(client, 'COMMIT');
-        await client.release();
     }
 
     async addBlocklistEntry(user, entry) {
