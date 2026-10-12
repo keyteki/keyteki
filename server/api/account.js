@@ -1292,7 +1292,12 @@ module.exports.init = function (server, options) {
                 }
             }
 
-            return res.send({ success: true });
+            // The account is linked even if the status lookup failed
+            return res.send({
+                success: true,
+                patreon: status === 'none' ? 'linked' : status,
+                isSupporter: !!user.permissions.isSupporter
+            });
         })
     );
 
@@ -1317,7 +1322,17 @@ module.exports.init = function (server, options) {
                 });
             }
 
-            return res.send({ success: true });
+            let isSupporter = !!user.isSupporter;
+            if (isSupporter && !user.keepsSupporter) {
+                try {
+                    await userService.setSupporterStatus(user.id, false);
+                    isSupporter = false;
+                } catch (err) {
+                    logger.error('Failed to remove supporter status after unlinking patreon', err);
+                }
+            }
+
+            return res.send({ success: true, isSupporter });
         })
     );
 };

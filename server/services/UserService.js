@@ -158,12 +158,13 @@ class UserService extends EventEmitter {
         return user;
     }
 
-    // Roles are only changed when permissions is passed, and must then be the complete set
+    // Roles are only changed when permissions is passed, and must then be the complete set.
+    // The patreon token is deliberately not saved here, use setPatreonToken so a stale copy can't overwrite a refreshed token
     async update(user, permissions) {
         const query =
             'UPDATE "Users" SET "Username" = $1, "Email" = $2, "Verified" = $3, "Disabled" = $4, "Settings_Avatar" = $5, ' +
             '"Settings_CardSize" = $6, "Settings_Background" = $7, "Settings_OrderAbilities" = $8, "Settings_ConfirmOneClick" = $9, "Settings_UseHalfSizedCards" = $10, ' +
-            '"Settings_ShowAccolades" = $11, "PatreonToken" = $12, "Settings_CustomBackground" = $13 WHERE "Id" = $14';
+            '"Settings_ShowAccolades" = $11, "Settings_CustomBackground" = $12 WHERE "Id" = $13';
 
         try {
             await db.transaction(async (client) => {
@@ -181,7 +182,6 @@ class UserService extends EventEmitter {
                     user.settings.optionSettings.showAccolades !== undefined
                         ? user.settings.optionSettings.showAccolades
                         : true,
-                    user.patreon ? JSON.stringify(user.patreon) : null,
                     user.settings.customBackground,
                     user.id
                 ]);
