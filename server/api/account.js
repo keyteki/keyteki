@@ -256,6 +256,15 @@ module.exports.init = function (server, options) {
         configService.getValueForSection('lobby', 'patreonCallbackUrl')
     );
 
+    // The client id is public, serve it from config so the client always matches the server's Patreon client
+    server.get('/api/account/patreon-config', (req, res) => {
+        res.send({
+            success: true,
+            callbackUrl: configService.getValueForSection('lobby', 'patreonCallbackUrl'),
+            clientId: configService.getValueForSection('lobby', 'patreonClientId')
+        });
+    });
+
     server.post(
         '/api/account/register',
         registerLimiter,

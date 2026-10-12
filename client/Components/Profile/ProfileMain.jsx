@@ -12,9 +12,13 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from '@heroui/react';
 
-import { PatreonClientId, PatreonStateKey } from '../../constants';
+import { PatreonStateKey } from '../../constants';
 import PatreonImage from '../../assets/img/Patreon_Mark_Coral.jpg';
-import { useDeleteAccountMutation, useUnlinkPatreonMutation } from '../../redux/api';
+import {
+    useDeleteAccountMutation,
+    useGetPatreonConfigQuery,
+    useUnlinkPatreonMutation
+} from '../../redux/api';
 import { authActions } from '../../redux/slices/authSlice';
 import { PatreonStatus } from '../../types';
 import Avatar from '../Site/Avatar';
@@ -66,14 +70,18 @@ const ProfileMain = ({ user, formProps, section }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const callbackUrl = `${window.location.origin}/patreon`;
-    const patreonUrl = `https://www.patreon.com/oauth2/authorize?${new URLSearchParams({
-        response_type: 'code',
-        client_id: PatreonClientId,
-        redirect_uri: callbackUrl,
-        scope: 'identity',
-        state: getPatreonOAuthState() || ''
-    }).toString()}`;
+    const { data: patreonConfig } = useGetPatreonConfigQuery(undefined, {
+        skip: section === 'account'
+    });
+    const patreonUrl = patreonConfig?.clientId
+        ? `https://www.patreon.com/oauth2/authorize?${new URLSearchParams({
+              response_type: 'code',
+              client_id: patreonConfig.clientId,
+              redirect_uri: patreonConfig.callbackUrl,
+              scope: 'identity',
+              state: getPatreonOAuthState() || ''
+          }).toString()}`
+        : undefined;
 
     if (section === 'account') {
         return (
@@ -299,6 +307,7 @@ const ProfileMain = ({ user, formProps, section }) => {
                         <HeroButton
                             size='sm'
                             variant='tertiary'
+                            isDisabled={!patreonUrl}
                             onPress={() => window.location.assign(patreonUrl)}
                         >
                             {t('Link Account')}
