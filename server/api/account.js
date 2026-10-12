@@ -1276,18 +1276,21 @@ module.exports.init = function (server, options) {
 
             let status = await patreonService.getPatreonStatusForUser(user);
 
-            try {
-                if (status === 'pledged' && !user.permissions.isSupporter) {
-                    await userService.setSupporterStatus(user.id, true);
+            // 'none' means the status lookup failed, so leave the supporter role alone rather than guess
+            const isSupporter = status === 'pledged';
+            if (
+                status !== 'none' &&
+                !user.permissions.keepsSupporterWithNoPatreon &&
+                isSupporter !== !!user.permissions.isSupporter
+            ) {
+                try {
+                    await userService.setSupporterStatus(user.id, isSupporter);
                     // eslint-disable-next-line require-atomic-updates
-                    user.permissions.isSupporter = req.user.permissions.isSupporter = true;
-                } else if (status !== 'pledged' && user.permissions.isSupporter) {
-                    await userService.setSupporterStatus(user.id, false);
-                    // eslint-disable-next-line require-atomic-updates
-                    user.permissions.isSupporter = req.user.permissions.isSupporter = false;
+                    user.permissions.isSupporter = req.user.permissions.isSupporter = isSupporter;
+                } catch (err) {
+                    logger.error('Failed to update supporter status after linking patreon', err);
                 }
-                // eslint-disable-next-line no-empty
-            } catch (err) {}
+            }
 
             return res.send({ success: true });
         })
