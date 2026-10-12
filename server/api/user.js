@@ -96,15 +96,15 @@ module.exports.init = function (server) {
                 return res.status(404).send({ message: 'Not found' });
             }
 
-            if (req.user.permissions.canManagePermissions) {
-                user.permissions = userToSet.permissions;
-            }
-
             user.verified = userToSet.verified;
             user.disabled = userToSet.disabled;
 
             try {
                 await userService.update(user);
+
+                if (req.user.permissions.canManagePermissions && userToSet.permissions) {
+                    await userService.setPermissions(user.id, userToSet.permissions);
+                }
             } catch (error) {
                 logger.error(error);
 

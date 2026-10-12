@@ -219,91 +219,66 @@ class UserService extends EventEmitter {
             }
         }
 
-        // Only sync roles when the caller supplied them, otherwise every existing role would be removed
-        if (user.permissions) {
-            await this.updateRoles(client, user);
-        }
-
         await db.queryTran(client, 'COMMIT');
         await client.release();
     }
 
-    async updateRoles(client, user) {
-        let permissions;
-        let existingPermissions;
+    async setPatreonToken(userId, patreon) {
+        await db.query('UPDATE "Users" SET "PatreonToken" = $1 WHERE "Id" = $2', [
+            patreon ? JSON.stringify(patreon) : null,
+            userId
+        ]);
+    }
+
+    // Replaces the user's roles with exactly those in permissions, so callers must pass the complete set
+    async setPermissions(userId, permissions) {
         try {
-            permissions = await db.queryTran(
-                client,
-                'SELECT r."Name" FROM "UserRoles" ur JOIN "Roles" r ON r."Id" = ur."RoleId" WHERE ur."UserId" = $1',
-                [user.id]
-            );
+            await db.transaction(async (client) => {
+                const existingPermissions = this.mapPermissions(
+                    await db.queryTran(
+                        client,
+                        'SELECT r."Name" FROM "UserRoles" ur JOIN "Roles" r ON r."Id" = ur."RoleId" WHERE ur."UserId" = $1',
+                        [userId]
+                    )
+                );
+
+                const existing = Object.keys(existingPermissions).filter(
+                    (permission) => existingPermissions[permission]
+                );
+                const newPerms = Object.keys(permissions || {}).filter(
+                    (permission) => permissions[permission]
+                );
+
+                const toRemove = existing.filter((x) => !newPerms.includes(x));
+                const toAdd = newPerms.filter((x) => !existing.includes(x));
+
+                if (toAdd.length > 0) {
+                    await db.queryTran(
+                        client,
+                        `INSERT INTO "UserRoles" ("UserId", "RoleId") VALUES ${expand(
+                            toAdd.length,
+                            2
+                        )}`,
+                        toAdd.flatMap((permission) => [userId, this.permissionToRole(permission)])
+                    );
+                }
+
+                if (toRemove.length > 0) {
+                    const deleteStr = toRemove
+                        .map((perm) => this.permissionToRole(perm))
+                        .join(', ');
+
+                    await db.queryTran(
+                        client,
+                        `DELETE FROM "UserRoles" WHERE "UserId" = $1 AND "RoleId" IN (${deleteStr})`,
+                        [userId]
+                    );
+                }
+            });
         } catch (err) {
-            logger.error('Failed to lookup permissions for user', err);
-        }
+            logger.error('Failed to set permissions', err);
 
-        if (permissions) {
-            existingPermissions = this.mapPermissions(permissions);
-        } else {
-            existingPermissions = {};
-        }
-
-        let existing = [];
-
-        for (let permission of Object.keys(existingPermissions)) {
-            if (existingPermissions[permission]) {
-                existing.push(permission);
-            }
-        }
-
-        let newPerms = [];
-        for (let permission of Object.keys(user.permissions)) {
-            if (user.permissions[permission]) {
-                newPerms.push(permission);
-            }
-        }
-
-        let toRemove = new Set([...existing].filter((x) => !new Set([...newPerms]).has(x)));
-        let toAdd = new Set([...newPerms].filter((x) => !new Set([...existing]).has(x)));
-
-        let params = [];
-        for (let permission of toAdd) {
-            params.push(user.id);
-            params.push(this.permissionToRole(permission));
-        }
-
-        if (toAdd.size > 0) {
-            try {
-                await db.queryTran(
-                    client,
-                    `INSERT INTO "UserRoles" ("UserId", "RoleId") VALUES ${expand(toAdd.size, 2)}`,
-                    params
-                );
-            } catch (err) {
-                logger.error('Failed to set permissions', err);
-
-                await db.queryTran(client, 'ROLLBACK');
-
-                throw new Error('Failed to set permissions');
-            }
-        }
-
-        if (toRemove.size > 0) {
-            const deleteStr = Array.from(toRemove)
-                .map((perm) => this.permissionToRole(perm))
-                .join(', ');
-            try {
-                await db.queryTran(
-                    client,
-                    `DELETE FROM "UserRoles" WHERE "UserId" = $1 AND "RoleId" IN (${deleteStr})`,
-                    [user.id]
-                );
-            } catch (err) {
-                logger.error('Failed to set permissions', err);
-
-                await db.queryTran(client, 'ROLLBACK');
-
-                throw new Error('Failed to set permissions');
-            }
+            throw new Error('Failed to set permissions');
         }
     }
 

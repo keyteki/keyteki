@@ -50,12 +50,11 @@ class PatreonService {
             return undefined;
         }
 
-        const userDetails = user.getDetails();
         // eslint-disable-next-line require-atomic-updates
-        user.patreon = userDetails.patreon = response;
+        user.patreon = response;
 
         try {
-            await this.userService.update(userDetails);
+            await this.userService.setPatreonToken(user.id, response);
         } catch (err) {
             logger.error(err);
             return undefined;
@@ -83,12 +82,11 @@ class PatreonService {
             return false;
         }
 
-        // Full details are needed so that update() doesn't treat missing permissions as removed
         const user = dbUser.getDetails();
         user.patreon = response;
 
         try {
-            await this.userService.update(user);
+            await this.userService.setPatreonToken(user.id, response);
         } catch (err) {
             logger.error(err);
             return false;
@@ -98,17 +96,14 @@ class PatreonService {
     }
 
     async unlinkAccount(username) {
-        const dbUser = await this.userService.getFullUserByUsername(username);
-        if (!dbUser) {
+        const user = await this.userService.getUserByUsername(username);
+        if (!user) {
             logger.error('Error unlinking patreon account, user not found');
             return false;
         }
 
-        const user = dbUser.getDetails();
-        user.patreon = undefined;
-
         try {
-            await this.userService.update(user);
+            await this.userService.setPatreonToken(user.id, undefined);
         } catch (err) {
             logger.error(err);
             return false;
