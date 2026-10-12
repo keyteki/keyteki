@@ -48,20 +48,32 @@ const accountSlice = createSlice({
                 state.user = action.payload.user;
             })
             .addMatcher(api.endpoints.saveProfile.matchFulfilled, (state, action) => {
-                state.user = action.payload.user;
+                // The saved user doesn't include the patreon status, that only comes from checkauth
+                state.user = { ...action.payload.user, patreon: state.user?.patreon };
             })
             .addMatcher(api.endpoints.deleteAccount.matchFulfilled, (state) => {
                 state.loggedIn = false;
                 state.loggedOut = true;
                 state.user = undefined;
             })
-            .addMatcher(api.endpoints.linkPatreon.matchFulfilled, (state) => {
+            .addMatcher(api.endpoints.linkPatreon.matchFulfilled, (state, action) => {
                 state.accountLinked = true;
+                if (state.user) {
+                    state.user.patreon = action.payload.patreon;
+                    state.user.permissions = {
+                        ...state.user.permissions,
+                        isSupporter: action.payload.isSupporter
+                    };
+                }
             })
-            .addMatcher(api.endpoints.unlinkPatreon.matchFulfilled, (state) => {
+            .addMatcher(api.endpoints.unlinkPatreon.matchFulfilled, (state, action) => {
                 state.accountLinked = undefined;
                 if (state.user) {
                     state.user.patreon = undefined;
+                    state.user.permissions = {
+                        ...state.user.permissions,
+                        isSupporter: action.payload.isSupporter
+                    };
                 }
             });
     }

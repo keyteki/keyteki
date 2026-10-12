@@ -158,146 +158,105 @@ class UserService extends EventEmitter {
         return user;
     }
 
-    async update(user) {
-        let client = await db.startTransaction();
-
-        let query =
+    // Roles are only changed when permissions is passed, and must then be the complete set.
+    // The patreon token is deliberately not saved here, use setPatreonToken so a stale copy can't overwrite a refreshed token
+    async update(user, permissions) {
+        const query =
             'UPDATE "Users" SET "Username" = $1, "Email" = $2, "Verified" = $3, "Disabled" = $4, "Settings_Avatar" = $5, ' +
             '"Settings_CardSize" = $6, "Settings_Background" = $7, "Settings_OrderAbilities" = $8, "Settings_ConfirmOneClick" = $9, "Settings_UseHalfSizedCards" = $10, ' +
-            '"Settings_ShowAccolades" = $11, "PatreonToken" = $12, "Settings_CustomBackground" = $13 WHERE "Id" = $14';
+            '"Settings_ShowAccolades" = $11, "Settings_CustomBackground" = $12 WHERE "Id" = $13';
 
         try {
-            await db.queryTran(client, query, [
-                user.username,
-                user.email,
-                user.verified,
-                user.disabled,
-                user.settings.avatar,
-                user.settings.cardSize,
-                user.settings.background,
-                user.settings.optionSettings.orderForcedAbilities,
-                user.settings.optionSettings.confirmOneClick,
-                user.settings.optionSettings.useHalfSizedCards,
-                user.settings.optionSettings.showAccolades !== undefined
-                    ? user.settings.optionSettings.showAccolades
-                    : true,
-                user.patreon ? JSON.stringify(user.patreon) : null,
-                user.settings.customBackground,
-                user.id
-            ]);
+            await db.transaction(async (client) => {
+                await db.queryTran(client, query, [
+                    user.username,
+                    user.email,
+                    user.verified,
+                    user.disabled,
+                    user.settings.avatar,
+                    user.settings.cardSize,
+                    user.settings.background,
+                    user.settings.optionSettings.orderForcedAbilities,
+                    user.settings.optionSettings.confirmOneClick,
+                    user.settings.optionSettings.useHalfSizedCards,
+                    user.settings.optionSettings.showAccolades !== undefined
+                        ? user.settings.optionSettings.showAccolades
+                        : true,
+                    user.settings.customBackground,
+                    user.id
+                ]);
+
+                if (user.challonge) {
+                    await db.queryTran(
+                        client,
+                        'INSERT INTO "ChallongeSettings" ("ApiKey", "SubDomain", "UserId") VALUES ($1, $2, $3) ' +
+                            'ON CONFLICT ("UserId") DO UPDATE SET "ApiKey" = $1, "SubDomain" = $2',
+                        [user.challonge.key, user.challonge.subdomain, user.id]
+                    );
+                }
+
+                if (user.password && user.password !== '') {
+                    await db.queryTran(
+                        client,
+                        'UPDATE "Users" SET "Password" = $1 WHERE "Id" = $2',
+                        [user.password, user.id]
+                    );
+                }
+
+                if (permissions) {
+                    await this.syncRoles(client, user.id, permissions);
+                }
+            });
         } catch (err) {
             logger.error('Failed to update user', err);
 
-            await db.queryTran(client, 'ROLLBACK');
+            throw new Error('Failed to update user');
         }
+    }
 
-        if (user.challonge) {
-            query =
-                'INSERT INTO "ChallongeSettings" ("ApiKey", "SubDomain", "UserId") VALUES ($1, $2, $3) ' +
-                'ON CONFLICT ("UserId") DO UPDATE SET "ApiKey" = $1, "SubDomain" = $2';
+    async setPatreonToken(userId, patreon) {
+        await db.query('UPDATE "Users" SET "PatreonToken" = $1 WHERE "Id" = $2', [
+            patreon ? JSON.stringify(patreon) : null,
+            userId
+        ]);
+    }
 
-            try {
-                await db.queryTran(client, query, [
-                    user.challonge.key,
-                    user.challonge.subdomain,
-                    user.id
-                ]);
-            } catch (err) {
-                logger.error('Failed to update user', err);
-
-                await db.queryTran(client, 'ROLLBACK');
-            }
-        }
-
-        if (user.password && user.password !== '') {
-            try {
-                this.setPassword(user, user.password);
-            } catch (err) {
-                logger.error('Failed to update user password', err);
-
-                await db.queryTran(client, 'ROLLBACK');
-            }
-        }
-
-        let permissions;
-        let existingPermissions;
-        try {
-            permissions = await db.queryTran(
+    async syncRoles(client, userId, permissions) {
+        const existingPermissions = this.mapPermissions(
+            await db.queryTran(
                 client,
                 'SELECT r."Name" FROM "UserRoles" ur JOIN "Roles" r ON r."Id" = ur."RoleId" WHERE ur."UserId" = $1',
-                [user.id]
+                [userId]
+            )
+        );
+
+        const existing = Object.keys(existingPermissions).filter(
+            (permission) => existingPermissions[permission]
+        );
+        const newPerms = Object.keys(permissions || {}).filter(
+            (permission) => permissions[permission]
+        );
+
+        const toRemove = existing.filter((x) => !newPerms.includes(x));
+        const toAdd = newPerms.filter((x) => !existing.includes(x));
+
+        if (toAdd.length > 0) {
+            await db.queryTran(
+                client,
+                `INSERT INTO "UserRoles" ("UserId", "RoleId") VALUES ${expand(toAdd.length, 2)}`,
+                toAdd.flatMap((permission) => [userId, this.permissionToRole(permission)])
             );
-        } catch (err) {
-            logger.error('Failed to lookup permissions for user', err);
         }
 
-        if (permissions) {
-            existingPermissions = this.mapPermissions(permissions);
-        } else {
-            existingPermissions = {};
+        if (toRemove.length > 0) {
+            const deleteStr = toRemove.map((perm) => this.permissionToRole(perm)).join(', ');
+
+            await db.queryTran(
+                client,
+                `DELETE FROM "UserRoles" WHERE "UserId" = $1 AND "RoleId" IN (${deleteStr})`,
+                [userId]
+            );
         }
-
-        let existing = [];
-
-        for (let permission of Object.keys(existingPermissions)) {
-            if (existingPermissions[permission]) {
-                existing.push(permission);
-            }
-        }
-
-        let newPerms = [];
-        for (let permission of Object.keys(user.permissions || {})) {
-            if (user.permissions[permission]) {
-                newPerms.push(permission);
-            }
-        }
-
-        let toRemove = new Set([...existing].filter((x) => !new Set([...newPerms]).has(x)));
-        let toAdd = new Set([...newPerms].filter((x) => !new Set([...existing]).has(x)));
-
-        let params = [];
-        for (let permission of toAdd) {
-            params.push(user.id);
-            params.push(this.permissionToRole(permission));
-        }
-
-        if (toAdd.size > 0) {
-            try {
-                await db.queryTran(
-                    client,
-                    `INSERT INTO "UserRoles" ("UserId", "RoleId") VALUES ${expand(toAdd.size, 2)}`,
-                    params
-                );
-            } catch (err) {
-                logger.error('Failed to set permissions', err);
-
-                await db.queryTran(client, 'ROLLBACK');
-
-                throw new Error('Failed to set permissions');
-            }
-        }
-
-        if (toRemove.size > 0) {
-            const deleteStr = Array.from(toRemove)
-                .map((perm) => this.permissionToRole(perm))
-                .join(', ');
-            try {
-                await db.queryTran(
-                    client,
-                    `DELETE FROM "UserRoles" WHERE "UserId" = $1 AND "RoleId" IN (${deleteStr})`,
-                    [user.id]
-                );
-            } catch (err) {
-                logger.error('Failed to set permissions', err);
-
-                await db.queryTran(client, 'ROLLBACK');
-
-                throw new Error('Failed to set permissions');
-            }
-        }
-
-        await db.queryTran(client, 'COMMIT');
-        await client.release();
     }
 
     async addBlocklistEntry(user, entry) {
