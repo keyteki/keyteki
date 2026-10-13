@@ -29,18 +29,17 @@ describe('Expansion registry', function () {
         expect(new Set(ids).size).toBe(ids.length);
     });
 
-    it('matches the expansions seeded in the database', function () {
+    it('seeds every expansion in the database', function () {
         const seeded = getSeededExpansions();
-        const supported = Expansions.filter((expansion) => expansion.supported);
 
-        expect(seeded.map((row) => row.id).sort()).toEqual(supported.map((e) => e.id).sort());
+        expect(seeded.map((row) => row.id).sort()).toEqual(Expansions.map((e) => e.id).sort());
         for (const row of seeded) {
-            const expansion = supported.find((e) => e.id === row.id);
+            const expansion = Expansions.find((e) => e.id === row.id);
             expect({ id: row.id, code: expansion.code, name: expansion.name }).toEqual(row);
         }
     });
 
-    it('has a migration adding every supported expansion', function () {
+    it('has a migration adding every expansion', function () {
         const migrations = fs
             .readdirSync(path.join(RootPath, 'server/db/schema/migrations'))
             .map((file) =>
@@ -49,7 +48,7 @@ describe('Expansion registry', function () {
             .join('\n');
         // Expansions up to Grim Reminders predate the migrations folder
         const needingMigrations = Expansions.filter(
-            (expansion) => expansion.supported && expansion.releaseDate > '2023-11-01'
+            (expansion) => expansion.releaseDate > '2023-11-01'
         );
 
         for (const expansion of needingMigrations) {

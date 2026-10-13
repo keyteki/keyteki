@@ -58,15 +58,27 @@ class PrintingIndex {
     }
 
     /**
-     * Builds the index from the pack files of supported expansions.
+     * Builds the index from the pack files. Unsupported expansions only add cards that aren't
+     * printed in a supported one, so their decks can still be imported.
      */
     static fromPacks() {
         const printings = [];
         const seen = new Set();
+        const supportedIds = new Set();
+        const packExpansions = [
+            ...Expansions.filter((e) => e.pack && e.supported),
+            ...Expansions.filter((e) => e.pack && !e.supported)
+        ];
 
-        for (const expansion of Expansions.filter((e) => e.pack && e.supported)) {
+        for (const expansion of packExpansions) {
             const pack = JSON.parse(fs.readFileSync(path.join(PackDir, expansion.pack), 'utf8'));
             for (const card of pack.cards) {
+                if (expansion.supported) {
+                    supportedIds.add(card.id);
+                } else if (supportedIds.has(card.id)) {
+                    continue;
+                }
+
                 // Anomaly printings are repeated in each pack that includes them
                 const key = `${card.expansion}#${card.number}/${card.house}/${card.id}`;
                 if (seen.has(key)) {

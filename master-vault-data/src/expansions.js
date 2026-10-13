@@ -8,7 +8,7 @@ const ExpansionData = require('../expansions.json');
  * @property {string} releaseDate Used to order printings, so later sets win over earlier ones
  * @property {string} [pack] Pack file under packs/ holding this expansion's cards
  * @property {string} [sealedKey] Key used by the new game form when choosing sealed expansions
- * @property {boolean} supported False for expansions whose decks can't be played
+ * @property {boolean} supported False for expansions whose decks can be imported but not played
  * @property {boolean} anomalies True for the expansion id that anomaly printings use
  * @property {boolean} tideRequired
  * @property {boolean} tokenRequired

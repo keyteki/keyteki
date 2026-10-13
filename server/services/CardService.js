@@ -57,11 +57,18 @@ class CardService {
 
         const rows = [];
         const rowKeys = new Set();
+        const isUnsupported = (card) => getExpansion(card.expansion)?.supported === false;
+        const supportedIds = new Set(
+            cards.filter((card) => !isUnsupported(card)).map((card) => card.id)
+        );
+
         const unsupported = {};
         const skipped = {};
         for (const card of cards) {
-            const expansion = getExpansion(card.expansion);
-            if (expansion && !expansion.supported) {
+            // Unsupported expansions only add cards that aren't printed in a supported one, so
+            // their decks can still be imported without overriding the real card data
+            if (isUnsupported(card) && supportedIds.has(card.id)) {
+                const expansion = getExpansion(card.expansion);
                 unsupported[expansion.code] = (unsupported[expansion.code] || 0) + 1;
 
                 continue;
@@ -90,7 +97,9 @@ class CardService {
         }
 
         for (const [code, count] of Object.entries(unsupported)) {
-            logger.info(`Not importing ${count} cards from unsupported expansion ${code}`);
+            logger.info(
+                `Not importing ${count} reprinted cards from unsupported expansion ${code}`
+            );
         }
 
         for (const [reason, count] of Object.entries(skipped)) {
