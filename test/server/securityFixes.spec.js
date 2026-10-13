@@ -140,6 +140,91 @@ describe('Lobby', function () {
         });
     });
 
+    describe('unsupported decks', function () {
+        it('does not select a deck from an unsupported expansion', async function () {
+            const game = { selectDeck: vi.fn(), gameFormat: 'casual' };
+            const lobby = {
+                games: { game1: game },
+                cardService: { getAllCards: vi.fn().mockResolvedValue({}) },
+                deckService: {
+                    getById: vi.fn().mockResolvedValue({
+                        id: 5,
+                        username: 'player1',
+                        expansion: 722,
+                        cards: [],
+                        usageCount: 0
+                    })
+                },
+                configService: { getValueForSection: () => 0 },
+                sendGameState: vi.fn()
+            };
+
+            await Lobby.prototype.onSelectDeck.call(
+                lobby,
+                { user: { username: 'player1' } },
+                'game1',
+                5,
+                false
+            );
+
+            expect(game.selectDeck).not.toHaveBeenCalled();
+            expect(lobby.sendGameState).not.toHaveBeenCalled();
+        });
+
+        it('selects a deck from a supported expansion', async function () {
+            const game = { selectDeck: vi.fn(), gameFormat: 'casual' };
+            const lobby = {
+                games: { game1: game },
+                cardService: { getAllCards: vi.fn().mockResolvedValue({}) },
+                deckService: {
+                    getById: vi.fn().mockResolvedValue({
+                        id: 5,
+                        username: 'player1',
+                        expansion: 341,
+                        cards: [],
+                        usageCount: 0
+                    })
+                },
+                configService: { getValueForSection: () => 0 },
+                sendGameState: vi.fn()
+            };
+
+            await Lobby.prototype.onSelectDeck.call(
+                lobby,
+                { user: { username: 'player1' } },
+                'game1',
+                5,
+                false
+            );
+
+            expect(game.selectDeck).toHaveBeenCalled();
+            expect(lobby.sendGameState).toHaveBeenCalledWith(game);
+        });
+
+        it('does not start a game that uses an unsupported deck', function () {
+            const game = {
+                started: false,
+                getPlayers: () => ({
+                    player1: { name: 'player1', deck: { expansion: 722 } }
+                }),
+                isOwner: () => true
+            };
+            const lobby = {
+                games: { game1: game },
+                router: { startGame: vi.fn() }
+            };
+
+            Lobby.prototype.onStartGame.call(
+                lobby,
+                { user: { username: 'player1' }, send: vi.fn() },
+                'game1'
+            );
+
+            expect(lobby.router.startGame).not.toHaveBeenCalled();
+            expect(game.started).toBe(false);
+        });
+    });
+
     describe('onLobbyChat', function () {
         it('ignores non string messages', async function () {
             const lobby = { messageService: { addMessage: vi.fn() }, configService: {} };

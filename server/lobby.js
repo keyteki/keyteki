@@ -11,6 +11,7 @@ const UserService = require('./services/UserService');
 const ConfigService = require('./services/ConfigService');
 const User = require('./models/User');
 const { sortBy } = require('./Array');
+const { isUnsupportedExpansion } = require('../master-vault-data/src/expansions');
 
 class Lobby {
     constructor(server, options = {}) {
@@ -606,7 +607,7 @@ class Lobby {
 
         if (
             Object.values(game.getPlayers()).some((player) => {
-                return !player.deck;
+                return !player.deck || isUnsupportedExpansion(player.deck.expansion);
             })
         ) {
             return;
@@ -803,6 +804,10 @@ class Lobby {
                 let [cards, deck] = results;
 
                 if (!deck || (!isStandalone && deck.username !== socket.user.username)) {
+                    return;
+                }
+
+                if (isUnsupportedExpansion(deck.expansion)) {
                     return;
                 }
 

@@ -4,7 +4,8 @@ const path = require('path');
 const {
     Expansions,
     DeckExpansions,
-    compareByRelease
+    compareByRelease,
+    isUnsupportedExpansion
 } = require('../../../master-vault-data/src/expansions');
 const Constants = require('../../../server/constants');
 
@@ -78,6 +79,15 @@ describe('Expansion registry', function () {
         const ids = Expansions.map((expansion) => expansion.id);
 
         expect([...ids].sort(compareByRelease)).toEqual(ids);
+    });
+
+    it('treats Menagerie 2024 as imported but not playable', function () {
+        const menagerie = Expansions.find((expansion) => expansion.code === 'MG2024');
+
+        expect(menagerie.supported).toBe(false);
+        expect(isUnsupportedExpansion(menagerie.id)).toBe(true);
+        expect(isUnsupportedExpansion(String(menagerie.id))).toBe(true);
+        expect(DeckExpansions.some((expansion) => expansion.id === menagerie.id)).toBe(false);
     });
 
     it('drives the server expansion constants', function () {

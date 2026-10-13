@@ -95,6 +95,24 @@ describe('DeckService alliance restricted list', function () {
         expect(allianceDeck.cards.map((card) => card.id)).toContain('strategic-feint');
     });
 
+    it('keeps unsupported expansions out of deck lists', function () {
+        const params = [1];
+
+        const filter = service.processFilter(2, params, []);
+
+        expect(filter).toContain('AND e."ExpansionId" NOT IN (722)');
+        expect(params).toEqual([1]);
+    });
+
+    it('still excludes an unsupported expansion when the client asks for it', function () {
+        const params = [];
+
+        const filter = service.processFilter(1, params, [{ name: 'expansion', value: [722] }]);
+
+        expect(filter).toContain('AND e."ExpansionId" NOT IN (722)');
+        expect(params).toEqual([722]);
+    });
+
     it('no longer treats Hallafest as an alliance restricted card', function () {
         expect(() =>
             service.validateAllianceRestrictedList(

@@ -43,6 +43,14 @@ function getExpansion(id) {
 }
 
 /**
+ * True when decks from this expansion may be imported but must not be played.
+ * @param {number | string} id
+ */
+function isUnsupportedExpansion(id) {
+    return getExpansion(Number(id))?.supported === false;
+}
+
+/**
  * Orders expansion ids by release date, so that later printings sort last.
  * @param {number} a
  * @param {number} b
@@ -57,4 +65,10 @@ function compareByRelease(a, b) {
     return expansionA.releaseDate.localeCompare(expansionB.releaseDate) || a - b;
 }
 
-module.exports = { Expansions, DeckExpansions, getExpansion, compareByRelease };
+module.exports = {
+    Expansions,
+    DeckExpansions,
+    getExpansion,
+    isUnsupportedExpansion,
+    compareByRelease
+};

@@ -3,7 +3,11 @@ const util = require('../util');
 const db = require('../db');
 const { expand, flatten } = require('../Array');
 const Constants = require('../constants');
-const { DeckExpansions } = require('../../master-vault-data/src/expansions');
+const {
+    DeckExpansions,
+    Expansions,
+    isUnsupportedExpansion
+} = require('../../master-vault-data/src/expansions');
 const { cardIdFromMasterVault, isGiganticArtHalf } = require('../../master-vault-data/src/cardId');
 const { PrintingIndex } = require('../../master-vault-data/src/printings');
 const BonusOrder = Constants.Houses.concat(['amber', 'capture', 'damage', 'draw', 'discard']);
@@ -23,6 +27,9 @@ const allianceRestrictedRules = {
 };
 
 const MaxPageSize = 50;
+const UnsupportedExpansionIds = Expansions.filter((expansion) =>
+    isUnsupportedExpansion(expansion.id)
+).map((expansion) => expansion.id);
 
 let printingIndex;
 function getPrintingIndex() {
@@ -356,6 +363,12 @@ class DeckService {
                 filter += `AND ${this.mapColumn(filterObject.name)} LIKE $${index++} `;
                 params.push(`%${filterObject.value}%`);
             }
+        }
+
+        // The client omits the expansion filter when every listed set is selected, and that
+        // list leaves out unsupported expansions. Keep those decks out of every result.
+        if (UnsupportedExpansionIds.length > 0) {
+            filter += `AND e."ExpansionId" NOT IN (${UnsupportedExpansionIds.join(',')}) `;
         }
 
         return filter;
