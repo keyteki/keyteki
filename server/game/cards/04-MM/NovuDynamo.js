@@ -20,7 +20,7 @@ class NovuDynamo extends Card {
                 controller: 'self',
                 gameAction: ability.actions.conditional({
                     condition: (context) => context.target === context.source,
-                    trueGameAction: ability.actions.sacrifice(),
+                    trueGameAction: ability.actions.destroy(),
                     falseGameAction: ability.actions.sequential([
                         ability.actions.discard(),
                         ability.actions.conditional({
@@ -36,7 +36,7 @@ class NovuDynamo extends Card {
             effect: '{1} {2}{3}',
             effectArgs: (context) =>
                 context.target === context.source
-                    ? ['sacrifice', context.target, '']
+                    ? ['destroy', context.target, '']
                     : ['discard', context.target, ' and gain 1 amber']
         });
     }

@@ -12,7 +12,7 @@ describe('Ritual of the Hunt', function () {
             });
         });
 
-        it('should allow using Untamed creatures after sacrifice', function () {
+        it('should allow using Untamed creatures after destroying self', function () {
             this.player1.useOmni(this.ritualOfTheHunt);
             expect(this.ritualOfTheHunt.location).toBe('discard');
             this.player1.reap(this.flaxia);

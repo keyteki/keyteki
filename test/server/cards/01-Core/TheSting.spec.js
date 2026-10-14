@@ -34,7 +34,7 @@ describe('The Sting', function () {
             expect(this.player1.player.keys.yellow).toBe(false);
         });
 
-        it('should sacrifice when used', function () {
+        it('should destroy itself when used', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.clickCard(this.theSting);
@@ -43,7 +43,7 @@ describe('The Sting', function () {
             expect(this.theSting.location).toBe('discard');
         });
 
-        it('should sacrifice when used with Nexus', function () {
+        it('should destroy itself when used with Nexus', function () {
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();

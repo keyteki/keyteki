@@ -9,7 +9,7 @@ class NepentheSeed extends Card {
                 controller: 'self',
                 gameAction: ability.actions.returnToHand({ location: 'discard' })
             },
-            gameAction: ability.actions.sacrifice()
+            gameAction: ability.actions.destroy()
         });
     }
 }

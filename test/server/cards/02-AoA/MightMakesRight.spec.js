@@ -22,12 +22,12 @@ describe('Might Makes Right', function () {
             });
         });
 
-        it('should award 1 amber when played, even if player elects not to sacrifice', function () {
+        it('should award 1 amber when played, even if player elects not to destroy', function () {
             this.player1.play(this.mightMakesRight);
             expect(this.player1.player.amber).toBe(3);
         });
 
-        it('should allow key to be forged at zero cost if creatures of total power of 25 or more are sacrificed', function () {
+        it('should allow key to be forged at zero cost if creatures of total power of 25 or more are destroyed', function () {
             this.player1.play(this.mightMakesRight);
             this.player1.clickCard(this.groke);
             this.player1.clickCard(this.hebeTheHuge);
@@ -47,7 +47,7 @@ describe('Might Makes Right', function () {
             expect(this.player1.player.amber).toBe(3);
         });
 
-        it('should not allow key to be forged if creatures under total power of 25 are sacrificed', function () {
+        it('should not allow key to be forged if creatures under total power of 25 are destroyed', function () {
             this.player1.play(this.mightMakesRight);
             this.player1.clickCard(this.groke);
             this.player1.clickCard(this.hebeTheHuge);
@@ -60,7 +60,7 @@ describe('Might Makes Right', function () {
             expect(this.player1.player.amber).toBe(3);
         });
 
-        it('should ensure that sacrificed creatures are in the discard pile under normal conditions', function () {
+        it('should ensure that destroyed creatures are in the discard pile under normal conditions', function () {
             this.player1.play(this.mightMakesRight);
             this.player1.clickCard(this.groke);
             this.player1.clickCard(this.hebeTheHuge);
@@ -89,7 +89,7 @@ describe('Might Makes Right', function () {
             });
         });
 
-        it('should allow key to be forged at zero cost if creatures of total power of 25 or more (including modifiers) are sacrificed', function () {
+        it('should allow key to be forged at zero cost if creatures of total power of 25 or more (including modifiers) are destroyed', function () {
             this.player1.play(this.mightMakesRight);
             this.player1.clickCard(this.knoxx);
             this.player1.clickCard(this.lionBautrem);
@@ -130,7 +130,7 @@ describe('Might Makes Right', function () {
             });
         });
 
-        it('should ensure that sacrificed creatures end up in the Archive (due to Archimedes)', function () {
+        it('should ensure that destroyed creatures end up in the Archive (due to Archimedes)', function () {
             this.player1.play(this.mightMakesRight);
             this.player1.clickCard(this.groke);
             this.player1.clickCard(this.hebeTheHuge);

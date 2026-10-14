@@ -14,7 +14,7 @@ describe('Spike Trap', function () {
                 }
             });
         });
-        it('should sacrifice the artifact', function () {
+        it('should destroy the artifact', function () {
             this.player1.useOmni(this.spikeTrap);
             expect(this.spikeTrap.location).toBe('discard');
         });
@@ -35,7 +35,7 @@ describe("Spike Trap's omni ability", function () {
             }
         });
     });
-    it('should sacrifice the artifact and deal 3 damages to flank creatures', function () {
+    it('should destroy the artifact and deal 3 damages to flank creatures', function () {
         this.player1.useOmni(this.spikeTrap);
         expect(this.spikeTrap.location).toBe('discard');
 

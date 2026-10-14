@@ -12,7 +12,7 @@ describe('Key to Dis', function () {
             });
         });
 
-        it('should sacrifice itself and destroy all creatures on omni', function () {
+        it('should destroy itself and destroy all creatures on omni', function () {
             this.shooler.ward();
             this.player1.useOmni(this.keyToDis);
             expect(this.keyToDis.location).toBe('discard');

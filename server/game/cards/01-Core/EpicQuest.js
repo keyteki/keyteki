@@ -17,7 +17,7 @@ class EpicQuest extends Card {
                 condition: (context) =>
                     context.game.cardsPlayed.filter((card) => card.hasHouse('sanctum')).length > 6,
                 trueGameAction: ability.actions.sequential([
-                    ability.actions.sacrifice(),
+                    ability.actions.destroy(),
                     ability.actions.forgeKey((context) => ({
                         modifier: -context.player.getCurrentKeyCost()
                     }))

@@ -24,7 +24,7 @@ class BlorbHive extends Card {
                             context.player.creaturesInPlay.filter((card) => card.name === 'Blorb')
                                 .length >= 10,
                         trueGameAction: ability.actions.sequential([
-                            ability.actions.sacrifice(),
+                            ability.actions.destroy(),
                             ability.actions.forgeKey((context) => ({
                                 modifier: -context.player.getCurrentKeyCost()
                             }))
