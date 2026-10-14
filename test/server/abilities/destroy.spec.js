@@ -308,3 +308,80 @@ describe('Destroyed: ability window', function () {
         });
     });
 });
+
+describe('Armageddon Cloak - Replacement Effect Timing', function () {
+    describe('when attached creature has a Destroyed: ability', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'sanctum',
+                    inPlay: ['dust-imp'],
+                    hand: ['armageddon-cloak']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+        });
+
+        it('should resolve Dust Imp Destroyed: ability before the replacement effect prevents discard', function () {
+            this.player1.player.optionSettings.orderForcedAbilities = false;
+            this.player2.player.optionSettings.orderForcedAbilities = false;
+            this.player1.playUpgrade(this.armageddonCloak, this.dustImp);
+            this.player1.endTurn();
+            this.player2.clickPrompt('brobnar');
+            this.player2.fightWith(this.troll, this.dustImp);
+            // Dust Imp's "Destroyed: Gain 2A" should always resolve
+            // player1 has 1 amber from AC's bonus icon + 2 from Dust Imp = 3
+            expect(this.player1.amber).toBe(3);
+            // AC replacement heals Dust Imp and destroys AC instead
+            expect(this.dustImp.location).toBe('play area');
+            expect(this.dustImp.damage).toBe(0);
+            expect(this.dustImp.moribund).toBe(false);
+            expect(this.armageddonCloak.location).toBe('discard');
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
+});
+
+describe('The Body Snatchers - Replacement Effect Timing', function () {
+    describe('when destroyed creature has its own Destroyed: ability', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    hand: ['the-body-snatchers'],
+                    inPlay: ['tunk']
+                },
+                player2: {
+                    inPlay: ['dust-imp']
+                }
+            });
+            this.player1.play(this.theBodySnatchers);
+        });
+
+        it('should resolve Dust Imp Destroyed: ability even when Body Snatchers resolves first', function () {
+            this.player1.player.optionSettings.orderForcedAbilities = false;
+            this.player2.player.optionSettings.orderForcedAbilities = false;
+            this.player1.fightWith(this.tunk, this.dustImp);
+            // Body Snatchers replacement resolves after Dust Imp's ability,
+            // prompting for flank placement
+            this.player1.clickPrompt('Left');
+            // Dust Imp's "Destroyed: Gain 2A" should still resolve for the original controller
+            expect(this.player2.amber).toBe(2);
+            // Body Snatchers replacement heals and gives control to opponent (player1)
+            expect(this.dustImp.location).toBe('play area');
+            expect(this.dustImp.damage).toBe(0);
+            expect(this.player1.player.creaturesInPlay).toContain(this.dustImp);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
+});
+
+// TODO: purifier of souls
+// TODO: Necromorph:
+//  So that would also mean multiple destruction replacments can't fully resolve, bc after the first one has been replaced, there is no more tag for destruction for the second one to replace?
+// What happens in this situation if necromorph's neighbor is warded? Does the ward just pop from attempt to leave play? But it should get through invulnerable.
+// What if the neighbor is body snatched? Can you resolve necromorph onto the neighbor, then resolve body snatchers on the neighbor to take control, and then the neighbor is moved to the discard and that counts?
+// Also the necromorphed creature does not count towards tolas/neffru/amara as a destroyed creature?
+// Away Team to remove AC

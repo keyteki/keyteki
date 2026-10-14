@@ -12,25 +12,18 @@ class SelfBolsteringAutomata extends Card {
             },
             effect: 'heal all damage from {0}, exhaust it and move it to a flank',
             effectArgs: () => this,
-            gameAction: [
-                ability.actions.heal({ fully: true }),
-                ability.actions.exhaust(),
-                ability.actions.moveToFlank(),
-                // "If you do" - add counters only if exhaust and heal succeeded
-                ability.actions.conditional({
-                    condition: (context) => context.wasReady && context.hadDamage,
-                    trueGameAction: ability.actions.addPowerCounter({ amount: 2 })
-                }),
-                ability.actions.changeEvent((context) => ({
-                    event: context.event,
-                    cancel: true,
-                    postHandler: (context) => (context.source.moribund = false)
-                })),
-                ability.actions.changeEvent((context) => ({
-                    event: context.event.triggeringEvent,
-                    cancel: true
-                }))
-            ]
+            gameAction: ability.actions.replaceDestruction({
+                gameAction: [
+                    ability.actions.heal({ fully: true }),
+                    ability.actions.exhaust(),
+                    ability.actions.moveToFlank(),
+                    // "If you do" - add counters only if exhaust and heal succeeded
+                    ability.actions.conditional({
+                        condition: (context) => context.wasReady && context.hadDamage,
+                        trueGameAction: ability.actions.addPowerCounter({ amount: 2 })
+                    })
+                ]
+            })
         });
     }
 }
