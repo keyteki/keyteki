@@ -12,11 +12,25 @@ describe('Cladogenesis', function () {
                         'sensor-chief-garcia',
                         'away-team'
                     ],
-                    discard: ['troll', 'cpo-zytar', 'dust-pixie']
+                    discard: [
+                        'troll',
+                        'bumpsy',
+                        'cpo-zytar',
+                        'stealth-mode',
+                        'dust-pixie',
+                        'nepenthe-seed'
+                    ]
                 },
                 player2: {
-                    hand: ['urchin', 'ember-imp', 'dodger', 'dodger', 'dodger'],
-                    discard: ['draining-touch', 'nerve-blast', 'stomp']
+                    hand: ['urchin', 'dodger', 'umbra', 'sneklifter', 'ember-imp', 'censor-philo'],
+                    discard: [
+                        'draining-touch',
+                        'the-terror',
+                        'nerve-blast',
+                        'throwing-stars',
+                        'stomp',
+                        'faust-the-great'
+                    ]
                 }
             });
         });
@@ -41,12 +55,41 @@ describe('Cladogenesis', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('should handle empty deck', function () {
+        it('should not discard hand cards when deck is empty even if discard pile has matching house', function () {
             this.player1.player.deck = [];
             this.player2.player.deck = [];
+
+            expect(this.pelf.location).toBe('hand');
+            expect(this.anger.location).toBe('hand');
+            expect(this.huntingWitch.location).toBe('hand');
+            expect(this.sensorChiefGarcia.location).toBe('hand');
+            expect(this.awayTeam.location).toBe('hand');
+
+            expect(this.urchin.location).toBe('hand');
+            expect(this.emberImp.location).toBe('hand');
+            expect(this.dodger.location).toBe('hand');
+            expect(this.umbra.location).toBe('hand');
+            expect(this.sneklifter.location).toBe('hand');
+
+            // No cards should be discarded from hand since there are no cards in deck
             this.player1.play(this.cladogenesis);
+
+            expect(this.pelf.location).toBe('hand');
+            expect(this.anger.location).toBe('hand');
+            expect(this.huntingWitch.location).toBe('hand');
+            expect(this.sensorChiefGarcia.location).toBe('hand');
+            expect(this.awayTeam.location).toBe('hand');
+
+            expect(this.urchin.location).toBe('hand');
+            expect(this.dodger.location).toBe('hand');
+            expect(this.umbra.location).toBe('hand');
+            expect(this.sneklifter.location).toBe('hand');
+            expect(this.emberImp.location).toBe('hand');
+            expect(this.censorPhilo.location).toBe('hand');
+
             expect(this.player1.player.hand.length).toBe(6);
             expect(this.player2.player.hand.length).toBe(6);
+            expect(this.player1).isReadyToTakeAction();
         });
 
         it('should handle empty hand', function () {
@@ -55,6 +98,7 @@ describe('Cladogenesis', function () {
             this.player1.play(this.cladogenesis);
             expect(this.player1.player.hand.length).toBe(6);
             expect(this.player2.player.hand.length).toBe(6);
+            expect(this.player1).isReadyToTakeAction();
         });
     });
 });
