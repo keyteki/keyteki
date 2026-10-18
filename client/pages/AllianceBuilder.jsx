@@ -92,28 +92,10 @@ const AllianceBuilderPage = () => {
     const expansionSupportsProphecy = Boolean(selectedExpansionConfig?.prophecySupported);
 
     const [debouncedSearch, setDebouncedSearch] = useState('');
-    const [deckPage, setDeckPage] = useState(1);
-    // Total for the current filters only; cleared with the page whenever the filters change
-    const [deckTotal, setDeckTotal] = useState(0);
-
-    const updateDebouncedSearch = useMemo(
-        () =>
-            debounce((value) => {
-                setDebouncedSearch(value);
-                setDeckPage(1);
-                setDeckTotal(0);
-            }, 500),
-        []
-    );
+    const updateDebouncedSearch = useMemo(() => debounce(setDebouncedSearch, 500), []);
     useEffect(() => () => updateDebouncedSearch.cancel(), [updateDebouncedSearch]);
 
-    const changeExpansion = (nextExpansion) => {
-        setSelectedExpansion(nextExpansion);
-        setDeckPage(1);
-        setDeckTotal(0);
-    };
-
-    const deckQueryArgs = useMemo(() => {
+    const deckFilter = useMemo(() => {
         const filter = [
             { name: 'isAlliance', value: false },
             { name: 'expansion', value: [selectedExpansion] }
@@ -122,21 +104,31 @@ const AllianceBuilderPage = () => {
             filter.push({ name: 'name', value: debouncedSearch });
         }
 
-        return {
+        return filter;
+    }, [debouncedSearch, selectedExpansion]);
+
+    const [deckPaging, setDeckPaging] = useState({ filter: undefined, page: 1, total: 0 });
+    const isPagingCurrent = deckPaging.filter === deckFilter;
+    const deckPage = isPagingCurrent ? deckPaging.page : 1;
+    const deckTotal = isPagingCurrent ? deckPaging.total : 0;
+    const setDeckPage = (page) => setDeckPaging({ filter: deckFilter, page, total: deckTotal });
+
+    const deckQueryArgs = useMemo(
+        () => ({
             page: deckPage,
             pageSize: DeckPageSize,
             sort: 'lastUpdated',
             sortDir: 'desc',
-            filter
-        };
-    }, [debouncedSearch, deckPage, selectedExpansion]);
-    // currentData is only the result for the current args; data is the last result for any args,
-    // which stays on screen (inert) while the next page loads
+            filter: deckFilter
+        }),
+        [deckFilter, deckPage]
+    );
     const {
         currentData: deckQueryData,
         data: lastDeckQueryData,
         isFetching: isFetchingDecks,
-        isError: isDeckQueryError
+        isError: isDeckQueryError,
+        refetch: refetchDecks
     } = useGetAllianceSourceDecksQuery(deckQueryArgs, { skip: !selectedExpansion });
     const isShowingStaleDecks = !deckQueryData && Boolean(lastDeckQueryData);
     const decks = (deckQueryData || lastDeckQueryData)?.decks || [];
@@ -147,16 +139,16 @@ const AllianceBuilderPage = () => {
             return;
         }
 
-        const pages = Math.max(1, Math.ceil(deckQueryData.totalCount / DeckPageSize));
-        setDeckTotal(deckQueryData.totalCount);
-        // Decks can be removed elsewhere, leaving us past the last page
-        if (deckPage > pages) {
-            setDeckPage(pages);
-        }
-    }, [deckPage, deckQueryData]);
+        const total = deckQueryData.totalCount;
+        const pages = Math.max(1, Math.ceil(total / DeckPageSize));
+        const page = Math.min(deckPage, pages);
+        setDeckPaging((prev) =>
+            prev.filter === deckFilter && prev.page === page && prev.total === total
+                ? prev
+                : { filter: deckFilter, page, total }
+        );
+    }, [deckFilter, deckPage, deckQueryData]);
 
-    // Selections hold the raw deck so they survive paging and searching; normalise on read
-    // (cached per deck) so decks fetched before the card data loaded still pick up their cards
     const getNormalizedDeck = useMemo(() => {
         const cache = new WeakMap();
         return (deck) => {
@@ -196,12 +188,12 @@ const AllianceBuilderPage = () => {
             return;
         }
 
-        changeExpansion(nextValue);
+        setSelectedExpansion(nextValue);
     };
 
     const confirmExpansionChange = () => {
         clearAllianceSelections();
-        changeExpansion(pendingExpansion);
+        setSelectedExpansion(pendingExpansion);
         setPendingExpansion(undefined);
         setShowSetChangeModal(false);
     };
@@ -594,7 +586,19 @@ const AllianceBuilderPage = () => {
         );
     } else if (isDeckQueryError) {
         decksList = (
-            <AlertPanel type='danger'>{t('Failed to load decks. Please try again.')}</AlertPanel>
+            <AlertPanel type='danger'>
+                <div className='flex items-center justify-between gap-2'>
+                    <span>{t('Failed to load decks.')}</span>
+                    <Button
+                        size='sm'
+                        variant='secondary'
+                        isDisabled={isFetchingDecks}
+                        onPress={refetchDecks}
+                    >
+                        {t('Retry')}
+                    </Button>
+                </div>
+            </AlertPanel>
         );
     } else if (isFetchingDecks && decks.length === 0) {
         decksList = <div className='text-sm text-muted'>{t('Loading decks...')}</div>;

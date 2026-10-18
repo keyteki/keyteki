@@ -39,7 +39,11 @@ const NEWS_LIST_ID = 'LIST';
 const DECKS_LIST_ID = 'LIST';
 const BANLIST_ID = 'LIST';
 const CHALLONGE_ID = 'LIST';
+const SESSIONS_ID = 'LIST';
+const BLOCKLIST_ID = 'LIST';
+const GAMES_ID = 'LIST';
 
+// Shared by getDecks and getAllianceSourceDecks
 const decksQueryDefinition = {
     query: (options = {}) => {
         const sortFromState = Array.isArray(options.sorting) ? options.sorting[0] : undefined;
@@ -61,13 +65,11 @@ const decksQueryDefinition = {
     },
     transformResponse: (response) => ({
         ...response,
-        totalCount: response?.numDecks ?? 0
+        // Postgres returns COUNT(*) as a string
+        totalCount: Number(response?.numDecks) || 0
     }),
     providesTags: [{ type: TAG_TYPES.DECKS, id: DECKS_LIST_ID }]
 };
-const SESSIONS_ID = 'LIST';
-const BLOCKLIST_ID = 'LIST';
-const GAMES_ID = 'LIST';
 
 const getNewsTags = (result) => {
     const items = result?.news || [];
