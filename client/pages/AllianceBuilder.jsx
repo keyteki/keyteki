@@ -3,11 +3,12 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { Button, Input, ListBox, Modal as HeroModal, Select, toast } from '@heroui/react';
+import debounce from 'lodash.debounce';
 
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
-import { useGetDecksQuery, useSaveAllianceDeckMutation } from '../redux/api';
-import { normalizeDecks } from '../redux/slices/cardsSlice';
+import { useGetAllianceSourceDecksQuery, useSaveAllianceDeckMutation } from '../redux/api';
+import { normalizeDeck } from '../redux/slices/cardsSlice';
 import { Constants } from '../constants';
 import AlertPanel from '../Components/Site/AlertPanel';
 import CardHoverPreview from '../Components/Site/CardHoverPreview';
@@ -91,21 +92,26 @@ const AllianceBuilderPage = () => {
     const expansionSupportsProphecy = Boolean(selectedExpansionConfig?.prophecySupported);
 
     const [debouncedSearch, setDebouncedSearch] = useState('');
-    const [deckPageState, setDeckPageState] = useState({ filterKey: '', page: 1 });
-    const [knownDecks, setKnownDecks] = useState({});
+    const [deckPage, setDeckPage] = useState(1);
+    // Total for the current filters only; cleared with the page whenever the filters change
+    const [deckTotal, setDeckTotal] = useState(0);
 
-    useEffect(() => {
-        const timer = setTimeout(
-            () => setDebouncedSearch(sourceDeckSearch.trim().toLowerCase()),
-            300
-        );
-        return () => clearTimeout(timer);
-    }, [sourceDeckSearch]);
+    const updateDebouncedSearch = useMemo(
+        () =>
+            debounce((value) => {
+                setDebouncedSearch(value);
+                setDeckPage(1);
+                setDeckTotal(0);
+            }, 500),
+        []
+    );
+    useEffect(() => () => updateDebouncedSearch.cancel(), [updateDebouncedSearch]);
 
-    // Page is tied to the filters it was chosen for, so changing filters goes straight to page 1
-    const deckFilterKey = `${selectedExpansion}|${debouncedSearch}`;
-    const deckPage = deckPageState.filterKey === deckFilterKey ? deckPageState.page : 1;
-    const setDeckPage = (page) => setDeckPageState({ filterKey: deckFilterKey, page });
+    const changeExpansion = (nextExpansion) => {
+        setSelectedExpansion(nextExpansion);
+        setDeckPage(1);
+        setDeckTotal(0);
+    };
 
     const deckQueryArgs = useMemo(() => {
         const filter = [
@@ -124,35 +130,47 @@ const AllianceBuilderPage = () => {
             filter
         };
     }, [debouncedSearch, deckPage, selectedExpansion]);
-    const { data: deckQueryData, isFetching: isFetchingDecks } = useGetDecksQuery(deckQueryArgs, {
-        skip: !selectedExpansion
-    });
-    const totalDeckPages = Math.max(1, Math.ceil((deckQueryData?.totalCount || 0) / DeckPageSize));
-
-    // Read this query's own result rather than state.cards.decks, which any getDecks response can overwrite
-    const decks = useMemo(() => {
-        if (!selectedExpansion || !deckQueryData?.decks) {
-            return [];
-        }
-
-        return normalizeDecks(deckQueryData.decks, { cards: cardsById });
-    }, [cardsById, deckQueryData, selectedExpansion]);
+    // currentData is only the result for the current args; data is the last result for any args,
+    // which stays on screen (inert) while the next page loads
+    const {
+        currentData: deckQueryData,
+        data: lastDeckQueryData,
+        isFetching: isFetchingDecks,
+        isError: isDeckQueryError
+    } = useGetAllianceSourceDecksQuery(deckQueryArgs, { skip: !selectedExpansion });
+    const isShowingStaleDecks = !deckQueryData && Boolean(lastDeckQueryData);
+    const decks = (deckQueryData || lastDeckQueryData)?.decks || [];
+    const totalDeckPages = Math.max(1, Math.ceil(deckTotal / DeckPageSize));
 
     useEffect(() => {
-        if (decks.length === 0) {
+        if (!deckQueryData) {
             return;
         }
 
-        setKnownDecks((prev) => {
-            const next = { ...prev };
-            for (const deck of decks) {
-                next[deck.uuid] = deck;
-            }
-            return next;
-        });
-    }, [decks]);
+        const pages = Math.max(1, Math.ceil(deckQueryData.totalCount / DeckPageSize));
+        setDeckTotal(deckQueryData.totalCount);
+        // Decks can be removed elsewhere, leaving us past the last page
+        if (deckPage > pages) {
+            setDeckPage(pages);
+        }
+    }, [deckPage, deckQueryData]);
 
-    const decksByUuid = knownDecks;
+    // Selections hold the raw deck so they survive paging and searching; normalise on read
+    // (cached per deck) so decks fetched before the card data loaded still pick up their cards
+    const getNormalizedDeck = useMemo(() => {
+        const cache = new WeakMap();
+        return (deck) => {
+            if (!deck) {
+                return undefined;
+            }
+
+            if (!cache.has(deck)) {
+                cache.set(deck, normalizeDeck(deck, { cards: cardsById }));
+            }
+
+            return cache.get(deck);
+        };
+    }, [cardsById]);
 
     const clearAllianceSelections = () => {
         setSelectedHouses([null, null, null]);
@@ -178,12 +196,12 @@ const AllianceBuilderPage = () => {
             return;
         }
 
-        setSelectedExpansion(nextValue);
+        changeExpansion(nextValue);
     };
 
     const confirmExpansionChange = () => {
         clearAllianceSelections();
-        setSelectedExpansion(pendingExpansion);
+        changeExpansion(pendingExpansion);
         setPendingExpansion(undefined);
         setShowSetChangeModal(false);
     };
@@ -209,7 +227,7 @@ const AllianceBuilderPage = () => {
 
         const selectedDecks = selectedHouses
             .filter(Boolean)
-            .map((selection) => decksByUuid[selection.deckUuid])
+            .map((selection) => getNormalizedDeck(selection.deck))
             .filter(Boolean);
         const deckOptions = new Map();
 
@@ -244,7 +262,7 @@ const AllianceBuilderPage = () => {
         return Array.from(deckOptions.values()).sort((a, b) =>
             a.deckName.localeCompare(b.deckName)
         );
-    }, [decksByUuid, expansionSupportsProphecy, i18n.language, selectedHouses, t]);
+    }, [getNormalizedDeck, expansionSupportsProphecy, i18n.language, selectedHouses, t]);
 
     const selectedProphecyDeck = useMemo(
         () =>
@@ -261,7 +279,7 @@ const AllianceBuilderPage = () => {
 
         const selectedDecks = selectedHouses
             .filter(Boolean)
-            .map((selection) => decksByUuid[selection.deckUuid])
+            .map((selection) => getNormalizedDeck(selection.deck))
             .filter(Boolean);
         const tokenDeckMap = new Map();
 
@@ -293,7 +311,7 @@ const AllianceBuilderPage = () => {
         return Array.from(tokenDeckMap.values()).sort((a, b) =>
             a.deckName.localeCompare(b.deckName)
         );
-    }, [decksByUuid, expansionRequiresToken, i18n.language, selectedHouses]);
+    }, [getNormalizedDeck, expansionRequiresToken, i18n.language, selectedHouses]);
 
     const selectedTokenDeck = useMemo(
         () => availableTokenDecks.find((tokenDeck) => tokenDeck.deckUuid === selectedTokenDeckUuid),
@@ -452,7 +470,7 @@ const AllianceBuilderPage = () => {
             return [];
         }
 
-        const sourceDeck = decksByUuid[selection.deckUuid];
+        const sourceDeck = getNormalizedDeck(selection.deck);
         if (!sourceDeck) {
             return [];
         }
@@ -549,6 +567,7 @@ const AllianceBuilderPage = () => {
 
         const nextSelections = [...selectedHouses];
         nextSelections[activeSlotIndex] = {
+            deck,
             deckName: deck.name,
             deckUuid: deck.uuid,
             house
@@ -573,12 +592,23 @@ const AllianceBuilderPage = () => {
                 </div>
             </div>
         );
+    } else if (isDeckQueryError) {
+        decksList = (
+            <AlertPanel type='danger'>{t('Failed to load decks. Please try again.')}</AlertPanel>
+        );
     } else if (isFetchingDecks && decks.length === 0) {
         decksList = <div className='text-sm text-muted'>{t('Loading decks...')}</div>;
-    } else if (!decks || decks.length === 0) {
-        decksList = <AlertPanel type='info'>There are no decks from this set.</AlertPanel>;
+    } else if (decks.length === 0) {
+        decksList = (
+            <AlertPanel type='info'>
+                {debouncedSearch
+                    ? t('No decks from this set match your search.')
+                    : t('There are no decks from this set.')}
+            </AlertPanel>
+        );
     } else {
-        decksList = decks.map((deck) => {
+        decksList = decks.map((rawDeck) => {
+            const deck = getNormalizedDeck(rawDeck);
             const prophecyCards = deck.cards.filter(
                 (card) => (card.card && card.card.type === 'prophecy') || card.prophecyId
             );
@@ -653,7 +683,7 @@ const AllianceBuilderPage = () => {
                                             type='button'
                                             className={chipClasses}
                                             disabled={isDisabled}
-                                            onClick={() => chooseHouseForActiveSlot(deck, house)}
+                                            onClick={() => chooseHouseForActiveSlot(rawDeck, house)}
                                         >
                                             <img
                                                 src={Constants.HouseIconPaths[house]}
@@ -958,9 +988,12 @@ const AllianceBuilderPage = () => {
                                         className='mb-2 w-full'
                                         value={sourceDeckSearch}
                                         placeholder={t('Filter decks by name')}
-                                        onChange={(event) =>
-                                            setSourceDeckSearch(event.target.value)
-                                        }
+                                        onChange={(event) => {
+                                            setSourceDeckSearch(event.target.value);
+                                            updateDebouncedSearch(
+                                                event.target.value.trim().toLowerCase()
+                                            );
+                                        }}
                                     />
                                 </div>
                                 {expansionRequiresToken &&
@@ -1161,7 +1194,15 @@ const AllianceBuilderPage = () => {
                                             </div>
                                         </div>
                                     )}
-                                <div className='pb-2 pt-1'>{decksList}</div>
+                                <div
+                                    className={`pb-2 pt-1 transition-opacity ${
+                                        isShowingStaleDecks ? 'pointer-events-none opacity-50' : ''
+                                    }`}
+                                    aria-busy={isShowingStaleDecks}
+                                    inert={isShowingStaleDecks}
+                                >
+                                    {decksList}
+                                </div>
                                 {selectedExpansion && totalDeckPages > 1 && (
                                     <div className='flex items-center justify-between gap-2 pb-2'>
                                         <Button

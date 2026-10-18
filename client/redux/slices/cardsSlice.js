@@ -10,7 +10,7 @@ const selectDeckInternal = (state, deck) => {
     }
 };
 
-const normalizeDeck = (deck, state) => {
+export const normalizeDeck = (deck, state) => {
     if (!deck || !state.cards || !deck.houses || !deck.cards) {
         return { ...deck, status: deck?.status || {} };
     }
@@ -72,7 +72,7 @@ const normalizeDeck = (deck, state) => {
     };
 };
 
-export const normalizeDecks = (decks, state) => decks.map((deck) => normalizeDeck(deck, state));
+const normalizeDecks = (decks, state) => decks.map((deck) => normalizeDeck(deck, state));
 
 const cardsSlice = createSlice({
     name: 'cards',
