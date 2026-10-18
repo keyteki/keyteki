@@ -10,7 +10,7 @@ const selectDeckInternal = (state, deck) => {
     }
 };
 
-const normalizeDeck = (deck, state) => {
+export const normalizeDeck = (deck, state) => {
     if (!deck || !state.cards || !deck.houses || !deck.cards) {
         return { ...deck, status: deck?.status || {} };
     }

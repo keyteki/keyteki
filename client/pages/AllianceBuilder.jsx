@@ -3,13 +3,17 @@ import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
 import { Button, Input, ListBox, Modal as HeroModal, Select, toast } from '@heroui/react';
+import debounce from 'lodash.debounce';
 
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
-import { useGetDecksQuery, useSaveAllianceDeckMutation } from '../redux/api';
+import { useGetAllianceSourceDecksQuery, useSaveAllianceDeckMutation } from '../redux/api';
+import { normalizeDeck } from '../redux/slices/cardsSlice';
 import { Constants } from '../constants';
 import AlertPanel from '../Components/Site/AlertPanel';
 import CardHoverPreview from '../Components/Site/CardHoverPreview';
+
+const DeckPageSize = 50;
 
 const AllianceBuilderPage = () => {
     const { i18n, t } = useTranslation();
@@ -56,7 +60,7 @@ const AllianceBuilderPage = () => {
                   : saveState.error?.data?.message
           };
 
-    const dbDecks = useSelector((state) => state.cards.decks);
+    const cardsById = useSelector((state) => state.cards.cards);
 
     const [selectedExpansion, setSelectedExpansion] = useState();
     const [selectedHouses, setSelectedHouses] = useState([null, null, null]);
@@ -87,51 +91,78 @@ const AllianceBuilderPage = () => {
     const expansionRequiresToken = Boolean(selectedExpansionConfig?.tokenRequired);
     const expansionSupportsProphecy = Boolean(selectedExpansionConfig?.prophecySupported);
 
+    const [debouncedSearch, setDebouncedSearch] = useState('');
+    const updateDebouncedSearch = useMemo(() => debounce(setDebouncedSearch, 500), []);
+    useEffect(() => () => updateDebouncedSearch.cancel(), [updateDebouncedSearch]);
+
+    const deckFilter = useMemo(() => {
+        const filter = [
+            { name: 'isAlliance', value: false },
+            { name: 'expansion', value: [selectedExpansion] }
+        ];
+        if (debouncedSearch) {
+            filter.push({ name: 'name', value: debouncedSearch });
+        }
+
+        return filter;
+    }, [debouncedSearch, selectedExpansion]);
+
+    const [deckPaging, setDeckPaging] = useState({ filter: undefined, page: 1, total: 0 });
+    const isPagingCurrent = deckPaging.filter === deckFilter;
+    const deckPage = isPagingCurrent ? deckPaging.page : 1;
+    const deckTotal = isPagingCurrent ? deckPaging.total : 0;
+    const setDeckPage = (page) => setDeckPaging({ filter: deckFilter, page, total: deckTotal });
+
     const deckQueryArgs = useMemo(
         () => ({
-            page: 1,
-            pageSize: 999999,
+            page: deckPage,
+            pageSize: DeckPageSize,
             sort: 'lastUpdated',
             sortDir: 'desc',
-            filter: [{ name: 'isAlliance', value: false }]
+            filter: deckFilter
         }),
-        []
+        [deckFilter, deckPage]
     );
-    useGetDecksQuery(deckQueryArgs);
+    const {
+        currentData: deckQueryData,
+        data: lastDeckQueryData,
+        isFetching: isFetchingDecks,
+        isError: isDeckQueryError,
+        refetch: refetchDecks
+    } = useGetAllianceSourceDecksQuery(deckQueryArgs, { skip: !selectedExpansion });
+    const isShowingStaleDecks = !deckQueryData && Boolean(lastDeckQueryData);
+    const decks = (deckQueryData || lastDeckQueryData)?.decks || [];
+    const totalDeckPages = Math.max(1, Math.ceil(deckTotal / DeckPageSize));
 
-    const decksByUuid = useMemo(() => {
-        if (!dbDecks) {
-            return {};
+    useEffect(() => {
+        if (!deckQueryData) {
+            return;
         }
 
-        return dbDecks.reduce((acc, cur) => {
-            acc[cur.uuid] = cur;
-            return acc;
-        }, {});
-    }, [dbDecks]);
+        const total = deckQueryData.totalCount;
+        const pages = Math.max(1, Math.ceil(total / DeckPageSize));
+        const page = Math.min(deckPage, pages);
+        setDeckPaging((prev) =>
+            prev.filter === deckFilter && prev.page === page && prev.total === total
+                ? prev
+                : { filter: deckFilter, page, total }
+        );
+    }, [deckFilter, deckPage, deckQueryData]);
 
-    const decks = useMemo(() => {
-        if (!dbDecks) {
-            return [];
-        }
-
-        const search = sourceDeckSearch.trim().toLowerCase();
-        return dbDecks.filter((deck) => {
-            if (deck.expansion != selectedExpansion) {
-                return false;
+    const getNormalizedDeck = useMemo(() => {
+        const cache = new WeakMap();
+        return (deck) => {
+            if (!deck) {
+                return undefined;
             }
 
-            if (deck.isAlliance) {
-                return false;
+            if (!cache.has(deck)) {
+                cache.set(deck, normalizeDeck(deck, { cards: cardsById }));
             }
 
-            if (!search) {
-                return true;
-            }
-
-            return deck.name?.toLowerCase().includes(search);
-        });
-    }, [dbDecks, selectedExpansion, sourceDeckSearch]);
+            return cache.get(deck);
+        };
+    }, [cardsById]);
 
     const clearAllianceSelections = () => {
         setSelectedHouses([null, null, null]);
@@ -188,7 +219,7 @@ const AllianceBuilderPage = () => {
 
         const selectedDecks = selectedHouses
             .filter(Boolean)
-            .map((selection) => decksByUuid[selection.deckUuid])
+            .map((selection) => getNormalizedDeck(selection.deck))
             .filter(Boolean);
         const deckOptions = new Map();
 
@@ -223,7 +254,7 @@ const AllianceBuilderPage = () => {
         return Array.from(deckOptions.values()).sort((a, b) =>
             a.deckName.localeCompare(b.deckName)
         );
-    }, [decksByUuid, expansionSupportsProphecy, i18n.language, selectedHouses, t]);
+    }, [getNormalizedDeck, expansionSupportsProphecy, i18n.language, selectedHouses, t]);
 
     const selectedProphecyDeck = useMemo(
         () =>
@@ -240,7 +271,7 @@ const AllianceBuilderPage = () => {
 
         const selectedDecks = selectedHouses
             .filter(Boolean)
-            .map((selection) => decksByUuid[selection.deckUuid])
+            .map((selection) => getNormalizedDeck(selection.deck))
             .filter(Boolean);
         const tokenDeckMap = new Map();
 
@@ -272,7 +303,7 @@ const AllianceBuilderPage = () => {
         return Array.from(tokenDeckMap.values()).sort((a, b) =>
             a.deckName.localeCompare(b.deckName)
         );
-    }, [decksByUuid, expansionRequiresToken, i18n.language, selectedHouses]);
+    }, [getNormalizedDeck, expansionRequiresToken, i18n.language, selectedHouses]);
 
     const selectedTokenDeck = useMemo(
         () => availableTokenDecks.find((tokenDeck) => tokenDeck.deckUuid === selectedTokenDeckUuid),
@@ -431,7 +462,7 @@ const AllianceBuilderPage = () => {
             return [];
         }
 
-        const sourceDeck = decksByUuid[selection.deckUuid];
+        const sourceDeck = getNormalizedDeck(selection.deck);
         if (!sourceDeck) {
             return [];
         }
@@ -528,6 +559,7 @@ const AllianceBuilderPage = () => {
 
         const nextSelections = [...selectedHouses];
         nextSelections[activeSlotIndex] = {
+            deck,
             deckName: deck.name,
             deckUuid: deck.uuid,
             house
@@ -552,10 +584,35 @@ const AllianceBuilderPage = () => {
                 </div>
             </div>
         );
-    } else if (!decks || decks.length === 0) {
-        decksList = <AlertPanel type='info'>There are no decks from this set.</AlertPanel>;
+    } else if (isDeckQueryError) {
+        decksList = (
+            <AlertPanel type='danger'>
+                <div className='flex items-center justify-between gap-2'>
+                    <span>{t('Failed to load decks.')}</span>
+                    <Button
+                        size='sm'
+                        variant='secondary'
+                        isDisabled={isFetchingDecks}
+                        onPress={refetchDecks}
+                    >
+                        {t('Retry')}
+                    </Button>
+                </div>
+            </AlertPanel>
+        );
+    } else if (isFetchingDecks && decks.length === 0) {
+        decksList = <div className='text-sm text-muted'>{t('Loading decks...')}</div>;
+    } else if (decks.length === 0) {
+        decksList = (
+            <AlertPanel type='info'>
+                {debouncedSearch
+                    ? t('No decks from this set match your search.')
+                    : t('There are no decks from this set.')}
+            </AlertPanel>
+        );
     } else {
-        decksList = decks.map((deck) => {
+        decksList = decks.map((rawDeck) => {
+            const deck = getNormalizedDeck(rawDeck);
             const prophecyCards = deck.cards.filter(
                 (card) => (card.card && card.card.type === 'prophecy') || card.prophecyId
             );
@@ -630,7 +687,7 @@ const AllianceBuilderPage = () => {
                                             type='button'
                                             className={chipClasses}
                                             disabled={isDisabled}
-                                            onClick={() => chooseHouseForActiveSlot(deck, house)}
+                                            onClick={() => chooseHouseForActiveSlot(rawDeck, house)}
                                         >
                                             <img
                                                 src={Constants.HouseIconPaths[house]}
@@ -935,9 +992,12 @@ const AllianceBuilderPage = () => {
                                         className='mb-2 w-full'
                                         value={sourceDeckSearch}
                                         placeholder={t('Filter decks by name')}
-                                        onChange={(event) =>
-                                            setSourceDeckSearch(event.target.value)
-                                        }
+                                        onChange={(event) => {
+                                            setSourceDeckSearch(event.target.value);
+                                            updateDebouncedSearch(
+                                                event.target.value.trim().toLowerCase()
+                                            );
+                                        }}
                                     />
                                 </div>
                                 {expansionRequiresToken &&
@@ -1138,7 +1198,43 @@ const AllianceBuilderPage = () => {
                                             </div>
                                         </div>
                                     )}
-                                <div className='pb-2 pt-1'>{decksList}</div>
+                                <div
+                                    className={`pb-2 pt-1 transition-opacity ${
+                                        isShowingStaleDecks ? 'pointer-events-none opacity-50' : ''
+                                    }`}
+                                    aria-busy={isShowingStaleDecks}
+                                    inert={isShowingStaleDecks}
+                                >
+                                    {decksList}
+                                </div>
+                                {selectedExpansion && totalDeckPages > 1 && (
+                                    <div className='flex items-center justify-between gap-2 pb-2'>
+                                        <Button
+                                            size='sm'
+                                            variant='secondary'
+                                            isDisabled={deckPage <= 1 || isFetchingDecks}
+                                            onPress={() => setDeckPage(deckPage - 1)}
+                                        >
+                                            {t('Previous')}
+                                        </Button>
+                                        <span className='text-xs text-muted'>
+                                            {t('Page {{page}} of {{total}}', {
+                                                page: deckPage,
+                                                total: totalDeckPages
+                                            })}
+                                        </span>
+                                        <Button
+                                            size='sm'
+                                            variant='secondary'
+                                            isDisabled={
+                                                deckPage >= totalDeckPages || isFetchingDecks
+                                            }
+                                            onPress={() => setDeckPage(deckPage + 1)}
+                                        >
+                                            {t('Next')}
+                                        </Button>
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <div className='sticky bottom-0 z-10 border-t border-border/70 bg-surface/95 px-3 py-2 backdrop-blur-sm'>

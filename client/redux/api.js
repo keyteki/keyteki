@@ -43,6 +43,34 @@ const SESSIONS_ID = 'LIST';
 const BLOCKLIST_ID = 'LIST';
 const GAMES_ID = 'LIST';
 
+// Shared by getDecks and getAllianceSourceDecks
+const decksQueryDefinition = {
+    query: (options = {}) => {
+        const sortFromState = Array.isArray(options.sorting) ? options.sorting[0] : undefined;
+        const sort = options.sort || sortFromState?.id;
+        const sortDir =
+            options.sortDir || (sortFromState ? (sortFromState.desc ? 'desc' : 'asc') : undefined);
+        const page = options.page || options.pageIndex;
+
+        return {
+            url: '/decks',
+            params: {
+                filter: options.filter ? JSON.stringify(options.filter) : undefined,
+                page,
+                pageSize: options.pageSize,
+                sort,
+                sortDir
+            }
+        };
+    },
+    transformResponse: (response) => ({
+        ...response,
+        // Postgres returns COUNT(*) as a string
+        totalCount: Number(response?.numDecks) || 0
+    }),
+    providesTags: [{ type: TAG_TYPES.DECKS, id: DECKS_LIST_ID }]
+};
+
 const getNewsTags = (result) => {
     const items = result?.news || [];
     return [
@@ -257,34 +285,10 @@ export const api = createApi({
             query: () => '/factions',
             providesTags: [{ type: TAG_TYPES.FACTIONS, id: 'LIST' }]
         }),
-        getDecks: builder.query({
-            query: (options = {}) => {
-                const sortFromState = Array.isArray(options.sorting)
-                    ? options.sorting[0]
-                    : undefined;
-                const sort = options.sort || sortFromState?.id;
-                const sortDir =
-                    options.sortDir ||
-                    (sortFromState ? (sortFromState.desc ? 'desc' : 'asc') : undefined);
-                const page = options.page || options.pageIndex;
-
-                return {
-                    url: '/decks',
-                    params: {
-                        filter: options.filter ? JSON.stringify(options.filter) : undefined,
-                        page,
-                        pageSize: options.pageSize,
-                        sort,
-                        sortDir
-                    }
-                };
-            },
-            transformResponse: (response) => ({
-                ...response,
-                totalCount: response?.numDecks ?? 0
-            }),
-            providesTags: [{ type: TAG_TYPES.DECKS, id: DECKS_LIST_ID }]
-        }),
+        getDecks: builder.query(decksQueryDefinition),
+        // Same request as getDecks, but cardsSlice doesn't listen to it, so the alliance builder's
+        // filtered pages don't replace the deck list the Decks page shows
+        getAllianceSourceDecks: builder.query(decksQueryDefinition),
         getDeck: builder.query({
             query: (deckId) => `/decks/${deckId}`,
             providesTags: (result, error, deckId) => [{ type: TAG_TYPES.DECKS, id: deckId }]
@@ -499,6 +503,7 @@ export const {
     useGetCardsQuery,
     useGetFactionsQuery,
     useGetDecksQuery,
+    useGetAllianceSourceDecksQuery,
     useGetDeckQuery,
     useDeleteDeckMutation,
     useDeleteDecksMutation,

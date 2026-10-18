@@ -353,8 +353,9 @@ class DeckService {
                 filter += `AND ${this.mapColumn(filterObject.name)} = $${index++} `;
                 params.push(filterObject.value);
             } else {
-                filter += `AND ${this.mapColumn(filterObject.name)} LIKE $${index++} `;
-                params.push(`%${filterObject.value}%`);
+                const value = String(filterObject.value ?? '').replace(/[\\%_]/g, '\\$&');
+                filter += `AND ${this.mapColumn(filterObject.name)} LIKE $${index++} ESCAPE '\\' `;
+                params.push(`%${filterObject.name === 'name' ? value.toLowerCase() : value}%`);
             }
         }
 
@@ -367,7 +368,6 @@ class DeckService {
     ) {
         let retDecks = [];
         let decks;
-        // Clamp paging so a client can't ask for the whole table in one request
         let pageSize = Math.min(Math.max(parseInt(options.pageSize, 10) || 10, 1), MaxPageSize);
         let page = Math.max(parseInt(options.page, 10) || 1, 1);
         let sortColumn = this.mapColumn(options.sort, true);
