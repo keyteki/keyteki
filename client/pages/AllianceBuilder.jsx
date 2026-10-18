@@ -11,6 +11,8 @@ import { Constants } from '../constants';
 import AlertPanel from '../Components/Site/AlertPanel';
 import CardHoverPreview from '../Components/Site/CardHoverPreview';
 
+const DeckPageSize = 50;
+
 const AllianceBuilderPage = () => {
     const { i18n, t } = useTranslation();
     const navigate = useNavigate();
@@ -87,51 +89,67 @@ const AllianceBuilderPage = () => {
     const expansionRequiresToken = Boolean(selectedExpansionConfig?.tokenRequired);
     const expansionSupportsProphecy = Boolean(selectedExpansionConfig?.prophecySupported);
 
-    const deckQueryArgs = useMemo(
-        () => ({
-            page: 1,
-            pageSize: 999999,
-            sort: 'lastUpdated',
-            sortDir: 'desc',
-            filter: [{ name: 'isAlliance', value: false }]
-        }),
-        []
-    );
-    useGetDecksQuery(deckQueryArgs);
+    const [debouncedSearch, setDebouncedSearch] = useState('');
+    const [deckPage, setDeckPage] = useState(1);
+    const [knownDecks, setKnownDecks] = useState({});
 
-    const decksByUuid = useMemo(() => {
-        if (!dbDecks) {
-            return {};
+    useEffect(() => {
+        const timer = setTimeout(
+            () => setDebouncedSearch(sourceDeckSearch.trim().toLowerCase()),
+            300
+        );
+        return () => clearTimeout(timer);
+    }, [sourceDeckSearch]);
+
+    useEffect(() => {
+        setDeckPage(1);
+    }, [selectedExpansion, debouncedSearch]);
+
+    const deckQueryArgs = useMemo(() => {
+        const filter = [
+            { name: 'isAlliance', value: false },
+            { name: 'expansion', value: [selectedExpansion] }
+        ];
+        if (debouncedSearch) {
+            filter.push({ name: 'name', value: debouncedSearch });
         }
 
-        return dbDecks.reduce((acc, cur) => {
-            acc[cur.uuid] = cur;
-            return acc;
-        }, {});
+        return {
+            page: deckPage,
+            pageSize: DeckPageSize,
+            sort: 'lastUpdated',
+            sortDir: 'desc',
+            filter
+        };
+    }, [debouncedSearch, deckPage, selectedExpansion]);
+    const { data: deckQueryData, isFetching: isFetchingDecks } = useGetDecksQuery(deckQueryArgs, {
+        skip: !selectedExpansion
+    });
+    const totalDeckPages = Math.max(1, Math.ceil((deckQueryData?.totalCount || 0) / DeckPageSize));
+
+    useEffect(() => {
+        if (!dbDecks || dbDecks.length === 0) {
+            return;
+        }
+
+        setKnownDecks((prev) => {
+            const next = { ...prev };
+            for (const deck of dbDecks) {
+                next[deck.uuid] = deck;
+            }
+            return next;
+        });
     }, [dbDecks]);
 
+    const decksByUuid = knownDecks;
+
     const decks = useMemo(() => {
-        if (!dbDecks) {
+        if (!dbDecks || !selectedExpansion) {
             return [];
         }
 
-        const search = sourceDeckSearch.trim().toLowerCase();
-        return dbDecks.filter((deck) => {
-            if (deck.expansion != selectedExpansion) {
-                return false;
-            }
-
-            if (deck.isAlliance) {
-                return false;
-            }
-
-            if (!search) {
-                return true;
-            }
-
-            return deck.name?.toLowerCase().includes(search);
-        });
-    }, [dbDecks, selectedExpansion, sourceDeckSearch]);
+        return dbDecks.filter((deck) => deck.expansion == selectedExpansion && !deck.isAlliance);
+    }, [dbDecks, selectedExpansion]);
 
     const clearAllianceSelections = () => {
         setSelectedHouses([null, null, null]);
@@ -552,6 +570,8 @@ const AllianceBuilderPage = () => {
                 </div>
             </div>
         );
+    } else if (isFetchingDecks && decks.length === 0) {
+        decksList = <div className='text-sm text-muted'>{t('Loading decks...')}</div>;
     } else if (!decks || decks.length === 0) {
         decksList = <AlertPanel type='info'>There are no decks from this set.</AlertPanel>;
     } else {
@@ -1139,6 +1159,34 @@ const AllianceBuilderPage = () => {
                                         </div>
                                     )}
                                 <div className='pb-2 pt-1'>{decksList}</div>
+                                {selectedExpansion && totalDeckPages > 1 && (
+                                    <div className='flex items-center justify-between gap-2 pb-2'>
+                                        <Button
+                                            size='sm'
+                                            variant='secondary'
+                                            isDisabled={deckPage <= 1 || isFetchingDecks}
+                                            onPress={() => setDeckPage((page) => page - 1)}
+                                        >
+                                            {t('Previous')}
+                                        </Button>
+                                        <span className='text-xs text-muted'>
+                                            {t('Page {{page}} of {{total}}', {
+                                                page: deckPage,
+                                                total: totalDeckPages
+                                            })}
+                                        </span>
+                                        <Button
+                                            size='sm'
+                                            variant='secondary'
+                                            isDisabled={
+                                                deckPage >= totalDeckPages || isFetchingDecks
+                                            }
+                                            onPress={() => setDeckPage((page) => page + 1)}
+                                        >
+                                            {t('Next')}
+                                        </Button>
+                                    </div>
+                                )}
                             </div>
                         </div>
                         <div className='sticky bottom-0 z-10 border-t border-border/70 bg-surface/95 px-3 py-2 backdrop-blur-sm'>
