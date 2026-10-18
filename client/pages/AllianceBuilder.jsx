@@ -7,6 +7,7 @@ import { Button, Input, ListBox, Modal as HeroModal, Select, toast } from '@hero
 import Panel from '../Components/Site/Panel';
 import ApiStatus from '../Components/Site/ApiStatus';
 import { useGetDecksQuery, useSaveAllianceDeckMutation } from '../redux/api';
+import { normalizeDecks } from '../redux/slices/cardsSlice';
 import { Constants } from '../constants';
 import AlertPanel from '../Components/Site/AlertPanel';
 import CardHoverPreview from '../Components/Site/CardHoverPreview';
@@ -58,7 +59,7 @@ const AllianceBuilderPage = () => {
                   : saveState.error?.data?.message
           };
 
-    const dbDecks = useSelector((state) => state.cards.decks);
+    const cardsById = useSelector((state) => state.cards.cards);
 
     const [selectedExpansion, setSelectedExpansion] = useState();
     const [selectedHouses, setSelectedHouses] = useState([null, null, null]);
@@ -90,7 +91,7 @@ const AllianceBuilderPage = () => {
     const expansionSupportsProphecy = Boolean(selectedExpansionConfig?.prophecySupported);
 
     const [debouncedSearch, setDebouncedSearch] = useState('');
-    const [deckPage, setDeckPage] = useState(1);
+    const [deckPageState, setDeckPageState] = useState({ filterKey: '', page: 1 });
     const [knownDecks, setKnownDecks] = useState({});
 
     useEffect(() => {
@@ -101,9 +102,10 @@ const AllianceBuilderPage = () => {
         return () => clearTimeout(timer);
     }, [sourceDeckSearch]);
 
-    useEffect(() => {
-        setDeckPage(1);
-    }, [selectedExpansion, debouncedSearch]);
+    // Page is tied to the filters it was chosen for, so changing filters goes straight to page 1
+    const deckFilterKey = `${selectedExpansion}|${debouncedSearch}`;
+    const deckPage = deckPageState.filterKey === deckFilterKey ? deckPageState.page : 1;
+    const setDeckPage = (page) => setDeckPageState({ filterKey: deckFilterKey, page });
 
     const deckQueryArgs = useMemo(() => {
         const filter = [
@@ -127,29 +129,30 @@ const AllianceBuilderPage = () => {
     });
     const totalDeckPages = Math.max(1, Math.ceil((deckQueryData?.totalCount || 0) / DeckPageSize));
 
+    // Read this query's own result rather than state.cards.decks, which any getDecks response can overwrite
+    const decks = useMemo(() => {
+        if (!selectedExpansion || !deckQueryData?.decks) {
+            return [];
+        }
+
+        return normalizeDecks(deckQueryData.decks, { cards: cardsById });
+    }, [cardsById, deckQueryData, selectedExpansion]);
+
     useEffect(() => {
-        if (!dbDecks || dbDecks.length === 0) {
+        if (decks.length === 0) {
             return;
         }
 
         setKnownDecks((prev) => {
             const next = { ...prev };
-            for (const deck of dbDecks) {
+            for (const deck of decks) {
                 next[deck.uuid] = deck;
             }
             return next;
         });
-    }, [dbDecks]);
+    }, [decks]);
 
     const decksByUuid = knownDecks;
-
-    const decks = useMemo(() => {
-        if (!dbDecks || !selectedExpansion) {
-            return [];
-        }
-
-        return dbDecks.filter((deck) => deck.expansion == selectedExpansion && !deck.isAlliance);
-    }, [dbDecks, selectedExpansion]);
 
     const clearAllianceSelections = () => {
         setSelectedHouses([null, null, null]);
@@ -1165,7 +1168,7 @@ const AllianceBuilderPage = () => {
                                             size='sm'
                                             variant='secondary'
                                             isDisabled={deckPage <= 1 || isFetchingDecks}
-                                            onPress={() => setDeckPage((page) => page - 1)}
+                                            onPress={() => setDeckPage(deckPage - 1)}
                                         >
                                             {t('Previous')}
                                         </Button>
@@ -1181,7 +1184,7 @@ const AllianceBuilderPage = () => {
                                             isDisabled={
                                                 deckPage >= totalDeckPages || isFetchingDecks
                                             }
-                                            onPress={() => setDeckPage((page) => page + 1)}
+                                            onPress={() => setDeckPage(deckPage + 1)}
                                         >
                                             {t('Next')}
                                         </Button>

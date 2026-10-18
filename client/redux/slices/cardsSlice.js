@@ -72,7 +72,7 @@ const normalizeDeck = (deck, state) => {
     };
 };
 
-const normalizeDecks = (decks, state) => decks.map((deck) => normalizeDeck(deck, state));
+export const normalizeDecks = (decks, state) => decks.map((deck) => normalizeDeck(deck, state));
 
 const cardsSlice = createSlice({
     name: 'cards',
