@@ -128,6 +128,13 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
     // out of play mid-window. Attaches each destroy event as a child of
     // the parent so the outer EventWindow's reaction phase sees the full
     // cascade as one grouped trigger.
+    //
+    // If a leavesPlayEvent has a `replacementHandler` installed (by a card's
+    // destroyed-replacement ability during the interrupt window), that handler
+    // is called instead of moving the card to discard. This implements the
+    // rulebook rule that destruction replacement effects resolve at the moment
+    // the card would be put into the discard pile — after the full
+    // DestroyedAbilityWindow has closed — rather than during it.
     discardAllTaggedCards() {
         if (this.batchedDestroyEvents.size === 0) {
             return;
@@ -156,7 +163,15 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
                 const snapshot = destroyEvent.card.createSnapshot();
                 destroyEvent.clone = snapshot;
                 leavesPlayEvent.clone = snapshot;
-                destroyEvent.card.owner.moveCard(destroyEvent.card, 'discard');
+                if (leavesPlayEvent.replacementHandler) {
+                    // A replacement effect (e.g. SelfBolsteringAutomata) installed
+                    // a handler to run instead of discarding the card.
+                    leavesPlayEvent.card.moribund = false;
+                    leavesPlayEvent.replacementHandler(leavesPlayEvent, destroyEvent);
+                    leavesPlayEvent.cancel();
+                } else {
+                    destroyEvent.card.owner.moveCard(destroyEvent.card, 'discard');
+                }
             }
         }
 
