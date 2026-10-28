@@ -6,12 +6,7 @@ class HelmsmanSpears extends Card {
     setupCardAbilities(ability) {
         this.fight({
             reap: true,
-            target: {
-                controller: 'self',
-                mode: 'unlimited',
-                location: 'hand',
-                gameAction: ability.actions.discard()
-            },
+            gameAction: ability.actions.discardAnyNumber(),
             then: {
                 gameAction: ability.actions.draw((context) => ({
                     amount: DiscardCardAction.collectDiscardedCards(context.preThenEvents).length

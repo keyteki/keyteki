@@ -6,15 +6,16 @@ class StarsAligned extends Card {
         this.prophecyReaction({
             when: {
                 onTurnStart: (event, context) =>
-                    context.game.activePlayer === context.source.controller.opponent &&
-                    context.game
-                        .getPlayers()
-                        .every(
-                            (player) =>
-                                player.creaturesInPlay.length ===
-                                context.source.controller.creaturesInPlay.length
-                        )
+                    context.game.activePlayer === context.source.controller.opponent
             },
+            resolutionCondition: (context) =>
+                context.game
+                    .getPlayers()
+                    .every(
+                        (player) =>
+                            player.creaturesInPlay.length ===
+                            context.source.controller.creaturesInPlay.length
+                    ),
             gameAction: ability.actions.fulfillProphecy((context) => ({
                 card: context.source
             }))

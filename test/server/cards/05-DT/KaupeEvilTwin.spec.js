@@ -220,18 +220,20 @@ describe('Kaupe Evil Twin', function () {
 
         it('should be able to discard no cards from hand', function () {
             this.player1.fightWith(this.kaupeEvilTwin, this.lamindra);
-            this.player1.clickPrompt('Done');
-            this.player1.endTurn();
+            // Hand holds a Scrap card, so the number of discards is chosen first
+            expect(this.player1).toHavePrompt('Choose a number');
+            this.player1.clickPrompt('0');
+            expect(this.player1).isReadyToTakeAction();
         });
 
         describe('and cards are selected from hand', function () {
             beforeEach(function () {
                 this.player1.fightWith(this.kaupeEvilTwin, this.lamindra);
+                this.player1.clickPrompt('4');
                 this.player1.clickCard(this.doctorDriscoll);
                 this.player1.clickCard(this.detentionCoil);
                 this.player1.clickCard(this.transporterPlatform);
                 this.player1.clickCard(this.galacticCensus);
-                this.player1.clickPrompt('Done');
             });
 
             it('should discard selected cards', function () {
@@ -267,13 +269,7 @@ describe('Kaupe Evil Twin', function () {
 
         it('should correctly count when discarding a Scrap effect', function () {
             this.player1.fightWith(this.kaupeEvilTwin, this.lamindra);
-            this.player1.clickCard(this.hazardZerp);
-            this.player1.clickCard(this.doctorDriscoll);
-            this.player1.clickCard(this.detentionCoil);
-            this.player1.clickPrompt('Done');
-
-            // Now we need to select the discard order. If we do Zerp first, we
-            // don’t have to choose Detention Coil.
+            this.player1.clickPrompt('2');
             this.player1.clickCard(this.hazardZerp);
 
             expect(this.player1).toHavePrompt('Hazard Zerp');
@@ -282,6 +278,12 @@ describe('Kaupe Evil Twin', function () {
             // Damage the Troll
             expect(this.player1).toBeAbleToSelect(this.troll);
             this.player1.clickCard(this.troll);
+
+            // Detention Coil was discarded by Hazard Zerp, not by Kaupe
+            expect(this.player1).toHavePrompt('Choose a card to discard');
+            expect(this.player1).not.toBeAbleToSelect(this.detentionCoil);
+            this.player1.clickCard(this.doctorDriscoll);
+            expect(this.doctorDriscoll.location).toBe('discard');
 
             // There were two successful discards, so two instances of damage.
             expect(this.player1).toHavePrompt('Kaupe');

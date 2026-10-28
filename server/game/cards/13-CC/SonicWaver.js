@@ -23,7 +23,8 @@ class SonicWaver extends Card {
             when: {
                 onTurnEnd: () => true
             },
-            condition: (context) => !context.game.creaturesInPlay.some((card) => card.stunned),
+            resolutionCondition: (context) =>
+                !context.game.creaturesInPlay.some((card) => card.stunned),
             gameAction: ability.actions.purge((context) => ({
                 target: context.source
             })),

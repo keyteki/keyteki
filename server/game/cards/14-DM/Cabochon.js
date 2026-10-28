@@ -8,7 +8,7 @@ class Cabochon extends Card {
             when: {
                 onTurnStart: (_, context) => context.player === this.game.activePlayer
             },
-            condition: (context) => context.source.exhausted,
+            resolutionCondition: (context) => context.source.exhausted,
             gameAction: ability.actions.gainAmber((context) => ({
                 amount: context.player.creaturesInPlay.filter(
                     (card) => card.hasHouse('skyborn') && card.isOnFlank()

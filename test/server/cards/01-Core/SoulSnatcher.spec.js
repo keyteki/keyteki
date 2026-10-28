@@ -52,4 +52,30 @@ describe('Soul Snatcher', function () {
             expect(this.player2.player.amber).toBe(4);
         });
     });
+
+    describe('Soul Snatcher with a destruction caused by a Destroyed: ability', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    hand: ['draining-touch'],
+                    inPlay: ['soul-snatcher', 'boiler']
+                },
+                player2: {
+                    inPlay: ['toad']
+                }
+            });
+        });
+
+        it('should award amber once for each destroyed creature', function () {
+            this.player1.play(this.drainingTouch);
+            this.player1.clickCard(this.boiler);
+            this.player1.clickPrompt('Autoresolve');
+            expect(this.boiler.location).toBe('discard');
+            expect(this.toad.location).toBe('discard');
+            expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

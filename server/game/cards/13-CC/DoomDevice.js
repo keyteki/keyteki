@@ -7,7 +7,7 @@ class DoomDevice extends Card {
             when: {
                 onTurnEnd: (event, context) => context.player === this.game.activePlayer
             },
-            condition: (context) =>
+            resolutionCondition: (context) =>
                 context.game.cardsInPlay.length +
                     context.game.cardsInPlay.reduce(
                         (acc, card) => acc + (card.upgrades?.length || 0),

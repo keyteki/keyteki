@@ -5,9 +5,9 @@ class TitanLibrarian extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onTurnEnd: (event, context) =>
-                    context.player === this.game.activePlayer && !this.isOnFlank()
+                onTurnEnd: (event, context) => context.player === this.game.activePlayer
             },
+            resolutionCondition: () => !this.isOnFlank(),
             target: {
                 location: 'hand',
                 controller: 'self',

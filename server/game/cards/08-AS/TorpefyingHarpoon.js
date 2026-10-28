@@ -7,9 +7,9 @@ class TorpefyingHarpoon extends Card {
         this.whileAttached({
             effect: ability.effects.gainAbility('interrupt', {
                 when: {
-                    onTurnEnd: (_event, context) =>
-                        context.player === context.game.activePlayer && !context.source.isOnFlank()
+                    onTurnEnd: (_event, context) => context.player === context.game.activePlayer
                 },
+                resolutionCondition: (context) => !context.source.isOnFlank(),
                 gameAction: ability.actions.destroy()
             })
         });

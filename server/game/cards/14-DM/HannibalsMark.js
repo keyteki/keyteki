@@ -8,13 +8,15 @@ class HannibalsMark extends Card {
                 cardType: 'creature',
                 controller: 'opponent',
                 cardCondition: (card) => card.isOnFlank(),
-                gameAction: [
+                // Resolve in the order written: the creature may be destroyed by losing
+                // effects from its old controller before it gets the power counters
+                gameAction: ability.actions.sequential([
                     ability.actions.cardLastingEffect((context) => ({
                         duration: 'lastingEffect',
                         effect: ability.effects.takeControl(context.player)
                     })),
                     ability.actions.addPowerCounter({ amount: 3 })
-                ]
+                ])
             },
             then: (context) => ({
                 alwaysTriggers: true,

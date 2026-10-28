@@ -196,4 +196,36 @@ describe('Fading Apparition', function () {
             expect(this.player2.amber).toBe(1);
         });
     });
+
+    describe('two copies of Fading Apparition', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'geistoid',
+                    inPlay: ['fading-apparition', 'fading-apparition', 'boiler', 'jahneerie']
+                },
+                player2: {
+                    inPlay: ['troll']
+                }
+            });
+            [this.fadingApparition1, this.fadingApparition2] = this.player1.filterCardsByName(
+                'fading-apparition',
+                'play area'
+            );
+            this.fadingApparition1.exhaust();
+            this.fadingApparition2.exhaust();
+            this.boiler.amber = 2;
+        });
+
+        it('only takes 1 amber from friendly creatures', function () {
+            this.player1.reap(this.jahneerie);
+            expect(this.player1).toBeAbleToSelect(this.fadingApparition1);
+            expect(this.player1).toBeAbleToSelect(this.fadingApparition2);
+            this.player1.clickCard(this.fadingApparition1);
+            this.player1.clickCard(this.boiler);
+            expect(this.boiler.amber).toBe(1);
+            expect(this.player1.amber).toBe(1);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

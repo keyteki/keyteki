@@ -6,12 +6,7 @@ class KeyDrain extends Card {
     setupCardAbilities(ability) {
         this.play({
             preferActionPromptMessage: true,
-            target: {
-                controller: 'self',
-                mode: 'unlimited',
-                location: 'hand',
-                gameAction: ability.actions.discard()
-            },
+            gameAction: ability.actions.discardAnyNumber(),
             then: {
                 alwaysTriggers: true,
                 gameAction: ability.actions.forgeKey((context) => ({

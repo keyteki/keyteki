@@ -95,4 +95,29 @@ describe("Hannibal's Mark", function () {
             expect(this.gemcoatVendor.hasHouse('skyborn')).toBe(true);
         });
     });
+
+    describe("Hannibal's Mark's ability on a creature kept alive by its controller's effects", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'skyborn',
+                    hand: ['hannibal-s-mark']
+                },
+                player2: {
+                    inPlay: ['operator-olluyyg', 'remmi-hound']
+                }
+            });
+            this.remmiHound.exhaust();
+            this.operatorOlluyyg.tokens.damage = 4;
+            this.game.checkGameState(true);
+        });
+
+        it('destroys the creature before it gets the power counters', function () {
+            expect(this.operatorOlluyyg.power).toBe(7);
+            this.player1.play(this.hannibalSMark);
+            this.player1.clickCard(this.operatorOlluyyg);
+            expect(this.operatorOlluyyg.location).toBe('discard');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

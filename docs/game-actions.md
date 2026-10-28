@@ -34,6 +34,7 @@ Game actions are the atomic operations that modify game state. They are accessed
     -   [ward({ target })](#ward-target-)
 -   [Player Actions](#player-actions)
     -   [chosenDiscard({ amount })](#chosendiscard-amount-)
+    -   [discardAnyNumber({ cardCondition })](#discardanynumber-cardcondition-)
     -   [discardAtRandom({ amount })](#discardatrandom-amount-)
     -   [discardTopOfDeck({ amount })](#discardtopofdeck-amount-)
     -   [draw({ amount })](#draw-amount-)
@@ -370,6 +371,10 @@ ability.actions.returnToDeck({ bottom: true });
 
 // Shuffle into deck
 ability.actions.returnToDeck({ shuffle: true });
+
+// Return several cards to the top of their owners' decks, with the active player
+// choosing the order for each owner who receives 2 or more cards
+ability.actions.returnToDeck({ orderCards: true });
 ```
 
 ### returnToHand({ target })
@@ -442,6 +447,23 @@ ability.actions.chosenDiscard();
 
 // Discard 2 cards
 ability.actions.chosenDiscard({ amount: 2 });
+```
+
+### discardAnyNumber({ cardCondition })
+
+"Discard any number of cards from your hand." Cards are discarded one at a time. If an eligible card has a Scrap: ability, the player first chooses how many cards to discard (or "All Cards"), then picks each card from their current hand, so cards drawn by Scrap: abilities are eligible. Otherwise the player picks all the cards at once.
+
+```javascript
+// Helmsman Spears: discard any number of cards, then draw that many
+gameAction: ability.actions.discardAnyNumber(),
+then: {
+    gameAction: ability.actions.draw((context) => ({
+        amount: DiscardCardAction.collectDiscardedCards(context.preThenEvents).length
+    }))
+}
+
+// Trade Secrets: only Ekwidon cards
+ability.actions.discardAnyNumber({ cardCondition: (card) => card.hasHouse('ekwidon') });
 ```
 
 ### discardAtRandom({ amount })

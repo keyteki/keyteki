@@ -6,9 +6,9 @@ class DrayConis extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onTurnStart: (_, context) =>
-                    context.player === this.game.activePlayer && context.source.exhausted
+                onTurnStart: (_, context) => context.player === this.game.activePlayer
             },
+            resolutionCondition: (context) => context.source.exhausted,
             gameAction: ability.actions.destroy((context) => ({
                 target: context.game.creaturesInPlay
             })),

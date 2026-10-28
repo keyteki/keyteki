@@ -9,7 +9,7 @@ class Starpatch extends Card {
                 when: {
                     onTurnStart: (_event, context) => context.player === context.game.activePlayer
                 },
-                condition: (context) =>
+                resolutionCondition: (context) =>
                     context.source.exhausted &&
                     context.game.creaturesInPlay.some(
                         (card) =>

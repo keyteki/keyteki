@@ -171,7 +171,20 @@ class SelectCardPrompt extends UiPrompt {
                 piles.push({ location, controller });
             }
         }
-        return piles;
+
+        if (this.revealTargets || piles.length < 2) {
+            return piles;
+        }
+
+        const legalTargets = this.selector.getAllLegalTargets(this.context);
+        const pilesWithTargets = piles.filter((pile) =>
+            legalTargets.some(
+                (card) =>
+                    card.location === pile.location &&
+                    (card.controller === this.context.player) === (pile.controller === 'self')
+            )
+        );
+        return pilesWithTargets.length > 0 ? pilesWithTargets : piles;
     }
 
     activeCondition(player) {

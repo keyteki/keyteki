@@ -95,6 +95,26 @@ describe('Infurnace', function () {
             expect(this.cullTheWeak.location).toBe('purged');
             expect(this.player2.amber).toBe(1);
         });
+
+        it('should only open your own discard pile after choosing it', function () {
+            this.player1.play(this.infurnace);
+            this.player1.clickPrompt('Mine');
+            expect(this.player1.player.promptState.promptedPiles).toEqual([
+                { location: 'discard', controller: 'self' }
+            ]);
+            this.player1.clickPrompt('Done');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
+        it("should only open the opponent's discard pile after choosing it", function () {
+            this.player1.play(this.infurnace);
+            this.player1.clickPrompt("Opponent's");
+            expect(this.player1.player.promptState.promptedPiles).toEqual([
+                { location: 'discard', controller: 'opponent' }
+            ]);
+            this.player1.clickPrompt('Done');
+            expect(this.player1).isReadyToTakeAction();
+        });
     });
 
     describe("Infurnace's ability", function () {

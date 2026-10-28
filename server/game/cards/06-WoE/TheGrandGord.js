@@ -7,21 +7,18 @@ class TheGrandGord extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onTurnStart: (_, context) => {
-                    if (context.player !== this.game.activePlayer) {
-                        return false;
-                    }
-
-                    let max = Math.max.apply(
-                        Math,
-                        this.game.creaturesInPlay.map((card) => card.power)
-                    );
-                    let myMax = Math.max.apply(
-                        Math,
-                        context.player.creaturesInPlay.map((card) => card.power)
-                    );
-                    return myMax === max;
-                }
+                onTurnStart: (_, context) => context.player === this.game.activePlayer
+            },
+            resolutionCondition: (context) => {
+                const max = Math.max.apply(
+                    Math,
+                    this.game.creaturesInPlay.map((card) => card.power)
+                );
+                const myMax = Math.max.apply(
+                    Math,
+                    context.player.creaturesInPlay.map((card) => card.power)
+                );
+                return myMax === max;
             },
             effect: 'make a token creature',
             gameAction: ability.actions.makeTokenCreature()

@@ -422,6 +422,12 @@ class PutIntoPlayAction extends CardGameAction {
                     myControl: control
                 });
 
+                // A replacement effect may have sent the card elsewhere instead
+                // (e.g. an abducted card leaving archives goes to its owner's hand)
+                if (card.location !== 'play area') {
+                    return;
+                }
+
                 if (control) {
                     card.updateEffectContexts();
                 }

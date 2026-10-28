@@ -6,9 +6,9 @@ class BadOmen extends Card {
         this.prophecyInterrupt({
             when: {
                 onTurnEnd: (_, context) =>
-                    this.game.activePlayer === context.source.controller.opponent &&
-                    this.game.activePlayer.amber === 6
+                    this.game.activePlayer === context.source.controller.opponent
             },
+            resolutionCondition: () => this.game.activePlayer.amber === 6,
             gameAction: ability.actions.fulfillProphecy((context) => ({
                 card: context.source
             }))

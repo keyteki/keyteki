@@ -6,9 +6,10 @@ class TheSecondMouse extends Card {
         this.prophecyInterrupt({
             when: {
                 onTurnEnd: (event, context) =>
-                    context.game.activePlayer === context.source.controller.opponent &&
-                    context.game.activePlayer.amber < context.source.controller.amber
+                    context.game.activePlayer === context.source.controller.opponent
             },
+            resolutionCondition: (context) =>
+                context.game.activePlayer.amber < context.source.controller.amber,
             gameAction: ability.actions.fulfillProphecy((context) => ({
                 card: context.source
             }))

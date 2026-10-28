@@ -489,6 +489,23 @@ this.play({
 });
 ```
 
+#### `resolutionCondition` for "if" clauses on triggered abilities
+
+On a triggered ability, `when` and `condition` are checked when the ability triggers. An "if" clause in the card text (e.g. "At the start of your turn, if ...") is checked when the ability **resolves**. Keep `when` for the timing only and put the "if" in `resolutionCondition`. The ability is then always offered in its trigger window, so the active player can order it against other abilities that change the game state. If the condition is false when it resolves, the ability does nothing, and it doesn't trigger again later in the same window.
+
+```javascript
+// At the end of your opponent's turn, if they have more A in their pool than you, fulfill The Early Bird.
+this.prophecyInterrupt({
+    when: {
+        onTurnEnd: (event, context) =>
+            context.game.activePlayer === context.source.controller.opponent
+    },
+    resolutionCondition: (context) =>
+        context.game.activePlayer.amber > context.source.controller.amber,
+    gameAction: ability.actions.fulfillProphecy((context) => ({ card: context.source }))
+});
+```
+
 ### Optional
 
 Use `optional: true` when the card text says "you may" to let the player choose whether to use the ability.
@@ -606,7 +623,7 @@ this.omni({
 For chained "If you do" clauses (e.g. "Capture 2A. You may discard a card. If you do, ..."), each clause's condition must verify what really happened, not the final card state. Common pitfalls:
 
 -   **Don't infer success from card state.** `source.hasToken('amber')` is true even if amber was already on the card before the ability resolved — it does not prove a capture succeeded this turn.
--   **Inspect `preThenEvents` for the actual events.** Each event has a `name` and result fields (e.g. `amount` for `onCapture`). Use these to confirm the effect occurred at the required magnitude.
+-   **Inspect `preThenEvents` for the actual events.** Each event has a `name` and result fields (e.g. `amount` for `onCapture`, `cards` for `discardTopOfDeck`). Use these to confirm the effect occurred at the required magnitude — for example, a player with an empty deck discards nothing, so don't fall back to the top of their discard pile.
 -   **Check optional target selection with `!!preThenContext.target`.** When `target.optional` is true, `target` is empty/falsy if the player declined.
 
 ```javascript

@@ -17,10 +17,9 @@ class LuisCompere extends Card {
 
         this.interrupt({
             when: {
-                onTurnEnd: (event, context) =>
-                    event.player === context.source.controller.opponent &&
-                    this.opponentDrawStepCount >= 2
+                onTurnEnd: (event, context) => event.player === context.source.controller.opponent
             },
+            resolutionCondition: () => this.opponentDrawStepCount >= 2,
             gameAction: ability.actions.steal({ amount: 2 })
         });
     }

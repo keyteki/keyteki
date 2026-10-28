@@ -9,10 +9,10 @@ class CurseOfFertility extends Card {
         this.interrupt({
             when: {
                 onTurnEnd: (_, context) =>
-                    context.player === this.game.activePlayer &&
-                    !!context.player.opponent &&
-                    this.game.cardsPlayed.filter((card) => card.type === 'creature').length === 0
+                    context.player === this.game.activePlayer && !!context.player.opponent
             },
+            resolutionCondition: () =>
+                this.game.cardsPlayed.filter((card) => card.type === 'creature').length === 0,
             gameAction: ability.actions.gainAmber((context) => ({
                 target: context.player.opponent
             })),

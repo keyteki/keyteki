@@ -139,4 +139,34 @@ describe('Murkens', function () {
             expect(this.player2).isReadyToTakeAction();
         });
     });
+
+    describe('Murkens playing an abducted creature from archives', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'mars',
+                    inPlay: ['uxlyx-the-zookeeper']
+                },
+                player2: {
+                    house: 'shadows',
+                    inPlay: ['infurnace'],
+                    hand: ['murkens']
+                }
+            });
+            this.player1.reap(this.uxlyxTheZookeeper);
+            this.player1.clickCard(this.infurnace);
+            this.player1.endTurn();
+            this.player2.clickPrompt('shadows');
+        });
+
+        it("returns the creature to its owner's hand without it entering play", function () {
+            expect(this.infurnace.location).toBe('archives');
+            this.player2.play(this.murkens);
+            this.player2.clickPrompt('Random card from archives');
+            expect(this.infurnace.location).toBe('hand');
+            expect(this.infurnace.exhausted).toBe(false);
+            expect(this.player2.player.hand).toContain(this.infurnace);
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
 });

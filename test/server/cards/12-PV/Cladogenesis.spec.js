@@ -49,6 +49,16 @@ describe('Cladogenesis', function () {
             expect(this.player2.player.hand.length).toBe(6);
         });
 
+        it('should not use the top of the discard pile when the deck is empty', function () {
+            this.player1.player.deck = [];
+            this.player1.play(this.cladogenesis);
+            // Dust Pixie (Untamed) is on top of the discard pile but was not discarded from the deck
+            expect(this.huntingWitch.location).toBe('hand');
+            expect(this.pelf.location).toBe('hand');
+            expect(this.anger.location).toBe('hand');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
         it('should handle empty hand', function () {
             this.player1.player.hand = [this.cladogenesis];
             this.player2.player.hand = [];

@@ -72,4 +72,31 @@ describe('Embellish Imp', function () {
             expect(this.player2).isReadyToTakeAction();
         });
     });
+
+    describe('Embellish Imp with a destruction caused by a Destroyed: ability', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    inPlay: ['dark-minion', 'embellish-imp']
+                },
+                player2: {
+                    amber: 6,
+                    inPlay: ['toad', 'urchin', 'troll']
+                }
+            });
+        });
+
+        it('should steal once for each destroyed enemy creature', function () {
+            this.player1.fightWith(this.darkMinion, this.toad);
+            this.player1.clickPrompt('Autoresolve');
+            expect(this.darkMinion.location).toBe('discard');
+            expect(this.toad.location).toBe('discard');
+            expect(this.urchin.location).toBe('discard');
+            expect(this.troll.location).toBe('play area');
+            expect(this.player1.amber).toBe(2);
+            expect(this.player2.amber).toBe(4);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });
