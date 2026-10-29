@@ -6,9 +6,9 @@ class Waspscream extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onTurnStart: (event, context) =>
-                    event.player === context.player && context.source.exhausted
+                onTurnStart: (event, context) => event.player === context.player
             },
+            resolutionCondition: (context) => context.source.exhausted,
             target: {
                 cardType: 'creature',
                 controller: 'opponent',

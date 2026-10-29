@@ -67,14 +67,22 @@ class DestroyAction extends CardGameAction {
                       }
             );
 
+            if (isBatched) {
+                event.leavesPlayEvent.deferReactions = true;
+            }
+
             event.addSubEvent(event.leavesPlayEvent);
         });
 
         // If this destruction was triggered while resolving destroyed abilities
         // then it should be batched together with them.
         if (isBatched) {
-            // Mark this event so we don't open a separate reaction window for it
+            // Mark this event so we don't open a separate reaction window for it.
+            // deferReactions also covers the case where it is wrapped in another
+            // event (e.g. resolved by a Destroyed: ability's game action); its
+            // reactions fire once, from the outer destruction's window.
             event.openReactionWindow = false;
+            event.deferReactions = true;
             context.game.currentDestructionWindow.addBatchedDestroyEvent(event);
         }
 

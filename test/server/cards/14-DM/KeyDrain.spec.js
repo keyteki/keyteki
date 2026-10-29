@@ -87,38 +87,31 @@ describe('Key Drain', function () {
             this.player1.moveCard(this.urchin, 'deck');
         });
 
-        // SKIPPED: This test documents the desired behavior — that a card
-        // drawn by a Scrap: effect mid-resolution should be selectable as a
-        // further discard target during the same Key Drain resolution. Today
-        // the unlimited-target selector batches all picks before any discard
-        // resolves, so the drawn card is not offered. Re-enable once the
-        // engine supports iterative resolution of unlimited discard targets
-        // (tracked separately).
-        // https://github.com/keyteki/keyteki/issues/4970
-        it.skip('lets you discard a card drawn by a Scrap effect during the same Key Drain resolution', function () {
+        it('lets you discard a card drawn by a Scrap effect during the same Key Drain resolution', function () {
             this.player1.play(this.keyDrain);
+            // Hand holds a Scrap card, so the number of discards is chosen first
+            expect(this.player1).toHavePrompt('Choose a number');
+            this.player1.clickPrompt('All Cards');
             this.player1.clickCard(this.brillixPonder);
             expect(this.brillixPonder.location).toBe('discard');
             expect(this.urchin.location).toBe('hand');
             expect(this.player1).toBeAbleToSelect(this.urchin);
             this.player1.clickCard(this.urchin);
             expect(this.urchin.location).toBe('discard');
+            // 15 amber (14 + bonus icon), forge cost: 6 + (9 - 2) = 13
             this.player1.forgeKey('red');
             expect(this.player1.player.getForgedKeys()).toBe(1);
-            expect(this.player1.amber).toBe(0);
+            expect(this.player1.amber).toBe(2);
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('does not currently let you discard a card drawn by a Scrap effect (engine limitation)', function () {
+        it('stops after the chosen number of discards', function () {
             this.player1.play(this.keyDrain);
+            this.player1.clickPrompt('1');
             this.player1.clickCard(this.brillixPonder);
-            this.player1.clickPrompt('Done');
-            // Brillix Ponder is discarded and its Scrap drew Urchin, but the
-            // unlimited-target selector already finished selection before any
-            // discard resolved, so Urchin is NOT offered as a further
-            // discard. Forge cost: 6 + (9 - 2) = 13, leaving 1 amber.
             expect(this.brillixPonder.location).toBe('discard');
             expect(this.urchin.location).toBe('hand');
+            // 15 amber (14 + bonus icon), forge cost: 6 + (9 - 1) = 14
             this.player1.forgeKey('red');
             expect(this.player1.player.getForgedKeys()).toBe(1);
             expect(this.player1.amber).toBe(1);

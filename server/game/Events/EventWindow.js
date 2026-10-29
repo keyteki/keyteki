@@ -48,11 +48,21 @@ class EventWindow extends BaseStepWithPipeline {
             }
             this.queueStep(new DestroyedAbilityWindow(this.game, abilityType, this));
         } else {
+            let eventsToExclude = [];
             if (abilityType === 'reaction') {
+                // Batched destructions react later, from the outer destruction window
+                eventsToExclude = events.filter((event) => event.deferReactions);
+                events = events.filter((event) => !event.deferReactions);
+                if (events.length === 0) {
+                    return;
+                }
+
                 this.game.checkDelayedEffects(events);
             }
 
-            this.queueStep(new ForcedTriggeredAbilityWindow(this.game, abilityType, this));
+            this.queueStep(
+                new ForcedTriggeredAbilityWindow(this.game, abilityType, this, eventsToExclude)
+            );
         }
     }
 

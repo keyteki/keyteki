@@ -5,6 +5,7 @@ class Barehanded extends Card {
     setupCardAbilities(ability) {
         this.play({
             gameAction: ability.actions.returnToDeck((context) => ({
+                orderCards: true,
                 target: context.game.cardsInPlay.filter((card) => card.type === 'artifact')
             }))
         });

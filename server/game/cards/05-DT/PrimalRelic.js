@@ -23,7 +23,7 @@ class PrimalRelic extends Card {
                 onTurnStart: () => true
             },
             gameAction: ability.actions.removeAmber({ all: true }),
-            condition: (context) =>
+            resolutionCondition: (context) =>
                 context.game.activePlayer.creaturesInPlay.reduce(
                     (total, c) => total + c.power,
                     0

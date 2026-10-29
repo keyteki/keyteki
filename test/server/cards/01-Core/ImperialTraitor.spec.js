@@ -32,4 +32,28 @@ describe('Imperial Traitor', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe("Imperial Traitor's ability with no Sanctum cards in the opponent's hand", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    hand: ['imperial-traitor']
+                },
+                player2: {
+                    hand: ['troll', 'krump']
+                }
+            });
+        });
+
+        it("should still show the opponent's hand", function () {
+            this.player1.play(this.imperialTraitor);
+            expect(this.player1).toHavePromptButton('Done');
+            expect(this.player1).not.toBeAbleToSelect(this.troll);
+            expect(this.player1).not.toBeAbleToSelect(this.krump);
+            this.player1.clickPrompt('Done');
+            expect(this.troll.location).toBe('hand');
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

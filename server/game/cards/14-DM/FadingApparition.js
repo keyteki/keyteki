@@ -8,6 +8,7 @@ class FadingApparition extends Card {
             when: {
                 onModifyAmber: (event, context) =>
                     event.reap &&
+                    !event.amberSourceChosen &&
                     event.player === context.source.controller &&
                     context.source.exhausted
             },
@@ -17,7 +18,14 @@ class FadingApparition extends Card {
                 cardType: 'creature',
                 controller: 'self',
                 cardCondition: (card) => card.amber > 0,
-                gameAction: ability.actions.removeAmber({ amount: 1 })
+                gameAction: [
+                    ability.actions.removeAmber({ amount: 1 }),
+                    // Other copies don't stack: once amber is taken, this reap's source is decided
+                    ability.actions.changeEvent((context) => ({
+                        event: context.event,
+                        amberSourceChosen: true
+                    }))
+                ]
             },
             effect: 'take 1 amber from {0} instead of the common supply'
         });

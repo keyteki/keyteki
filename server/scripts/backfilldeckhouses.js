@@ -6,6 +6,7 @@ const CardService = require('../services/CardService');
 const ConfigService = require('../services/ConfigService');
 const DeckService = require('../services/DeckService');
 const { PrintingIndex } = require('../../master-vault-data/src/printings');
+const { matchDeckCards } = require('./deckcardmatcher');
 
 //
 // Stores the house of every card in decks imported before deck import stored them.
@@ -32,23 +33,6 @@ const optionsDefinition = [
 ];
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-// Stored enhancements are JSON from deck import (["amber","draw"]) or a postgres array from
-// choosing enhancements in game ({amber,draw}), so are read the same way deck loading reads them
-function enhancementsKey(enhancements) {
-    if (!enhancements) {
-        return '';
-    }
-
-    const list = Array.isArray(enhancements)
-        ? enhancements
-        : enhancements
-              .replace(/[[{}"\]]/g, '')
-              .split(',')
-              .filter((e) => e.length > 0);
-
-    return [...list].sort().join(',');
-}
 
 class DeckHouseBackfill {
     constructor(options) {
@@ -118,7 +102,7 @@ class DeckHouseBackfill {
                 );
 
             if (house) {
-                updates.push([row.Id, house]);
+                updates.push({ id: row.Id, house: house });
             } else if (!deck.IsAlliance) {
                 unresolved.set(deck.Id, [...(unresolved.get(deck.Id) || []), row]);
             }
@@ -160,7 +144,7 @@ class DeckHouseBackfill {
                 continue;
             }
 
-            const updates = this.matchCards(rows, parsed.cards);
+            const updates = matchDeckCards(rows, parsed.cards);
             this.stats.fromMasterVault += updates.length;
             await this.store(updates);
         }
@@ -170,42 +154,24 @@ class DeckHouseBackfill {
         );
     }
 
-    /**
-     * Pairs stored cards with the cards from Master Vault. Copies of a card that only differ by
-     * house are interchangeable, so any pairing of them is right.
-     */
-    matchCards(rows, cards) {
-        const remaining = [...cards];
-        const updates = [];
-
-        for (const row of rows) {
-            const index = remaining.findIndex(
-                (card) =>
-                    card.id === row.CardId &&
-                    card.count === row.Count &&
-                    (card.maverick || null) === (row.Maverick || null) &&
-                    (card.anomaly || null) === (row.Anomaly || null) &&
-                    enhancementsKey(card.enhancements) === enhancementsKey(row.Enhancements)
-            );
-            if (index >= 0) {
-                updates.push([row.Id, remaining[index].house]);
-                remaining.splice(index, 1);
-            }
-        }
-
-        return updates;
-    }
-
     async store(updates) {
         if (!this.options.apply || updates.length === 0) {
             return;
         }
 
+        // Also stores any maverick/anomaly Master Vault has that the stored card is missing
         await db.query(
-            'UPDATE "DeckCards" dc SET "HouseId" = h."Id" ' +
-                'FROM unnest($1::int[], $2::text[]) AS v("Id", "House") JOIN "Houses" h ON h."Code" = v."House" ' +
+            'UPDATE "DeckCards" dc SET "HouseId" = h."Id", ' +
+                '"Maverick" = COALESCE(dc."Maverick", v."Maverick"), "Anomaly" = COALESCE(dc."Anomaly", v."Anomaly") ' +
+                'FROM unnest($1::int[], $2::text[], $3::text[], $4::text[]) AS v("Id", "House", "Maverick", "Anomaly") ' +
+                'JOIN "Houses" h ON h."Code" = v."House" ' +
                 'WHERE dc."Id" = v."Id"',
-            [updates.map(([id]) => id), updates.map(([, house]) => house)]
+            [
+                updates.map((update) => update.id),
+                updates.map((update) => update.house),
+                updates.map((update) => update.maverick || null),
+                updates.map((update) => update.anomaly || null)
+            ]
         );
     }
 }

@@ -5,9 +5,9 @@ class RogueOgre extends Card {
     setupCardAbilities(ability) {
         this.interrupt({
             when: {
-                onTurnEnd: (event, context) =>
-                    context.player === this.game.activePlayer && this.game.cardsPlayed.length === 1
+                onTurnEnd: (event, context) => context.player === this.game.activePlayer
             },
+            resolutionCondition: () => this.game.cardsPlayed.length === 1,
             gameAction: [ability.actions.heal({ amount: 2 }), ability.actions.capture()]
         });
     }

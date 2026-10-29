@@ -12,13 +12,13 @@ class PyrotechnicFlash extends Card {
                 })
             },
             then: {
+                // Damage redirected to another creature (e.g. Shadow Self) is still this damage
                 condition: (context) =>
-                    context.preThenEvents.filter(
-                        (event) =>
-                            event.destroyEvent &&
-                            event.destroyEvent.destroyedByDamageDealt &&
-                            event.destroyEvent.resolved
-                    ).length >= 2,
+                    new Set(
+                        context.preThenEvents
+                            .filter((event) => event.destroyEvent && event.destroyEvent.resolved)
+                            .map((event) => event.destroyEvent.card)
+                    ).size >= 2,
                 gameAction: ability.actions.steal({ amount: 1 }),
                 message: '{0} uses {1} to steal 1 amber'
             }

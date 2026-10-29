@@ -17,11 +17,10 @@ class Bracchanalia extends Card {
 
         this.reaction({
             when: {
-                onTurnStart: (_, context) =>
-                    context.game.activePlayer &&
-                    context.game.activePlayer.creaturesInPlay.filter((card) => card.amber).length >=
-                        4
+                onTurnStart: (_, context) => !!context.game.activePlayer
             },
+            resolutionCondition: (context) =>
+                context.game.activePlayer.creaturesInPlay.filter((card) => card.amber).length >= 4,
             gameAction: ability.actions.removeAmber({ all: true }),
             then: {
                 gameAction: ability.actions.gainAmber((context) => ({

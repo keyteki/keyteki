@@ -9,10 +9,10 @@ class DarkMemento extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onTurnStart: (_, context) =>
-                    context.player === this.game.activePlayer && !context.player.isHaunted()
+                onTurnStart: (_, context) => context.player === this.game.activePlayer
             },
             condition: (context) => context.player.deck.length > 0,
+            resolutionCondition: (context) => !context.player.isHaunted(),
             gameAction: ability.actions.discard((context) => ({
                 target: context.player.deck[0]
             })),

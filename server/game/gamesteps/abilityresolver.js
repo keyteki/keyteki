@@ -14,6 +14,7 @@ class AbilityResolver extends BaseStepWithPipeline {
 
     initialise() {
         this.pipeline.initialise([
+            new SimpleStep(this.game, () => this.checkResolutionCondition()),
             new SimpleStep(this.game, () => this.createSnapshot()),
             new SimpleStep(this.game, () => this.payCostsThatCanFail()),
             new SimpleStep(this.game, () => this.payCosts()),
@@ -22,6 +23,17 @@ class AbilityResolver extends BaseStepWithPipeline {
             new SimpleStep(this.game, () => this.executeHandler()),
             new SimpleStep(this.game, () => this.raiseResolvedEvent())
         ]);
+    }
+
+    // "If" clauses on triggered abilities (e.g. "At the start of your turn, if ...")
+    // are checked when the ability resolves, not when it triggers, so the active
+    // player can order it against other abilities in the same window.
+    checkResolutionCondition() {
+        const properties = this.context.ability.properties;
+        const resolutionCondition = properties && properties.resolutionCondition;
+        if (resolutionCondition && !resolutionCondition(this.context)) {
+            this.cancelled = true;
+        }
     }
 
     createSnapshot() {

@@ -123,6 +123,7 @@ const Actions = {
     // player actions
     archiveAtRandom: (propertyFactory) => new GameActions.RandomArchiveAction(propertyFactory), // amount = 1
     chosenDiscard: (propertyFactory) => new GameActions.ChosenDiscardAction(propertyFactory), // amount = 1
+    discardAnyNumber: (propertyFactory) => new GameActions.DiscardAnyNumberAction(propertyFactory), // cardCondition, from hand, one at a time
     discardAtRandom: (propertyFactory) => new GameActions.RandomDiscardAction(propertyFactory), // amount = 1, location = hand
     discardRandomCardsToAmount: (propertyFactory) =>
         new GameActions.DiscardRandomCardsToAmountAction(propertyFactory), // amount = hand size

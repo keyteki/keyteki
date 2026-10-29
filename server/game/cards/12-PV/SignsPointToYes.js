@@ -6,9 +6,10 @@ class SignsPointToYes extends Card {
         this.prophecyInterrupt({
             when: {
                 onTurnEnd: (_, context) =>
-                    this.game.activePlayer === context.source.controller.opponent &&
-                    this.game.activePlayer.amber >= this.game.activePlayer.getCurrentKeyCost()
+                    this.game.activePlayer === context.source.controller.opponent
             },
+            resolutionCondition: () =>
+                this.game.activePlayer.amber >= this.game.activePlayer.getCurrentKeyCost(),
             gameAction: ability.actions.fulfillProphecy((context) => ({
                 card: context.source
             }))

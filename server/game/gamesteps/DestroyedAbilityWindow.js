@@ -142,10 +142,15 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
             if (destroyEvent.cancelled) {
                 continue;
             }
-            if (parentDestroyedEvent) {
-                parentDestroyedEvent.addChildEvent(destroyEvent);
-            }
             const leavesPlayEvent = destroyEvent.leavesPlayEvent;
+            // Reactions to this destruction were held back; let the outer window fire them
+            destroyEvent.deferReactions = false;
+            if (leavesPlayEvent) {
+                leavesPlayEvent.deferReactions = false;
+            }
+
+            // Attach to the outer event so its reaction window sees the cascade
+            (parentDestroyedEvent || this.eventWindow.event).addChildEvent(destroyEvent);
             // Skip if card was already moved out of play mid-window.
             if (
                 leavesPlayEvent &&

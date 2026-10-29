@@ -6,9 +6,9 @@ class NoxiousIonox extends Card {
     setupCardAbilities(ability) {
         this.reaction({
             when: {
-                onTurnStart: (_, context) =>
-                    context.player === this.game.activePlayer && context.source.exhausted
+                onTurnStart: (_, context) => context.player === this.game.activePlayer
             },
+            resolutionCondition: (context) => context.source.exhausted,
             target: {
                 cardType: 'creature',
                 controller: 'opponent',

@@ -8,6 +8,7 @@ class ReturnToDeckAction extends CardGameAction {
         this.shufflePlayer = null;
         this.shuffleDiscardIntoDeck = false;
         this.reveal = false;
+        this.orderCards = false;
     }
 
     setup() {
@@ -56,6 +57,55 @@ class ReturnToDeckAction extends CardGameAction {
     setTarget(target) {
         this.originalTarget = target;
         super.setTarget(target);
+    }
+
+    preEventHandler(context) {
+        super.preEventHandler(context);
+
+        if (!this.orderCards || this.shuffle || this.bottom) {
+            return;
+        }
+
+        const groups = [];
+        for (const card of this.target) {
+            const group = groups.find((g) => g[0].owner === card.owner);
+            if (group) {
+                group.push(card);
+            } else {
+                groups.push([card]);
+            }
+        }
+
+        const orderedCards = [];
+        const promptForGroup = (remainingGroups, remainingCards) => {
+            if (remainingCards.length < 2) {
+                orderedCards.push(...remainingCards);
+                if (remainingGroups.length === 0) {
+                    this.setTarget(orderedCards);
+                } else {
+                    promptForGroup(remainingGroups.slice(1), remainingGroups[0]);
+                }
+
+                return;
+            }
+
+            context.game.promptWithHandlerMenu(context.game.activePlayer, {
+                activePromptTitle: 'Select first card to return (last one is top)',
+                context: context,
+                cards: remainingCards,
+                cardHandler: (card) => {
+                    orderedCards.push(card);
+                    promptForGroup(
+                        remainingGroups,
+                        remainingCards.filter((c) => c !== card)
+                    );
+                }
+            });
+        };
+
+        if (groups.length > 0) {
+            promptForGroup(groups.slice(1), groups[0]);
+        }
     }
 
     hasLegalTarget(context) {

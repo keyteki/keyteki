@@ -7,12 +7,7 @@ class KaupeEvilTwin extends Card {
     setupCardAbilities(ability) {
         this.fight({
             reap: true,
-            target: {
-                controller: 'self',
-                location: 'hand',
-                mode: 'unlimited',
-                gameAction: ability.actions.discard()
-            },
+            gameAction: ability.actions.discardAnyNumber(),
             then: {
                 gameAction: ability.actions.allocateDamage((context) => ({
                     controller: 'opponent',

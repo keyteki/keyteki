@@ -26,7 +26,7 @@ class Phantasmaquid extends Card {
             when: {
                 onTurnEnd: (_, context) => context.player === this.game.activePlayer
             },
-            condition: (context) =>
+            resolutionCondition: (context) =>
                 !context.player.opponent || context.player.opponent.creaturesInPlay.length === 0,
             gameAction: ability.actions.destroy(),
             message: '{0} is destroyed as there are no enemy creatures in play',

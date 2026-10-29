@@ -92,4 +92,32 @@ describe('Pyrotechnic Flash', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe("Pyrotechnic Flash's ability with redirected damage", function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'shadows',
+                    hand: ['pyrotechnic-flash']
+                },
+                player2: {
+                    amber: 3,
+                    inPlay: ['dextre', 'urchin', 'shadow-self']
+                }
+            });
+            this.dextre.tokens.damage = 2;
+            this.shadowSelf.tokens.damage = 8;
+        });
+
+        it('counts a creature destroyed by damage redirected by Shadow Self', function () {
+            this.player1.play(this.pyrotechnicFlash);
+            this.player1.clickCard(this.urchin);
+            expect(this.dextre.location).toBe('deck');
+            expect(this.urchin.location).toBe('play area');
+            expect(this.shadowSelf.location).toBe('discard');
+            expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(2);
+            expect(this.player1).isReadyToTakeAction();
+        });
+    });
 });

@@ -7,13 +7,9 @@ class TradeSecrets extends Card {
     setupCardAbilities(ability) {
         this.play({
             effectStyle: 'all',
-            target: {
-                controller: 'self',
-                mode: 'unlimited',
-                location: 'hand',
-                cardCondition: (card) => card.hasHouse('ekwidon'),
-                gameAction: ability.actions.discard()
-            },
+            gameAction: ability.actions.discardAnyNumber({
+                cardCondition: (card) => card.hasHouse('ekwidon')
+            }),
             then: (preThenContext) => ({
                 gameAction: ability.actions.steal((context) => ({
                     target: preThenContext.player.opponent,
