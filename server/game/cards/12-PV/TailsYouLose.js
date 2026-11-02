@@ -22,7 +22,7 @@ class TailsYouLose extends Card {
                     context.game.activePlayer === context.source.controller.opponent &&
                     event.card.type === 'creature' &&
                     event.card.location === 'play area' &&
-                    event.card.neighbors.some((neighbor) =>
+                    (event.putIntoPlayEvent?.neighbors ?? []).some((neighbor) =>
                         neighbor.getHouses().some((house) => !event.card.hasHouse(house))
                     )
             },

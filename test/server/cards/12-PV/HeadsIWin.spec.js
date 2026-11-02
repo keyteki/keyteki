@@ -76,4 +76,37 @@ describe('Heads, I Win', function () {
             this.player2.clickPrompt('untamed');
         });
     });
+
+    describe('when a Play: ability creates a neighbor', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'untamed',
+                    prophecies: [
+                        'heads-i-win',
+                        'expect-the-unexpected',
+                        'forge-ahead-with-confidence',
+                        'fate-laughs-at-your-plans'
+                    ],
+                    hand: ['parasitic-arachnoid']
+                },
+                player2: {
+                    token: 'scholar',
+                    hand: ['legionary-trainer']
+                }
+            });
+        });
+
+        it('should not fulfill when the creature was not adjacent to a creature of the same house when played', function () {
+            this.player1.activateProphecy(this.headsIWin, this.parasiticArachnoid);
+            this.player1.endTurn();
+            this.player1.clickPrompt('Done');
+            this.player2.clickPrompt('saurian');
+            this.player2.play(this.legionaryTrainer);
+            this.player2.clickPrompt('Left');
+            expect(this.legionaryTrainer.neighbors[0].name).toBe('Scholar');
+            expect(this.parasiticArachnoid.location).toBe('under');
+            expect(this.player2).isReadyToTakeAction();
+        });
+    });
 });

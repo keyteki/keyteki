@@ -34,6 +34,22 @@ describe('Sleight', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
+        it('should not shuffle warded creatures into their owners deck when destroyed', function () {
+            this.urchin.ward();
+            this.murkens.ward();
+            this.player1.fightWith(this.sleight, this.krump);
+            expect(this.sleight.location).toBe('deck');
+            expect(this.urchin.location).toBe('play area');
+            expect(this.urchin.warded).toBe(false);
+            expect(this.huntingWitch.location).toBe('deck');
+            expect(this.umbra.location).toBe('deck');
+            expect(this.mooncurser.location).toBe('deck');
+            expect(this.murkens.location).toBe('play area');
+            expect(this.murkens.warded).toBe(false);
+            expect(this.krump.location).toBe('deck');
+            expect(this.player1).isReadyToTakeAction();
+        });
+
         it('should shuffle a friendly creature for each enemy Shadows creature when fate is triggered', function () {
             this.player1.moveCard(this.sleight, 'hand');
             this.player1.activateProphecy(this.overreach, this.sleight);

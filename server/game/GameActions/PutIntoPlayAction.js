@@ -428,6 +428,11 @@ class PutIntoPlayAction extends CardGameAction {
                     return;
                 }
 
+                // Snapshot neighbors at the moment of entering play, so "played
+                // adjacent to" conditions aren't affected by later effects
+                // (e.g. a Play: ability making a token creature)
+                event.neighbors = card.neighbors;
+
                 if (control) {
                     card.updateEffectContexts();
                 }

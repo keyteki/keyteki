@@ -200,6 +200,9 @@ const EVENTS = /** @type {const} */ ({
      * Params:
      * * `card` — The {@link Card} being put into play.
      *
+     * Set during resolution:
+     * * `neighbors` — The `card`'s neighbors at the moment it entered play.
+     *
      * @see PutIntoPlayAction
      */
     onCardEntersPlay: 'onCardEntersPlay',
@@ -310,6 +313,8 @@ const EVENTS = /** @type {const} */ ({
      * * `player` — The {@link Player} playing the card.
      * * `originalLocation` — Where the `card` is being played _from_.
      *   Typically, but not always, `'hand'`.
+     * * `putIntoPlayEvent` — For creatures, the `onCardEntersPlay` event
+     *   that put the `card` into play.
      *
      * @see BasePlayAction
      */

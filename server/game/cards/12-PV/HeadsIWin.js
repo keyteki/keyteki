@@ -24,7 +24,9 @@ class HeadsIWin extends Card {
                     event.card.location === 'play area' &&
                     event.card
                         .getHouses()
-                        .some((house) => event.card.neighbors.some((c) => c.hasHouse(house)))
+                        .some((house) =>
+                            (event.putIntoPlayEvent?.neighbors ?? []).some((c) => c.hasHouse(house))
+                        )
             },
             gameAction: ability.actions.fulfillProphecy((context) => ({
                 card: context.source

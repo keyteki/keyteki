@@ -43,7 +43,15 @@ class EventWindow extends BaseStepWithPipeline {
             // new triggers via emitEvents on its next iteration and the batched
             // leavesPlay event is appended to the outer window's anchor event
             // by DestroyedAbilityWindow.
-            if (this.game.currentDestructionWindow) {
+            // Other leaves-play events (e.g. a Destroyed: ability returning
+            // creatures to deck) still need their own interrupt window so
+            // replacement effects like ward can apply.
+            if (
+                this.game.currentDestructionWindow &&
+                events.every(
+                    (event) => event.name !== EVENTS.onCardLeavesPlay || event.deferReactions
+                )
+            ) {
                 return;
             }
             this.queueStep(new DestroyedAbilityWindow(this.game, abilityType, this));

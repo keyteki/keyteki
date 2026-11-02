@@ -35,6 +35,17 @@ describe("Feldar's Plan", function () {
             expect(this.player2.amber).toBe(1);
             expect(this.player2).isReadyToTakeAction();
         });
+
+        it('should log the controller stealing from the opponent', function () {
+            this.player1.play(this.feldarSPlan);
+            this.player1.endTurn();
+            this.player2.clickPrompt('dis');
+            this.player2.play(this.emberImp);
+            expect(this).toHaveRecentChatMessage(
+                'player1 uses Feldar’s Plan to steal 1 amber from player2'
+            );
+            expect(this.player2).isReadyToTakeAction();
+        });
     });
 
     describe('after taking another turn', function () {
