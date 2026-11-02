@@ -26,11 +26,8 @@ class Reiteration extends Card {
                         bottom: true
                     })
                 ]),
-                message: '{0} uses {1} to return {3} card{4} to the bottom of their deck',
-                messageArgs: (context) => [
-                    context.player.hand.length === 1 ? 'a' : '2',
-                    context.player.hand.length === 1 ? '' : 's'
-                ]
+                message: '{0} uses {1} to return {3} to the bottom of their deck',
+                messageArgs: (context) => [context.player.hand.length === 1 ? 'a card' : '2 cards']
             }
         });
 

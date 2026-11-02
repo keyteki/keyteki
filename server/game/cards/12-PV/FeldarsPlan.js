@@ -13,7 +13,7 @@ class FeldarsPlan extends Card {
                     onCardPlayed: () => true
                 },
                 message: '{0} uses {1} to steal 1 amber from {2}',
-                messageArgs: (context) => [context.player.opponent, context.source, context.player],
+                messageArgs: (context) => [context.player, context.source, context.player.opponent],
                 gameAction: ability.actions.steal()
             })
         });

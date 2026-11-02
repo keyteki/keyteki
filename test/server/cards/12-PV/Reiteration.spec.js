@@ -35,6 +35,17 @@ describe('Reiteration', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
+        it('should log the number of cards returned to the bottom of the deck', function () {
+            this.player1.play(this.reiteration);
+            this.player1.clickCard(this.flaxia);
+            this.player1.clickCard(this.searine);
+            expect(this).toHaveRecentChatMessage(
+                'player1 uses Reiteration to return 2 cards to the bottom of their deck',
+                3
+            );
+            expect(this.player1).isReadyToTakeAction();
+        });
+
         it('should discard 2 random cards from hand when fate is triggered', function () {
             this.player1.activateProphecy(this.overreach, this.reiteration);
             this.player1.endTurn();
