@@ -43,15 +43,30 @@ class EventWindow extends BaseStepWithPipeline {
             // new triggers via emitEvents on its next iteration and the batched
             // leavesPlay event is appended to the outer window's anchor event
             // by DestroyedAbilityWindow.
-            // Other leaves-play events (e.g. a Destroyed: ability returning
-            // creatures to deck) still need their own interrupt window so
-            // replacement effects like ward can apply.
-            if (
-                this.game.currentDestructionWindow &&
-                events.every(
-                    (event) => event.name !== EVENTS.onCardLeavesPlay || event.deferReactions
-                )
-            ) {
+            if (this.game.currentDestructionWindow) {
+                // Cards already tagged for destruction (batched cascades, or a
+                // Destroyed: ability moving its own card) are handled by the
+                // outer window. Any other card leaving play (e.g. Sleight
+                // shuffling creatures into decks) still needs an interrupt
+                // window so replacement effects like ward can apply. Use a
+                // plain window so the outer destruction window stays current.
+                const eventsToExclude = events.filter(
+                    (event) =>
+                        event.name === EVENTS.onCardLeavesPlay &&
+                        (event.deferReactions || event.card.moribund)
+                );
+                if (
+                    events.every(
+                        (event) =>
+                            event.name !== EVENTS.onCardLeavesPlay ||
+                            eventsToExclude.includes(event)
+                    )
+                ) {
+                    return;
+                }
+                this.queueStep(
+                    new ForcedTriggeredAbilityWindow(this.game, abilityType, this, eventsToExclude)
+                );
                 return;
             }
             this.queueStep(new DestroyedAbilityWindow(this.game, abilityType, this));
