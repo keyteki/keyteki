@@ -31,6 +31,14 @@ CREATE UNIQUE INDEX "IX_Games_GameId"
     ON public."Games" USING btree
     ("GameId" COLLATE pg_catalog."default" ASC NULLS LAST)
     TABLESPACE pg_default;
+-- Index: IX_Games_StartedAt
+
+-- DROP INDEX public."IX_Games_StartedAt";
+
+CREATE INDEX "IX_Games_StartedAt"
+    ON public."Games" USING btree
+    ("StartedAt" ASC NULLS LAST)
+    TABLESPACE pg_default;
 -- Index: IX_Games_WinnerId
 
 -- DROP INDEX public."IX_Games_WinnerId";

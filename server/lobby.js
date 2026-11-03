@@ -65,11 +65,14 @@ class Lobby {
 
         setInterval(() => this.clearStalePendingGames(), 60 * 1000); // every minute
         setInterval(() => this.clearOldRefreshTokens(), 2 * 60 * 60 * 1000); // every 2 hours
+        setInterval(() => this.deckService.refreshDeckStats(), 60 * 60 * 1000); // every hour
     }
 
     async init() {
         // pre cache card list so the first user to the site doesn't have a slowdown
         await this.cardService.getAllCards();
+        // deck records are otherwise only refreshed hourly, which each restart would delay
+        this.deckService.refreshDeckStats();
         this.cardService.subscribeToUpdates(() => {
             logger.info('Card data updated by fetchdata, clearing cache');
             this.cardService.clearCache();

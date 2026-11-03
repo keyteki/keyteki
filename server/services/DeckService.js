@@ -132,12 +132,14 @@ class DeckService {
 
         try {
             deck = await db.query(
-                'SELECT d.*, u."Username", e."ExpansionId" as "Expansion", (SELECT COUNT(*) FROM "Decks" WHERE "Name" = d."Name") AS DeckCount, ' +
-                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" = $1 AND gp."DeckId" = d."Id") AS "WinCount", ' +
-                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" != $1 AND g."WinnerId" IS NOT NULL AND gp."PlayerId" = $1 AND gp."DeckId" = d."Id") AS "LoseCount" ' +
+                'SELECT d.*, u."Username", e."ExpansionId" as "Expansion", (SELECT COUNT(*) FROM "Decks" WHERE "Name" = d."Name") AS "DeckCount", ' +
+                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" = d."UserId" AND gp."DeckId" = d."Id") AS "WinCount", ' +
+                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" != d."UserId" AND g."WinnerId" IS NOT NULL AND gp."PlayerId" = d."UserId" AND gp."DeckId" = d."Id") AS "LoseCount", ' +
+                    'ds."Games" AS "RecordGames", ds."Wins" AS "RecordWins", ds."DominantWins" AS "RecordDominantWins" ' +
                     'FROM "Decks" d ' +
                     'JOIN "Users" u ON u."Id" = "UserId" ' +
                     'JOIN "Expansions" e on e."Id" = d."ExpansionId" ' +
+                    'LEFT JOIN "DeckStats" ds ON ds."Uuid" = d."Uuid" ' +
                     'WHERE d."Id" = $1 ',
                 [id]
             );
@@ -158,6 +160,34 @@ class DeckService {
         await this.getDeckCardsAndHouses(retDeck);
 
         return retDeck;
+    }
+
+    /**
+     * The deck's record across every player who used it, from a "DeckStats" row (null columns = no games)
+     * @param {string|number|null} games
+     * @param {string|number|null} wins
+     * @param {string|number|null} dominantWins
+     * @returns {{dominantWins: number, games: number, losses: number, wins: number}}
+     */
+    mapDeckRecord(games, wins, dominantWins) {
+        // Postgres returns counts as strings
+        const gameCount = Number(games) || 0;
+        const winCount = Number(wins) || 0;
+
+        return {
+            dominantWins: Number(dominantWins) || 0,
+            games: gameCount,
+            losses: gameCount - winCount,
+            wins: winCount
+        };
+    }
+
+    async refreshDeckStats() {
+        try {
+            await db.query('REFRESH MATERIALIZED VIEW CONCURRENTLY "DeckStats"');
+        } catch (err) {
+            logger.error('Failed to refresh deck stats', err);
+        }
     }
 
     async deckExistsForUser(user, deckId) {
@@ -380,12 +410,14 @@ class DeckService {
         try {
             decks = await db.query(
                 'SELECT *, CASE WHEN "WinCount" + "LoseCount" = 0 THEN 0 ELSE (CAST("WinCount" AS FLOAT) / ("WinCount" + "LoseCount")) * 100 END AS "WinRate" FROM ( ' +
-                    'SELECT d.*, u."Username", e."ExpansionId" as "Expansion", (SELECT COUNT(*) FROM "Decks" WHERE "Name" = d."Name") AS DeckCount, ' +
+                    'SELECT d.*, u."Username", e."ExpansionId" as "Expansion", (SELECT COUNT(*) FROM "Decks" WHERE "Name" = d."Name") AS "DeckCount", ' +
                     '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" = $1 AND gp."DeckId" = d."Id") AS "WinCount", ' +
-                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" != $1 AND g."WinnerId" IS NOT NULL AND gp."PlayerId" = $1 AND gp."DeckId" = d."Id") AS "LoseCount" ' +
+                    '(SELECT COUNT(*) FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" WHERE g."WinnerId" != $1 AND g."WinnerId" IS NOT NULL AND gp."PlayerId" = $1 AND gp."DeckId" = d."Id") AS "LoseCount", ' +
+                    'ds."Games" AS "RecordGames", ds."Wins" AS "RecordWins", ds."DominantWins" AS "RecordDominantWins" ' +
                     'FROM "Decks" d ' +
                     'JOIN "Users" u ON u."Id" = "UserId" ' +
                     'JOIN "Expansions" e on e."Id" = d."ExpansionId" ' +
+                    'LEFT JOIN "DeckStats" ds ON ds."Uuid" = d."Uuid" ' +
                     'WHERE "UserId" = $1 ' +
                     filter +
                     ') sq ' +
@@ -1491,6 +1523,11 @@ class DeckService {
             name: deck.Name,
             lastUpdated: deck.LastUpdated,
             losses: deck.LoseCount,
+            // Only queries that join "DeckStats" select the record columns; alliance decks have no record
+            record:
+                'RecordGames' in deck && !deck.IsAlliance
+                    ? this.mapDeckRecord(deck.RecordGames, deck.RecordWins, deck.RecordDominantWins)
+                    : undefined,
             usageCount: deck.DeckCount,
             username: deck.Username,
             uuid: deck.Uuid,

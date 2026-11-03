@@ -8,6 +8,7 @@ import { useUpdateAccoladeShownMutation } from '../../redux/api';
 import AlertPanel from '../Site/AlertPanel';
 import CardHoverPreview from '../Site/CardHoverPreview';
 import CardBack from './CardBack';
+import DeckRecord from './DeckRecord';
 
 import AmberImage from '../../assets/img/enhancements/amberui.png';
 import CaptureImage from '../../assets/img/enhancements/captureui.png';
@@ -184,6 +185,14 @@ const DeckSummary = ({ deck }) => {
                             {deck.winRate?.toFixed(2)}%
                         </span>
                     </div>
+                    {deck.record && (
+                        <div className='mt-3 max-w-72'>
+                            <div className='mb-1 text-xs font-medium uppercase tracking-wide text-muted'>
+                                {t('All players · last 12 months')}
+                            </div>
+                            <DeckRecord record={deck.record} size='full' />
+                        </div>
+                    )}
                     {Object.keys(enhancements).length > 0 ? (
                         <div className='deck-enhancements flex flex-wrap items-center gap-3 ps-0 pt-3'>
                             <div className='deck-enhancement inline-flex items-center'>

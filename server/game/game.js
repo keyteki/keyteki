@@ -1666,6 +1666,11 @@ class Game extends EventEmitter {
         let players = this.getPlayers().map((player) => {
             return {
                 deck: player.deckData.identity,
+                // Alliance and standalone decks aren't single Master Vault decks, so they get no deck record
+                deckUuid:
+                    player.deckData.isAlliance || player.deckData.isStandalone
+                        ? undefined
+                        : player.deckData.uuid,
                 houses: player.houses,
                 keys: player.keys,
                 name: player.name,
