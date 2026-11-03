@@ -164,7 +164,7 @@ class UserService extends EventEmitter {
         const query =
             'UPDATE "Users" SET "Username" = $1, "Email" = $2, "Verified" = $3, "Disabled" = $4, "Settings_Avatar" = $5, ' +
             '"Settings_CardSize" = $6, "Settings_Background" = $7, "Settings_OrderAbilities" = $8, "Settings_ConfirmOneClick" = $9, "Settings_UseHalfSizedCards" = $10, ' +
-            '"Settings_ShowAccolades" = $11, "Settings_CustomBackground" = $12 WHERE "Id" = $13';
+            '"Settings_ShowAccolades" = $11, "Settings_CustomBackground" = $12, "Settings_EmailUpdates" = COALESCE($13, "Settings_EmailUpdates") WHERE "Id" = $14';
 
         try {
             await db.transaction(async (client) => {
@@ -183,6 +183,11 @@ class UserService extends EventEmitter {
                         ? user.settings.optionSettings.showAccolades
                         : true,
                     user.settings.customBackground,
+                    // Left as it is unless given, so a profile saved from a page loaded before the player
+                    // unsubscribed doesn't turn their emails back on
+                    typeof user.settings.optionSettings.emailUpdates === 'boolean'
+                        ? user.settings.optionSettings.emailUpdates
+                        : null,
                     user.id
                 ]);
 
@@ -597,7 +602,8 @@ class UserService extends EventEmitter {
                     showAccolades:
                         dbUser.Settings_ShowAccolades !== undefined
                             ? dbUser.Settings_ShowAccolades
-                            : true
+                            : true,
+                    emailUpdates: dbUser.Settings_EmailUpdates !== false
                 }
             },
             verified: dbUser.Verified,

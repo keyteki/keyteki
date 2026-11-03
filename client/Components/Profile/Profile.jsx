@@ -72,7 +72,8 @@ const initialValues = {
         confirmOneClick: false,
         orderForcedAbilities: false,
         useHalfSizedCards: false,
-        showAccolades: true
+        showAccolades: true,
+        emailUpdates: true
     }
 };
 
@@ -201,8 +202,17 @@ const Profile = ({ onSubmit, isLoading }) => {
                     username: values.username,
                     password: values.password,
                     currentPassword: values.currentPassword,
-                    settings: { optionSettings: values.gameOptions }
+                    settings: { optionSettings: { ...values.gameOptions } }
                 };
+
+                // Only send the email setting if it was changed here, so saving a page loaded before
+                // unsubscribing from an email doesn't turn emails back on
+                if (
+                    values.gameOptions.emailUpdates ===
+                    (user.settings?.optionSettings?.emailUpdates !== false)
+                ) {
+                    delete submitValues.settings.optionSettings.emailUpdates;
+                }
 
                 if (localBackground) {
                     submitValues.settings.background = localBackground;

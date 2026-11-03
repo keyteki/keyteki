@@ -6,6 +6,7 @@ import {
     Input,
     Label,
     Modal as HeroModal,
+    Switch,
     TextField
 } from '@heroui/react';
 import { useDispatch } from 'react-redux';
@@ -177,6 +178,21 @@ const ProfileMain = ({ user, formProps, section }) => {
                                     <FieldError>{formProps.errors.currentPassword}</FieldError>
                                 )}
                         </TextField>
+                        <Switch
+                            id='emailUpdates'
+                            isSelected={formProps.values.gameOptions.emailUpdates !== false}
+                            onChange={(isSelected) =>
+                                formProps.setFieldValue('gameOptions.emailUpdates', isSelected)
+                            }
+                            className='flex w-full cursor-pointer items-center justify-between gap-2 rounded bg-surface-secondary/70 px-2 py-1.5'
+                        >
+                            <span className='text-sm'>
+                                {t('Email me occasional updates, such as my yearly Wrapped')}
+                            </span>
+                            <Switch.Control>
+                                <Switch.Thumb />
+                            </Switch.Control>
+                        </Switch>
                     </div>
                 </Panel>
                 <Panel type='default' compactHeader title={t('Avatar')}>

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { toast } from '@heroui/react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 import Login from '../Components/Login';
@@ -14,6 +14,10 @@ const LoginContainer = () => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+    // Only return to a page on this site, so a crafted link can't send people elsewhere after logging in
+    const returnTo = searchParams.get('return');
+    const returnPath = /^\/(?![/\\])/.test(returnTo || '') ? returnTo : '/';
     const [loginAccount, loginState] = useLoginAccountMutation();
     const { isSuccess, reset } = loginState;
 
@@ -29,9 +33,9 @@ const LoginContainer = () => {
             reset();
             dispatch(lobbyConnectRequested());
             dispatch(lobbyAuthenticateRequested());
-            navigate('/');
+            navigate(returnPath);
         }
-    }, [dispatch, isSuccess, navigate, reset, t]);
+    }, [dispatch, isSuccess, navigate, reset, returnPath, t]);
 
     const apiState = loginState.isUninitialized
         ? null

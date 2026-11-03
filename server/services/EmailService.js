@@ -17,10 +17,19 @@ class EmailService {
         });
     }
 
-    async sendEmail(address, subject, text) {
+    /**
+     * @param {string} address
+     * @param {string} subject
+     * @param {string} text
+     * @param {object} [options]
+     * @param {string} [options.html] An HTML version of the body, shown by clients that support it
+     * @param {{Name: string, Value: string}[]} [options.headers] Extra headers, e.g. List-Unsubscribe
+     * @returns {Promise<boolean>} Whether the email was sent
+     */
+    async sendEmail(address, subject, text, { html, headers } = {}) {
         if (!this.fromAddress) {
             logger.info(`Trying to send email to ${address}, but email not configured.`);
-            return;
+            return false;
         }
 
         try {
@@ -32,14 +41,21 @@ class EmailService {
                     Content: {
                         Simple: {
                             Subject: { Data: subject },
-                            Body: { Text: { Data: text } }
+                            Body: {
+                                Text: { Data: text },
+                                Html: html ? { Data: html } : undefined
+                            },
+                            Headers: headers
                         }
                     }
                 })
             );
         } catch (err) {
             logger.error('Unable to send email %s', err);
+            return false;
         }
+
+        return true;
     }
 }
 
