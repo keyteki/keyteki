@@ -1,6 +1,14 @@
 const logger = require('../log.js');
 const db = require('../db');
 
+/**
+ * Game times are stored as UTC in "timestamp without time zone" columns, which ignore any offset. node-pg sends
+ * a Date in the server's local time, so send ISO strings (UTC) instead, as games arriving from a game node
+ * already are.
+ * @param {Date|string|undefined} value
+ */
+const toUtc = (value) => (value instanceof Date ? value.toISOString() : value);
+
 const DeckIdForPlayerQuery =
     '(SELECT "Id" FROM "Decks" WHERE "Identity" = $3 AND "UserId" = (SELECT "Id" FROM "Users" WHERE "Username" = $2) ORDER BY "Id" DESC LIMIT 1)';
 
@@ -11,7 +19,7 @@ class GameService {
                 const newGame = await db.queryTran(
                     client,
                     'INSERT INTO "Games" ("GameId", "GameType", "GameFormat", "StartedAt") VALUES ($1, $2, $3, $4) RETURNING "Id"',
-                    [game.gameId, game.gameType, game.gameFormat, game.startedAt]
+                    [game.gameId, game.gameType, game.gameFormat, toUtc(game.startedAt)]
                 );
 
                 if (!newGame || newGame.length === 0) {
@@ -42,7 +50,13 @@ class GameService {
                 await db.queryTran(
                     client,
                     'UPDATE "Games" SET "StartedAt" = $2, "WinnerId" = (SELECT "Id" FROM "Users" WHERE "Username" = $3), "WinReason" = $4, "FinishedAt" = $5 WHERE "GameId" = $1',
-                    [game.gameId, game.startedAt, game.winner, game.winReason, game.finishedAt]
+                    [
+                        game.gameId,
+                        toUtc(game.startedAt),
+                        game.winner,
+                        game.winReason,
+                        toUtc(game.finishedAt)
+                    ]
                 );
 
                 for (const player of game.players) {

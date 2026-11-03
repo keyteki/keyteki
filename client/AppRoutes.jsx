@@ -22,9 +22,12 @@ import Profile from './pages/Profile';
 import Register from './pages/Register';
 import ResetPassword from './pages/ResetPassword';
 import Security from './pages/Security.jsx';
+import Stats from './pages/Stats';
 import TournamentLobby from './Components/Games/TournamentLobby';
 import Unauthorised from './pages/Unauthorised';
+import Unsubscribe from './pages/Unsubscribe';
 import UserAdmin from './pages/UserAdmin';
+import Wrapped from './pages/Wrapped';
 import GameLobby from './Components/Games/GameLobby';
 import GameBoard from './Components/GameBoard/GameBoard.jsx';
 
@@ -77,6 +80,12 @@ const AppRoutes = ({ currentGame, user }) => {
                 element={requirePermission('canManageTournaments', <TournamentLobby />)}
             />
             <Route path='/security' element={<Security />} />
+            <Route path='/stats' element={<Stats />} />
+            <Route path='/wrapped/:year' element={<Wrapped />} />
+            <Route
+                path='/unsubscribe'
+                element={<Unsubscribe id={getParam('id')} token={getParam('token')} />}
+            />
             <Route path='/users' element={requirePermission('canManageUsers', <UserAdmin />)} />
             <Route path='/nodes' element={requirePermission('canManageNodes', <NodesAdmin />)} />
             <Route path='/privacy' element={<Privacy />} />

@@ -7,6 +7,8 @@ const user = require('./user');
 const messages = require('./messages');
 const banlist = require('./banlist');
 const challonge = require('./challonge');
+const stats = require('./stats');
+const unsubscribe = require('./unsubscribe');
 
 module.exports.init = function (server, options) {
     account.init(server, options);
@@ -18,4 +20,6 @@ module.exports.init = function (server, options) {
     messages.init(server);
     banlist.init(server);
     challonge.init(server);
+    stats.init(server);
+    unsubscribe.init(server);
 };

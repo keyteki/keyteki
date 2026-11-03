@@ -10,6 +10,7 @@ This folder contains technical documentation for implementing cards and understa
 -   [Card Messages](card-messages.md) - How to format game log messages
 -   [Adding a New Set](new-sets.md) - Scaffolding required to register a new KeyForge set
 -   [Deck Records](deck-records.md) - How each deck's Keyteki record is stored, calculated and shown
+-   [User Stats](user-stats.md) - How each player's monthly stats are calculated, cached and shown
 
 ## Game Engine References
 

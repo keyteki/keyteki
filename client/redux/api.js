@@ -471,6 +471,20 @@ export const api = createApi({
                 body: data
             })
         }),
+        getMonthlyStats: builder.query({
+            query: (month) => ({ url: '/stats/monthly', params: { month } }),
+            keepUnusedDataFor: 300
+        }),
+        getWrapped: builder.query({
+            query: (year) => `/wrapped/${year}`
+        }),
+        unsubscribe: builder.mutation({
+            query: ({ id, token }) => ({
+                url: '/unsubscribe',
+                method: 'POST',
+                body: { id, token }
+            })
+        }),
         getUserGames: builder.query({
             query: () => '/games',
             providesTags: [{ type: TAG_TYPES.GAMES, id: GAMES_ID }]
@@ -531,7 +545,10 @@ export const {
     useGetMatchesMutation,
     useGetParticipantsMutation,
     useAttachMatchLinkMutation,
+    useGetMonthlyStatsQuery,
     useGetUserGamesQuery,
+    useGetWrappedQuery,
+    useUnsubscribeMutation,
     useRemoveLobbyMessageMutation
 } = api;
 
