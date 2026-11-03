@@ -318,11 +318,16 @@ class PendingGame {
             if (activePlayer === player.name && player.deck && this.gameFormat !== 'sealed') {
                 deck = {
                     name: player.deck.name,
+                    record: player.deck.record,
                     selected: player.deck.selected,
                     status: player.deck.status
                 };
             } else if (player.deck) {
-                deck = { selected: player.deck.selected, status: player.deck.status };
+                deck = {
+                    record: player.deck.record,
+                    selected: player.deck.selected,
+                    status: player.deck.status
+                };
             } else {
                 deck = {};
             }

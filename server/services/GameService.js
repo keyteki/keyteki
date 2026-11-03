@@ -52,7 +52,7 @@ class GameService {
 
                     await db.queryTran(
                         client,
-                        `UPDATE "GamePlayers" SET "Keys" = $4, "DeckId" = ${DeckIdForPlayerQuery}, "Turn" = $5, "Stats" = $6 ` +
+                        `UPDATE "GamePlayers" SET "Keys" = $4, "DeckId" = ${DeckIdForPlayerQuery}, "Turn" = $5, "Stats" = $6, "DeckUuid" = $7 ` +
                             'WHERE "GameId" = (SELECT "Id" FROM "Games" WHERE "GameId" = $1) AND "PlayerId" = (SELECT "Id" FROM "Users" WHERE "Username" = $2)',
                         [
                             game.gameId,
@@ -60,7 +60,8 @@ class GameService {
                             player.deck,
                             keys,
                             player.turn,
-                            player.stats ? JSON.stringify(player.stats) : null
+                            player.stats ? JSON.stringify(player.stats) : null,
+                            player.deckUuid || null
                         ]
                     );
                 }

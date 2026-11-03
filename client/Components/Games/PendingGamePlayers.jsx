@@ -4,6 +4,7 @@ import { Button } from '@heroui/react';
 
 import Panel from '../Site/Panel';
 import Avatar from '../Site/Avatar';
+import DeckRecord from '../Decks/DeckRecord';
 
 /**
  * @typedef PendingGamePlayersProps
@@ -173,6 +174,9 @@ const PendingGamePlayers = ({ currentGame, user, onSelectDeck }) => {
                             >
                                 {deckValidity.label}
                             </span>
+                            {deckSelected && (
+                                <DeckRecord className='col-span-2' record={player.deck?.record} />
+                            )}
                         </div>
                     );
                 })}
