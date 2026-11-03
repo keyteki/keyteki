@@ -32,6 +32,7 @@ module.exports = {
         }
     },
     globals: {
+        afterAll: true,
         afterEach: true,
         beforeAll: true,
         beforeEach: true,

@@ -5,9 +5,9 @@ const { Expansions, getExpansion } = require('./expansions');
 const { cardIdFromTitle } = require('./cardId');
 const { ValidKeywords } = require('./cardData');
 const { checkOverrides, loadOverrides } = require('./overrides');
+const { readSqlFiles } = require('../../server/db/sqlFiles');
 
 const PackDir = path.join(__dirname, '../packs');
-const SchemaDir = path.join(__dirname, '../../server/db/schema');
 
 const CardTypes = [
     'action',
@@ -49,16 +49,11 @@ const Locales = [
 const KeywordPattern = new RegExp(`^(${ValidKeywords.join('|')})(:(\\d+|x))?$`);
 
 /**
- * House codes added by the database seed data and migrations.
+ * House codes added by the database baseline and migrations.
  */
 function loadDatabaseHouses() {
-    const files = [
-        ...fs.readdirSync(SchemaDir).filter((file) => file.endsWith('.sql')),
-        ...fs.readdirSync(path.join(SchemaDir, 'migrations')).map((file) => `migrations/${file}`)
-    ];
     const houses = new Set();
-    for (const file of files) {
-        const sql = fs.readFileSync(path.join(SchemaDir, file), 'utf8');
+    for (const { sql } of readSqlFiles()) {
         for (const match of sql.matchAll(
             /INSERT INTO (?:public\.)?"Houses" .*?VALUES \(\d+, '([^']+)'/g
         )) {

@@ -60,11 +60,72 @@ jobs:
                   SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
               run: npm run build --if-present
             - run: npm test
+    database:
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                # Keep on the same major version as production and docker-compose.yml
+                image: postgres:16
+                env:
+                    POSTGRES_USER: keyteki
+                    POSTGRES_PASSWORD: keyteki
+                    POSTGRES_DB: keyteki
+                ports:
+                    - 5432:5432
+                options: >-
+                    --health-cmd pg_isready
+                    --health-interval 5s
+                    --health-timeout 5s
+                    --health-retries 10
+        env:
+            NODE_CONFIG: '{"dbHost":"localhost","dbPort":5432,"dbDatabase":"keyteki","dbUser":"keyteki","dbPassword":"keyteki"}'
+        steps:
+            - name: Checkout source and submodules
+              uses: actions/checkout@v4
+              with:
+                  fetch-depth: '0'
+                  submodules: recursive
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 22.x
+                  cache: 'npm'
+            - run: npm ci
+            - name: Check merged migrations are unchanged
+              if: ${{ github.event_name == 'pull_request' }}
+              run: |
+                  changed=$(git diff --diff-filter=MDR --name-only origin/${{ github.base_ref }}...HEAD -- server/db/migrations server/db/baseline.sql)
+                  if [ -n "$changed" ]; then
+                      echo "::error::Migrations that are already merged must not be changed, add a new migration instead:"
+                      echo "$changed"
+                      exit 1
+                  fi
+            - name: Apply all migrations to an empty database
+              run: npm run db:migrate
+            - name: Revert all migrations
+              run: npm run db:migrate:down -- all
+            - name: Re-apply all migrations
+              run: npm run db:migrate
+            - name: Check server/db/schema.sql is up to date
+              run: |
+                  docker exec ${{ job.services.postgres.id }} pg_dump -U keyteki --schema-only --no-owner --no-privileges keyteki | node ./server/db/dump-schema.js
+                  # status rather than diff, so a schema.sql that was never committed also fails
+                  if [ -n "$(git status --porcelain -- server/db/schema.sql)" ]; then
+                      git diff -- server/db/schema.sql
+                      echo "::error::server/db/schema.sql does not match the migrations, run 'npm run db:schema:dump' and commit the result"
+                      exit 1
+                  fi
+            - name: Create the test database
+              run: docker exec ${{ job.services.postgres.id }} createdb -U keyteki keyteki_test
+            - name: Database integration tests
+              env:
+                  # No database here, so config/test.json5 picks keyteki_test
+                  NODE_CONFIG: '{"dbHost":"localhost","dbPort":5432,"dbUser":"keyteki","dbPassword":"keyteki"}'
+              run: npm run test:db
     package:
         name: Push Package
         if: ${{ github.repository == 'keyteki/keyteki' && (github.ref_name == 'master' || github.ref_name == 'pack/dm') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
         runs-on: ubuntu-latest
-        needs: 'build'
+        needs: ['build', 'database']
         steps:
             - name: Checkout source and submodules
               uses: actions/checkout@v3

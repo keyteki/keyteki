@@ -1,6 +1,3 @@
-const fs = require('fs');
-const path = require('path');
-
 const db = require('../../server/db');
 const UserStatsService = require('../../server/services/UserStatsService');
 const { summarise, nameOpponents, monthRange, SummaryVersion } = UserStatsService;
@@ -447,35 +444,6 @@ describe('User stats', function () {
             for (const [sql] of this.query.mock.calls) {
                 expect(sql).toContain('g."FinishedAt" IS NOT NULL AND g."WinnerId" IS NOT NULL');
             }
-        });
-    });
-
-    describe('schema', function () {
-        const schemaDir = path.join(__dirname, '../../server/db/schema');
-        const tableDefinition = (file, table) => {
-            const sql = fs.readFileSync(path.join(schemaDir, file), 'utf8');
-            const start = sql.indexOf(`CREATE TABLE public."${table}"`);
-            return start === -1 ? null : sql.slice(start, sql.indexOf('TABLESPACE', start));
-        };
-
-        for (const [table, file] of [
-            ['UserMonthlyStats', '26 - UserMonthlyStats.sql'],
-            ['UserWrapped', '27 - UserWrapped.sql']
-        ]) {
-            it(`should create the same ${table} table in the schema and the migration`, function () {
-                const definition = tableDefinition(file, table);
-
-                expect(definition).toContain('PRIMARY KEY ("UserId",');
-                expect(tableDefinition('migrations/26 - UserStats.sql', table)).toBe(definition);
-            });
-        }
-
-        it('should add the email setting the same way in the schema and the migration', function () {
-            const definition = '"Settings_EmailUpdates" boolean NOT NULL DEFAULT true';
-            const read = (file) => fs.readFileSync(path.join(schemaDir, file), 'utf8');
-
-            expect(read('03 - Users.sql')).toContain(definition);
-            expect(read('migrations/26 - UserStats.sql')).toContain(`ADD COLUMN ${definition}`);
         });
     });
 });
