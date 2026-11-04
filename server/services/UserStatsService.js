@@ -399,7 +399,7 @@ class UserStatsService {
 
         const summary = summarise(await this.getGameRows(userId, range.from, range.to));
 
-        if (isClosed) {
+        if (isClosed && summary.games > 0) {
             try {
                 await db.query(
                     'INSERT INTO "UserMonthlyStats" ("UserId", "Month", "Version", "Data", "ComputedAt") ' +

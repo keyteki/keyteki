@@ -10,6 +10,11 @@ const WrappedVersion = 2;
 // Players need this many finished games in the year to get a Wrapped
 const MinGames = 10;
 
+// A Wrapped can be seen, and is emailed, for this long after it was generated
+const AvailableForSql = "interval '2 months'";
+
+const YearPattern = /^20\d{2}$/;
+
 // How many players' snapshots are worked out at once
 const Concurrency = 4;
 
@@ -304,6 +309,11 @@ class WrappedService {
 
         await Promise.all(Array.from({ length: Concurrency }, worker));
 
+        // Players only have one Wrapped, so generating everyone's removes earlier years'
+        if (!dryRun && !username) {
+            await db.query('DELETE FROM "UserWrapped" WHERE "Year" < $1', [year]);
+        }
+
         return result;
     }
 
@@ -318,18 +328,32 @@ class WrappedService {
 
     /**
      * @param {number} userId
-     * @param {number} year
-     * @returns {Promise<object|null>} The player's snapshot, or null if they don't have one
+     * @param {number|string} year
+     * @returns {Promise<{wrapped: object}|{expired: true}|null>} The player's snapshot, whether it has expired, or
+     * null if they don't have one
      */
     async getForUser(userId, year) {
+        if (!YearPattern.test(String(year))) {
+            return null;
+        }
+
         const rows = await db.query(
             // An older snapshot doesn't have everything the page needs; it's made again by re-running the script
-            'SELECT "Data" FROM "UserWrapped" WHERE "UserId" = $1 AND "Year" = $2 AND "Version" = $3',
-            [userId, year, WrappedVersion]
+            `SELECT "Data", "GeneratedAt" > (now() AT TIME ZONE 'UTC') - ${AvailableForSql} AS "Available" ` +
+                'FROM "UserWrapped" WHERE "UserId" = $1 AND "Year" = $2 AND "Version" = $3',
+            [userId, Number(year), WrappedVersion]
         );
 
+        if (!rows[0]) {
+            return null;
+        }
+
+        if (!rows[0].Available) {
+            return { expired: true };
+        }
+
         // Opponents are named now, not when the snapshot was made, in case their account has gone since
-        return rows[0] ? this.userStatsService.withOpponentNames(rows[0].Data) : null;
+        return { wrapped: await this.userStatsService.withOpponentNames(rows[0].Data) };
     }
 }
 
@@ -338,4 +362,5 @@ module.exports.buildWrapped = buildWrapped;
 module.exports.rankPlayers = rankPlayers;
 module.exports.topPercent = topPercent;
 module.exports.MinGames = MinGames;
+module.exports.AvailableForSql = AvailableForSql;
 module.exports.WrappedVersion = WrappedVersion;

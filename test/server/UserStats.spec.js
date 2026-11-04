@@ -418,6 +418,15 @@ describe('User stats', function () {
             expect(JSON.parse(params[3])).toEqual(summarise([game(), game()]));
         });
 
+        it('should not cache a month without games', async function () {
+            this.query.mockResolvedValueOnce([]).mockResolvedValueOnce([]);
+
+            const summary = await this.service.getMonth(1, '2026-10', this.now);
+
+            expect(summary.games).toBe(0);
+            expect(this.query).toHaveBeenCalledTimes(2);
+        });
+
         it('should still return the stats if caching them fails', async function () {
             this.query
                 .mockResolvedValueOnce([])

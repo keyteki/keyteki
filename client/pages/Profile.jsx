@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Profile from '../Components/Profile/Profile';
-import { useSaveProfileMutation } from '../redux/api';
+import { useSaveProfileMutation, useVerifyAuthenticationMutation } from '../redux/api';
 import { setAuthTokens } from '../redux/slices/authSlice';
 import ApiStatus from '../Components/Site/ApiStatus';
 import AlertPanel from '../Components/Site/AlertPanel';
@@ -14,6 +14,16 @@ const ProfileContainer = () => {
     const dispatch = useDispatch();
     const user = useSelector((state) => state.account.user);
     const [saveProfile, saveState] = useSaveProfileMutation();
+    const [verifyAuthentication, verifyState] = useVerifyAuthenticationMutation();
+    const isLoggedIn = !!user;
+
+    // The user in the store can be out of date (e.g. after unsubscribing from an email in another tab), so load the
+    // account as it is now before building the form
+    React.useEffect(() => {
+        if (isLoggedIn) {
+            verifyAuthentication();
+        }
+    }, [isLoggedIn, verifyAuthentication]);
 
     React.useEffect(() => {
         if (saveState.isSuccess) {
@@ -41,6 +51,10 @@ const ProfileContainer = () => {
                 message={t('You need to be logged in to view your profile')}
             />
         );
+    }
+
+    if (verifyState.isUninitialized || verifyState.isLoading) {
+        return <p className='py-6 text-center'>{t('Loading...')}</p>;
     }
 
     return (

@@ -3,6 +3,7 @@ const crypto = require('crypto');
 const logger = require('../log');
 const db = require('../db');
 const EmailService = require('./EmailService');
+const { AvailableForSql, WrappedVersion } = require('./WrappedService');
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -175,11 +176,13 @@ class WrappedEmailService {
         return db.query(
             'SELECT w."UserId", u."Username", u."Email", w."Data" FROM "UserWrapped" w ' +
                 'JOIN "Users" u ON u."Id" = w."UserId" ' +
-                'WHERE w."Year" = $1 AND w."EmailedAt" IS NULL AND NOT u."Disabled" AND u."Verified" ' +
+                'WHERE w."Year" = $1 AND w."Version" = $3 AND w."EmailedAt" IS NULL ' +
+                `AND w."GeneratedAt" > (now() AT TIME ZONE 'UTC') - ${AvailableForSql} ` +
+                'AND NOT u."Disabled" AND u."Verified" ' +
                 'AND u."Settings_EmailUpdates" AND u."Email" IS NOT NULL ' +
                 'AND ($2::text IS NULL OR lower(u."Username") = lower($2)) ' +
                 'ORDER BY w."UserId"',
-            [year, username || null]
+            [year, username || null, WrappedVersion]
         );
     }
 

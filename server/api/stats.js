@@ -12,31 +12,20 @@ module.exports.init = function (server) {
         '/api/stats/monthly',
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async function (req, res) {
-            let months;
-            let month = req.query.month;
-            let stats;
+            const months = await userStatsService.getMonths(req.user.id);
+            // Without a month, show the latest one with games
+            const month = req.query.month === undefined ? months[0] : req.query.month;
 
-            if (month) {
-                // Independent, so run them together rather than making a cached month wait for the list
-                [months, stats] = await Promise.all([
-                    userStatsService.getMonths(req.user.id),
-                    userStatsService.getMonth(req.user.id, month)
-                ]);
-            } else {
-                // Without a month, show the latest one with games
-                months = await userStatsService.getMonths(req.user.id);
-                month = months[0];
-
-                if (!month) {
-                    return res.send({ success: true, months: [], month: null, stats: null });
-                }
-
-                stats = await userStatsService.getMonth(req.user.id, month);
+            if (!month) {
+                return res.send({ success: true, months: [], month: null, stats: null });
             }
 
-            if (!stats) {
+            // Only months with games, so nobody can make the server work out (and cache) arbitrary months
+            if (!months.includes(month)) {
                 return res.status(400).send({ success: false, message: 'Invalid month' });
             }
+
+            const stats = await userStatsService.getMonth(req.user.id, month);
 
             res.send({ success: true, months, month, stats });
         })
@@ -46,18 +35,21 @@ module.exports.init = function (server) {
         '/api/wrapped/:year',
         passport.authenticate('jwt', { session: false }),
         wrapAsync(async function (req, res) {
-            const year = Number(req.params.year);
-            const wrapped = Number.isInteger(year)
-                ? await wrappedService.getForUser(req.user.id, year)
-                : null;
+            const result = await wrappedService.getForUser(req.user.id, req.params.year);
 
-            if (!wrapped) {
+            if (!result) {
                 return res
                     .status(404)
                     .send({ success: false, message: 'No Wrapped for this year' });
             }
 
-            res.send({ success: true, wrapped });
+            if (result.expired) {
+                return res
+                    .status(410)
+                    .send({ success: false, message: 'This Wrapped is no longer available' });
+            }
+
+            res.send({ success: true, wrapped: result.wrapped });
         })
     );
 };
