@@ -7,16 +7,19 @@ const {
     compareByRelease
 } = require('../../../master-vault-data/src/expansions');
 const Constants = require('../../../server/constants');
+const { readSqlFiles } = require('../../../server/db/sqlFiles');
 
 const RootPath = path.join(__dirname, '../../..');
 
+// Expansion rows inserted by the baseline and migrations
 function getSeededExpansions() {
-    const sql = fs.readFileSync(path.join(RootPath, 'server/db/schema/99 - Data.sql'), 'utf8');
     const rows = [];
-    for (const match of sql.matchAll(
-        /INSERT INTO public\."Expansions".*VALUES \(\d+, (\d+), '([^']+)', '([^']+)'\)/g
-    )) {
-        rows.push({ id: parseInt(match[1]), code: match[2], name: match[3] });
+    for (const { sql } of readSqlFiles()) {
+        for (const match of sql.matchAll(
+            /INSERT INTO (?:public\.)?"Expansions".*VALUES \(\d+, (\d+), '([^']+)', '([^']+)'\)/g
+        )) {
+            rows.push({ id: parseInt(match[1]), code: match[2], name: match[3] });
+        }
     }
 
     return rows;
@@ -29,30 +32,13 @@ describe('Expansion registry', function () {
         expect(new Set(ids).size).toBe(ids.length);
     });
 
-    it('seeds every expansion in the database', function () {
+    it('adds every expansion to the database exactly once', function () {
         const seeded = getSeededExpansions();
 
         expect(seeded.map((row) => row.id).sort()).toEqual(Expansions.map((e) => e.id).sort());
         for (const row of seeded) {
             const expansion = Expansions.find((e) => e.id === row.id);
             expect({ id: row.id, code: expansion.code, name: expansion.name }).toEqual(row);
-        }
-    });
-
-    it('has a migration adding every expansion', function () {
-        const migrations = fs
-            .readdirSync(path.join(RootPath, 'server/db/schema/migrations'))
-            .map((file) =>
-                fs.readFileSync(path.join(RootPath, 'server/db/schema/migrations', file), 'utf8')
-            )
-            .join('\n');
-        // Expansions up to Grim Reminders predate the migrations folder
-        const needingMigrations = Expansions.filter(
-            (expansion) => expansion.releaseDate > '2023-11-01'
-        );
-
-        for (const expansion of needingMigrations) {
-            expect(migrations).toContain(`${expansion.id}, '${expansion.code}'`);
         }
     });
 

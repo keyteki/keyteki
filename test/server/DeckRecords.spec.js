@@ -1,6 +1,3 @@
-const fs = require('fs');
-const path = require('path');
-
 const db = require('../../server/db');
 const DeckService = require('../../server/services/DeckService');
 const PendingGame = require('../../server/pendinggame');
@@ -127,24 +124,6 @@ describe('Deck records', function () {
             expect(query).toHaveBeenCalledWith(
                 'REFRESH MATERIALIZED VIEW CONCURRENTLY "DeckStats"'
             );
-        });
-    });
-
-    describe('DeckStats view', function () {
-        const schemaDir = path.join(__dirname, '../../server/db/schema');
-        /** @param {string} file */
-        const viewDefinition = (file) => {
-            const sql = fs.readFileSync(path.join(schemaDir, file), 'utf8');
-            const match = sql.match(/CREATE MATERIALIZED VIEW[\s\S]*?;/);
-
-            return match && match[0];
-        };
-
-        it('should be defined the same for fresh databases and migrated ones', function () {
-            const fresh = viewDefinition('25 - DeckStats.sql');
-
-            expect(fresh).toBeTruthy();
-            expect(viewDefinition('migrations/25 - DeckRecords.sql')).toBe(fresh);
         });
     });
 

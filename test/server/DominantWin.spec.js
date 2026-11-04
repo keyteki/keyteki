@@ -1,20 +1,18 @@
-const fs = require('fs');
-const path = require('path');
-
+const { readSqlFiles } = require('../../server/db/sqlFiles');
 const { DominantWinSql, isDominantWin, MinTurns } = require('../../server/services/DominantWin');
 
 const normalise = (sql) => sql.replace(/\s+/g, ' ');
 
 describe('Dominant wins', function () {
-    it('should be counted by the DeckStats view the same way, in the schema and the migration', function () {
-        for (const file of ['25 - DeckStats.sql', 'migrations/25 - DeckRecords.sql']) {
-            const sql = fs.readFileSync(
-                path.join(__dirname, '../../server/db/schema', file),
-                'utf8'
-            );
+    it('should be counted the same way by the latest DeckStats view definition', function () {
+        const definitions = readSqlFiles().filter(({ sql }) =>
+            sql.includes('CREATE MATERIALIZED VIEW public."DeckStats"')
+        );
 
-            expect(normalise(sql)).toContain(normalise(DominantWinSql));
-        }
+        expect(definitions.length).toBeGreaterThan(0);
+        expect(normalise(definitions[definitions.length - 1].sql)).toContain(
+            normalise(DominantWinSql)
+        );
     });
 
     it('should count a win by keys or concession with the opponent on no keys', function () {

@@ -16,18 +16,22 @@ services:
             - postgres
             - redis
         depends_on:
-            - postgres
-            - redis
+            # Ready, not just started, as the lobby runs the migrations first
+            postgres:
+                condition: service_healthy
+            redis:
+                condition: service_started
         environment:
             - DB_HOST=postgres
             - DB_PORT=5432
             - NODE_APP_INSTANCE=docker
             - NODE_ENV=development
             - REDIS_URL=redis://redis:6379
+        # Apply any pending migrations and add the development users before starting
         command:
-            - node
-            - '--inspect=0.0.0.0:9229'
-            - '.'
+            - sh
+            - -c
+            - node server/db/migrate.js up && node server/scripts/seeddevusers.js && exec node --inspect=0.0.0.0:9229 .
     node:
         restart: always
         build: .
@@ -50,15 +54,20 @@ services:
             - NODE_ENV=development
             - REDIS_URL=redis://redis:6379
     postgres:
-        image: postgres
+        # Keep on the same major version as production and the CI database job
+        image: postgres:16
         environment:
             POSTGRES_USER: ${POSTGRES_USER:-keyteki}
             POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changemeplease}
         ports:
             - '54320:5432'
         volumes:
-            - postgres:/data/postgres
-            - ./server/db/schema:/docker-entrypoint-initdb.d
+            - postgres:/var/lib/postgresql/data
+        healthcheck:
+            test: ['CMD-SHELL', 'pg_isready -U "$$POSTGRES_USER"']
+            interval: 5s
+            timeout: 5s
+            retries: 10
         restart: unless-stopped
     redis:
         image: 'redis:alpine'

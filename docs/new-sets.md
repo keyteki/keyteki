@@ -23,10 +23,21 @@ You will need two pieces of information up front:
 | File                                                                      | Change                                                                                                                                                                                                                                                                            |
 | ------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [master-vault-data/expansions.json](../master-vault-data/expansions.json) | Add an entry with `id` (the `ExpansionId`), `code`, `name` and `releaseDate`, keeping the file in release order. Add `sealedKey` (the lowercase short key, e.g. `vm2026`) to offer the set in sealed games, and `tideRequired`, `tokenRequired` or `prophecySupported` if needed. |
-| [server/db/schema/99 - Data.sql](../server/db/schema/99%20-%20Data.sql)   | Add a new `INSERT INTO public."Expansions"` row with the next sequential `Id`, and bump the `setval` for `Expansions_Id_seq` to match.                                                                                                                                            |
-| [server/db/schema/migrations/](../server/db/schema/migrations)            | Create a new migration file `NN - <CODE>.sql` (next sequential number) containing the same `INSERT INTO "Expansions"` row.                                                                                                                                                        |
+| [server/db/migrations/](../server/db/migrations)                          | Add a migration (`npm run db:migrate:create -- add-<code>`) that inserts the `Expansions` row with the next sequential `Id` and moves `Expansions_Id_seq` past it, with a down section that deletes it. See the example below.                                                    |
 
-`expansions.json` drives the server and client expansion lists, the sealed game options and the sealed deck lookup. The release date orders printings, so when a card has been printed more than once the latest release's data and image are used. [test/server/carddata/Expansions.spec.js](../test/server/carddata/Expansions.spec.js) checks that it agrees with the SQL seed data, the migrations and the pack files.
+`expansions.json` drives the server and client expansion lists, the sealed game options and the sealed deck lookup. The release date orders printings, so when a card has been printed more than once the latest release's data and image are used. [test/server/carddata/Expansions.spec.js](../test/server/carddata/Expansions.spec.js) checks that it agrees with the rows the migrations insert and with the pack files.
+
+```sql
+-- Up Migration
+
+INSERT INTO public."Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (22, 999, 'XYZ', 'Example Set');
+SELECT pg_catalog.setval('public."Expansions_Id_seq"', 22, true);
+
+-- Down Migration
+
+DELETE FROM public."Expansions" WHERE "Id" = 22;
+SELECT pg_catalog.setval('public."Expansions_Id_seq"', 21, true);
+```
 
 ### Other notes
 
@@ -47,47 +58,10 @@ After making the changes:
 
 -   `npm run lint`
 -   `npm test`
--   For a full local DB import: apply the migration (see below) and then re-run `npm run fetchdata -- --no-images`.
+-   For a full local DB import: `NODE_APP_INSTANCE=node npm run db:migrate`, then re-run `npm run fetchdata -- --no-images`.
+-   Commit the migration with the regenerated `server/db/schema.sql` (`npm run db:schema:dump`); CI fails if they don't match. See [Database](database.md).
 
-### Applying the migration locally
-
-There is no automated migration runner in this repo. The SQL files under `server/db/schema/` are auto-applied by the Postgres Docker image only on a **fresh data volume** (via `/docker-entrypoint-initdb.d`); the `migrations/` directory is a record of incremental changes that operators apply by hand.
-
-For local testing, either start from a clean DB or apply the new migration to your existing one.
-
-**Option A — fresh DB (simplest)**
-
-Wipes the Postgres volume and re-initializes from `server/db/schema/*.sql`, which now includes the new row in `99 - Data.sql`:
-
-```sh
-sudo docker compose down -v        # removes the postgres volume
-sudo docker compose up -d redis postgres
-NODE_APP_INSTANCE=node npm run fetchdata -- --no-images
-```
-
-**Option B — apply the migration to an existing DB**
-
-Run the new migration file against the running Postgres (port `54320` per `config/default-node.json5`):
-
-```sh
-psql -h localhost -p 54320 -U keyteki -d keyteki \
-    -f "server/db/schema/migrations/NN - <CODE>.sql"
-```
-
-Or via the container:
-
-```sh
-sudo docker compose exec -T postgres \
-    psql -U keyteki -d keyteki \
-    < "server/db/schema/migrations/NN - <CODE>.sql"
-```
-
-Then bump the sequence so future inserts don't collide with the new row's `Id`:
-
-```sh
-psql -h localhost -p 54320 -U keyteki -d keyteki \
-    -c 'SELECT setval(''public."Expansions_Id_seq"'', <Id>, true);'
-```
+Deploying applies the migration automatically, before the new lobby starts.
 
 ---
 

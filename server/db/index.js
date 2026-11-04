@@ -2,16 +2,23 @@ const { Pool } = require('pg');
 
 const ConfigService = require('../services/ConfigService');
 const logger = require('../log');
+const { getConnectionConfig } = require('./connectionConfig');
 
-const configService = new ConfigService();
+/** @type {Pool | undefined} */
+let pool;
 
-const pool = new Pool({
-    user: configService.getValue('dbUser'),
-    host: configService.getValue('dbHost'),
-    database: configService.getValue('dbDatabase'),
-    password: configService.getValue('dbPassword'),
-    port: configService.getValue('dbPort')
-});
+function getPool() {
+    if (!pool) {
+        pool = new Pool(getConnectionConfig(new ConfigService()));
+
+        // Without a listener, an error on an idle client crashes the process
+        pool.on('error', (err) => {
+            logger.error('Postgres pool error %s', err);
+        });
+    }
+
+    return pool;
+}
 
 module.exports = {
     /**
@@ -20,7 +27,7 @@ module.exports = {
      */
     query: async (text, params = []) => {
         logger.debug(text, params);
-        let res = await pool.query(text, params);
+        let res = await getPool().query(text, params);
 
         return res.rows;
     },
@@ -31,7 +38,7 @@ module.exports = {
         return res.rows;
     },
     startTransaction: async () => {
-        let client = await pool.connect();
+        let client = await getPool().connect();
 
         try {
             await client.query('BEGIN');
@@ -67,6 +74,9 @@ module.exports = {
         }
     },
     shutdown: async () => {
-        await pool.end();
+        if (pool) {
+            await pool.end();
+            pool = undefined;
+        }
     }
 };

@@ -1,6 +1,6 @@
-// Empty config for NODE_ENV=test. Tests use the default config; this file
-// only exists to silence node-config's "did not match any deployment config
-// file names" warning that pollutes the test output.
+// Config for NODE_ENV=test. The unit tests (npm test) don't use a database; the database
+// integration tests (npm run test:db) use keyteki_test, as every test empties the tables.
 {
-    env: 'test'
+    env: 'test',
+    dbDatabase: 'keyteki_test'
 }

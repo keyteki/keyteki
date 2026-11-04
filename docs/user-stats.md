@@ -19,12 +19,12 @@ The "In the game" section comes from `GamePlayers."Stats"`, recorded by [GameSta
 
 ## How it works
 
-| Piece                            | Location                                                                                                                                                                                         |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| Query and summary                | [UserStatsService.js](../server/services/UserStatsService.js): `getGameRows()` selects one row per game, `summarise()` builds the stats from them                                                |
-| Cache for months that have ended | `UserMonthlyStats` table: [26 - UserMonthlyStats.sql](../server/db/schema/26%20-%20UserMonthlyStats.sql), [migrations/26 - UserStats.sql](../server/db/schema/migrations/26%20-%20UserStats.sql) |
-| API                              | `GET /api/stats/monthly?month=YYYY-MM` in [stats.js](../server/api/stats.js); without `month` it returns the latest month with games. Also returns the list of months with games                 |
-| Page                             | [Stats.jsx](../client/pages/Stats.jsx), [MonthlyStats.jsx](../client/Components/Stats/MonthlyStats.jsx)                                                                                          |
+| Piece                            | Location                                                                                                                                                                         |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Query and summary                | [UserStatsService.js](../server/services/UserStatsService.js): `getGameRows()` selects one row per game, `summarise()` builds the stats from them                                |
+| Cache for months that have ended | `UserMonthlyStats` table in [schema.sql](../server/db/schema.sql)                                                                                                                |
+| API                              | `GET /api/stats/monthly?month=YYYY-MM` in [stats.js](../server/api/stats.js); without `month` it returns the latest month with games. Also returns the list of months with games |
+| Page                             | [Stats.jsx](../client/pages/Stats.jsx), [MonthlyStats.jsx](../client/Components/Stats/MonthlyStats.jsx)                                                                          |
 
 A month is cached the first time it is viewed once it has been over for a day (games can finish after midnight). The current month is always worked out live. The cache row stores `SummaryVersion`; bump it in `UserStatsService.js` whenever the summary changes, and old rows are recomputed when next viewed.
 
@@ -64,7 +64,7 @@ Running it again replaces the snapshots but keeps `EmailedAt`, so nobody is emai
 | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Snapshot | [WrappedService.js](../server/services/WrappedService.js): `buildWrapped()` adds the extras to `summarise()`, `rankPlayers()` works out the ranks                                                                                                                           |
 | Script   | [wrapped.js](../server/scripts/wrapped.js)                                                                                                                                                                                                                                  |
-| Table    | `UserWrapped`: [27 - UserWrapped.sql](../server/db/schema/27%20-%20UserWrapped.sql), [migrations/26 - UserStats.sql](../server/db/schema/migrations/26%20-%20UserStats.sql)                                                                                                 |
+| Table    | `UserWrapped` in [schema.sql](../server/db/schema.sql)                                                                                                                                                                                                                      |
 | API      | `GET /api/wrapped/:year` in [stats.js](../server/api/stats.js)                                                                                                                                                                                                              |
 | Page     | [Wrapped.jsx](../client/pages/Wrapped.jsx), [WrappedStory.jsx](../client/Components/Wrapped/WrappedStory.jsx), the cards in [useWrappedCards.jsx](../client/Components/Wrapped/useWrappedCards.jsx), sharing in [shareCard.js](../client/Components/Wrapped/shareCard.js)   |
 | Email    | [WrappedEmailService.js](../server/services/WrappedEmailService.js), the setting in [ProfileMain.jsx](../client/Components/Profile/ProfileMain.jsx), unsubscribing in [Unsubscribe.jsx](../client/pages/Unsubscribe.jsx) and [unsubscribe.js](../server/api/unsubscribe.js) |
@@ -90,16 +90,9 @@ npm run wrapped -- --year 2026 --email --apply
 
 ### Sending it in December
 
-1. Apply [migrations/26 - UserStats.sql](../server/db/schema/migrations/26%20-%20UserStats.sql) and deploy.
+1. Deploy.
 2. `npm run wrapped -- --year 2026 --to <tomorrow>` to check the counts and a sample snapshot.
 3. Generate your own with `--user <username> --apply` and look at `/wrapped/2026`.
 4. Generate everyone's with `--apply`.
 5. Check the email with `--email --preview`, then send it to yourself with `--email --user <username> --apply`.
 6. Send everyone's with `--email --apply`.
-
-## Applying to an existing database
-
-```sh
-psql -h localhost -p 54320 -U keyteki -d keyteki \
-    -f "server/db/schema/migrations/26 - UserStats.sql"
-```

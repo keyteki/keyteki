@@ -1,0 +1,32 @@
+# Applies pending database migrations before the lobby (and the fetchdata job) are upgraded. If it
+# fails the upgrade stops and the running release is left alone
+apiVersion: batch/v1
+kind: Job
+metadata:
+    name: keyteki-migrate-{{ .Values.deployTime | default "0" }}
+    # prettier-ignore
+    namespace: {{ .Values.namespace }}
+    annotations:
+        'helm.sh/hook': pre-install,pre-upgrade
+        'helm.sh/hook-weight': '0'
+        'helm.sh/hook-delete-policy': before-hook-creation
+spec:
+    ttlSecondsAfterFinished: 300
+    activeDeadlineSeconds: 600
+    backoffLimit: 2
+    template:
+        metadata:
+            labels:
+                app: keyteki-migrate
+        spec:
+            restartPolicy: OnFailure
+            containers:
+                - name: migrate
+                  image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
+                  command: ['node', 'server/db/migrate.js', 'up']
+                  env:
+                      - name: NODE_CONFIG
+                        valueFrom:
+                            secretKeyRef:
+                                name: keyteki-migrate-secret
+                                key: node_config

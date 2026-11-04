@@ -1,1 +1,0 @@
-INSERT INTO "Expansions" ("Id", "ExpansionId", "Code", "Name") VALUES (9, 609, 'VM2023', 'Vault Masters 2023')

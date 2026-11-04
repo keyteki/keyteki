@@ -13,6 +13,10 @@ class ConfigService {
         }
     }
 
+    isProduction() {
+        return process.env.NODE_ENV === 'production' || config.env === 'production';
+    }
+
     getValue(key) {
         if (!config[key]) {
             logger.warn(`Asked for config value '${key}', but it was not configured`);

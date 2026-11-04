@@ -71,6 +71,8 @@ Docker is the recommended approach for local development.
     docker compose up --build
     ```
 
+    The lobby container applies any pending [database migrations](database.md) and adds the default users before it starts.
+
 -   In another terminal, fetch the card data:
 
     ```bash
@@ -101,6 +103,13 @@ For hot reloading and React DevTools, run Node locally while using Docker for da
     ```
 
 -   The `config/default-node.json5` file contains overrides for connecting to the containerized databases from your local machine. The `dev:lobby` and `dev:gamenode` scripts set `NODE_APP_INSTANCE=node`, which causes node-config to load this file on top of `default.json5`.
+
+-   Create the schema and the default users (run `db:migrate` again whenever you pull new migrations):
+
+    ```bash
+    NODE_APP_INSTANCE=node npm run db:migrate
+    NODE_APP_INSTANCE=node npm run db:seed
+    ```
 
 -   Run the lobby server:
 
@@ -153,9 +162,11 @@ For hot reloading and React DevTools, run Node locally while using Docker for da
     }
     ```
 
--   Fetch card data and start servers:
+-   Create the schema and the default users, fetch card data and start servers:
 
     ```bash
+    npm run db:migrate
+    npm run db:seed
     node server/scripts/fetchdata.js
     node .
     node server/gamenode

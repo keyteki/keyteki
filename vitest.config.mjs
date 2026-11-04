@@ -4,6 +4,8 @@ export default defineConfig({
     test: {
         // Test file patterns
         include: ['test/**/*.spec.js'],
+        // Need a database, run by npm run test:db (vitest.db.config.mjs)
+        exclude: ['test/server/db-integration/**'],
 
         // Setup files
         setupFiles: ['test/helpers/integrationhelper.js'],
