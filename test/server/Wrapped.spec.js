@@ -182,7 +182,7 @@ describe('Wrapped', function () {
     describe('WrappedService', function () {
         beforeEach(function () {
             this.service = new WrappedService();
-            this.query = vi.spyOn(db, 'query');
+            this.query = vi.spyOn(db, 'query').mockResolvedValue([]);
             this.save = vi.spyOn(this.service, 'save').mockResolvedValue();
             vi.spyOn(this.service, 'getSiteTotals').mockResolvedValue({ games: 10, players: 2 });
             vi.spyOn(this.service, 'getDeckHouses').mockResolvedValue(new Map());
@@ -207,6 +207,16 @@ describe('Wrapped', function () {
                 '2026-01-01',
                 '2026-12-15'
             );
+            expect(this.query).toHaveBeenCalledWith('DELETE FROM "UserWrapped" WHERE "Year" < $1', [
+                2026
+            ]);
+        });
+
+        it("should only remove earlier years' snapshots when generating everyone's", async function () {
+            await this.service.generate({ year: 2026, to: '2026-12-15', username: 'PLAYER1' });
+            await this.service.generate({ year: 2026, to: '2026-12-15', dryRun: true });
+
+            expect(this.query).not.toHaveBeenCalled();
         });
 
         it('should rank a single player among everyone', async function () {
@@ -253,10 +263,10 @@ describe('Wrapped', function () {
                 deckHouses: new Map()
             });
             this.query
-                .mockResolvedValueOnce([{ Data: snapshot }])
+                .mockResolvedValueOnce([{ Data: snapshot, Available: true }])
                 .mockResolvedValueOnce([{ Id: 101, Username: 'alice', Disabled: true }]);
 
-            const wrapped = await this.service.getForUser(1, 2026);
+            const { wrapped } = await this.service.getForUser(1, 2026);
 
             expect(this.query.mock.calls[0][0]).toContain('"Version" = $3');
             expect(this.query.mock.calls[0][1]).toEqual([1, 2026, WrappedVersion]);
@@ -268,6 +278,19 @@ describe('Wrapped', function () {
             this.query.mockResolvedValueOnce([]);
 
             expect(await this.service.getForUser(1, 2026)).toBeNull();
+        });
+
+        it('should say when a snapshot has expired', async function () {
+            this.query.mockResolvedValueOnce([{ Data: {}, Available: false }]);
+
+            expect(await this.service.getForUser(1, '2026')).toEqual({ expired: true });
+            expect(this.query.mock.calls[0][0]).toContain("interval '2 months'");
+        });
+
+        it('should not look up a year that is not a year', async function () {
+            expect(await this.service.getForUser(1, '99999999999')).toBeNull();
+            expect(await this.service.getForUser(1, 'nope')).toBeNull();
+            expect(this.query).not.toHaveBeenCalled();
         });
 
         it('should keep when a snapshot was emailed when saving it again', async function () {

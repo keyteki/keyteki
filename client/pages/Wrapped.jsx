@@ -43,6 +43,8 @@ const Wrapped = () => {
                                   "There's no {{year}} Wrapped for you. Players need at least 10 finished games in the year to get one.",
                                   { year }
                               )
+                            : error?.status === 410
+                            ? t('Your {{year}} Wrapped is no longer available.', { year })
                             : t('Your Wrapped could not be loaded.')
                     }
                 />

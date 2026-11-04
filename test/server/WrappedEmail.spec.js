@@ -1,6 +1,7 @@
 const db = require('../../server/db');
 const EmailService = require('../../server/services/EmailService');
 const WrappedEmailService = require('../../server/services/WrappedEmailService');
+const { WrappedVersion } = require('../../server/services/WrappedService');
 const { renderWrappedEmail, unsubscribeToken, isValidUnsubscribeToken } = WrappedEmailService;
 
 const Secret = 'test-secret';
@@ -208,11 +209,13 @@ describe('Wrapped email', function () {
                 '"EmailedAt" IS NULL',
                 'NOT u."Disabled"',
                 'u."Verified"',
-                'u."Settings_EmailUpdates"'
+                'u."Settings_EmailUpdates"',
+                'w."Version" = $3',
+                "interval '2 months'"
             ]) {
                 expect(sql).toContain(condition);
             }
-            expect(params).toEqual([2026, 'Alice']);
+            expect(params).toEqual([2026, 'Alice', WrappedVersion]);
         });
 
         it('should turn off emails for a valid unsubscribe link', async function () {
