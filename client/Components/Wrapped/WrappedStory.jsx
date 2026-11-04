@@ -10,6 +10,7 @@ import {
 
 import Icon from '../Icon';
 import Logo from '../../assets/img/main_header_logo.png';
+import AmberIcon from '../../assets/img/amber.png';
 import useWrappedCards from './useWrappedCards';
 import { renderCard, shareImage } from './shareCard';
 
@@ -66,7 +67,7 @@ const WrappedStory = ({ wrapped, username }) => {
             const blob = await renderCard(frameRef.current);
             const result = await shareImage(
                 blob,
-                `crucible-wrapped-${wrapped.year}-${card.key}.png`,
+                `archons-chronicle-${wrapped.year}-${card.key}.png`,
                 t('My {{year}} on The Crucible Online', { year: wrapped.year })
             );
 
@@ -87,16 +88,24 @@ const WrappedStory = ({ wrapped, username }) => {
                 className={`@container relative aspect-[9/16] select-none overflow-hidden rounded-xl shadow-[0_12px_40px_rgba(0,0,0,0.45)] ${card.background}`}
                 style={{ width: 'min(100%, calc((100dvh - 10rem) * 9 / 16))' }}
             >
-                <div className='absolute inset-x-[5cqw] top-[4cqw] z-10 flex gap-[1.2cqw]'>
+                {/* Progress as æmber pips, lit up to the current card */}
+                <div className='absolute inset-x-[5cqw] top-[4.5cqw] z-10 flex justify-center gap-[1.6cqw]'>
                     {cards.map((item, itemIndex) => (
-                        <div
+                        <img
                             key={item.key}
-                            className={`h-[0.9cqw] flex-1 rounded-full ${
-                                itemIndex <= index ? 'bg-white/90' : 'bg-white/30'
+                            alt=''
+                            className={`w-[4.2cqw] transition-opacity ${
+                                itemIndex <= index
+                                    ? 'opacity-100 drop-shadow-[0_0_1.5cqw_rgba(240,160,40,0.8)]'
+                                    : 'opacity-25 grayscale'
                             }`}
+                            src={AmberIcon}
                         />
                     ))}
                 </div>
+
+                {/* A gold border, like the edge of a card */}
+                <div className='pointer-events-none absolute inset-[2cqw] z-10 rounded-[3cqw] border-[0.5cqw] border-[#c9a24a]/45' />
 
                 <div
                     key={card.key}

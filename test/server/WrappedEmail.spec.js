@@ -12,6 +12,7 @@ const wrapped = (overrides = {}) => ({
     wins: 700,
     seconds: 90 * 3600,
     favouriteHouse: { house: 'brobnar', count: 50, source: 'chosen' },
+    title: { key: 'brawler', house: 'brobnar', name: 'Brobnar Brawler', count: 300 },
     ...overrides
 });
 
@@ -60,9 +61,9 @@ describe('Wrapped email', function () {
         it('should link to the Wrapped page and the unsubscribe page', function () {
             const email = this.render();
 
-            expect(email.subject).toBe('Your 2026 on The Crucible Online is ready');
+            expect(email.subject).toBe("Your 2026 Archon's Chronicle is ready");
             for (const body of [email.text, email.html]) {
-                expect(body).toContain('https://example.test/wrapped/2026');
+                expect(body).toContain('https://example.test/chronicle/2026');
                 expect(body).toContain('https://example.test/unsubscribe?id=5');
             }
         });
@@ -94,7 +95,15 @@ describe('Wrapped email', function () {
             const { text, html } = this.render({ wrapped: wrapped({ favouriteHouse: null }) });
 
             expect(text).not.toContain('mostly as');
-            expect(html).not.toContain('Your house');
+            expect(html).not.toContain('Your allegiance');
+        });
+
+        it("should include the player's Archon title", function () {
+            const { text, html } = this.render();
+
+            expect(text).toContain('The Crucible names you Brobnar Brawler.');
+            expect(html).toContain('The Crucible names you');
+            expect(html).toContain('Brobnar Brawler');
         });
 
         it('should escape the username in the HTML', function () {
@@ -137,7 +146,7 @@ describe('Wrapped email', function () {
             const [address, subject, text, options] = this.emailService.sendEmail.mock.calls[0];
             expect(address).toBe('alice@example.test');
             expect(subject).toContain('2026');
-            expect(text).toContain('Hi alice');
+            expect(text).toContain('Archon alice');
             expect(options.html).toContain('alice');
             expect(options.headers[0].Value).toContain(`id=1&token=${unsubscribeToken(Secret, 1)}`);
             expect(this.query.mock.calls.map(([, params]) => params)).toEqual([

@@ -81,6 +81,7 @@ const AppRoutes = ({ currentGame, user }) => {
             />
             <Route path='/security' element={<Security />} />
             <Route path='/stats' element={<Stats />} />
+            <Route path='/chronicle/:year' element={<Wrapped />} />
             <Route path='/wrapped/:year' element={<Wrapped />} />
             <Route
                 path='/unsubscribe'

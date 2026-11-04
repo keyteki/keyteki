@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Constants } from '../../constants';
+import CardBackImage from '../Decks/CardBackImage';
 import Logo from '../../assets/img/main_header_logo.png';
+import AmberIcon from '../../assets/img/amber.png';
+import KeyYellow from '../../assets/img/forgedkeyyellow.png';
+import KeyRed from '../../assets/img/forgedkeyred.png';
+import KeyBlue from '../../assets/img/forgedkeyblue.png';
 import useStatsFormat from '../Stats/useStatsFormat';
 import { localHours } from './localHours';
 
@@ -11,50 +16,72 @@ const MaxRankShown = 50;
 // Same threshold as the stats page and deck records
 const MinGamesForRates = 5;
 
-// Times of day, in the viewer's local hours
+// How many sets are listed on the sets card
+const MaxSetsShown = 4;
+
+// Times of day, in the viewer's local hours, each with the house that suits it
 const TimesOfDay = [
     {
         from: 0,
         to: 5,
-        name: 'Night owl',
-        description: 'Most of your games started after midnight.'
+        house: 'shadows',
+        name: 'Shadows by night',
+        description: 'You strike after dark. Most of your games started after midnight.'
     },
     {
         from: 5,
         to: 12,
-        name: 'Early bird',
-        description: 'You did most of your forging before noon.'
+        house: 'sanctum',
+        name: 'Dawn vigil',
+        description: 'Like Sanctum at prayer, you did most of your forging before noon.'
     },
     {
         from: 12,
         to: 18,
-        name: 'Afternoon forger',
-        description: 'Most of your games were in the afternoon.'
+        house: 'brobnar',
+        name: 'Midday brawler',
+        description: 'Most of your games were in the afternoon, when Brobnar is loudest.'
     },
     {
         from: 18,
         to: 24,
-        name: 'Evening regular',
-        description: 'The evening is when you sit down to play.'
+        house: 'dis',
+        name: 'Evening torment',
+        description: 'The evening is when you sit down to torment your opponents.'
     }
 ];
+
+// The Crucible's colours: dark stone lit by æmber, tinted for each card
+const Backgrounds = {
+    intro: 'bg-[radial-gradient(circle_at_50%_35%,#6b4d0f_0%,#24190a_45%,#0b0906_100%)]',
+    games: 'bg-[radial-gradient(circle_at_50%_0%,#4d3510_0%,#1a130a_55%,#0b0906_100%)]',
+    record: 'bg-[radial-gradient(circle_at_50%_15%,#4a4212_0%,#1a170b_55%,#0b0906_100%)]',
+    highlights: 'bg-[radial-gradient(circle_at_30%_10%,#6b1d12_0%,#2a0f0a_50%,#0b0906_100%)]',
+    deck: 'bg-[radial-gradient(circle_at_50%_38%,#5a4214_0%,#1f170c_50%,#0b0906_100%)]',
+    sets: 'bg-[radial-gradient(circle_at_50%_20%,#23404a_0%,#0f1b1f_55%,#0b0906_100%)]',
+    mvp: 'bg-[radial-gradient(circle_at_50%_40%,#3a3328_0%,#16130f_60%,#0b0906_100%)]',
+    amber: 'bg-[radial-gradient(circle_at_50%_25%,#8a520c_0%,#3a2108_45%,#0b0906_100%)]',
+    opponents: 'bg-[linear-gradient(160deg,#5a1616_0%,#1a0e0c_45%,#0d1626_70%,#163a66_100%)]',
+    house: 'bg-[#120d08]',
+    summary: 'bg-[radial-gradient(circle_at_50%_0%,#4a360b_0%,#16110a_55%,#0b0906_100%)]'
+};
 
 /**
  * Small heading at the top of a card
  * @param {{children: import('react').ReactNode}} props
  */
 export const Kicker = ({ children }) => (
-    <div className='text-[4.2cqw] font-semibold uppercase tracking-[0.18em] text-white/75'>
+    <div className='text-[4.2cqw] font-semibold uppercase tracking-[0.18em] text-[#e9d9b0]/80'>
         {children}
     </div>
 );
 
 /**
  * A very large display number or name
- * @param {{children: import('react').ReactNode, size?: string}} props
+ * @param {{children: import('react').ReactNode, size?: string, color?: string}} props
  */
-export const Big = ({ children, size = 'text-[24cqw]' }) => (
-    <div className={`font-[Bombardier] leading-[0.95] text-white ${size}`}>{children}</div>
+export const Big = ({ children, size = 'text-[24cqw]', color = 'text-white' }) => (
+    <div className={`font-[Bombardier] leading-[0.95] ${color} ${size}`}>{children}</div>
 );
 
 /**
@@ -69,7 +96,7 @@ export const Body = ({ children, className = '' }) => (
  * @param {{children: import('react').ReactNode}} props
  */
 export const Pill = ({ children }) => (
-    <span className='inline-block w-fit rounded-full bg-black/30 px-[3.5cqw] py-[1.4cqw] text-[3.8cqw] font-semibold text-white'>
+    <span className='inline-block w-fit rounded-full border border-[#f0c44d]/30 bg-black/35 px-[3.5cqw] py-[1.4cqw] text-[3.8cqw] font-semibold text-white'>
         {children}
     </span>
 );
@@ -80,9 +107,29 @@ export const Pill = ({ children }) => (
  */
 export const Fact = ({ label, value }) => (
     <div className='flex min-w-0 flex-col'>
-        <span className='text-[3.6cqw] uppercase tracking-wider text-white/65'>{label}</span>
+        <span className='text-[3.6cqw] uppercase tracking-wider text-[#e9d9b0]/65'>{label}</span>
         <span className='truncate text-[7cqw] font-semibold leading-tight text-white'>{value}</span>
     </div>
+);
+
+/**
+ * A house's background art behind a card's content
+ * @param {{house: string|null}} props
+ */
+const HouseBackdrop = ({ house }) =>
+    house && Constants.HouseBgPaths[house] ? (
+        <img
+            alt=''
+            className='absolute inset-0 h-full w-full object-cover opacity-35'
+            src={Constants.HouseBgPaths[house]}
+        />
+    ) : null;
+
+/**
+ * A gold rule between parts of the summary card
+ */
+const Rule = () => (
+    <div className='h-[0.4cqw] w-full bg-gradient-to-r from-transparent via-[#f0c44d]/70 to-transparent' />
 );
 
 /**
@@ -148,19 +195,80 @@ const useWrappedCards = (wrapped, username) => {
     const mvp = detailed?.mvp;
     // Served from this site by card id, so it can be drawn into the share image (Master Vault's can't)
     const mvpImage = mvp ? `/img/cards/${mvp.id}.png` : null;
+    // Worked out by the server, so the email can use it too
+    // The server picks the title (so the email can use it too); its words are here so they can be translated
+    const title = wrapped.title;
+    const titleCount = number(title.count);
+    const titleText = {
+        thief: {
+            name: t('Shadows-touched Thief'),
+            description: t('You stole {{count}} æmber. Your opponents never saw it go.', {
+                count: titleCount
+            })
+        },
+        hoarder: {
+            name: t('Æmber Hoarder'),
+            description: t('You captured {{count}} æmber, and kept it close.', {
+                count: titleCount
+            })
+        },
+        brawler: {
+            name: t('Brobnar Brawler'),
+            description: t('You destroyed {{count}} enemy creatures.', { count: titleCount })
+        },
+        harvester: {
+            name: t('Untamed Harvester'),
+            description: t('Your creatures reaped {{count}} times.', { count: titleCount })
+        },
+        gladiator: {
+            name: t('Saurian Gladiator'),
+            description: t('Your creatures fought {{count}} times.', { count: titleCount })
+        },
+        vault: {
+            name: t('Unbroken Vault'),
+            description: t('{{count}} of your wins were flawless. Your vault stayed sealed.', {
+                count: titleCount
+            })
+        },
+        seasoned: {
+            name: t('Seasoned Archon'),
+            description: t('{{count}} battles in the Crucible, and still forging.', {
+                count: titleCount
+            })
+        }
+    }[title.key] || { name: title.name, description: '' };
+
+    // A new object would redraw the card back's canvas on every render, such as while sharing
+    const topDeckBack = useMemo(
+        () =>
+            topDeck?.name && topDeck.houses.length === 3
+                ? { name: topDeck.name, houses: topDeck.houses, cards: [] }
+                : null,
+        // The snapshot comes from the query cache, so topDeck keeps its identity between renders
+        [topDeck]
+    );
+
+    const setName = (expansion) =>
+        Constants.Expansions.find((set) => set.value === String(expansion))?.name;
+    const sets = wrapped.sets.filter((set) => setName(set.expansion));
+    const topDeckSet = topDeck?.expansion ? setName(topDeck.expansion) : null;
 
     /** @type {StoryCard[]} */
     const story = [];
 
     story.push({
         key: 'intro',
-        background: 'bg-[radial-gradient(circle_at_50%_35%,#6b4d0f_0%,#24190a_45%,#0b0906_100%)]',
+        background: Backgrounds.intro,
         content: (
             <div className='flex h-full flex-col items-center justify-center gap-[5cqw] text-center'>
                 <img alt={t('The Crucible Online')} className='w-[72cqw]' src={Logo} />
-                <Big size='text-[30cqw] text-[color:#f0c44d]'>{wrapped.year}</Big>
-                <Big size='text-[12cqw]'>{t('Wrapped')}</Big>
-                <Body>{t('{{username}}, here is your year at the Crucible.', { username })}</Body>
+                <Big color='text-[#f0c44d]' size='text-[30cqw]'>
+                    {wrapped.year}
+                </Big>
+                <Big size='text-[11cqw]'>{t("The Archon's Chronicle")}</Big>
+                <Body>
+                    {t('Archon {{username}}, the Crucible remembers your year.', { username })}
+                </Body>
                 <Pill>{period}</Pill>
             </div>
         )
@@ -168,25 +276,27 @@ const useWrappedCards = (wrapped, username) => {
 
     story.push({
         key: 'games',
-        background: 'bg-gradient-to-br from-[#3b1d8f] via-[#4c1d95] to-[#1e1b4b]',
+        background: Backgrounds.games,
         content: (
             <div className='flex h-full flex-col justify-center gap-[4cqw]'>
-                <Kicker>{t('You played')}</Kicker>
+                <Kicker>{t('You entered the Crucible')}</Kicker>
                 <Big>{number(wrapped.games)}</Big>
                 <Body>
                     {plural(
                         Math.round(hours),
-                        'games, about an hour at the table.',
-                        'games, about {{count}} hours at the table.'
+                        'times, and spent about an hour forging.',
+                        'times, and spent about {{count}} hours forging.'
                     )}
                 </Body>
-                {rank(wrapped.ranks?.games, 'Top {{rank}}% of players for games played')}
+                {rank(wrapped.ranks?.games, 'Among the top {{rank}}% of Archons for games played')}
                 <div className='mt-[4cqw] flex h-[28cqw] items-end gap-[1.2cqw]'>
                     {wrapped.byMonth.map((count, month) => (
                         <div key={month} className='flex h-full flex-1 flex-col justify-end'>
                             <div
                                 className={`rounded-t-[1cqw] ${
-                                    month === busiestMonth ? 'bg-[#f0c44d]' : 'bg-white/45'
+                                    month === busiestMonth
+                                        ? 'bg-[#f0c44d] shadow-[0_0_4cqw_rgba(240,196,77,0.6)]'
+                                        : 'bg-[#e9d9b0]/35'
                                 }`}
                                 style={{ height: count > 0 ? `${(100 * count) / maxMonth}%` : 0 }}
                             />
@@ -205,10 +315,20 @@ const useWrappedCards = (wrapped, username) => {
 
     story.push({
         key: 'record',
-        background: 'bg-gradient-to-br from-[#065f46] via-[#047857] to-[#022c22]',
+        background: Backgrounds.record,
         content: (
             <div className='flex h-full flex-col justify-center gap-[4cqw]'>
-                <Kicker>{t('Your record')}</Kicker>
+                <div className='flex gap-[2cqw]'>
+                    {[KeyYellow, KeyRed, KeyBlue].map((key) => (
+                        <img
+                            key={key}
+                            alt=''
+                            className='w-[14cqw] drop-shadow-[0_0_3cqw_rgba(240,196,77,0.45)]'
+                            src={key}
+                        />
+                    ))}
+                </div>
+                <Kicker>{t('Your victories')}</Kicker>
                 <Big>{number(wrapped.wins)}</Big>
                 <Body>
                     {plural(wrapped.wins, 'win', 'wins')}
@@ -218,9 +338,16 @@ const useWrappedCards = (wrapped, username) => {
                 {wrapped.games >= MinGamesForRates && (
                     <Big size='text-[12cqw]'>{t('{{rate}}% won', { rate: winRate })}</Big>
                 )}
+                <div className='grid grid-cols-2 gap-[4cqw]'>
+                    <Fact label={t('Keys forged')} value={number(wrapped.keysForged)} />
+                    <Fact label={t('Keys conceded')} value={number(wrapped.keysConceded)} />
+                </div>
                 <div className='flex flex-col gap-[2cqw]'>
-                    {rank(wrapped.ranks?.wins, 'Top {{rank}}% of players for wins')}
-                    {rank(wrapped.ranks?.winRate, 'Top {{rank}}% of players for win rate')}
+                    {rank(wrapped.ranks?.wins, 'Among the top {{rank}}% of Archons for wins')}
+                    {rank(
+                        wrapped.ranks?.winRate,
+                        'Among the top {{rank}}% of Archons for win rate'
+                    )}
                 </div>
             </div>
         )
@@ -229,21 +356,24 @@ const useWrappedCards = (wrapped, username) => {
     if (wrapped.dominantWins > 0 || wrapped.longestWinStreak > 1 || wrapped.fastestWin) {
         story.push({
             key: 'highlights',
-            background: 'bg-gradient-to-br from-[#9f1239] via-[#be123c] to-[#431407]',
+            background: Backgrounds.highlights,
             content: (
                 <div className='flex h-full flex-col justify-center gap-[6cqw]'>
-                    <Kicker>{t('Your best moments')}</Kicker>
+                    <Kicker>{t('Your finest forges')}</Kicker>
                     {wrapped.dominantWins > 0 && (
                         <div className='flex flex-col gap-[2cqw]'>
                             <Big size='text-[20cqw]'>{number(wrapped.dominantWins)}</Big>
                             <Body>
                                 {plural(
                                     wrapped.dominantWins,
-                                    "dominant win, where your opponent didn't forge a single key.",
-                                    "dominant wins, where your opponent didn't forge a single key."
+                                    "flawless win, where your opponent didn't forge a single key.",
+                                    "flawless wins, where your opponent didn't forge a single key."
                                 )}
                             </Body>
-                            {rank(wrapped.ranks?.dominantWins, 'Top {{rank}}% of players')}
+                            {rank(
+                                wrapped.ranks?.dominantWins,
+                                'Among the top {{rank}}% of Archons'
+                            )}
                         </div>
                     )}
                     <div className='grid grid-cols-2 gap-[4cqw]'>
@@ -270,24 +400,39 @@ const useWrappedCards = (wrapped, username) => {
     if (topDeck) {
         story.push({
             key: 'deck',
-            background: 'bg-gradient-to-b from-[#0f172a] via-[#1e3a5f] to-[#0c4a6e]',
+            background: Backgrounds.deck,
             content: (
-                <div className='flex h-full flex-col justify-center gap-[5cqw]'>
-                    <Kicker>{t('Your deck of the year')}</Kicker>
-                    {topDeck.houses.length > 0 && (
-                        <div className='flex gap-[3cqw]'>
-                            {topDeck.houses.map((house) => (
-                                <img
-                                    key={house}
-                                    alt={houseLabel(house)}
-                                    className='w-[17cqw]'
-                                    src={Constants.HouseIconPaths[house]}
-                                />
-                            ))}
+                <div className='flex h-full flex-col items-center justify-center gap-[4cqw] text-center'>
+                    <Kicker>{t('Your Archon of the year')}</Kicker>
+                    {topDeckBack ? (
+                        // The deck's identity card back: in KeyForge each deck is an Archon
+                        <div className='w-[50cqw] drop-shadow-[0_0_8cqw_rgba(240,196,77,0.35)]'>
+                            <CardBackImage
+                                className='block aspect-[300/420] !h-auto !w-full'
+                                deck={topDeckBack}
+                            />
                         </div>
+                    ) : (
+                        topDeck.houses.length > 0 && (
+                            <div className='flex gap-[3cqw]'>
+                                {topDeck.houses.map((house) => (
+                                    <img
+                                        key={house}
+                                        alt={houseLabel(house)}
+                                        className='w-[17cqw]'
+                                        src={Constants.HouseIconPaths[house]}
+                                    />
+                                ))}
+                            </div>
+                        )
                     )}
-                    <Big size='text-[10cqw]'>{topDeck.name || t('A deck since deleted')}</Big>
-                    <div className='grid grid-cols-3 gap-[3cqw]'>
+                    <Big size='text-[7.5cqw]'>{topDeck.name || t('A deck since deleted')}</Big>
+                    {topDeckSet && (
+                        <span className='-mt-[2cqw] text-[3.8cqw] text-[#e9d9b0]/75'>
+                            {topDeckSet}
+                        </span>
+                    )}
+                    <div className='grid w-full grid-cols-3 gap-[3cqw]'>
                         <Fact label={t('Games')} value={number(topDeck.games)} />
                         <Fact
                             label={t('Record')}
@@ -296,11 +441,11 @@ const useWrappedCards = (wrapped, username) => {
                                 losses: topDeck.games - topDeck.wins
                             })}
                         />
-                        <Fact label={t('Dominant')} value={number(topDeck.dominantWins)} />
+                        <Fact label={t('Flawless wins')} value={number(topDeck.dominantWins)} />
                     </div>
                     {wrapped.deckCount > 1 && (
                         <Body className='text-[4.2cqw]'>
-                            {t('One of {{count}} decks you played this year.', {
+                            {t('One of {{count}} Archons who fought for you this year.', {
                                 count: wrapped.deckCount
                             })}
                         </Body>
@@ -310,22 +455,55 @@ const useWrappedCards = (wrapped, username) => {
         });
     }
 
+    if (sets.length > 0) {
+        story.push({
+            key: 'sets',
+            background: Backgrounds.sets,
+            content: (
+                <div className='flex h-full flex-col justify-center gap-[5cqw]'>
+                    <Kicker>{t('Your sets')}</Kicker>
+                    <Big>{number(sets.length)}</Big>
+                    <Body>
+                        {sets.length === 1
+                            ? t('All your Archons came from {{set}}.', {
+                                  set: setName(sets[0].expansion)
+                              })
+                            : t('You fought with Archons from {{count}} different sets.', {
+                                  count: sets.length
+                              })}
+                    </Body>
+                    <div className='flex flex-col gap-[3cqw]'>
+                        {sets.slice(0, MaxSetsShown).map((set) => (
+                            <div key={set.expansion} className='flex items-center gap-[3cqw]'>
+                                <img
+                                    alt=''
+                                    className='h-[9cqw] w-[9cqw] object-contain'
+                                    src={Constants.SetIconPaths[String(set.expansion)]}
+                                />
+                                <span className='min-w-0 flex-1 truncate text-[5cqw] font-semibold text-white'>
+                                    {setName(set.expansion)}
+                                </span>
+                                <span className='text-[4.2cqw] text-[#e9d9b0]/75'>
+                                    {plural(set.games, '1 game', '{{count}} games')}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )
+        });
+    }
+
     if (favourite) {
         story.push({
             key: 'house',
-            background: 'bg-[#120d08]',
+            background: Backgrounds.house,
             detailed: favourite.source === 'chosen',
             content: (
                 <>
-                    {Constants.HouseBgPaths[favourite.house] && (
-                        <img
-                            alt=''
-                            className='absolute inset-0 h-full w-full object-cover opacity-35'
-                            src={Constants.HouseBgPaths[favourite.house]}
-                        />
-                    )}
+                    <HouseBackdrop house={favourite.house} />
                     <div className='relative flex h-full flex-col items-center justify-center gap-[5cqw] text-center'>
-                        <Kicker>{t('Your house')}</Kicker>
+                        <Kicker>{t('Your allegiance')}</Kicker>
                         <img
                             alt=''
                             className='w-[45cqw] drop-shadow-[0_2cqw_6cqw_rgba(0,0,0,0.6)]'
@@ -355,15 +533,15 @@ const useWrappedCards = (wrapped, username) => {
     if (mvp) {
         story.push({
             key: 'mvp',
-            background: 'bg-gradient-to-b from-[#1c1917] to-[#44403c]',
+            background: Backgrounds.mvp,
             detailed: true,
             content: (
                 <div className='flex h-full flex-col items-center justify-center gap-[4cqw] text-center'>
-                    <Kicker>{t('Your MVP')}</Kicker>
+                    <Kicker>{t('Your champion')}</Kicker>
                     {mvpImage && (
                         <img
                             alt={cardName(mvp.id)}
-                            className='w-[56cqw] rounded-[3cqw] shadow-[0_3cqw_10cqw_rgba(0,0,0,0.6)]'
+                            className='w-[56cqw] rounded-[3cqw] shadow-[0_0_10cqw_rgba(240,196,77,0.3)]'
                             src={mvpImage}
                         />
                     )}
@@ -382,17 +560,20 @@ const useWrappedCards = (wrapped, username) => {
     if (detailed) {
         story.push({
             key: 'amber',
-            background: 'bg-gradient-to-br from-[#b45309] via-[#c2410c] to-[#431407]',
+            background: Backgrounds.amber,
             detailed: true,
             content: (
                 <div className='flex h-full flex-col justify-center gap-[5cqw]'>
                     <Kicker>{t('Æmber')}</Kicker>
-                    <Big>{number(detailed.amberGained)}</Big>
-                    <Body>
-                        {t('æmber gained, and {{keys}} keys forged.', {
-                            keys: number(wrapped.keysForged)
-                        })}
-                    </Body>
+                    <div className='flex items-center gap-[3cqw]'>
+                        <img
+                            alt=''
+                            className='w-[18cqw] drop-shadow-[0_0_5cqw_rgba(240,160,40,0.7)]'
+                            src={AmberIcon}
+                        />
+                        <Big>{number(detailed.amberGained)}</Big>
+                    </div>
+                    <Body>{t('æmber gained in the Crucible.')}</Body>
                     <div className='grid grid-cols-2 gap-[4cqw]'>
                         <Fact label={t('Stolen')} value={number(detailed.amberStolen)} />
                         <Fact label={t('Captured')} value={number(detailed.amberCaptured)} />
@@ -410,14 +591,14 @@ const useWrappedCards = (wrapped, username) => {
     if (wrapped.rival) {
         story.push({
             key: 'opponents',
-            background: 'bg-gradient-to-br from-[#1e293b] via-[#334155] to-[#0f172a]',
+            background: Backgrounds.opponents,
             content: (
                 <div className='flex h-full flex-col justify-center gap-[6cqw]'>
                     <Kicker>{t('Your rival')}</Kicker>
                     <div className='flex flex-col gap-[2cqw]'>
                         <Big size='text-[13cqw] break-words'>{wrapped.rival.name}</Big>
                         <Body>
-                            {t('{{count}} games together. You won {{wins}}.', {
+                            {t('{{count}} battles against each other. You won {{wins}}.', {
                                 count: wrapped.rival.games,
                                 wins: wrapped.rival.wins
                             })}
@@ -439,8 +620,8 @@ const useWrappedCards = (wrapped, username) => {
                     <Body className='text-[4.2cqw]'>
                         {plural(
                             wrapped.opponentCount,
-                            'You played one opponent this year.',
-                            'You played {{count}} different opponents this year.'
+                            'You faced one Archon this year.',
+                            'You faced {{count}} different Archons this year.'
                         )}
                     </Body>
                 </div>
@@ -450,61 +631,114 @@ const useWrappedCards = (wrapped, username) => {
 
     story.push({
         key: 'time',
-        background:
-            timeOfDay.from === 0
-                ? 'bg-gradient-to-b from-[#020617] via-[#1e1b4b] to-[#312e81]'
-                : timeOfDay.from === 5
-                ? 'bg-gradient-to-b from-[#fb923c] via-[#db2777] to-[#4c1d95]'
-                : timeOfDay.from === 12
-                ? 'bg-gradient-to-b from-[#0284c7] via-[#0369a1] to-[#1e3a8a]'
-                : 'bg-gradient-to-b from-[#7c2d12] via-[#581c87] to-[#0f172a]',
+        background: Backgrounds.house,
         content: (
-            <div className='flex h-full flex-col justify-center gap-[5cqw]'>
-                <Kicker>{t('When you play')}</Kicker>
-                <Big size='text-[15cqw]'>{t(timeOfDay.name)}</Big>
-                <Body>{t(timeOfDay.description)}</Body>
-                <div className='grid grid-cols-2 gap-[4cqw]'>
-                    <Fact label={t('Peak hour')} value={formatHour(peakHour)} />
-                    <Fact label={t('Busiest month')} value={monthName(busiestMonth)} />
+            <>
+                <HouseBackdrop house={timeOfDay.house} />
+                <div className='relative flex h-full flex-col justify-center gap-[5cqw]'>
+                    <img
+                        alt=''
+                        className='w-[24cqw] drop-shadow-[0_2cqw_6cqw_rgba(0,0,0,0.6)]'
+                        src={Constants.HouseIconPaths[timeOfDay.house]}
+                    />
+                    <Kicker>{t('When you enter the Crucible')}</Kicker>
+                    <Big size='text-[15cqw]'>{t(timeOfDay.name)}</Big>
+                    <Body>{t(timeOfDay.description)}</Body>
+                    <div className='grid grid-cols-2 gap-[4cqw]'>
+                        <Fact label={t('Peak hour')} value={formatHour(peakHour)} />
+                        <Fact label={t('Busiest month')} value={monthName(busiestMonth)} />
+                    </div>
                 </div>
-            </div>
+            </>
+        )
+    });
+
+    story.push({
+        key: 'title',
+        background: Backgrounds.house,
+        detailed: title.key !== 'vault' && title.key !== 'seasoned',
+        content: (
+            <>
+                <HouseBackdrop house={title.house} />
+                <div className='relative flex h-full flex-col items-center justify-center gap-[5cqw] text-center'>
+                    <Kicker>{t('The Crucible names you')}</Kicker>
+                    {title.house && Constants.HouseIconPaths[title.house] && (
+                        <img
+                            alt=''
+                            className='w-[38cqw] drop-shadow-[0_0_8cqw_rgba(240,196,77,0.45)]'
+                            src={Constants.HouseIconPaths[title.house]}
+                        />
+                    )}
+                    <Big color='text-[#f0c44d]' size='text-[13cqw]'>
+                        {titleText.name}
+                    </Big>
+                    <Body>{titleText.description}</Body>
+                </div>
+            </>
         )
     });
 
     story.push({
         key: 'summary',
-        background: 'bg-[radial-gradient(circle_at_50%_0%,#4a360b_0%,#16110a_55%,#0b0906_100%)]',
+        background: Backgrounds.summary,
         content: (
-            <div className='flex h-full flex-col justify-center gap-[5cqw]'>
-                <div className='flex flex-col gap-[1cqw]'>
-                    <Kicker>{t('{{year}} Wrapped', { year: wrapped.year })}</Kicker>
-                    <Big size='text-[11cqw] break-words'>{username}</Big>
-                </div>
-                <div className='grid grid-cols-2 gap-x-[4cqw] gap-y-[5cqw]'>
-                    <Fact label={t('Games')} value={number(wrapped.games)} />
-                    <Fact
-                        label={t('Record')}
-                        value={t('{{wins}}–{{losses}}', {
-                            wins: wrapped.wins,
-                            losses: wrapped.losses
-                        })}
-                    />
-                    <Fact label={t('Dominant wins')} value={number(wrapped.dominantWins)} />
-                    <Fact label={t('Hours played')} value={number(hours)} />
-                    {favourite && <Fact label={t('House')} value={houseLabel(favourite.house)} />}
-                    {mvp && <Fact label={t('MVP')} value={cardName(mvp.id)} />}
-                </div>
-                {topDeck?.name && (
-                    <div className='flex flex-col'>
-                        <span className='text-[3.6cqw] uppercase tracking-wider text-white/65'>
-                            {t('Deck of the year')}
-                        </span>
-                        <span className='text-[5.5cqw] font-semibold leading-tight text-white'>
-                            {topDeck.name}
-                        </span>
+            // The player's own Archon card
+            <div className='flex h-full flex-col justify-center'>
+                <div className='relative overflow-hidden rounded-[4cqw] border-[0.8cqw] border-[#c9a24a] bg-[#16110a] shadow-[0_0_10cqw_rgba(240,196,77,0.25)]'>
+                    <HouseBackdrop house={favourite?.house || null} />
+                    <div className='relative flex flex-col items-center gap-[3.5cqw] bg-gradient-to-b from-black/30 via-black/60 to-black/80 px-[6cqw] py-[6cqw] text-center'>
+                        {topDeck?.houses?.length > 0 && (
+                            <div className='flex gap-[2cqw]'>
+                                {topDeck.houses.map((house) => (
+                                    <img
+                                        key={house}
+                                        alt=''
+                                        className='w-[11cqw]'
+                                        src={Constants.HouseIconPaths[house]}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                        <div className='flex flex-col gap-[1cqw]'>
+                            <Kicker>{t('Chronicle of {{year}}', { year: wrapped.year })}</Kicker>
+                            <Big size='text-[11cqw] break-words'>{username}</Big>
+                            <span className='text-[4.6cqw] font-semibold text-[#f0c44d]'>
+                                {titleText.name}
+                            </span>
+                        </div>
+                        <Rule />
+                        <div className='grid w-full grid-cols-2 gap-x-[4cqw] gap-y-[3.5cqw] text-left'>
+                            <Fact label={t('Games')} value={number(wrapped.games)} />
+                            <Fact
+                                label={t('Record')}
+                                value={t('{{wins}}–{{losses}}', {
+                                    wins: wrapped.wins,
+                                    losses: wrapped.losses
+                                })}
+                            />
+                            <Fact label={t('Flawless wins')} value={number(wrapped.dominantWins)} />
+                            <Fact label={t('Keys forged')} value={number(wrapped.keysForged)} />
+                            {favourite && (
+                                <Fact label={t('Allegiance')} value={houseLabel(favourite.house)} />
+                            )}
+                            {mvp && <Fact label={t('Champion')} value={cardName(mvp.id)} />}
+                        </div>
+                        {topDeck?.name && (
+                            <>
+                                <Rule />
+                                <div className='flex flex-col'>
+                                    <span className='text-[3.6cqw] uppercase tracking-wider text-[#e9d9b0]/65'>
+                                        {t('Archon of the year')}
+                                    </span>
+                                    <span className='text-[5cqw] font-semibold leading-tight text-white'>
+                                        {topDeck.name}
+                                    </span>
+                                </div>
+                            </>
+                        )}
+                        <Pill>{t(timeOfDay.name)}</Pill>
                     </div>
-                )}
-                <Pill>{t(timeOfDay.name)}</Pill>
+                </div>
             </div>
         )
     });

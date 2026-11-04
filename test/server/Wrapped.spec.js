@@ -135,8 +135,61 @@ describe('Wrapped', function () {
                 games: 2,
                 wins: 2,
                 dominantWins: 0,
-                houses: ['brobnar', 'dis', 'logos']
+                houses: ['brobnar', 'dis', 'logos'],
+                expansion: null
             });
+        });
+
+        it("should give the top deck's set, and the sets played most first", function () {
+            const wrapped = buildWrapped({
+                ...this.options,
+                rows: [
+                    game(),
+                    game(),
+                    game({ DeckUuid: 'deck-b', DeckId: 2 }),
+                    game({ DeckUuid: 'deck-c', DeckId: 3 }),
+                    game({ DeckUuid: 'deck-c', DeckId: 3 }),
+                    game({ DeckUuid: 'deck-d', DeckId: 4 })
+                ],
+                deckExpansions: new Map([
+                    [1, 341],
+                    [2, 341],
+                    [3, 600]
+                ])
+            });
+
+            expect(wrapped.topDeck.expansion).toBe(341);
+            expect(wrapped.sets).toEqual([
+                { expansion: 341, games: 3 },
+                { expansion: 600, games: 2 }
+            ]);
+        });
+
+        it("should give the player's Archon title", function () {
+            const wrapped = buildWrapped({
+                ...this.options,
+                rows: [game(), game(), game(), game(), game(), game({ Won: false })].map((row) => ({
+                    ...row,
+                    OpponentKeys: 0
+                }))
+            });
+
+            expect(wrapped.title).toEqual(
+                expect.objectContaining({ key: 'vault', house: 'sanctum', count: 5 })
+            );
+        });
+
+        it('should count the keys opponents forged', function () {
+            const wrapped = buildWrapped({
+                ...this.options,
+                rows: [
+                    game({ OpponentKeys: 2 }),
+                    game({ OpponentKeys: 0 }),
+                    game({ OpponentKeys: 3 })
+                ]
+            });
+
+            expect(wrapped.keysConceded).toBe(5);
         });
 
         it('should give no houses for a deck that has been deleted', function () {
@@ -186,6 +239,7 @@ describe('Wrapped', function () {
             this.save = vi.spyOn(this.service, 'save').mockResolvedValue();
             vi.spyOn(this.service, 'getSiteTotals').mockResolvedValue({ games: 10, players: 2 });
             vi.spyOn(this.service, 'getDeckHouses').mockResolvedValue(new Map());
+            vi.spyOn(this.service, 'getDeckExpansions').mockResolvedValue(new Map());
             vi.spyOn(this.service.userStatsService, 'getGameRows').mockResolvedValue([game()]);
             vi.spyOn(this.service, 'getEligiblePlayers').mockResolvedValue([
                 player(1, 12, 6),
