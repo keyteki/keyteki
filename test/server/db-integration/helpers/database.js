@@ -25,6 +25,9 @@ async function resetDatabase() {
                 .join(', ')} RESTART IDENTITY CASCADE`
         );
     }
+
+    // Materialized, so it keeps the previous test's rows until refreshed
+    await db.query('REFRESH MATERIALIZED VIEW "DeckStats"');
 }
 
 afterAll(async function () {

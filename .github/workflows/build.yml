@@ -107,7 +107,7 @@ jobs:
               run: npm run db:migrate
             - name: Check server/db/schema.sql is up to date
               run: |
-                  docker exec ${{ job.services.postgres.id }} pg_dump -U keyteki --schema-only --no-owner --no-privileges keyteki | node ./server/db/dump-schema.js
+                  docker exec ${{ job.services.postgres.id }} pg_dump -U keyteki --schema-only --no-owner --no-privileges keyteki | node ./server/db/dump-schema.js --stdin
                   # status rather than diff, so a schema.sql that was never committed also fails
                   if [ -n "$(git status --porcelain -- server/db/schema.sql)" ]; then
                       git diff -- server/db/schema.sql

@@ -13,20 +13,22 @@ const Users = [
 const AdminRoles = [1, 6, 10];
 
 async function seed() {
-    const configService = new ConfigService();
-    if (process.env.NODE_ENV === 'production' || configService.getValue('env') === 'production') {
+    if (new ConfigService().isProduction()) {
         throw new Error('Refusing to add development users to a production database');
     }
 
-    await db.transaction(async (client) => {
+    const added = await db.transaction(async (client) => {
+        const added = [];
+
         for (const user of Users) {
-            await db.queryTran(
+            // Skipped if the id, username or email is already taken, such as on a second run
+            const rows = await db.queryTran(
                 client,
                 `INSERT INTO "Users" ("Id", "Password", "Registered", "Username", "Email", "Settings_Background",
                     "Settings_CardSize", "Settings_OrderAbilities", "Settings_ConfirmOneClick",
                     "Settings_UseHalfSizedCards", "Verified", "Disabled", "RegisterIp")
                 VALUES ($1, $2, NOW(), $3, $4, $5, 'normal', $6, true, false, true, false, '127.0.0.1')
-                ON CONFLICT DO NOTHING`,
+                ON CONFLICT DO NOTHING RETURNING "Id"`,
                 [
                     user.id,
                     PasswordHash,
@@ -36,14 +38,21 @@ async function seed() {
                     user.orderAbilities
                 ]
             );
+
+            if (rows.length > 0) {
+                added.push(user.username);
+            }
         }
 
-        for (const roleId of AdminRoles) {
-            await db.queryTran(
-                client,
-                'INSERT INTO "UserRoles" ("UserId", "RoleId") VALUES (1, $1) ON CONFLICT DO NOTHING',
-                [roleId]
-            );
+        // Only to an admin added just now, never to whichever account already has its id
+        if (added.includes('admin')) {
+            for (const roleId of AdminRoles) {
+                await db.queryTran(
+                    client,
+                    'INSERT INTO "UserRoles" ("UserId", "RoleId") VALUES (1, $1)',
+                    [roleId]
+                );
+            }
         }
 
         // The users were inserted with their ids, so move the sequence past them
@@ -51,9 +60,15 @@ async function seed() {
             client,
             `SELECT setval('"Users_Id_seq"', GREATEST((SELECT max("Id") FROM "Users"), 11))`
         );
+
+        return added;
     });
 
-    console.info('Development users are ready: admin, test0 and test1 (password: password)');
+    console.info(
+        added.length > 0
+            ? `Added development users (password: password): ${added.join(', ')}`
+            : 'No development users added, they already exist or their ids are taken'
+    );
 }
 
 seed()

@@ -13,7 +13,7 @@
         "db:migrate": "node ./server/db/migrate.js up",
         "db:migrate:down": "node ./server/db/migrate.js down",
         "db:migrate:create": "node-pg-migrate create --migrations-dir server/db/migrations --migration-file-language sql",
-        "db:schema:dump": "docker compose exec -T postgres pg_dump -U keyteki --schema-only --no-owner --no-privileges keyteki | node ./server/db/dump-schema.js",
+        "db:schema:dump": "node ./server/db/dump-schema.js",
         "db:seed": "node ./server/scripts/seeddevusers.js",
         "dev:lobby": "NODE_APP_INSTANCE=node nodemon --inspect=0.0.0.0:9229 .",
         "dev:gamenode": "NODE_APP_INSTANCE=node nodemon --inspect=0.0.0.0:9229 server/gamenode",

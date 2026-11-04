@@ -1,41 +1,64 @@
 const fs = require('fs');
 const path = require('path');
 
-// Every table in baseline.sql, dropped in reverse so foreign keys never block a drop
-const Tables = [
-    'Expansions',
-    'Houses',
-    'Users',
-    'Roles',
-    'UserRoles',
-    'RefreshToken',
-    'Cards',
-    'CardLocaleNames',
-    'BlockList',
-    'BanList',
-    'Decks',
-    'DeckCards',
-    'DeckHouses',
-    'Games',
-    'GamePlayers',
-    'Messages',
-    'Motd',
-    'News',
-    'StandaloneDecks',
-    'StandaloneDeckCards',
-    'StandaloneDeckHouses',
-    'ChallongeSettings',
-    'DeckAccolades',
-    'MasterVaultDecks',
-    'MasterVaultCards',
-    'UserMonthlyStats',
-    'UserWrapped'
-];
+const BaselineSql = fs.readFileSync(path.join(__dirname, '../baseline.sql'), 'utf8');
 
-async function exists(pgm, sql) {
-    const [row] = await pgm.db.select(`SELECT ${sql} AS "exists"`);
+/**
+ * The tables, columns, indexes and views baseline.sql creates, read from its CREATE statements
+ */
+function parseBaseline() {
+    const tables = new Map();
+    for (const match of BaselineSql.matchAll(/^CREATE TABLE public\."(\w+)"\s*\(([\s\S]*?)^\)/gm)) {
+        const columns = [...match[2].matchAll(/^\s+"(\w+)"\s/gm)].map((column) => column[1]);
+        tables.set(match[1], columns);
+    }
 
-    return row.exists;
+    for (const match of BaselineSql.matchAll(/^ALTER TABLE public\."(\w+)" ADD COLUMN "(\w+)"/gm)) {
+        tables.get(match[1]).push(match[2]);
+    }
+
+    return {
+        tables,
+        indexes: [...BaselineSql.matchAll(/^CREATE (?:UNIQUE )?INDEX "?(\w+)"?/gm)].map(
+            (match) => match[1]
+        ),
+        views: [...BaselineSql.matchAll(/^CREATE MATERIALIZED VIEW public\."(\w+)"/gm)].map(
+            (match) => match[1]
+        )
+    };
+}
+
+/**
+ * What baseline.sql creates that the database doesn't have
+ * @param {import('node-pg-migrate').MigrationBuilder} pgm
+ */
+async function findMissing(pgm) {
+    const { tables, indexes, views } = parseBaseline();
+    const columns = new Set(
+        (
+            await pgm.db.select(
+                `SELECT table_name, column_name FROM information_schema.columns WHERE table_schema = 'public'`
+            )
+        ).map((row) => `${row.table_name}.${row.column_name}`)
+    );
+    const existingIndexes = new Set(
+        (await pgm.db.select(`SELECT indexname FROM pg_indexes WHERE schemaname = 'public'`)).map(
+            (row) => row.indexname
+        )
+    );
+    const existingViews = new Set(
+        (
+            await pgm.db.select(`SELECT matviewname FROM pg_matviews WHERE schemaname = 'public'`)
+        ).map((row) => row.matviewname)
+    );
+
+    return [
+        ...[...tables].flatMap(([table, tableColumns]) =>
+            tableColumns.map((column) => `${table}.${column}`).filter((key) => !columns.has(key))
+        ),
+        ...indexes.filter((index) => !existingIndexes.has(index)),
+        ...views.filter((view) => !existingViews.has(view))
+    ];
 }
 
 /**
@@ -44,40 +67,35 @@ async function exists(pgm, sql) {
  * @param {import('node-pg-migrate').MigrationBuilder} pgm
  */
 exports.up = async (pgm) => {
-    if (!(await exists(pgm, `to_regclass('public."Users"') IS NOT NULL`))) {
-        pgm.sql(fs.readFileSync(path.join(__dirname, '../baseline.sql'), 'utf8'));
+    const [{ empty }] = await pgm.db.select(
+        `SELECT to_regclass('public."Users"') IS NULL AS "empty"`
+    );
+
+    if (empty) {
+        pgm.sql(BaselineSql);
 
         return;
     }
 
-    // What the last hand applied migrations (25 - DeckRecords and 26 - UserStats) added
-    const column = (table, name) =>
-        `EXISTS (SELECT 1 FROM information_schema.columns
-            WHERE table_schema = 'public' AND table_name = '${table}' AND column_name = '${name}')`;
-    const checks = [
-        column('GamePlayers', 'DeckUuid'),
-        `to_regclass('public."DeckStats"') IS NOT NULL`,
-        `to_regclass('public."UserMonthlyStats"') IS NOT NULL`,
-        `to_regclass('public."UserWrapped"') IS NOT NULL`,
-        column('Users', 'Settings_EmailUpdates')
-    ];
-
-    for (const check of checks) {
-        if (!(await exists(pgm, check))) {
-            throw new Error(
-                'This database predates migrations but is missing hand applied migrations (failed: ' +
-                    check.replace(/\s+/g, ' ') +
-                    '). Apply the files from server/db/schema/migrations, in git history before ' +
-                    'the baseline, first.'
-            );
-        }
+    const missing = await findMissing(pgm);
+    if (missing.length > 0) {
+        throw new Error(
+            'This database predates migrations but is missing parts of the schema, from hand applied ' +
+                'migrations in server/db/schema/migrations (in git history before the baseline). Apply ' +
+                `them first. Missing: ${missing.join(', ')}`
+        );
     }
 };
 
 /** @param {import('node-pg-migrate').MigrationBuilder} pgm */
 exports.down = (pgm) => {
-    pgm.sql('DROP MATERIALIZED VIEW IF EXISTS public."DeckStats"');
-    for (const table of [...Tables].reverse()) {
+    const { tables, views } = parseBaseline();
+
+    for (const view of views) {
+        pgm.sql(`DROP MATERIALIZED VIEW IF EXISTS public."${view}"`);
+    }
+
+    for (const table of [...tables.keys()].reverse()) {
         pgm.sql(`DROP TABLE IF EXISTS public."${table}" CASCADE`);
     }
 };

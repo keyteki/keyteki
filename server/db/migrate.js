@@ -4,6 +4,8 @@ const path = require('path');
 const ConfigService = require('../services/ConfigService');
 const { getConnectionConfig } = require('./connectionConfig');
 
+const MigrationsDir = path.join(__dirname, 'migrations');
+
 const usage =
     'Usage: node server/db/migrate.js <up|down> [count|all] [--allow-production-down]\n' +
     '  up    applies all pending migrations, or the next <count>\n' +
@@ -37,10 +39,24 @@ async function migrate(args) {
     }
 
     const configService = new ConfigService();
-    const isProduction =
-        process.env.NODE_ENV === 'production' || configService.getValue('env') === 'production';
+    const connection = getConnectionConfig(configService);
 
-    if (direction === 'down' && isProduction && !args.includes('--allow-production-down')) {
+    // npm run test:db migrates before running the tests, so check here that it is the test database,
+    // as config/local.json5 overrides config/test.json5
+    if (process.env.NODE_ENV === 'test' && !connection.database.endsWith('_test')) {
+        console.error(
+            `Refusing to migrate '${connection.database}' with NODE_ENV=test, the database name must end in _test`
+        );
+        process.exitCode = 1;
+
+        return;
+    }
+
+    if (
+        direction === 'down' &&
+        configService.isProduction() &&
+        !args.includes('--allow-production-down')
+    ) {
         console.error(
             'Refusing to revert migrations in production, write a new migration instead. ' +
                 'Pass --allow-production-down if this really is intended.'
@@ -54,8 +70,8 @@ async function migrate(args) {
     const { runner } = await import('node-pg-migrate');
 
     const applied = await runner({
-        databaseUrl: getConnectionConfig(configService),
-        dir: path.join(__dirname, 'migrations'),
+        databaseUrl: connection,
+        dir: MigrationsDir,
         migrationsTable: 'pgmigrations',
         direction,
         count: parseCount(countArg, direction),

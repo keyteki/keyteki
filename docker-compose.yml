@@ -16,8 +16,11 @@ services:
             - postgres
             - redis
         depends_on:
-            - postgres
-            - redis
+            # Ready, not just started, as the lobby runs the migrations first
+            postgres:
+                condition: service_healthy
+            redis:
+                condition: service_started
         environment:
             - DB_HOST=postgres
             - DB_PORT=5432
@@ -60,6 +63,11 @@ services:
             - '54320:5432'
         volumes:
             - postgres:/var/lib/postgresql/data
+        healthcheck:
+            test: ['CMD-SHELL', 'pg_isready -U "$$POSTGRES_USER"']
+            interval: 5s
+            timeout: 5s
+            retries: 10
         restart: unless-stopped
     redis:
         image: 'redis:alpine'

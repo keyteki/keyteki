@@ -4,8 +4,8 @@ const path = require('path');
 const MigrationsDir = path.join(__dirname, 'migrations');
 
 /**
- * The SQL that builds the database, in the order it runs: the baseline, then every SQL migration.
- * For checks over the schema source, such as which expansions and houses are inserted
+ * The SQL that builds the database, in the order it runs: the baseline, then the up section of
+ * every SQL migration. For checks over the schema source, such as which expansions are inserted
  * @returns {{ file: string, sql: string }[]}
  */
 function readSqlFiles() {
@@ -17,7 +17,7 @@ function readSqlFiles() {
 
     return [path.join(__dirname, 'baseline.sql'), ...migrations].map((file) => ({
         file: path.relative(__dirname, file),
-        sql: fs.readFileSync(file, 'utf8')
+        sql: fs.readFileSync(file, 'utf8').split(/^-- Down Migration/m)[0]
     }));
 }
 

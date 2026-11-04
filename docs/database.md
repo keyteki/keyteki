@@ -26,8 +26,16 @@ NODE_APP_INSTANCE=node npm run db:migrate              # apply every pending mig
 NODE_APP_INSTANCE=node npm run db:seed                 # add the development users
 NODE_APP_INSTANCE=node npm run db:migrate:down         # revert the last migration (or: -- 3, -- all)
 npm run db:migrate:create -- add-deck-notes            # new server/db/migrations/<timestamp>_add-deck-notes.sql
-npm run db:schema:dump                                 # regenerate server/db/schema.sql from the compose database
+npm run db:schema:dump                                 # regenerate server/db/schema.sql
 ```
+
+`db:schema:dump` needs the compose `postgres` running. It migrates a scratch database there, dumps
+it and drops it, so `schema.sql` matches what CI generates even if your development database
+predates migrations.
+
+The compose `postgres` is pinned to the production major version and keeps its data in the
+`postgres` volume. Before migrations it ran the latest image and its data wasn't kept in that
+volume, so the first `docker compose up` after the change starts with an empty database.
 
 ## The baseline
 
@@ -38,9 +46,9 @@ changed by applying `server/db/schema/migrations/*.sql` by hand. The first migra
 -   On an empty database it runs [baseline.sql](../server/db/baseline.sql), the old schema files
     with every hand-applied migration up to `26 - UserStats`, plus the houses, expansions and roles.
 -   On a database that already has the schema it changes nothing, so production and existing
-    development databases just record it as applied. It first checks that hand-applied migrations 25
-    and 26 are there, and fails if not; apply those from git history before the baseline, then run
-    the migrations again.
+    development databases just record it as applied. It first checks that the database has every
+    table, column, index and view in `baseline.sql`, and fails listing what is missing; apply the
+    missing hand migrations from git history before the baseline, then run the migrations again.
 
 Never edit `baseline.sql`: like any merged migration, change it with a new migration.
 
