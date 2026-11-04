@@ -32,20 +32,23 @@ All dates are UTC: the server works out days, weekdays and hours in SQL, so they
 
 ## Wrapped
 
-Once a year each player gets a "Wrapped" report of their year on Keyteki. It is a snapshot, worked out by a script rather than live, because it compares each player with everyone else.
+Once a year each player gets a "Wrapped" report of their year on Keyteki, shown to players as **The Archon's Chronicle** (the code still calls it Wrapped). It is a snapshot, worked out by a script rather than live, because it compares each player with everyone else.
 
 -   **Who gets one:** players with 10+ finished games in the period whose account isn't disabled.
 -   **Period:** 1 January up to the day the script runs (or `--to`), so it can go out in mid-December. The snapshot stores `from` and `to`, and the page shows them.
 -   **Contents:** everything in the monthly stats for the period, plus:
     -   `byMonth`: games per month
     -   `startTimes`: games by month and UTC quarter of an hour, so the page can show the time of day in the viewer's timezone using each month's own offset
-    -   `topDeck`: the most played deck with its houses (none if the deck has since been deleted)
+    -   `topDeck`: the most played deck with its houses and expansion id (none if the deck has since been deleted)
+    -   `keysConceded`: keys opponents forged in the player's games
+    -   `sets`: expansion ids of the decks played, with games for each, most played first
     -   `favouriteHouse`: the house chosen most in game (`source: 'chosen'`), or if the player has no in-game stats, the house in the most games' decks (`source: 'decks'`)
     -   `ranks`: where the player's games, wins, win rate and dominant wins rank among everyone with a Wrapped, as "top N%" (1 is the top; ties share the better rank)
-    -   `site`: games and players across Keyteki in the period, the most chosen house, and `detailedFrom`, the first day with in-game stats, so the page can say "since 11 October"
+    -   `site`: games and players across Keyteki in the period, the most chosen house, `detailedFrom`, the first day with in-game stats, so the page can say "since 11 October", and `averages`, per game averages of some in-game stats across the site
+    -   `title`: the player's Archon title (`key`, `house`, `name`, `count`), from the in-game stat furthest above the site's average (5+ games with in-game stats, compared in standard deviations so rare and common stats are fair), a high share of dominant wins, or else "Seasoned Archon" ([ArchonTitle.js](../server/services/ArchonTitle.js)). It's worked out on the server so the email can use it; the page has its own words for each `key` so they can be translated
 -   **One at a time:** each player only has one Wrapped. It can be seen, and is emailed, for two months after it was generated (`AvailableForSql`); after that the page says it is no longer available. Generating everyone's for a year deletes earlier years' snapshots.
--   **Access:** the page is `/wrapped/:year`, which isn't linked from any menu. It needs a login, and logged-out visitors are sent to `/login?return=/wrapped/:year` and back. `GET /api/wrapped/:year` returns only the logged-in player's own snapshot.
--   **The story:** one card at a time in a 9:16 frame (tap or arrow keys to move). Cards are left out when there's no data for them, and cards built from in-game stats say "Since <date>" when those stats don't cover the whole period. The time-of-day card uses the viewer's own timezone, since "night owl" in UTC would be wrong for most players ([localHours.js](../client/Components/Wrapped/localHours.js)). The page only shows snapshots made by the current `WrappedVersion`; after changing it, run the script again.
+-   **Access:** the page is `/chronicle/:year` (`/wrapped/:year` still works), which isn't linked from any menu. It needs a login, and logged-out visitors are sent to `/login?return=/chronicle/:year` and back. `GET /api/wrapped/:year` returns only the logged-in player's own snapshot.
+-   **The story:** one card at a time in a 9:16 frame (tap or arrow keys to move). Cards are left out when there's no data for them, and cards built from in-game stats say "Since <date>" when those stats don't cover the whole period. The time-of-day card uses the viewer's own timezone, since "Shadows by night" in UTC would be wrong for most players ([localHours.js](../client/Components/Wrapped/localHours.js)). The page only shows snapshots made by the current `WrappedVersion`; after changing it, run the script again.
 -   **Sharing:** "Share this card" renders the frame to a 1080×1920 PNG with `html-to-image`. On touch devices it opens the share sheet; elsewhere (or if the browser refuses) it downloads. Everything drawn into the image has to come from this site, which is why the MVP card art uses `/img/cards/<id>.png` rather than the Master Vault image.
 
 ```sh

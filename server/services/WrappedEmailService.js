@@ -54,13 +54,14 @@ function isValidUnsubscribeToken(secret, userId, token) {
  */
 function renderWrappedEmail({ appName, publicUrl, user, wrapped, token }) {
     const year = wrapped.year;
-    const wrappedUrl = `${publicUrl}/wrapped/${year}`;
+    const wrappedUrl = `${publicUrl}/chronicle/${year}`;
     // A fixed path in public/, as built assets have hashed names
     const logoUrl = `${publicUrl}/email/tco-logo.png`;
     const unsubscribeUrl = `${publicUrl}/unsubscribe?id=${user.id}&token=${token}`;
     const oneClickUrl = `${publicUrl}/api/unsubscribe?id=${user.id}&token=${token}`;
     const hours = Math.round(wrapped.seconds / 3600);
     const house = wrapped.favouriteHouse ? capitalise(wrapped.favouriteHouse.house) : null;
+    const title = wrapped.title.name;
 
     const facts = [
         ['Games', wrapped.games],
@@ -68,13 +69,13 @@ function renderWrappedEmail({ appName, publicUrl, user, wrapped, token }) {
         ['Hours', hours]
     ];
 
-    const subject = `Your ${year} on ${appName} is ready`;
+    const subject = `Your ${year} Archon's Chronicle is ready`;
 
     const text =
-        `Hi ${user.username},\n\n` +
-        `Your ${year} Wrapped is ready: ${wrapped.games} games, ${wrapped.wins} wins and about ${hours} hours at the table` +
+        `Archon ${user.username},\n\n` +
+        `Your ${year} Archon's Chronicle is ready: ${wrapped.games} games, ${wrapped.wins} wins and about ${hours} hours forging` +
         (house ? `, mostly as ${house}` : '') +
-        '.\n\n' +
+        `. The Crucible names you ${title}.\n\n` +
         `See the rest, and share it: ${wrappedUrl}\n\n` +
         `${appName} team\n\n` +
         `You're getting this because you played on ${appName} this year. To stop these emails: ${unsubscribeUrl}\n`;
@@ -107,10 +108,10 @@ function renderWrappedEmail({ appName, publicUrl, user, wrapped, token }) {
         appName
     )}" style="display:block;margin:0 auto;width:280px;max-width:100%;height:auto;border:0;color:#c9b98f;font-size:14px;"></a>
 <div style="font-size:56px;line-height:60px;font-weight:700;color:#f0c44d;padding-top:20px;">${year}</div>
-<div style="font-size:30px;line-height:36px;font-weight:700;color:#ffffff;">Wrapped</div>
-<p style="font-size:17px;line-height:25px;margin:20px 0 4px;">Hi ${escapeHtml(
+<div style="font-size:30px;line-height:36px;font-weight:700;color:#ffffff;">The Archon's Chronicle</div>
+<p style="font-size:17px;line-height:25px;margin:20px 0 4px;">Archon ${escapeHtml(
         user.username
-    )}, your year at the Crucible is ready.</p>
+    )}, the Crucible remembers your year.</p>
 </td></tr>
 <tr><td style="padding:8px 20px;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${facts
@@ -119,15 +120,18 @@ function renderWrappedEmail({ appName, publicUrl, user, wrapped, token }) {
 </td></tr>
 ${
     house
-        ? `<tr><td align="center" style="padding:4px 28px 0;font-size:16px;line-height:24px;">Your house: <strong style="color:#f0c44d;">${escapeHtml(
+        ? `<tr><td align="center" style="padding:4px 28px 0;font-size:16px;line-height:24px;">Your allegiance: <strong style="color:#f0c44d;">${escapeHtml(
               house
           )}</strong></td></tr>`
         : ''
 }
+<tr><td align="center" style="padding:4px 28px 0;font-size:16px;line-height:24px;">The Crucible names you <strong style="color:#f0c44d;">${escapeHtml(
+        title
+    )}</strong></td></tr>
 <tr><td align="center" style="padding:28px 28px 36px;">
 <a href="${escapeHtml(
         wrappedUrl
-    )}" style="display:inline-block;background:#f0c44d;color:#1a140b;font-size:17px;font-weight:700;text-decoration:none;padding:14px 28px;border-radius:999px;">See your ${year} Wrapped</a>
+    )}" style="display:inline-block;background:#f0c44d;color:#1a140b;font-size:17px;font-weight:700;text-decoration:none;padding:14px 28px;border-radius:999px;">See your ${year} Chronicle</a>
 </td></tr>
 </table>
 <p style="max-width:520px;font-size:12px;line-height:18px;color:#8f866f;margin:20px auto 0;">You're getting this because you played on ${escapeHtml(

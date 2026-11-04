@@ -45,7 +45,7 @@ const Unsubscribe = ({ id, token }) => {
                 )}
                 <p className='m-0'>
                     {t(
-                        'Stop occasional emails, such as your yearly Wrapped? Emails about your account, like password resets, will still be sent.'
+                        "Stop occasional emails, such as your yearly Archon's Chronicle? Emails about your account, like password resets, will still be sent."
                     )}
                 </p>
                 <Button

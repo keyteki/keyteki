@@ -187,7 +187,9 @@ const ProfileMain = ({ user, formProps, section }) => {
                             className='flex w-full cursor-pointer items-center justify-between gap-2 rounded bg-surface-secondary/70 px-2 py-1.5'
                         >
                             <span className='text-sm'>
-                                {t('Email me occasional updates, such as my yearly Wrapped')}
+                                {t(
+                                    "Email me occasional updates, such as my yearly Archon's Chronicle"
+                                )}
                             </span>
                             <Switch.Control>
                                 <Switch.Thumb />

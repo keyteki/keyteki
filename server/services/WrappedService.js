@@ -2,10 +2,11 @@ const logger = require('../log');
 const db = require('../db');
 const UserStatsService = require('./UserStatsService');
 const { DominantWinSql } = require('./DominantWin');
+const { archonTitle } = require('./ArchonTitle');
 const { summarise } = UserStatsService;
 
 // Bump when the shape of a snapshot changes; the page can check it before showing older snapshots
-const WrappedVersion = 2;
+const WrappedVersion = 3;
 
 // Players need this many finished games in the year to get a Wrapped
 const MinGames = 10;
@@ -17,6 +18,18 @@ const YearPattern = /^20\d{2}$/;
 
 // How many players' snapshots are worked out at once
 const Concurrency = 4;
+
+// In-game stats averaged across the site, for the Archon title
+const AveragedStats = [
+    'amberStolen',
+    'amberCaptured',
+    'enemyCreaturesDestroyed',
+    'reaps',
+    'fights'
+];
+
+// Games with in-game stats that weren't played partly in manual mode, as summarise() counts them
+const AveragedGameSql = `gp."Stats" IS NOT NULL AND COALESCE((gp."Stats"->>'manualModeUsed')::boolean, false) = false`;
 
 const FinishedInRangeSql =
     'g."StartedAt" >= $1 AND g."StartedAt" < $2 AND g."FinishedAt" IS NOT NULL AND g."WinnerId" IS NOT NULL';
@@ -102,6 +115,26 @@ function favouriteHouse(summary, rows, deckHouses) {
 }
 
 /**
+ * The sets the player's decks came from, most played first
+ * @param {{DeckId?: number}[]} rows
+ * @param {Map<number, number>} deckExpansions Expansion ids by deck id
+ * @returns {{expansion: number, games: number}[]}
+ */
+function setsPlayed(rows, deckExpansions) {
+    const games = new Map();
+    for (const row of rows) {
+        const expansion = deckExpansions.get(row.DeckId);
+        if (expansion) {
+            games.set(expansion, (games.get(expansion) || 0) + 1);
+        }
+    }
+
+    return [...games]
+        .map(([expansion, count]) => ({ expansion, games: count }))
+        .sort((a, b) => b.games - a.games || a.expansion - b.expansion);
+}
+
+/**
  * Builds a player's Wrapped snapshot from their games in the period
  * @param {object} options
  * @param {number} options.year
@@ -109,10 +142,20 @@ function favouriteHouse(summary, rows, deckHouses) {
  * @param {string} options.to
  * @param {object[]} options.rows The player's game rows, from UserStatsService.getGameRows
  * @param {Map<number, string[]>} options.deckHouses Houses for the decks in the rows, by deck id
+ * @param {Map<number, number>} [options.deckExpansions] Expansion ids for the decks in the rows, by deck id
  * @param {object} options.ranks The player's ranks from rankPlayers
  * @param {object} options.site Totals across all players
  */
-function buildWrapped({ year, from, to, rows, deckHouses, ranks, site }) {
+function buildWrapped({
+    year,
+    from,
+    to,
+    rows,
+    deckHouses,
+    deckExpansions = new Map(),
+    ranks,
+    site
+}) {
     const summary = summarise(rows);
 
     const byMonth = new Array(12).fill(0);
@@ -128,10 +171,14 @@ function buildWrapped({ year, from, to, rows, deckHouses, ranks, site }) {
     }
 
     const topDeck = summary.decks[0]
-        ? { ...summary.decks[0], houses: deckHouses.get(summary.decks[0].deckId) || [] }
+        ? {
+              ...summary.decks[0],
+              houses: deckHouses.get(summary.decks[0].deckId) || [],
+              expansion: deckExpansions.get(summary.decks[0].deckId) || null
+          }
         : null;
 
-    return {
+    const wrapped = {
         ...summary,
         version: WrappedVersion,
         year,
@@ -140,10 +187,14 @@ function buildWrapped({ year, from, to, rows, deckHouses, ranks, site }) {
         byMonth,
         startTimes,
         topDeck,
+        keysConceded: rows.reduce((total, row) => total + (row.OpponentKeys || 0), 0),
+        sets: setsPlayed(rows, deckExpansions),
         favouriteHouse: favouriteHouse(summary, rows, deckHouses),
         ranks,
         site
     };
+
+    return { ...wrapped, title: archonTitle(wrapped) };
 }
 
 class WrappedService {
@@ -188,9 +239,15 @@ class WrappedService {
      * @param {string} to
      */
     async getSiteTotals(from, to) {
+        // Also per game averages of some in-game stats, so a player's style can be compared with everyone's
+        const averaged = AveragedStats.map(
+            (stat) =>
+                `avg(COALESCE((gp."Stats"->>'${stat}')::numeric, 0)) FILTER (WHERE ${AveragedGameSql}) AS "${stat}"`
+        ).join(', ');
         const [totals] = await db.query(
             'SELECT count(DISTINCT g."Id") AS "Games", count(DISTINCT gp."PlayerId") AS "Players", ' +
-                'to_char(min(g."StartedAt") FILTER (WHERE gp."Stats" IS NOT NULL), \'YYYY-MM-DD\') AS "DetailedFrom" ' +
+                'to_char(min(g."StartedAt") FILTER (WHERE gp."Stats" IS NOT NULL), \'YYYY-MM-DD\') AS "DetailedFrom", ' +
+                `${averaged} ` +
                 'FROM "Games" g JOIN "GamePlayers" gp ON gp."GameId" = g."Id" ' +
                 `WHERE ${FinishedInRangeSql}`,
             [from, to]
@@ -209,7 +266,10 @@ class WrappedService {
             games: Number(totals?.Games) || 0,
             players: Number(totals?.Players) || 0,
             detailedFrom: totals?.DetailedFrom || null,
-            topHouse: houses[0]?.House || null
+            topHouse: houses[0]?.House || null,
+            averages: Object.fromEntries(
+                AveragedStats.map((stat) => [stat, Number(totals?.[stat]) || 0])
+            )
         };
     }
 
@@ -238,6 +298,29 @@ class WrappedService {
         }
 
         return houses;
+    }
+
+    /**
+     * @param {number[]} deckIds
+     * @returns {Promise<Map<number, number>>} Expansion ids by deck id
+     */
+    async getDeckExpansions(deckIds) {
+        const expansions = new Map();
+        if (deckIds.length === 0) {
+            return expansions;
+        }
+
+        const rows = await db.query(
+            'SELECT d."Id", e."ExpansionId" FROM "Decks" d JOIN "Expansions" e ON e."Id" = d."ExpansionId" ' +
+                'WHERE d."Id" = ANY($1)',
+            [deckIds]
+        );
+
+        for (const row of rows) {
+            expansions.set(row.Id, row.ExpansionId);
+        }
+
+        return expansions;
     }
 
     /**
@@ -280,12 +363,17 @@ class WrappedService {
                 try {
                     const rows = await this.userStatsService.getGameRows(player.userId, from, to);
                     const deckIds = [...new Set(rows.map((row) => row.DeckId).filter(Boolean))];
+                    const [deckHouses, deckExpansions] = await Promise.all([
+                        this.getDeckHouses(deckIds),
+                        this.getDeckExpansions(deckIds)
+                    ]);
                     const wrapped = buildWrapped({
                         year,
                         from,
                         to,
                         rows,
-                        deckHouses: await this.getDeckHouses(deckIds),
+                        deckHouses,
+                        deckExpansions,
                         ranks: ranks.get(player.userId),
                         site
                     });
