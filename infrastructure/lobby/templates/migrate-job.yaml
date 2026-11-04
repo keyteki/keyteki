@@ -19,10 +19,13 @@ spec:
             labels:
                 app: keyteki-migrate
         spec:
-            restartPolicy: OnFailure
+            # Never rather than OnFailure, so each failed attempt's pod, and its logs, are kept until
+            # the job is cleaned up
+            restartPolicy: Never
             containers:
                 - name: migrate
                   image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
+                  imagePullPolicy: Always
                   command: ['node', 'server/db/migrate.js', 'up']
                   env:
                       - name: NODE_CONFIG

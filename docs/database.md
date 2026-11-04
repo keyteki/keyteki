@@ -116,7 +116,22 @@ it fails, the upgrade stops and the running release is left alone.
 
 The job reads its config from `keyteki-migrate-secret`, which is created as a hook just before it.
 It can't use `keyteki-lobby-secret`, because Helm only updates that after the pre-upgrade hooks
-have run.
+have run. When a deploy fails, the deploy workflow prints the job's logs.
+
+### Development and long-running branches
+
+Development is deployed automatically from the branch named by the `DEV_BRANCH` repository
+variable (`master` if unset), using the image built from that exact commit. While a pack or
+feature is being tested on a long-running `pack/*` branch, set `DEV_BRANCH` to it so that master
+builds don't replace it, and set it back afterwards.
+
+Switching development back to master before the branch is merged is safe: the branch's migrations
+stay applied, and line up again once it is merged. But if master gains a migration older than
+one the branch has already applied to development, the branch's next deploy fails with `Not run
+migration ... is preceding already run migration ...` before changing anything. Revert the
+branch's migrations on development with the image of the last deploy that applied them
+(`node server/db/migrate.js down <count> --allow-production-down`, as development runs with
+`env: production`), then deploy again to apply them all in order.
 
 Keep `docker-compose.yml` and the CI `database` job on the same PostgreSQL major version as
 production, so migrations are tested against what they'll run on and `schema.sql` is generated
