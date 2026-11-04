@@ -77,13 +77,18 @@ jobs:
                       patreonSecret: "${{ secrets.PATREON_SECRET }}"
                   EOF
 
-                  helm upgrade --install keyteki-lobby ./infrastructure/lobby \
+                  if ! helm upgrade --install keyteki-lobby ./infrastructure/lobby \
                     --timeout 60m \
                     --set namespace=$NAMESPACE \
                     --set environment=$ENV_SUBDOMAIN \
                     --set deployTime=$DEPLOY_TIME \
                     -f /tmp/lobby-secrets.yaml \
-                    -n $NAMESPACE
+                    -n $NAMESPACE; then
+                    rm /tmp/lobby-secrets.yaml
+                    # The migrate job's output, if that is what failed
+                    kubectl logs -n $NAMESPACE -l job-name=keyteki-migrate-$DEPLOY_TIME --prefix --tail=200 || true
+                    exit 1
+                  fi
 
                   # Clean up secrets file
                   rm /tmp/lobby-secrets.yaml

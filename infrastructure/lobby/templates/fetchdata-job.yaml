@@ -20,6 +20,7 @@ spec:
             initContainers:
                 - name: copy-builtin-images
                   image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
+                  imagePullPolicy: Always
                   command:
                       - sh
                       - -c
@@ -38,6 +39,7 @@ spec:
             containers:
                 - name: fetchdata
                   image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
+                  imagePullPolicy: Always
                   command: ['node', 'server/scripts/fetchdata.js']
                   env:
                       - name: NODE_CONFIG

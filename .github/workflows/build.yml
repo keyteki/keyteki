@@ -123,7 +123,7 @@ jobs:
               run: npm run test:db
     package:
         name: Push Package
-        if: ${{ github.repository == 'keyteki/keyteki' && (github.ref_name == 'master' || github.ref_name == 'pack/dm') && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
+        if: ${{ github.repository == 'keyteki/keyteki' && (github.ref_name == 'master' || startsWith(github.ref_name, 'pack/')) && (github.event_name == 'push' || github.event_name == 'workflow_dispatch') }}
         runs-on: ubuntu-latest
         needs: ['build', 'database']
         steps:
@@ -155,14 +155,16 @@ jobs:
                   additionalArguments: /overrideconfig mode=Mainline
             - name: Determine image tags
               id: tags
+              # sha-<commit> is what Auto Deploy to Development deploys, so it runs exactly this build
               run: |
-                  if [ "${{ github.ref_name }}" = "pack/dm" ]; then
-                    echo "lobby=cryogen/keyteki-lobby:dev,cryogen/keyteki-lobby:${{ steps.determine_version.outputs.semVer }}" >> $GITHUB_OUTPUT
-                    echo "node=cryogen/keyteki-node:dev,cryogen/keyteki-node:${{ steps.determine_version.outputs.semVer }}" >> $GITHUB_OUTPUT
+                  if [ "${{ github.ref_name }}" = "master" ]; then
+                    CHANNEL=latest
                   else
-                    echo "lobby=cryogen/keyteki-lobby:latest,cryogen/keyteki-lobby:${{ steps.determine_version.outputs.semVer }}" >> $GITHUB_OUTPUT
-                    echo "node=cryogen/keyteki-node:latest,cryogen/keyteki-node:${{ steps.determine_version.outputs.semVer }}" >> $GITHUB_OUTPUT
+                    CHANNEL=dev
                   fi
+                  for IMAGE in lobby node; do
+                    echo "$IMAGE=cryogen/keyteki-$IMAGE:$CHANNEL,cryogen/keyteki-$IMAGE:${{ steps.determine_version.outputs.semVer }},cryogen/keyteki-$IMAGE:sha-${{ github.sha }}" >> $GITHUB_OUTPUT
+                  done
             - name: Build and push lobby
               uses: docker/build-push-action@v3
               with:
