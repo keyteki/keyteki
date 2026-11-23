@@ -7,7 +7,7 @@ class HideawayHole extends Card {
             effect: 'give each creature they control elusive',
             effectAlert: true,
             gameAction: [
-                ability.actions.sacrifice(),
+                ability.actions.destroy(),
                 ability.actions.untilPlayerNextTurnStart({
                     targetController: 'current',
                     effect: ability.effects.addKeyword({ elusive: 1 })

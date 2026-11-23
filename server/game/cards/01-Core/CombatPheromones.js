@@ -21,9 +21,9 @@ class CombatPheromones extends Card {
                         })
                 }))
             },
-            effect: 'sacrifice {1} and allow them to use {0} this turn',
+            effect: 'destroy {1} and allow them to use {0} this turn',
             effectArgs: (context) => context.source,
-            gameAction: ability.actions.sacrifice()
+            gameAction: ability.actions.destroy()
         });
     }
 }

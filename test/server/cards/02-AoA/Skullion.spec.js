@@ -13,9 +13,9 @@ describe('Skullion', function () {
             });
         });
 
-        it('sacrifices a chosen friendly creature on play', function () {
+        it('destroys a chosen friendly creature on play', function () {
             this.player1.play(this.skullion);
-            expect(this.player1).toHavePrompt('Choose a creature to sacrifice');
+            expect(this.player1).toHavePrompt('Choose a creature to destroy');
             expect(this.player1).toBeAbleToSelect(this.troll);
             expect(this.player1).toBeAbleToSelect(this.lamindra);
             expect(this.player1).toBeAbleToSelect(this.skullion);
@@ -28,7 +28,7 @@ describe('Skullion', function () {
             expect(this.player1).isReadyToTakeAction();
         });
 
-        it('can sacrifice itself', function () {
+        it('can destroy itself', function () {
             this.player1.play(this.skullion);
             this.player1.clickCard(this.skullion);
             expect(this.skullion.location).toBe('discard');

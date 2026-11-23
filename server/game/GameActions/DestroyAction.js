@@ -2,10 +2,10 @@ const { EVENTS } = require('../Events/types');
 const CardGameAction = require('./CardGameAction');
 
 class DestroyAction extends CardGameAction {
-    constructor(propertyFactory, isSacrifice = false) {
+    constructor(propertyFactory) {
         super(propertyFactory);
-        this.name = isSacrifice ? 'sacrifice' : 'destroy';
-        this.effectMsg = isSacrifice ? 'sacrifice {0}' : 'destroy {0}';
+        this.name = 'destroy';
+        this.effectMsg = 'destroy {0}';
     }
 
     setDefaultProperties() {

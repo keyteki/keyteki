@@ -15,7 +15,7 @@ class TheSting extends Card {
         });
 
         this.action({
-            gameAction: ability.actions.sacrifice()
+            gameAction: ability.actions.destroy()
         });
     }
 }

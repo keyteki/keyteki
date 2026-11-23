@@ -38,7 +38,7 @@ describe('[Redacted]', function () {
             expect(this['[redacted]'].amber).toBe(1);
         });
 
-        it('should add 4th amber, forge and sacrifice when select logos house', function () {
+        it('should add 4th amber, forge and destroy self when select logos house', function () {
             this.player1.play(this['[redacted]']);
             this['[redacted]'].amber = 2;
             this.player1.endTurn();

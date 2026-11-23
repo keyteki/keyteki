@@ -6,9 +6,9 @@ class Screechbomb extends Card {
     setupCardAbilities(ability) {
         this.omni({
             condition: (context) => !!context.player.opponent,
-            effect: 'sacrifice {0} and make {1} lose 2 amber',
+            effect: 'destroy {0} and make {1} lose 2 amber',
             effectArgs: (context) => context.player.opponent,
-            gameAction: [ability.actions.sacrifice(), ability.actions.loseAmber({ amount: 2 })]
+            gameAction: [ability.actions.destroy(), ability.actions.loseAmber({ amount: 2 })]
         });
     }
 }

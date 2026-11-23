@@ -70,14 +70,14 @@ describe('Soulkeeper', function () {
             });
         });
 
-        it('should fire when the creature is sacrificed', function () {
+        it('should fire when the creature is destroyed', function () {
             this.player1.playUpgrade(this.soulkeeper, this.oldYurk);
             this.player1.endTurn();
             this.player2.clickPrompt('shadows');
             this.player2.endTurn();
             this.player1.clickPrompt('shadows');
             this.player1.play(this.pawnSacrifice);
-            expect(this.player1).toHavePrompt('Choose a creature to sacrifice');
+            expect(this.player1).toHavePrompt('Choose a creature to destroy');
             expect(this.player1).toBeAbleToSelect(this.shooler);
             expect(this.player1).toBeAbleToSelect(this.oldYurk);
             this.player1.clickCard(this.oldYurk);

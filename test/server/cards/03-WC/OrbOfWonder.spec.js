@@ -19,7 +19,7 @@ describe('Orb of Wonder', function () {
             this.player1.moveCard(this.redlock, 'deck');
         });
 
-        it('should sacrifice the artifact and select a card from deck', function () {
+        it('should destroy the artifact and select a card from deck', function () {
             this.player1.useOmni(this.orbOfWonder);
             expect(this.orbOfWonder.location).toBe('discard');
             expect(this.player1).toHavePrompt('Orb of Wonder');

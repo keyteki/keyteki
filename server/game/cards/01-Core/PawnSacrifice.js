@@ -5,10 +5,10 @@ class PawnSacrifice extends Card {
     setupCardAbilities(ability) {
         this.play({
             target: {
-                activePromptTitle: 'Choose a creature to sacrifice',
+                activePromptTitle: 'Choose a creature to destroy',
                 cardType: 'creature',
                 controller: 'self',
-                gameAction: ability.actions.sacrifice()
+                gameAction: ability.actions.destroy()
             },
             then: {
                 message: '{0} uses {1} to deal 3 damage to {2}',

@@ -9,7 +9,7 @@ class MiasmaBomb extends Card {
             effect: 'destroy {0} and make {1} skip their key step next turn',
             effectArgs: (context) => context.player.opponent,
             gameAction: ability.actions.sequential([
-                ability.actions.sacrifice(),
+                ability.actions.destroy(),
                 ability.actions.duringOpponentNextTurn({
                     targetController: 'opponent',
                     effect: ability.effects.skipStep('key')
