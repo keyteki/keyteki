@@ -140,6 +140,8 @@ Triggered abilities that activate when the card is destroyed. These are implemen
 
 **Destruction timing.** When a card is destroyed it is first _tagged for destruction_ (its `moribund` flag is set to `true`) but it stays in play (`location === 'play area'`). All `destroyed()` abilities triggered by the same destruction window resolve while every tagged card is still in play. Only after the destroyed-ability window closes do the tagged cards move to discard via `onCardLeavesPlay`.
 
+**Destruction replacement ordering.** Replacement effects use `ability.actions.replaceDestruction()` to prevent a card's move to discard and execute alternative actions instead. All destroyed abilities (including replacements) resolve in normal player-chosen order. When `replaceDestruction` resolves, it marks the destroy event so the engine cancels it after all abilities complete — this guarantees that other destroyed abilities (e.g. Dust Imp's "Destroyed: Gain 2Æ") fire regardless of resolution order. Purifier of Souls naturally blocks replacements by preventing the destroyed ability from triggering at all.
+
 **Cascaded destructions.** When a `Destroyed:` ability causes further destructions (e.g. Soulkeeper's "Destroyed: destroy the most powerful enemy creature"), those cascaded destructions are **batched into the same destruction window** rather than opening a nested one. This means:
 
 -   The active player gets a single ordering prompt across the entire cascade
@@ -168,6 +170,64 @@ this.destroyed({
     gameAction: ability.actions.returnToHand()
 });
 ```
+
+#### Replacement effects (`replaceDestruction`)
+
+Some `Destroyed:` abilities act as **replacement effects** — they prevent the card's move to discard and do something else instead (e.g. heal it, give control to the opponent). Use `ability.actions.replaceDestruction()` as the `gameAction`:
+
+```javascript
+// Self-Bolstering Automata — Destroyed: Fully heal, exhaust, move to flank.
+this.destroyed({
+    condition: (context) => context.player.creaturesInPlay.length > 1,
+    gameAction: ability.actions.replaceDestruction({
+        gameAction: [
+            ability.actions.heal({ fully: true }),
+            ability.actions.exhaust(),
+            ability.actions.moveToFlank()
+        ]
+    })
+});
+```
+
+```javascript
+// Armageddon Cloak (upgrade) — Destroyed: Heal creature, destroy AC instead.
+this.whileAttached({
+    effect: ability.effects.gainAbility('destroyed', {
+        gameAction: ability.actions.replaceDestruction({
+            gameAction: [
+                ability.actions.heal({ fully: true }),
+                ability.actions.destroy({ target: this })
+            ]
+        })
+    })
+});
+```
+
+```javascript
+// Paradox Shield — in a `then` block, pass `event` explicitly.
+this.whileAttached({
+    effect: ability.effects.gainAbility('destroyed', {
+        gameAction: ability.actions.discard((context) => ({
+            target: context.source.controller.deck.slice(0, context.source.power)
+        })),
+        then: (preThenContext) => ({
+            alwaysTriggers: true,
+            condition: (context) => context.preThenEvents.length === preThenContext.source.power,
+            gameAction: ability.actions.replaceDestruction({
+                event: preThenContext.event,
+                gameAction: [
+                    ability.actions.heal({ fully: true }),
+                    ability.actions.destroy({ target: this })
+                ]
+            })
+        })
+    })
+});
+```
+
+Cards that use `replaceDestruction`: Armageddon Cloak, The Body Snatchers, Self-Bolstering Automata, Reassembling Automaton, Ley Earl of Hurl, Necromorph, Paradox Shield.
+
+**`event` property:** When `replaceDestruction` is used inside a `then` block, pass the leavesPlay event explicitly via the `event` property (captured from the parent context's `preThenContext.event`). In regular `destroyed()` abilities, `context.event` is used automatically.
 
 ### action()
 
