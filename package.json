@@ -110,7 +110,7 @@
         "react-dnd-touch-backend": "^16.0.1",
         "react-dom": "^19.2.4",
         "react-draggable": "^4.5.0",
-        "react-i18next": "^10.13.2",
+        "react-i18next": "^18.0.3",
         "react-redux": "^9.2.0",
         "react-responsive-carousel": "^3.2.18",
         "react-router-dom": "^6.30.6",
