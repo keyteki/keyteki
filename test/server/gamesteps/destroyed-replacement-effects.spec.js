@@ -75,26 +75,6 @@ describe('Destroyed replacement effects', function () {
             expect(this.player2.amber).toBe(1);
         });
     });
-    describe('Replacement effects resolve game actions', function () {
-        beforeEach(function () {
-            this.setupTest({
-                player1: {
-                    house: 'brobnar',
-                    inPlay: ['troll']
-                },
-                player2: {
-                    inPlay: ['self-bolstering-automata', 'sariel-the-steadfast']
-                }
-            });
-        });
-
-        it('should respect restrictions such as cannot exhaust', function () {
-            this.player1.fightWith(this.troll, this.selfBolsteringAutomata);
-            expect(this.selfBolsteringAutomata.location).toBe('play area');
-            expect(this.selfBolsteringAutomata.damage).toBe(0);
-            expect(this.selfBolsteringAutomata.exhausted).toBe(false);
-        });
-    });
 
     describe('Replacement does not trigger when a creature leaves play during the destroyed window', function () {
         beforeEach(function () {

@@ -89,6 +89,30 @@ describe('Self-Bolstering Automata', function () {
         });
     });
 
+    describe('when it cannot be exhausted', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'brobnar',
+                    inPlay: ['troll']
+                },
+                player2: {
+                    inPlay: ['self-bolstering-automata', 'sariel-the-steadfast']
+                }
+            });
+        });
+
+        it('should heal and move to a flank, but not gain power counters', function () {
+            this.player1.fightWith(this.troll, this.selfBolsteringAutomata);
+            this.player1.clickPrompt('Left');
+            expect(this.selfBolsteringAutomata.location).toBe('play area');
+            expect(this.selfBolsteringAutomata.damage).toBe(0);
+            expect(this.selfBolsteringAutomata.exhausted).toBe(false);
+            expect(this.selfBolsteringAutomata.powerCounters).toBe(0);
+            expect(this.player2.player.cardsInPlay[0]).toBe(this.selfBolsteringAutomata);
+        });
+    });
+
     describe('when destroyed by Axiom of Grisk from Jargogle', function () {
         beforeEach(function () {
             this.setupTest({
