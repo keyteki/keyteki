@@ -174,6 +174,9 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
                     leavesPlayEvent.card.moribund = false;
                     leavesPlayEvent.replacementHandler(leavesPlayEvent, destroyEvent);
                     leavesPlayEvent.cancel();
+                    // Cancel the destroy event so reactions on onCardDestroyed
+                    // (e.g. Soul Snatcher, Chonkers) don't fire for replaced destructions.
+                    destroyEvent.cancel();
                 } else {
                     destroyEvent.card.owner.moveCard(destroyEvent.card, 'discard');
                 }

@@ -49,6 +49,33 @@ describe('Destroyed replacement effects', function () {
         });
     });
 
+    describe('Replacement of a cascaded destruction', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    amber: 0,
+                    inPlay: ['harbinger-of-doom', 'soul-snatcher']
+                },
+                player2: {
+                    amber: 0,
+                    inPlay: ['troll', 'self-bolstering-automata']
+                }
+            });
+        });
+
+        it('should not trigger "after a creature is destroyed" effects for the replaced creature', function () {
+            this.player1.fightWith(this.harbingerOfDoom, this.troll);
+            this.player1.clickPrompt('Left');
+            this.player1.clickPrompt('Autoresolve');
+            expect(this.selfBolsteringAutomata.location).toBe('play area');
+            expect(this.troll.location).toBe('discard');
+            // Soul Snatcher triggers for Harbinger and Troll, but not for the replaced Self-Bolstering Automata
+            expect(this.player1.amber).toBe(1);
+            expect(this.player2.amber).toBe(1);
+        });
+    });
+
     describe('Replacement does not trigger when a creature leaves play during the destroyed window', function () {
         beforeEach(function () {
             this.setupTest({
