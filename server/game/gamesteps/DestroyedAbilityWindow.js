@@ -171,8 +171,12 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
                 if (leavesPlayEvent.replacementHandler) {
                     // A replacement effect (e.g. SelfBolsteringAutomata) installed
                     // a handler to run instead of discarding the card.
-                    leavesPlayEvent.card.moribund = false;
+                    // Stay moribund until the queued replacement actions resolve so
+                    // checkGameState doesn't re-destroy the card in the meantime.
                     leavesPlayEvent.replacementHandler(leavesPlayEvent, destroyEvent);
+                    this.game.queueSimpleStep(() => {
+                        leavesPlayEvent.card.moribund = false;
+                    });
                     leavesPlayEvent.cancel();
                     // Cancel the destroy event so reactions on onCardDestroyed
                     // (e.g. Soul Snatcher, Chonkers) don't fire for replaced destructions.

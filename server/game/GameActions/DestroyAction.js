@@ -66,8 +66,12 @@ class DestroyAction extends CardGameAction {
                           if (leavesPlayEvent.replacementHandler) {
                               // A replacement effect installed a handler to run
                               // instead of discarding the card (e.g. SelfBolsteringAutomata).
-                              leavesPlayEvent.card.moribund = false;
+                              // Stay moribund until the queued replacement actions resolve so
+                              // checkGameState doesn't re-destroy the card in the meantime.
                               leavesPlayEvent.replacementHandler(leavesPlayEvent, event);
+                              context.game.queueSimpleStep(() => {
+                                  leavesPlayEvent.card.moribund = false;
+                              });
                               leavesPlayEvent.cancel();
                               // Cancel the destroy event so reactions on onCardDestroyed
                               // (e.g. Soul Snatcher, Chonkers) don't fire for replaced destructions.

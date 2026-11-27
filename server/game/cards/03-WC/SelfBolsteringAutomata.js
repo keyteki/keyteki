@@ -9,19 +9,23 @@ class SelfBolsteringAutomata extends Card {
             handler: (context) => {
                 context.event.replacementHandler = (leavesPlayEvent) => {
                     const card = leavesPlayEvent.card;
-                    const isReady = !context.source.exhausted;
-                    const hasDamage = context.source.damage > 0;
-                    if (isReady && hasDamage) {
-                        card.addToken('power', 2);
-                    }
-                    card.removeToken('damage');
-                    card.exhausted = true;
+                    const isReady = !card.exhausted;
+                    const hasDamage = card.damage > 0;
                     context.game.addMessage(
                         '{0} uses {1} to fully heal it, exhaust it, and move it to a flank',
                         context.player,
                         context.source
                     );
-                    context.game.actions.moveToFlank().resolve(card, context);
+                    context.game.actions
+                        .sequential([
+                            ...(isReady && hasDamage
+                                ? [context.game.actions.addPowerCounter({ amount: 2 })]
+                                : []),
+                            context.game.actions.heal({ fully: true }),
+                            context.game.actions.exhaust(),
+                            context.game.actions.moveToFlank()
+                        ])
+                        .resolve(card, context);
                 };
             }
         });

@@ -15,13 +15,17 @@ class TheBodySnatchers extends Card {
                         const newController = context.player.opponent;
                         context.event.replacementHandler = (leavesPlayEvent) => {
                             const card = leavesPlayEvent.card;
-                            card.removeToken('damage');
                             // Apply a permanent lasting effect so getModifiedController()
                             // returns the new controller and checkGameState doesn't revert it.
-                            card.lastingEffect(() => ({
-                                match: card,
-                                effect: ability.effects.takeControl(newController)
-                            }));
+                            context.game.actions
+                                .sequential([
+                                    context.game.actions.heal({ fully: true }),
+                                    context.game.actions.cardLastingEffect({
+                                        duration: 'lastingEffect',
+                                        effect: ability.effects.takeControl(newController)
+                                    })
+                                ])
+                                .resolve(card, context);
                             context.game.addMessage(
                                 '{0} uses {1} to fully heal {2} and give control to {3}',
                                 newController,

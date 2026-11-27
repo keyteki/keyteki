@@ -21,7 +21,7 @@ class ParadoxShield extends Card {
                             const shield = this;
                             preThenContext.event.replacementHandler = (leavesPlayEvent) => {
                                 const card = leavesPlayEvent.card;
-                                card.removeToken('damage');
+                                context.game.actions.heal({ fully: true }).resolve(card, context);
                                 context.game.addMessage(
                                     '{0} uses {1} to fully heal {2} and destroy {3} instead',
                                     context.player,
