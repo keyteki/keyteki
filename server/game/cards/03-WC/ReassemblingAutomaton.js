@@ -5,6 +5,7 @@ class ReassemblingAutomaton extends Card {
     setupCardAbilities() {
         this.destroyed({
             condition: (context) => context.player.creaturesInPlay.length > 1,
+            effect: 'replace its destruction',
             handler: (context) => {
                 context.event.replacementHandler = (leavesPlayEvent) => {
                     const card = leavesPlayEvent.card;

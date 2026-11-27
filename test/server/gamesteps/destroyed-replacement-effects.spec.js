@@ -41,7 +41,6 @@ describe('Destroyed replacement effects', function () {
             it('should not trigger when the destroyed event is replaced', function () {
                 this.chonkers.powerCounters = 3;
                 this.chonkers.addToken('ward');
-                this.scenarioBreak();
                 this.player1.fightWith(this.chonkers, this.selfBolsteringAutomata);
                 this.player1.clickPrompt('Left');
                 expect(this.chonkers.powerCounters).toBe(3);

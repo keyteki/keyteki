@@ -6,6 +6,7 @@ class LeyEarlOfHurl extends Card {
     setupCardAbilities() {
         this.destroyed({
             condition: (context) => !context.source.isOnFlank(),
+            effect: 'replace its destruction',
             handler: (context) => {
                 context.event.replacementHandler = (leavesPlayEvent) => {
                     const card = leavesPlayEvent.card;
