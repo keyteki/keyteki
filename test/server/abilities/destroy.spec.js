@@ -307,4 +307,30 @@ describe('Destroyed: ability window', function () {
             expect(this.player1).isReadyToTakeAction();
         });
     });
+
+    describe('Autoresolve with cascaded destruction', function () {
+        beforeEach(function () {
+            this.setupTest({
+                player1: {
+                    house: 'dis',
+                    inPlay: ['harbinger-of-doom']
+                },
+                player2: {
+                    amber: 50,
+                    inPlay: ['blue-æmberdrake', 'red-æmberdrake']
+                }
+            });
+            this.player2.player.keys = { red: false, blue: false, yellow: true };
+        });
+
+        it('should still resolve cascaded destroyed abilities', function () {
+            this.player1.fightWith(this.harbingerOfDoom, this.blueÆmberdrake);
+            this.player1.clickPrompt('Autoresolve');
+
+            expect(this.player2.player.keys.blue).toBe(true);
+            expect(this.player2.player.keys.red).toBe(true);
+            expect(this.player2.amber).toBe(50 + 4 + 4 - 6 - 6);
+            expect(this.player1).toHavePrompt('player2 has won the game!');
+        });
+    });
 });
