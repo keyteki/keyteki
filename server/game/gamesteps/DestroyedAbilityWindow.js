@@ -35,32 +35,34 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
     }
 
     addChoice(context) {
-        // Only accept (ability, event) pairs already in the locked-in set,
-        // unless this event was just tagged and hasn't been emitted yet.
-        const isNewlyTaggedEvent = this.newlyTaggedLeavesPlayEvents.has(context.event);
-        if (
-            isNewlyTaggedEvent ||
-            this.lockedInChoices.length === 0 ||
-            this.lockedInChoices.some(
-                (c) => c.ability === context.ability && c.event === context.event
-            )
-        ) {
+        if (this.acceptsChoice(context)) {
             super.addChoice(context);
         }
     }
 
     addDeferredChoice(context) {
         // Same lock-in rule as addChoice, for deferred triggers.
-        const isNewlyTaggedEvent = this.newlyTaggedLeavesPlayEvents.has(context.event);
-        if (
-            isNewlyTaggedEvent ||
-            this.lockedInChoices.length === 0 ||
-            this.lockedInChoices.some(
-                (c) => c.ability === context.ability && c.event === context.event
-            )
-        ) {
+        if (this.acceptsChoice(context)) {
             super.addDeferredChoice(context);
         }
+    }
+
+    // Only accept (ability, event) pairs already in the locked-in set, unless
+    // this event was just tagged and hasn't been emitted yet. Newly tagged
+    // pairs are locked in immediately, so re-emitting before anything resolves
+    // (e.g. pressing Autoresolve) doesn't drop their triggers.
+    acceptsChoice(context) {
+        const matchesLockedIn = this.lockedInChoices.some(
+            (c) => c.ability === context.ability && c.event === context.event
+        );
+        if (matchesLockedIn || this.lockedInChoices.length === 0) {
+            return true;
+        }
+        if (this.newlyTaggedLeavesPlayEvents.has(context.event)) {
+            this.lockedInChoices = [...this.lockedInChoices, context];
+            return true;
+        }
+        return false;
     }
 
     resolveAbility(context) {
@@ -76,7 +78,7 @@ class DestroyedTriggeredAbilityWindow extends ForcedTriggeredAbilityWindow {
         this.captureNewlyTaggedLeavesPlayEvents();
         const result = super.continue();
         // After emitting, these events are no longer "newly tagged" —
-        // future iterations enforce the lock-in.
+        // they are locked in, and future iterations enforce the lock-in.
         this.newlyTaggedLeavesPlayEvents.clear();
         if (result) {
             this.game.currentDestructionWindow = null;
